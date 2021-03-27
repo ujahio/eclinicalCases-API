@@ -64,7 +64,7 @@ exports.signup = (req, res) => {
 
 exports.signin = (req, res) => {
   User.findOne({
-    username: req.body.username,
+    email: req.body.email,
   })
       .populate('roles', '-__v')
       .exec((err, user) => {
@@ -85,7 +85,7 @@ exports.signin = (req, res) => {
         if (!passwordIsValid) {
           return res.status(401).send({
             accessToken: null,
-            message: 'Invalid Password!',
+            message: 'Invalid Email or Password!',
           });
         }
 
