@@ -59,7 +59,6 @@ function initial() {
         if (err) {
           console.log('error', err);
         }
-
         console.log('added \'teacher\' to roles collection');
       });
 
@@ -69,7 +68,6 @@ function initial() {
         if (err) {
           console.log('error', err);
         }
-
         console.log('added \'student\' to roles collection');
       });
 
@@ -79,8 +77,16 @@ function initial() {
         if (err) {
           console.log('error', err);
         }
-
         console.log('added \'admin\' to roles collection');
+      });
+
+      new Role({
+        name: 'user',
+      }).save((err) => {
+        if (err) {
+          console.log('error', err);
+        }
+        console.log('added \'user\' to roles collection');
       });
     }
   });

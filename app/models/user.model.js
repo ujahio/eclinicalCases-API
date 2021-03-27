@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
-const Student = mongoose.model(
-    'Student',
+const User = mongoose.model(
+    'User',
     new mongoose.Schema({
       email: {
         type: String,
@@ -19,6 +19,14 @@ const Student = mongoose.model(
       name: {
         type: String,
         trim: true,
+      },
+      username: {
+        type: String,
+        lowercase: true,
+        trim: true,
+        index: true,
+        unique: true,
+        required: true,
       },
       resetPasswordToken: {
         type: String,
@@ -44,4 +52,4 @@ const Student = mongoose.model(
     }),
 );
 
-module.exports = Student;
+module.exports = User;
