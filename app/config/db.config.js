@@ -1,6 +1,6 @@
-require('dotenv').config()
+require('dotenv').config();
 
 module.exports = {
   DBUSR: process.env.DBUSR,
-  DBPWD: process.env.DBPWD
+  DBPWD: process.env.DBPWD,
 };

@@ -1,5 +1,5 @@
-require('dotenv').config()
+require('dotenv').config();
 
 module.exports = {
-  secret: process.env.APP_SECRET_KEY
+  secret: process.env.APP_SECRET_KEY,
 };

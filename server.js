@@ -1,12 +1,13 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const cors = require("cors");
-const dbConfig = require("./app/config/db.config");
+/* eslint-disable require-jsdoc */
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const dbConfig = require('./app/config/db.config');
 
 const app = express();
 
-var corsOptions = {
-  origin: "http://localhost:8081"
+const corsOptions = {
+  origin: 'http://localhost:8081',
 };
 
 app.use(cors(corsOptions));
@@ -15,33 +16,33 @@ app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
 // parse requests of content-type - application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({extended: true}));
 
-const db = require("./app/models");
+const db = require('./app/models');
 const Role = db.role;
 
 db.mongoose
-  .connect(`mongodb+srv://${dbConfig.DBUSR}:${dbConfig.DBPWD}@staging.zpqzu.mongodb.net/StagingDb?retryWrites=true&w=majority`, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  })
-  .then(() => {
-    console.log("Successfully connect to MongoDB.");
-    initial();
-  })
-  .catch(err => {
-    console.error("Connection error", err);
-    process.exit();
-  });
+    .connect(`mongodb+srv://${dbConfig.DBUSR}:${dbConfig.DBPWD}@staging.zpqzu.mongodb.net/StagingDb?retryWrites=true&w=majority`, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    })
+    .then(() => {
+      console.log('Successfully connect to MongoDB.');
+      initial();
+    })
+    .catch((err) => {
+      console.error('Connection error', err);
+      process.exit();
+    });
 
 // simple route
-app.get("/", (req, res) => {
-  res.json({ message: "Welcome to the ECC Backend API." });
+app.get('/', (req, res) => {
+  res.json({message: 'Welcome to the ECC Backend API.'});
 });
 
 // routes
-require("./app/routes/auth.routes")(app);
-require("./app/routes/user.routes")(app);
+require('./app/routes/auth.routes')(app);
+require('./app/routes/user.routes')(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
@@ -53,33 +54,33 @@ function initial() {
   Role.estimatedDocumentCount((err, count) => {
     if (!err && count === 0) {
       new Role({
-        name: "teacher"
-      }).save(err => {
+        name: 'teacher',
+      }).save((err) => {
         if (err) {
-          console.log("error", err);
+          console.log('error', err);
         }
 
-        console.log("added 'teacher' to roles collection");
+        console.log('added \'teacher\' to roles collection');
       });
 
       new Role({
-        name: "student"
-      }).save(err => {
+        name: 'student',
+      }).save((err) => {
         if (err) {
-          console.log("error", err);
+          console.log('error', err);
         }
 
-        console.log("added 'student' to roles collection");
+        console.log('added \'student\' to roles collection');
       });
 
       new Role({
-        name: "admin"
-      }).save(err => {
+        name: 'admin',
+      }).save((err) => {
         if (err) {
-          console.log("error", err);
+          console.log('error', err);
         }
 
-        console.log("added 'admin' to roles collection");
+        console.log('added \'admin\' to roles collection');
       });
     }
   });
