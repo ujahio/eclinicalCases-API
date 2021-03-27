@@ -21,7 +21,7 @@ const db = require("./app/models");
 const Role = db.role;
 
 db.mongoose
-  .connect(`mongodb+srv://staging:${dbConfig.DBPWD}@staging.zpqzu.mongodb.net/StagingDb?retryWrites=true&w=majority`, {
+  .connect(`mongodb+srv://${dbConfig.DBUSR}:${dbConfig.DBPWD}@staging.zpqzu.mongodb.net/StagingDb?retryWrites=true&w=majority`, {
     useNewUrlParser: true,
     useUnifiedTopology: true
   })
@@ -36,7 +36,7 @@ db.mongoose
 
 // simple route
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to the ECC application." });
+  res.json({ message: "Welcome to the ECC Backend API." });
 });
 
 // routes

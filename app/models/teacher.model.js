@@ -6,6 +6,8 @@ const Teacher = mongoose.model(
     username: String,
     email: String,
     password: String,
+    resetPasswordToken: String,
+    resetPasswordExpires: Date,
     roles: [
       {
         type: mongoose.Schema.Types.ObjectId,

@@ -1,8 +1,6 @@
 require('dotenv').config()
 
-console.log(process.env.DBPWD)
 module.exports = {
-  HOST: "localhost",
-  PORT: 27017,
+  DBUSR: process.env.DBUSR,
   DBPWD: process.env.DBPWD
 };

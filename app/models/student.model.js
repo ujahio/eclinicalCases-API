@@ -6,6 +6,17 @@ const Student = mongoose.model(
     username: String,
     email: String,
     password: String,
+    resetPasswordToken: String,
+    resetPasswordExpires: Date,
+    profession: String,
+    expertise: String,
+    title: String,
+    premium: Boolean,
+    lastPaymentDate: Date,
+    certificates: {
+      caseName: String,
+      dateOfCompletion: Date
+    },
     roles: [
       {
         type: mongoose.Schema.Types.ObjectId,
@@ -13,6 +24,6 @@ const Student = mongoose.model(
       }
     ]
   })
-);
+); 
 
 module.exports = Student;
