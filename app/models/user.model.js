@@ -43,6 +43,15 @@ const User = mongoose.model(
         caseName: String,
         dateOfCompletion: Date,
       },
+      status: {
+        type: String,
+        enum: ['active', 'inactive'],
+        required: false,
+      },
+      created_on: {
+        type: String,
+        required: true,
+      },
       roles: [
         {
           type: mongoose.Schema.Types.ObjectId,

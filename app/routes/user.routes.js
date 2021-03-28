@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 const {authJwt} = require('../middlewares');
 const controller = require('../controllers/user.controller');
 
@@ -12,7 +13,10 @@ module.exports = function(app) {
 
   app.get('/api/test/all', controller.allAccess);
 
-  app.get('/api/test/user', [authJwt.verifyToken], controller.userBoard);
+  // User Routes
+  app.get('/api/user/:userid', [authJwt.verifyToken], controller.getUser);
+  app.put('/api/user/update/:userid', [authJwt.verifyToken], controller.updateUser);
+  app.delete('/api/user/delete/:userid', [authJwt.verifyToken], controller.deleteUser);
 
   app.get(
       '/api/test/mod',

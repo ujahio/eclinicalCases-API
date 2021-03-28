@@ -28,7 +28,8 @@ exports.signup = (req, res) => {
     email: req.body.email,
     password: bcrypt.hashSync(req.body.password, 8),
   });
-
+  user.created_on = new Date(Date.now()).toISOString();
+  user.status = 'active';
   user.save((err, user) => {
     if (err) {
       res.status(500).send({message: err});
@@ -52,7 +53,6 @@ exports.signup = (req, res) => {
                 res.status(500).send({message: err});
                 return;
               }
-
               res.send({message: 'User was registered successfully!'});
             });
           },
@@ -73,7 +73,7 @@ exports.signup = (req, res) => {
 
           res.send({message: 'User was registered successfully!'});
         });
-      });
+      }).lean();
     }
   });
 };
