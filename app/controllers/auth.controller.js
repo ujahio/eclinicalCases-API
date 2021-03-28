@@ -145,7 +145,6 @@ exports.forgotpassword = (req, res) => {
           if (err) return res.status(500).json({message: err.message});
         });
         const link = 'http://' + req.headers.host + '/api/auth/validate/' + resetPasswordToken;
-        console.log(link);
         const mailOptions = {
           from: 'israelolakanmi@yahoo.com',
           to: email,
