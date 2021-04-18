@@ -1,21 +1,6 @@
+/* eslint-disable max-len */
 const User = require('../models/user.model');
-
-exports.allAccess = (req, res) => {
-  res.status(200).send('Public Content.');
-};
-
-exports.userBoard = (req, res) => {
-  res.status(200).send('User Content.');
-};
-
-exports.adminBoard = (req, res) => {
-  res.status(200).send('Admin Content.');
-};
-
-exports.moderatorBoard = (req, res) => {
-  res.status(200).send('Moderator Content.');
-};
-
+const Cases = require('../models/cases.model');
 
 exports.getUser = (req, res) => {
   User.findOne({
@@ -84,6 +69,55 @@ exports.deleteUser = (req, res) => {
         res.status(400).json({
           status: 'error',
           message: 'Unable to remove user. Please try again',
+        });
+      });
+};
+
+
+// certificates
+exports.getAllUserCert = (req, res) => {
+  console.log(req);
+  User.findOne({
+    status: 'active',
+    _id: req.userId,
+  }).lean()
+      .then((user) => {
+        delete user.password;
+        res.status(200).json({
+          status: 'success',
+          data: user.cases_passed,
+        });
+      })
+      .catch((err) => {
+        // logger.error(err);
+        res.status(400).json({
+          status: 'error',
+          message: 'Unable to find User. Please try again ' + err,
+        });
+      });
+};
+
+exports.getOneUserCert = (req, res) => {
+  User.findOne({
+    status: 'active',
+    _id: req.userId,
+  }).lean()
+      .then((user) => {
+        Cases.findOne({
+          _id: req.params.caseid,
+        }).lean()
+            .then((cases) => {
+              res.status(200).json({
+                status: 'success',
+                data: cases,
+              });
+            });
+      })
+      .catch((err) => {
+        // logger.error(err);
+        res.status(400).json({
+          status: 'error',
+          message: 'Unable to load certificates for this user. Please try again',
         });
       });
 };

@@ -1,28 +1,25 @@
-const { authJwt } = require("../middlewares");
-const controller = require("../controllers/user.controller");
+/* eslint-disable max-len */
+const {authJwt} = require('../middlewares');
+const teacherController = require('../controllers/teacher.controller');
 
 module.exports = function(app) {
   app.use(function(req, res, next) {
     res.header(
-      "Access-Control-Allow-Headers",
-      "x-access-token, Origin, Content-Type, Accept"
+        'Access-Control-Allow-Headers',
+        'x-access-token, Origin, Content-Type, Accept',
     );
     next();
   });
 
-  app.get("/api/test/all", controller.allAccess);
 
-  app.get("/api/test/user", [authJwt.verifyToken], controller.userBoard);
+  // Teacher Routes
+  app.get('/api/teacher/:teacherid', [authJwt.verifyToken], teacherController.getTeacher);
+  app.put('/api/teacher/update/:teacherid', [authJwt.verifyToken], teacherController.updateTeacher);
+  app.delete('/api/teacher/delete/:teacherid', [authJwt.verifyToken], teacherController.deleteTeacher);
 
-  app.get(
-    "/api/test/mod",
-    [authJwt.verifyToken, authJwt.isModerator],
-    controller.moderatorBoard
-  );
-
-  app.get(
-    "/api/test/admin",
-    [authJwt.verifyToken, authJwt.isAdmin],
-    controller.adminBoard
-  );
+  // Cases
+  app.post('/api/teacher/case/', [authJwt.verifyToken], teacherController.createCase);
+  app.get('/api/teacher/case/all', [authJwt.verifyToken], teacherController.getAllTeacherCases);
+  app.get('/api/teacher/case/:caseid', [authJwt.verifyToken], teacherController.getOneTeacherCase);
 };
+
