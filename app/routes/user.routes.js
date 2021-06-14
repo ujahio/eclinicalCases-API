@@ -21,6 +21,7 @@ module.exports = function(app) {
   // User Certificates
   app.get('/api/user/cert/all', [authJwt.verifyToken], controller.getAllUserCert);
   app.get('/api/user/cert/:caseid', [authJwt.verifyToken], controller.getOneUserCert);
+  app.get('/api/user/cert/download/:caseid', [authJwt.verifyToken], controller.downloadUserCert);
 
 
   // app.get(

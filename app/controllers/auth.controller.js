@@ -24,12 +24,14 @@ const transporter = nodemailer.createTransport({
 
 exports.signup = (req, res) => {
   const user = new User({
-    username: req.body.username,
+    firstname: req.body.firstname,
+    lastname: req.body.lastname,
     email: req.body.email,
     password: bcrypt.hashSync(req.body.password, 8),
   });
   user.created_on = new Date(Date.now()).toISOString();
   user.status = 'active';
+  user.signUpLevel = 1;
   user.save((err, user) => {
     if (err) {
       res.status(500).send({message: err});

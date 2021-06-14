@@ -20,13 +20,24 @@ const User = mongoose.model(
         type: String,
         trim: true,
       },
-      username: {
+      firstname: {
         type: String,
         lowercase: true,
         trim: true,
         index: true,
         unique: true,
         required: true,
+      },
+      lastname: {
+        type: String,
+        lowercase: true,
+        trim: true,
+        index: true,
+        unique: true,
+        required: true,
+      },
+      signUpLevel: {
+        type: Number,
       },
       resetPasswordToken: {
         type: String,
