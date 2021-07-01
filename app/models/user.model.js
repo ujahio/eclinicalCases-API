@@ -25,7 +25,6 @@ const User = mongoose.model(
         lowercase: true,
         trim: true,
         index: true,
-        unique: true,
         required: true,
       },
       lastname: {
@@ -33,11 +32,15 @@ const User = mongoose.model(
         lowercase: true,
         trim: true,
         index: true,
-        unique: true,
         required: true,
       },
       signUpLevel: {
         type: Number,
+      },
+      paymentStatus: {
+        type: String,
+        enum: ['active', 'inactive'],
+        required: false,
       },
       resetPasswordToken: {
         type: String,
@@ -45,10 +48,15 @@ const User = mongoose.model(
       resetPasswordExpires: {
         type: Date,
       },
-      profession: String,
-      expertise: String,
-      title: String,
-      premium: Boolean,
+      profession: {
+        type: String,
+      },
+      expertise: {
+        type: String,
+      },
+      title: {
+        type: String,
+      },
       lastPaymentDate: Date,
       certificates: {
         caseName: String,

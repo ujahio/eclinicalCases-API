@@ -32,6 +32,7 @@ exports.signup = (req, res) => {
   user.created_on = new Date(Date.now()).toISOString();
   user.status = 'active';
   user.signUpLevel = 1;
+  user.paymentStatus = 'inactive';
   user.save((err, user) => {
     if (err) {
       res.status(500).send({message: err});
@@ -55,7 +56,21 @@ exports.signup = (req, res) => {
                 res.status(500).send({message: err});
                 return;
               }
-              res.send({message: 'User was registered successfully!'});
+              delete user.password;
+              console.log(user);
+              res.send({message: 'User was registered successfully!',
+                data: {
+                  'roles': user.roles,
+                  '_id': user._id,
+                  'firstname': user.firstname,
+                  'lastname': user.lastname,
+                  'email': user.email,
+                  'created_on': user.created_on,
+                  'status': user.status,
+                  'signUpLevel': user.signUpLevel,
+                  'paymentStatus': user.paymentStatus,
+                },
+              });
             });
           },
       );
@@ -72,8 +87,8 @@ exports.signup = (req, res) => {
             res.status(500).send({message: err});
             return;
           }
-
-          res.send({message: 'User was registered successfully!'});
+          delete user['password'];
+          res.send({message: 'User was registered successfully!', data: user});
         });
       }).lean();
     }
@@ -83,7 +98,7 @@ exports.signup = (req, res) => {
 exports.signin = (req, res) => {
   User.findOne({
     email: req.body.email,
-  })
+  }).lean()
       .populate('roles', '-__v')
       .exec((err, user) => {
         if (err) {
@@ -116,12 +131,11 @@ exports.signin = (req, res) => {
         for (let i = 0; i < user.roles.length; i++) {
           authorities.push('ROLE_' + user.roles[i].name.toUpperCase());
         }
+        delete user.password;
         res.status(200).send({
-          id: user._id,
-          username: user.username,
-          email: user.email,
           roles: authorities,
           accessToken: token,
+          userData: user,
         });
       });
 };

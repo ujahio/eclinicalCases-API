@@ -15,6 +15,10 @@ const Cases = mongoose.model(
         filepath: String,
         fileid: String,
       },
+      ratings: {
+        userId: String,
+        rate: Number,
+      },
     }),
 );
 
