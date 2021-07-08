@@ -18,6 +18,20 @@ module.exports = function(app) {
   app.put('/api/user/update/:userid', [authJwt.verifyToken], controller.updateUser);
   app.delete('/api/user/delete/:userid', [authJwt.verifyToken], controller.deleteUser);
 
+
+  // Cases
+  app.get('/api/user/case/all', [authJwt.verifyToken], controller.getAllCases);
+  app.get('/api/user/case/:caseid', [authJwt.verifyToken], controller.getOneCase);
+  // app.get('/api/user/cert/download/:caseid', [authJwt.verifyToken], controller.downloadUserCert);
+
+
+  // Quizzes
+  app.post('/api/user/questions', [authJwt.verifyToken], controller.getAllCases);
+  app.get('/api/user/questions', [authJwt.verifyToken], controller.getAllCases);
+  app.get('/api/user/questions/:qid', [authJwt.verifyToken], controller.getOneCase);
+  app.put('/api/user/questions/:qid', [authJwt.verifyToken], controller.getOneCase);
+  app.delete('/api/user/questions/:qid', [authJwt.verifyToken], controller.getOneCase);
+
   // User Certificates
   app.get('/api/user/cert/all', [authJwt.verifyToken], controller.getAllUserCert);
   app.get('/api/user/cert/:caseid', [authJwt.verifyToken], controller.getOneUserCert);

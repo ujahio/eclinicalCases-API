@@ -76,6 +76,69 @@ exports.deleteUser = (req, res) => {
 };
 
 
+// Cases
+
+exports.getAllCases = (req, res) => {
+  console.log(req);
+  Cases.find().lean()
+      .then((cases) => {
+        res.status(200).json({
+          status: 'success',
+          data: cases,
+        });
+      })
+      .catch((err) => {
+        // logger.error(err);
+        res.status(400).json({
+          status: 'error',
+          message: 'Unable to fetch Cases. Please try again. ' + err,
+        });
+      });
+};
+
+exports.getOneCase = (req, res) => {
+  Cases.findOne({
+    _id: req.params.caseid,
+  }).lean()
+      .then((cases) => {
+        res.status(200).json({
+          status: 'success',
+          data: cases,
+        });
+      })
+      .catch((err) => {
+        // logger.error(err);
+        res.status(400).json({
+          status: 'error',
+          message: 'Unable to fetch case. Please try again ' + err,
+        });
+      });
+};
+
+exports.updateOneTeacherCase = (req, res) => {
+  const query = {
+    _id: req.params.caseid,
+    createdBy: req.userId,
+  };
+  Cases.findOneAndUpdate(query, req.body, {
+    new: true,
+  }).lean()
+      .then((cases) => {
+        res.status(200).json({
+          status: 'success',
+          data: cases,
+        });
+      })
+      .catch((err) => {
+        // logger.error(err);
+        res.status(400).json({
+          status: 'error ',
+          message: 'Unable to update Case data. Please try again ' + err,
+        });
+      });
+};
+
+
 // certificates
 exports.getAllUserCert = (req, res) => {
   console.log(req);

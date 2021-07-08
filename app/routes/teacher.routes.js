@@ -21,5 +21,9 @@ module.exports = function(app) {
   app.post('/api/teacher/case/', [authJwt.verifyToken], teacherController.createCase);
   app.get('/api/teacher/case/all', [authJwt.verifyToken], teacherController.getAllTeacherCases);
   app.get('/api/teacher/case/:caseid', [authJwt.verifyToken], teacherController.getOneTeacherCase);
+
+  // Quizzes
+  app.post('/api/teacher/questions', [authJwt.verifyToken], teacherController.createQuiz);
+  // app.get('/api/teacher/questions', [authJwt.verifyToken], controller.getAllCases);
 };
 

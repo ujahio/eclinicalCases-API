@@ -15,11 +15,28 @@ const Cases = mongoose.model(
         filepath: String,
         fileid: String,
       },
-      ratings: {
-        userId: String,
-        rate: Number,
-      },
-    }),
+      quizDesc: String,
+      quizAlternatives: [
+        {
+          text: {
+            type: String,
+            required: true,
+          },
+          isCorrect: {
+            type: Boolean,
+            required: true,
+            default: false,
+          },
+        },
+      ],
+      ratingsInfo: String,
+      ratings:
+        [{
+          userId: String,
+          rate: Number,
+        }],
+    },
+    ),
 );
 
 module.exports = Cases;

@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
 const User = require('../models/user.model');
 const Cases = require('../models/cases.model');
+const Quizzes = require('../models/quizzes.model');
 
 
 exports.getTeacher = (req, res) => {
@@ -76,8 +77,29 @@ exports.deleteTeacher = (req, res) => {
 };
 
 
-// Cases
+// Quizzes
+exports.createQuiz = (req, res) => {
+  const quizData = req.body;
+  quiz.createdBy = req.teacherId;
+  quiz.caseId = req.caseId;
+  quiz.createdOn = new Date(Date.now()).toISOString();
+  Quizzes.create(quizData)
+      .then((quiz) => {
+        res.status(201).json({
+          status: 'success',
+          data: quiz,
+        });
+      })
+      .catch((err) => {
+        // logger.error(err);
+        res.status(400).json({
+          status: 'error ' + err,
+          message: 'An error occurred while creating quiz. Please try again ' + err,
+        });
+      });
+};
 
+// Cases
 exports.createCase = (req, res) => {
   const caseData = req.body;
   caseData.createdBy = req.userId;

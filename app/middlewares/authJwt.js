@@ -15,7 +15,6 @@ verifyToken = (req, res, next) => {
     if (err) {
       return res.status(401).send({message: 'Unauthorized!'});
     }
-    req.userId = decoded.id;
     next();
   });
 };
@@ -67,14 +66,12 @@ isModerator = (req, res, next) => {
             res.status(500).send({message: err});
             return;
           }
-
           for (let i = 0; i < roles.length; i++) {
             if (roles[i].name === 'moderator') {
               next();
               return;
             }
           }
-
           res.status(403).send({message: 'Require Moderator Role!'});
           return;
         },
