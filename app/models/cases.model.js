@@ -10,31 +10,50 @@ const Cases = mongoose.model(
       caseDeadline: Date,
       createdBy: String,
       createdOn: Date,
-      caseMaterials: {
-        filename: String,
-        filepath: String,
-        fileid: String,
-      },
-      quizDesc: String,
-      quizAlternatives: [
+      caseMaterials: [
         {
-          text: {
-            type: String,
-            required: true,
-          },
-          isCorrect: {
-            type: Boolean,
-            required: true,
-            default: false,
-          },
+          filename: String,
+          fileurl: String,
+          filesize: Number,
         },
       ],
-      ratingsInfo: String,
-      ratings:
-        [{
-          userId: String,
-          rate: Number,
-        }],
+      quizzes: [
+        [
+          {
+            question: String,
+            questionAlt: [
+              {
+                text: {
+                  type: String,
+                  required: true,
+                },
+                isCorrect: {
+                  type: Boolean,
+                  required: true,
+                  default: false,
+                },
+              },
+            ],
+          },
+        ],
+      ],
+      rate: [
+        [
+          {
+            feedback: String,
+            ratings: [
+              {
+                userId: {
+                  type: String,
+                },
+                ratingStar: {
+                  type: Number,
+                },
+              },
+            ],
+          },
+        ],
+      ],
     },
     ),
 );

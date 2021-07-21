@@ -58,10 +58,13 @@ const User = mongoose.model(
         type: String,
       },
       lastPaymentDate: Date,
-      certificates: {
-        caseName: String,
-        dateOfCompletion: Date,
-      },
+      certificates: [
+        {
+          caseId: String,
+          caseName: String,
+          dateOfCompletion: Date,
+        },
+      ],
       status: {
         type: String,
         enum: ['active', 'inactive'],

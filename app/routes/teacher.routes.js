@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
 const {authJwt} = require('../middlewares');
 const teacherController = require('../controllers/teacher.controller');
+cors = require('cors'),
 
 module.exports = function(app) {
   app.use(function(req, res, next) {
@@ -18,6 +19,8 @@ module.exports = function(app) {
   app.delete('/api/teacher/delete/:teacherid', [authJwt.verifyToken], teacherController.deleteTeacher);
 
   // Cases
+  app.put('/api/teacher/case/upload', [authJwt.verifyToken], teacherController.uploadPDF);
+
   app.post('/api/teacher/case/', [authJwt.verifyToken], teacherController.createCase);
   app.get('/api/teacher/case/all', [authJwt.verifyToken], teacherController.getAllTeacherCases);
   app.get('/api/teacher/case/:caseid', [authJwt.verifyToken], teacherController.getOneTeacherCase);

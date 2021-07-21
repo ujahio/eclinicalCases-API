@@ -3,9 +3,10 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const dbConfig = require('./app/config/db.config');
+const fileUpload = require('express-fileupload');
 
 const app = express();
-
+app.use(fileUpload());
 const corsOptions = {
   origin: 'http://localhost:8081',
 };

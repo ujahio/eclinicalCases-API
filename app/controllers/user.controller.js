@@ -2,6 +2,8 @@
 const User = require('../models/user.model');
 const Cases = require('../models/cases.model');
 const PDFDocument = require('pdfkit');
+const fs = require('fs');
+const path = require('path');
 
 
 exports.getUser = (req, res) => {
@@ -191,40 +193,40 @@ exports.getOneUserCert = (req, res) => {
 exports.downloadUserCert = (req, res) => {
   User.findOne({
     status: 'active',
-    _id: req.userId,
+    _id: req.body.userId,
   }).lean()
       .then((user) => {
+        const certname = user.firstname + ' ' + user.lastname;
         Cases.findOne({
-          _id: req.params.caseid,
+          _id: req.body.caseId,
         }).lean()
             .then((cases) => {
-              const PDFDoc = new PDFDocument({layout: 'landscape'} );
-              res.writeHead(200, {
-                'Content-Type': 'application/pdf',
-                'Access-Control-Allow-Origin': '*',
+              const doc = new PDFDocument({
+                layout: 'landscape',
+                size: 'A4',
               });
-              console.log(__dirname);
-              PDFDoc.info['Title'] = user.name+ ' - Certificate of Completion - ' + cases.caseTopic;
-              PDFDoc.pipe(res);
-              PDFDoc
-                  .fontSize(25)
-                  .moveDown(0.5)
-                  .text('Scaled to fit width and height')
-                  .image(__dirname+'/../resources/static/assets/images/ecclogo.png', {width: 150, height: 150})
-                  .text('Some text with an embedded font!', 100, 100)
-                  .text('This text is left aligned', {align: 'left'})
-                  .text('This text is at the center', {align: 'center'})
-                  .text('This text is right aligned', {align: 'right'})
-                  .text('This text needs to be slightly longer so that we can see that justification actually works as intended', {align: 'justify'});
-              // Finalize PDF file
-              PDFDoc.end();
+              doc.pipe(fs.createWriteStream(`${certname}.pdf`));
+              console.log(cases); const templatepath = (__dirname+'/../resources/static/assets/images/certificate_demo.png');
+              doc.image(templatepath, 0, 0, {width: 842});
+              doc.fontSize(60).text(certname, 20, 265, {
+                align: 'center',
+              });
+              doc.fontSize(17).text(cases.caseDeadline, -275, 430, {
+                align: 'center',
+              });
+              doc.end();
+              res.setHeader('Content-type', 'application/pdf');
+              res.download(pdf_file);
+              res.status(200).json({
+                status: 'success',
+              });
             });
       })
       .catch((err) => {
         // logger.error(err);
         res.status(400).json({
           status: 'error',
-          message: 'Unable to load certificates for this user. Please try again',
+          message: 'Unable to download certificates for this user. Please try again \n' + err,
         });
       });
 };

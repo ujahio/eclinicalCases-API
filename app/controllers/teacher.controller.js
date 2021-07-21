@@ -2,6 +2,61 @@
 const User = require('../models/user.model');
 const Cases = require('../models/cases.model');
 const Quizzes = require('../models/quizzes.model');
+const cloudinary = require('cloudinary').v2;
+const cloudConfig = require('../config/cloudinary.config');
+const bodyParser = require('body-parser');
+
+cloudinary.config({
+  cloud_name: cloudConfig.CLOUD_NAME,
+  api_key: cloudConfig.CLOUD_API_KEY,
+  api_secret: cloudConfig.CLOUD_API_SECRET,
+});
+
+// const storage = new CloudinaryStorage({
+//   cloudinary: cloudinary,
+//   folder: 'case_material',
+//   allowedFormats: ['jpg', 'png', 'pdf'],
+// });
+// parser = multer({storage: storage});
+
+
+exports.uploadPDF = (req, res) => {
+  const data = {
+    pdf: req.body.pdf,
+  };
+  cloudinary.uploader.upload(data.pdf)
+      .then((result) => {
+        const query = {
+          _id: req.body.caseId,
+        };
+        const objMaterials = [{'fileurl': result.secure_url, 'filename': result.public_id, 'filesize': result.bytes}];
+        console.log(result);
+        console.log(objMaterials);
+        Cases.findOneAndUpdate(query, {$push:
+          {caseMaterials: objMaterials,
+          }})
+            .then((updatedcase) => {
+              console.log(updatedcase);
+              res.status(200).json({
+                status: 'success',
+                result: result,
+                data: updatedcase,
+              });
+            })
+            .catch((err) => {
+              // logger.error(err);
+              res.status(400).json({
+                status: 'error ',
+                message: 'Unable to update case with materials. Please try again ' + err,
+              });
+            });
+      }).catch((error) => {
+        res.status(500).send({
+          message: 'failure',
+          error,
+        });
+      });
+};
 
 
 exports.getTeacher = (req, res) => {
@@ -102,7 +157,7 @@ exports.createQuiz = (req, res) => {
 // Cases
 exports.createCase = (req, res) => {
   const caseData = req.body;
-  caseData.createdBy = req.userId;
+  caseData.createdBy = req.teacherId;
   caseData.createdOn = new Date(Date.now()).toISOString();
   if (req.body.caseDeadline < caseData.createdOn) {
     res.status(400).json({
@@ -110,20 +165,24 @@ exports.createCase = (req, res) => {
       message: 'Case deadline cannot be in the Past',
     });
   }
-  Cases.create(caseData)
-      .then((caseCreated) => {
-        res.status(201).json({
-          status: 'success',
-          data: caseCreated,
-        });
-      })
-      .catch((err) => {
+  try {
+    Cases.create(caseData)
+        .then((caseCreated) => {
+          res.status(201).json({
+            status: 'success',
+            data: caseCreated,
+          });
+        })
+        .catch((err) => {
         // logger.error(err);
-        res.status(400).json({
-          status: 'error ' + err,
-          message: 'An error occurred while creating case. Please try again ' + err,
+          res.status(400).json({
+          // status: 'error ' + err,
+            message: 'An error occurred while creating case. Please try again ' + err,
+          });
         });
-      });
+  } catch (err) {
+    res.status(400).json({message: err + ' An error occured while uploading case study materials. Try again.'});
+  }
 };
 
 exports.getAllTeacherCases = (req, res) => {
