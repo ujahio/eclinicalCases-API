@@ -4,7 +4,7 @@
     "description": "",
     "main": "server.js",
     "scripts": {
-        "test": "jest"
+        "test": "29.4.3"
     },
     "keywords": [
         "node.js",
@@ -21,21 +21,21 @@
         "cloudinary": "^1.26.2",
         "cors": "^2.8.5",
         "crypto": "^1.0.1",
-        "dotenv": "^8.2.0",
+        "dotenv": "^16.0.3",
         "express": "^4.17.1",
         "express-fileupload": "^1.2.1",
         "jest": "^26.6.3",
-        "jsonwebtoken": "^8.5.1",
+        "jsonwebtoken": "^9.0.0",
         "moment": "^2.29.1",
-        "mongoose": "^5.9.1",
-        "multer": "^1.4.2",
+        "mongoose": "^7.0.0",
+        "multer": "^1.4.5-lts.1",
         "multer-storage-cloudinary": "^4.0.0",
         "nodemailer": "^6.5.0",
-        "pdfkit": "^0.12.1",
+        "pdfkit": "^0.13.0",
         "streamifier": "^0.1.1"
     },
     "devDependencies": {
-        "eslint": "^7.23.0",
+        "eslint": "^8.35.0",
         "eslint-config-google": "^0.14.0"
     }
 }
