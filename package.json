@@ -4,7 +4,7 @@
     "description": "",
     "main": "server.js",
     "scripts": {
-        "test": "29.4.3"
+        "test": "jest"
     },
     "keywords": [
         "node.js",
@@ -27,7 +27,7 @@
         "jest": "^29.5.0",
         "jsonwebtoken": "^9.0.0",
         "moment": "^2.29.4",
-        "mongoose": "^7.0.0",
+        "mongoose": "^7.0.1",
         "multer": "^1.4.5-lts.1",
         "multer-storage-cloudinary": "^4.0.0",
         "nodemailer": "^6.9.1",
@@ -35,7 +35,7 @@
         "streamifier": "^0.1.1"
     },
     "devDependencies": {
-        "eslint": "^8.35.0",
+        "eslint": "^8.36.0",
         "eslint-config-google": "^0.14.0"
     }
 }
