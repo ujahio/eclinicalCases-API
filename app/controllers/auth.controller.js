@@ -1,230 +1,222 @@
 /* eslint-disable no-multi-str */
 /* eslint-disable max-len */
 /* eslint-disable valid-jsdoc */
-const config = require('../config/auth.config');
-const db = require('../models');
-const User = db.user;
-const Role = db.role;
+const config = require('../config/auth.config')
+const db = require('../models')
+const User = db.user
+const Role = db.role
+const { dynamodb } = require('../db/dynamodb.ts')
+const { v4: uuidv4 } = require('uuid')
+const jwt = require('jsonwebtoken')
+const bcrypt = require('bcryptjs')
+const crypto = require('crypto')
 
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
-const crypto = require('crypto');
+exports.signUp = async (req, res) => {
+  const { email, username, password, role } = req.body
 
-const nodemailer = require('nodemailer');
-const transporter = nodemailer.createTransport({
-  service: 'yahoo',
-  secure: true,
-  auth: {
-    user: config.MAILER_EMAIL,
-    pass: config.MAILER_PASS,
-  },
-  debug: false,
-  logger: true,
-});
+  // Hash password
+  const hashedPassword = await bcrypt.hash(password, 10)
 
-exports.signup = (req, res) => {
-  const user = new User({
-    firstname: req.body.firstname,
-    lastname: req.body.lastname,
-    email: req.body.email,
-    password: bcrypt.hashSync(req.body.password, 8),
-  });
-  user.created_on = new Date(Date.now()).toISOString();
-  user.status = 'active';
-  user.signUpLevel = 1;
-  user.paymentStatus = 'inactive';
-  user.save((err, user) => {
+  const params = {
+    Item: {
+      id: { S: uuidv4() },
+      email: { S: email },
+      username: { S: username },
+      password: { S: hashedPassword },
+      role: { S: role },
+    },
+    TableName: 'Users',
+  }
+
+  try {
+    await dynamodb.putItem(params).promise()
+    res.status(201).send({ message: 'User registered' })
+  } catch (err) {
+    console.log('Error inserting data:', err)
+    res.status(500).send({ message: 'Internal server error' })
+  }
+}
+
+exports.signIn = async (req, res) => {
+  const email = req.body.email
+  const password = req.body.password
+
+  // Define the parameters for the DynamoDB query operation
+  const params = {
+    TableName: 'Users',
+    IndexName: 'EmailIndex',
+    KeyConditionExpression: 'email = :email',
+    ExpressionAttributeValues: {
+      ':email': { S: email },
+    },
+  }
+
+  // Query the table to check if the user exists
+  dynamodb.query(params, async (err, data) => {
     if (err) {
-      res.status(500).send({message: err});
-      return;
+      console.error(err)
+      res.status(500).json({ error: 'Internal server error' })
+      return
     }
 
-    if (req.body.roles) {
-      Role.find(
-          {
-            name: {$in: req.body.roles},
-          },
-          (err, roles) => {
-            if (err) {
-              res.status(500).send({message: err});
-              return;
-            }
+    // Check if the response contains any data
+    if (data && data.Items && data.Items.length > 0) {
+      // User exists
+      const user = data.Items[0]
+      const hash = user.password.S
 
-            user.roles = roles.map((role) => role._id);
-            user.save((err) => {
-              if (err) {
-                res.status(500).send({message: err});
-                return;
-              }
-              delete user.password;
-              console.log(user);
-              res.send({message: 'User was registered successfully!',
-                data: {
-                  'roles': user.roles,
-                  '_id': user._id,
-                  'firstname': user.firstname,
-                  'lastname': user.lastname,
-                  'email': user.email,
-                  'created_on': user.created_on,
-                  'status': user.status,
-                  'signUpLevel': user.signUpLevel,
-                  'paymentStatus': user.paymentStatus,
-                },
-              });
-            });
-          },
-      );
+      // Compare the password hash to the input password
+      const match = await bcrypt.compare(password, hash)
+
+      if (match) {
+        // Password is correct
+
+        // Generate the JWT token
+        const payload = { email: email }
+        const options = { expiresIn: '1h' } // Set the token expiry time
+        const token = jwt.sign(payload, process.env.JWT_KEY, options)
+
+        res.status(200).json({ token: token }) // Send the token back to the client
+      } else {
+        // Password is incorrect
+        res.status(401).json({ error: 'Invalid email or password' })
+      }
     } else {
-      Role.findOne({name: 'user'}, (err, role) => {
-        if (err) {
-          res.status(500).send({message: err});
-          return;
-        }
-
-        user.roles = [role._id];
-        user.save((err) => {
-          if (err) {
-            res.status(500).send({message: err});
-            return;
-          }
-          delete user['password'];
-          res.send({message: 'User was registered successfully!', data: user});
-        });
-      }).lean();
+      // User does not exist
+      res.status(401).json({ error: 'Invalid email or password' })
     }
-  });
-};
+  })
+}
 
-exports.signin = (req, res) => {
-  User.findOne({
-    email: req.body.email,
-  }).lean()
-      .populate('roles', '-__v')
-      .exec((err, user) => {
-        if (err) {
-          res.status(500).send({message: err});
-          return;
-        }
+// exports.signin = (req, res) => {
+//   User.findOne({
+//     email: req.body.email,
+//   }).lean()
+//       .populate('roles', '-__v')
+//       .exec((err, user) => {
+//         if (err) {
+//           res.status(500).send({message: err});
+//           return;
+//         }
 
-        if (!user) {
-          return res.status(404).send({message: 'User Not found.'});
-        }
+//         if (!user) {
+//           return res.status(404).send({message: 'User Not found.'});
+//         }
 
-        const passwordIsValid = bcrypt.compareSync(
-            req.body.password,
-            user.password,
-        );
+//         const passwordIsValid = bcrypt.compareSync(
+//             req.body.password,
+//             user.password,
+//         );
 
-        if (!passwordIsValid) {
-          return res.status(401).send({
-            accessToken: null,
-            message: 'Invalid Email or Password!',
-          });
-        }
+//         if (!passwordIsValid) {
+//           return res.status(401).send({
+//             accessToken: null,
+//             message: 'Invalid Email or Password!',
+//           });
+//         }
 
-        const token = jwt.sign({id: user.id}, config.secret, {
-          expiresIn: 86400, // 24 hours
-        });
+//         const token = jwt.sign({id: user.id}, config.secret, {
+//           expiresIn: 86400, // 24 hours
+//         });
 
-        const authorities = [];
+//         const authorities = [];
 
-        for (let i = 0; i < user.roles.length; i++) {
-          authorities.push('ROLE_' + user.roles[i].name.toUpperCase());
-        }
-        delete user.password;
-        res.status(200).send({
-          roles: authorities,
-          accessToken: token,
-          userData: user,
-        });
-      });
-};
+//         for (let i = 0; i < user.roles.length; i++) {
+//           authorities.push('ROLE_' + user.roles[i].name.toUpperCase());
+//         }
+//         delete user.password;
+//         res.status(200).send({
+//           roles: authorities,
+//           accessToken: token,
+//           userData: user,
+//         });
+//       });
+// };
 
+// /**
+//  * Implement a way to recover user accounts
+//  */
+// exports.forgotpassword = (req, res) => {
+//   const email = req.body.email;
+//   User.findOne({email: email})
+//       .then((user) => {
+//         if (!user) {
+//           return res.status(401).json({
+//             message: 'The email address ' + email + ' is not associated with any account. Double-check your email address and try again.',
+//           });
+//         }
 
-/**
- * Implement a way to recover user accounts
- */
-exports.forgotpassword = (req, res) => {
-  const email = req.body.email;
-  User.findOne({email: email})
-      .then((user) => {
-        if (!user) {
-          return res.status(401).json({
-            message: 'The email address ' + email + ' is not associated with any account. Double-check your email address and try again.',
-          });
-        }
+//         const resetPasswordToken = crypto.randomBytes(20).toString('hex');
+//         const resetPasswordExpires = Date.now() + 3600000; // expires in an hour
 
-        const resetPasswordToken = crypto.randomBytes(20).toString('hex');
-        const resetPasswordExpires = Date.now() + 3600000; // expires in an hour
+//         User.updateOne({email: req.body.email}, {resetPasswordToken: resetPasswordToken, resetPasswordExpires: resetPasswordExpires}, (err) => {
+//           if (err) return res.status(500).json({message: err.message});
+//         });
+//         const link = 'http://' + req.headers.host + '/api/auth/validate/' + resetPasswordToken;
+//         const mailOptions = {
+//           from: 'israelolakanmi@yahoo.com',
+//           to: email,
+//           subject: 'Password Reset Request',
+//           text: `Hi ${email} \n
+// Please click on the following link ${link} to reset your password. \n\n
+// If you did not request this, please ignore this email and your password will remain unchanged.\n`,
+//         };
+//         transporter.sendMail(mailOptions, function(error, info) {
+//           if (error) {
+//             return res.status(500).json({message: error.message});
+//           } else {
+//             res.status(201).json({
+//               status: 'success',
+//               data: 'A reset email has been sent to ' + email + '.',
+//             });
+//           }
+//         });
+//       });
+// };
 
-        User.updateOne({email: req.body.email}, {resetPasswordToken: resetPasswordToken, resetPasswordExpires: resetPasswordExpires}, (err) => {
-          if (err) return res.status(500).json({message: err.message});
-        });
-        const link = 'http://' + req.headers.host + '/api/auth/validate/' + resetPasswordToken;
-        const mailOptions = {
-          from: 'israelolakanmi@yahoo.com',
-          to: email,
-          subject: 'Password Reset Request',
-          text: `Hi ${email} \n 
-Please click on the following link ${link} to reset your password. \n\n 
-If you did not request this, please ignore this email and your password will remain unchanged.\n`,
-        };
-        transporter.sendMail(mailOptions, function(error, info) {
-          if (error) {
-            return res.status(500).json({message: error.message});
-          } else {
-            res.status(201).json({
-              status: 'success',
-              data: 'A reset email has been sent to ' + email + '.',
-            });
-          }
-        });
-      });
-};
+// /**
+//  * Validate password reset token
+//  */
+// exports.validatepasswordtoken = (req, res) => {
+//   User.findOne({resetPasswordToken: req.params.token, resetPasswordExpires: {$gt: Date.now()}})
+//       .then((user) => {
+//         if (!user) return res.status(401).json({message: 'Password reset token is invalid or has expired.'});
+//         res.status(201).json({
+//           status: 'success',
+//           data: 'Token successfully validated for ' + user.email + '. You can reset password using token now.',
+//         });
+//       })
+//       .catch((err) => res.status(500).json({message: err.message}));
+// };
 
-/**
- * Validate password reset token
- */
-exports.validatepasswordtoken = (req, res) => {
-  User.findOne({resetPasswordToken: req.params.token, resetPasswordExpires: {$gt: Date.now()}})
-      .then((user) => {
-        if (!user) return res.status(401).json({message: 'Password reset token is invalid or has expired.'});
-        res.status(201).json({
-          status: 'success',
-          data: 'Token successfully validated for ' + user.email + '. You can reset password using token now.',
-        });
-      })
-      .catch((err) => res.status(500).json({message: err.message}));
-};
-
-/**
- * Reset user account after token validation
- */
-exports.resetpassword = (req, res) => {
-  User.findOne({resetPasswordToken: req.params.token, resetPasswordExpires: {$gt: Date.now()}})
-      .then((user) => {
-        if (!user) return res.status(401).json({message: 'Password reset token is invalid or has expired.'});
-        const hash = bcrypt.hashSync(req.body.password, 10);
-        User.updateOne({resetPasswordToken: req.params.token}, {password: hash, resetPasswordToken: undefined, resetPasswordExpires: undefined}, (err) => {
-          if (err) return res.status(500).json({message: err.message});
-        });
-        const mailOptions = {
-          from: config.MAILER_EMAIL,
-          to: user.email,
-          subject: 'Password Reset Successful',
-          text: `Hi ${user.name} \n 
-This is a confirmation that the password for your account ${user.email} has just been changed.\n`,
-        };
-        // send mail
-        transporter.sendMail(mailOptions, function(error, info) {
-          if (error) {
-            return res.status(500).json({message: error.message});
-          } else {
-            res.status(201).json({
-              status: 'success',
-              data: 'Your password has been updated.',
-            });
-          }
-        });
-      });
-};
+// /**
+//  * Reset user account after token validation
+//  */
+// exports.resetpassword = (req, res) => {
+//   User.findOne({resetPasswordToken: req.params.token, resetPasswordExpires: {$gt: Date.now()}})
+//       .then((user) => {
+//         if (!user) return res.status(401).json({message: 'Password reset token is invalid or has expired.'});
+//         const hash = bcrypt.hashSync(req.body.password, 10);
+//         User.updateOne({resetPasswordToken: req.params.token}, {password: hash, resetPasswordToken: undefined, resetPasswordExpires: undefined}, (err) => {
+//           if (err) return res.status(500).json({message: err.message});
+//         });
+//         const mailOptions = {
+//           from: config.MAILER_EMAIL,
+//           to: user.email,
+//           subject: 'Password Reset Successful',
+//           text: `Hi ${user.name} \n
+// This is a confirmation that the password for your account ${user.email} has just been changed.\n`,
+//         };
+//         // send mail
+//         transporter.sendMail(mailOptions, function(error, info) {
+//           if (error) {
+//             return res.status(500).json({message: error.message});
+//           } else {
+//             res.status(201).json({
+//               status: 'success',
+//               data: 'Your password has been updated.',
+//             });
+//           }
+//         });
+//       });
+// };
