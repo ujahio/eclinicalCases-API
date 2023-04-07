@@ -1,86 +1,61 @@
 /* eslint-disable require-jsdoc */
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const dbConfig = require('./app/config/db.config');
-const fileUpload = require('express-fileupload');
-
-const app = express();
-app.use(fileUpload());
+const express = require('express')
+const bodyParser = require('body-parser')
+const cors = require('cors')
+const fileUpload = require('express-fileupload')
+const { v4: uuidv4 } = require('uuid')
+const bcrypt = require('bcryptjs')
+const { dynamodb } = require('./app/db/dynamodb.ts')
+const { initTables } = require('./app/tables/index.ts')
+const app = express()
+app.use(fileUpload())
 const corsOptions = {
   origin: 'http://localhost:8081',
-};
+}
 
-app.use(cors(corsOptions));
+app.use(cors(corsOptions))
 
 // parse requests of content-type - application/json
-app.use(bodyParser.json());
+app.use(bodyParser.json())
 
 // parse requests of content-type - application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }))
 
-const db = require('./app/models');
-const Role = db.role;
+// init tables
+initTables(dynamodb)
 
-db.mongoose
-    .connect(`mongodb+srv://${dbConfig.DBUSR}:${dbConfig.DBPWD}@staging.zpqzu.mongodb.net/StagingDb?retryWrites=true&w=majority`, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
+app.get('/users', async (req, res) => {
+  const params = {
+    TableName: 'Users',
+  }
+
+  try {
+    const data = await dynamodb.scan(params).promise()
+    const users = data.Items.map((item) => {
+      const user = {}
+      Object.keys(item).forEach((key) => {
+        user[key] = Object.values(item[key])[0]
+      })
+      return user
     })
-    .then(() => {
-      console.log('Successfully connect to MongoDB.');
-      initial();
-    })
-    .catch((err) => {
-      console.error('Connection error', err);
-      process.exit();
-    });
+    res.status(200).send(users)
+  } catch (err) {
+    res.status(500).send({ error: err })
+  }
+})
 
 // simple route
 app.get('/', (req, res) => {
-  res.json({message: 'Welcome to the ECC Backend API.'});
-});
+  res.json({ message: 'Welcome to the ECC Backend API.' })
+})
 
-// routes
-require('./app/routes/auth.routes')(app);
-require('./app/routes/user.routes')(app);
-require('./app/routes/teacher.routes')(app);
+// // routes
+require('./app/routes/auth.routes.ts')(app)
+// require('./app/routes/user.routes')(app)
+// require('./app/routes/teacher.routes')(app)
 
 // set port, listen for requests
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8080
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}.`);
-});
-
-function initial() {
-  Role.estimatedDocumentCount((err, count) => {
-    if (!err && count === 0) {
-      new Role({
-        name: 'teacher',
-      }).save((err) => {
-        if (err) {
-          console.log('error', err);
-        }
-        console.log('added \'teacher\' to roles collection');
-      });
-
-      new Role({
-        name: 'admin',
-      }).save((err) => {
-        if (err) {
-          console.log('error', err);
-        }
-        console.log('added \'admin\' to roles collection');
-      });
-
-      new Role({
-        name: 'user',
-      }).save((err) => {
-        if (err) {
-          console.log('error', err);
-        }
-        console.log('added \'user\' to roles collection');
-      });
-    }
-  });
-}
+  console.log(`Server is running on port ${PORT}.`)
+})
