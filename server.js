@@ -5,6 +5,9 @@ const cors = require('cors')
 const fileUpload = require('express-fileupload')
 const { dynamodb } = require('./app/db/dynamodb.ts')
 const { initTables } = require('./app/tables/index.ts')
+const dotenv = require('dotenv')
+dotenv.config()
+
 const app = express()
 app.use(fileUpload())
 const corsOptions = {
@@ -42,15 +45,9 @@ app.get('/users', async (req, res) => {
   }
 })
 
-// simple route
-app.get('/', (req, res) => {
-  res.json({ message: 'Welcome to the ECC Backend API.' })
-})
-
 // // routes
+require('./app/routes/home.routes.ts')(app)
 require('./app/routes/auth.routes.ts')(app)
-// require('./app/routes/user.routes')(app)
-// require('./app/routes/teacher.routes')(app)
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080
