@@ -5,7 +5,8 @@
     "main": "server.ts",
     "scripts": {
         "test": "jest",
-        "start": "nodemon --exec npx ts-node --transpile-only ./server.ts"
+        "start": "node server.js",
+        "start:api": "./run-local.sh"
     },
     "keywords": [
         "node.js",

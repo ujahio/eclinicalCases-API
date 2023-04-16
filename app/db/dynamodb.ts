@@ -1,5 +1,6 @@
 // setup db
-const AWS = require('aws-sdk');
+import AWS from 'aws-sdk';
+
 AWS.config.update({ region: 'local' });
 
 const dynamodb = new AWS.DynamoDB({
