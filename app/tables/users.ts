@@ -1,5 +1,5 @@
 // Create table for users
-const createUsersTable = async (dynamodb) => {
+export const createUsersTable = async (dynamodb) => {
     const params = {
         TableName: 'Users',
         KeySchema: [
@@ -49,7 +49,7 @@ const createUsersTable = async (dynamodb) => {
     try {
         await dynamodb.describeTable({ TableName: 'Users' }).promise();
         console.log('Table already exists');
-    } catch (err) {
+    } catch (err: any) {
         if (err.code === 'ResourceNotFoundException') {
             try {
                 const data = await dynamodb.createTable(params).promise();
@@ -63,4 +63,3 @@ const createUsersTable = async (dynamodb) => {
     }
 };
 
-module.exports = { createUsersTable };

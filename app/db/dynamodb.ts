@@ -6,7 +6,4 @@ const dynamodb = new AWS.DynamoDB({
     endpoint: 'http://localhost:8000',
 });
 
-module.exports = {
-    dynamodb,
-};
-
+export default dynamodb;

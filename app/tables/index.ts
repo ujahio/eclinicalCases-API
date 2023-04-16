@@ -1,8 +1,7 @@
-const { createUsersTable } = require('./users.ts');
+const { createUsersTable } = require('./users');
 
 // Create table only once
-const initTables = async (dynamodb) => {
+export const initTables = async (dynamodb) => {
     await createUsersTable(dynamodb);
 };
 
-module.exports = { initTables };

@@ -1,21 +1,16 @@
 /* eslint-disable no-multi-str */
 /* eslint-disable max-len */
 /* eslint-disable valid-jsdoc */
-const config = require('../config/auth.config')
-const db = require('../models')
-const User = db.user
-const Role = db.role
-const { dynamodb } = require('../db/dynamodb.ts')
-const { v4: uuidv4 } = require('uuid')
-const jwt = require('jsonwebtoken')
-const bcrypt = require('bcryptjs')
-const crypto = require('crypto')
+import { dynamodb } from '../db/dynamodb';
+import { v4 as uuidv4 } from 'uuid';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
 
-exports.signUp = async (req, res) => {
-  const { email, username, password, role } = req.body
+export const signUp = async (req, res) => {
+  const { email, username, password, role } = req.body;
 
   // Hash password
-  const hashedPassword = await bcrypt.hash(password, 10)
+  const hashedPassword = await bcrypt.hash(password, 10);
 
   const params = {
     Item: {
@@ -26,20 +21,20 @@ exports.signUp = async (req, res) => {
       role: { S: role },
     },
     TableName: 'Users',
-  }
+  };
 
   try {
-    await dynamodb.putItem(params).promise()
-    res.status(201).send({ message: 'User registered' })
+    await dynamodb.putItem(params).promise();
+    res.status(201).send({ message: 'User registered' });
   } catch (err) {
-    console.log('Error inserting data:', err)
-    res.status(500).send({ message: 'Internal server error' })
+    console.log('Error inserting data:', err);
+    res.status(500).send({ message: 'Internal server error' });
   }
-}
+};
 
-exports.signIn = async (req, res) => {
-  const email = req.body.email
-  const password = req.body.password
+export const signIn = async (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
 
   // Define the parameters for the DynamoDB query operation
   const params = {
@@ -49,89 +44,44 @@ exports.signIn = async (req, res) => {
     ExpressionAttributeValues: {
       ':email': { S: email },
     },
-  }
+  };
 
   // Query the table to check if the user exists
   dynamodb.query(params, async (err, data) => {
     if (err) {
-      console.error(err)
-      res.status(500).json({ error: 'Internal server error' })
-      return
+      console.error(err);
+      res.status(500).json({ error: 'Internal server error' });
+      return;
     }
 
     // Check if the response contains any data
     if (data && data.Items && data.Items.length > 0) {
       // User exists
-      const user = data.Items[0]
-      const hash = user.password.S
+      const user = data.Items[0];
+      const hash = user.password.S;
 
       // Compare the password hash to the input password
-      const match = await bcrypt.compare(password, hash)
+      const match = await bcrypt.compare(password, hash);
 
       if (match) {
         // Password is correct
 
         // Generate the JWT token
-        const payload = { email: email }
-        const options = { expiresIn: '1h' } // Set the token expiry time
-        const token = jwt.sign(payload, process.env.JWT_KEY, options)
+        const payload = { email: email };
+        const options = { expiresIn: '1h' }; // Set the token expiry time
+        const token = jwt.sign(payload, process.env.JWT_KEY, options);
 
-        res.status(200).json({ token: token }) // Send the token back to the client
+        res.status(200).json({ token: token }); // Send the token back to the client
       } else {
         // Password is incorrect
-        res.status(401).json({ error: 'Invalid email or password' })
+        res.status(401).json({ error: 'Invalid email or password' });
       }
     } else {
       // User does not exist
-      res.status(401).json({ error: 'Invalid email or password' })
+      res.status(401).json({ error: 'Invalid email or password' });
     }
-  })
-}
-
-// exports.signin = (req, res) => {
-//   User.findOne({
-//     email: req.body.email,
-//   }).lean()
-//       .populate('roles', '-__v')
-//       .exec((err, user) => {
-//         if (err) {
-//           res.status(500).send({message: err});
-//           return;
-//         }
-
-//         if (!user) {
-//           return res.status(404).send({message: 'User Not found.'});
-//         }
-
-//         const passwordIsValid = bcrypt.compareSync(
-//             req.body.password,
-//             user.password,
-//         );
-
-//         if (!passwordIsValid) {
-//           return res.status(401).send({
-//             accessToken: null,
-//             message: 'Invalid Email or Password!',
-//           });
-//         }
-
-//         const token = jwt.sign({id: user.id}, config.secret, {
-//           expiresIn: 86400, // 24 hours
-//         });
-
-//         const authorities = [];
-
-//         for (let i = 0; i < user.roles.length; i++) {
-//           authorities.push('ROLE_' + user.roles[i].name.toUpperCase());
-//         }
-//         delete user.password;
-//         res.status(200).send({
-//           roles: authorities,
-//           accessToken: token,
-//           userData: user,
-//         });
-//       });
-// };
+  });
+};
 
 // /**
 //  * Implement a way to recover user accounts

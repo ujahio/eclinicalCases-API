@@ -1,7 +1,7 @@
-const { dynamodb } = require('../db/dynamodb.ts');
-const Joi = require('joi');
+import { dynamodb } from '../db/dynamodb';
+import Joi from 'joi';
 
-const checkDuplicateEmail = async (req, res, next) => {
+export const checkDuplicateEmail = async (req, res, next) => {
   const email = req.body.email;
   const params = {
     TableName: 'Users',
@@ -28,7 +28,7 @@ const checkDuplicateEmail = async (req, res, next) => {
   }
 };
 
-const checkDuplicateUsername = async (req, res, next) => {
+export const checkDuplicateUsername = async (req, res, next) => {
   const username = req.body.username;
   const params = {
     TableName: 'Users',
@@ -55,7 +55,7 @@ const checkDuplicateUsername = async (req, res, next) => {
   }
 };
 
-const validateSignUpRequest = (req, res, next) => {
+export const validateSignUpRequest = (req, res, next) => {
   // eslint-disable-next-line max-len
   const regex = new RegExp(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>?])[A-Za-z\d!@#$%^&*()_+\-=[\]{};':"\\|,.<>?]{8,30}$/);
 
@@ -81,11 +81,3 @@ const validateSignUpRequest = (req, res, next) => {
     next();
   }
 };
-
-const verifySignUp = {
-  checkDuplicateEmail,
-  checkDuplicateUsername,
-  validateSignUpRequest,
-};
-
-module.exports = verifySignUp;

@@ -1,7 +1,6 @@
-const { dynamodb } = require('../db/dynamodb.ts');
-const Joi = require('joi');
+import Joi from 'joi';
 
-const validateSignInRequest = (req, res, next) => {
+export const validateSignInRequest = (req, res, next) => {
   // eslint-disable-next-line max-len
   const regex = new RegExp(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>?])[A-Za-z\d!@#$%^&*()_+\-=[\]{};':"\\|,.<>?]{8,30}$/);
 
@@ -26,8 +25,3 @@ const validateSignInRequest = (req, res, next) => {
   }
 };
 
-const verifySignIn = {
-  validateSignInRequest,
-};
-
-module.exports = verifySignIn;
