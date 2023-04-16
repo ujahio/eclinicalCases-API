@@ -1,4 +1,4 @@
-import { dynamodb } from '../db/dynamodb';
+import dynamodb from '../db/dynamodb';
 import Joi from 'joi';
 
 export const checkDuplicateEmail = async (req, res, next) => {

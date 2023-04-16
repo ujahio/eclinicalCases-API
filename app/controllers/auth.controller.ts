@@ -1,7 +1,7 @@
 /* eslint-disable no-multi-str */
 /* eslint-disable max-len */
 /* eslint-disable valid-jsdoc */
-import { dynamodb } from '../db/dynamodb';
+import dynamodb from '../db/dynamodb';
 import { v4 as uuidv4 } from 'uuid';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
