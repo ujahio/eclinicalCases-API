@@ -6,7 +6,8 @@
     "scripts": {
         "test": "jest",
         "start": "node server.js",
-        "start:api": "./run-local.sh"
+        "start:api": "./run-local.sh",
+        "dynamo:admin": "AWS_SECRET_ACCESS_KEY=SERVER AWS_ACCESS_KEY_ID=SERVER DYNAMO_ENDPOINT=http://localhost:8000 dynamodb-admin"
     },
     "keywords": [
         "node.js",
@@ -44,6 +45,7 @@
         "@types/express": "^4.17.17",
         "@types/express-fileupload": "^1.4.1",
         "@types/node": "^18.15.11",
+        "dynamodb-admin": "^4.5.0",
         "eslint": "^8.36.0",
         "eslint-config-google": "^0.14.0",
         "nodemon": "^2.0.22",
