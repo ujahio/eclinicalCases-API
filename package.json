@@ -5,7 +5,7 @@
     "main": "server.ts",
     "scripts": {
         "test": "jest",
-        "start": "node server.js",
+        "start": "docker run -p 8000:8000 -d amazon/dynamodb-local:latest && nodemon --exec npx ts-node --transpile-only ./server.ts",
         "start:api": "./run-local.sh",
         "dynamo:admin": "AWS_SECRET_ACCESS_KEY=SERVER AWS_ACCESS_KEY_ID=SERVER DYNAMO_ENDPOINT=http://localhost:8000 dynamodb-admin"
     },
