@@ -8,7 +8,7 @@
         "start": "nodemon --exec npx ts-node --transpile-only ./server.ts",
         "start:api": "./run-local.sh",
         "dynamo:admin": "AWS_SECRET_ACCESS_KEY=SERVER AWS_ACCESS_KEY_ID=SERVER DYNAMO_ENDPOINT=http://localhost:8000 dynamodb-admin",
-        "start:docker": "docker run -p 8000:8000 -d amazon/dynamodb-local:latest && nodemon --exec npx ts-node --transpile-only ./server.ts"
+        "start:docker": "docker run -p 8000:8000 -d amazon/dynamodb-local:latest && npm run start"
     },
     "keywords": [
         "node.js",
@@ -17,7 +17,7 @@
         "authentication",
         "mongodb"
     ],
-    "author": "bezkoder",
+    "author": "otktechnologies",
     "license": "ISC",
     "dependencies": {
         "aws-sdk": "^2.1343.0",
