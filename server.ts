@@ -7,6 +7,7 @@ import dynamodb from './app/db/dynamodb';
 import { initTables } from './app/tables/index';
 import { homeRoutes } from './app/routes/home.routes';
 import { authRoutes } from './app/routes/auth.routes';
+import { teacherRoutes } from './app/routes/teacher.routes';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -50,6 +51,7 @@ app.get('/users', async (req, res) => {
 // // routes
 homeRoutes(app);
 authRoutes(app);
+teacherRoutes(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;

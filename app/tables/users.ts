@@ -9,6 +9,7 @@ export const createUsersTable = async (dynamodb) => {
             { AttributeName: 'id', AttributeType: 'S' },
             { AttributeName: 'email', AttributeType: 'S' },
             { AttributeName: 'username', AttributeType: 'S' },
+            { AttributeName: 'role', AttributeType: 'S' },
         ],
         GlobalSecondaryIndexes: [
             {
@@ -37,6 +38,19 @@ export const createUsersTable = async (dynamodb) => {
                     WriteCapacityUnits: 1,
                 },
             },
+            {
+                IndexName: 'RoleIndex',
+                KeySchema: [
+                    { AttributeName: 'role', KeyType: 'HASH' },
+                ],
+                Projection: {
+                    ProjectionType: 'ALL',
+                },
+                ProvisionedThroughput: {
+                    ReadCapacityUnits: 1,
+                    WriteCapacityUnits: 1,
+                },
+            }
         ],
         ProvisionedThroughput: {
             ReadCapacityUnits: 1,
