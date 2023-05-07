@@ -8,7 +8,7 @@ if [ ! -e ".dynamodb/dynamo.tar.gz" ]; then
   curl --create-dirs -o .dynamodb/dynamo.tar.gz https://s3.us-west-2.amazonaws.com/dynamodb-local/dynamodb_local_latest.tar.gz
   cd .dynamodb || exit  
   tar -zxvf dynamo.tar.gz 
-  cd .. /
+  cd ../
 fi
 
 
