@@ -1,2 +1,2 @@
-web: node server.js $PORT
+web: nodemon --exec npx ts-node --transpile-only ./server.ts $PORT
 
