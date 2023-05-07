@@ -6,7 +6,9 @@
     "scripts": {
         "test": "jest",
         "start": "nodemon --exec npx ts-node --transpile-only ./server.ts",
-        "start:api": "./run-local.sh",
+        "heroku-start": "npm run start:dynamodb && ts-node --transpile-only ./server.ts",
+        "start:api": "./scripts/run-local.sh",
+        "start:dynamodb": "./scripts/start-dynamodb.sh",
         "dynamo:admin": "AWS_SECRET_ACCESS_KEY=SERVER AWS_ACCESS_KEY_ID=SERVER DYNAMO_ENDPOINT=http://localhost:8000 dynamodb-admin",
         "start:docker": "docker run -p 8000:8000 -d amazon/dynamodb-local:latest && npm run start"
     },

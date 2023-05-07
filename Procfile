@@ -1,2 +1,1 @@
-web: npx ts-node --transpile-only ./server.ts $PORT
-
+web: npm run heroku-start
