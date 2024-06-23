@@ -1,41 +1,27 @@
 {
-    "name": "eccbackend",
-    "version": "1.0.0",
-    "description": "",
-    "main": "server.js",
-    "scripts": {
-        "test": "jest"
-    },
-    "keywords": [
-        "node.js",
-        "express",
-        "jwt",
-        "authentication",
-        "mongodb"
-    ],
-    "author": "bezkoder",
-    "license": "ISC",
-    "dependencies": {
-        "bcryptjs": "^2.4.3",
-        "body-parser": "^1.19.0",
-        "cloudinary": "^1.26.2",
-        "cors": "^2.8.5",
-        "crypto": "^1.0.1",
-        "dotenv": "^8.2.0",
-        "express": "^4.17.1",
-        "express-fileupload": "^1.2.1",
-        "jest": "^26.6.3",
-        "jsonwebtoken": "^8.5.1",
-        "moment": "^2.29.1",
-        "mongoose": "^5.9.1",
-        "multer": "^1.4.2",
-        "multer-storage-cloudinary": "^4.0.0",
-        "nodemailer": "^6.5.0",
-        "pdfkit": "^0.12.1",
-        "streamifier": "^0.1.1"
-    },
-    "devDependencies": {
-        "eslint": "^7.23.0",
-        "eslint-config-google": "^0.14.0"
-    }
+  "name": "clinical-backend",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "dev": "npm run create-tables && nodemon",
+    "create-tables": "node create_db_tables.js",
+    "dynamodb": "docker run -p 8000:8000 amazon/dynamodb-local -jar DynamoDBLocal.jar -inMemory -sharedDb"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.585.0",
+    "@aws-sdk/lib-dynamodb": "^3.585.0",
+    "aws-sdk": "^2.1632.0",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "serverless-http": "^3.2.0"
+  },
+  "devDependencies": {
+    "dotenv": "^16.4.5",
+    "dynamodb-localhost": "^0.0.9",
+    "nodemon": "^3.1.4",
+    "serverless-dynamodb-local": "^0.2.40",
+    "serverless-offline": "^13.6.0"
+  }
 }
