@@ -25,7 +25,7 @@ exports.signup = async (req, res) => {
     const created_on = new Date(Date.now()).toISOString();
 
     const user = {
-        UserID: userId,
+        id: userId,
         firstname,
         lastname,
         email,
