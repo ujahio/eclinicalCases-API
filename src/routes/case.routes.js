@@ -1,0 +1,19 @@
+const express = require("express");
+const router = express.Router();
+const upload = require("../middlewares/uploadFile");
+const { verifyToken } = require("../middlewares/auth");
+const caseController = require("../controllers/case.controller");
+
+router.get("/details/:caseId", verifyToken, caseController.getCase);
+router.get("/all/", verifyToken, caseController.getCases);
+router.post("/add", verifyToken, upload.array("caseMaterials", 10), caseController.addCase);
+router.post(
+  "/update/:caseId",
+  verifyToken,
+  upload.array("caseMaterials", 10),
+  caseController.updateCase
+);
+router.delete("/delete-case/:caseId", verifyToken, caseController.deleteCase);
+router.delete("/delete/all/", caseController.deleteAllCases);
+
+module.exports = router;
