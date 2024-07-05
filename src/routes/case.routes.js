@@ -6,12 +6,23 @@ const caseController = require("../controllers/case.controller");
 
 router.get("/details/:caseId", verifyToken, caseController.getCase);
 router.get("/all/", verifyToken, caseController.getCases);
-router.post("/add", verifyToken, upload.array("caseMaterials", 10), caseController.addCase);
+router.post(
+  "/add",
+  verifyToken,
+  upload.array("caseMaterials", 10),
+  caseController.addCase
+);
 router.post(
   "/update/:caseId",
   verifyToken,
   upload.array("caseMaterials", 10),
   caseController.updateCase
+);
+router.post(
+  "/duplicate",
+  verifyToken,
+  upload.array("caseMaterials", 10),
+  caseController.duplicateCase
 );
 router.delete("/delete-case/:caseId", verifyToken, caseController.deleteCase);
 router.delete("/delete/all/", caseController.deleteAllCases);
