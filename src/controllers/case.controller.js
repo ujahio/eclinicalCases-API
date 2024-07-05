@@ -7,12 +7,15 @@ const {
   ScanCommand,
   DeleteCommand,
   UpdateCommand,
+  QueryCommand,
 } = require("@aws-sdk/lib-dynamodb");
+const { readSingleItem } = require("../services/dbOps");
+const { TABLES } = require("../services/dbTables");
 
 exports.addCase = async (req, res) => {
   const userID = req.validatedUser.id;
   const caseData = req.body;
-  const draft = req.query.draft === "true";
+  const draft = caseData.draft === "true";
   const caseDeadline = new Date(caseData.caseDeadline).toISOString();
   const caseMaterials = req.files.map((file) => ({
     filename: file.originalname,
@@ -29,7 +32,7 @@ exports.addCase = async (req, res) => {
       caseExplanation: caseData.caseExplanation,
       caseDeadline: caseDeadline,
       createdBy: userID,
-      createdOn: new Date(Date.now()).toISOString(),
+      createdAt: Date.now(),
       caseQuestions: caseData.caseQuestions,
       caseStatus: draft ? "draft" : "active",
       caseMaterials,
@@ -145,20 +148,42 @@ exports.updateCase = async (req, res) => {
 };
 
 exports.getCases = async (req, res) => {
-  console.log("req.validatedUser: ", req.validatedUser);
   const caseStatus = req.query.caseStatus;
 
   try {
-    const params = {
-      TableName: "Cases",
-      FilterExpression: "caseStatus = :status",
-      ExpressionAttributeValues: {
-        ":status": caseStatus,
-      },
-    };
+    if (caseStatus === "recent") {
+      params = {
+        TableName: "Cases",
+        IndexName: "CreatedAtIndex",
+        ScanIndexForward: false,
+        FilterExpression: "#caseStatus = :caseStatus",
+        ExpressionAttributeNames: {
+          "#caseStatus": "caseStatus",
+        },
+        ExpressionAttributeValues: {
+          ":caseStatus": "active",
+        },
+        Limit: 4,
+      };
+    } else {
+      params = {
+        TableName: "Cases",
+        IndexName: "CreatedAtIndex",
+        ScanIndexForward: false, // Descending order
+        FilterExpression: "#caseStatus = :caseStatus",
+        ExpressionAttributeNames: {
+          "#caseStatus": "caseStatus"
+        },
+        ExpressionAttributeValues: {
+          ":caseStatus": caseStatus
+        }
+      };
+    }
+
     const command = new ScanCommand(params);
     const result = await dbClient.send(command);
     const cases = result.Items;
+    console.log(cases.map(item => item.createdAt));
     res.status(200).json({
       message: "Cases retrieved successfully!",
       data: cases,
@@ -182,12 +207,11 @@ exports.getCase = async (req, res) => {
 
     const params = {
       TableName: "Cases",
-      Key: { id: caseId },
-      ConditionExpression: "createdBy = :createdBy",
-      ExpressionAttributeValues: {
-        ":createdBy": userId,
+      Key: {
+        id: caseId,
       },
     };
+
     const command = new GetCommand(params);
     const result = await dbClient.send(command);
     const caseData = result.Item;
@@ -264,5 +288,50 @@ exports.deleteAllCases = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Could not delete cases: " + error });
+  }
+};
+
+exports.duplicateCase = async (req, res) => {
+  const caseId = req.body.caseId;
+
+  try {
+    if (!caseId) {
+      return res
+        .status(400)
+        .json({ error: "Missing case ID in the request body." });
+    }
+
+    const singleItemParams = {
+      TableName: "Cases",
+      Key: {
+        id: caseId,
+      },
+    };
+
+    const originalCase = await readSingleItem(singleItemParams);
+    if (!originalCase) {
+      return res.status(400).json({ error: "Case does not exist" });
+    }
+
+    const duplicateCase = {
+      ...originalCase,
+      id: uuidv4(),
+      caseClue: originalCase.caseClue + " duplicate",
+      createdAt: Date.now()
+    };
+    const putParams = {
+      TableName: TABLES.CASE,
+      Item: duplicateCase
+    };
+
+    const command = new PutCommand(putParams);
+    const result = await dbClient.send(command);
+    res.status(201).json({
+      message: "Case duplicated successfully!",
+      data: result,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Could not duplicate case" });
   }
 };

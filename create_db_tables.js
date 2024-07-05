@@ -20,17 +20,36 @@ const createTables = async () => {
     },
   };
 
-  const casesParams = {
-    TableName: CASES_TABLE_NAME,
-    AttributeDefinitions: [
-      { AttributeName: HASH_KEY, AttributeType: HASH_KEY_TYPE },
-    ],
-    KeySchema: [{ AttributeName: HASH_KEY, KeyType: "HASH" }],
-    ProvisionedThroughput: {
-      ReadCapacityUnits: 5,
-      WriteCapacityUnits: 5,
+const casesParams = {
+  TableName: CASES_TABLE_NAME,
+  AttributeDefinitions: [
+    { AttributeName: HASH_KEY, AttributeType: HASH_KEY_TYPE },
+    { AttributeName: "createdOn", AttributeType: "S" },
+    { AttributeName: "caseStatus", AttributeType: "S" },
+  ],
+  KeySchema: [
+    { AttributeName: HASH_KEY, KeyType: "HASH" },
+    { AttributeName: "createdOn", KeyType: "RANGE" },
+  ],
+  GlobalSecondaryIndexes: [
+    {
+      IndexName: "caseStatus-createdOn-index",
+      KeySchema: [
+        { AttributeName: "caseStatus", KeyType: "HASH" },
+        { AttributeName: "createdOn", KeyType: "RANGE" },
+      ],
+      Projection: { ProjectionType: "ALL" },
+      ProvisionedThroughput: {
+        ReadCapacityUnits: 5,
+        WriteCapacityUnits: 5,
+      },
     },
-  };
+  ],
+  ProvisionedThroughput: {
+    ReadCapacityUnits: 5,
+    WriteCapacityUnits: 5,
+  },
+};
 
   try {
     const existingTables = await ddb.listTables();
