@@ -5,6 +5,7 @@
 	"scripts": {
 		"dev": "npm run create-tables && nodemon",
 		"create-tables": "node create_db_tables.js",
+		"delete-tables": "node delete_tables.js",
 		"dynamodb": "docker run -p 8000:8000 amazon/dynamodb-local -jar DynamoDBLocal.jar -inMemory -sharedDb"
 	},
 	"dependencies": {
