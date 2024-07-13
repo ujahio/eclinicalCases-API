@@ -24,6 +24,21 @@ router.post(
   upload.array("caseMaterials", 10),
   caseController.duplicateCase
 );
+router.post(
+  "/publish/",
+  verifyToken,
+  caseController.publishCase
+);
+router.post(
+  "/add/feedback/",
+  verifyToken,
+  caseController.addFeedback
+);
+router.get(
+  "/feedbacks/:caseId",
+  verifyToken,
+  caseController.getCaseFeedback
+);
 router.delete("/delete-case/:caseId", verifyToken, caseController.deleteCase);
 router.delete("/delete/all/", caseController.deleteAllCases);
 

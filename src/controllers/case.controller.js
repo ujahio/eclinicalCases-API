@@ -335,3 +335,99 @@ exports.duplicateCase = async (req, res) => {
     res.status(500).json({ error: "Could not duplicate case" });
   }
 };
+
+exports.publishCase = async (req, res) => {
+  const caseId = req.body.caseId;
+  if (!caseId) {
+    return res.status(400).json({
+      message: "CaseID not found.",
+    });
+  }
+
+  const singleItemParams = {
+    TableName: "Cases",
+    Key: {
+      id: caseId,
+    },
+  };
+
+  const originalCase = await readSingleItem(singleItemParams);
+  console.log("originalCase: ", originalCase)
+  if (!originalCase) {
+    return res.status(400).json({ error: "Case does not exist" });
+  }
+
+  const params = {
+    TableName: "Cases",
+    Key: {
+      id: caseId,
+    },
+    UpdateExpression: "set caseStatus = :active",
+    ExpressionAttributeValues: {
+      ":active": "active",
+    },
+  };
+
+  try {
+    const command = new UpdateCommand(params);
+    const result = await dbClient.send(command);
+    res.status(200).json({
+      message: "Case activated successfully.",
+      data: result,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: `Could not activate case: ${error}` });
+  }
+};
+
+exports.addFeedback = async (req, res) => {
+  const studentID = req.validatedUser.id;
+  const { caseID, feedback } = req.body;
+
+  const params = {
+    TableName: 'Feedback',
+    Item: {
+      feedbackID: uuidv4(),
+      caseID,
+      studentID,
+      feedback,
+      createdAt: Date.now(),
+    },
+  };
+
+  try {
+    const command = new PutCommand(params);
+    await dbClient.send(command);
+    res.status(200).json({ message: 'Feedback submitted successfully.' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: `Could not submit feedback: ${error}` });
+  }
+};
+
+exports.getCaseFeedback = async (req, res) => {
+  const caseID = req.params.caseId;
+  console.log("Case ID: ", caseID);
+
+  const params = {
+    TableName: 'Feedback',
+    IndexName: 'CaseIDIndex',
+    KeyConditionExpression: 'caseID = :caseID',
+    ExpressionAttributeValues: {
+      ':caseID': caseID,
+    },
+  };
+
+  try {
+    const command = new QueryCommand(params);
+    const result = await dbClient.send(command);
+    res.status(200).json({
+      message: "Feedbacks retrieved successfully.",
+      data: result.Items,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: `Could not fetch feedback: ${error}` });
+  }
+};

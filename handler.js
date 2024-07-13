@@ -5,6 +5,7 @@ const cors = require('cors');
 
 const authRoutes = require('./src/routes/auth.routes');
 const caseRoutes = require('./src/routes/case.routes');
+const quizRoutes = require('./src/routes/quiz.routes');
 
 const app = express();
 app.use(cors());
@@ -18,6 +19,7 @@ app.get('/', (req, res) => {
 });
 app.use('/api/auth', authRoutes);
 app.use('/api/case', caseRoutes);
+app.use('/api/quiz', quizRoutes);
 app.use("/uploads", express.static("uploads"));
 
 app.use((req, res, next) => {

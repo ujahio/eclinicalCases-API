@@ -4,6 +4,10 @@ const ddb = new DynamoDB({ endpoint: "http://localhost:8000" });
 
 const USERS_TABLE_NAME = "Users";
 const CASES_TABLE_NAME = "Cases";
+const FEEDBACK_TABLE_NAME = "Feedback"
+const ANSWERS_TABLE_NAME = "Answers"
+const CERTIFICATE_TABLE_NAME = "Certificates"
+
 const HASH_KEY = "id";
 const HASH_KEY_TYPE = "S";
 
@@ -46,6 +50,88 @@ const createTables = async () => {
     ],
   };
 
+  const feedbackParams = {
+    TableName: 'Feedback',
+    AttributeDefinitions: [
+      { AttributeName: 'feedbackID', AttributeType: 'S' },
+      { AttributeName: 'caseID', AttributeType: 'S' },
+    ],
+    KeySchema: [
+      { AttributeName: 'feedbackID', KeyType: 'HASH' },
+      { AttributeName: 'caseID', KeyType: 'RANGE' },
+    ],
+    GlobalSecondaryIndexes: [
+      {
+        IndexName: 'CaseIDIndex',
+        KeySchema: [{ AttributeName: 'caseID', KeyType: 'HASH' }],
+        Projection: { ProjectionType: 'ALL' },
+        ProvisionedThroughput: {
+          ReadCapacityUnits: 5,
+          WriteCapacityUnits: 5,
+        },
+      },
+    ],
+    ProvisionedThroughput: {
+      ReadCapacityUnits: 5,
+      WriteCapacityUnits: 5,
+    },
+  };
+
+  const answersParams = {
+    TableName: 'Answers',
+    AttributeDefinitions: [
+      { AttributeName: 'answerID', AttributeType: 'S' },
+      { AttributeName: 'studentID', AttributeType: 'S' },
+      { AttributeName: 'caseID', AttributeType: 'S' },
+    ],
+    KeySchema: [
+      { AttributeName: 'answerID', KeyType: 'HASH' },
+      { AttributeName: 'studentID', KeyType: 'RANGE' },
+    ],
+    GlobalSecondaryIndexes: [
+      {
+        IndexName: 'CaseIDIndex',
+        KeySchema: [{ AttributeName: 'caseID', KeyType: 'HASH' }],
+        Projection: { ProjectionType: 'ALL' },
+        ProvisionedThroughput: {
+          ReadCapacityUnits: 5,
+          WriteCapacityUnits: 5,
+        },
+      },
+    ],
+    ProvisionedThroughput: {
+      ReadCapacityUnits: 5,
+      WriteCapacityUnits: 5,
+    },
+  };
+
+  const certificatesParams = {
+    TableName: 'Certificates',
+    AttributeDefinitions: [
+      { AttributeName: 'certificateID', AttributeType: 'S' },
+      { AttributeName: 'studentID', AttributeType: 'S' },
+    ],
+    KeySchema: [
+      { AttributeName: 'certificateID', KeyType: 'HASH' },
+      { AttributeName: 'studentID', KeyType: 'RANGE' },
+    ],
+    GlobalSecondaryIndexes: [
+      {
+        IndexName: 'StudentIDIndex',
+        KeySchema: [{ AttributeName: 'studentID', KeyType: 'HASH' }],
+        Projection: { ProjectionType: 'ALL' },
+        ProvisionedThroughput: {
+          ReadCapacityUnits: 5,
+          WriteCapacityUnits: 5,
+        },
+      },
+    ],
+    ProvisionedThroughput: {
+      ReadCapacityUnits: 5,
+      WriteCapacityUnits: 5,
+    },
+  };
+
   try {
     const existingTables = await ddb.listTables();
 
@@ -66,6 +152,34 @@ const createTables = async () => {
         `Table '${CASES_TABLE_NAME}' already exists. Skipping creation.`
       );
     }
+
+    if (!existingTables.TableNames.includes(FEEDBACK_TABLE_NAME)) {
+      await ddb.createTable(feedbackParams);
+      console.log(`Table '${FEEDBACK_TABLE_NAME}' created.`);
+    } else {
+      console.log(
+        `Table '${FEEDBACK_TABLE_NAME}' already exists. Skipping creation.`
+      );
+    }
+
+    if (!existingTables.TableNames.includes(ANSWERS_TABLE_NAME)) {
+      await ddb.createTable(answersParams);
+      console.log(`Table '${ANSWERS_TABLE_NAME}' created.`);
+    } else {
+      console.log(
+        `Table '${ANSWERS_TABLE_NAME}' already exists. Skipping creation.`
+      );
+    }
+
+    if (!existingTables.TableNames.includes(CERTIFICATE_TABLE_NAME)) {
+      await ddb.createTable(certificatesParams);
+      console.log(`Table '${CERTIFICATE_TABLE_NAME}' created.`);
+    } else {
+      console.log(
+        `Table '${CERTIFICATE_TABLE_NAME}' already exists. Skipping creation.`
+      );
+    }
+
   } catch (error) {
     console.error("Error creating tables:", error);
   }
