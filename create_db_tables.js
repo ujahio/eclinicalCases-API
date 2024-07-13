@@ -55,6 +55,7 @@ const createTables = async () => {
     AttributeDefinitions: [
       { AttributeName: 'feedbackID', AttributeType: 'S' },
       { AttributeName: 'caseID', AttributeType: 'S' },
+      { AttributeName: 'studentID', AttributeType: 'S' },
     ],
     KeySchema: [
       { AttributeName: 'feedbackID', KeyType: 'HASH' },
@@ -64,6 +65,15 @@ const createTables = async () => {
       {
         IndexName: 'CaseIDIndex',
         KeySchema: [{ AttributeName: 'caseID', KeyType: 'HASH' }],
+        Projection: { ProjectionType: 'ALL' },
+        ProvisionedThroughput: {
+          ReadCapacityUnits: 5,
+          WriteCapacityUnits: 5,
+        },
+      },
+      {
+        IndexName: 'StudentIDIndex',
+        KeySchema: [{ AttributeName: 'studentID', KeyType: 'HASH' }],
         Projection: { ProjectionType: 'ALL' },
         ProvisionedThroughput: {
           ReadCapacityUnits: 5,

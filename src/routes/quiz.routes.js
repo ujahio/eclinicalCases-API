@@ -7,7 +7,7 @@ const quizController = require("../controllers/quiz.controller");
 router.post(
     "/submit",
     verifyToken,
-    quizController.submitQuiz
+    quizController.submitCaseAnswers
 );
 router.get(
     "/answers/:caseID",

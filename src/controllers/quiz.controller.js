@@ -13,9 +13,9 @@ const { readSingleItem } = require("../services/dbOps");
 const { TABLES } = require("../services/dbTables");
 
 
-exports.submitQuiz = async (req, res) => {
+exports.submitCaseAnswers = async (req, res) => {
     const studentID = req.validatedUser.id;
-    const { caseID, answers } = req.body;
+    const { caseID, caseTopicAnswer, caseExplanation, answers } = req.body;
 
     const params = {
         TableName: 'Answers',
@@ -24,6 +24,8 @@ exports.submitQuiz = async (req, res) => {
             studentID,
             caseID,
             answers,
+            caseTopicAnswer: caseTopicAnswer,
+            caseExplanation: caseExplanation,
             submittedAt: Date.now(),
         },
     };
@@ -33,10 +35,10 @@ exports.submitQuiz = async (req, res) => {
         await dbClient.send(command);
         // Call grading function and generate certificate if passed
         // await gradeQuiz(studentID, caseID);
-        res.status(200).json({ message: 'Quiz submitted successfully.' });
+        res.status(200).json({ message: 'Answers submitted successfully.' });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: `Could not submit quiz: ${error}` });
+        res.status(500).json({ error: `Could not submit answers: ${error}` });
     }
 };
 

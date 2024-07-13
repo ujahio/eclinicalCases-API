@@ -54,11 +54,11 @@ exports.addCase = async (req, res) => {
 
 exports.updateCase = async (req, res) => {
   const caseData = req.body;
-  const caseId = req.params.caseId;
+  const caseID = req.params.caseID;
   const userId = req.validatedUser.id;
-  console.log("caseId: ", caseId);
+  console.log("caseID: ", caseID);
 
-  if (!caseId) {
+  if (!caseID) {
     return res
       .status(400)
       .json({ error: "Missing case ID in the request URL." });
@@ -67,7 +67,7 @@ exports.updateCase = async (req, res) => {
   const caseParams = {
     TableName: "Cases",
     Key: {
-      id: caseId,
+      id: caseID,
     },
     ConditionExpression: "createdBy = :createdBy",
     ExpressionAttributeValues: {
@@ -123,7 +123,7 @@ exports.updateCase = async (req, res) => {
     const params = {
       TableName: "Cases",
       Key: {
-        id: caseId,
+        id: caseID,
       },
       UpdateExpression: updateExpression,
       ExpressionAttributeValues: expressionAttributeValues,
@@ -151,6 +151,7 @@ exports.getCases = async (req, res) => {
   const caseStatus = req.query.caseStatus;
 
   try {
+    let params;
     if (caseStatus === "recent") {
       params = {
         TableName: "Cases",
@@ -183,10 +184,51 @@ exports.getCases = async (req, res) => {
     const command = new ScanCommand(params);
     const result = await dbClient.send(command);
     const cases = result.Items;
-    console.log(cases.map(item => item.createdAt));
+
+    // Fetch the total number of answers and feedbacks for each case
+    const detailedCasesPromises = cases.map(async (caseItem) => {
+      const caseID = caseItem.id;
+
+      // Count answers
+      const answersParams = {
+        TableName: 'Answers',
+        IndexName: 'CaseIDIndex',
+        KeyConditionExpression: 'caseID = :caseID',
+        ExpressionAttributeValues: {
+          ':caseID': caseID,
+        },
+        Select: 'COUNT'
+      };
+      const answersCommand = new QueryCommand(answersParams);
+      const answersResult = await dbClient.send(answersCommand);
+      const totalAnswers = answersResult.Count;
+
+      // Count feedbacks
+      const feedbackParams = {
+        TableName: 'Feedback',
+        IndexName: 'CaseIDIndex',
+        KeyConditionExpression: 'caseID = :caseID',
+        ExpressionAttributeValues: {
+          ':caseID': caseID,
+        },
+        Select: 'COUNT'
+      };
+      const feedbackCommand = new QueryCommand(feedbackParams);
+      const feedbackResult = await dbClient.send(feedbackCommand);
+      const totalFeedbacks = feedbackResult.Count;
+
+      return {
+        ...caseItem,
+        totalResponses: totalAnswers,
+        totalFeedbacks
+      };
+    });
+
+    const detailedCases = await Promise.all(detailedCasesPromises);
+
     res.status(200).json({
       message: "Cases retrieved successfully!",
-      data: cases,
+      data: detailedCases,
     });
   } catch (error) {
     console.error(error);
@@ -196,10 +238,10 @@ exports.getCases = async (req, res) => {
 
 exports.getCase = async (req, res) => {
   try {
-    const caseId = req.params.caseId;
+    const caseID = req.params.caseID;
     const userId = req.validatedUser.id;
 
-    if (!caseId) {
+    if (!caseID) {
       return res
         .status(400)
         .json({ error: "Missing case ID in the request URL." });
@@ -208,7 +250,7 @@ exports.getCase = async (req, res) => {
     const params = {
       TableName: "Cases",
       Key: {
-        id: caseId,
+        id: caseID,
       },
     };
 
@@ -233,10 +275,10 @@ exports.getCase = async (req, res) => {
 
 exports.deleteCase = async (req, res) => {
   try {
-    const caseId = req.params.caseId;
+    const caseID = req.params.caseID;
     const userId = req.validatedUser.id;
 
-    if (!caseId) {
+    if (!caseID) {
       return res
         .status(400)
         .json({ error: "Missing case ID in the request URL." });
@@ -245,7 +287,7 @@ exports.deleteCase = async (req, res) => {
     const params = {
       TableName: "Cases",
       Key: {
-        id: caseId,
+        id: caseID,
       },
       ConditionExpression: "createdBy = :createdBy",
       ExpressionAttributeValues: {
@@ -292,10 +334,10 @@ exports.deleteAllCases = async (req, res) => {
 };
 
 exports.duplicateCase = async (req, res) => {
-  const caseId = req.body.caseId;
+  const caseID = req.body.caseID;
 
   try {
-    if (!caseId) {
+    if (!caseID) {
       return res
         .status(400)
         .json({ error: "Missing case ID in the request body." });
@@ -304,7 +346,7 @@ exports.duplicateCase = async (req, res) => {
     const singleItemParams = {
       TableName: "Cases",
       Key: {
-        id: caseId,
+        id: caseID,
       },
     };
 
@@ -337,8 +379,8 @@ exports.duplicateCase = async (req, res) => {
 };
 
 exports.publishCase = async (req, res) => {
-  const caseId = req.body.caseId;
-  if (!caseId) {
+  const caseID = req.body.caseID;
+  if (!caseID) {
     return res.status(400).json({
       message: "CaseID not found.",
     });
@@ -347,7 +389,7 @@ exports.publishCase = async (req, res) => {
   const singleItemParams = {
     TableName: "Cases",
     Key: {
-      id: caseId,
+      id: caseID,
     },
   };
 
@@ -360,7 +402,7 @@ exports.publishCase = async (req, res) => {
   const params = {
     TableName: "Cases",
     Key: {
-      id: caseId,
+      id: caseID,
     },
     UpdateExpression: "set caseStatus = :active",
     ExpressionAttributeValues: {
@@ -407,12 +449,12 @@ exports.addFeedback = async (req, res) => {
 };
 
 exports.getCaseFeedback = async (req, res) => {
-  const caseID = req.params.caseId;
+  const caseID = req.params.caseID;
   console.log("Case ID: ", caseID);
 
   const params = {
     TableName: 'Feedback',
-    IndexName: 'CaseIDIndex',
+    IndexName: 'CaseIDIndex', // Ensure this index is created
     KeyConditionExpression: 'caseID = :caseID',
     ExpressionAttributeValues: {
       ':caseID': caseID,
@@ -421,13 +463,75 @@ exports.getCaseFeedback = async (req, res) => {
 
   try {
     const command = new QueryCommand(params);
-    const result = await dbClient.send(command);
+    const feedbackResult = await dbClient.send(command);
+
+    // Fetch details of each student
+    const studentDetailsPromises = feedbackResult.Items.map(async feedback => {
+      const userParams = {
+        TableName: 'Users',
+        Key: { id: feedback.studentID },
+      };
+      const userCommand = new GetCommand(userParams);
+      const userResult = await dbClient.send(userCommand);
+      return {
+        student: {
+          firstName: userResult.Item.firstname,
+          lastName: userResult.Item.lastname,
+        },
+        ...feedback,
+      };
+    });
+
+    const detailedFeedbacks = await Promise.all(studentDetailsPromises);
+
     res.status(200).json({
       message: "Feedbacks retrieved successfully.",
-      data: result.Items,
+      data: detailedFeedbacks,
     });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: `Could not fetch feedback: ${error}` });
+  }
+};
+
+exports.getCaseAnswers = async (req, res) => {
+  const caseID = req.params.caseID;
+
+  const answersParams = {
+    TableName: 'Answers',
+    IndexName: 'CaseIDIndex',
+    KeyConditionExpression: 'caseID = :caseID',
+    ExpressionAttributeValues: {
+      ':caseID': caseID,
+    },
+  };
+
+  try {
+    const answersCommand = new QueryCommand(answersParams);
+    const answersResult = await dbClient.send(answersCommand);
+
+    // Fetch details of each student
+    const studentDetailsPromises = answersResult.Items.map(async answer => {
+      const userParams = {
+        TableName: 'Users',
+        Key: { id: answer.studentID },
+      };
+      const userCommand = new GetCommand(userParams);
+      const userResult = await dbClient.send(userCommand);
+      return {
+        student: {
+          firstName: userResult.Item.firstname,
+          lastName: userResult.Item.lastname,
+        },
+        ...answer,
+      };
+    });
+
+    const detailedAnswers = await Promise.all(studentDetailsPromises);
+
+    res.status(200).json({ answers: detailedAnswers });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: `Could not fetch answers: ${error}` });
   }
 };
