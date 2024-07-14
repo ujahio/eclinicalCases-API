@@ -1,17 +1,10 @@
 const dbClient = require("../services/dbClient");
-const path = require("path");
 const { v4: uuidv4 } = require("uuid");
 const {
     GetCommand,
     PutCommand,
-    ScanCommand,
-    DeleteCommand,
-    UpdateCommand,
     QueryCommand,
 } = require("@aws-sdk/lib-dynamodb");
-const { readSingleItem } = require("../services/dbOps");
-const { TABLES } = require("../services/dbTables");
-
 
 exports.submitCaseAnswers = async (req, res) => {
     const studentID = req.validatedUser.id;
@@ -24,8 +17,8 @@ exports.submitCaseAnswers = async (req, res) => {
             studentID,
             caseID,
             answers,
-            caseTopicAnswer: caseTopicAnswer,
-            caseExplanation: caseExplanation,
+            caseTopicAnswer,
+            caseExplanation,
             submittedAt: Date.now(),
         },
     };
@@ -33,9 +26,32 @@ exports.submitCaseAnswers = async (req, res) => {
     try {
         const command = new PutCommand(params);
         await dbClient.send(command);
-        // Call grading function and generate certificate if passed
-        // await gradeQuiz(studentID, caseID);
-        res.status(200).json({ message: 'Answers submitted successfully.' });
+
+        // Call grading function and get the result
+        const result = await gradeQuiz(caseID, answers);
+
+        // Save the attempt result to the StudentCaseAttempts table
+        const attemptParams = {
+            TableName: 'StudentCaseAttempts',
+            Item: {
+                attemptID: uuidv4(),
+                studentID,
+                caseID,
+                passed: result.passed,
+                answers,
+                correctAnswers: result.correctAnswers,
+                submittedAt: Date.now(),
+            },
+        };
+        const attemptCommand = new PutCommand(attemptParams);
+        await dbClient.send(attemptCommand);
+
+        res.status(200).json({
+            message: 'Answers submitted successfully.',
+            // passed: result.passed,
+            // correctAnswers: result.correctAnswers,
+            // studentAnswers: result.studentAnswers
+        });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: `Could not submit answers: ${error}` });
@@ -64,48 +80,27 @@ exports.getStudentsAnswers = async (req, res) => {
     }
 };
 
-const gradeQuiz = async (studentID, caseID) => {
-    // Fetch correct answers and compare
-    const quizParams = {
-        TableName: 'Quizzes',
-        Key: { caseID },
-    };
 
-    const answersParams = {
-        TableName: 'Answers',
-        IndexName: 'CaseIDIndex', // Referencing the secondary index
-        KeyConditionExpression: 'caseID = :caseID AND studentID = :studentID',
-        ExpressionAttributeValues: {
-            ':caseID': caseID,
-            ':studentID': studentID,
-        },
+const gradeQuiz = async (caseID, studentAnswers) => {
+    const caseParams = {
+        TableName: 'Cases',
+        Key: { id: caseID },
     };
 
     try {
-        const quizCommand = new GetCommand(quizParams);
-        const answersCommand = new QueryCommand(answersParams);
-        const quiz = await dbClient.send(quizCommand);
-        const answers = await dbClient.send(answersCommand);
+        const caseCommand = new GetCommand(caseParams);
+        const caseResult = await dbClient.send(caseCommand);
+        const caseQuestions = caseResult.Item.caseQuestions;
+        const correctAnswers = caseQuestions.map((question) => question.correctOption);
+        const passed = correctAnswers.every((answer, idx) => answer === studentAnswers[idx].selectedOption);
 
-        const correctAnswers = quiz.Item.caseQuestions.map(q => q.correctOption);
-        const studentAnswers = answers.Items[0].answers;
-
-        const isPassed = correctAnswers.every((answer, idx) => answer === studentAnswers[idx]);
-
-        if (isPassed) {
-            const certificateParams = {
-                TableName: 'Certificates',
-                Item: {
-                    certificateID: uuidv4(),
-                    studentID,
-                    caseID,
-                    issuedAt: Date.now(),
-                },
-            };
-            const certificateCommand = new PutCommand(certificateParams);
-            await dbClient.send(certificateCommand);
-        }
+        return {
+            passed,
+            correctAnswers,
+            studentAnswers
+        };
     } catch (error) {
         console.error(error);
+        throw new Error('Could not grade quiz: ' + error);
     }
 };

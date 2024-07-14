@@ -44,6 +44,11 @@ router.get(
   verifyToken,
   caseController.getCaseAnswers
 );
+router.get(
+  "/student/attempts/:studentID",
+  verifyToken,
+  caseController.getCaseAttemptsByStudent
+);
 
 router.delete("/delete-case/:caseID", verifyToken, caseController.deleteCase);
 router.delete("/delete/all/", caseController.deleteAllCases);

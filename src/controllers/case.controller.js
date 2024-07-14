@@ -33,7 +33,7 @@ exports.addCase = async (req, res) => {
       caseDeadline: caseDeadline,
       createdBy: userID,
       createdAt: Date.now(),
-      caseQuestions: caseData.caseQuestions,
+      caseQuestions: JSON.parse(caseData.caseQuestions),
       caseStatus: draft ? "draft" : "active",
       caseMaterials,
     },
@@ -548,5 +548,31 @@ exports.getCaseAnswers = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: `Could not fetch answers: ${error}` });
+  }
+};
+
+exports.getCaseAttemptsByStudent = async (req, res) => {
+  const studentID = req.params.studentID;
+
+  const params = {
+    TableName: 'StudentCaseAttempts',
+    IndexName: 'StudentIDIndex',
+    KeyConditionExpression: 'studentID = :studentID',
+    ExpressionAttributeValues: {
+      ':studentID': studentID,
+    },
+  };
+
+  try {
+    const command = new QueryCommand(params);
+    const result = await dbClient.send(command);
+
+    res.status(200).json({
+      message: 'Case attempts retrieved successfully.',
+      data: result.Items,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: `Could not fetch case attempts: ${error}` });
   }
 };

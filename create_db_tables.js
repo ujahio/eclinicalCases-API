@@ -7,6 +7,7 @@ const CASES_TABLE_NAME = "Cases";
 const FEEDBACK_TABLE_NAME = "Feedback"
 const ANSWERS_TABLE_NAME = "Answers"
 const CERTIFICATE_TABLE_NAME = "Certificates"
+const STUDENT_CASE_ATTEMPTS_TABLE_NAME = "StudentCaseAttempts"
 
 const HASH_KEY = "id";
 const HASH_KEY_TYPE = "S";
@@ -142,6 +143,36 @@ const createTables = async () => {
     },
   };
 
+  const studentCaseAttemptsParams = {
+    TableName: 'StudentCaseAttempts',
+    AttributeDefinitions: [
+      { AttributeName: 'attemptID', AttributeType: 'S' },
+      { AttributeName: 'studentID', AttributeType: 'S' },
+    ],
+    KeySchema: [
+      { AttributeName: 'attemptID', KeyType: 'HASH' },
+    ],
+    ProvisionedThroughput: {
+      ReadCapacityUnits: 5,
+      WriteCapacityUnits: 5,
+    },
+    GlobalSecondaryIndexes: [
+      {
+        IndexName: 'StudentIDIndex',
+        KeySchema: [
+          { AttributeName: 'studentID', KeyType: 'HASH' },
+        ],
+        Projection: {
+          ProjectionType: 'ALL',
+        },
+        ProvisionedThroughput: {
+          ReadCapacityUnits: 5,
+          WriteCapacityUnits: 5,
+        },
+      },
+    ],
+  };
+
   try {
     const existingTables = await ddb.listTables();
 
@@ -187,6 +218,15 @@ const createTables = async () => {
     } else {
       console.log(
         `Table '${CERTIFICATE_TABLE_NAME}' already exists. Skipping creation.`
+      );
+    }
+
+    if (!existingTables.TableNames.includes(STUDENT_CASE_ATTEMPTS_TABLE_NAME)) {
+      await ddb.createTable(studentCaseAttemptsParams);
+      console.log(`Table '${STUDENT_CASE_ATTEMPTS_TABLE_NAME}' created.`);
+    } else {
+      console.log(
+        `Table '${STUDENT_CASE_ATTEMPTS_TABLE_NAME}' already exists. Skipping creation.`
       );
     }
 
