@@ -166,7 +166,22 @@ exports.getCases = async (req, res) => {
         },
         Limit: 4,
       };
-    } else {
+    } else if (caseStatus === "all") {
+      params = {
+        TableName: "Cases",
+        IndexName: "CreatedAtIndex",
+        ScanIndexForward: false,
+        FilterExpression: "#caseStatus IN (:active, :draft)",
+        ExpressionAttributeNames: {
+          "#caseStatus": "caseStatus"
+        },
+        ExpressionAttributeValues: {
+          ":active": "active",
+          ":draft": "draft"
+        }
+      };
+    }
+    else {
       params = {
         TableName: "Cases",
         IndexName: "CreatedAtIndex",
