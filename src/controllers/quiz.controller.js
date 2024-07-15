@@ -91,8 +91,10 @@ const gradeQuiz = async (caseID, studentAnswers) => {
         const caseCommand = new GetCommand(caseParams);
         const caseResult = await dbClient.send(caseCommand);
         const caseQuestions = caseResult.Item.caseQuestions;
-        const correctAnswers = caseQuestions.map((question) => question.correctOption);
-        const passed = correctAnswers.every((answer, idx) => answer === studentAnswers[idx].selectedOption);
+
+        const correctAnswers = caseQuestions.map((question) => question.correctAnswer);
+        const studentSelectedOptions = studentAnswers.map((answer) => answer.correctAnswer);
+        const passed = correctAnswers.every((answer, idx) => answer === studentSelectedOptions[idx]);
 
         return {
             passed,
