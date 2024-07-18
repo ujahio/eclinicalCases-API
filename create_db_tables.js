@@ -9,16 +9,15 @@ const ANSWERS_TABLE_NAME = "Answers"
 const CERTIFICATE_TABLE_NAME = "Certificates"
 const STUDENT_CASE_ATTEMPTS_TABLE_NAME = "StudentCaseAttempts"
 
-const HASH_KEY = "id";
-const HASH_KEY_TYPE = "S";
-
 const createTables = async () => {
   const usersParams = {
     TableName: USERS_TABLE_NAME,
     AttributeDefinitions: [
-      { AttributeName: HASH_KEY, AttributeType: HASH_KEY_TYPE },
+      { AttributeName: "email", AttributeType: "S" },
     ],
-    KeySchema: [{ AttributeName: HASH_KEY, KeyType: "HASH" }],
+    KeySchema: [
+      { AttributeName: "email", KeyType: "HASH" },
+    ],
     ProvisionedThroughput: {
       ReadCapacityUnits: 5,
       WriteCapacityUnits: 5,

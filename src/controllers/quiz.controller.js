@@ -5,9 +5,13 @@ const {
     PutCommand,
     QueryCommand,
 } = require("@aws-sdk/lib-dynamodb");
+const path = require('path');
+const { generateCertificate } = require("../utils/certificate");
 
 exports.submitCaseAnswers = async (req, res) => {
     const studentID = req.validatedUser.id;
+    const { firstname, lastname } = req.validatedUser
+    const fullName = firstname + " " + lastname
     const { caseID, caseTopicAnswer, caseExplanation, answers } = req.body;
 
     const params = {
@@ -28,7 +32,7 @@ exports.submitCaseAnswers = async (req, res) => {
         await dbClient.send(command);
 
         // Call grading function and get the result
-        const result = await gradeQuiz(caseID, answers);
+        const result = await gradeQuiz(caseID, answers, fullName);
 
         // Save the attempt result to the StudentCaseAttempts table
         const attemptParams = {
@@ -48,7 +52,7 @@ exports.submitCaseAnswers = async (req, res) => {
 
         res.status(200).json({
             message: 'Answers submitted successfully.',
-            // passed: result.passed,
+            passed: result.passed,
             // correctAnswers: result.correctAnswers,
             // studentAnswers: result.studentAnswers
         });
@@ -81,7 +85,7 @@ exports.getStudentsAnswers = async (req, res) => {
 };
 
 
-const gradeQuiz = async (caseID, studentAnswers) => {
+const gradeQuiz = async (caseID, studentAnswers, fullName) => {
     const caseParams = {
         TableName: 'Cases',
         Key: { id: caseID },
@@ -91,10 +95,19 @@ const gradeQuiz = async (caseID, studentAnswers) => {
         const caseCommand = new GetCommand(caseParams);
         const caseResult = await dbClient.send(caseCommand);
         const caseQuestions = caseResult.Item.caseQuestions;
+        const caseTopic = caseResult.Item.caseTopic
 
         const correctAnswers = caseQuestions.map((question) => question.correctAnswer);
         const studentSelectedOptions = studentAnswers.map((answer) => answer.correctAnswer);
         const passed = correctAnswers.every((answer, idx) => answer === studentSelectedOptions[idx]);
+
+        // Generate certificate
+        if (passed) {
+            const certificateID = uuidv4();
+            const certificatePath = path.join(__dirname, '../../uploads/certificates', certificateID + '.pdf');
+            console.log("certificatePath: ", certificatePath);
+            generateCertificate(fullName, caseTopic, certificatePath);
+        }
 
         return {
             passed,
