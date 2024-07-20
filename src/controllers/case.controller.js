@@ -19,7 +19,7 @@ exports.addCase = async (req, res) => {
   const caseDeadline = new Date(caseData.caseDeadline).toISOString();
   const caseMaterials = req.files.map((file) => ({
     filename: file.originalname,
-    filePath: path.join(file.destination, file.originalname),
+    filePath: file.location,
   }));
 
   if (!draft) {
@@ -103,7 +103,7 @@ exports.updateCase = async (req, res) => {
     const caseDeadline = new Date(caseData.caseDeadline).toISOString();
     const caseMaterials = req.files.map((file) => ({
       filename: file.originalname,
-      filePath: path.join(file.destination, file.originalname),
+      filePath: file.location,
     }));
 
     let updateExpression = "SET ";
@@ -331,9 +331,50 @@ exports.getOngoingCase = async (req, res) => {
     const result = await dbClient.send(command);
     const cases = result.Items;
 
+    // Fetch the total number of answers and feedbacks for each case
+    const detailedCasesPromises = cases.map(async (caseItem) => {
+      const caseID = caseItem.id;
+
+      // Count answers
+      const answersParams = {
+        TableName: 'Answers',
+        IndexName: 'CaseIDIndex',
+        KeyConditionExpression: 'caseID = :caseID',
+        ExpressionAttributeValues: {
+          ':caseID': caseID,
+        },
+        Select: 'COUNT'
+      };
+      const answersCommand = new QueryCommand(answersParams);
+      const answersResult = await dbClient.send(answersCommand);
+      const totalAnswers = answersResult.Count;
+
+      // Count feedbacks
+      const feedbackParams = {
+        TableName: 'Feedback',
+        IndexName: 'CaseIDIndex',
+        KeyConditionExpression: 'caseID = :caseID',
+        ExpressionAttributeValues: {
+          ':caseID': caseID,
+        },
+        Select: 'COUNT'
+      };
+      const feedbackCommand = new QueryCommand(feedbackParams);
+      const feedbackResult = await dbClient.send(feedbackCommand);
+      const totalFeedbacks = feedbackResult.Count;
+
+      return {
+        ...caseItem,
+        totalResponses: totalAnswers,
+        totalFeedbacks
+      };
+    });
+
+    const detailedCases = await Promise.all(detailedCasesPromises);
+
     res.status(200).json({
       message: "Ongoing case retrieved successfully!",
-      data: cases,
+      data: detailedCases,
     });
   } catch (error) {
     console.error(error);

@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const upload = require("../middlewares/uploadFile");
+const { upload } = require("../middlewares/uploadFile");
 const { verifyToken } = require("../middlewares/auth");
 const caseController = require("../controllers/case.controller");
 

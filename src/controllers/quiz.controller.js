@@ -5,8 +5,9 @@ const {
     PutCommand,
     QueryCommand,
 } = require("@aws-sdk/lib-dynamodb");
-const path = require('path');
+const { PutObjectCommand } = require('@aws-sdk/client-s3');
 const { generateCertificate } = require("../utils/certificate");
+const { s3Client } = require("../middlewares/uploadFile");
 
 exports.submitCaseAnswers = async (req, res) => {
     const studentID = req.validatedUser.id;
@@ -32,7 +33,7 @@ exports.submitCaseAnswers = async (req, res) => {
         await dbClient.send(command);
 
         // Call grading function and get the result
-        const result = await gradeQuiz(caseID, answers, fullName);
+        const result = await gradeQuiz(caseID, answers, fullName, studentID);
 
         // Save the attempt result to the StudentCaseAttempts table
         const attemptParams = {
@@ -85,7 +86,7 @@ exports.getStudentsAnswers = async (req, res) => {
 };
 
 
-const gradeQuiz = async (caseID, studentAnswers, fullName) => {
+const gradeQuiz = async (caseID, studentAnswers, fullName, studentID) => {
     const caseParams = {
         TableName: 'Cases',
         Key: { id: caseID },
@@ -104,9 +105,36 @@ const gradeQuiz = async (caseID, studentAnswers, fullName) => {
         // Generate certificate
         if (passed) {
             const certificateID = uuidv4();
-            const certificatePath = path.join(__dirname, '../../uploads/certificates', certificateID + '.pdf');
-            console.log("certificatePath: ", certificatePath);
-            generateCertificate(fullName, caseTopic, certificatePath);
+            // const certificatePath = path.join(__dirname, '../../uploads/certificates', certificateID + '.pdf');
+            // console.log("certificatePath: ", certificatePath);
+            const certificateBuffer = await generateCertificate(fullName, caseTopic);
+
+            // Upload to S3
+            const uploadParams = {
+                Bucket: 'local-bucket',
+                Key: `certificates/${certificateID}.pdf`,
+                Body: certificateBuffer,
+                ACL: 'public-read',
+                ContentType: 'application/pdf'
+            };
+            const uploadCommand = new PutObjectCommand(uploadParams);
+            await s3Client.send(uploadCommand);
+
+            const certificateURL = `http://localhost:4599/local-bucket/certificates/${certificateID}.pdf`;
+            // Save certificate record in DynamoDB
+            const certificateRecord = {
+                certificateID,
+                studentID: studentID,
+                caseID,
+                certificateURL,
+                generatedAt: new Date().toISOString(),
+            };
+
+            const putCommand = new PutCommand({
+                TableName: 'Certificates',
+                Item: certificateRecord,
+            });
+            await dbClient.send(putCommand);
         }
 
         return {

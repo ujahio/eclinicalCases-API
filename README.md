@@ -33,6 +33,12 @@ Install Node modules:
 npm install
 ```
 
+To install serverless S3 local plugin
+
+```
+serverless plugin install --name serverless-s3-local
+```
+
 Install Docker Desktop and run:
 
 ```

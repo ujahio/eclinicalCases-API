@@ -120,6 +120,7 @@ const createTables = async () => {
     AttributeDefinitions: [
       { AttributeName: 'certificateID', AttributeType: 'S' },
       { AttributeName: 'studentID', AttributeType: 'S' },
+      { AttributeName: 'caseID', AttributeType: 'S' },
     ],
     KeySchema: [
       { AttributeName: 'certificateID', KeyType: 'HASH' },

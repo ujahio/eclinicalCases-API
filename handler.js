@@ -7,6 +7,7 @@ const path = require("path")
 const authRoutes = require('./src/routes/auth.routes');
 const caseRoutes = require('./src/routes/case.routes');
 const quizRoutes = require('./src/routes/quiz.routes');
+const studentRoutes = require('./src/routes/student.routes');
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.get('/', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/case', caseRoutes);
 app.use('/api/quiz', quizRoutes);
+app.use('/api/student', studentRoutes);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use((req, res, next) => {
