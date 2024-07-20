@@ -78,23 +78,16 @@ exports.updateCase = async (req, res) => {
   const caseData = req.body;
   const caseID = req.params.caseID;
   const userId = req.validatedUser.id;
-  console.log("caseID: ", caseID);
 
   if (!caseID) {
-    return res
-      .status(400)
-      .json({ error: "Missing case ID in the request URL." });
+    return res.status(400).json({ error: "Missing case ID in the request URL." });
   }
 
   const caseParams = {
     TableName: "Cases",
-    Key: {
-      id: caseID,
-    },
+    Key: { id: caseID },
     ConditionExpression: "createdBy = :createdBy",
-    ExpressionAttributeValues: {
-      ":createdBy": userId,
-    },
+    ExpressionAttributeValues: { ":createdBy": userId },
   };
 
   try {
@@ -115,50 +108,59 @@ exports.updateCase = async (req, res) => {
 
     let updateExpression = "SET ";
     let expressionAttributeValues = {};
-    console.log("caseMaterials: ", caseMaterials);
+    let expressionAttributeNames = {};
 
-    let updatableFields = [
+    const updatableFields = [
       "caseClue",
       "caseDescription",
       "caseTopic",
       "caseExplanation",
-      "caseDeadline",
       "caseQuestions",
-      "caseMaterials",
     ];
 
     updatableFields.forEach((field) => {
       if (caseData[field] !== undefined) {
-        updateExpression += `${field} = :${field},`;
-        expressionAttributeValues[`:${field}`] = caseData[field];
-      }
-      if (field === "caseMaterials" && caseMaterials.length > 0) {
-        updateExpression += `${field} = :${field}`;
-        expressionAttributeValues[`:${field}`] = caseMaterials;
+        const attributeName = `#${field}`;
+        const attributeValue = `:${field}`;
+
+        updateExpression += `${attributeName} = ${attributeValue}, `;
+        expressionAttributeNames[attributeName] = field;
+
+        expressionAttributeValues[attributeValue] = field === "caseQuestions"
+          ? JSON.parse(caseData[field])
+          : caseData[field];
       }
     });
 
-    if (updateExpression.endsWith(",")) {
-      updateExpression = updateExpression.slice(0, -1);
+    if (caseMaterials.length > 0) {
+      const existingCaseMaterials = caseItem.caseMaterials || [];
+      const updatedCaseMaterials = [...existingCaseMaterials, ...caseMaterials];
+      updateExpression += "#caseMaterials = :caseMaterials, ";
+      expressionAttributeNames["#caseMaterials"] = "caseMaterials";
+      expressionAttributeValues[":caseMaterials"] = updatedCaseMaterials;
     }
+
+    if (caseDeadline) {
+      updateExpression += "#caseDeadline = :caseDeadline, ";
+      expressionAttributeNames["#caseDeadline"] = "caseDeadline";
+      expressionAttributeValues[":caseDeadline"] = caseDeadline;
+    }
+
+    // Remove trailing comma and space from updateExpression
+    updateExpression = updateExpression.slice(0, -2);
 
     const params = {
       TableName: "Cases",
-      Key: {
-        id: caseID,
-      },
+      Key: { id: caseID },
       UpdateExpression: updateExpression,
       ExpressionAttributeValues: expressionAttributeValues,
+      ExpressionAttributeNames: expressionAttributeNames,
       ReturnValues: "UPDATED_NEW",
     };
 
-    if (caseDeadline) {
-      expressionAttributeValues[":caseDeadline"] = caseDeadline;
-      updateExpression += `, caseDeadline = :caseDeadline`;
-    }
-
     const updateCommand = new UpdateCommand(params);
     const updateResult = await dbClient.send(updateCommand);
+
     res.status(200).json({
       message: "Case updated successfully.",
       data: updateResult.Attributes,
@@ -168,6 +170,8 @@ exports.updateCase = async (req, res) => {
     res.status(500).json({ error: `Could not update case: ${error}` });
   }
 };
+
+
 
 exports.getCases = async (req, res) => {
   const caseStatus = req.query.caseStatus;
