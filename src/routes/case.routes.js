@@ -6,6 +6,7 @@ const caseController = require("../controllers/case.controller");
 
 router.get("/details/:caseID", verifyToken, caseController.getCase);
 router.get("/all/", verifyToken, caseController.getCases);
+router.get("/ongoing-case/", verifyToken, caseController.getOngoingCase);
 router.post(
   "/add",
   verifyToken,

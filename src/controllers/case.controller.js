@@ -22,6 +22,28 @@ exports.addCase = async (req, res) => {
     filePath: path.join(file.destination, file.originalname),
   }));
 
+  if (!draft) {
+    const activeCaseParams = {
+      TableName: "Cases",
+      FilterExpression: "#caseStatus = :caseStatus",
+      ExpressionAttributeNames: {
+        "#caseStatus": "caseStatus",
+      },
+      ExpressionAttributeValues: {
+        ":caseStatus": "active",
+      },
+    };
+
+    const activeCaseCommand = new ScanCommand(activeCaseParams);
+    const activeCaseResult = await dbClient.send(activeCaseCommand);
+    const activeCase = activeCaseResult.Items[0];
+
+    if (activeCase) {
+      return res.status(400).json({ error: "Case is already published" });
+    }
+  }
+
+
   const params = {
     TableName: "Cases",
     Item: {
@@ -285,6 +307,33 @@ exports.getCase = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(404).json({ error: "Case not found: " + error });
+  }
+};
+
+exports.getOngoingCase = async (req, res) => {
+  try {
+    const params = {
+      TableName: "Cases",
+      FilterExpression: "#caseStatus = :caseStatus",
+      ExpressionAttributeNames: {
+        "#caseStatus": "caseStatus",
+      },
+      ExpressionAttributeValues: {
+        ":caseStatus": "active",
+      },
+    };
+
+    const command = new ScanCommand(params);
+    const result = await dbClient.send(command);
+    const cases = result.Items;
+
+    res.status(200).json({
+      message: "Ongoing case retrieved successfully!",
+      data: cases,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Could not retrieve ongoing cases: " + error });
   }
 };
 
