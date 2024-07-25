@@ -104,6 +104,7 @@ const gradeQuiz = async (caseID, studentAnswers, fullName, studentID) => {
         const passed = correctAnswers.every((answer, idx) => answer === studentSelectedOptions[idx]);
 
         // Generate certificate
+        let certificateURL = ""
         if (passed) {
             const certificateID = uuidv4();
             // const certificatePath = path.join(__dirname, '../../uploads/certificates', certificateID + '.pdf');
@@ -121,7 +122,7 @@ const gradeQuiz = async (caseID, studentAnswers, fullName, studentID) => {
             const uploadCommand = new PutObjectCommand(uploadParams);
             await s3Client.send(uploadCommand);
 
-            const certificateURL = `http://localhost:4599/local-bucket/certificates/${certificateID}.pdf`;
+            certificateURL = `http://localhost:4599/local-bucket/certificates/${certificateID}.pdf`;
             // Save certificate record in DynamoDB
             const certificateRecord = {
                 certificateID,

@@ -1,9 +1,8 @@
 const dbClient = require("../services/dbClient");
 const { v4: uuidv4 } = require("uuid");
 const {
-    GetCommand,
-    PutCommand,
     QueryCommand,
+    ScanCommand
 } = require("@aws-sdk/lib-dynamodb");
 const { PutObjectCommand } = require('@aws-sdk/client-s3');
 const { generateCertificate } = require("../utils/certificate");
@@ -37,5 +36,34 @@ exports.getStudentCertificates = async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: `Could not fetch certificates: ${error.message}` });
+    }
+};
+
+exports.getCertificateByCaseID = async (req, res) => {
+    const caseID = req.params.caseID;
+
+    const params = {
+        TableName: 'Certificates',
+        FilterExpression: 'caseID = :caseID',
+        ExpressionAttributeValues: {
+            ':caseID': caseID,
+        },
+    };
+
+    try {
+        const command = new ScanCommand(params);
+        const result = await dbClient.send(command);
+
+        if (result.Items.length === 0) {
+            return res.status(404).json({ message: 'No certificate found for this case.' });
+        }
+
+        res.status(200).json({
+            message: 'Certificate retrieved successfully.',
+            data: result.Items[0],
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: `Could not fetch certificate: ${error.message}` });
     }
 };

@@ -8,5 +8,10 @@ router.get(
     verifyToken,
     studentController.getStudentCertificates
 );
+router.get(
+    "/certificate/:caseID",
+    verifyToken,
+    studentController.getCertificateByCaseID
+);
 
 module.exports = router;
