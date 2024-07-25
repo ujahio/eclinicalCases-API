@@ -54,6 +54,7 @@ exports.submitCaseAnswers = async (req, res) => {
         res.status(200).json({
             message: 'Answers submitted successfully.',
             passed: result.passed,
+            certificateURL: result.certificateURL
             // correctAnswers: result.correctAnswers,
             // studentAnswers: result.studentAnswers
         });
@@ -140,7 +141,8 @@ const gradeQuiz = async (caseID, studentAnswers, fullName, studentID) => {
         return {
             passed,
             correctAnswers,
-            studentAnswers
+            studentAnswers,
+            certificateURL
         };
     } catch (error) {
         console.error(error);
