@@ -22,7 +22,7 @@ async function ensureBucketExists(bucketName) {
     if (err.name === 'BucketAlreadyOwnedByYou') {
       console.log("Bucket already exists");
     } else {
-      console.log("Error creating bucket:", err);
+      // console.log("Error creating bucket:", err);
     }
   }
 }

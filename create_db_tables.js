@@ -14,6 +14,7 @@ const createTables = async () => {
     TableName: USERS_TABLE_NAME,
     AttributeDefinitions: [
       { AttributeName: "email", AttributeType: "S" },
+      { AttributeName: "id", AttributeType: "S" },
     ],
     KeySchema: [
       { AttributeName: "email", KeyType: "HASH" },
@@ -22,6 +23,17 @@ const createTables = async () => {
       ReadCapacityUnits: 5,
       WriteCapacityUnits: 5,
     },
+    GlobalSecondaryIndexes: [
+      {
+        IndexName: 'IDIndex', // Create a secondary index for id if needed
+        KeySchema: [{ AttributeName: 'id', KeyType: 'HASH' }],
+        Projection: { ProjectionType: 'ALL' },
+        ProvisionedThroughput: {
+          ReadCapacityUnits: 5,
+          WriteCapacityUnits: 5,
+        },
+      },
+    ],
   };
 
   const casesParams = {

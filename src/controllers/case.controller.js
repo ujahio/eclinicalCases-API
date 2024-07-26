@@ -578,17 +578,27 @@ exports.getCaseFeedback = async (req, res) => {
     const studentDetailsPromises = feedbackResult.Items.map(async feedback => {
       const userParams = {
         TableName: 'Users',
-        Key: { id: feedback.studentID },
-      };
-      const userCommand = new GetCommand(userParams);
-      const userResult = await dbClient.send(userCommand);
-      return {
-        student: {
-          firstName: userResult.Item.firstname,
-          lastName: userResult.Item.lastname,
+        IndexName: 'IDIndex',
+        KeyConditionExpression: 'id = :id',
+        ExpressionAttributeValues: {
+          ':id': feedback.studentID,
         },
-        ...feedback,
       };
+
+      const userCommand = new QueryCommand(userParams);
+      const userResult = await dbClient.send(userCommand);
+      if (userResult.Items.length > 0) {
+        const user = userResult.Items[0];
+        return {
+          student: {
+            firstName: user.firstname,
+            lastName: user.lastname,
+          },
+          ...feedback,
+        };
+      } else {
+        throw new Error(`User with id ${feedback.studentID} not found`);
+      }
     });
 
     const detailedFeedbacks = await Promise.all(studentDetailsPromises);
@@ -623,17 +633,27 @@ exports.getCaseAnswers = async (req, res) => {
     const studentDetailsPromises = answersResult.Items.map(async answer => {
       const userParams = {
         TableName: 'Users',
-        Key: { id: answer.studentID },
-      };
-      const userCommand = new GetCommand(userParams);
-      const userResult = await dbClient.send(userCommand);
-      return {
-        student: {
-          firstName: userResult.Item.firstname,
-          lastName: userResult.Item.lastname,
+        IndexName: 'IDIndex',
+        KeyConditionExpression: 'id = :id',
+        ExpressionAttributeValues: {
+          ':id': answer.studentID,
         },
-        ...answer,
       };
+
+      const userCommand = new QueryCommand(userParams);
+      const userResult = await dbClient.send(userCommand);
+      if (userResult.Items.length > 0) {
+        const user = userResult.Items[0];
+        return {
+          student: {
+            firstName: user.firstname,
+            lastName: user.lastname,
+          },
+          ...answer,
+        };
+      } else {
+        throw new Error(`User with id ${feedback.studentID} not found`);
+      }
     });
 
     const detailedAnswers = await Promise.all(studentDetailsPromises);
