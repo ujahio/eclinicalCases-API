@@ -1,3 +1,4 @@
 node_modules
 .serverless
 buckets/local-bucket/**
+.env

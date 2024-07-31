@@ -690,3 +690,92 @@ exports.getCaseAttemptsByStudent = async (req, res) => {
     res.status(500).json({ error: `Could not fetch case attempts: ${error}` });
   }
 };
+
+exports.getCaseData = async (req, res) => {
+  const caseID = req.params.caseID;
+  console.log("Case ID: ", caseID);
+
+  const feedbackParams = {
+    TableName: 'Feedback',
+    IndexName: 'CaseIDIndex',
+    KeyConditionExpression: 'caseID = :caseID',
+    ExpressionAttributeValues: {
+      ':caseID': caseID,
+    },
+  };
+
+  const answersParams = {
+    TableName: 'Answers',
+    IndexName: 'CaseIDIndex',
+    KeyConditionExpression: 'caseID = :caseID',
+    ExpressionAttributeValues: {
+      ':caseID': caseID,
+    },
+  };
+
+  try {
+    const feedbackCommand = new QueryCommand(feedbackParams);
+    const feedbackResult = await dbClient.send(feedbackCommand);
+
+    const answersCommand = new QueryCommand(answersParams);
+    const answersResult = await dbClient.send(answersCommand);
+
+    // Combine feedback and answers by studentID
+    const combinedData = {};
+
+    feedbackResult.Items.forEach(feedback => {
+      if (!combinedData[feedback.studentID]) {
+        combinedData[feedback.studentID] = {
+          student: {},
+          feedback: [],
+          answers: []
+        };
+      }
+      combinedData[feedback.studentID].feedback.push(feedback);
+    });
+
+    answersResult.Items.forEach(answer => {
+      if (!combinedData[answer.studentID]) {
+        combinedData[answer.studentID] = {
+          student: {},
+          feedback: [],
+          answers: []
+        };
+      }
+      combinedData[answer.studentID].answers.push(answer);
+    });
+
+    // Fetch details of each student
+    const studentDetailsPromises = Object.keys(combinedData).map(async studentID => {
+      const userParams = {
+        TableName: 'Users',
+        IndexName: 'IDIndex',
+        KeyConditionExpression: 'id = :id',
+        ExpressionAttributeValues: {
+          ':id': studentID,
+        },
+      };
+
+      const userCommand = new QueryCommand(userParams);
+      const userResult = await dbClient.send(userCommand);
+      if (userResult.Items.length > 0) {
+        const user = userResult.Items[0];
+        combinedData[studentID].student = {
+          firstName: user.firstname,
+          lastName: user.lastname,
+        };
+      } else {
+        throw new Error(`User with id ${studentID} not found`);
+      }
+    });
+
+    await Promise.all(studentDetailsPromises);
+
+    const responseData = Object.values(combinedData);
+
+    res.status(200).json(responseData);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: `Could not fetch data: ${error}` });
+  }
+};

@@ -1,34 +1,70 @@
-const PDFDocument = require('pdfkit');
+const { PDFDocument, rgb, StandardFonts } = require('pdf-lib');
+const { convert } = require('pdf-poppler');
+const fs = require('fs');
 const path = require('path');
 
-exports.generateCertificate = (studentName, caseName) => {
-    return new Promise((resolve, reject) => {
-        const doc = new PDFDocument({ size: 'A4', layout: 'landscape' });
-        const chunks = [];
-        doc.on('data', chunk => chunks.push(chunk));
-        doc.on('end', () => resolve(Buffer.concat(chunks)));
+exports.generateCertificate = async (studentName, caseName) => {
+    // Generate PDF using pdf-lib
+    const pdfDoc = await PDFDocument.create();
+    const page = pdfDoc.addPage([841.89, 595.28]); // A4 landscape
+    const { width, height } = page.getSize();
 
-        // Fonts
-        const fontRegular = path.join(__dirname, '../assets/fonts', 'OpenSans-Regular.ttf');
-        const fontBold = path.join(__dirname, '../assets/fonts', 'OpenSans-Bold.ttf');
-        // Add logo
-        const logoPath = path.join(__dirname, '../assets/images', 'logo.png');
-        const logoWidth = 120;
-        const logoHeight = 30;
+    // Fonts and styles
+    const fontRegular = await pdfDoc.embedFont(StandardFonts.Helvetica);
+    const fontBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+    const logoPath = path.join(__dirname, '../assets/images', 'logo.png');
+    const logo = await pdfDoc.embedPng(fs.readFileSync(logoPath));
+    const logoDims = logo.scale(0.5);
 
-        doc.image(logoPath, (doc.page.width / 2) - (logoWidth / 2), 30, { width: logoWidth, height: logoHeight });
-        doc.moveDown(2).fontSize(25).font(fontRegular).fillColor('#000000').text('Certificate Of Completion', { align: 'center' }).moveDown(2);
-        doc.fillOpacity(0.5);
-        doc.fontSize(16).text('AWARDED TO', { align: 'center' }).moveDown(1);
-        doc.fillOpacity(1);
-        doc.fontSize(30).font(fontBold).text(studentName.toUpperCase(), { align: 'center' }).moveDown(1);
-        doc.fillOpacity(0.5);
-        doc.fontSize(16).font(fontRegular).text('WHO SUCCESSFULLY COMPLETED', { align: 'center' }).moveDown(1);
-        doc.fillOpacity(1);
-        doc.fontSize(25).font(fontBold).text(caseName, { align: 'center' }).moveDown(1);
-        doc.fillOpacity(0.5);
-        doc.fontSize(16).font(fontRegular).text('7 CREDITS', { align: 'center' }).moveDown(1);
-        doc.fontSize(15).text(`Date: ${new Date().toLocaleDateString()}`, { align: 'center' });
-        doc.end();
+    // Center-align image
+    page.drawImage(logo, {
+        x: (width - logoDims.width) / 2,
+        y: height - logoDims.height - 30,
+        width: logoDims.width,
+        height: logoDims.height
     });
+
+    // Center-align text
+    const drawCenteredText = (text, size, font, yOffset, color = rgb(0, 0, 0)) => {
+        const textWidth = font.widthOfTextAtSize(text, size);
+        page.drawText(text, {
+            x: (width - textWidth) / 2,
+            y: yOffset,
+            size,
+            font,
+            color
+        });
+    };
+
+    drawCenteredText('Certificate Of Completion', 25, fontRegular, height - 200);
+    drawCenteredText('AWARDED TO', 16, fontRegular, height - 300);
+    drawCenteredText(studentName.toUpperCase(), 30, fontBold, height - 350);
+    drawCenteredText('WHO SUCCESSFULLY COMPLETED', 16, fontRegular, height - 400);
+    drawCenteredText(caseName, 25, fontBold, height - 450);
+    drawCenteredText(`Date: ${new Date().toLocaleDateString()}`, 15, fontRegular, height - 500);
+
+    const pdfBytes = await pdfDoc.save();
+
+    // Convert PDF to PNG using pdf-poppler
+    const tempPdfPath = path.join(__dirname, '../assets/images/certificate.pdf');
+    const tempPngPath = path.join(__dirname, '../assets/images/certificate.png');
+    fs.writeFileSync(tempPdfPath, pdfBytes);
+
+    const options = {
+        format: 'png',
+        out_dir: path.dirname(tempPngPath),
+        out_prefix: path.basename(tempPngPath, path.extname(tempPngPath)),
+        page: null
+    };
+
+    await convert(tempPdfPath, options);
+
+    const tempPngDeletionPath = path.join(__dirname, '../assets/images/certificate-1.png');
+    const pngBuffer = fs.readFileSync(tempPngDeletionPath);
+
+    // Cleanup temporary files
+    fs.unlinkSync(tempPdfPath);
+    fs.unlinkSync(tempPngDeletionPath);
+
+    return { pdfBuffer: pdfBytes, pngBuffer };
 };

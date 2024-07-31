@@ -54,9 +54,8 @@ exports.submitCaseAnswers = async (req, res) => {
         res.status(200).json({
             message: 'Answers submitted successfully.',
             passed: result.passed,
-            certificateURL: result.certificateURL
-            // correctAnswers: result.correctAnswers,
-            // studentAnswers: result.studentAnswers
+            pdfURL: result.pdfURL,
+            pngURL: result.pngURL,
         });
     } catch (error) {
         console.error(error);
@@ -104,31 +103,44 @@ const gradeQuiz = async (caseID, studentAnswers, fullName, studentID) => {
         const passed = correctAnswers.every((answer, idx) => answer === studentSelectedOptions[idx]);
 
         // Generate certificate
-        let certificateURL = ""
+        let pdfURL = "";
+        let pngURL = "";
         if (passed) {
             const certificateID = uuidv4();
-            // const certificatePath = path.join(__dirname, '../../uploads/certificates', certificateID + '.pdf');
-            // console.log("certificatePath: ", certificatePath);
-            const certificateBuffer = await generateCertificate(fullName, caseTopic);
+            const { pdfBuffer, pngBuffer } = await generateCertificate(fullName, caseTopic);
 
-            // Upload to S3
-            const uploadParams = {
+            const pdfUploadParams = {
                 Bucket: 'local-bucket',
                 Key: `certificates/${certificateID}.pdf`,
-                Body: certificateBuffer,
+                Body: pdfBuffer,
                 ACL: 'public-read',
                 ContentType: 'application/pdf'
             };
-            const uploadCommand = new PutObjectCommand(uploadParams);
-            await s3Client.send(uploadCommand);
+            const pdfUploadCommand = new PutObjectCommand(pdfUploadParams);
+            await s3Client.send(pdfUploadCommand);
 
-            certificateURL = `http://localhost:4599/local-bucket/certificates/${certificateID}.pdf`;
+            pdfURL = `http://localhost:4599/local-bucket/certificates/${certificateID}.pdf`;
+
+            // Upload PNG to S3
+            const pngUploadParams = {
+                Bucket: 'local-bucket',
+                Key: `certificates/${certificateID}.png`,
+                Body: pngBuffer,
+                ACL: 'public-read',
+                ContentType: 'image/png'
+            };
+            const pngUploadCommand = new PutObjectCommand(pngUploadParams);
+            await s3Client.send(pngUploadCommand);
+
+            pngURL = `http://localhost:4599/local-bucket/certificates/${certificateID}.png`;
+
             // Save certificate record in DynamoDB
             const certificateRecord = {
                 certificateID,
                 studentID: studentID,
                 caseID,
-                certificateURL,
+                pdfURL,
+                pngURL,
                 generatedAt: new Date().toISOString(),
             };
 
@@ -143,7 +155,8 @@ const gradeQuiz = async (caseID, studentAnswers, fullName, studentID) => {
             passed,
             correctAnswers,
             studentAnswers,
-            certificateURL
+            pdfURL: pdfURL,
+            pngURL: pngURL
         };
     } catch (error) {
         console.error(error);

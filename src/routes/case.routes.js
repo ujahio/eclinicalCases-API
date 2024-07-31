@@ -46,6 +46,11 @@ router.get(
   caseController.getCaseAnswers
 );
 router.get(
+  "/data/:caseID",
+  verifyToken,
+  caseController.getCaseData
+);
+router.get(
   "/student/attempts/:studentID",
   verifyToken,
   caseController.getCaseAttemptsByStudent
