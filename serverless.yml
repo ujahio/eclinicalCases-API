@@ -1,5 +1,5 @@
 # "org" ensures this Service is used with the correct Serverless Framework Access Key.
-org: numisnest
+org: eccs-labs
 # "app" enables Serverless Framework Dashboard features and sharing them with other Services.
 app: clinical
 # "service" is the name of this project. This will also be added to your AWS resource names.
@@ -45,7 +45,7 @@ custom:
 
 provider:
   name: aws
-  runtime: nodejs20.x
+  runtime: nodejs14.x
   iam:
     role:
       statements:
@@ -85,7 +85,7 @@ resources:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
 
-  LocalBucket:
-    Type: "AWS::S3::Bucket"
-    Properties:
-      BucketName: local-bucket
+    LocalBucket:
+      Type: "AWS::S3::Bucket"
+      Properties:
+        BucketName: local-bucket
