@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "dev": "npm run create-tables && nodemon",
+    "dev": "npm run create-tables && npm run seeder && nodemon",
     "s3": "serverless s3 start",
     "create-tables": "node create_db_tables.js",
     "delete-tables": "node delete_tables.js",
+    "seeder": "node seeder.js",
     "dynamodb": "docker run -p 8000:8000 amazon/dynamodb-local -jar DynamoDBLocal.jar -inMemory -sharedDb"
   },
   "dependencies": {
