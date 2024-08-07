@@ -1,19 +1,62 @@
 const express = require("express");
 const router = express.Router();
-const upload = require("../middlewares/uploadFile");
+const { upload } = require("../middlewares/uploadFile");
 const { verifyToken } = require("../middlewares/auth");
 const caseController = require("../controllers/case.controller");
 
-router.get("/details/:caseId", verifyToken, caseController.getCase);
+router.get("/details/:caseID", verifyToken, caseController.getCase);
 router.get("/all/", verifyToken, caseController.getCases);
-router.post("/add", verifyToken, upload.array("caseMaterials", 10), caseController.addCase);
+router.get("/ongoing-case/", verifyToken, caseController.getOngoingCase);
 router.post(
-  "/update/:caseId",
+  "/add",
+  verifyToken,
+  upload.array("caseMaterials", 10),
+  caseController.addCase
+);
+router.post(
+  "/update/:caseID",
   verifyToken,
   upload.array("caseMaterials", 10),
   caseController.updateCase
 );
-router.delete("/delete-case/:caseId", verifyToken, caseController.deleteCase);
+router.post(
+  "/duplicate",
+  verifyToken,
+  upload.array("caseMaterials", 10),
+  caseController.duplicateCase
+);
+router.post(
+  "/publish/",
+  verifyToken,
+  caseController.publishCase
+);
+router.post(
+  "/add/feedback/",
+  verifyToken,
+  caseController.addFeedback
+);
+router.get(
+  "/feedbacks/:caseID",
+  verifyToken,
+  caseController.getCaseFeedback
+);
+router.get(
+  "/responses/:caseID",
+  verifyToken,
+  caseController.getCaseAnswers
+);
+router.get(
+  "/data/:caseID",
+  verifyToken,
+  caseController.getCaseData
+);
+router.get(
+  "/student/attempts/:studentID",
+  verifyToken,
+  caseController.getCaseAttemptsByStudent
+);
+
+router.delete("/delete-case/:caseID", verifyToken, caseController.deleteCase);
 router.delete("/delete/all/", caseController.deleteAllCases);
 
 module.exports = router;

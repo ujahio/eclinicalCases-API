@@ -1,5 +1,5 @@
 # "org" ensures this Service is used with the correct Serverless Framework Access Key.
-org: otukpatechnologies1
+org: eccs-labs
 # "app" enables Serverless Framework Dashboard features and sharing them with other Services.
 app: clinical
 # "service" is the name of this project. This will also be added to your AWS resource names.
@@ -7,6 +7,7 @@ service: clinical-backend
 
 plugins:
   - serverless-dynamodb-local
+  - serverless-s3-local
   - serverless-offline
 
 custom:
@@ -29,6 +30,14 @@ custom:
         sources:
           - table: usersTable
 
+  s3:
+    bucket: my-bucket
+    region: us-east-1
+    host: localhost
+    port: 4599
+    accessKey: "ACCESS_KEY"
+    secretKey: "SECRET_KEY"
+
 # stages:
 #   default:
 #     params:
@@ -36,7 +45,7 @@ custom:
 
 provider:
   name: aws
-  runtime: nodejs20.x
+  runtime: nodejs14.x
   iam:
     role:
       statements:
@@ -75,3 +84,8 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
+
+    LocalBucket:
+      Type: "AWS::S3::Bucket"
+      Properties:
+        BucketName: local-bucket

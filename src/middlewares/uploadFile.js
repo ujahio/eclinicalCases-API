@@ -1,18 +1,43 @@
 const multer = require("multer");
-const path = require("path");
+const { S3Client, CreateBucketCommand } = require('@aws-sdk/client-s3');
+const multerS3 = require('multer-s3');
 
-const storage = multer.diskStorage({
-  destination: "./uploads/",
-  filename: (req, file, cb) => {
-    const fileName = path.parse(file.originalname).name;
-    const fileExtension = path.parse(file.originalname).ext;
-    cb(null, `${fileName}${fileExtension}`);
+const bucketName = 'local-bucket';
+const s3Client = new S3Client({
+  endpoint: 'http://localhost:4599',
+  forcePathStyle: true,
+  credentials: {
+    accessKeyId: 'S3RVER',
+    secretAccessKey: 'S3RVER'
   },
 });
 
+// Ensure the bucket exists before using it
+async function ensureBucketExists(bucketName) {
+  try {
+    const command = new CreateBucketCommand({ Bucket: bucketName });
+    await s3Client.send(command);
+    console.log("Bucket created successfully");
+  } catch (err) {
+    if (err.name === 'BucketAlreadyOwnedByYou') {
+      console.log("Bucket already exists");
+    } else {
+      // console.log("Error creating bucket:", err);
+    }
+  }
+}
+
+ensureBucketExists(bucketName);
+
 const upload = multer({
-  storage: storage,
-  limits: { fileSize: 1000000 },
+  storage: multerS3({
+    s3: s3Client,
+    bucket: bucketName,
+    acl: 'public-read',
+    key: function (req, file, cb) {
+      cb(null, file.originalname);
+    },
+  }),
 });
 
-module.exports = upload;
+module.exports = { upload, s3Client };

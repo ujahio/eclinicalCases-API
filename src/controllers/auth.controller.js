@@ -2,7 +2,9 @@ const jwt = require('jsonwebtoken');
 const dbClient = require('../services/dbClient');
 const bcrypt = require('bcryptjs');
 const { v4: uuidv4 } = require('uuid');
-const { PutCommand, ScanCommand } = require("@aws-sdk/lib-dynamodb");
+const crypto = require('crypto');
+const { PutCommand, ScanCommand } = require("@aws-sdk/lib-dynamodb"); 7
+const { updateUserPassword, generateOtp, storeOtpInDb, getOtpFromDb, encryptPassword, decryptPassword } = require('../utils/api_utils');
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
@@ -20,7 +22,8 @@ exports.signup = async (req, res) => {
         return res.status(400).json({ error: '"password" must be a string' });
     }
 
-    const hashedPassword = bcrypt.hashSync(password, 4);
+    let originalPassword = decryptPassword(password, process.env.secretKey);
+    const hashedPassword = bcrypt.hashSync(originalPassword, 10);
     const userId = uuidv4();
     const created_on = new Date(Date.now()).toISOString();
 
@@ -73,6 +76,8 @@ exports.signin = async (req, res) => {
     }
 
     try {
+        let originalPassword = decryptPassword(password, process.env.secretKey);
+
         const params = {
             TableName: "Users",
             FilterExpression: "email = :email",
@@ -91,13 +96,11 @@ exports.signin = async (req, res) => {
         }
 
         const hashedPassword = user.password;
-        const isValid = bcrypt.compareSync(password, hashedPassword);
+        const isValid = bcrypt.compareSync(originalPassword, hashedPassword);
 
         if (!isValid) {
             return res.status(401).json({ error: "Invalid email or password" });
         }
-
-        console.log("process.env.JWT_SECRET: ", process.env.JWT_SECRET)
         const token = jwt.sign(user, process.env.JWT_SECRET, {
             expiresIn: '1h',
         });
@@ -117,8 +120,40 @@ exports.signin = async (req, res) => {
     }
 };
 
-exports.resetpassword = (req, res) => {
-    res.send('Hello resetpassword');
+exports.sendOTP = async (req, res) => {
+    try {
+        const { email } = req.body;
+        const otp = generateOtp();
+        console.log("\n Your OTP is: ", otp + "\n");
+        await storeOtpInDb(email, otp);
+        res.status(200).json({
+            message: "OTP sent to your email. Please verify and reset password.",
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Could not send OTP: " + error });
+    }
+};
+
+exports.verifyOtpAndResetPassword = async (req, res) => {
+    const { email, otp, newPassword } = req.body;
+
+    try {
+        let originalPassword = decryptPassword(newPassword, process.env.secretKey);
+        const storedOtp = await getOtpFromDb(email);
+        const hashedPassword = bcrypt.hashSync(originalPassword, 4);
+
+        if (otp !== storedOtp) {
+            return res.status(401).json({ error: "Invalid OTP" });
+        }
+        await updateUserPassword(email, hashedPassword);
+        res.status(200).json({
+            message: "Password reset successfully!",
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Could not reset password: " + error });
+    }
 };
 
 exports.getUsers = async (req, res) => {
@@ -139,5 +174,23 @@ exports.getUsers = async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Could not retrieve users: " + error });
+    }
+};
+
+exports.updatePassword = async (req, res) => {
+    try {
+        const email = req.validatedUser.email;
+        const { newPassword } = req.body;
+        let originalPassword = decryptPassword(newPassword, process.env.secretKey);
+        const hashedPassword = bcrypt.hashSync(originalPassword, 4);
+
+        const updatedUser = await updateUserPassword(email, hashedPassword);
+        res.status(200).json({
+            message: "Password updated successfully!",
+            data: updatedUser,
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Could not update password: " + error });
     }
 };

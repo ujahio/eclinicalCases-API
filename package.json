@@ -1,29 +1,46 @@
 {
-	"name": "clinical-backend",
-	"version": "1.0.0",
-	"description": "",
-	"scripts": {
-		"dev": "npm run create-tables && nodemon",
-		"create-tables": "node create_db_tables.js",
-		"dynamodb": "docker run -p 8000:8000 amazon/dynamodb-local -jar DynamoDBLocal.jar -inMemory -sharedDb"
-	},
-	"dependencies": {
-		"@aws-sdk/client-dynamodb": "^3.585.0",
-		"@aws-sdk/lib-dynamodb": "^3.585.0",
-		"aws-sdk": "^2.1632.0",
-		"bcryptjs": "^2.4.3",
-		"cors": "^2.8.5",
-		"express": "^4.19.2",
-		"jsonwebtoken": "^9.0.2",
-		"multer": "^1.4.5-lts.1",
-		"serverless": "3.2.0"
-	},
-	"devDependencies": {
-		"dotenv": "^16.4.5",
-		"dynamodb-localhost": "^0.0.9",
-		"nodemon": "^3.1.4",
-		"serverless-dynamodb-local": "^0.2.40",
-		"serverless-http": "^3.2.0",
-		"serverless-offline": "^13.6.0"
-	}
+  "name": "clinical-backend",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "dev": "npm run create-tables && npm run seeder && nodemon",
+    "s3": "serverless s3 start",
+    "create-tables": "node create_db_tables.js",
+    "delete-tables": "node delete_tables.js",
+    "seeder": "node seeder.js",
+    "dynamodb": "docker run -p 8000:8000 amazon/dynamodb-local -jar DynamoDBLocal.jar -inMemory -sharedDb"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.585.0",
+    "@aws-sdk/client-s3": "^3.616.0",
+    "@aws-sdk/lib-dynamodb": "^3.585.0",
+    "@aws-sdk/lib-storage": "^3.616.0",
+    "@aws-sdk/s3-request-presigner": "^3.616.0",
+    "aws-sdk": "^2.1632.0",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
+    "multer-s3": "^3.0.1",
+    "pdf-lib": "^1.17.1",
+    "pdf-poppler": "^0.2.1",
+    "pdf2png-mp": "^0.5.4",
+    "pdfkit": "^0.15.0",
+    "serverless": "3.2.0"
+  },
+  "devDependencies": {
+    "dotenv": "^16.4.5",
+    "dynamodb-localhost": "^0.0.9",
+    "nodemon": "^3.1.4",
+    "serverless-dynamodb-local": "^0.2.40",
+    "serverless-http": "^3.2.0",
+    "serverless-offline": "^13.6.0",
+    "serverless-s3-local": "^0.8.4"
+  },
+  "overrides": {
+    "serverless-s3-local": {
+      "serverless": "$serverless"
+    }
+  }
 }
