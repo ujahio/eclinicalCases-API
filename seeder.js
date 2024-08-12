@@ -1,11 +1,13 @@
-const { DynamoDB } = require("@aws-sdk/client-dynamodb");
-const { v4: uuidv4 } = require("uuid");
-const bcrypt = require('bcryptjs');
-const { PutCommand } = require("@aws-sdk/lib-dynamodb");
-require('dotenv').config();
-const { decryptPassword } = require('./src/utils/api_utils');
+import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import { v4 as uuidv4 } from "uuid";
+import bcrypt from 'bcryptjs';
+import { PutCommand } from "@aws-sdk/lib-dynamodb";
+import dotenv from 'dotenv';
+import { decryptPassword } from './src/utils/api_utils.js';
 
-const ddb = new DynamoDB({ endpoint: "http://localhost:8000" });
+dotenv.config();
+
+const ddb = new DynamoDBClient({ endpoint: "http://localhost:8000" });
 const USERS_TABLE_NAME = "Users";
 
 const encryptedPassword = "e94acd557217fc4d25d96c85bf80e25e:5632ea438f704cf549dfce93e2bcea47"

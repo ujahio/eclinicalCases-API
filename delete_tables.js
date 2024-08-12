@@ -1,4 +1,5 @@
-const { DynamoDB } = require("@aws-sdk/client-dynamodb");
+import { DynamoDB } from "@aws-sdk/client-dynamodb";
+
 const ddb = new DynamoDB({ endpoint: "http://localhost:8000" });
 
 const deleteTables = async () => {

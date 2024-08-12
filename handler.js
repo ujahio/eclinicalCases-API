@@ -1,13 +1,13 @@
-require('dotenv').config()
-const express = require("express");
-const serverless = require("serverless-http");
-const cors = require('cors');
-const path = require("path")
+import 'dotenv/config';
+import express from "express";
+import serverless from "serverless-http";
+import cors from 'cors';
+import path from "path";
 
-const authRoutes = require('./src/routes/auth.routes');
-const caseRoutes = require('./src/routes/case.routes');
-const quizRoutes = require('./src/routes/quiz.routes');
-const studentRoutes = require('./src/routes/student.routes');
+import authRoutes from './src/routes/auth.routes.js';
+import caseRoutes from './src/routes/case.routes.js';
+import quizRoutes from './src/routes/quiz.routes.js';
+import studentRoutes from './src/routes/student.routes.js';
 
 const app = express();
 
@@ -24,7 +24,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/case', caseRoutes);
 app.use('/api/quiz', quizRoutes);
 app.use('/api/student', studentRoutes);
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+// app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use((req, res, next) => {
   return res.status(404).json({
@@ -32,4 +32,4 @@ app.use((req, res, next) => {
   });
 });
 
-exports.handler = serverless(app);
+export const handler = serverless(app);

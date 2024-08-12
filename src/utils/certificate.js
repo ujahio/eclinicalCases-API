@@ -1,9 +1,9 @@
-const { PDFDocument, rgb, StandardFonts } = require('pdf-lib');
-const { convert } = require('pdf-poppler');
-const fs = require('fs');
-const path = require('path');
+import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
+import { convert } from 'pdf-poppler';
+import fs from 'fs';
+import path from 'path';
 
-exports.generateCertificate = async (studentName, caseName) => {
+export const generateCertificate = async (studentName, caseName) => {
     // Generate PDF using pdf-lib
     const pdfDoc = await PDFDocument.create();
     const page = pdfDoc.addPage([841.89, 595.28]); // A4 landscape

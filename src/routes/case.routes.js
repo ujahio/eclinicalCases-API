@@ -1,62 +1,38 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
-const { upload } = require("../middlewares/uploadFile");
-const { verifyToken } = require("../middlewares/auth");
-const caseController = require("../controllers/case.controller");
+import { upload } from "../middlewares/uploadFile.js";
+import { verifyToken } from "../middlewares/auth.js";
+import {
+  addCase,
+  updateCase,
+  getCases,
+  getCase,
+  getOngoingCase,
+  deleteCase,
+  deleteAllCases,
+  duplicateCase,
+  publishCase,
+  addFeedback,
+  getCaseFeedback,
+  getCaseAnswers,
+  getCaseAttemptsByStudent,
+  getCaseData,
+} from "../controllers/case.controller.js";
 
-router.get("/details/:caseID", verifyToken, caseController.getCase);
-router.get("/all/", verifyToken, caseController.getCases);
-router.get("/ongoing-case/", verifyToken, caseController.getOngoingCase);
-router.post(
-  "/add",
-  verifyToken,
-  upload.array("caseMaterials", 10),
-  caseController.addCase
-);
-router.post(
-  "/update/:caseID",
-  verifyToken,
-  upload.array("caseMaterials", 10),
-  caseController.updateCase
-);
-router.post(
-  "/duplicate",
-  verifyToken,
-  upload.array("caseMaterials", 10),
-  caseController.duplicateCase
-);
-router.post(
-  "/publish/",
-  verifyToken,
-  caseController.publishCase
-);
-router.post(
-  "/add/feedback/",
-  verifyToken,
-  caseController.addFeedback
-);
-router.get(
-  "/feedbacks/:caseID",
-  verifyToken,
-  caseController.getCaseFeedback
-);
-router.get(
-  "/responses/:caseID",
-  verifyToken,
-  caseController.getCaseAnswers
-);
-router.get(
-  "/data/:caseID",
-  verifyToken,
-  caseController.getCaseData
-);
-router.get(
-  "/student/attempts/:studentID",
-  verifyToken,
-  caseController.getCaseAttemptsByStudent
-);
+router.get("/details/:caseID", verifyToken, getCase);
+router.get("/all/", verifyToken, getCases);
+router.get("/ongoing-case/", verifyToken, getOngoingCase);
+router.post("/add", verifyToken, upload.array("caseMaterials", 10), addCase);
+router.post("/update/:caseID", verifyToken, upload.array("caseMaterials", 10), updateCase);
+router.post("/duplicate", verifyToken, upload.array("caseMaterials", 10), duplicateCase);
+router.post("/publish/", verifyToken, publishCase);
+router.post("/add/feedback/", verifyToken, addFeedback);
+router.get("/feedbacks/:caseID", verifyToken, getCaseFeedback);
+router.get("/responses/:caseID", verifyToken, getCaseAnswers);
+router.get("/data/:caseID", verifyToken, getCaseData);
+router.get("/student/attempts/:studentID", verifyToken, getCaseAttemptsByStudent);
 
-router.delete("/delete-case/:caseID", verifyToken, caseController.deleteCase);
-router.delete("/delete/all/", caseController.deleteAllCases);
+router.delete("/delete-case/:caseID", verifyToken, deleteCase);
+router.delete("/delete/all/", deleteAllCases);
 
-module.exports = router;
+export default router;

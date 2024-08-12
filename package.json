@@ -2,8 +2,9 @@
   "name": "clinical-backend",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "scripts": {
-    "dev": "npm run create-tables && npm run seeder && nodemon",
+    "dev": "npm run create-tables && nodemon",
     "frontend": "cd frontend && npm run dev",
     "s3": "serverless s3 start",
     "create-tables": "node create_db_tables.js",
@@ -17,7 +18,6 @@
     "@aws-sdk/lib-dynamodb": "^3.624.0",
     "@aws-sdk/lib-storage": "^3.627.0",
     "@aws-sdk/s3-request-presigner": "^3.627.0",
-    "aws-sdk": "^2.1632.0",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "express": "^4.19.2",

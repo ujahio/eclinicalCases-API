@@ -1,14 +1,21 @@
-const express = require('express');
+import express from "express";
 const router = express.Router();
-const verifySignUp = require('../middlewares/verifySignUp');
-const { verifyToken } = require("../middlewares/auth");
-const authController = require('../controllers/auth.controller');
+import { checkDuplicateUsernameOrEmail } from "../middlewares/verifySignUp.js";
+import { verifyToken } from "../middlewares/auth.js";
+import {
+  signup,
+  signin,
+  sendOTP,
+  verifyOtpAndResetPassword,
+  getUsers,
+  updatePassword,
+} from "../controllers/auth.controller.js";
 
-router.post('/signup', [verifySignUp.checkDuplicateUsernameOrEmail], authController.signup);
-router.post('/signin', authController.signin);
-router.get('/users', authController.getUsers);
-router.post('/send-otp', authController.sendOTP);
-router.post('/reset-password', authController.verifyOtpAndResetPassword);
-router.post('/update-password', verifyToken, authController.updatePassword);
+router.post("/signup", [checkDuplicateUsernameOrEmail], signup);
+router.post("/signin", signin);
+router.get("/users", getUsers);
+router.post("/send-otp", sendOTP);
+router.post("/reset-password", verifyOtpAndResetPassword);
+router.post("/update-password", verifyToken, updatePassword);
 
-module.exports = router;
+export default router;
