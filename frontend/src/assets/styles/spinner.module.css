@@ -1,0 +1,13 @@
+.spinnerGrow {
+  animation: 0.75s linear infinite spinnerGrow;
+}
+
+@keyframes spinnerGrow {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    opacity: 1;
+    transform: none;
+  }
+}

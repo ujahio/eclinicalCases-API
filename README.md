@@ -19,7 +19,9 @@ This template configures a single function, `api`, which is responsible for hand
 
 ## Usage
 
-### Development
+<br><br>
+
+### Development Backend
 
 Install Serverless:
 
@@ -50,6 +52,26 @@ Run server:
 ```
 npm run dev
 ```
+
+<br><br>
+
+### Development Frontend
+
+Install Node modules:
+
+`cd frontend` and then
+
+```
+npm install
+```
+
+Run frontend:
+
+```
+npm run frontend
+```
+
+<br><br>
 
 ### Deployment (Prod)
 
