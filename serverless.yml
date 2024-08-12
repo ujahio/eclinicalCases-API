@@ -45,7 +45,7 @@ custom:
 
 provider:
   name: aws
-  runtime: nodejs14.x
+  runtime: nodejs20.x
   iam:
     role:
       statements:
