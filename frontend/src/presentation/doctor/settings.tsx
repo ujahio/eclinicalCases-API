@@ -5,9 +5,7 @@ import Tabs from "@/components/ui/Tabs";
 import useProcessTabs from "@/services/hooks/useProcessTabs";
 import Image from "next/image";
 import React from "react";
-import UserImage from "@/assets/images/admin.png"
-
-
+import UserImage from "@/assets/images/admin.png";
 
 const tabs = ["Personal Details", "Password"];
 

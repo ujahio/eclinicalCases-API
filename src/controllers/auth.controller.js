@@ -11,6 +11,7 @@ import {
   getOtpFromDb,
   encryptPassword,
   decryptPassword,
+  getUserByEmail,
 } from "../utils/api_utils.js";
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -186,9 +187,19 @@ const getUsers = async (req, res) => {
 const updatePassword = async (req, res) => {
   try {
     const email = req.validatedUser.email;
-    const { newPassword } = req.body;
-    let originalPassword = decryptPassword(newPassword, process.env.secretKey);
-    const hashedPassword = bcrypt.hashSync(originalPassword, 4);
+    const { currentPassword, newPassword } = req.body;
+
+    let originalCurrentPassword = decryptPassword(currentPassword, process.env.secretKey);
+
+    const user = await getUserByEmail(email);
+    const isPasswordCorrect = bcrypt.compareSync(originalCurrentPassword, user.password);
+    if (!isPasswordCorrect) {
+      return res.status(401).json({ error: "Current password is incorrect" });
+    }
+
+    // Hash and update new password
+    let originalNewPassword = decryptPassword(newPassword, process.env.secretKey);
+    const hashedPassword = bcrypt.hashSync(originalNewPassword, 4);
 
     const updatedUser = await updateUserPassword(email, hashedPassword);
     res.status(200).json({

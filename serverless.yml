@@ -68,6 +68,42 @@ functions:
     events:
       - httpApi: "*"
     timeout: 300
+  auth:
+    handler: handler.handler
+    events:
+      - http: "POST /api/auth/signin"
+      - http: "POST /api/auth/signup"
+      - http: "POST /api/auth/send-otp"
+      - http: "POST /api/auth/reset-password"
+      - http: "POST /api/auth/update-password"
+      - http: "GET /api/auth/users"
+  cases:
+    handler: handler.handler
+    events:
+      - http: "GET /api/case/details/{proxy+}"
+      - http: "GET /api/case/all/"
+      - http: "GET /api/case/ongoing-case/"
+      - http: "POST /api/case/add"
+      - http: "POST /api/case/update/{proxy+}"
+      - http: "POST /api/case/duplicate"
+      - http: "POST /api/case/publish/"
+      - http: "POST /api/case/add/feedback/"
+      - http: "GET /api/case/feedbacks/{proxy+}"
+      - http: "GET /api/case/responses/{proxy+}"
+      - http: "GET /api/case/data/{proxy+}"
+      - http: "GET /api/case/student/attempts/{proxy+}"
+      - http: "DELETE /api/case/delete-case/{proxy+}"
+      - http: "DELETE /api/case/delete/all/"
+  quiz:
+    handler: handler.handler
+    events:
+      - http: "POST /api/quiz/submit"
+      - http: "GET /api/quiz/answers/{proxy+}"
+  student:
+    handler: handler.handler
+    events:
+      - http: "GET /api/student/certificates"
+      - http: "GET /api/student/certificate/{proxy+}"
 
 resources:
   Resources:

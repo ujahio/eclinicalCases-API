@@ -14,3 +14,11 @@ export const studentApi = axios.create({
 authApi.interceptors.response.use(null, handleApiError);
 caseApi.interceptors.response.use(null, handleApiError);
 studentApi.interceptors.response.use(null, handleApiError);
+
+export const config = (token: string) => {
+  return {
+    headers: {
+      Authorization: `Bearer ` + token,
+    },
+  };
+};

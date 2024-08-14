@@ -3,19 +3,27 @@ import Button from "@/components/ui/Button";
 import React, { Fragment, FunctionComponent, useEffect, useState } from "react";
 import { EditorState, convertFromRaw, convertToRaw } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
+import { useAppSelector } from "@/services/hooks/hooks";
 
 interface DoctorCaseAnswerProps {
   goNext: () => void;
   caseStudy: any;
   setCaseStudy: any;
+  handleAddCase: any;
 }
 
-const DoctorCaseAnswer: FunctionComponent<DoctorCaseAnswerProps> = ({ goNext, caseStudy, setCaseStudy }) => {
+const DoctorCaseAnswer: FunctionComponent<DoctorCaseAnswerProps> = ({
+  goNext,
+  caseStudy,
+  setCaseStudy,
+  handleAddCase,
+}) => {
   const [editorState, setEditorState] = useState(() =>
     caseStudy.caseExplanation
       ? EditorState.createWithContent(convertFromRaw(JSON.parse(caseStudy.caseExplanation)))
       : EditorState.createEmpty()
   );
+  const addCaseState = useAppSelector((state) => state.addCase.status);
 
   useEffect(() => {
     // Update caseStudy state whenever editorState changes
@@ -55,6 +63,9 @@ const DoctorCaseAnswer: FunctionComponent<DoctorCaseAnswerProps> = ({ goNext, ca
           />
         </div>
       </div>
+      <Button btnStyle="outline" size="lg" centralize onClick={() => handleAddCase(true)} className="w-full mb-3">
+        {caseStudy.draft && addCaseState === "loading" ? "Loading..." : "Save As a Draft..."}
+      </Button>
       <div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
         <Button btnStyle="outline" size="lg" centralize>
           GO BACK TO CASE MODEL SETUP

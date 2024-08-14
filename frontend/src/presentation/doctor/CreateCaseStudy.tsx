@@ -46,19 +46,39 @@ const CreateCaseStudy: React.FC<{
     >
       <div className="mx-auto w-full max-w-3xl bg-white py-10 px-6 sm:p-8.75 md:p-10 border border-grey-border rounded-sm">
         {isActive("case_model_question_setup") && (
-          <DoctorCaseQuestion goNext={goNext} caseStudy={caseStudy} setCaseStudy={setCaseStudy} />
+          <DoctorCaseQuestion
+            goNext={goNext}
+            caseStudy={caseStudy}
+            setCaseStudy={setCaseStudy}
+            handleAddCase={handleAddCase}
+          />
         )}
 
         {isActive("case_model_answers_setup") && (
-          <DoctorCaseAnswer goNext={goNext} caseStudy={caseStudy} setCaseStudy={setCaseStudy} />
+          <DoctorCaseAnswer
+            goNext={goNext}
+            caseStudy={caseStudy}
+            setCaseStudy={setCaseStudy}
+            handleAddCase={handleAddCase}
+          />
         )}
 
         {isActive("materials_and_deadline") && (
-          <DoctorMaterialsAndDeadline goNext={goNext} caseStudy={caseStudy} setCaseStudy={setCaseStudy} />
+          <DoctorMaterialsAndDeadline
+            goNext={goNext}
+            caseStudy={caseStudy}
+            setCaseStudy={setCaseStudy}
+            handleAddCase={handleAddCase}
+          />
         )}
 
         {isActive("cme_questions") && (
-          <DoctorCMEQuestions goNext={goNext} caseStudy={caseStudy} setCaseStudy={setCaseStudy} />
+          <DoctorCMEQuestions
+            goNext={goNext}
+            caseStudy={caseStudy}
+            setCaseStudy={setCaseStudy}
+            handleAddCase={handleAddCase}
+          />
         )}
         {isActive("final_review") && (
           <FinalReview goNext={goNext} caseStudy={caseStudy} handleAddCase={handleAddCase} />

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import AdminAccountSettings from "@/presentation/doctor/settings";
 import React from "react";

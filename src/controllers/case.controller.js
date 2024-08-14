@@ -16,11 +16,27 @@ const addCase = async (req, res) => {
   const userID = req.validatedUser.id;
   const caseData = req.body;
   const draft = caseData.draft === "true";
-  const caseDeadline = new Date(caseData.caseDeadline).toISOString();
+  // const caseDeadline = new Date(caseData.caseDeadline).toISOString();
   const caseMaterials = req.files.map((file) => ({
     filename: file.originalname,
     filePath: file.location,
   }));
+
+  const caseItem = {
+    id: uuidv4(),
+    createdBy: userID,
+    createdAt: Date.now(),
+    caseStatus: draft ? "draft" : "active",
+    caseMaterials,
+  };
+
+  if (caseData.caseClue) caseItem.caseClue = caseData.caseClue;
+  if (caseData.caseDescription) caseItem.caseDescription = caseData.caseDescription;
+  if (caseData.caseTopic) caseItem.caseTopic = caseData.caseTopic;
+  if (caseData.caseExplanation) caseItem.caseExplanation = caseData.caseExplanation;
+  if (caseData.caseDeadline) caseItem.caseDeadline = new Date(caseData.caseDeadline).toISOString();
+  if (caseData.caseQuestions) caseItem.caseQuestions = JSON.parse(caseData.caseQuestions);
+
 
   if (!draft) {
     const activeCaseParams = {
@@ -45,19 +61,7 @@ const addCase = async (req, res) => {
 
   const params = {
     TableName: "Cases",
-    Item: {
-      id: uuidv4(),
-      caseClue: caseData.caseClue,
-      caseDescription: caseData.caseDescription,
-      caseTopic: caseData.caseTopic,
-      caseExplanation: caseData.caseExplanation,
-      caseDeadline: caseDeadline,
-      createdBy: userID,
-      createdAt: Date.now(),
-      caseQuestions: JSON.parse(caseData.caseQuestions),
-      caseStatus: draft ? "draft" : "active",
-      caseMaterials,
-    },
+    Item: caseItem,
   };
 
   try {

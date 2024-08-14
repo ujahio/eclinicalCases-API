@@ -12,6 +12,7 @@ import resetPasswordSlice from "../slices/auth/resetPasswordSlice";
 import onGoingCaseSlice from "../slices/case/onGoingCaseSlice";
 import deleteCaseSlice from "../slices/case/deleteCaseSlice";
 import getCaseDataSlice from "../slices/case/getCaseDataSlice";
+import changePasswordSlice from "../slices/auth/changePasswordSlice";
 
 const rootReducer = combineReducers({
   // Accounts
@@ -19,14 +20,15 @@ const rootReducer = combineReducers({
   signup: signupSlice,
   sendOtp: sendOtpSlice,
   resetPassword: resetPasswordSlice,
+  changePassword: changePasswordSlice,
   // case
   addCase: addCaseSlice,
   updateCase: updateCaseSlice,
   getAllCases: getAllCasesSlice,
   caseDetails: caseDetailsSlice,
   onGoingCase: onGoingCaseSlice,
-  deleteCase:deleteCaseSlice,
-  getCaseData:getCaseDataSlice,
+  deleteCase: deleteCaseSlice,
+  getCaseData: getCaseDataSlice,
   // student
   submitCaseResponse: SubmitCaseResponseSlice,
   addFeedback: addFeedbackSlice,

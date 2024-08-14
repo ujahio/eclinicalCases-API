@@ -1,12 +1,4 @@
-import { studentApi } from "../config/axiosConfig";
-
-const config = (token: any) => {
-  return {
-    headers: {
-      Authorization: `Bearer ` + token,
-    },
-  };
-};
+import { config, studentApi } from "../config/axiosConfig";
 
 export const submitCaseResponseApi = (responsePayload: any, token: string) => {
   // const formData = new FormData();

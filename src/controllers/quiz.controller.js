@@ -29,7 +29,7 @@ const submitCaseAnswers = async (req, res) => {
     await dbClient.send(command);
 
     // Call grading function and get the result
-    const result = await gradeQuiz(caseID, answers, fullName, studentID);
+    const result = await gradeQuiz(res, caseID, answers, fullName, studentID);
 
     // Save the attempt result to the StudentCaseAttempts table
     const attemptParams = {
@@ -80,7 +80,7 @@ const getStudentsAnswers = async (req, res) => {
   }
 };
 
-const gradeQuiz = async (caseID, studentAnswers, fullName, studentID) => {
+const gradeQuiz = async (res, caseID, studentAnswers, fullName, studentID) => {
   const caseParams = {
     TableName: "Cases",
     Key: { id: caseID },
@@ -89,7 +89,10 @@ const gradeQuiz = async (caseID, studentAnswers, fullName, studentID) => {
   try {
     const caseCommand = new GetCommand(caseParams);
     const caseResult = await dbClient.send(caseCommand);
-    const caseQuestions = caseResult.Item.caseQuestions;
+    const caseQuestions = caseResult?.Item?.caseQuestions;
+    if (!caseQuestions) {
+      return res.status(400).json({ error: `caseQuestions are not found` });
+    }
     const caseTopic = caseResult.Item.caseTopic;
 
     const correctAnswers = caseQuestions.map((question) => question.correctAnswer);

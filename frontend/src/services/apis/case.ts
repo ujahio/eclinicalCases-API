@@ -1,12 +1,6 @@
-import { caseApi } from "../config/axiosConfig";
+import { caseApi, config } from "../config/axiosConfig";
 
-const config = (token: any) => {
-  return {
-    headers: {
-      Authorization: `Bearer ` + token,
-    },
-  };
-};
+
 const convertToFormData = (caseStudy: any) => {
   const formData = new FormData();
 

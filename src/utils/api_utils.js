@@ -1,4 +1,4 @@
-import { UpdateCommand, GetCommand } from "@aws-sdk/lib-dynamodb";
+import { UpdateCommand, GetCommand, ScanCommand } from "@aws-sdk/lib-dynamodb";
 import dbClient from "../services/dbClient.js";
 import crypto from "crypto";
 
@@ -52,6 +52,25 @@ async function updateUserPassword(email, newPassword) {
   return result.Attributes;
 }
 
+async function getUserByEmail(email) {
+  try {
+    const params = {
+      TableName: "Users",
+      FilterExpression: "email = :email",
+      ExpressionAttributeValues: {
+        ":email": email,
+      },
+    };
+
+    const command = new ScanCommand(params);
+    const result = await dbClient.send(command);
+    return result.Items[0];
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
 function encryptPassword(password, secretKey) {
   const iv = crypto.randomBytes(16);
   const cipher = crypto.createCipheriv("aes-256-cbc", Buffer.from(secretKey, "hex"), iv);
@@ -70,4 +89,4 @@ function decryptPassword(encryptedPassword, secretKey) {
   return decrypted;
 }
 
-export { updateUserPassword, generateOtp, storeOtpInDb, getOtpFromDb, encryptPassword, decryptPassword };
+export { updateUserPassword, generateOtp, storeOtpInDb, getOtpFromDb, encryptPassword, decryptPassword, getUserByEmail };
