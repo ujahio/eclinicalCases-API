@@ -1,17 +1,9 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
-const { verifyToken } = require("../middlewares/auth");
-const studentController = require("../controllers/student.controller");
+import { verifyToken } from "../middlewares/auth.js";
+import { getStudentCertificates, getCertificateByCaseID } from "../controllers/student.controller.js";
 
-router.get(
-    "/certificates",
-    verifyToken,
-    studentController.getStudentCertificates
-);
-router.get(
-    "/certificate/:caseID",
-    verifyToken,
-    studentController.getCertificateByCaseID
-);
+router.get("/certificates", verifyToken, getStudentCertificates);
+router.get("/certificate/:caseID", verifyToken, getCertificateByCaseID);
 
-module.exports = router;
+export default router;

@@ -1,14 +1,14 @@
-const multer = require("multer");
-const { S3Client, CreateBucketCommand } = require('@aws-sdk/client-s3');
-const multerS3 = require('multer-s3');
+import multer from "multer";
+import { S3Client, CreateBucketCommand } from "@aws-sdk/client-s3";
+import multerS3 from "multer-s3";
 
-const bucketName = 'local-bucket';
+const bucketName = "local-bucket";
 const s3Client = new S3Client({
-  endpoint: 'http://localhost:4599',
+  endpoint: "http://localhost:4599",
   forcePathStyle: true,
   credentials: {
-    accessKeyId: 'S3RVER',
-    secretAccessKey: 'S3RVER'
+    accessKeyId: "S3RVER",
+    secretAccessKey: "S3RVER",
   },
 });
 
@@ -19,7 +19,7 @@ async function ensureBucketExists(bucketName) {
     await s3Client.send(command);
     console.log("Bucket created successfully");
   } catch (err) {
-    if (err.name === 'BucketAlreadyOwnedByYou') {
+    if (err.name === "BucketAlreadyOwnedByYou") {
       console.log("Bucket already exists");
     } else {
       // console.log("Error creating bucket:", err);
@@ -33,11 +33,11 @@ const upload = multer({
   storage: multerS3({
     s3: s3Client,
     bucket: bucketName,
-    acl: 'public-read',
+    acl: "public-read",
     key: function (req, file, cb) {
       cb(null, file.originalname);
     },
   }),
 });
 
-module.exports = { upload, s3Client };
+export { upload, s3Client };

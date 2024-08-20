@@ -94,7 +94,9 @@ const Nav: FunctionComponent<NavProps> = ({
                   Dashboard
                 </AppDropdownItem>
               )}
-              <AppDropdownItem href="/student/settings">Account Settings</AppDropdownItem>
+              <AppDropdownItem href={userInfo?.user?.roles === "teacher" ? "/doctor/settings" : "/student/settings"}>
+                Account Settings
+              </AppDropdownItem>
               <AppDropdownItem
                 onClick={() => {
                   logoutUser();

@@ -1,18 +1,9 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
-const { upload } = require("../middlewares/uploadFile");
-const { verifyToken } = require("../middlewares/auth");
-const quizController = require("../controllers/quiz.controller");
+import { verifyToken } from "../middlewares/auth.js";
+import { submitCaseAnswers, getStudentsAnswers } from "../controllers/quiz.controller.js";
 
-router.post(
-    "/submit",
-    verifyToken,
-    quizController.submitCaseAnswers
-);
-router.get(
-    "/answers/:caseID",
-    verifyToken,
-    quizController.getStudentsAnswers
-);
+router.post("/submit", verifyToken, submitCaseAnswers);
+router.get("/answers/:caseID", verifyToken, getStudentsAnswers);
 
-module.exports = router;
+export default router;

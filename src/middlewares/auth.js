@@ -1,6 +1,6 @@
-const jwt = require("jsonwebtoken");
+import jwt from "jsonwebtoken";
 
-exports.verifyToken = async (req, res, next) => {
+export const verifyToken = async (req, res, next) => {
   let token = req.headers.authorization;
   if (!token) {
     return res.status(403).send({ message: "No token provided!" });
@@ -15,7 +15,7 @@ exports.verifyToken = async (req, res, next) => {
       email: decoded.email,
       roles: decoded.roles,
       firstname: decoded.firstname,
-      lastname: decoded.lastname
+      lastname: decoded.lastname,
     };
     req.validatedUser = data;
     next();

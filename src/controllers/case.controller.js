@@ -1,26 +1,42 @@
-const dbClient = require("../services/dbClient");
-const path = require("path");
-const { v4: uuidv4 } = require("uuid");
-const {
+import dbClient from "../services/dbClient.js";
+import path from "path";
+import { v4 as uuidv4 } from "uuid";
+import {
   GetCommand,
   PutCommand,
   ScanCommand,
   DeleteCommand,
   UpdateCommand,
   QueryCommand,
-} = require("@aws-sdk/lib-dynamodb");
-const { readSingleItem } = require("../services/dbOps");
-const { TABLES } = require("../services/dbTables");
+} from "@aws-sdk/lib-dynamodb";
+import { readSingleItem } from "../services/dbOps.js";
+import { TABLES } from "../services/dbTables.js";
 
-exports.addCase = async (req, res) => {
+const addCase = async (req, res) => {
   const userID = req.validatedUser.id;
   const caseData = req.body;
   const draft = caseData.draft === "true";
-  const caseDeadline = new Date(caseData.caseDeadline).toISOString();
+  // const caseDeadline = new Date(caseData.caseDeadline).toISOString();
   const caseMaterials = req.files.map((file) => ({
     filename: file.originalname,
     filePath: file.location,
   }));
+
+  const caseItem = {
+    id: uuidv4(),
+    createdBy: userID,
+    createdAt: Date.now(),
+    caseStatus: draft ? "draft" : "active",
+    caseMaterials,
+  };
+
+  if (caseData.caseClue) caseItem.caseClue = caseData.caseClue;
+  if (caseData.caseDescription) caseItem.caseDescription = caseData.caseDescription;
+  if (caseData.caseTopic) caseItem.caseTopic = caseData.caseTopic;
+  if (caseData.caseExplanation) caseItem.caseExplanation = caseData.caseExplanation;
+  if (caseData.caseDeadline) caseItem.caseDeadline = new Date(caseData.caseDeadline).toISOString();
+  if (caseData.caseQuestions) caseItem.caseQuestions = JSON.parse(caseData.caseQuestions);
+
 
   if (!draft) {
     const activeCaseParams = {
@@ -43,22 +59,9 @@ exports.addCase = async (req, res) => {
     }
   }
 
-
   const params = {
     TableName: "Cases",
-    Item: {
-      id: uuidv4(),
-      caseClue: caseData.caseClue,
-      caseDescription: caseData.caseDescription,
-      caseTopic: caseData.caseTopic,
-      caseExplanation: caseData.caseExplanation,
-      caseDeadline: caseDeadline,
-      createdBy: userID,
-      createdAt: Date.now(),
-      caseQuestions: JSON.parse(caseData.caseQuestions),
-      caseStatus: draft ? "draft" : "active",
-      caseMaterials,
-    },
+    Item: caseItem,
   };
 
   try {
@@ -74,7 +77,7 @@ exports.addCase = async (req, res) => {
   }
 };
 
-exports.updateCase = async (req, res) => {
+const updateCase = async (req, res) => {
   const caseData = req.body;
   const caseID = req.params.caseID;
   const userId = req.validatedUser.id;
@@ -110,13 +113,7 @@ exports.updateCase = async (req, res) => {
     let expressionAttributeValues = {};
     let expressionAttributeNames = {};
 
-    const updatableFields = [
-      "caseClue",
-      "caseDescription",
-      "caseTopic",
-      "caseExplanation",
-      "caseQuestions",
-    ];
+    const updatableFields = ["caseClue", "caseDescription", "caseTopic", "caseExplanation", "caseQuestions"];
 
     updatableFields.forEach((field) => {
       if (caseData[field] !== undefined) {
@@ -126,9 +123,8 @@ exports.updateCase = async (req, res) => {
         updateExpression += `${attributeName} = ${attributeValue}, `;
         expressionAttributeNames[attributeName] = field;
 
-        expressionAttributeValues[attributeValue] = field === "caseQuestions"
-          ? JSON.parse(caseData[field])
-          : caseData[field];
+        expressionAttributeValues[attributeValue] =
+          field === "caseQuestions" ? JSON.parse(caseData[field]) : caseData[field];
       }
     });
 
@@ -171,9 +167,7 @@ exports.updateCase = async (req, res) => {
   }
 };
 
-
-
-exports.getCases = async (req, res) => {
+const getCases = async (req, res) => {
   const caseStatus = req.query.caseStatus;
 
   try {
@@ -199,26 +193,25 @@ exports.getCases = async (req, res) => {
         ScanIndexForward: false,
         FilterExpression: "#caseStatus IN (:active, :draft)",
         ExpressionAttributeNames: {
-          "#caseStatus": "caseStatus"
+          "#caseStatus": "caseStatus",
         },
         ExpressionAttributeValues: {
           ":active": "active",
-          ":draft": "draft"
-        }
+          ":draft": "draft",
+        },
       };
-    }
-    else {
+    } else {
       params = {
         TableName: "Cases",
         IndexName: "CreatedAtIndex",
         ScanIndexForward: false, // Descending order
         FilterExpression: "#caseStatus = :caseStatus",
         ExpressionAttributeNames: {
-          "#caseStatus": "caseStatus"
+          "#caseStatus": "caseStatus",
         },
         ExpressionAttributeValues: {
-          ":caseStatus": caseStatus
-        }
+          ":caseStatus": caseStatus,
+        },
       };
     }
 
@@ -232,13 +225,13 @@ exports.getCases = async (req, res) => {
 
       // Count answers
       const answersParams = {
-        TableName: 'Answers',
-        IndexName: 'CaseIDIndex',
-        KeyConditionExpression: 'caseID = :caseID',
+        TableName: "Answers",
+        IndexName: "CaseIDIndex",
+        KeyConditionExpression: "caseID = :caseID",
         ExpressionAttributeValues: {
-          ':caseID': caseID,
+          ":caseID": caseID,
         },
-        Select: 'COUNT'
+        Select: "COUNT",
       };
       const answersCommand = new QueryCommand(answersParams);
       const answersResult = await dbClient.send(answersCommand);
@@ -246,13 +239,13 @@ exports.getCases = async (req, res) => {
 
       // Count feedbacks
       const feedbackParams = {
-        TableName: 'Feedback',
-        IndexName: 'CaseIDIndex',
-        KeyConditionExpression: 'caseID = :caseID',
+        TableName: "Feedback",
+        IndexName: "CaseIDIndex",
+        KeyConditionExpression: "caseID = :caseID",
         ExpressionAttributeValues: {
-          ':caseID': caseID,
+          ":caseID": caseID,
         },
-        Select: 'COUNT'
+        Select: "COUNT",
       };
       const feedbackCommand = new QueryCommand(feedbackParams);
       const feedbackResult = await dbClient.send(feedbackCommand);
@@ -261,7 +254,7 @@ exports.getCases = async (req, res) => {
       return {
         ...caseItem,
         totalResponses: totalAnswers,
-        totalFeedbacks
+        totalFeedbacks,
       };
     });
 
@@ -277,15 +270,13 @@ exports.getCases = async (req, res) => {
   }
 };
 
-exports.getCase = async (req, res) => {
+const getCase = async (req, res) => {
   try {
     const caseID = req.params.caseID;
     const userId = req.validatedUser.id;
 
     if (!caseID) {
-      return res
-        .status(400)
-        .json({ error: "Missing case ID in the request URL." });
+      return res.status(400).json({ error: "Missing case ID in the request URL." });
     }
 
     const params = {
@@ -314,7 +305,7 @@ exports.getCase = async (req, res) => {
   }
 };
 
-exports.getOngoingCase = async (req, res) => {
+const getOngoingCase = async (req, res) => {
   try {
     const params = {
       TableName: "Cases",
@@ -337,13 +328,13 @@ exports.getOngoingCase = async (req, res) => {
 
       // Count answers
       const answersParams = {
-        TableName: 'Answers',
-        IndexName: 'CaseIDIndex',
-        KeyConditionExpression: 'caseID = :caseID',
+        TableName: "Answers",
+        IndexName: "CaseIDIndex",
+        KeyConditionExpression: "caseID = :caseID",
         ExpressionAttributeValues: {
-          ':caseID': caseID,
+          ":caseID": caseID,
         },
-        Select: 'COUNT'
+        Select: "COUNT",
       };
       const answersCommand = new QueryCommand(answersParams);
       const answersResult = await dbClient.send(answersCommand);
@@ -351,13 +342,13 @@ exports.getOngoingCase = async (req, res) => {
 
       // Count feedbacks
       const feedbackParams = {
-        TableName: 'Feedback',
-        IndexName: 'CaseIDIndex',
-        KeyConditionExpression: 'caseID = :caseID',
+        TableName: "Feedback",
+        IndexName: "CaseIDIndex",
+        KeyConditionExpression: "caseID = :caseID",
         ExpressionAttributeValues: {
-          ':caseID': caseID,
+          ":caseID": caseID,
         },
-        Select: 'COUNT'
+        Select: "COUNT",
       };
       const feedbackCommand = new QueryCommand(feedbackParams);
       const feedbackResult = await dbClient.send(feedbackCommand);
@@ -366,7 +357,7 @@ exports.getOngoingCase = async (req, res) => {
       return {
         ...caseItem,
         totalResponses: totalAnswers,
-        totalFeedbacks
+        totalFeedbacks,
       };
     });
 
@@ -382,15 +373,13 @@ exports.getOngoingCase = async (req, res) => {
   }
 };
 
-exports.deleteCase = async (req, res) => {
+const deleteCase = async (req, res) => {
   try {
     const caseID = req.params.caseID;
     const userId = req.validatedUser.id;
 
     if (!caseID) {
-      return res
-        .status(400)
-        .json({ error: "Missing case ID in the request URL." });
+      return res.status(400).json({ error: "Missing case ID in the request URL." });
     }
 
     const params = {
@@ -414,7 +403,7 @@ exports.deleteCase = async (req, res) => {
   }
 };
 
-exports.deleteAllCases = async (req, res) => {
+const deleteAllCases = async (req, res) => {
   try {
     const params = {
       TableName: "Cases",
@@ -442,14 +431,12 @@ exports.deleteAllCases = async (req, res) => {
   }
 };
 
-exports.duplicateCase = async (req, res) => {
+const duplicateCase = async (req, res) => {
   const caseID = req.body.caseID;
 
   try {
     if (!caseID) {
-      return res
-        .status(400)
-        .json({ error: "Missing case ID in the request body." });
+      return res.status(400).json({ error: "Missing case ID in the request body." });
     }
 
     const singleItemParams = {
@@ -468,11 +455,11 @@ exports.duplicateCase = async (req, res) => {
       ...originalCase,
       id: uuidv4(),
       caseClue: originalCase.caseClue + " duplicate",
-      createdAt: Date.now()
+      createdAt: Date.now(),
     };
     const putParams = {
       TableName: TABLES.CASE,
-      Item: duplicateCase
+      Item: duplicateCase,
     };
 
     const command = new PutCommand(putParams);
@@ -487,7 +474,7 @@ exports.duplicateCase = async (req, res) => {
   }
 };
 
-exports.publishCase = async (req, res) => {
+const publishCase = async (req, res) => {
   const caseID = req.body.caseID;
   if (!caseID) {
     return res.status(400).json({
@@ -503,7 +490,7 @@ exports.publishCase = async (req, res) => {
   };
 
   const originalCase = await readSingleItem(singleItemParams);
-  console.log("originalCase: ", originalCase)
+  console.log("originalCase: ", originalCase);
   if (!originalCase) {
     return res.status(400).json({ error: "Case does not exist" });
   }
@@ -532,12 +519,12 @@ exports.publishCase = async (req, res) => {
   }
 };
 
-exports.addFeedback = async (req, res) => {
+const addFeedback = async (req, res) => {
   const studentID = req.validatedUser.id;
   const { caseID, feedback } = req.body;
 
   const params = {
-    TableName: 'Feedback',
+    TableName: "Feedback",
     Item: {
       feedbackID: uuidv4(),
       caseID,
@@ -550,23 +537,23 @@ exports.addFeedback = async (req, res) => {
   try {
     const command = new PutCommand(params);
     await dbClient.send(command);
-    res.status(200).json({ message: 'Feedback submitted successfully.' });
+    res.status(200).json({ message: "Feedback submitted successfully." });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: `Could not submit feedback: ${error}` });
   }
 };
 
-exports.getCaseFeedback = async (req, res) => {
+const getCaseFeedback = async (req, res) => {
   const caseID = req.params.caseID;
   console.log("Case ID: ", caseID);
 
   const params = {
-    TableName: 'Feedback',
-    IndexName: 'CaseIDIndex', // Ensure this index is created
-    KeyConditionExpression: 'caseID = :caseID',
+    TableName: "Feedback",
+    IndexName: "CaseIDIndex", // Ensure this index is created
+    KeyConditionExpression: "caseID = :caseID",
     ExpressionAttributeValues: {
-      ':caseID': caseID,
+      ":caseID": caseID,
     },
   };
 
@@ -575,13 +562,13 @@ exports.getCaseFeedback = async (req, res) => {
     const feedbackResult = await dbClient.send(command);
 
     // Fetch details of each student
-    const studentDetailsPromises = feedbackResult.Items.map(async feedback => {
+    const studentDetailsPromises = feedbackResult.Items.map(async (feedback) => {
       const userParams = {
-        TableName: 'Users',
-        IndexName: 'IDIndex',
-        KeyConditionExpression: 'id = :id',
+        TableName: "Users",
+        IndexName: "IDIndex",
+        KeyConditionExpression: "id = :id",
         ExpressionAttributeValues: {
-          ':id': feedback.studentID,
+          ":id": feedback.studentID,
         },
       };
 
@@ -613,15 +600,15 @@ exports.getCaseFeedback = async (req, res) => {
   }
 };
 
-exports.getCaseAnswers = async (req, res) => {
+const getCaseAnswers = async (req, res) => {
   const caseID = req.params.caseID;
 
   const answersParams = {
-    TableName: 'Answers',
-    IndexName: 'CaseIDIndex',
-    KeyConditionExpression: 'caseID = :caseID',
+    TableName: "Answers",
+    IndexName: "CaseIDIndex",
+    KeyConditionExpression: "caseID = :caseID",
     ExpressionAttributeValues: {
-      ':caseID': caseID,
+      ":caseID": caseID,
     },
   };
 
@@ -630,13 +617,13 @@ exports.getCaseAnswers = async (req, res) => {
     const answersResult = await dbClient.send(answersCommand);
 
     // Fetch details of each student
-    const studentDetailsPromises = answersResult.Items.map(async answer => {
+    const studentDetailsPromises = answersResult.Items.map(async (answer) => {
       const userParams = {
-        TableName: 'Users',
-        IndexName: 'IDIndex',
-        KeyConditionExpression: 'id = :id',
+        TableName: "Users",
+        IndexName: "IDIndex",
+        KeyConditionExpression: "id = :id",
         ExpressionAttributeValues: {
-          ':id': answer.studentID,
+          ":id": answer.studentID,
         },
       };
 
@@ -665,15 +652,15 @@ exports.getCaseAnswers = async (req, res) => {
   }
 };
 
-exports.getCaseAttemptsByStudent = async (req, res) => {
+const getCaseAttemptsByStudent = async (req, res) => {
   const studentID = req.params.studentID;
 
   const params = {
-    TableName: 'StudentCaseAttempts',
-    IndexName: 'StudentIDIndex',
-    KeyConditionExpression: 'studentID = :studentID',
+    TableName: "StudentCaseAttempts",
+    IndexName: "StudentIDIndex",
+    KeyConditionExpression: "studentID = :studentID",
     ExpressionAttributeValues: {
-      ':studentID': studentID,
+      ":studentID": studentID,
     },
   };
 
@@ -682,7 +669,7 @@ exports.getCaseAttemptsByStudent = async (req, res) => {
     const result = await dbClient.send(command);
 
     res.status(200).json({
-      message: 'Case attempts retrieved successfully.',
+      message: "Case attempts retrieved successfully.",
       data: result.Items,
     });
   } catch (error) {
@@ -691,25 +678,25 @@ exports.getCaseAttemptsByStudent = async (req, res) => {
   }
 };
 
-exports.getCaseData = async (req, res) => {
+const getCaseData = async (req, res) => {
   const caseID = req.params.caseID;
   console.log("Case ID: ", caseID);
 
   const feedbackParams = {
-    TableName: 'Feedback',
-    IndexName: 'CaseIDIndex',
-    KeyConditionExpression: 'caseID = :caseID',
+    TableName: "Feedback",
+    IndexName: "CaseIDIndex",
+    KeyConditionExpression: "caseID = :caseID",
     ExpressionAttributeValues: {
-      ':caseID': caseID,
+      ":caseID": caseID,
     },
   };
 
   const answersParams = {
-    TableName: 'Answers',
-    IndexName: 'CaseIDIndex',
-    KeyConditionExpression: 'caseID = :caseID',
+    TableName: "Answers",
+    IndexName: "CaseIDIndex",
+    KeyConditionExpression: "caseID = :caseID",
     ExpressionAttributeValues: {
-      ':caseID': caseID,
+      ":caseID": caseID,
     },
   };
 
@@ -723,36 +710,36 @@ exports.getCaseData = async (req, res) => {
     // Combine feedback and answers by studentID
     const combinedData = {};
 
-    feedbackResult.Items.forEach(feedback => {
+    feedbackResult.Items.forEach((feedback) => {
       if (!combinedData[feedback.studentID]) {
         combinedData[feedback.studentID] = {
           student: {},
           feedback: [],
-          answers: []
+          answers: [],
         };
       }
       combinedData[feedback.studentID].feedback.push(feedback);
     });
 
-    answersResult.Items.forEach(answer => {
+    answersResult.Items.forEach((answer) => {
       if (!combinedData[answer.studentID]) {
         combinedData[answer.studentID] = {
           student: {},
           feedback: [],
-          answers: []
+          answers: [],
         };
       }
       combinedData[answer.studentID].answers.push(answer);
     });
 
     // Fetch details of each student
-    const studentDetailsPromises = Object.keys(combinedData).map(async studentID => {
+    const studentDetailsPromises = Object.keys(combinedData).map(async (studentID) => {
       const userParams = {
-        TableName: 'Users',
-        IndexName: 'IDIndex',
-        KeyConditionExpression: 'id = :id',
+        TableName: "Users",
+        IndexName: "IDIndex",
+        KeyConditionExpression: "id = :id",
         ExpressionAttributeValues: {
-          ':id': studentID,
+          ":id": studentID,
         },
       };
 
@@ -778,4 +765,21 @@ exports.getCaseData = async (req, res) => {
     console.error(error);
     res.status(500).json({ error: `Could not fetch data: ${error}` });
   }
+};
+
+export {
+  addCase,
+  updateCase,
+  getCases,
+  getCase,
+  getOngoingCase,
+  deleteCase,
+  deleteAllCases,
+  duplicateCase,
+  publishCase,
+  addFeedback,
+  getCaseFeedback,
+  getCaseAnswers,
+  getCaseAttemptsByStudent,
+  getCaseData,
 };

@@ -11,8 +11,18 @@ interface FinalReviewProps {
 }
 
 const FinalReview: FunctionComponent<FinalReviewProps> = ({ goNext, caseStudy, handleAddCase }) => {
-  const caseDescription = EditorState.createWithContent(convertFromRaw(JSON.parse(caseStudy.caseDescription)));
-  const caseExplanation = EditorState.createWithContent(convertFromRaw(JSON.parse(caseStudy.caseExplanation)));
+  const parseEditorState = (data: string) => {
+    try {
+      return EditorState.createWithContent(convertFromRaw(JSON.parse(data)));
+    } catch (error) {
+      console.error("Error parsing editor state:", error);
+      return EditorState.createEmpty();
+    }
+  };
+
+  const caseDescription = parseEditorState(caseStudy.caseDescription || "{}");
+  const caseExplanation = parseEditorState(caseStudy.caseExplanation || "{}");
+
   const addCaseState = useAppSelector((state) => state.addCase.status);
 
   return (

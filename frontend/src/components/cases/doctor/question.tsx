@@ -3,16 +3,24 @@ import Button from "@/components/ui/Button";
 import React, { Fragment, FunctionComponent, useEffect, useState } from "react";
 import { EditorState, convertFromRaw, convertToRaw } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
+import { useAppSelector } from "@/services/hooks/hooks";
 
 interface DoctorCaseQuestionProps {
   goNext: () => void;
   caseStudy: any;
   setCaseStudy: any;
+  handleAddCase: any;
 }
 
-const DoctorCaseQuestion: FunctionComponent<DoctorCaseQuestionProps> = ({ goNext, caseStudy, setCaseStudy }) => {
+const DoctorCaseQuestion: FunctionComponent<DoctorCaseQuestionProps> = ({
+  goNext,
+  caseStudy,
+  setCaseStudy,
+  handleAddCase,
+}) => {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [initialLoad, setInitialLoad] = useState(true);
+  const addCaseState = useAppSelector((state) => state.addCase.status);
 
   useEffect(() => {
     if (initialLoad && caseStudy.caseDescription) {
@@ -65,6 +73,9 @@ const DoctorCaseQuestion: FunctionComponent<DoctorCaseQuestionProps> = ({ goNext
           />
         </div>
       </div>
+      <Button btnStyle="outline" size="lg" centralize onClick={() => handleAddCase(true)} className="w-full mb-3">
+        {caseStudy.draft && addCaseState === "loading" ? "Loading..." : "Save As a Draft..."}
+      </Button>
       <div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
         <Button btnStyle="outline" size="lg" centralize>
           GO BACK HOME
