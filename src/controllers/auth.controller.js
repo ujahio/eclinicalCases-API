@@ -16,22 +16,21 @@ import {
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-const signup = async (req, res) => {
-  console.log("heyy", req.body);
-  const { firstname, lastname, email, password, roles } = req.body;
+const signup = async (body) => {
+  const { firstname, lastname, email, password, roles } = body;
 
-  if (!firstname) {
-    return res.status(400).json({ error: '"firstname" must be a string' });
-  } else if (!lastname || typeof lastname !== "string") {
-    return res.status(400).json({ error: '"lastname" must be a string' });
-  } else if (!email || typeof email !== "string") {
-    return res.status(400).json({ error: '"email" must be a string' });
-  } else if (!password || typeof password !== "string") {
-    return res.status(400).json({ error: '"password" must be a string' });
-  }
+  // if (!firstname) {
+  //   return res.status(400).json({ error: '"firstname" must be a string' });
+  // } else if (!lastname || typeof lastname !== "string") {
+  //   return res.status(400).json({ error: '"lastname" must be a string' });
+  // } else if (!email || typeof email !== "string") {
+  //   return res.status(400).json({ error: '"email" must be a string' });
+  // } else if (!password || typeof password !== "string") {
+  //   return res.status(400).json({ error: '"password" must be a string' });
+  // }
 
-  let originalPassword = decryptPassword(password, process.env.secretKey);
-  const hashedPassword = bcrypt.hashSync(originalPassword, 10);
+  // let originalPassword = decryptPassword(password, process.env.secretKey);
+  const hashedPassword = bcrypt.hashSync(password, 10);
   const userId = uuidv4();
   const created_on = new Date(Date.now()).toISOString();
 
@@ -61,13 +60,20 @@ const signup = async (req, res) => {
     // Remove password from the user object before sending response
     delete user.password;
 
-    res.status(201).json({
-      message: "User was registered successfully!",
-      data: user,
-    });
+    // res.status(201).json({
+    //   message: "User was registered successfully!",
+    //   data: user,
+    // });
+    return {
+      statusCode: 201,
+      body: JSON.stringify({
+        message: "User was registered successfully!",
+        data: user,
+      }),
+    };
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: `Could not create user: ${error}` });
+    // res.status(500).json({ error: `Could not create user: ${error}` });
   }
 };
 
@@ -174,10 +180,13 @@ const getUsers = async (req, res) => {
 
     const users = result.Items;
 
-    res.status(200).json({
-      message: "Users retrieved successfully!",
-      data: users,
-    });
+    return {
+      statusCode: 200,
+      body: JSON.stringify({
+        message: "Users retrieved successfully!",
+        data: users,
+      }),
+    };
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Could not retrieve users: " + error });

@@ -63,47 +63,176 @@ provider:
   #   USERS_TABLE: ${param:tableName}
 
 functions:
-  api:
-    handler: handler.handler
+  signin:
+    handler: handlers/auth.signinHandler
     events:
-      - httpApi: "*"
-    timeout: 300
-  auth:
-    handler: handler.handler
+      - httpApi:
+          path: api/auth/signin
+          method: post
+
+  signup:
+    handler: handlers/auth.signupHandler
     events:
-      - http: "POST /api/auth/signin"
-      - http: "POST /api/auth/signup"
-      - http: "POST /api/auth/send-otp"
-      - http: "POST /api/auth/reset-password"
-      - http: "POST /api/auth/update-password"
-      - http: "GET /api/auth/users"
-  cases:
-    handler: handler.handler
+      - httpApi:
+          path: api/auth/signup
+          method: post
+
+  getUsers:
+    handler: handlers/auth.getUsersHandler
     events:
-      - http: "GET /api/case/details/{proxy+}"
-      - http: "GET /api/case/all/"
-      - http: "GET /api/case/ongoing-case/"
-      - http: "POST /api/case/add"
-      - http: "POST /api/case/update/{proxy+}"
-      - http: "POST /api/case/duplicate"
-      - http: "POST /api/case/publish/"
-      - http: "POST /api/case/add/feedback/"
-      - http: "GET /api/case/feedbacks/{proxy+}"
-      - http: "GET /api/case/responses/{proxy+}"
-      - http: "GET /api/case/data/{proxy+}"
-      - http: "GET /api/case/student/attempts/{proxy+}"
-      - http: "DELETE /api/case/delete-case/{proxy+}"
-      - http: "DELETE /api/case/delete/all/"
-  quiz:
-    handler: handler.handler
+      - httpApi:
+          path: api/auth/users
+          method: get
+
+  sendOtp:
+    handler: handlers/auth.sendOtpHandler
     events:
-      - http: "POST /api/quiz/submit"
-      - http: "GET /api/quiz/answers/{proxy+}"
-  student:
-    handler: handler.handler
+      - httpApi:
+          path: api/auth/send-otp
+          method: post
+
+  resetPassword:
+    handler: handlers/auth.resetPasswordHandler
     events:
-      - http: "GET /api/student/certificates"
-      - http: "GET /api/student/certificate/{proxy+}"
+      - httpApi:
+          path: api/auth/reset-password
+          method: post
+
+  updatePassword:
+    handler: handlers/auth.updatePasswordHandler
+    events:
+      - httpApi:
+          path: api/auth/update-password
+          method: post
+
+  # Case Handlers
+  getCase:
+    handler: handlers/caseHandlers.getCaseHandler
+    events:
+      - httpApi:
+          path: api/case/details/{caseID}
+          method: get
+
+  getCases:
+    handler: handlers/caseHandlers.getCasesHandler
+    events:
+      - httpApi:
+          path: api/case/all
+          method: get
+
+  getOngoingCase:
+    handler: handlers/caseHandlers.getOngoingCaseHandler
+    events:
+      - httpApi:
+          path: api/case/ongoing-case
+          method: get
+
+  addCase:
+    handler: handlers/caseHandlers.addCaseHandler
+    events:
+      - httpApi:
+          path: api/case/add
+          method: post
+
+  updateCase:
+    handler: handlers/caseHandlers.updateCaseHandler
+    events:
+      - httpApi:
+          path: api/case/update/{caseID}
+          method: post
+
+  deleteCase:
+    handler: handlers/caseHandlers.deleteCaseHandler
+    events:
+      - httpApi:
+          path: api/case/delete-case/{caseID}
+          method: delete
+
+  deleteAllCases:
+    handler: handlers/caseHandlers.deleteAllCasesHandler
+    events:
+      - httpApi:
+          path: api/case/delete/all
+          method: delete
+
+  duplicateCase:
+    handler: handlers/caseHandlers.duplicateCaseHandler
+    events:
+      - httpApi:
+          path: api/case/duplicate
+          method: post
+
+  publishCase:
+    handler: handlers/caseHandlers.publishCaseHandler
+    events:
+      - httpApi:
+          path: api/case/publish
+          method: post
+
+  addFeedback:
+    handler: handlers/caseHandlers.addFeedbackHandler
+    events:
+      - httpApi:
+          path: api/case/add/feedback
+          method: post
+
+  getCaseFeedback:
+    handler: handlers/caseHandlers.getCaseFeedbackHandler
+    events:
+      - httpApi:
+          path: api/case/feedbacks/{caseID}
+          method: get
+
+  getCaseAnswers:
+    handler: handlers/caseHandlers.getCaseAnswersHandler
+    events:
+      - httpApi:
+          path: api/case/responses/{caseID}
+          method: get
+
+  getCaseData:
+    handler: handlers/caseHandlers.getCaseDataHandler
+    events:
+      - httpApi:
+          path: api/case/data/{caseID}
+          method: get
+
+  getCaseAttemptsByStudent:
+    handler: handlers/caseHandlers.getCaseAttemptsByStudentHandler
+    events:
+      - httpApi:
+          path: api/case/student/attempts/{studentID}
+          method: get
+
+  # Quiz Handlers
+  submitQuiz:
+    handler: handlers/quizHandlers.submitCaseAnswersHandler
+    events:
+      - httpApi:
+          path: api/quiz/submit
+          method: post
+
+  getQuizAnswers:
+    handler: handlers/quizHandlers.getStudentsAnswersHandler
+    events:
+      - httpApi:
+          path: api/quiz/answers/{caseID}
+          method: get
+
+  # Student Handlers
+  getCertificates:
+    handler: handlers/studentHandlers.getStudentCertificatesHandler
+    events:
+      - httpApi:
+          path: api/student/certificates
+          method: get
+
+  getCertificateByCaseID:
+    handler: handlers/studentHandlers.getCertificateByCaseIDHandler
+    events:
+      - httpApi:
+          path: api/student/certificate/{caseID}
+          method: get
 
 resources:
   Resources:

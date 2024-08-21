@@ -1,8 +1,8 @@
 import { ScanCommand } from "@aws-sdk/lib-dynamodb";
 import dbClient from "../services/dbClient.js";
 
-const checkDuplicateUsernameOrEmail = async (req, res, next) => {
-  const { email } = req.body;
+const checkDuplicateUsernameOrEmail = async (body) => {
+  const { email } = body;
 
   try {
     const params = {
@@ -19,13 +19,16 @@ const checkDuplicateUsernameOrEmail = async (req, res, next) => {
     const user = result.Items[0];
 
     if (user) {
-      return res.status(400).json({ error: "Username or email already exists" });
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ error: "Username or email already exists" }),
+      };
     }
 
-    next();
+    // next();
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Error checking for duplicate username or email" });
+    // res.status(500).json({ error: "Error checking for duplicate username or email" });
   }
 };
 
