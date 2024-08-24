@@ -5,6 +5,9 @@ app: clinical
 # "service" is the name of this project. This will also be added to your AWS resource names.
 service: clinical-backend
 
+myNextApplication:
+  component: "@sls-next/serverless-component@3.7.0"
+
 plugins:
   - serverless-dynamodb-local
   - serverless-s3-local
@@ -71,39 +74,39 @@ functions:
   auth:
     handler: handler.handler
     events:
-      - http: "POST /api/auth/signin"
-      - http: "POST /api/auth/signup"
-      - http: "POST /api/auth/send-otp"
-      - http: "POST /api/auth/reset-password"
-      - http: "POST /api/auth/update-password"
-      - http: "GET /api/auth/users"
+      - httpApi: "POST /api/auth/signin"
+      - httpApi: "POST /api/auth/signup"
+      - httpApi: "POST /api/auth/send-otp"
+      - httpApi: "POST /api/auth/reset-password"
+      - httpApi: "POST /api/auth/update-password"
+      - httpApi: "GET /api/auth/users"
   cases:
     handler: handler.handler
     events:
-      - http: "GET /api/case/details/{proxy+}"
-      - http: "GET /api/case/all/"
-      - http: "GET /api/case/ongoing-case/"
-      - http: "POST /api/case/add"
-      - http: "POST /api/case/update/{proxy+}"
-      - http: "POST /api/case/duplicate"
-      - http: "POST /api/case/publish/"
-      - http: "POST /api/case/add/feedback/"
-      - http: "GET /api/case/feedbacks/{proxy+}"
-      - http: "GET /api/case/responses/{proxy+}"
-      - http: "GET /api/case/data/{proxy+}"
-      - http: "GET /api/case/student/attempts/{proxy+}"
-      - http: "DELETE /api/case/delete-case/{proxy+}"
-      - http: "DELETE /api/case/delete/all/"
+      - httpApi: "GET /api/case/details/{proxy+}"
+      - httpApi: "GET /api/case/all/"
+      - httpApi: "GET /api/case/ongoing-case/"
+      - httpApi: "POST /api/case/add"
+      - httpApi: "POST /api/case/update/{proxy+}"
+      - httpApi: "POST /api/case/duplicate"
+      - httpApi: "POST /api/case/publish/"
+      - httpApi: "POST /api/case/add/feedback/"
+      - httpApi: "GET /api/case/feedbacks/{proxy+}"
+      - httpApi: "GET /api/case/responses/{proxy+}"
+      - httpApi: "GET /api/case/data/{proxy+}"
+      - httpApi: "GET /api/case/student/attempts/{proxy+}"
+      - httpApi: "DELETE /api/case/delete-case/{proxy+}"
+      - httpApi: "DELETE /api/case/delete/all/"
   quiz:
     handler: handler.handler
     events:
-      - http: "POST /api/quiz/submit"
-      - http: "GET /api/quiz/answers/{proxy+}"
+      - httpApi: "POST /api/quiz/submit"
+      - httpApi: "GET /api/quiz/answers/{proxy+}"
   student:
     handler: handler.handler
     events:
-      - http: "GET /api/student/certificates"
-      - http: "GET /api/student/certificate/{proxy+}"
+      - httpApi: "GET /api/student/certificates"
+      - httpApi: "GET /api/student/certificate/{proxy+}"
 
 resources:
   Resources:

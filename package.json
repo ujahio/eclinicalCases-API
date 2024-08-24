@@ -1,6 +1,7 @@
 {
   "name": "clinical-backend",
   "version": "1.0.0",
+  "license": "MIT",
   "description": "",
   "type": "module",
   "scripts": {
@@ -25,6 +26,7 @@
     "@aws-sdk/lib-storage": "^3.627.0",
     "@aws-sdk/s3-request-presigner": "^3.627.0",
     "@reduxjs/toolkit": "^2.2.5",
+    "@sls-next/serverless-component": "^3.7.0",
     "@types/draft-js": "^0.11.18",
     "@types/react-draft-wysiwyg": "^1.13.8",
     "aws-sdk": "^2.1632.0",

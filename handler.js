@@ -4,10 +4,10 @@ import serverless from "serverless-http";
 import cors from "cors";
 import path from "path";
 
-import authRoutes from "./src/routes/auth.routes.js";
-import caseRoutes from "./src/routes/case.routes.js";
-import quizRoutes from "./src/routes/quiz.routes.js";
-import studentRoutes from "./src/routes/student.routes.js";
+import authRoutes from "./server/routes/auth.routes.js";
+import caseRoutes from "./server/routes/case.routes.js";
+import quizRoutes from "./server/routes/quiz.routes.js";
+import studentRoutes from "./server/routes/student.routes.js";
 import {
   getUsers,
   sendOTP,
@@ -15,7 +15,7 @@ import {
   signup,
   updatePassword,
   verifyOtpAndResetPassword,
-} from "./src/controllers/auth.controller.js";
+} from "./server/controllers/auth.controller.js";
 import {
   addCase,
   updateCase,
@@ -31,12 +31,12 @@ import {
   getCaseAnswers,
   getCaseAttemptsByStudent,
   getCaseData,
-} from "./src/controllers/case.controller.js";
-import { checkDuplicateUsernameOrEmail } from "./src/middlewares/verifySignUp.js";
-import { verifyToken } from "./src/middlewares/auth.js";
-import { upload } from "./src/middlewares/uploadFile.js";
-import { getStudentsAnswers, submitCaseAnswers } from "./src/controllers/quiz.controller.js";
-import { getCertificateByCaseID, getStudentCertificates } from "./src/controllers/student.controller.js";
+} from "./server/controllers/case.controller.js";
+import { checkDuplicateUsernameOrEmail } from "./server/middlewares/verifySignUp.js";
+import { verifyToken } from "./server/middlewares/auth.js";
+import { upload } from "./server/middlewares/uploadFile.js";
+import { getStudentsAnswers, submitCaseAnswers } from "./server/controllers/quiz.controller.js";
+import { getCertificateByCaseID, getStudentCertificates } from "./server/controllers/student.controller.js";
 
 const app = express();
 
