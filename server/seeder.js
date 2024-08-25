@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import bcrypt from 'bcryptjs';
 import { PutCommand } from "@aws-sdk/lib-dynamodb";
 import dotenv from 'dotenv';
-import { decryptPassword } from './src/utils/api_utils.js';
+import { decryptPassword } from './utils/api_utils.js';
 
 dotenv.config();
 
