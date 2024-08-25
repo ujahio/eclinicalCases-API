@@ -12,6 +12,8 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "allowImportingTsExtensions": true,
+    "outDir": "./dist",
     "plugins": [
       {
         "name": "next"
@@ -21,6 +23,16 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/services/hooks/useProcessTabs.ts"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "src/services/hooks/useProcessTabs.ts",
+    "src/server/**/*.ts",
+    "server/utils/certificate.js",
+    "server/utils/certificate.js",
+    "handler.ts"
+  ],
   "exclude": ["node_modules"]
 }

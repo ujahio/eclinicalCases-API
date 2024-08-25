@@ -2,12 +2,11 @@ import "dotenv/config";
 import express from "express";
 import serverless from "serverless-http";
 import cors from "cors";
-import path from "path";
 
-import authRoutes from "./server/routes/auth.routes.js";
-import caseRoutes from "./server/routes/case.routes.js";
-import quizRoutes from "./server/routes/quiz.routes.js";
-import studentRoutes from "./server/routes/student.routes.js";
+// import authRoutes from "./server/routes/auth.routes";
+// import caseRoutes from "./server/routes/case.routes";
+// import quizRoutes from "./server/routes/quiz.routes";
+// import studentRoutes from "./server/routes/student.routes";
 import {
   getUsers,
   sendOTP,
@@ -15,7 +14,7 @@ import {
   signup,
   updatePassword,
   verifyOtpAndResetPassword,
-} from "./server/controllers/auth.controller.js";
+} from "./server/controllers/auth.controller.ts";
 import {
   addCase,
   updateCase,
@@ -31,12 +30,12 @@ import {
   getCaseAnswers,
   getCaseAttemptsByStudent,
   getCaseData,
-} from "./server/controllers/case.controller.js";
-import { checkDuplicateUsernameOrEmail } from "./server/middlewares/verifySignUp.js";
-import { verifyToken } from "./server/middlewares/auth.js";
-import { upload } from "./server/middlewares/uploadFile.js";
-import { getStudentsAnswers, submitCaseAnswers } from "./server/controllers/quiz.controller.js";
-import { getCertificateByCaseID, getStudentCertificates } from "./server/controllers/student.controller.js";
+} from "./server/controllers/case.controller.ts";
+import { checkDuplicateUsernameOrEmail } from "./server/middlewares/verifySignUp.ts";
+import { verifyToken } from "./server/middlewares/auth.ts";
+import { upload } from "./server/middlewares/uploadFile.ts";
+import { getStudentsAnswers, submitCaseAnswers } from "./server/controllers/quiz.controller.ts";
+import { getCertificateByCaseID, getStudentCertificates } from "./server/controllers/student.controller.ts";
 
 const app = express();
 
@@ -81,10 +80,10 @@ app.get("/answers/:caseID", verifyToken, getStudentsAnswers);
 app.get("/certificates", verifyToken, getStudentCertificates);
 app.get("/certificate/:caseID", verifyToken, getCertificateByCaseID);
 
-app.use("/api/auth", authRoutes);
-app.use("/api/case", caseRoutes);
-app.use("/api/quiz", quizRoutes);
-app.use("/api/student", studentRoutes);
+// app.use("/api/auth", authRoutes);
+// app.use("/api/case", caseRoutes);
+// app.use("/api/quiz", quizRoutes);
+// app.use("/api/student", studentRoutes);
 // app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use((req, res, next) => {
@@ -93,4 +92,4 @@ app.use((req, res, next) => {
   });
 });
 
-export const handler = serverless(app);
+module.exports.handler = serverless(app);

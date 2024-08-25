@@ -1,7 +1,8 @@
+import { Request, Response } from "express";
 import { ScanCommand } from "@aws-sdk/lib-dynamodb";
 import dbClient from "../services/dbClient.js";
 
-const checkDuplicateUsernameOrEmail = async (req, res, next) => {
+const checkDuplicateUsernameOrEmail = async (req: Request, res: Response, next: any) => {
   const { email } = req.body;
 
   try {
@@ -14,7 +15,7 @@ const checkDuplicateUsernameOrEmail = async (req, res, next) => {
     };
 
     const command = new ScanCommand(params);
-    const result = await dbClient.send(command);
+    const result: any = await dbClient.send(command);
 
     const user = result.Items[0];
 

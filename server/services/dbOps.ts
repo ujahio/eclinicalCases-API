@@ -1,7 +1,7 @@
 import { GetCommand } from "@aws-sdk/lib-dynamodb";
-import dbClient from "../services/dbClient.js";
+import dbClient from "./dbClient";
 
-export const readSingleItem = async (params) => {
+export const readSingleItem = async (params: any) => {
   try {
     const command = new GetCommand(params);
     const result = await dbClient.send(command);

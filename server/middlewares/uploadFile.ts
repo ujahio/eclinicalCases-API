@@ -1,3 +1,4 @@
+import { Request, Response } from "express";
 import multer from "multer";
 import { S3Client, CreateBucketCommand } from "@aws-sdk/client-s3";
 import multerS3 from "multer-s3";
@@ -13,12 +14,12 @@ const s3Client = new S3Client({
 });
 
 // Ensure the bucket exists before using it
-async function ensureBucketExists(bucketName) {
+async function ensureBucketExists(bucketName: any) {
   try {
     const command = new CreateBucketCommand({ Bucket: bucketName });
     await s3Client.send(command);
     console.log("Bucket created successfully");
-  } catch (err) {
+  } catch (err: any) {
     if (err.name === "BucketAlreadyOwnedByYou") {
       console.log("Bucket already exists");
     } else {

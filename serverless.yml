@@ -9,6 +9,7 @@ myNextApplication:
   component: "@sls-next/serverless-component@3.7.0"
 
 plugins:
+  - serverless-plugin-typescript
   - serverless-dynamodb-local
   - serverless-s3-local
   - serverless-offline

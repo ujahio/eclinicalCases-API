@@ -1,8 +1,9 @@
+import { Request, Response } from "express";
 import dbClient from "../services/dbClient.js";
 import { v4 as uuidv4 } from "uuid";
 import { QueryCommand, ScanCommand } from "@aws-sdk/lib-dynamodb";
 
-const getStudentCertificates = async (req, res) => {
+const getStudentCertificates = async (req: any, res: Response) => {
   const studentID = req.validatedUser.id;
 
   const params = {
@@ -16,7 +17,7 @@ const getStudentCertificates = async (req, res) => {
 
   try {
     const command = new QueryCommand(params);
-    const result = await dbClient.send(command);
+    const result: any = await dbClient.send(command);
 
     if (result.Items.length === 0) {
       return res.status(404).json({ message: "No certificates found for this student." });
@@ -26,13 +27,13 @@ const getStudentCertificates = async (req, res) => {
       message: "Certificates retrieved successfully.",
       data: result.Items,
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
     res.status(500).json({ error: `Could not fetch certificates: ${error.message}` });
   }
 };
 
-const getCertificateByCaseID = async (req, res) => {
+const getCertificateByCaseID = async (req: any, res: Response) => {
   const caseID = req.params.caseID;
 
   const params = {
@@ -45,7 +46,7 @@ const getCertificateByCaseID = async (req, res) => {
 
   try {
     const command = new ScanCommand(params);
-    const result = await dbClient.send(command);
+    const result: any = await dbClient.send(command);
 
     if (result.Items.length === 0) {
       return res.status(404).json({ message: "No certificate found for this case." });
@@ -55,7 +56,7 @@ const getCertificateByCaseID = async (req, res) => {
       message: "Certificate retrieved successfully.",
       data: result.Items[0],
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
     res.status(500).json({ error: `Could not fetch certificate: ${error.message}` });
   }

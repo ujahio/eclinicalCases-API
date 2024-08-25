@@ -10,7 +10,7 @@ const CERTIFICATE_TABLE_NAME = "Certificates";
 const STUDENT_CASE_ATTEMPTS_TABLE_NAME = "StudentCaseAttempts";
 
 const createTables = async () => {
-  const usersParams = {
+  const usersParams: any = {
     TableName: USERS_TABLE_NAME,
     AttributeDefinitions: [
       { AttributeName: "email", AttributeType: "S" },
@@ -34,7 +34,7 @@ const createTables = async () => {
     ],
   };
 
-  const casesParams = {
+  const casesParams: any = {
     TableName: CASES_TABLE_NAME,
     KeySchema: [{ AttributeName: "id", KeyType: "HASH" }],
     AttributeDefinitions: [
@@ -60,7 +60,7 @@ const createTables = async () => {
     ],
   };
 
-  const feedbackParams = {
+  const feedbackParams: any = {
     TableName: "Feedback",
     AttributeDefinitions: [
       { AttributeName: "feedbackID", AttributeType: "S" },
@@ -97,7 +97,7 @@ const createTables = async () => {
     },
   };
 
-  const answersParams = {
+  const answersParams: any = {
     TableName: "Answers",
     AttributeDefinitions: [
       { AttributeName: "answerID", AttributeType: "S" },
@@ -125,7 +125,7 @@ const createTables = async () => {
     },
   };
 
-  const certificatesParams = {
+  const certificatesParams: any = {
     TableName: "Certificates",
     AttributeDefinitions: [
       { AttributeName: "certificateID", AttributeType: "S" },
@@ -153,7 +153,7 @@ const createTables = async () => {
     },
   };
 
-  const studentCaseAttemptsParams = {
+  const studentCaseAttemptsParams: any = {
     TableName: "StudentCaseAttempts",
     AttributeDefinitions: [
       { AttributeName: "attemptID", AttributeType: "S" },
@@ -182,7 +182,7 @@ const createTables = async () => {
   try {
     const command = new ListTablesCommand({});
     const response = await ddb.send(command);
-    const existingTables = response.TableNames;
+    const existingTables = response.TableNames as string[];
 
     if (!existingTables.includes(USERS_TABLE_NAME)) {
       const command = new CreateTableCommand(usersParams);

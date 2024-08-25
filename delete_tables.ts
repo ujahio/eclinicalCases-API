@@ -5,7 +5,7 @@ const ddb = new DynamoDB({ endpoint: "http://localhost:8000" });
 const deleteTables = async () => {
   try {
     const existingTables = await ddb.listTables();
-    const tableNames = existingTables.TableNames;
+    const tableNames = existingTables.TableNames as string[];
     for (let i = 0; i < tableNames.length; i++) {
       const tableName = tableNames[i];
       console.log(`Deleting table: ${tableName}`);

@@ -13,9 +13,9 @@
     "start": "concurrently \"yarn start:server\" \"yarn start:nextapp\"",
     "lint": "next lint",
     "s3": "serverless s3 start",
-    "create-tables": "node create_db_tables.js",
-    "delete-tables": "node delete_tables.js",
-    "seeder": "node server/seeder.js",
+    "create-tables": "yarn ts-node --esm create_db_tables.ts",
+    "delete-tables": "yarn ts-node --esm delete_tables.ts",
+    "seeder": "yarn ts-node --esm server/seeder.ts",
     "dynamodb": "docker run -p 8000:8000 amazon/dynamodb-local -jar DynamoDBLocal.jar -inMemory -sharedDb"
   },
   "dependencies": {
@@ -27,7 +27,12 @@
     "@aws-sdk/s3-request-presigner": "^3.627.0",
     "@reduxjs/toolkit": "^2.2.5",
     "@sls-next/serverless-component": "^3.7.0",
+    "@types/cors": "^2.8.17",
     "@types/draft-js": "^0.11.18",
+    "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.6",
+    "@types/multer": "^1.4.12",
+    "@types/multer-s3": "^3.0.3",
     "@types/react-draft-wysiwyg": "^1.13.8",
     "aws-sdk": "^2.1632.0",
     "axios": "^1.7.2",
@@ -60,9 +65,11 @@
     "yup": "^1.4.0"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/uuid": "^10.0.0",
     "concurrently": "^8.2.2",
     "dotenv": "^16.4.5",
     "dynamodb-localhost": "^0.0.9",
@@ -73,9 +80,11 @@
     "serverless-dynamodb-local": "^0.2.40",
     "serverless-http": "^3.2.0",
     "serverless-offline": "^13.6.0",
+    "serverless-plugin-typescript": "^2.1.5",
     "serverless-s3-local": "^0.8.4",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.4"
   },
   "overrides": {
     "serverless-s3-local": {

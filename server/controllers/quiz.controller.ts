@@ -1,3 +1,4 @@
+import { Request, Response } from "express";
 import dbClient from "../services/dbClient.js";
 import { v4 as uuidv4 } from "uuid";
 import { GetCommand, PutCommand, QueryCommand } from "@aws-sdk/lib-dynamodb";
@@ -5,7 +6,7 @@ import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { generateCertificate } from "../utils/certificate.js";
 import { s3Client } from "../middlewares/uploadFile.js";
 
-const submitCaseAnswers = async (req, res) => {
+const submitCaseAnswers = async (req: any, res: Response) => {
   const studentID = req.validatedUser.id;
   const { firstname, lastname } = req.validatedUser;
   const fullName = firstname + " " + lastname;
@@ -59,7 +60,7 @@ const submitCaseAnswers = async (req, res) => {
   }
 };
 
-const getStudentsAnswers = async (req, res) => {
+const getStudentsAnswers = async (req: any, res: Response) => {
   const caseID = req.params.caseID;
   const params = {
     TableName: "Answers",
@@ -80,7 +81,7 @@ const getStudentsAnswers = async (req, res) => {
   }
 };
 
-const gradeQuiz = async (res, caseID, studentAnswers, fullName, studentID) => {
+const gradeQuiz = async (res: any, caseID: any, studentAnswers: any, fullName: any, studentID: any) => {
   const caseParams = {
     TableName: "Cases",
     Key: { id: caseID },
@@ -88,16 +89,16 @@ const gradeQuiz = async (res, caseID, studentAnswers, fullName, studentID) => {
 
   try {
     const caseCommand = new GetCommand(caseParams);
-    const caseResult = await dbClient.send(caseCommand);
+    const caseResult: any = await dbClient.send(caseCommand);
     const caseQuestions = caseResult?.Item?.caseQuestions;
     if (!caseQuestions) {
       return res.status(400).json({ error: `caseQuestions are not found` });
     }
     const caseTopic = caseResult.Item.caseTopic;
 
-    const correctAnswers = caseQuestions.map((question) => question.correctAnswer);
-    const studentSelectedOptions = studentAnswers.map((answer) => answer.correctAnswer);
-    const passed = correctAnswers.every((answer, idx) => answer === studentSelectedOptions[idx]);
+    const correctAnswers = caseQuestions.map((question: any) => question.correctAnswer);
+    const studentSelectedOptions = studentAnswers.map((answer: any) => answer.correctAnswer);
+    const passed = correctAnswers.every((answer: any, idx: any) => answer === studentSelectedOptions[idx]);
 
     // Generate certificate
     let pdfURL = "";
@@ -106,7 +107,7 @@ const gradeQuiz = async (res, caseID, studentAnswers, fullName, studentID) => {
       const certificateID = uuidv4();
       const { pdfBuffer, pngBuffer } = await generateCertificate(fullName, caseTopic);
 
-      const pdfUploadParams = {
+      const pdfUploadParams: any = {
         Bucket: "local-bucket",
         Key: `certificates/${certificateID}.pdf`,
         Body: pdfBuffer,
@@ -119,7 +120,7 @@ const gradeQuiz = async (res, caseID, studentAnswers, fullName, studentID) => {
       pdfURL = `http://localhost:4599/local-bucket/certificates/${certificateID}.pdf`;
 
       // Upload PNG to S3
-      const pngUploadParams = {
+      const pngUploadParams: any = {
         Bucket: "local-bucket",
         Key: `certificates/${certificateID}.png`,
         Body: pngBuffer,

@@ -1,12 +1,12 @@
 import { UpdateCommand, GetCommand, ScanCommand } from "@aws-sdk/lib-dynamodb";
-import dbClient from "../services/dbClient.js";
+import dbClient from "../services/dbClient.ts";
 import crypto from "crypto";
 
 function generateOtp() {
   return Math.floor(100000 + Math.random() * 900000);
 }
 
-async function storeOtpInDb(email, otp) {
+async function storeOtpInDb(email: String, otp: Number) {
   const params = {
     TableName: "Users",
     Key: {
@@ -22,7 +22,7 @@ async function storeOtpInDb(email, otp) {
   await dbClient.send(command);
 }
 
-async function getOtpFromDb(email) {
+async function getOtpFromDb(email: String) {
   const params = {
     TableName: "Users",
     Key: {
@@ -32,11 +32,11 @@ async function getOtpFromDb(email) {
   };
 
   const command = new GetCommand(params);
-  const result = await dbClient.send(command);
+  const result: any = await dbClient.send(command);
   return result.Item.otp;
 }
 
-async function updateUserPassword(email, newPassword) {
+async function updateUserPassword(email: String, newPassword: String) {
   const params = {
     TableName: "Users",
     Key: {
@@ -52,7 +52,7 @@ async function updateUserPassword(email, newPassword) {
   return result.Attributes;
 }
 
-async function getUserByEmail(email) {
+async function getUserByEmail(email: String) {
   try {
     const params = {
       TableName: "Users",
@@ -63,15 +63,15 @@ async function getUserByEmail(email) {
     };
 
     const command = new ScanCommand(params);
-    const result = await dbClient.send(command);
+    const result: any = await dbClient.send(command);
     return result.Items[0];
   } catch (error) {
     console.error(error);
     throw error;
   }
-};
+}
 
-function encryptPassword(password, secretKey) {
+function encryptPassword(password: any, secretKey: any) {
   const iv = crypto.randomBytes(16);
   const cipher = crypto.createCipheriv("aes-256-cbc", Buffer.from(secretKey, "hex"), iv);
   let encrypted = cipher.update(password, "utf8", "hex");
@@ -79,14 +79,22 @@ function encryptPassword(password, secretKey) {
   return iv.toString("hex") + ":" + encrypted;
 }
 
-function decryptPassword(encryptedPassword, secretKey) {
+function decryptPassword(encryptedPassword: any, secretKey: any) {
   const textParts = encryptedPassword.split(":");
   const iv = Buffer.from(textParts.shift(), "hex");
   const encryptedText = Buffer.from(textParts.join(":"), "hex");
-  const decipher = crypto.createDecipheriv("aes-256-cbc", Buffer.from(secretKey, "hex"), iv);
+  const decipher: any = crypto.createDecipheriv("aes-256-cbc", Buffer.from(secretKey, "hex"), iv);
   let decrypted = decipher.update(encryptedText, "hex", "utf8");
   decrypted += decipher.final("utf8");
   return decrypted;
 }
 
-export { updateUserPassword, generateOtp, storeOtpInDb, getOtpFromDb, encryptPassword, decryptPassword, getUserByEmail };
+export {
+  updateUserPassword,
+  generateOtp,
+  storeOtpInDb,
+  getOtpFromDb,
+  encryptPassword,
+  decryptPassword,
+  getUserByEmail,
+};

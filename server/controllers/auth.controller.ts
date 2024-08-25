@@ -1,8 +1,8 @@
 import jwt from "jsonwebtoken";
-import dbClient from "../services/dbClient.js";
+import { Request, Response } from "express";
+import dbClient from "../services/dbClient";
 import bcrypt from "bcryptjs";
 import { v4 as uuidv4 } from "uuid";
-import crypto from "crypto";
 import { PutCommand, ScanCommand } from "@aws-sdk/lib-dynamodb";
 import {
   updateUserPassword,
@@ -12,11 +12,11 @@ import {
   encryptPassword,
   decryptPassword,
   getUserByEmail,
-} from "../utils/api_utils.js";
+} from "../utils/api_utils";
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-const signup = async (req, res) => {
+const signup = async (req: Request, res: Response) => {
   console.log("heyy", req.body);
   const { firstname, lastname, email, password, roles } = req.body;
 
@@ -59,11 +59,11 @@ const signup = async (req, res) => {
     console.log("result: ", result);
 
     // Remove password from the user object before sending response
-    delete user.password;
+    const userWithoutPassword = { ...user, password: "" };
 
     res.status(201).json({
       message: "User was registered successfully!",
-      data: user,
+      data: userWithoutPassword,
     });
   } catch (error) {
     console.error(error);
@@ -71,7 +71,7 @@ const signup = async (req, res) => {
   }
 };
 
-const signin = async (req, res) => {
+const signin = async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
   if (!email) {
@@ -96,7 +96,7 @@ const signin = async (req, res) => {
     const command = new ScanCommand(params);
     const result = await dbClient.send(command);
 
-    const user = result.Items[0];
+    const user = result.Items ? result.Items[0] : null;
 
     if (!user) {
       return res.status(401).json({ error: "Invalid email or password" });
@@ -108,7 +108,7 @@ const signin = async (req, res) => {
     if (!isValid) {
       return res.status(401).json({ error: "Invalid email or password" });
     }
-    const token = jwt.sign(user, process.env.JWT_SECRET, {
+    const token = jwt.sign(user, process.env.JWT_SECRET!, {
       expiresIn: "1h",
     });
 
@@ -127,7 +127,7 @@ const signin = async (req, res) => {
   }
 };
 
-const sendOTP = async (req, res) => {
+const sendOTP = async (req: Request, res: Response) => {
   try {
     const { email } = req.body;
     const otp = generateOtp();
@@ -142,7 +142,7 @@ const sendOTP = async (req, res) => {
   }
 };
 
-const verifyOtpAndResetPassword = async (req, res) => {
+const verifyOtpAndResetPassword = async (req: Request, res: Response) => {
   const { email, otp, newPassword } = req.body;
 
   try {
@@ -163,7 +163,7 @@ const verifyOtpAndResetPassword = async (req, res) => {
   }
 };
 
-const getUsers = async (req, res) => {
+const getUsers = async (req: Request, res: Response) => {
   try {
     const params = {
       TableName: "Users",
@@ -184,7 +184,7 @@ const getUsers = async (req, res) => {
   }
 };
 
-const updatePassword = async (req, res) => {
+const updatePassword = async (req: any, res: Response) => {
   try {
     const email = req.validatedUser.email;
     const { currentPassword, newPassword } = req.body;
