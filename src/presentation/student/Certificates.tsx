@@ -1,11 +1,11 @@
-import React, { FC, useState } from "react";
+import React, { useState } from "react";
 import CertificateImg from "@/assets/images/certificate.png";
-import Modal, { ModalProps } from "@/components/ui/Modal";
+import Modal from "@/components/ui/Modal";
 import DashboardLayout from "@/components/layouts/dashboard";
 import { SearchBar } from "@/components/form-elements";
 import Image from "next/image";
 
-const Certificates: FC<ModalProps> = ({ show, toggle }) => {
+const Certificates = () => {
   const [showCertModal, setShowCertModal] = useState(false);
 
   const certPopUp = () => {

@@ -1,14 +1,16 @@
 "use client";
-
-import CreateCaseStudy from "@/presentation/doctor/CreateCaseStudy";
 import React, { useEffect, useState } from "react";
 import useProcessTabs from "@/services/hooks/useProcessTabs";
 import { createCaseStudyTabs } from "@/services/constants";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
 import { addCase, resetAddCaseStatus } from "@/store/slices/case/addCaseSlice";
 import { useRouter } from "next/navigation";
-
-const initialCaseStudy = {
+import { CaseStudy } from "@/services/types/doctor/createCaseStudy";
+import dynamic from "next/dynamic";
+const CreateCaseStudy = dynamic(() => import("@/presentation/doctor/CreateCaseStudy"), {
+  ssr: false,
+});
+const initialCaseStudy: CaseStudy = {
   caseClue: "",
   caseDescription: "",
   caseTopic: "",

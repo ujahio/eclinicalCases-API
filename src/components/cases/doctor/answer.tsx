@@ -4,20 +4,9 @@ import React, { Fragment, FunctionComponent, useEffect, useState } from "react";
 import { EditorState, convertFromRaw, convertToRaw } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
 import { useAppSelector } from "@/services/hooks/hooks";
+import { DoctorCaseAnswerProps } from "@/services/types/doctor/createCaseStudy";
 
-interface DoctorCaseAnswerProps {
-  goNext: () => void;
-  caseStudy: any;
-  setCaseStudy: any;
-  handleAddCase: any;
-}
-
-const DoctorCaseAnswer: FunctionComponent<DoctorCaseAnswerProps> = ({
-  goNext,
-  caseStudy,
-  setCaseStudy,
-  handleAddCase,
-}) => {
+const DoctorCaseAnswer = ({ goNext, caseStudy, setCaseStudy, handleAddCase }: DoctorCaseAnswerProps) => {
   const [editorState, setEditorState] = useState(() =>
     caseStudy.caseExplanation
       ? EditorState.createWithContent(convertFromRaw(JSON.parse(caseStudy.caseExplanation)))
@@ -63,7 +52,15 @@ const DoctorCaseAnswer: FunctionComponent<DoctorCaseAnswerProps> = ({
           />
         </div>
       </div>
-      <Button btnStyle="outline" size="lg" centralize onClick={() => handleAddCase(true)} className="w-full mb-3">
+      <Button
+        btnStyle="outline"
+        size="lg"
+        centralize
+        onClick={() => {
+          handleAddCase && handleAddCase(true);
+        }}
+        className="w-full mb-3"
+      >
         {caseStudy.draft && addCaseState === "loading" ? "Loading..." : "Save As a Draft..."}
       </Button>
       <div className="grid sm:grid-cols-2 grid-cols-1 gap-4">

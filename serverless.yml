@@ -5,9 +5,6 @@ app: clinical
 # "service" is the name of this project. This will also be added to your AWS resource names.
 service: clinical-backend
 
-myNextApplication:
-  component: "@sls-next/serverless-component@3.7.0"
-
 plugins:
   - serverless-dynamodb-local
   - serverless-s3-local

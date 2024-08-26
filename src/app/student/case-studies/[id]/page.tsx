@@ -7,6 +7,7 @@ import { resetSubmitCaseResponseStatus, submitCaseResponse } from "@/store/slice
 import React, { useEffect, useState } from "react";
 import useProcessTabs from "@/services/hooks/useProcessTabs";
 import { toast } from "react-toastify";
+import { CaseDetail } from "@/services/types/student";
 
 const tabs = [
   "Case Presentation",
@@ -25,7 +26,7 @@ const CaseStudies = ({ params }: any) => {
   const handleFetchCaseDetails = (caseId: any) => {
     dispatch(fetchCaseDetails(caseId));
   };
-  const [caseDetails, setCaseDetails] = useState({
+  const [caseDetails, setCaseDetails] = useState<CaseDetail>({
     caseID: params.id,
     caseTopicAnswer: "",
     caseExplanation: "",

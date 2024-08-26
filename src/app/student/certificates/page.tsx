@@ -5,7 +5,7 @@ import CertificatesComp from "@/presentation/student/Certificates";
 const Certificates = () => {
   return (
     <div>
-      <CertificatesComp show={false} toggle={() => {}} />
+      <CertificatesComp />
     </div>
   );
 };

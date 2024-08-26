@@ -3,14 +3,9 @@ import Cme from "./cme";
 import Button from "@/components/ui/Button";
 import { convertFromRaw, Editor, EditorState } from "draft-js";
 import { useAppSelector } from "@/services/hooks/hooks";
+import { FinalReviewProps } from "@/services/types/doctor/createCaseStudy";
 
-interface FinalReviewProps {
-  goNext: () => void;
-  caseStudy: any;
-  handleAddCase: any;
-}
-
-const FinalReview: FunctionComponent<FinalReviewProps> = ({ goNext, caseStudy, handleAddCase }) => {
+const FinalReview = ({ goNext, caseStudy, handleAddCase }: FinalReviewProps) => {
   const parseEditorState = (data: string) => {
     try {
       return EditorState.createWithContent(convertFromRaw(JSON.parse(data)));

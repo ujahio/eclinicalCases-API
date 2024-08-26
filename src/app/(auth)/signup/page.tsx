@@ -6,6 +6,7 @@ import SignupComp from "@/presentation/auth/signup";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
 import { resetStatus, signupUser } from "@/store/slices/auth/signupSlice";
 import { resetStatus as resetStatusLogin, loginUser } from "@/store/slices/auth/loginSlice";
+import { SignupValues } from "@/services/types/auth/signup";
 
 const Signup = () => {
   const navigate = useRouter();
@@ -16,7 +17,7 @@ const Signup = () => {
   const userInfo = useAppSelector((state) => state.login.user);
 
   const handleSubmitSignupUser = React.useCallback(
-    (val: any) => {
+    (val: SignupValues) => {
       const { email, password } = val.personalDetails;
       setUser({ email, password });
       dispatch(signupUser(val));

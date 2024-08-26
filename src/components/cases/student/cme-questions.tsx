@@ -14,11 +14,7 @@ interface StudentCMEQuestionsProps {
   caseDetails: {
     answers: Answer[];
   };
-  setCaseDetails: React.Dispatch<
-    React.SetStateAction<{
-      answers: Answer[];
-    }>
-  >;
+  setCaseDetails: React.Dispatch<React.SetStateAction<any>>;
   handleSubmitResponse: any;
 }
 

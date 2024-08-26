@@ -8,7 +8,7 @@ import { resetPassword, resetResetPasswordStatus } from "@/store/slices/auth/res
 import { useRouter } from "next/navigation";
 const ForgotPassword = () => {
   const navigate = useRouter();
-  const [steps, setSteps] = useState(1);
+  const [steps, setSteps] = useState<number>(1);
   const otpState = useAppSelector((state) => state.sendOtp);
   const passwordState = useAppSelector((state) => state.resetPassword);
   const dispatch = useAppDispatch();

@@ -11,19 +11,9 @@ import Button from "@/components/ui/Button";
 import ProcessTabs from "@/components/ui/process-tabs";
 import { createCaseStudyTabs } from "@/services/constants";
 import { APP_CONTAINER, APP_SPACING } from "@/services/constants/styles";
+import { UpdateCaseStudyProps } from "@/services/types/doctor/createCaseStudy";
 
-const UpdateCaseStudy: React.FC<{
-  activeTab: number;
-  switchTab: React.Dispatch<React.SetStateAction<number>>;
-  goNext: () => void;
-  progress: number;
-  isActive: (key: string) => boolean;
-  caseStudy: any;
-  setCaseStudy: any;
-  prevCaseMaterials: File[];
-  setPrevCaseMaterials: React.Dispatch<React.SetStateAction<File[]>>;
-  handleUpdateCase: any;
-}> = ({
+const UpdateCaseStudy = ({
   activeTab,
   switchTab,
   goNext,
@@ -34,7 +24,7 @@ const UpdateCaseStudy: React.FC<{
   prevCaseMaterials,
   setPrevCaseMaterials,
   handleUpdateCase,
-}) => {
+}: UpdateCaseStudyProps) => {
   return (
     <AdminLayout
       extraNav={

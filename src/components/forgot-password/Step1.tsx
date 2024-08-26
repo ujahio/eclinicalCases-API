@@ -6,12 +6,9 @@ import { forgetPassStep1Schema } from "@/lib/schema";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useAppSelector } from "@/services/hooks/hooks";
 import SpinnerGrow from "../spinners/SpinnerGrow";
+import { Step1Props } from "@/services/types/auth/forget-password";
 
-interface IProps {
-  handleSubmit: (otpData: any) => void;
-}
-
-const Step1 = ({ handleSubmit }: IProps) => {
+const Step1 = ({ handleSubmit }: Step1Props) => {
   const isLoading = useAppSelector((state) => state.sendOtp.status);
   return (
     <div>

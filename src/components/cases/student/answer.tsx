@@ -80,7 +80,7 @@ const StudentCaseAnswer: FC<StudentCaseAnswerProps> = ({ goNext, goBack, caseTop
         <ul className="flex flex-col w-full space-y-3">
           {caseDetailsState?.caseMaterials?.map((material: any, index: number) => {
             // Replace backslashes with forward slashes in the file path
-            const filePath = material.filePath.replace(/\\/g, "/");
+            const filePath = material.filePath.replace(/\\/g, "/home");
             const fileExtension = material.filename.split(".").pop().toUpperCase();
             return (
               <li key={index}>

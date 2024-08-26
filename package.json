@@ -56,7 +56,6 @@
     "redux-persist-transform-filter": "^0.0.22",
     "sass": "^1.77.3",
     "serverless": "^3.2.0",
-    "serverless-next.js": "^1.15.0-alpha.2",
     "yup": "^1.4.0"
   },
   "devDependencies": {

@@ -12,6 +12,7 @@ import ProcessTabs from "@/components/ui/process-tabs";
 import { APP_CONTAINER, APP_SPACING } from "@/services/constants/styles";
 import { useAppSelector } from "@/services/hooks/hooks";
 import { convertFromRaw, EditorState } from "draft-js";
+import { StudentCaseStudyProps } from "@/services/types/student";
 
 const fallbackContent = JSON.stringify({
   blocks: [],
@@ -29,7 +30,7 @@ const StudentCaseStudy = ({
   isActive,
   goNext,
   goBack,
-}: any) => {
+}: StudentCaseStudyProps) => {
   const caseDetailsState = useAppSelector((state) => state.caseDetails.caseDetails?.data);
   const caseDescription = EditorState.createWithContent(
     convertFromRaw(JSON.parse(caseDetailsState?.caseDescription || fallbackContent))

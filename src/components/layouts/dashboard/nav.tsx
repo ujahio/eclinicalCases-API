@@ -50,7 +50,7 @@ const Nav: FunctionComponent<NavProps> = ({
       <div
         className={`max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl 2xl:max-w-xxl 3xl:max-w-3xl flex items-center justify-between h-17.5 ${APP_SPACING} ${APP_CONTAINER}`}
       >
-        <Link href="/">
+        <Link href="/home">
           <Image src={Logo} alt="E Clinic Logo" className="h-5 sm:h-6 w-auto" />
         </Link>
 
@@ -85,12 +85,12 @@ const Nav: FunctionComponent<NavProps> = ({
           </svg>
           {navLinks.map(({ label, path }, index) => (
             <AppDropdown key={index}>
-              {currentPath === "/" ? (
+              {currentPath === "/home" ? (
                 <AppDropdownItem href={path} className="block sm:hidden">
                   {label}
                 </AppDropdownItem>
               ) : (
-                <AppDropdownItem href="/" className="block sm:hidden">
+                <AppDropdownItem href="/home" className="block sm:hidden">
                   Dashboard
                 </AppDropdownItem>
               )}

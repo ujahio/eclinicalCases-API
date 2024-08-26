@@ -6,12 +6,13 @@ import Logo from "@/assets/images/logo.png";
 import ProcessTabs from "@/components/ui/process-tabs";
 import ProfessionalDetailsForm from "./components/professional-details-form";
 import ReviewAndConfirm from "./components/ReviewAndConfirm";
+import { SignupCompProps } from "@/services/types/auth/signup";
 
 const tabs = ["Personal Details", "Professional Details", "Review and Confirm"];
 
 type ProfessionalDetailsProps = {};
 
-const Signup = ({ handleSignUp }: { handleSignUp: any }) => {
+const Signup = ({ handleSignUp }: SignupCompProps) => {
   const { active: activeTab, isActive, switchTab, switchByKey } = useProcessTabs(tabs, 0);
 
   const [personalDetailsInfo, savePersonalDetails] = useState({
