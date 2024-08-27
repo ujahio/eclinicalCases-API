@@ -1,21 +1,15 @@
 import { InputField } from "@/components/form-elements";
 import Button from "@/components/ui/Button";
 import { useAppSelector } from "@/services/hooks/hooks";
-import React, { FunctionComponent, useState, ChangeEvent, useRef, useEffect } from "react";
+import { DoctorMaterialsAndDeadlineProps } from "@/services/types/doctor/createCaseStudy";
+import React, { useState, ChangeEvent, useRef } from "react";
 
-interface DoctorMaterialsAndDeadlineProps {
-  goNext: () => void;
-  caseStudy: any;
-  setCaseStudy: React.Dispatch<React.SetStateAction<any>>;
-  handleAddCase: any;
-}
-
-const DoctorMaterialsAndDeadline: FunctionComponent<DoctorMaterialsAndDeadlineProps> = ({
+const DoctorMaterialsAndDeadline = ({
   goNext,
   caseStudy,
   setCaseStudy,
   handleAddCase,
-}) => {
+}: DoctorMaterialsAndDeadlineProps) => {
   const [files, setFiles] = useState<File[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const addCaseState = useAppSelector((state) => state.addCase.status);
@@ -100,7 +94,13 @@ const DoctorMaterialsAndDeadline: FunctionComponent<DoctorMaterialsAndDeadlinePr
           }}
         />
       </div>
-      <Button btnStyle="outline" size="lg" centralize onClick={() => handleAddCase(true)} className="w-full mb-3">
+      <Button
+        btnStyle="outline"
+        size="lg"
+        centralize
+        onClick={() => handleAddCase && handleAddCase(true)}
+        className="w-full mb-3"
+      >
         {caseStudy.draft && addCaseState === "loading" ? "Loading..." : "Save As a Draft..."}
       </Button>
       <div className="grid sm:grid-cols-2 grid-cols-1 gap-4">

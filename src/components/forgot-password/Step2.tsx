@@ -7,12 +7,9 @@ import { useAppSelector } from "@/services/hooks/hooks";
 import SpinnerGrow from "../spinners/SpinnerGrow";
 import { forgetPassStep2Schema } from "@/lib/schema";
 import { saltAndHashPassword } from "@/utils/password";
+import { Step2Props } from "@/services/types/auth/forget-password";
 
-interface IProps {
-  handleSubmit: (passwordData: any) => void;
-}
-
-const Step2 = ({ handleSubmit }: IProps) => {
+const Step2 = ({ handleSubmit }: Step2Props) => {
   const isLoading = useAppSelector((state) => state.resetPassword.status);
 
   return (

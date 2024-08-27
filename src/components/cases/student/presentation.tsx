@@ -34,7 +34,7 @@ const StudentCasePresentation: FunctionComponent<StudentCasePresentationProps> =
         <p className="text-dark sm:text-base text-1sm">{formattedDate}</p>
       </div>
       <div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
-        <Button btnStyle="outline" size="lg" centralize href="/">
+        <Button btnStyle="outline" size="lg" centralize href="/home">
           Go Back Home
         </Button>
         <Button btnStyle="basic" size="lg" centralize onClick={() => goNext()}>

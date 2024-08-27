@@ -25,7 +25,7 @@ const PasswordSettings = () => {
     const hashedCurrentPassword = saltAndHashPassword(passwordData.currentPassword);
     const hashedNewPassword = saltAndHashPassword(passwordData.newPassword);
     const hashedConfirmNewPassword = saltAndHashPassword(passwordData.confirmNewPassword);
-
+    
     // Update password data with hashed passwords
     const hashedPasswordData = {
       currentPassword: hashedCurrentPassword,

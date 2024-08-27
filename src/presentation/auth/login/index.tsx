@@ -9,8 +9,9 @@ import Image from "next/image";
 import ExclamationMark from "@/assets/icons/exclamationMark.png";
 import { useAppSelector } from "@/services/hooks/hooks";
 import SpinnerGrow from "@/components/spinners/SpinnerGrow";
+import { LoginCompProps } from "@/services/types/auth/login";
 
-const Login = ({ handleSubmit }: any) => {
+const Login = ({ handleSubmit }: LoginCompProps) => {
   const isLoading = useAppSelector((state) => state.login.status);
   return (
     <AuthLayout title="Sign in to Your Account">

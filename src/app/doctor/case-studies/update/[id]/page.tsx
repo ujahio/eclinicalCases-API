@@ -4,12 +4,13 @@ import UpdateCaseStudy from "@/presentation/doctor/UpdateCaseStudy";
 import { createCaseStudyTabs } from "@/services/constants";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
 import useProcessTabs from "@/services/hooks/useProcessTabs";
+import { CaseStudy } from "@/services/types/doctor/createCaseStudy";
 import { fetchCaseDetails, resetCaseDetailsStatus } from "@/store/slices/case/caseDetailsSlice";
 import { resetUpdateCaseStatus, updateCase } from "@/store/slices/case/updateCaseSlice";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-const initialCaseStudy = {
+const initialCaseStudy: CaseStudy = {
   caseClue: "",
   caseDescription: "",
   caseTopic: "",
@@ -39,7 +40,6 @@ const Update = ({ params }: any) => {
   const dispatch = useAppDispatch();
   const caseDetailsState = useAppSelector((state) => state.caseDetails);
   const updateCaseState = useAppSelector((state) => state.updateCase);
-
   const { active: activeTab, switchTab, isActive } = useProcessTabs(createCaseStudyTabs, 0);
   const [progress, setProgress] = useState(1);
   const [caseStudy, setCaseStudy] = useState(initialCaseStudy);

@@ -6,7 +6,11 @@ import { CaseCard } from "@/components/cases";
 import { useAppSelector } from "@/services/hooks/hooks";
 import { formatDate } from "@/utils/formatDate";
 
-const DoctorCaseStudies = ({ handleDeleteCase }: any) => {
+interface IProps {
+  handleDeleteCase: (caseId: string) => void;
+}
+
+const DoctorCaseStudies = ({ handleDeleteCase }: IProps) => {
   const [searchQuery, setSearchQuery] = useState("");
   const allCasesState = useAppSelector((state) => state.getAllCases.cases?.data);
   const cases = allCasesState?.map((caseItem: any) => ({
@@ -32,7 +36,6 @@ const DoctorCaseStudies = ({ handleDeleteCase }: any) => {
       <SearchBar placeholder="Search for case studies..." onChange={handleSearch} />
 
       <div className="mt-7.5">
-        {/* <Link href="/responses-feedback"> */}
         <ul className="grid grid-cols-items gap-5 md:gap-6.25">
           {filteredCases?.length > 0 ? (
             <>
@@ -44,7 +47,6 @@ const DoctorCaseStudies = ({ handleDeleteCase }: any) => {
             <p className="text-black">No cases found matching your search query.</p>
           )}
         </ul>
-        {/* </Link> */}
       </div>
     </AdminLayout>
   );

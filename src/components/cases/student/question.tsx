@@ -3,9 +3,6 @@ import { Editor } from "react-draft-wysiwyg";
 import { convertFromRaw, convertToRaw, EditorState } from "draft-js";
 import { InputField } from "@/components/form-elements";
 import Button from "@/components/ui/Button";
-// import validationLists from "@/services/helper/validations";
-
-// const { studentCaseQuestionValidation } = validationLists;
 
 interface StudentCaseQuestionProps {
   goNext: () => void;

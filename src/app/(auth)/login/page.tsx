@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
 import { loginUser, resetStatus } from "@/store/slices/auth/loginSlice";
 import { saltAndHashPassword } from "@/utils/password";
+import { LoginFormValues } from "@/services/types/auth/login";
 
 const Login = () => {
   const navigate = useRouter();
@@ -13,7 +14,7 @@ const Login = () => {
   const isLoading = useAppSelector((state) => state.login.status);
   const userInfo = useAppSelector((state) => state.login.user);
   const handleSubmitLoginUser = React.useCallback(
-    (val: { username: string; password: string }) => {
+    (val: LoginFormValues) => {
       const hashedPassword = saltAndHashPassword(val.password);
       dispatch(loginUser({ ...val, password: hashedPassword }));
     },

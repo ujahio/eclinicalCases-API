@@ -1,21 +1,10 @@
 import { InputField } from "@/components/form-elements";
 import Button from "@/components/ui/Button";
 import { useAppSelector } from "@/services/hooks/hooks";
-import React, { FunctionComponent, useState } from "react";
+import { DoctorCMEQuestionsProps } from "@/services/types/doctor/createCaseStudy";
+import React, { FunctionComponent } from "react";
 
-interface DoctorCMEQuestionsProps {
-  goNext: () => void;
-  caseStudy: any;
-  setCaseStudy: any;
-  handleAddCase: any;
-}
-
-const DoctorCMEQuestions: FunctionComponent<DoctorCMEQuestionsProps> = ({
-  goNext,
-  caseStudy,
-  setCaseStudy,
-  handleAddCase,
-}) => {
+const DoctorCMEQuestions = ({ goNext, caseStudy, setCaseStudy, handleAddCase }: DoctorCMEQuestionsProps) => {
   const addCaseState = useAppSelector((state) => state.addCase.status);
   const updateQuestionText = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const updatedQuestions = caseStudy.caseQuestions.map((q: any, i: any) =>
@@ -192,7 +181,13 @@ const DoctorCMEQuestions: FunctionComponent<DoctorCMEQuestionsProps> = ({
           Add Question
         </Button>
       </div>
-      <Button btnStyle="outline" size="lg" centralize onClick={() => handleAddCase(true)} className="w-full mb-3">
+      <Button
+        btnStyle="outline"
+        size="lg"
+        centralize
+        onClick={() => handleAddCase && handleAddCase(true)}
+        className="w-full mb-3"
+      >
         {caseStudy.draft && addCaseState === "loading" ? "Loading..." : "Save As a Draft..."}
       </Button>
       <div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
