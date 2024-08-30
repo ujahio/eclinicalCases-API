@@ -41,3 +41,10 @@ node_modules
 buckets/local-bucket/**
 .env
 .env.local
+
+# sst
+.sst
+
+
+# open-next
+.open-next
