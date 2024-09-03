@@ -1,12 +1,13 @@
 import dbClient from "../services/dbClient.js";
 import { v4 as uuidv4 } from "uuid";
 import { QueryCommand, ScanCommand } from "@aws-sdk/lib-dynamodb";
+import { TABLES } from "../services/dbTables.js";
 
 const getStudentCertificates = async (req, res) => {
   const studentID = req.validatedUser.id;
 
   const params = {
-    TableName: "Certificates",
+    TableName: TABLES.CERTIFICATES,
     IndexName: "StudentIDIndex",
     KeyConditionExpression: "studentID = :studentID",
     ExpressionAttributeValues: {
@@ -36,7 +37,7 @@ const getCertificateByCaseID = async (req, res) => {
   const caseID = req.params.caseID;
 
   const params = {
-    TableName: "Certificates",
+    TableName: TABLES.CERTIFICATES,
     FilterExpression: "caseID = :caseID",
     ExpressionAttributeValues: {
       ":caseID": caseID,

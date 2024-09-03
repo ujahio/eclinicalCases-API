@@ -13,8 +13,11 @@ import {
   decryptPassword,
   getUserByEmail,
 } from "../utils/api_utils.js";
+import { TABLES } from "../services/dbTables.js";
+import { SECRETS } from "../services/secrets.js";
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+const secretKey = "85b492d819a25e6fd4342383d4fa3e25e1356cdd7bb6af4ea1bdafacb6e4c731";
 
 const signup = async (req, res) => {
   console.log("heyy", req.body);
@@ -30,7 +33,7 @@ const signup = async (req, res) => {
     return res.status(400).json({ error: '"password" must be a string' });
   }
 
-  let originalPassword = decryptPassword(password, process.env.secretKey);
+  let originalPassword = decryptPassword(password, secretKey);
   const hashedPassword = bcrypt.hashSync(originalPassword, 10);
   const userId = uuidv4();
   const created_on = new Date(Date.now()).toISOString();
@@ -49,7 +52,7 @@ const signup = async (req, res) => {
   };
 
   const params = {
-    TableName: "Users",
+    TableName: TABLES.USER,
     Item: user,
   };
 
@@ -83,10 +86,10 @@ const signin = async (req, res) => {
   }
 
   try {
-    let originalPassword = decryptPassword(password, process.env.secretKey);
+    let originalPassword = decryptPassword(password, secretKey);
 
     const params = {
-      TableName: "Users",
+      TableName: TABLES.USER,
       FilterExpression: "email = :email",
       ExpressionAttributeValues: {
         ":email": email,
@@ -108,7 +111,7 @@ const signin = async (req, res) => {
     if (!isValid) {
       return res.status(401).json({ error: "Invalid email or password" });
     }
-    const token = jwt.sign(user, process.env.JWT_SECRET, {
+    const token = jwt.sign(user, SECRETS.JWT_SECRET, {
       expiresIn: "1h",
     });
 
@@ -146,7 +149,7 @@ const verifyOtpAndResetPassword = async (req, res) => {
   const { email, otp, newPassword } = req.body;
 
   try {
-    let originalPassword = decryptPassword(newPassword, process.env.secretKey);
+    let originalPassword = decryptPassword(newPassword, secretKey);
     const storedOtp = await getOtpFromDb(email);
     const hashedPassword = bcrypt.hashSync(originalPassword, 4);
 
@@ -166,7 +169,7 @@ const verifyOtpAndResetPassword = async (req, res) => {
 const getUsers = async (req, res) => {
   try {
     const params = {
-      TableName: "Users",
+      TableName: TABLES.USER,
     };
 
     const command = new ScanCommand(params);
@@ -189,7 +192,7 @@ const updatePassword = async (req, res) => {
     const email = req.validatedUser.email;
     const { currentPassword, newPassword } = req.body;
 
-    let originalCurrentPassword = decryptPassword(currentPassword, process.env.secretKey);
+    let originalCurrentPassword = decryptPassword(currentPassword, secretKey);
 
     const user = await getUserByEmail(email);
     const isPasswordCorrect = bcrypt.compareSync(originalCurrentPassword, user.password);
@@ -198,7 +201,7 @@ const updatePassword = async (req, res) => {
     }
 
     // Hash and update new password
-    let originalNewPassword = decryptPassword(newPassword, process.env.secretKey);
+    let originalNewPassword = decryptPassword(newPassword, secretKey);
     const hashedPassword = bcrypt.hashSync(originalNewPassword, 4);
 
     const updatedUser = await updateUserPassword(email, hashedPassword);

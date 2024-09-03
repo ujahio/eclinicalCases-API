@@ -8,7 +8,7 @@
     "build": "next build",
     "create-tables": "node create_db_tables.js",
     "delete-tables": "node delete_tables.js",
-    "dev": "concurrently \"yarn dev:server\" \"yarn dev:nextapp\"",
+    "dev": "yarn dev:nextapp",
     "dev:nextapp": "next dev",
     "dev:server": "yarn create-tables && yarn seeder && nodemon",
     "dynamodb": "docker run -p 8000:8000 amazon/dynamodb-local -jar DynamoDBLocal.jar -inMemory -sharedDb",

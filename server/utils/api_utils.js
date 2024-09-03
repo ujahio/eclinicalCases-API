@@ -1,6 +1,7 @@
 import { UpdateCommand, GetCommand, ScanCommand } from "@aws-sdk/lib-dynamodb";
 import dbClient from "../services/dbClient.js";
 import crypto from "crypto";
+import { TABLES } from "../services/dbTables.js";
 
 function generateOtp() {
   return Math.floor(100000 + Math.random() * 900000);
@@ -8,7 +9,7 @@ function generateOtp() {
 
 async function storeOtpInDb(email, otp) {
   const params = {
-    TableName: "Users",
+    TableName: TABLES.USER,
     Key: {
       email: email,
     },
@@ -24,7 +25,7 @@ async function storeOtpInDb(email, otp) {
 
 async function getOtpFromDb(email) {
   const params = {
-    TableName: "Users",
+    TableName: TABLES.USER,
     Key: {
       email: email,
     },
@@ -38,7 +39,7 @@ async function getOtpFromDb(email) {
 
 async function updateUserPassword(email, newPassword) {
   const params = {
-    TableName: "Users",
+    TableName: TABLES.USER,
     Key: {
       email: email,
     },
@@ -55,7 +56,7 @@ async function updateUserPassword(email, newPassword) {
 async function getUserByEmail(email) {
   try {
     const params = {
-      TableName: "Users",
+      TableName: TABLES.USER,
       FilterExpression: "email = :email",
       ExpressionAttributeValues: {
         ":email": email,
