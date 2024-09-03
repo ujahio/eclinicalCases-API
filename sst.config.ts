@@ -1,5 +1,4 @@
 /// <reference path="./.sst/platform/config.d.ts" />
-// import { Api, NextjsSite, StackContext } from "@serverless-stack/resources";
 
 export default $config({
 	app(input) {
@@ -9,13 +8,17 @@ export default $config({
 			home: "aws",
 		};
 	},
-
 	async run() {
+		const STAGE = $app.stage;
+		const domainName =
+			STAGE === "production" ? "eccs-online.com" : `${STAGE}.eccs-online.com`;
 		new sst.aws.Nextjs("MyWeb", {
 			// Next.js build output
-			domain: "eccs-online.com",
-			path: "src/",
+			domain: {
+				name: domainName,
+			},
 		});
+
 		// API
 		const api = new sst.aws.ApiGatewayV2("MyApi");
 		api.route("POST /api/auth/signin", {
