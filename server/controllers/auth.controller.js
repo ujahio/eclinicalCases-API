@@ -14,10 +14,9 @@ import {
   getUserByEmail,
 } from "../utils/api_utils.js";
 import { TABLES } from "../services/dbTables.js";
-import { SECRETS } from "../services/secrets.js";
+import SECRETS from "../../secrets.js";
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-const secretKey = "85b492d819a25e6fd4342383d4fa3e25e1356cdd7bb6af4ea1bdafacb6e4c731";
 
 const signup = async (req, res) => {
   console.log("heyy", req.body);
@@ -33,7 +32,7 @@ const signup = async (req, res) => {
     return res.status(400).json({ error: '"password" must be a string' });
   }
 
-  let originalPassword = decryptPassword(password, secretKey);
+  let originalPassword = decryptPassword(password, SECRETS.PASS_SECRET);
   const hashedPassword = bcrypt.hashSync(originalPassword, 10);
   const userId = uuidv4();
   const created_on = new Date(Date.now()).toISOString();
@@ -86,7 +85,7 @@ const signin = async (req, res) => {
   }
 
   try {
-    let originalPassword = decryptPassword(password, secretKey);
+    let originalPassword = decryptPassword(password, SECRETS.PASS_SECRET);
 
     const params = {
       TableName: TABLES.USER,
@@ -149,7 +148,7 @@ const verifyOtpAndResetPassword = async (req, res) => {
   const { email, otp, newPassword } = req.body;
 
   try {
-    let originalPassword = decryptPassword(newPassword, secretKey);
+    let originalPassword = decryptPassword(newPassword, SECRETS.PASS_SECRET);
     const storedOtp = await getOtpFromDb(email);
     const hashedPassword = bcrypt.hashSync(originalPassword, 4);
 
@@ -192,7 +191,7 @@ const updatePassword = async (req, res) => {
     const email = req.validatedUser.email;
     const { currentPassword, newPassword } = req.body;
 
-    let originalCurrentPassword = decryptPassword(currentPassword, secretKey);
+    let originalCurrentPassword = decryptPassword(currentPassword, SECRETS.PASS_SECRET);
 
     const user = await getUserByEmail(email);
     const isPasswordCorrect = bcrypt.compareSync(originalCurrentPassword, user.password);
@@ -201,7 +200,7 @@ const updatePassword = async (req, res) => {
     }
 
     // Hash and update new password
-    let originalNewPassword = decryptPassword(newPassword, secretKey);
+    let originalNewPassword = decryptPassword(newPassword, SECRETS.PASS_SECRET);
     const hashedPassword = bcrypt.hashSync(originalNewPassword, 4);
 
     const updatedUser = await updateUserPassword(email, hashedPassword);

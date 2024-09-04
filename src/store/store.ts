@@ -4,6 +4,7 @@ import createFilter from "redux-persist-transform-filter";
 import { persistReducer, persistStore, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { logout } from "./slices/auth/loginSlice";
+import { Resource } from "sst";
 
 const loginFilter = createFilter("login", ["isLoggedIn", "user"]);
 const persistConfig = {
@@ -15,7 +16,7 @@ const persistConfig = {
 
 const persistedReducer = persistReducer<RootState>(persistConfig, rootReducer);
 
-const isDevelopment = process.env.NEXT_NODE_ENV === "development";
+const isDevelopment = Resource.NEXT_NODE_ENV.value === "development";
 
 export const makeStore = () => {
   let store: any = configureStore({
