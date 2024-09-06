@@ -5,6 +5,13 @@ on:
     branches:
       - staging
 
+permissions:
+  id-token: write # This is required for requesting the JWT
+  contents: read # This is required for actions/checkout
+
+env:
+  AWS_REGION: us-east-1
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -24,9 +31,12 @@ jobs:
       - name: Install SST CLI
         run: npm install -g sst
 
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: rn:aws:iam::YOUR_AWS_ACCOUNT_ID:role/gh-action-staging-deployment
+          role-session-name: aws-get-session-token
+          aws-region: ${{ env.AWS_REGION }}
+
       - name: Deploy to Staging
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: us-east-1
         run: sst deploy --stage stage
