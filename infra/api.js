@@ -1,43 +1,50 @@
 import { bucket } from "./storage";
-import { JWT_SECRET, PASS_SECRET } from "./secrets";
-import { Users, Cases, Feedback, Answers, Certificates, StudentCaseAttempts } from "./dynamo";
+import { JwtSecret, PassSecret } from "./secrets";
+import {
+	Users,
+	Cases,
+	Feedback,
+	Answers,
+	Certificates,
+	StudentCaseAttempts,
+} from "./dynamo";
 
 const links = [
-  Users,
-  Cases,
-  Feedback,
-  Answers,
-  Certificates,
-  StudentCaseAttempts,
-  JWT_SECRET,
-  PASS_SECRET,
+	Users,
+	Cases,
+	Feedback,
+	Answers,
+	Certificates,
+	StudentCaseAttempts,
+	JwtSecret,
+	PassSecret,
 ];
 export const api = new sst.aws.ApiGatewayV2("MyApi");
 
 // Auth
 api.route("POST /api/auth/signin", {
-  handler: "handler.handler",
-  link: links,
+	handler: "handler.handler",
+	link: links,
 });
 api.route("POST /api/auth/signup", {
-  handler: "handler.handler",
-  link: links,
+	handler: "handler.handler",
+	link: links,
 });
 api.route("POST /api/auth/send-otp", {
-  handler: "handler.handler",
-  link: links,
+	handler: "handler.handler",
+	link: links,
 });
 api.route("POST /api/auth/reset-password", {
-  handler: "handler.handler",
-  link: links,
+	handler: "handler.handler",
+	link: links,
 });
 api.route("POST /api/auth/update-password", {
-  handler: "handler.handler",
-  link: links,
+	handler: "handler.handler",
+	link: links,
 });
 api.route("GET /api/auth/users", {
-  handler: "handler.handler",
-  link: links,
+	handler: "handler.handler",
+	link: links,
 });
 
 // Case

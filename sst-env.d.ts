@@ -19,7 +19,7 @@ declare module "sst" {
       "name": string
       "type": "sst.aws.Dynamo"
     }
-    "JWT_SECRET": {
+    "JwtSecret": {
       "type": "sst.sst.Secret"
       "value": string
     }
@@ -35,19 +35,19 @@ declare module "sst" {
       "type": "sst.aws.Nextjs"
       "url": string
     }
-    "NEXT_NODE_ENV": {
+    "NextNodeEnv": {
       "type": "sst.sst.Secret"
       "value": string
     }
-    "NEXT_PASS_SECRET_KEY": {
+    "NextPassSecretKey": {
       "type": "sst.sst.Secret"
       "value": string
     }
-    "NEXT_PUBLIC_BASE_URL": {
+    "NextPublicBaseUrl": {
       "type": "sst.sst.Secret"
       "value": string
     }
-    "PASS_SECRET": {
+    "PassSecret": {
       "type": "sst.sst.Secret"
       "value": string
     }
