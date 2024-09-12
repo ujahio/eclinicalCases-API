@@ -35,18 +35,6 @@ declare module "sst" {
       "type": "sst.aws.Nextjs"
       "url": string
     }
-    "NEXT_NODE_ENV": {
-      "type": "sst.sst.Secret"
-      "value": string
-    }
-    "NEXT_PASS_SECRET_KEY": {
-      "type": "sst.sst.Secret"
-      "value": string
-    }
-    "NEXT_PUBLIC_BASE_URL": {
-      "type": "sst.sst.Secret"
-      "value": string
-    }
     "PASS_SECRET": {
       "type": "sst.sst.Secret"
       "value": string
