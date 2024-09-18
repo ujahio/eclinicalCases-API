@@ -39,4 +39,4 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Deploy to Staging
-        run: sst deploy --stage stage
+        run: sst deploy --stage staging
