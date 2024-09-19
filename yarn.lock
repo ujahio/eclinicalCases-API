@@ -3163,14 +3163,14 @@
 
 "@pdf-lib/standard-fonts@^1.0.0":
   version "1.0.0"
-  resolved "https://registry.npmjs.org/@pdf-lib/standard-fonts/-/standard-fonts-1.0.0.tgz"
+  resolved "https://registry.yarnpkg.com/@pdf-lib/standard-fonts/-/standard-fonts-1.0.0.tgz#8ba691c4421f71662ed07c9a0294b44528af2d7f"
   integrity sha512-hU30BK9IUN/su0Mn9VdlVKsWBS6GyhVfqjwl1FjZN4TxP6cCw0jP2w7V3Hf5uX7M0AZJ16vey9yE0ny7Sa59ZA==
   dependencies:
     pako "^1.0.6"
 
 "@pdf-lib/upng@^1.0.1":
   version "1.0.1"
-  resolved "https://registry.npmjs.org/@pdf-lib/upng/-/upng-1.0.1.tgz"
+  resolved "https://registry.yarnpkg.com/@pdf-lib/upng/-/upng-1.0.1.tgz#7dc9c636271aca007a9df4deaf2dd7e7960280cb"
   integrity sha512-dQK2FUMQtowVP00mtIksrlZhdFXQZPC+taih1q4CvPZ5vqdxR/LKBaFg0oAfzd1GlHZXXSPdQfzQnt+ViGvEIQ==
   dependencies:
     pako "^1.0.10"
@@ -4519,7 +4519,7 @@
 
 "@swc/helpers@^0.3.13":
   version "0.3.17"
-  resolved "https://registry.npmjs.org/@swc/helpers/-/helpers-0.3.17.tgz"
+  resolved "https://registry.yarnpkg.com/@swc/helpers/-/helpers-0.3.17.tgz#7c1b91f43c77e2bba99492162a498d465ef253d5"
   integrity sha512-tb7Iu+oZ+zWJZ3HJqwx8oNwSDIU440hmVMDPhpACWQWnrZHK99Bxs70gT1L2dnr5Hg50ZRWEFkQCAnOVVV0z1Q==
   dependencies:
     tslib "^2.4.0"
@@ -5589,7 +5589,7 @@ base64-arraybuffer@^1.0.2:
 
 base64-js@0.0.8:
   version "0.0.8"
-  resolved "https://registry.npmjs.org/base64-js/-/base64-js-0.0.8.tgz"
+  resolved "https://registry.yarnpkg.com/base64-js/-/base64-js-0.0.8.tgz#1101e9544f4a76b1bc3b26d452ca96d7a35e7978"
   integrity sha512-3XSA2cR/h/73EzlXXdU6YNycmYI7+kicTxks4eJg2g39biHR84slg2+des+p7iHYhbRg/udIS4TD53WabcOUkw==
 
 base64-js@^1.0.2, base64-js@^1.1.2, base64-js@^1.3.0, base64-js@^1.3.1:
@@ -5754,7 +5754,7 @@ brorand@^1.0.1, brorand@^1.1.0:
 
 brotli@^1.3.2:
   version "1.3.3"
-  resolved "https://registry.npmjs.org/brotli/-/brotli-1.3.3.tgz"
+  resolved "https://registry.yarnpkg.com/brotli/-/brotli-1.3.3.tgz#7365d8cc00f12cf765d2b2c898716bcf4b604d48"
   integrity sha512-oTKjJdShmDuGW94SyyaoQvAjf30dZaHnjJ8uAF+u2/vGJkJbJPJAT1gDiOJP5v1Zb6f9KEyW/1HpuaWIXtGHPg==
   dependencies:
     base64-js "^1.1.2"
@@ -6373,7 +6373,7 @@ clone@^1.0.2:
 
 clone@^2.1.2:
   version "2.1.2"
-  resolved "https://registry.npmjs.org/clone/-/clone-2.1.2.tgz"
+  resolved "https://registry.yarnpkg.com/clone/-/clone-2.1.2.tgz#1b7f4b9f591f1e8f83670401600345a02887435f"
   integrity sha512-3Pe/CF1Nn94hyhIYpjtiLhdCoEoz0DqQ+988E9gmeEdQZlojxnOb74wctFyuwWQHzqyf9X7C7MG8juUpqBJT8w==
 
 clsx@^2.0.0, clsx@^2.1.0:
@@ -6765,7 +6765,7 @@ crypto-browserify@3.12.0, crypto-browserify@^3.11.0:
 
 crypto-js@^4.2.0:
   version "4.2.0"
-  resolved "https://registry.npmjs.org/crypto-js/-/crypto-js-4.2.0.tgz"
+  resolved "https://registry.yarnpkg.com/crypto-js/-/crypto-js-4.2.0.tgz#4d931639ecdfd12ff80e8186dba6af2c2e856631"
   integrity sha512-KALDyEYgpY+Rlob/iriUtjV6d5Eq+Y191A5g4UqLAi8CyGP9N1+FdVbkc1SxKc2r4YAYqG8JzO2KGL+AizD70Q==
 
 css-line-break@^2.1.0:
@@ -7195,7 +7195,7 @@ dezalgo@^1.0.4:
 
 dfa@^1.2.0:
   version "1.2.0"
-  resolved "https://registry.npmjs.org/dfa/-/dfa-1.2.0.tgz"
+  resolved "https://registry.yarnpkg.com/dfa/-/dfa-1.2.0.tgz#96ac3204e2d29c49ea5b57af8d92c2ae12790657"
   integrity sha512-ED3jP8saaweFTjeGX8HQPjeC1YYyZs98jGNZx6IiBvxW7JG5v492kamAQB3m2wop07CvU/RQmzcKr6bgcC5D/Q==
 
 dicer@0.3.0:
@@ -8451,7 +8451,7 @@ filesize@^10.0.7:
 
 filesource@latest:
   version "1.0.7"
-  resolved "https://registry.npmjs.org/filesource/-/filesource-1.0.7.tgz"
+  resolved "https://registry.yarnpkg.com/filesource/-/filesource-1.0.7.tgz#25d41e3b54ace4f8e79b40518101aa92d9d374c5"
   integrity sha512-bVqL+4TXfvJ4CLWlYHxOC/O6qd7HoGlJMJYJnWalg2XLozuer27TnIQjQ2bDsWtzPcEum+lqkdBwZ4WwVgQbJw==
   dependencies:
     tmp "0.0.23"
@@ -8564,7 +8564,7 @@ follow-redirects@^1.15.6:
 
 fontkit@^1.8.1:
   version "1.9.0"
-  resolved "https://registry.npmjs.org/fontkit/-/fontkit-1.9.0.tgz"
+  resolved "https://registry.yarnpkg.com/fontkit/-/fontkit-1.9.0.tgz#95729cc9f24995fb068ea53aea2f1f193e323f2b"
   integrity sha512-HkW/8Lrk8jl18kzQHvAw9aTHe1cqsyx5sDnxncx652+CIfhawokEPkeM3BoIC+z/Xv7a0yMr0f3pRRwhGH455g==
   dependencies:
     "@swc/helpers" "^0.3.13"
@@ -10034,7 +10034,7 @@ jose@^5.1.3, jose@^5.7.0:
 
 jpeg-exif@^1.1.4:
   version "1.1.4"
-  resolved "https://registry.npmjs.org/jpeg-exif/-/jpeg-exif-1.1.4.tgz"
+  resolved "https://registry.yarnpkg.com/jpeg-exif/-/jpeg-exif-1.1.4.tgz#781a65b6cd74f62cb1c493511020f8d3577a1c2b"
   integrity sha512-a+bKEcCjtuW5WTdgeXFzswSrdqi0jk4XlEtZlx5A94wCoBpFjfFTbo/Tra5SpNCl/YFZPvcV1dJc+TAYeg6ROQ==
 
 js-string-escape@^1.0.1:
@@ -10450,7 +10450,7 @@ lilconfig@^3.0.0:
 
 linebreak@^1.0.2:
   version "1.1.0"
-  resolved "https://registry.npmjs.org/linebreak/-/linebreak-1.1.0.tgz"
+  resolved "https://registry.yarnpkg.com/linebreak/-/linebreak-1.1.0.tgz#831cf378d98bced381d8ab118f852bd50d81e46b"
   integrity sha512-MHp03UImeVhB7XZtjd0E4n6+3xr5Dq/9xI/5FptGk5FrbDR3zagPa2DS6U8ks/3HjbKWG9Q1M2ufOzxV2qLYSQ==
   dependencies:
     base64-js "0.0.8"
@@ -12025,7 +12025,7 @@ package-json@^6.3.0:
 
 pako@^0.2.5:
   version "0.2.9"
-  resolved "https://registry.npmjs.org/pako/-/pako-0.2.9.tgz"
+  resolved "https://registry.yarnpkg.com/pako/-/pako-0.2.9.tgz#f3f7522f4ef782348da8161bad9ecfd51bf83a75"
   integrity sha512-NUcwaKxUxWrZLpDG+z/xZaCgQITkA/Dv4V/T6bw7VON6l1Xz/VnrBqrYjZQ12TamKHzITTfOEIYUj48y2KXImA==
 
 pako@^1.0.10, pako@^1.0.11, pako@^1.0.6, pako@~1.0.2, pako@~1.0.5:
@@ -12188,7 +12188,7 @@ pbkdf2@^3.0.3, pbkdf2@^3.1.2:
 
 pdf-lib@^1.17.1:
   version "1.17.1"
-  resolved "https://registry.npmjs.org/pdf-lib/-/pdf-lib-1.17.1.tgz"
+  resolved "https://registry.yarnpkg.com/pdf-lib/-/pdf-lib-1.17.1.tgz#9e7dd21261a0c1fb17992580885b39e7d08f451f"
   integrity sha512-V/mpyJAoTsN4cnP31vc0wfNA1+p20evqqnap0KLoRUN0Yk/p3wN52DOEsL4oBFcLdb76hlpKPtzJIgo67j/XLw==
   dependencies:
     "@pdf-lib/standard-fonts" "^1.0.0"
@@ -12198,12 +12198,12 @@ pdf-lib@^1.17.1:
 
 pdf-poppler@^0.2.1:
   version "0.2.1"
-  resolved "https://registry.npmjs.org/pdf-poppler/-/pdf-poppler-0.2.1.tgz"
+  resolved "https://registry.yarnpkg.com/pdf-poppler/-/pdf-poppler-0.2.1.tgz#e927f91b88621a0e55d6f709ddc60c1e826e8113"
   integrity sha512-ilrm02mfsha1pR1wmiVKNRIkjvSo70gorg3DIPOzCl6pFU5S39z+gTHLiwIKn808H4YVYVnm6JstUhGNfiGKXg==
 
 pdf2png-mp@^0.5.4:
   version "0.5.4"
-  resolved "https://registry.npmjs.org/pdf2png-mp/-/pdf2png-mp-0.5.4.tgz"
+  resolved "https://registry.yarnpkg.com/pdf2png-mp/-/pdf2png-mp-0.5.4.tgz#ef75139e97d09cac33e2dc81947c04c2c8b0788a"
   integrity sha512-5ZDvzwkoN+p9bVkFb93uM6PZkltgGGX1SbW+ujWG+sQjgtjgxj+QS6tN6S2R1/KSyWhdpN8QwaUgb9k+wqhtOw==
   dependencies:
     filesource latest
@@ -12212,7 +12212,7 @@ pdf2png-mp@^0.5.4:
 
 pdf_page_count@^1.0.10:
   version "1.0.10"
-  resolved "https://registry.npmjs.org/pdf_page_count/-/pdf_page_count-1.0.10.tgz"
+  resolved "https://registry.yarnpkg.com/pdf_page_count/-/pdf_page_count-1.0.10.tgz#54ed8a03bb7a48a217e629b60a598eed1391ac12"
   integrity sha512-jEnt8lWmhuRNLxxlHr7QK330Y7sk2444zzl58PRa5+H7FvbiUQY9JJYqcXi6GHziWgUgiPzPV7ETo8qT/U79/w==
   dependencies:
     filesource latest
@@ -12227,7 +12227,7 @@ pdfjs-dist@4.4.168:
 
 pdfkit@^0.15.0:
   version "0.15.0"
-  resolved "https://registry.npmjs.org/pdfkit/-/pdfkit-0.15.0.tgz"
+  resolved "https://registry.yarnpkg.com/pdfkit/-/pdfkit-0.15.0.tgz#7152f1bfa500c37d25b5f8cd4850db09a8108941"
   integrity sha512-Z0dx0sEPKLW2kbThS1SWZ0iSHlRPoFMpP+oSjNrtwRjsfGivwE+r6emyEFwQG/fx1Ri0AGUHmDcGOSMMlLLnSg==
   dependencies:
     crypto-js "^4.2.0"
@@ -12370,7 +12370,7 @@ platform@1.3.6:
 
 png-js@^1.0.0:
   version "1.0.0"
-  resolved "https://registry.npmjs.org/png-js/-/png-js-1.0.0.tgz"
+  resolved "https://registry.yarnpkg.com/png-js/-/png-js-1.0.0.tgz#e5484f1e8156996e383aceebb3789fd75df1874d"
   integrity sha512-k+YsbhpA9e+EFfKjTCH3VW6aoKlyNYI6NYdTfDL4CIvFnvsuO84ttonmZE7rc+v23SLTH8XX+5w/Ak9v0xGY4g==
 
 pnp-webpack-plugin@1.6.4:
@@ -13129,7 +13129,7 @@ restore-cursor@^3.1.0:
 
 restructure@^2.0.1:
   version "2.0.1"
-  resolved "https://registry.npmjs.org/restructure/-/restructure-2.0.1.tgz"
+  resolved "https://registry.yarnpkg.com/restructure/-/restructure-2.0.1.tgz#4199745466cfc9bb9e1647746a4c902b7b0049d1"
   integrity sha512-e0dOpjm5DseomnXx2M5lpdZ5zoHqF1+bqdMJUohoYVVQa7cBdnk7fdmeI6byNWP/kiME72EeTiSypTCVnpLiDg==
 
 ret@~0.1.10:
@@ -14594,7 +14594,7 @@ tiny-case@^1.0.3:
 
 tiny-inflate@^1.0.0, tiny-inflate@^1.0.3:
   version "1.0.3"
-  resolved "https://registry.npmjs.org/tiny-inflate/-/tiny-inflate-1.0.3.tgz"
+  resolved "https://registry.yarnpkg.com/tiny-inflate/-/tiny-inflate-1.0.3.tgz#122715494913a1805166aaf7c93467933eea26c4"
   integrity sha512-pkY1fj1cKHb2seWDy0B16HeWyczlJA9/WW3u3c4z/NiWDsO3DOU5D7nhTLE9CF0yXv/QZFY7sEJmj24dK+Rrqw==
 
 tiny-invariant@^1.0.0:
@@ -14609,7 +14609,7 @@ tiny-warning@^1.0.2:
 
 tmp@0.0.23:
   version "0.0.23"
-  resolved "https://registry.npmjs.org/tmp/-/tmp-0.0.23.tgz"
+  resolved "https://registry.yarnpkg.com/tmp/-/tmp-0.0.23.tgz#de874aa5e974a85f0a32cdfdbd74663cb3bd9c74"
   integrity sha512-zR0TtNGw3OoChmmzHNnMVh6LRY7fCkxXnHOEI9/CZE5zn6TzZbyMknZdmQZzD0EhcQVT/9rZHeg1KqiqfAC5jw==
 
 tmp@^0.0.33:
@@ -14967,7 +14967,7 @@ uni-global@^1.0.0:
 
 unicode-properties@^1.3.1:
   version "1.4.1"
-  resolved "https://registry.npmjs.org/unicode-properties/-/unicode-properties-1.4.1.tgz"
+  resolved "https://registry.yarnpkg.com/unicode-properties/-/unicode-properties-1.4.1.tgz#96a9cffb7e619a0dc7368c28da27e05fc8f9be5f"
   integrity sha512-CLjCCLQ6UuMxWnbIylkisbRj31qxHPAurvena/0iwSVbQ2G1VY5/HjV0IRabOEbDHlzZlRdCrD4NhB0JtU40Pg==
   dependencies:
     base64-js "^1.3.0"
@@ -14975,7 +14975,7 @@ unicode-properties@^1.3.1:
 
 unicode-trie@^2.0.0:
   version "2.0.0"
-  resolved "https://registry.npmjs.org/unicode-trie/-/unicode-trie-2.0.0.tgz"
+  resolved "https://registry.yarnpkg.com/unicode-trie/-/unicode-trie-2.0.0.tgz#8fd8845696e2e14a8b67d78fa9e0dd2cad62fec8"
   integrity sha512-x7bc76x0bm4prf1VLg79uhAzKw8DVboClSN5VxJuQ+LKDOVEW9CdH+VY7SP+vX7xCYQqzzgQpFqz15zeLvAtZQ==
   dependencies:
     pako "^0.2.5"

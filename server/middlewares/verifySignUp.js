@@ -1,12 +1,13 @@
 import { ScanCommand } from "@aws-sdk/lib-dynamodb";
 import dbClient from "../services/dbClient.js";
+import { TABLES } from "../services/dbTables.js";
 
 const checkDuplicateUsernameOrEmail = async (req, res, next) => {
   const { email } = req.body;
 
   try {
     const params = {
-      TableName: "Users",
+      TableName: TABLES.USER,
       FilterExpression: "email = :email",
       ExpressionAttributeValues: {
         ":email": email,

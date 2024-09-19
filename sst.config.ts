@@ -12,35 +12,33 @@ export default $config({
 		const STAGE = $app.stage;
 		const domainName =
 			STAGE === "production" ? "eccs-online.com" : `${STAGE}.eccs-online.com`;
-		new sst.aws.Nextjs("MyWeb", {
-			// Next.js build output
+
+
+		const { NEXT_JWT_SECRET, NEXT_PASS_SECRET, NEXT_PUBLIC_BASE_URL, NEXT_NODE_ENV, NEXT_PASS_SECRET_KEY } = await import(
+			"./infra/secrets"
+		);
+
+		const secrets = [
+			NEXT_JWT_SECRET,
+			NEXT_PASS_SECRET,
+			NEXT_PUBLIC_BASE_URL,
+			NEXT_NODE_ENV,
+			NEXT_PASS_SECRET_KEY,
+		];
+
+		// NextApp
+    new sst.aws.Nextjs("MyWeb", {
+      link: secrets,
 			domain: {
 				name: domainName,
 			},
 		});
 
+		// Bucket
+		await import("./infra/storage");
 		// API
-		const api = new sst.aws.ApiGatewayV2("MyApi");
-		api.route("POST /api/auth/signin", {
-			handler: "handler.handler",
-		});
-		api.route("POST /api/auth/signup", {
-			handler: "handler.handler",
-		});
-		api.route("POST /api/auth/send-otp", {
-			handler: "handler.handler",
-		});
-		api.route("POST /api/auth/reset-password", {
-			handler: "handler.handler",
-		});
-		api.route("POST /api/auth/update-password", {
-			handler: "handler.handler",
-		});
-		api.route("GET /api/auth/users", {
-			handler: "server/conrollers/auth.controller.getUsers",
-		});
-		api.route("GET /api/case/all", {
-			handler: "handler.handler",
-		});
+		await import("./infra/api");
+		// Tables
+		await import("./infra/dynamo");
 	},
 });

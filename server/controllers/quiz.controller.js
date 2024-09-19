@@ -4,6 +4,7 @@ import { GetCommand, PutCommand, QueryCommand } from "@aws-sdk/lib-dynamodb";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { generateCertificate } from "../utils/certificate.js";
 import { s3Client } from "../middlewares/uploadFile.js";
+import { TABLES } from "../services/dbTables.js";
 
 const submitCaseAnswers = async (req, res) => {
   const studentID = req.validatedUser.id;
@@ -12,7 +13,7 @@ const submitCaseAnswers = async (req, res) => {
   const { caseID, caseTopicAnswer, caseExplanation, answers } = req.body;
 
   const params = {
-    TableName: "Answers",
+    TableName: TABLES.ANSWER,
     Item: {
       answerID: uuidv4(),
       studentID,
@@ -33,7 +34,7 @@ const submitCaseAnswers = async (req, res) => {
 
     // Save the attempt result to the StudentCaseAttempts table
     const attemptParams = {
-      TableName: "StudentCaseAttempts",
+      TableName: TABLES.STUDENTCASEATTEMPTS,
       Item: {
         attemptID: uuidv4(),
         studentID,
@@ -62,7 +63,7 @@ const submitCaseAnswers = async (req, res) => {
 const getStudentsAnswers = async (req, res) => {
   const caseID = req.params.caseID;
   const params = {
-    TableName: "Answers",
+    TableName: TABLES.ANSWER,
     IndexName: "CaseIDIndex",
     KeyConditionExpression: "caseID = :caseID",
     ExpressionAttributeValues: {
@@ -82,7 +83,7 @@ const getStudentsAnswers = async (req, res) => {
 
 const gradeQuiz = async (res, caseID, studentAnswers, fullName, studentID) => {
   const caseParams = {
-    TableName: "Cases",
+    TableName: TABLES.CASE,
     Key: { id: caseID },
   };
 
@@ -109,7 +110,7 @@ const gradeQuiz = async (res, caseID, studentAnswers, fullName, studentID) => {
       const pdfUploadParams = {
         Bucket: "local-bucket",
         Key: `certificates/${certificateID}.pdf`,
-        Body: pdfBuffer,
+        Body: "pdfBuffer",
         ACL: "public-read",
         ContentType: "application/pdf",
       };
@@ -122,7 +123,7 @@ const gradeQuiz = async (res, caseID, studentAnswers, fullName, studentID) => {
       const pngUploadParams = {
         Bucket: "local-bucket",
         Key: `certificates/${certificateID}.png`,
-        Body: pngBuffer,
+        Body: "pngBuffer",
         ACL: "public-read",
         ContentType: "image/png",
       };
@@ -142,7 +143,7 @@ const gradeQuiz = async (res, caseID, studentAnswers, fullName, studentID) => {
       };
 
       const putCommand = new PutCommand({
-        TableName: "Certificates",
+        TableName: TABLES.CERTIFICATES,
         Item: certificateRecord,
       });
       await dbClient.send(putCommand);
