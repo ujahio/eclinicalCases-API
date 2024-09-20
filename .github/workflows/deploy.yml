@@ -15,6 +15,9 @@ env:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: read
 
     steps:
       - name: Print debug information
