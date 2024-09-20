@@ -1,5 +1,4 @@
 import crypto from "crypto";
-import { Resource } from "sst";
 
 export function saltAndHashPassword(password: string) {
 	const iv = crypto.randomBytes(16);
