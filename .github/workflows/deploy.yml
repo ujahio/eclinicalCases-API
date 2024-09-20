@@ -11,6 +11,7 @@ permissions:
 
 env:
   AWS_REGION: us-east-1
+  AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
 
 jobs:
   deploy:
@@ -22,7 +23,7 @@ jobs:
     steps:
       - name: Print debug information
         run: |
-          if [ -z "${{ secrets.AWS_ACCOUNT_ID }}" ]; then
+          if [ -z "${{ env.AWS_ACCOUNT_ID }}" ]; then
             echo "AWS_ACCOUNT_ID is not set"
           else
             echo "AWS_ACCOUNT_ID is set"
