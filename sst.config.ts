@@ -11,7 +11,6 @@ export default $config({
 	async run() {
 		// Bucket
 		await import("./infra/client");
-
 		// Bucket
 		await import("./infra/storage");
 		// API
