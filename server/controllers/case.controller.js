@@ -40,7 +40,7 @@ const addCase = async (req, res) => {
 
   if (!draft) {
     const activeCaseParams = {
-      TableName: "Cases",
+      TableName: TABLES.CASE,
       FilterExpression: "#caseStatus = :caseStatus",
       ExpressionAttributeNames: {
         "#caseStatus": "caseStatus",
@@ -60,7 +60,7 @@ const addCase = async (req, res) => {
   }
 
   const params = {
-    TableName: "Cases",
+    TableName: TABLES.CASE,
     Item: caseItem,
   };
 
@@ -87,7 +87,7 @@ const updateCase = async (req, res) => {
   }
 
   const caseParams = {
-    TableName: "Cases",
+    TableName: TABLES.CASE,
     Key: { id: caseID },
     ConditionExpression: "createdBy = :createdBy",
     ExpressionAttributeValues: { ":createdBy": userId },
@@ -146,7 +146,7 @@ const updateCase = async (req, res) => {
     updateExpression = updateExpression.slice(0, -2);
 
     const params = {
-      TableName: "Cases",
+      TableName: TABLES.CASE,
       Key: { id: caseID },
       UpdateExpression: updateExpression,
       ExpressionAttributeValues: expressionAttributeValues,
@@ -174,7 +174,7 @@ const getCases = async (req, res) => {
     let params;
     if (caseStatus === "recent") {
       params = {
-        TableName: "Cases",
+        TableName: TABLES.CASE,
         IndexName: "CreatedAtIndex",
         ScanIndexForward: false,
         FilterExpression: "#caseStatus = :caseStatus",
@@ -188,7 +188,7 @@ const getCases = async (req, res) => {
       };
     } else if (caseStatus === "all") {
       params = {
-        TableName: "Cases",
+        TableName: TABLES.CASE,
         IndexName: "CreatedAtIndex",
         ScanIndexForward: false,
         FilterExpression: "#caseStatus IN (:active, :draft)",
@@ -202,7 +202,7 @@ const getCases = async (req, res) => {
       };
     } else {
       params = {
-        TableName: "Cases",
+        TableName: TABLES.CASE,
         IndexName: "CreatedAtIndex",
         ScanIndexForward: false, // Descending order
         FilterExpression: "#caseStatus = :caseStatus",
@@ -225,7 +225,7 @@ const getCases = async (req, res) => {
 
       // Count answers
       const answersParams = {
-        TableName: "Answers",
+        TableName: TABLES.ANSWER,
         IndexName: "CaseIDIndex",
         KeyConditionExpression: "caseID = :caseID",
         ExpressionAttributeValues: {
@@ -239,7 +239,7 @@ const getCases = async (req, res) => {
 
       // Count feedbacks
       const feedbackParams = {
-        TableName: "Feedback",
+        TableName: TABLES.FEEDBACK,
         IndexName: "CaseIDIndex",
         KeyConditionExpression: "caseID = :caseID",
         ExpressionAttributeValues: {
@@ -280,7 +280,7 @@ const getCase = async (req, res) => {
     }
 
     const params = {
-      TableName: "Cases",
+      TableName: TABLES.CASE,
       Key: {
         id: caseID,
       },
@@ -308,7 +308,7 @@ const getCase = async (req, res) => {
 const getOngoingCase = async (req, res) => {
   try {
     const params = {
-      TableName: "Cases",
+      TableName: TABLES.CASE,
       FilterExpression: "#caseStatus = :caseStatus",
       ExpressionAttributeNames: {
         "#caseStatus": "caseStatus",
@@ -328,7 +328,7 @@ const getOngoingCase = async (req, res) => {
 
       // Count answers
       const answersParams = {
-        TableName: "Answers",
+        TableName: TABLES.ANSWER,
         IndexName: "CaseIDIndex",
         KeyConditionExpression: "caseID = :caseID",
         ExpressionAttributeValues: {
@@ -342,7 +342,7 @@ const getOngoingCase = async (req, res) => {
 
       // Count feedbacks
       const feedbackParams = {
-        TableName: "Feedback",
+        TableName: TABLES.FEEDBACK,
         IndexName: "CaseIDIndex",
         KeyConditionExpression: "caseID = :caseID",
         ExpressionAttributeValues: {
@@ -383,7 +383,7 @@ const deleteCase = async (req, res) => {
     }
 
     const params = {
-      TableName: "Cases",
+      TableName: TABLES.CASE,
       Key: {
         id: caseID,
       },
@@ -406,14 +406,14 @@ const deleteCase = async (req, res) => {
 const deleteAllCases = async (req, res) => {
   try {
     const params = {
-      TableName: "Cases",
+      TableName: TABLES.CASE,
     };
     const scanCommand = new ScanCommand(params);
     const result = await dbClient.send(scanCommand);
     const cases = result.Items;
     const deletePromises = cases.map((caseItem) => {
       const deleteParams = {
-        TableName: "Cases",
+        TableName: TABLES.CASE,
         Key: {
           id: caseItem.id,
         },
@@ -440,7 +440,7 @@ const duplicateCase = async (req, res) => {
     }
 
     const singleItemParams = {
-      TableName: "Cases",
+      TableName: TABLES.CASE,
       Key: {
         id: caseID,
       },
@@ -483,7 +483,7 @@ const publishCase = async (req, res) => {
   }
 
   const singleItemParams = {
-    TableName: "Cases",
+    TableName: TABLES.CASE,
     Key: {
       id: caseID,
     },
@@ -496,7 +496,7 @@ const publishCase = async (req, res) => {
   }
 
   const params = {
-    TableName: "Cases",
+    TableName: TABLES.CASE,
     Key: {
       id: caseID,
     },
@@ -524,7 +524,7 @@ const addFeedback = async (req, res) => {
   const { caseID, feedback } = req.body;
 
   const params = {
-    TableName: "Feedback",
+    TableName: TABLES.FEEDBACK,
     Item: {
       feedbackID: uuidv4(),
       caseID,
@@ -549,7 +549,7 @@ const getCaseFeedback = async (req, res) => {
   console.log("Case ID: ", caseID);
 
   const params = {
-    TableName: "Feedback",
+    TableName: TABLES.FEEDBACK,
     IndexName: "CaseIDIndex", // Ensure this index is created
     KeyConditionExpression: "caseID = :caseID",
     ExpressionAttributeValues: {
@@ -564,7 +564,7 @@ const getCaseFeedback = async (req, res) => {
     // Fetch details of each student
     const studentDetailsPromises = feedbackResult.Items.map(async (feedback) => {
       const userParams = {
-        TableName: "Users",
+        TableName: TABLES.USER,
         IndexName: "IDIndex",
         KeyConditionExpression: "id = :id",
         ExpressionAttributeValues: {
@@ -604,7 +604,7 @@ const getCaseAnswers = async (req, res) => {
   const caseID = req.params.caseID;
 
   const answersParams = {
-    TableName: "Answers",
+    TableName: TABLES.ANSWER,
     IndexName: "CaseIDIndex",
     KeyConditionExpression: "caseID = :caseID",
     ExpressionAttributeValues: {
@@ -619,7 +619,7 @@ const getCaseAnswers = async (req, res) => {
     // Fetch details of each student
     const studentDetailsPromises = answersResult.Items.map(async (answer) => {
       const userParams = {
-        TableName: "Users",
+        TableName: TABLES.USER,
         IndexName: "IDIndex",
         KeyConditionExpression: "id = :id",
         ExpressionAttributeValues: {
@@ -656,7 +656,7 @@ const getCaseAttemptsByStudent = async (req, res) => {
   const studentID = req.params.studentID;
 
   const params = {
-    TableName: "StudentCaseAttempts",
+    TableName: TABLES.STUDENTCASEATTEMPTS,
     IndexName: "StudentIDIndex",
     KeyConditionExpression: "studentID = :studentID",
     ExpressionAttributeValues: {
@@ -683,7 +683,7 @@ const getCaseData = async (req, res) => {
   console.log("Case ID: ", caseID);
 
   const feedbackParams = {
-    TableName: "Feedback",
+    TableName: TABLES.FEEDBACK,
     IndexName: "CaseIDIndex",
     KeyConditionExpression: "caseID = :caseID",
     ExpressionAttributeValues: {
@@ -692,7 +692,7 @@ const getCaseData = async (req, res) => {
   };
 
   const answersParams = {
-    TableName: "Answers",
+    TableName: TABLES.ANSWER,
     IndexName: "CaseIDIndex",
     KeyConditionExpression: "caseID = :caseID",
     ExpressionAttributeValues: {
@@ -735,7 +735,7 @@ const getCaseData = async (req, res) => {
     // Fetch details of each student
     const studentDetailsPromises = Object.keys(combinedData).map(async (studentID) => {
       const userParams = {
-        TableName: "Users",
+        TableName: TABLES.USER,
         IndexName: "IDIndex",
         KeyConditionExpression: "id = :id",
         ExpressionAttributeValues: {

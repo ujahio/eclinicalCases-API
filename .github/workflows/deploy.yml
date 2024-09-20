@@ -1,0 +1,42 @@
+name: Deploy SST App to Staging
+
+on:
+  push:
+    branches:
+      - staging
+
+permissions:
+  id-token: write # This is required for requesting the JWT
+  contents: read # This is required for actions/checkout
+
+env:
+  AWS_REGION: us-east-1
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install SST CLI
+        run: npm install -g sst
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: rn:aws:iam::${{ secrets.AWS_ACCESS_KEY_ID }}:role/gh-action-staging-deployment
+          role-session-name: aws-get-session-token
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Deploy to Staging
+        run: sst deploy --stage staging

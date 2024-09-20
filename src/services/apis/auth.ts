@@ -1,11 +1,11 @@
 import { saltAndHashPassword } from "@/utils/password";
 import { authApi, config } from "../config/axiosConfig";
 
-export const signup = (formData: any) => authApi.post("/signup/", formData);
+export const signup = (formData: any) => authApi.post("/signup", formData);
 
 export const login = (formData: any) => {
   const password = formData.password;
-  return authApi.post("/signin/", { email: formData.email, password });
+  return authApi.post("/signin", { email: formData.email, password });
 };
 
 export const resetPasswordApi = (passwordData: any) => {

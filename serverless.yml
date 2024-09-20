@@ -36,7 +36,7 @@ custom:
     host: localhost
     port: 4599
     accessKey: "ACCESS_KEY"
-    secretKey: "SECRET_KEY"
+    NEXT_SECRET_KEY: "SECRET_KEY"
 
 # stages:
 #   default:

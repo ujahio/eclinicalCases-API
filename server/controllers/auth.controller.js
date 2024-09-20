@@ -5,211 +5,239 @@ import { v4 as uuidv4 } from "uuid";
 import crypto from "crypto";
 import { PutCommand, ScanCommand } from "@aws-sdk/lib-dynamodb";
 import {
-  updateUserPassword,
-  generateOtp,
-  storeOtpInDb,
-  getOtpFromDb,
-  encryptPassword,
-  decryptPassword,
-  getUserByEmail,
+	updateUserPassword,
+	generateOtp,
+	storeOtpInDb,
+	getOtpFromDb,
+	encryptPassword,
+	decryptPassword,
+	getUserByEmail,
 } from "../utils/api_utils.js";
+import { TABLES } from "../services/dbTables.js";
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
 const signup = async (req, res) => {
-  console.log("heyy", req.body);
-  const { firstname, lastname, email, password, roles } = req.body;
+	console.log("heyy", req.body);
+	const { firstname, lastname, email, password, roles } = req.body;
 
-  if (!firstname) {
-    return res.status(400).json({ error: '"firstname" must be a string' });
-  } else if (!lastname || typeof lastname !== "string") {
-    return res.status(400).json({ error: '"lastname" must be a string' });
-  } else if (!email || typeof email !== "string") {
-    return res.status(400).json({ error: '"email" must be a string' });
-  } else if (!password || typeof password !== "string") {
-    return res.status(400).json({ error: '"password" must be a string' });
-  }
+	if (!firstname) {
+		return res.status(400).json({ error: '"firstname" must be a string' });
+	} else if (!lastname || typeof lastname !== "string") {
+		return res.status(400).json({ error: '"lastname" must be a string' });
+	} else if (!email || typeof email !== "string") {
+		return res.status(400).json({ error: '"email" must be a string' });
+	} else if (!password || typeof password !== "string") {
+		return res.status(400).json({ error: '"password" must be a string' });
+	}
 
-  let originalPassword = decryptPassword(password, process.env.secretKey);
-  const hashedPassword = bcrypt.hashSync(originalPassword, 10);
-  const userId = uuidv4();
-  const created_on = new Date(Date.now()).toISOString();
+	const originalPassword = decryptPassword(
+		password,
+		process.env.NEXT_SECRET_KEY
+	);
+	const hashedPassword = bcrypt.hashSync(originalPassword, 10);
+	const userId = uuidv4();
+	const created_on = new Date(Date.now()).toISOString();
 
-  const user = {
-    id: userId,
-    firstname,
-    lastname,
-    email,
-    password: hashedPassword,
-    created_on,
-    status: "active",
-    signUpLevel: 1,
-    paymentStatus: "inactive",
-    roles: roles || ["user"],
-  };
+	const user = {
+		id: userId,
+		firstname,
+		lastname,
+		email,
+		password: hashedPassword,
+		created_on,
+		status: "active",
+		signUpLevel: 1,
+		paymentStatus: "inactive",
+		roles: roles || ["user"],
+	};
 
-  const params = {
-    TableName: "Users",
-    Item: user,
-  };
+	const params = {
+		TableName: TABLES.USER,
+		Item: user,
+	};
 
-  try {
-    const command = new PutCommand(params);
-    const result = await dbClient.send(command);
-    console.log("result: ", result);
+	try {
+		const command = new PutCommand(params);
+		const result = await dbClient.send(command);
+		console.log("result: ", result);
 
-    // Remove password from the user object before sending response
-    delete user.password;
+		// Remove password from the user object before sending response
+		delete user.password;
 
-    res.status(201).json({
-      message: "User was registered successfully!",
-      data: user,
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: `Could not create user: ${error}` });
-  }
+		res.status(201).json({
+			message: "User was registered successfully!",
+			data: user,
+		});
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ error: `Could not create user: ${error}` });
+	}
 };
 
 const signin = async (req, res) => {
-  const { email, password } = req.body;
+	const { email, password } = req.body;
 
-  if (!email) {
-    return res.status(400).json({ error: '"email" is required' });
-  } else if (!EMAIL_REGEX.test(email)) {
-    return res.status(400).json({ error: '"email" must be a valid email address' });
-  } else if (!password || typeof password !== "string") {
-    return res.status(400).json({ error: '"password" must be a string' });
-  }
+	if (!email) {
+		return res.status(400).json({ error: '"email" is required' });
+	} else if (!EMAIL_REGEX.test(email)) {
+		return res
+			.status(400)
+			.json({ error: '"email" must be a valid email address' });
+	} else if (!password || typeof password !== "string") {
+		return res.status(400).json({ error: '"password" must be a string' });
+	}
 
-  try {
-    let originalPassword = decryptPassword(password, process.env.secretKey);
+	try {
+		let originalPassword = decryptPassword(
+			password,
+			process.env.NEXT_SECRET_KEY
+		);
 
-    const params = {
-      TableName: "Users",
-      FilterExpression: "email = :email",
-      ExpressionAttributeValues: {
-        ":email": email,
-      },
-    };
+		const params = {
+			TableName: TABLES.USER,
+			FilterExpression: "email = :email",
+			ExpressionAttributeValues: {
+				":email": email,
+			},
+		};
 
-    const command = new ScanCommand(params);
-    const result = await dbClient.send(command);
+		const command = new ScanCommand(params);
+		const result = await dbClient.send(command);
 
-    const user = result.Items[0];
+		const user = result.Items[0];
 
-    if (!user) {
-      return res.status(401).json({ error: "Invalid email or password" });
-    }
+		if (!user) {
+			return res.status(401).json({ error: "Invalid email or password" });
+		}
 
-    const hashedPassword = user.password;
-    const isValid = bcrypt.compareSync(originalPassword, hashedPassword);
+		const hashedPassword = user.password;
+		const isValid = bcrypt.compareSync(originalPassword, hashedPassword);
 
-    if (!isValid) {
-      return res.status(401).json({ error: "Invalid email or password" });
-    }
-    const token = jwt.sign(user, process.env.JWT_SECRET, {
-      expiresIn: "1h",
-    });
+		if (!isValid) {
+			return res.status(401).json({ error: "Invalid email or password" });
+		}
+		const token = jwt.sign(user, SECRETS.NEXT_JWT_SECRET, {
+			expiresIn: "1h",
+		});
 
-    res.status(200).json({
-      message: "Login successful!",
-      token,
-      user: {
-        id: user.UserID,
-        email: user.email,
-        roles: user.roles,
-      },
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Could not login: " + error });
-  }
+		res.status(200).json({
+			message: "Login successful!",
+			token,
+			user: {
+				id: user.UserID,
+				email: user.email,
+				roles: user.roles,
+			},
+		});
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ error: "Could not login: " + error });
+	}
 };
 
 const sendOTP = async (req, res) => {
-  try {
-    const { email } = req.body;
-    const otp = generateOtp();
-    console.log("\n Your OTP is: ", otp + "\n");
-    await storeOtpInDb(email, otp);
-    res.status(200).json({
-      message: "OTP sent to your email. Please verify and reset password.",
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Could not send OTP: " + error });
-  }
+	try {
+		const { email } = req.body;
+		const otp = generateOtp();
+		console.log("\n Your OTP is: ", otp + "\n");
+		await storeOtpInDb(email, otp);
+		res.status(200).json({
+			message: "OTP sent to your email. Please verify and reset password.",
+		});
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ error: "Could not send OTP: " + error });
+	}
 };
 
 const verifyOtpAndResetPassword = async (req, res) => {
-  const { email, otp, newPassword } = req.body;
+	const { email, otp, newPassword } = req.body;
 
-  try {
-    let originalPassword = decryptPassword(newPassword, process.env.secretKey);
-    const storedOtp = await getOtpFromDb(email);
-    const hashedPassword = bcrypt.hashSync(originalPassword, 4);
+	try {
+		let originalPassword = decryptPassword(
+			newPassword,
+			SECRETS.NEXT_PASS_SECRET
+		);
+		const storedOtp = await getOtpFromDb(email);
+		const hashedPassword = bcrypt.hashSync(originalPassword, 4);
 
-    if (otp !== storedOtp) {
-      return res.status(401).json({ error: "Invalid OTP" });
-    }
-    await updateUserPassword(email, hashedPassword);
-    res.status(200).json({
-      message: "Password reset successfully!",
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Could not reset password: " + error });
-  }
+		if (otp !== storedOtp) {
+			return res.status(401).json({ error: "Invalid OTP" });
+		}
+		await updateUserPassword(email, hashedPassword);
+		res.status(200).json({
+			message: "Password reset successfully!",
+		});
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ error: "Could not reset password: " + error });
+	}
 };
 
 const getUsers = async (req, res) => {
-  try {
-    const params = {
-      TableName: "Users",
-    };
+	try {
+		const params = {
+			TableName: TABLES.USER,
+		};
 
-    const command = new ScanCommand(params);
-    const result = await dbClient.send(command);
+		const command = new ScanCommand(params);
+		const result = await dbClient.send(command);
 
-    const users = result.Items;
+		const users = result.Items;
 
-    res.status(200).json({
-      message: "Users retrieved successfully!",
-      data: users,
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Could not retrieve users: " + error });
-  }
+		res.status(200).json({
+			message: "Users retrieved successfully!",
+			data: users,
+		});
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ error: "Could not retrieve users: " + error });
+	}
 };
 
 const updatePassword = async (req, res) => {
-  try {
-    const email = req.validatedUser.email;
-    const { currentPassword, newPassword } = req.body;
+	try {
+		const email = req.validatedUser.email;
+		const { currentPassword, newPassword } = req.body;
 
-    let originalCurrentPassword = decryptPassword(currentPassword, process.env.secretKey);
+		let originalCurrentPassword = decryptPassword(
+			currentPassword,
+			SECRETS.NEXT_PASS_SECRET
+		);
 
-    const user = await getUserByEmail(email);
-    const isPasswordCorrect = bcrypt.compareSync(originalCurrentPassword, user.password);
-    if (!isPasswordCorrect) {
-      return res.status(401).json({ error: "Current password is incorrect" });
-    }
+		const user = await getUserByEmail(email);
+		const isPasswordCorrect = bcrypt.compareSync(
+			originalCurrentPassword,
+			user.password
+		);
+		if (!isPasswordCorrect) {
+			return res.status(401).json({ error: "Current password is incorrect" });
+		}
 
-    // Hash and update new password
-    let originalNewPassword = decryptPassword(newPassword, process.env.secretKey);
-    const hashedPassword = bcrypt.hashSync(originalNewPassword, 4);
+		// Hash and update new password
+		let originalNewPassword = decryptPassword(
+			newPassword,
+			SECRETS.NEXT_PASS_SECRET
+		);
+		const hashedPassword = bcrypt.hashSync(originalNewPassword, 4);
 
-    const updatedUser = await updateUserPassword(email, hashedPassword);
-    res.status(200).json({
-      message: "Password updated successfully!",
-      data: updatedUser,
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Could not update password: " + error });
-  }
+		const updatedUser = await updateUserPassword(email, hashedPassword);
+		res.status(200).json({
+			message: "Password updated successfully!",
+			data: updatedUser,
+		});
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ error: "Could not update password: " + error });
+	}
 };
 
-export { signup, signin, sendOTP, verifyOtpAndResetPassword, getUsers, updatePassword };
+export {
+	signup,
+	signin,
+	sendOTP,
+	verifyOtpAndResetPassword,
+	getUsers,
+	updatePassword,
+};
