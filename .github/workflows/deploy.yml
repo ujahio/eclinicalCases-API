@@ -11,7 +11,7 @@ permissions:
 
 env:
   AWS_REGION: us-east-1
-  AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+  ACC_ID: ${{ secrets.ACC_ID }}
 
 jobs:
   deploy:
@@ -23,10 +23,10 @@ jobs:
     steps:
       - name: Print debug information
         run: |
-          if [ -z "${{ env.AWS_ACCOUNT_ID }}" ]; then
-            echo "AWS_ACCOUNT_ID is not set"
+          if [ -z "${{ env.ACC_ID }}" ]; then
+            echo "ACC_ID is not set"
           else
-            echo "AWS_ACCOUNT_ID is set"
+            echo "ACC_ID is set"
           fi
 
       # - name: Checkout repository
