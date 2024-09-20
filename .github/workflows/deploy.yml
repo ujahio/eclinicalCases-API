@@ -21,37 +21,31 @@ jobs:
       contents: read
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install SST CLI
+        run: npm install -g sst
+
       - name: Print debug information
         run: |
-          if [ -z "${{ env.ACC_ID }}" ]; then
-            echo "ACC_ID is not set"
-          else
-            echo "ACC_ID is set"
-          fi
+          echo "AWS_ACCOUNT_ID: ${{ env.ACC_ID }}"
+          echo "AWS_REGION: ${{ env.AWS_REGION }}"
 
-      # - name: Checkout repository
-      #   uses: actions/checkout@v3
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ env.ACC_ID }}:role/gh-action-staging-deployment
+          role-session-name: aws-get-session-token
+          aws-region: ${{ env.AWS_REGION }}
 
-      # - name: Set up Node.js
-      #   uses: actions/setup-node@v4
-
-      # - name: Install dependencies
-      #   run: npm install
-
-      # - name: Install SST CLI
-      #   run: npm install -g sst
-
-      # - name: Print debug information
-      #   run: |
-      #     echo "AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}"
-      #     echo "AWS_REGION: ${{ env.AWS_REGION }}"
-
-      # - name: Configure AWS credentials
-      #   uses: aws-actions/configure-aws-credentials@v4
-      #   with:
-      #     role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/gh-action-staging-deployment
-      #     role-session-name: aws-get-session-token
-      #     aws-region: ${{ env.AWS_REGION }}
-
-      # - name: Deploy to Staging
-      #   run: sst deploy --stage staging
+      - name: Deploy to Staging
+        run: sst deploy --stage staging
