@@ -19,8 +19,12 @@ jobs:
     steps:
       - name: Print debug information
         run: |
-          echo "AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}"
-          echo "AWS_REGION: ${{ env.AWS_REGION }}"
+          if [ -z "${{ secrets.AWS_ACCOUNT_ID }}" ]; then
+            echo "AWS_ACCOUNT_ID is not set"
+          else
+            echo "AWS_ACCOUNT_ID is set"
+          fi
+
       # - name: Checkout repository
       #   uses: actions/checkout@v3
 
