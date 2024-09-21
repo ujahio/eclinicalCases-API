@@ -26,6 +26,7 @@ jobs:
             echo "AWS_ACCOUNT_ID is not set"
           else
             echo "AWS_ACCOUNT_ID is set"
+          fi
 
       # - name: Checkout repository
       #   uses: actions/checkout@v4
