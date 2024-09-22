@@ -47,11 +47,14 @@ jobs:
       # - name: Install SST CLI
       #   run: npm install -g sst
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/gh-deployment-stg
-          aws-region: ${{ env.AWS_REGION }}
+      - name: Print GitHub ref
+        run: echo "GITHUB_REF is $GITHUB_REF"
+
+      # - name: Configure AWS credentials
+      #   uses: aws-actions/configure-aws-credentials@v4
+      #   with:
+      #     role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/gh-deployment-stg
+      #     aws-region: ${{ env.AWS_REGION }}
 
       # - name: Deploy to Staging
       #   run: sst deploy --stage staging
