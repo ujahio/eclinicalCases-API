@@ -1,15 +1,14 @@
 import axios from "axios";
 import { handleApiError } from "../../utils/errorHandler";
-import SECRETS from "../../../secrets"
 
 export const authApi = axios.create({
-  baseURL: `${SECRETS.NEXT_PUBLIC_BASE_URL}/api/auth`,
+  baseURL: `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth`,
 });
 export const caseApi = axios.create({
-  baseURL: `${SECRETS.NEXT_PUBLIC_BASE_URL}/api/case`,
+  baseURL: `${process.env.NEXT_PUBLIC_BASE_URL}/api/case`,
 });
 export const studentApi = axios.create({
-  baseURL: `${SECRETS.NEXT_PUBLIC_BASE_URL}/api`,
+  baseURL: `${process.env.NEXT_PUBLIC_BASE_URL}/api`,
 });
 
 authApi.interceptors.response.use(null, handleApiError);

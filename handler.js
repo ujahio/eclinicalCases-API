@@ -42,44 +42,47 @@ const app = express();
 
 app.use(cors());
 app.options("*", cors());
-app.use(express.json());
+
+// File Routes
+// app.post("/add", verifyToken, addCase);
+// app.post("/update/:caseID", verifyToken, upload.array("caseMaterials", 10), updateCase);
+// app.post("/duplicate", verifyToken, upload.array("caseMaterials", 10), duplicateCase);
+
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
 // Auth
-app.post("/signin", signin);
-app.post("/signup", [checkDuplicateUsernameOrEmail], signup);
-app.get("/users", getUsers);
-app.post("/send-otp", sendOTP);
-app.post("/reset-password", verifyOtpAndResetPassword);
-app.post("/update-password", verifyToken, updatePassword);
+// app.post("/signin", signin);
+// app.post("/signup", [checkDuplicateUsernameOrEmail], signup);
+// app.get("/users", getUsers);
+// app.post("/send-otp", sendOTP);
+// app.post("/reset-password", verifyOtpAndResetPassword);
+// app.post("/update-password", verifyToken, updatePassword);
 
-// Cases
-app.get("/details/:caseID", verifyToken, getCase);
-app.get("/all/", verifyToken, getCases);
-app.get("/ongoing-case/", verifyToken, getOngoingCase);
-app.post("/add", verifyToken, upload.array("caseMaterials", 10), addCase);
-app.post("/update/:caseID", verifyToken, upload.array("caseMaterials", 10), updateCase);
-app.post("/duplicate", verifyToken, upload.array("caseMaterials", 10), duplicateCase);
-app.post("/publish/", verifyToken, publishCase);
-app.post("/add/feedback/", verifyToken, addFeedback);
-app.get("/feedbacks/:caseID", verifyToken, getCaseFeedback);
-app.get("/responses/:caseID", verifyToken, getCaseAnswers);
-app.get("/data/:caseID", verifyToken, getCaseData);
-app.get("/student/attempts/:studentID", verifyToken, getCaseAttemptsByStudent);
-app.delete("/delete-case/:caseID", verifyToken, deleteCase);
-app.delete("/delete/all/", deleteAllCases);
+// // Cases
+// app.get("/details/:caseID", verifyToken, getCase);
+// app.get("/all/", verifyToken, getCases);
+// app.get("/ongoing-case", verifyToken, getOngoingCase);
+// app.post("/publish/", verifyToken, publishCase);
+// app.post("/add/feedback/", verifyToken, addFeedback);
+// app.get("/feedbacks/:caseID", verifyToken, getCaseFeedback);
+// app.get("/responses/:caseID", verifyToken, getCaseAnswers);
+// app.get("/data/:caseID", verifyToken, getCaseData);
+// app.get("/student/attempts/:studentID", verifyToken, getCaseAttemptsByStudent);
+// app.delete("/delete-case/:caseID", verifyToken, deleteCase);
+// app.delete("/delete/all/", deleteAllCases);
 
-// Quiz
-app.post("/submit", verifyToken, submitCaseAnswers);
-app.get("/answers/:caseID", verifyToken, getStudentsAnswers);
+// // Quiz
+// app.post("/submit", verifyToken, submitCaseAnswers);
+// app.get("/answers/:caseID", verifyToken, getStudentsAnswers);
 
-// Student
-app.get("/certificates", verifyToken, getStudentCertificates);
-app.get("/certificate/:caseID", verifyToken, getCertificateByCaseID);
+// // Student
+// app.get("/certificates", verifyToken, getStudentCertificates);
+// app.get("/certificate/:caseID", verifyToken, getCertificateByCaseID);
 
 app.use("/api/auth", authRoutes);
 app.use("/api/case", caseRoutes);
@@ -89,7 +92,7 @@ app.use("/api/student", studentRoutes);
 
 app.use((req, res, next) => {
   return res.status(404).json({
-    error: "Not Found",
+    error: "Page not Found",
   });
 });
 

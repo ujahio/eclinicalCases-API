@@ -40,7 +40,7 @@ export const fetchCaseDetailsApi = (caseId: any, token: string) => {
 };
 
 export const fetchOngoingCasesApi = (token: string) => {
-  return caseApi.get(`/ongoing-case/`, config(token));
+  return caseApi.get(`/ongoing-case`, config(token));
 };
 export const deleteCaseApi = (caseId: string, token: string) => {
   return caseApi.delete(`/delete-case/${caseId}/`, config(token));

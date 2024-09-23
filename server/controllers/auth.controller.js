@@ -14,7 +14,8 @@ import {
   getUserByEmail,
 } from "../utils/api_utils.js";
 import { TABLES } from "../services/dbTables.js";
-import SECRETS from "../../secrets.js";
+import { resources } from "../services/resources.js";
+import { sendEmail } from "../services/emailSender.js";
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
@@ -32,7 +33,7 @@ const signup = async (req, res) => {
     return res.status(400).json({ error: '"password" must be a string' });
   }
 
-  let originalPassword = decryptPassword(password, SECRETS.PASS_SECRET);
+  let originalPassword = decryptPassword(password, resources.PASS_SECRET);
   const hashedPassword = bcrypt.hashSync(originalPassword, 10);
   const userId = uuidv4();
   const created_on = new Date(Date.now()).toISOString();
@@ -85,7 +86,7 @@ const signin = async (req, res) => {
   }
 
   try {
-    let originalPassword = decryptPassword(password, SECRETS.PASS_SECRET);
+    let originalPassword = decryptPassword(password, resources.PASS_SECRET);
 
     const params = {
       TableName: TABLES.USER,
@@ -110,7 +111,7 @@ const signin = async (req, res) => {
     if (!isValid) {
       return res.status(401).json({ error: "Invalid email or password" });
     }
-    const token = jwt.sign(user, SECRETS.JWT_SECRET, {
+    const token = jwt.sign(user, resources.JWT_SECRET, {
       expiresIn: "1h",
     });
 
@@ -135,6 +136,7 @@ const sendOTP = async (req, res) => {
     const otp = generateOtp();
     console.log("\n Your OTP is: ", otp + "\n");
     await storeOtpInDb(email, otp);
+    await sendEmail(email, "ECCS LABS OTP for Password Reset", `Your OTP is: ${otp}`);
     res.status(200).json({
       message: "OTP sent to your email. Please verify and reset password.",
     });
@@ -148,7 +150,7 @@ const verifyOtpAndResetPassword = async (req, res) => {
   const { email, otp, newPassword } = req.body;
 
   try {
-    let originalPassword = decryptPassword(newPassword, SECRETS.PASS_SECRET);
+    let originalPassword = decryptPassword(newPassword, resources.PASS_SECRET);
     const storedOtp = await getOtpFromDb(email);
     const hashedPassword = bcrypt.hashSync(originalPassword, 4);
 
@@ -191,7 +193,7 @@ const updatePassword = async (req, res) => {
     const email = req.validatedUser.email;
     const { currentPassword, newPassword } = req.body;
 
-    let originalCurrentPassword = decryptPassword(currentPassword, SECRETS.PASS_SECRET);
+    let originalCurrentPassword = decryptPassword(currentPassword, resources.PASS_SECRET);
 
     const user = await getUserByEmail(email);
     const isPasswordCorrect = bcrypt.compareSync(originalCurrentPassword, user.password);
@@ -200,7 +202,7 @@ const updatePassword = async (req, res) => {
     }
 
     // Hash and update new password
-    let originalNewPassword = decryptPassword(newPassword, SECRETS.PASS_SECRET);
+    let originalNewPassword = decryptPassword(newPassword, resources.PASS_SECRET);
     const hashedPassword = bcrypt.hashSync(originalNewPassword, 4);
 
     const updatedUser = await updateUserPassword(email, hashedPassword);
