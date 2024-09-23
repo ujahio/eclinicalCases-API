@@ -1,6 +1,11 @@
 import { bucket } from "./storage";
 import { email } from "./email";
-import { JWT_SECRET, PASS_SECRET } from "./secrets";
+import {
+	NEXT_JWT_SECRET,
+	NEXT_PASS_SECRET,
+	NEXT_PUBLIC_BASE_URL,
+} from "./secrets";
+
 import { Users, Cases, Feedback, Answers, Certificates, StudentCaseAttempts } from "./dynamo";
 
 const links = [
@@ -10,37 +15,52 @@ const links = [
   Answers,
   Certificates,
   StudentCaseAttempts,
-  JWT_SECRET,
-  PASS_SECRET,
-  bucket,
-  email
+	NEXT_JWT_SECRET,
+	NEXT_PASS_SECRET,
+	NEXT_PUBLIC_BASE_URL,
+  email,
+  bucket
 ];
-export const api = new sst.aws.ApiGatewayV2("MyApi");
+
+const STAGE = $app.stage;
+const domainName =
+	STAGE === "production"
+		? "api.eccs-online.com"
+		: `${STAGE}-api.eccs-online.com`;
+
+export const api = new sst.aws.ApiGatewayV2("MyApi", {
+	domain: domainName,
+});
+
+api.route("GET /", {
+	handler: "handler.handler",
+	link: links,
+});
 
 // Auth
 api.route("POST /api/auth/signin", {
-  handler: "handler.handler",
-  link: links,
+	handler: "handler.handler",
+	link: links,
 });
 api.route("POST /api/auth/signup", {
-  handler: "handler.handler",
-  link: links,
+	handler: "handler.handler",
+	link: links,
 });
 api.route("POST /api/auth/send-otp", {
-  handler: "handler.handler",
-  link: links,
+	handler: "handler.handler",
+	link: links,
 });
 api.route("POST /api/auth/reset-password", {
-  handler: "handler.handler",
-  link: links,
+	handler: "handler.handler",
+	link: links,
 });
 api.route("POST /api/auth/update-password", {
-  handler: "handler.handler",
-  link: links,
+	handler: "handler.handler",
+	link: links,
 });
 api.route("GET /api/auth/users", {
-  handler: "handler.handler",
-  link: links,
+	handler: "handler.handler",
+	link: links,
 });
 
 // Case
