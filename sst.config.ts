@@ -12,7 +12,7 @@ export default $config({
 		// Bucket
 		await import("./infra/client");
 		// Bucket
-		await import("./infra/storage");
+		await import("./infra/storage")  
 		// API
 		await import("./infra/api");
 		// Tables

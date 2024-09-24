@@ -14,6 +14,8 @@ import {
 	getUserByEmail,
 } from "../utils/api_utils.js";
 import { TABLES } from "../services/dbTables.js";
+import { resources } from "../services/resources.js";
+import { sendEmail } from "../services/emailSender.js";
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
@@ -31,9 +33,9 @@ const signup = async (req, res) => {
 		return res.status(400).json({ error: '"password" must be a string' });
 	}
 
-	const originalPassword = decryptPassword(
+	let originalPassword = decryptPassword(
 		password,
-		process.env.NEXT_SECRET_KEY
+		resources.NEXT_PUBLIC_PASS_SECRET_KEY
 	);
 	const hashedPassword = bcrypt.hashSync(originalPassword, 10);
 	const userId = uuidv4();
@@ -91,7 +93,7 @@ const signin = async (req, res) => {
 	try {
 		let originalPassword = decryptPassword(
 			password,
-			process.env.NEXT_SECRET_KEY
+			resources.NEXT_PUBLIC_PASS_SECRET_KEY
 		);
 
 		const params = {
@@ -117,7 +119,7 @@ const signin = async (req, res) => {
 		if (!isValid) {
 			return res.status(401).json({ error: "Invalid email or password" });
 		}
-		const token = jwt.sign(user, SECRETS.NEXT_JWT_SECRET, {
+		const token = jwt.sign(user, resources.NEXT_JWT_SECRET, {
 			expiresIn: "1h",
 		});
 
@@ -142,6 +144,11 @@ const sendOTP = async (req, res) => {
 		const otp = generateOtp();
 		console.log("\n Your OTP is: ", otp + "\n");
 		await storeOtpInDb(email, otp);
+		await sendEmail(
+			email,
+			"ECCS LABS OTP for Password Reset",
+			`Your OTP is: ${otp}`
+		);
 		res.status(200).json({
 			message: "OTP sent to your email. Please verify and reset password.",
 		});
@@ -157,7 +164,7 @@ const verifyOtpAndResetPassword = async (req, res) => {
 	try {
 		let originalPassword = decryptPassword(
 			newPassword,
-			SECRETS.NEXT_PASS_SECRET
+			resources.NEXT_PUBLIC_PASS_SECRET_KEY
 		);
 		const storedOtp = await getOtpFromDb(email);
 		const hashedPassword = bcrypt.hashSync(originalPassword, 4);
@@ -203,7 +210,7 @@ const updatePassword = async (req, res) => {
 
 		let originalCurrentPassword = decryptPassword(
 			currentPassword,
-			SECRETS.NEXT_PASS_SECRET
+			resources.NEXT_PUBLIC_PASS_SECRET_KEY
 		);
 
 		const user = await getUserByEmail(email);
@@ -218,7 +225,7 @@ const updatePassword = async (req, res) => {
 		// Hash and update new password
 		let originalNewPassword = decryptPassword(
 			newPassword,
-			SECRETS.NEXT_PASS_SECRET
+			resources.NEXT_PUBLIC_PASS_SECRET_KEY
 		);
 		const hashedPassword = bcrypt.hashSync(originalNewPassword, 4);
 

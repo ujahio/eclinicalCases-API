@@ -1,8 +1,11 @@
+import { bucket } from "./storage";
+// import { email } from "./email";
 import {
 	NEXT_JWT_SECRET,
-	NEXT_PASS_SECRET,
+	NEXT_PUBLIC_PASS_SECRET_KEY,
 	NEXT_PUBLIC_BASE_URL,
 } from "./secrets";
+
 import {
 	Users,
 	Cases,
@@ -20,8 +23,10 @@ const links = [
 	Certificates,
 	StudentCaseAttempts,
 	NEXT_JWT_SECRET,
-	NEXT_PASS_SECRET,
+	NEXT_PUBLIC_PASS_SECRET_KEY,
 	NEXT_PUBLIC_BASE_URL,
+	// email,
+	bucket,
 ];
 
 const STAGE = $app.stage;
@@ -66,80 +71,86 @@ api.route("GET /api/auth/users", {
 });
 
 // Case
-// api.route("GET /api/case/details/$default", {
-//   handler: "handler.handler",
-//   link: links,
-// });
-// api.route("GET /api/case/all/", {
-//   handler: "handler.handler",
-//   link: links,
-// });
-// api.route("GET /api/case/ongoing-case/", {
-//   handler: "handler.handler",
-//   link: links,
-// });
-// api.route("POST /api/case/add", {
-//   handler: "handler.handler",
-//   link: links,
-//   link: [bucket]
-// });
-// api.route("POST /api/case/update/$default", {
-//   handler: "handler.handler",
-//   link: links,
-// });
-// api.route("POST /api/case/duplicate", {
-//   handler: "handler.handler",
-//   link: links,
-// });
-// api.route("POST /api/case/publish/", {
-//   handler: "handler.handler",
-//   link: links,
-// });
-// api.route("POST /api/case/add/feedback/", {
-//   handler: "handler.handler",
-//   link: links,
-// });
-// api.route("GET /api/case/feedbacks/$default", {
-//   handler: "handler.handler",
-//   link: links,
-// });
-// api.route("GET /api/case/responses/$default", {
-//   handler: "handler.handler",
-//   link: links,
-// });
-// api.route("GET /api/case/data/$default", {
-//   handler: "handler.handler",
-//   link: links,
-// });
-// api.route("GET /api/case/student/attempts/$default", {
-//   handler: "handler.handler",
-//   link: links,
-// });
-// api.route("DELETE /api/case/delete-case/$default", {
-//   handler: "handler.handler",
-//   link: links,
-// });
+api.route("GET /api/case/details/{caseID}", {
+	handler: "handler.handler",
+	link: links,
+});
+api.route("GET /api/case/all/{caseStatus}", {
+	handler: "handler.handler",
+	link: links,
+	integrations: {
+		queryParameters: {
+			caseStatus: true,
+		},
+	},
+});
+api.route("GET /api/case/ongoing-case", {
+	handler: "handler.handler",
+	link: links,
+});
+api.route("POST /api/case/add", {
+	handler: "handler.handler",
+	link: links,
+	memory: "2048 MB",
+	binaryMediaTypes: ["*/*"],
+});
+api.route("POST /api/case/update/{caseID}", {
+	handler: "handler.handler",
+	link: links,
+});
+api.route("POST /api/case/duplicate", {
+	handler: "handler.handler",
+	link: links,
+});
+api.route("POST /api/case/publish", {
+	handler: "handler.handler",
+	link: links,
+});
+api.route("POST /api/case/add/feedback", {
+	handler: "handler.handler",
+	link: links,
+});
+api.route("GET /api/case/feedbacks/{caseID}", {
+	handler: "handler.handler",
+	link: links,
+});
+api.route("GET /api/case/responses/{caseID}", {
+	handler: "handler.handler",
+	link: links,
+});
+api.route("GET /api/case/data/{caseID}", {
+	handler: "handler.handler",
+	link: links,
+});
+api.route("GET /api/case/student/attempts/{studentID}", {
+	handler: "handler.handler",
+	link: links,
+});
+api.route("DELETE /api/case/delete-case/{caseID}", {
+	handler: "handler.handler",
+	link: links,
+});
 // api.route("DELETE /api/case/delete/all/", {
 //   handler: "handler.handler",
 //   link: links,
 // });
 
-// // Quiz
-// api.route("POST /api/quiz/submit", {
-//   handler: "handler.handler",
-//   link: links,
-// });
-// api.route("GET /api/quiz/answers/$default", {
-//   handler: "handler.handler",
-//   link: links,
-// });
+// Quiz
+api.route("POST /api/quiz/submit", {
+	handler: "handler.handler",
+	link: links,
+});
+api.route("GET /api/quiz/answers/{caseID}", {
+	handler: "handler.handler",
+	link: links,
+});
 
-// // Student
-// api.route("GET /api/student/certificates", {
-//   handler: "handler.handler",
-//   link: links,
-// });
-// api.route("GET /api/student/certificate/$default", {
-//   handler: "handler.handler",
-//   link: links,
-// });
+// Student
+api.route("GET /api/student/certificates", {
+	handler: "handler.handler",
+	link: links,
+});
+api.route("GET /api/student/certificate/{caseID}", {
+	handler: "handler.handler",
+	link: links,
+});

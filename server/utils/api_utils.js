@@ -72,11 +72,11 @@ async function getUserByEmail(email) {
 	}
 }
 
-function encryptPassword(password, NEXT_SECRET_KEY) {
+function encryptPassword(password, NEXT_PUBLIC_PASS_SECRET_KEY) {
 	const iv = crypto.randomBytes(16);
 	const cipher = crypto.createCipheriv(
 		"aes-256-cbc",
-		Buffer.from(NEXT_SECRET_KEY, "hex"),
+		Buffer.from(NEXT_PUBLIC_PASS_SECRET_KEY, "hex"),
 		iv
 	);
 	let encrypted = cipher.update(password, "utf8", "hex");
@@ -84,13 +84,13 @@ function encryptPassword(password, NEXT_SECRET_KEY) {
 	return iv.toString("hex") + ":" + encrypted;
 }
 
-function decryptPassword(encryptedPassword, NEXT_SECRET_KEY) {
+function decryptPassword(encryptedPassword, NEXT_PUBLIC_PASS_SECRET_KEY) {
 	const textParts = encryptedPassword.split(":");
 	const iv = Buffer.from(textParts.shift(), "hex");
 	const encryptedText = Buffer.from(textParts.join(":"), "hex");
 	const decipher = crypto.createDecipheriv(
 		"aes-256-cbc",
-		Buffer.from(NEXT_SECRET_KEY, "hex"),
+		Buffer.from(NEXT_PUBLIC_PASS_SECRET_KEY, "hex"),
 		iv
 	);
 	let decrypted = decipher.update(encryptedText, "hex", "utf8");

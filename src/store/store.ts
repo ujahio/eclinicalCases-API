@@ -24,7 +24,7 @@ const persistConfig = {
 
 const persistedReducer = persistReducer<RootState>(persistConfig, rootReducer);
 
-const isDevelopment = process.env.NEXT_NODE_ENV === "development";
+const isDevelopment = process.env.NEXT_PUBLIC_NODE_ENV === "development";
 
 export const makeStore = () => {
 	let store: any = configureStore({

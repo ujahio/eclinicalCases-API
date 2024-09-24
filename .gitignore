@@ -47,6 +47,7 @@ buckets/local-bucket/**
 
 # sst
 .sst
+sst-env.d.ts
 
 
 # open-next
