@@ -14,7 +14,7 @@ const encryptedPassword =
 	"e94acd557217fc4d25d96c85bf80e25e:5632ea438f704cf549dfce93e2bcea47";
 let originalPassword = decryptPassword(
 	encryptedPassword,
-	process.env.NEXT_SECRET_KEY
+	process.env.NEXT_PUBLIC_PASS_SECRET_KEY
 );
 const hashedPassword = bcrypt.hashSync(originalPassword, 10);
 
