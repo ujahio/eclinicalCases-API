@@ -1,142 +1,45 @@
-<!--
-title: 'Serverless Framework Node Express API service backed by DynamoDB on AWS'
-description: 'This template demonstrates how to develop and deploy a simple Node Express API service backed by DynamoDB running on AWS Lambda using the Serverless Framework.'
-layout: Doc
-framework: v4
-platform: AWS
-language: nodeJS
-priority: 1
-authorLink: 'https://github.com/serverless'
-authorName: 'Serverless, Inc.'
-authorAvatar: 'https://avatars1.githubusercontent.com/u/13742415?s=200&v=4'
--->
+# SST v3
 
-# Serverless Framework Node Express API on AWS
+This project uses a new engine for deploying SST apps. It uses Pulumi and Terraform, as opposed to CDK and CloudFormation. [Read the full announcement here](<[https://sst.dev/blog/moving-away-from-cdk](https://sst.dev/blog/sst-v3)>).
 
-This template demonstrates how to develop and deploy a simple Node Express API service, backed by DynamoDB table, running on AWS Lambda using the Serverless Framework.
+## Installation
 
-This template configures a single function, `api`, which is responsible for handling all incoming requests using the `httpApi` event. To learn more about `httpApi` event configuration options, please refer to [httpApi event docs](https://www.serverless.com/framework/docs/providers/aws/events/http-api/). As the event is configured in a way to accept all incoming requests, the Express.js framework is responsible for routing and handling requests internally. This implementation uses the `serverless-http` package to transform the incoming event request payloads to payloads compatible with Express.js. To learn more about `serverless-http`, please refer to the [serverless-http README](https://github.com/dougmoscrop/serverless-http).
+If you are using SST as a part of your Node project, we recommend installing it locally.
 
-## Usage
-
-<br><br>
-
-### Development Backend
-
-Install Serverless:
-
-```
-npm i serverless -g
+```bash
+npm install sst
 ```
 
-Install Node modules:
+If you are not using Node, you can install the CLI globally.
 
-```
-npm install
-```
-
-To install serverless S3 local plugin
-
-```
-serverless plugin install --name serverless-s3-local
+```bash
+curl -fsSL https://sst.dev/install | bash
 ```
 
-Install Docker Desktop and run:
+To install a specific version.
 
-```
-npm run dynamodb
-```
-
-Run server:
-
-```
-npm run dev
+```bash
+curl -fsSL https://sst.dev/install | VERSION=0.0.403 bash
 ```
 
-<br><br>
+To use a package manager, [check out our docs](https://sst.dev/docs/reference/cli/).
 
-### Development Frontend
+#### Manually
 
-Install Node modules:
+Download the pre-compiled binaries from the [releases](https://github.com/sst/ion/releases/latest) page and copy to the desired location.
 
-`cd frontend` and then
+## Get Started
 
-```
-npm install
-```
+Get started with your favorite framework:
 
-Run frontend:
+- [Next.js](https://sst.dev/docs/start/aws/nextjs)
+- [API](https://sst.dev/docs/start/aws/api)
 
-```
-npm run frontend
-```
+## Learn More
 
-<br><br>
+Learn more about some of the key concepts:
 
-### Deployment (Prod)
-
-Install dependencies with:
-
-```
-npm install
-```
-
-and then deploy with:
-
-```
-serverless deploy
-```
-
-After running deploy, you should see output similar to:
-
-```
-Deploying "aws-node-express-dynamodb-api" to stage "dev" (us-east-1)
-
-✔ Service deployed to stack aws-node-express-dynamodb-api-dev (109s)
-
-endpoint: ANY - https://xxxxxxxxxx.execute-api.us-east-1.amazonaws.com
-functions:
-  api: aws-node-express-dynamodb-api-dev-api (3.8 MB)
-```
-
-_Note_: In current form, after deployment, your API is public and can be invoked by anyone. For production deployments, you might want to configure an authorizer. For details on how to do that, refer to [`httpApi` event docs](https://www.serverless.com/framework/docs/providers/aws/events/http-api/). Additionally, in current configuration, the DynamoDB table will be removed when running `serverless remove`. To retain the DynamoDB table even after removal of the stack, add `DeletionPolicy: Retain` to its resource definition.
-
-### Invocation
-
-After successful deployment, you can create a new user by calling the corresponding endpoint:
-
-```
-curl --request POST 'https://xxxxxx.execute-api.us-east-1.amazonaws.com/users' --header 'Content-Type: application/json' --data-raw '{"name": "John", "userId": "someUserId"}'
-```
-
-Which should result in the following response:
-
-```json
-{ "userId": "someUserId", "name": "John" }
-```
-
-You can later retrieve the user by `userId` by calling the following endpoint:
-
-```
-curl https://xxxxxxx.execute-api.us-east-1.amazonaws.com/users/someUserId
-```
-
-Which should result in the following response:
-
-```json
-{ "userId": "someUserId", "name": "John" }
-```
-
-### Local development
-
-The easiest way to develop and test your function is to use the `dev` command:
-
-```
-serverless dev
-```
-
-This will start a local emulator of AWS Lambda and tunnel your requests to and from AWS Lambda, allowing you to interact with your function as if it were running in the cloud.
-
-Now you can invoke the function as before, but this time the function will be executed locally. Now you can develop your function locally, invoke it, and see the results immediately without having to re-deploy.
-
-When you are done developing, don't forget to run `serverless deploy` to deploy the function to the cloud.
+- [Live](https://sst.dev/docs/live)
+- [Linking](https://sst.dev/docs/linking)
+- [Console](https://sst.dev/docs/console)
+- [Components](https://sst.dev/docs/components)
