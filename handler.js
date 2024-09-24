@@ -9,34 +9,40 @@ import caseRoutes from "./server/routes/case.routes.js";
 import quizRoutes from "./server/routes/quiz.routes.js";
 import studentRoutes from "./server/routes/student.routes.js";
 import {
-  getUsers,
-  sendOTP,
-  signin,
-  signup,
-  updatePassword,
-  verifyOtpAndResetPassword,
+	getUsers,
+	sendOTP,
+	signin,
+	signup,
+	updatePassword,
+	verifyOtpAndResetPassword,
 } from "./server/controllers/auth.controller.js";
 import {
-  addCase,
-  updateCase,
-  getCases,
-  getCase,
-  getOngoingCase,
-  deleteCase,
-  deleteAllCases,
-  duplicateCase,
-  publishCase,
-  addFeedback,
-  getCaseFeedback,
-  getCaseAnswers,
-  getCaseAttemptsByStudent,
-  getCaseData,
+	addCase,
+	updateCase,
+	getCases,
+	getCase,
+	getOngoingCase,
+	deleteCase,
+	deleteAllCases,
+	duplicateCase,
+	publishCase,
+	addFeedback,
+	getCaseFeedback,
+	getCaseAnswers,
+	getCaseAttemptsByStudent,
+	getCaseData,
 } from "./server/controllers/case.controller.js";
 import { checkDuplicateUsernameOrEmail } from "./server/middlewares/verifySignUp.js";
 import { verifyToken } from "./server/middlewares/auth.js";
 import { upload } from "./server/middlewares/uploadFile.js";
-import { getStudentsAnswers, submitCaseAnswers } from "./server/controllers/quiz.controller.js";
-import { getCertificateByCaseID, getStudentCertificates } from "./server/controllers/student.controller.js";
+import {
+	getStudentsAnswers,
+	submitCaseAnswers,
+} from "./server/controllers/quiz.controller.js";
+import {
+	getCertificateByCaseID,
+	getStudentCertificates,
+} from "./server/controllers/student.controller.js";
 
 const app = express();
 
@@ -52,7 +58,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+	res.send("Hello World!");
 });
 
 // Auth
@@ -91,9 +97,9 @@ app.use("/api/student", studentRoutes);
 // app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use((req, res, next) => {
-  return res.status(404).json({
-    error: "Page not Found",
-  });
+	return res.status(404).json({
+		error: "Page not Found",
+	});
 });
 
 export const handler = serverless(app);
