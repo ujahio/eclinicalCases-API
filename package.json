@@ -6,17 +6,9 @@
 	"type": "module",
 	"scripts": {
 		"build": "next build",
-		"create-tables": "node create_db_tables.js",
-		"delete-tables": "node delete_tables.js",
-		"dev:nextapp": "concurrently \"yarn dev:server\" \"yarn dev\"",
 		"dev": "next dev",
-		"dev:server": "yarn create-tables && yarn seeder && nodemon",
-		"dynamodb": "docker run -p 8000:8000 amazon/dynamodb-local -jar DynamoDBLocal.jar -inMemory -sharedDb",
 		"lint": "next lint",
-		"s3": "serverless s3 start",
-		"seeder": "node server/seeder.js",
-		"start": "concurrently \"yarn start:server\" \"yarn start:nextapp\"",
-		"start:nextapp": "next start"
+		"start": "next start"
 	},
 	"dependencies": {
 		"@auth/dynamodb-adapter": "^2.2.0",
@@ -27,9 +19,6 @@
 		"@aws-sdk/lib-storage": "^3.627.0",
 		"@aws-sdk/s3-request-presigner": "^3.645.0",
 		"@reduxjs/toolkit": "^2.2.7",
-		"@serverless-stack/cli": "^1.18.4",
-		"@serverless-stack/resources": "^1.18.4",
-		"@sls-next/serverless-component": "^3.7.0",
 		"@types/draft-js": "^0.11.18",
 		"@types/react-draft-wysiwyg": "^1.13.8",
 		"aws-sdk": "^2.1632.0",
@@ -59,6 +48,7 @@
 		"redux-persist": "^6.0.0",
 		"redux-persist-transform-filter": "^0.0.22",
 		"sass": "^1.77.3",
+		"serverless-http": "^3.2.0",
 		"sst": "3.0.75",
 		"yup": "^1.4.0"
 	},
