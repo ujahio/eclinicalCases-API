@@ -155,6 +155,6 @@ api.route("GET /api/student/certificate/{caseID}", {
 	link: links,
 });
 api.route("POST /api/student/new-case-notification", {
-	handler: "handler.handler",
+	handler: "server/controllers/student.controller.newCaseNotification",
 	link: links,
 });

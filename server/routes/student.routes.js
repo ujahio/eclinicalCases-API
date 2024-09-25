@@ -9,6 +9,5 @@ import {
 
 router.get("/certificates", verifyToken, getStudentCertificates);
 router.get("/certificate/:caseID", verifyToken, getCertificateByCaseID);
-router.post("/new-case-notification", newCaseNotification);
 
 export default router;

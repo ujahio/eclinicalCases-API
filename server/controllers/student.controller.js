@@ -72,10 +72,14 @@ const getCertificateByCaseID = async (req, res) => {
 };
 
 const newCaseNotification = async (req, res) => {
-	res.status(200).json({
-		message: "Students notified successfully.",
-		// data: result.Items,
-	});
+	return {
+		statusCode: 200,
+		body: "Students notified successfully.",
+	};
+	// res.status(200).json({
+	// 	message: "Students notified successfully.",
+	// 	// data: result.Items,
+	// });
 	// const caseID = req.body.caseID;
 
 	// const params = {
