@@ -19,27 +19,27 @@ export const api = new sst.aws.ApiGatewayV2("MyApi");
 
 // Auth
 api.route("POST /api/auth/signin", {
-  handler: "handler.handler",
+    handler: "server/controllers/auth.controller.signin",
   link: links,
 });
 api.route("POST /api/auth/signup", {
-  handler: "handler.handler",
+    handler: "server/controllers/auth.controller.signup",
   link: links,
 });
 api.route("POST /api/auth/send-otp", {
-  handler: "handler.handler",
+    handler: "server/controllers/auth.controller.sendOTP",
   link: links,
 });
 api.route("POST /api/auth/reset-password", {
-  handler: "handler.handler",
+    handler: "server/controllers/auth.controller.verifyOtpAndResetPassword",
   link: links,
 });
 api.route("POST /api/auth/update-password", {
-  handler: "handler.handler",
+    handler: "server/controllers/auth.controller.updatePassword",
   link: links,
 });
 api.route("GET /api/auth/users", {
-  handler: "handler.handler",
+  handler: "server/controllers/auth.controller.getUsers",
   link: links,
 });
 
@@ -49,7 +49,7 @@ api.route("GET /api/case/details/{caseID}", {
   link: links,
 });
 api.route("GET /api/case/all/{caseStatus}", {
-  handler: "handler.handler",
+  handler: "server/controllers/case.controller.getCases",
   link: links,
   integrations: {
     queryParameters: {
@@ -58,49 +58,49 @@ api.route("GET /api/case/all/{caseStatus}", {
   },
 });
 api.route("GET /api/case/ongoing-case", {
-  handler: "handler.handler",
+    handler: "server/controllers/case.controller.getCases",
   link: links,
 });
 api.route("POST /api/case/add", {
-  handler: "handler.handler",
+    handler: "server/controllers/case.controller.addCase",
   link: links,
   memory: "2048 MB",
   binaryMediaTypes: ["*/*"],
 });
 api.route("POST /api/case/update/{caseID}", {
-  handler: "handler.handler",
+    handler: "server/controllers/case.controller.updateCase",
   link: links,
 });
 api.route("POST /api/case/duplicate", {
-  handler: "handler.handler",
+    handler: "server/controllers/case.controller.duplicateCase",
   link: links,
 });
 api.route("POST /api/case/publish", {
-  handler: "handler.handler",
+    handler: "server/controllers/case.controller.publishCase",
   link: links,
 });
 api.route("POST /api/case/add/feedback", {
-  handler: "handler.handler",
+    handler: "server/controllers/case.controller.getCases",
   link: links,
 });
 api.route("GET /api/case/feedbacks/{caseID}", {
-  handler: "handler.handler",
+    handler: "server/controllers/case.controller.getCaseFeedback",
   link: links,
 });
 api.route("GET /api/case/responses/{caseID}", {
-  handler: "handler.handler",
+    handler: "server/controllers/case.controller.getCaseAnswers",
   link: links,
 });
 api.route("GET /api/case/data/{caseID}", {
-  handler: "handler.handler",
+    handler: "server/controllers/case.controller.getCaseData",
   link: links,
 });
 api.route("GET /api/case/student/attempts/{studentID}", {
-  handler: "handler.handler",
+    handler: "server/controllers/case.controller.getCaseAttemptsByStudent",
   link: links,
 });
 api.route("DELETE /api/case/delete-case/{caseID}", {
-  handler: "handler.handler",
+    handler: "server/controllers/case.controller.deleteCase",
   link: links,
 });
 // api.route("DELETE /api/case/delete/all/", {

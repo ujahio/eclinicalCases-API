@@ -37,7 +37,6 @@ const addCase = async (req, res) => {
   if (caseData.caseDeadline) caseItem.caseDeadline = new Date(caseData.caseDeadline).toISOString();
   if (caseData.caseQuestions) caseItem.caseQuestions = JSON.parse(caseData.caseQuestions);
 
-
   if (!draft) {
     const activeCaseParams = {
       TableName: TABLES.CASE,
@@ -167,8 +166,9 @@ const updateCase = async (req, res) => {
   }
 };
 
-const getCases = async (req, res) => {
-  const caseStatus = req.query.caseStatus;
+const getCases = async (event) => {
+  console.log("eventttttttt:: ", event);
+  const caseStatus = event.pathParameters?.caseStatus;
 
   try {
     let params;
@@ -219,7 +219,7 @@ const getCases = async (req, res) => {
     const result = await dbClient.send(command);
     const cases = result.Items;
 
-    // Fetch the total number of answers and feedbacks for each case
+    // Fetch total number of answers and feedbacks for each case
     const detailedCasesPromises = cases.map(async (caseItem) => {
       const caseID = caseItem.id;
 
@@ -260,25 +260,33 @@ const getCases = async (req, res) => {
 
     const detailedCases = await Promise.all(detailedCasesPromises);
 
-    res.status(200).json({
-      message: "Cases retrieved successfully!",
-      data: detailedCases,
-    });
+    return {
+      statusCode: 200,
+      body: JSON.stringify({
+        message: "Cases retrieved successfully!",
+        data: detailedCases,
+      }),
+    };
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Could not retrieve cases: " + error });
+    console.error("Error retrieving cases:", error);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: `Could not retrieve cases: ${error.message}` }),
+    };
   }
 };
 
-const getCase = async (req, res) => {
+const getCase = async (event) => {
+  const caseID = event.pathParameters.caseID;
+
+  if (!caseID) {
+    return {
+      statusCode: 400,
+      body: JSON.stringify({ error: "Missing case ID in the request URL." }),
+    };
+  }
+
   try {
-    const caseID = req.params.caseID;
-    const userId = req.validatedUser.id;
-
-    if (!caseID) {
-      return res.status(400).json({ error: "Missing case ID in the request URL." });
-    }
-
     const params = {
       TableName: TABLES.CASE,
       Key: {
@@ -289,23 +297,34 @@ const getCase = async (req, res) => {
     const command = new GetCommand(params);
     const result = await dbClient.send(command);
     const caseData = result.Item;
+
     if (!caseData) {
-      return res.status(200).json({
-        message: "Case retrieved successfully!",
-        data: {},
-      });
+      return {
+        statusCode: 404,
+        body: JSON.stringify({
+          message: "Case not found.",
+          data: {},
+        }),
+      };
     }
-    res.status(200).json({
-      message: "Case retrieved successfully!",
-      data: caseData,
-    });
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({
+        message: "Case retrieved successfully!",
+        data: caseData,
+      }),
+    };
   } catch (error) {
-    console.error(error);
-    res.status(404).json({ error: "Case not found: " + error });
+    console.error("Error retrieving case:", error);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: `Could not retrieve case: ${error.message}` }),
+    };
   }
 };
 
-const getOngoingCase = async (req, res) => {
+const getOngoingCase = async () => {
   try {
     const params = {
       TableName: TABLES.CASE,
@@ -363,23 +382,32 @@ const getOngoingCase = async (req, res) => {
 
     const detailedCases = await Promise.all(detailedCasesPromises);
 
-    res.status(200).json({
-      message: "Ongoing case retrieved successfully!",
-      data: detailedCases,
-    });
+    return {
+      statusCode: 200,
+      body: JSON.stringify({
+        message: "Ongoing case retrieved successfully!",
+        data: detailedCases,
+      }),
+    };
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Could not retrieve ongoing cases: " + error });
+    console.error("Error retrieving ongoing case:", error);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: `Could not retrieve ongoing cases: ${error.message}` }),
+    };
   }
 };
 
-const deleteCase = async (req, res) => {
+const deleteCase = async (event) => {
   try {
-    const caseID = req.params.caseID;
-    const userId = req.validatedUser.id;
+    const caseID = event.pathParameters.caseID;
+    const userId = event.requestContext.authorizer.claims.sub;
 
     if (!caseID) {
-      return res.status(400).json({ error: "Missing case ID in the request URL." });
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ error: "Missing case ID in the request URL." }),
+      };
     }
 
     const params = {
@@ -394,16 +422,22 @@ const deleteCase = async (req, res) => {
     };
     const deleteCommand = new DeleteCommand(params);
     await dbClient.send(deleteCommand);
-    res.status(200).json({
-      message: "Case deleted successfully!",
-    });
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ message: "Case deleted successfully!" }),
+    };
   } catch (error) {
-    console.error(error);
-    res.status(404).json({ error: "Case not found: " + error });
+    console.error("Error deleting case:", error);
+
+    return {
+      statusCode: 404,
+      body: JSON.stringify({ error: "Case not found: " + error.message }),
+    };
   }
 };
 
-const deleteAllCases = async (req, res) => {
+const deleteAllCases = async () => {
   try {
     const params = {
       TableName: TABLES.CASE,
@@ -422,21 +456,29 @@ const deleteAllCases = async (req, res) => {
       return dbClient.send(deleteCommand);
     });
     await Promise.all(deletePromises);
-    res.status(200).json({
-      message: "All cases deleted successfully!",
-    });
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ message: "All cases deleted successfully!" }),
+    };
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Could not delete cases: " + error });
+    console.error("Error deleting cases:", error);
+
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: "Could not delete cases: " + error.message }),
+    };
   }
 };
 
-const duplicateCase = async (req, res) => {
-  const caseID = req.body.caseID;
+const duplicateCase = async (event) => {
+  const { caseID } = JSON.parse(event.body);
 
   try {
     if (!caseID) {
-      return res.status(400).json({ error: "Missing case ID in the request body." });
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ error: "Missing case ID in the request body." }),
+      };
     }
 
     const singleItemParams = {
@@ -446,40 +488,57 @@ const duplicateCase = async (req, res) => {
       },
     };
 
-    const originalCase = await readSingleItem(singleItemParams);
-    if (!originalCase) {
-      return res.status(400).json({ error: "Case does not exist" });
+    const getCommand = new GetCommand(singleItemParams);
+    const originalCase = await dbClient.send(getCommand);
+
+    if (!originalCase.Item) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ error: "Case does not exist" }),
+      };
     }
 
     const duplicateCase = {
-      ...originalCase,
+      ...originalCase.Item,
       id: uuidv4(),
-      caseClue: originalCase.caseClue + " duplicate",
-      createdAt: Date.now(),
+      caseClue: originalCase.Item.caseClue + " duplicate",
+      createdAt: Date.now().toString(),
     };
     const putParams = {
       TableName: TABLES.CASE,
       Item: duplicateCase,
     };
 
-    const command = new PutCommand(putParams);
-    const result = await dbClient.send(command);
-    res.status(201).json({
-      message: "Case duplicated successfully!",
-      data: result,
-    });
+    const putCommand = new PutCommand(putParams);
+    await dbClient.send(putCommand);
+
+    return {
+      statusCode: 201,
+      body: JSON.stringify({
+        message: "Case duplicated successfully!",
+        data: duplicateCase,
+      }),
+    };
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Could not duplicate case" });
+    console.error("Error duplicating case:", error);
+
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: "Could not duplicate case: " + error.message }),
+    };
   }
 };
 
-const publishCase = async (req, res) => {
-  const caseID = req.body.caseID;
+const publishCase = async (event) => {
+  const { caseID } = JSON.parse(event.body);
+
   if (!caseID) {
-    return res.status(400).json({
-      message: "CaseID not found.",
-    });
+    return {
+      statusCode: 400,
+      body: JSON.stringify({
+        message: "CaseID not found.",
+      }),
+    };
   }
 
   const singleItemParams = {
@@ -489,39 +548,53 @@ const publishCase = async (req, res) => {
     },
   };
 
-  const originalCase = await readSingleItem(singleItemParams);
-  console.log("originalCase: ", originalCase);
-  if (!originalCase) {
-    return res.status(400).json({ error: "Case does not exist" });
-  }
-
-  const params = {
-    TableName: TABLES.CASE,
-    Key: {
-      id: caseID,
-    },
-    UpdateExpression: "set caseStatus = :active",
-    ExpressionAttributeValues: {
-      ":active": "active",
-    },
-  };
-
   try {
+    const originalCase = await readSingleItem(singleItemParams);
+    console.log("originalCase: ", originalCase);
+    if (!originalCase) {
+      return res.status(400).json({ error: "Case does not exist" });
+    }
+
+    const params = {
+      TableName: TABLES.CASE,
+      Key: {
+        id: caseID,
+      },
+      UpdateExpression: "set caseStatus = :active",
+      ExpressionAttributeValues: {
+        ":active": "active",
+      },
+    };
+
     const command = new UpdateCommand(params);
     const result = await dbClient.send(command);
-    res.status(200).json({
-      message: "Case activated successfully.",
-      data: result,
-    });
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({
+        message: "Case activated successfully.",
+        data: result,
+      }),
+    };
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: `Could not activate case: ${error}` });
+    console.error("Error activating case: ", error);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: `Could not activate case: ${error.message}` }),
+    };
   }
 };
 
-const addFeedback = async (req, res) => {
-  const studentID = req.validatedUser.id;
-  const { caseID, feedback } = req.body;
+const addFeedback = async (event) => {
+  const { caseID, feedback } = JSON.parse(event.body);
+  const studentID = event.requestContext.authorizer.claims.sub;
+
+  if (!caseID || !feedback) {
+    return {
+      statusCode: 400,
+      body: JSON.stringify({ error: "Missing caseID or feedback in the request." }),
+    };
+  }
 
   const params = {
     TableName: TABLES.FEEDBACK,
@@ -537,20 +610,32 @@ const addFeedback = async (req, res) => {
   try {
     const command = new PutCommand(params);
     await dbClient.send(command);
-    res.status(200).json({ message: "Feedback submitted successfully." });
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ message: "Feedback submitted successfully." }),
+    };
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: `Could not submit feedback: ${error}` });
+    console.error("Error submitting feedback: ", error);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: `Could not submit feedback: ${error.message}` }),
+    };
   }
 };
 
-const getCaseFeedback = async (req, res) => {
-  const caseID = req.params.caseID;
-  console.log("Case ID: ", caseID);
+const getCaseFeedback = async (event) => {
+  const caseID = event.pathParameters.caseID;
+
+  if (!caseID) {
+    return {
+      statusCode: 400,
+      body: JSON.stringify({ error: "Missing case ID in the request." }),
+    };
+  }
 
   const params = {
     TableName: TABLES.FEEDBACK,
-    IndexName: "CaseIDIndex", // Ensure this index is created
+    IndexName: "CaseIDIndex",
     KeyConditionExpression: "caseID = :caseID",
     ExpressionAttributeValues: {
       ":caseID": caseID,
@@ -584,24 +669,29 @@ const getCaseFeedback = async (req, res) => {
           ...feedback,
         };
       } else {
-        throw new Error(`User with id ${feedback.studentID} not found`);
+        throw new Error(`User with ID ${feedback.studentID} not found`);
       }
     });
 
     const detailedFeedbacks = await Promise.all(studentDetailsPromises);
 
-    res.status(200).json({
-      message: "Feedbacks retrieved successfully.",
-      data: detailedFeedbacks,
-    });
+    return {
+      statusCode: 200,
+      body: JSON.stringify({
+        message: "Feedback retrieved successfully.",
+        data: detailedFeedbacks,
+      }),
+    };
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: `Could not fetch feedback: ${error}` });
+    console.error("Error fetching feedback: ", error);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: `Could not fetch feedback: ${error.message}` }),
+    };
   }
 };
-
-const getCaseAnswers = async (req, res) => {
-  const caseID = req.params.caseID;
+const getCaseAnswers = async (event) => {
+  const caseID = event.pathParameters.caseID;
 
   const answersParams = {
     TableName: TABLES.ANSWER,
@@ -639,21 +729,27 @@ const getCaseAnswers = async (req, res) => {
           ...answer,
         };
       } else {
-        throw new Error(`User with id ${feedback.studentID} not found`);
+        throw new Error(`User with id ${answer.studentID} not found`);
       }
     });
 
     const detailedAnswers = await Promise.all(studentDetailsPromises);
 
-    res.status(200).json({ answers: detailedAnswers });
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ answers: detailedAnswers }),
+    };
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: `Could not fetch answers: ${error}` });
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: `Could not fetch answers: ${error.message}` }),
+    };
   }
 };
 
-const getCaseAttemptsByStudent = async (req, res) => {
-  const studentID = req.params.studentID;
+const getCaseAttemptsByStudent = async (event) => {
+  const studentID = event.pathParameters.studentID;
 
   const params = {
     TableName: TABLES.STUDENTCASEATTEMPTS,
@@ -668,19 +764,24 @@ const getCaseAttemptsByStudent = async (req, res) => {
     const command = new QueryCommand(params);
     const result = await dbClient.send(command);
 
-    res.status(200).json({
-      message: "Case attempts retrieved successfully.",
-      data: result.Items,
-    });
+    return {
+      statusCode: 200,
+      body: JSON.stringify({
+        message: "Case attempts retrieved successfully.",
+        data: result.Items,
+      }),
+    };
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: `Could not fetch case attempts: ${error}` });
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: `Could not fetch case attempts: ${error.message}` }),
+    };
   }
 };
 
-const getCaseData = async (req, res) => {
-  const caseID = req.params.caseID;
-  console.log("Case ID: ", caseID);
+const getCaseData = async (event) => {
+  const caseID = event.pathParameters.caseID;
 
   const feedbackParams = {
     TableName: TABLES.FEEDBACK,
@@ -760,10 +861,16 @@ const getCaseData = async (req, res) => {
 
     const responseData = Object.values(combinedData);
 
-    res.status(200).json(responseData);
+    return {
+      statusCode: 200,
+      body: JSON.stringify(responseData),
+    };
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: `Could not fetch data: ${error}` });
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: `Could not fetch data: ${error.message}` }),
+    };
   }
 };
 
