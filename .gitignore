@@ -44,6 +44,7 @@ buckets/local-bucket/**
 .env.staging
 .env.production
 .env.prod
+.env.otktechnologies
 
 # sst
 .sst
