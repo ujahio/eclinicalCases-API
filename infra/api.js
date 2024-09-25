@@ -1,5 +1,5 @@
 import { bucket } from "./storage";
-// import { email } from "./email";
+import { email } from "./email";
 import {
 	NEXT_JWT_SECRET,
 	NEXT_PUBLIC_PASS_SECRET_KEY,
@@ -25,7 +25,7 @@ const links = [
 	NEXT_JWT_SECRET,
 	NEXT_PUBLIC_PASS_SECRET_KEY,
 	NEXT_PUBLIC_BASE_URL,
-	// email,
+	email,
 	bucket,
 ];
 

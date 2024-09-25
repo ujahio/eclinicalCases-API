@@ -71,43 +71,34 @@ const getCertificateByCaseID = async (req, res) => {
 	}
 };
 
-const newCaseNotification = async (req, res) => {
-	return {
-		statusCode: 200,
-		body: "Students notified successfully.",
-	};
-	// res.status(200).json({
-	// 	message: "Students notified successfully.",
-	// 	// data: result.Items,
-	// });
-	// const caseID = req.body.caseID;
+const newCaseNotification = async (event) => {
+	try {
+		const params = {
+			TableName: TABLES.USER,
+			ProjectionExpression: "email",
+		};
 
-	// const params = {
-	// 	TableName: TABLES.CERTIFICATES,
-	// 	FilterExpression: "caseID = :caseID",
-	// 	ExpressionAttributeValues: {
-	// 		":caseID": caseID,
-	// 	},
-	// };
+		const command = new ScanCommand(params);
+		const result = await dbClient.send(command);
 
-	// try {
-	// 	const emailsOfStudents = [];
-	// 	const subjectOfEmail = "New case available!";
-	// 	const bodyOfEmail =
-	// 		"A new case has been posted. Please login to your account to view the case.";
+		const emailAddressesOfStudents = result.Items.map((item) => item.email);
+		const subjectOfEmail = "New case available!";
+		const bodyOfEmail =
+			"A new case has been posted. Please login to your account to view the case.";
 
-	// 	await sendEmail(emailsOfStudents, subjectOfEmail, bodyOfEmail);
+		await sendEmail(emailAddressesOfStudents, subjectOfEmail, bodyOfEmail);
 
-	// 	res.status(200).json({
-	// 		message: "Students notified successfully.",
-	// 		data: result.Items,
-	// 	});
-	// } catch (error) {
-	// 	console.error(error);
-	// 	res
-	// 		.status(500)
-	// 		.json({ error: `Could not notify students: ${error.message}` });
-	// }
+		return {
+			statusCode: 200,
+			body: "Students notified successfully.",
+		};
+	} catch (error) {
+		console.error(error);
+		return {
+			statusCode: 500,
+			body: `Could not notify students: ${error.message}`,
+		};
+	}
 };
 
 export { getStudentCertificates, getCertificateByCaseID, newCaseNotification };
