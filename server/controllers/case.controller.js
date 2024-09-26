@@ -12,12 +12,17 @@ import {
 import { readSingleItem } from "../services/dbOps.js";
 import { TABLES } from "../services/dbTables.js";
 
-const addCase = async (req, res) => {
-  const userID = req.validatedUser.id;
-  const caseData = req.body;
+const addCase = async (event) => {
+  const buffer = Buffer.from(event.body, 'base64');
+  console.log("buffer: ", buffer);
+  console.log("event: ", event);
+  console.log("event.files: ", event.files);
+  const userID = event.requestContext.authorizer.claims.sub;
+  const caseData = JSON.parse(event.body);
   const draft = caseData.draft === "true";
-  // const caseDeadline = new Date(caseData.caseDeadline).toISOString();
-  const caseMaterials = req.files.map((file) => ({
+
+  console.log("event.files: ", event.files)
+  const caseMaterials = event.files.map((file) => ({
     filename: file.originalname,
     filePath: file.location,
   }));
@@ -49,12 +54,23 @@ const addCase = async (req, res) => {
       },
     };
 
-    const activeCaseCommand = new ScanCommand(activeCaseParams);
-    const activeCaseResult = await dbClient.send(activeCaseCommand);
-    const activeCase = activeCaseResult.Items[0];
+    try {
+      const activeCaseCommand = new ScanCommand(activeCaseParams);
+      const activeCaseResult = await dbClient.send(activeCaseCommand);
+      const activeCase = activeCaseResult.Items[0];
 
-    if (activeCase) {
-      return res.status(400).json({ error: "Case is already published" });
+      if (activeCase) {
+        return {
+          statusCode: 400,
+          body: JSON.stringify({ error: "Case is already published" }),
+        };
+      }
+    } catch (error) {
+      console.error("Error scanning active cases: ", error);
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ error: "Could not check active cases" }),
+      };
     }
   }
 
@@ -66,23 +82,33 @@ const addCase = async (req, res) => {
   try {
     const command = new PutCommand(params);
     const result = await dbClient.send(command);
-    res.status(200).json({
-      message: "Case added successfully.",
-      data: result,
-    });
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({
+        message: "Case added successfully.",
+        data: result,
+      }),
+    };
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: `Could not create case: ${error}` });
+    console.error("Error adding case: ", error);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: `Could not create case: ${error}` }),
+    };
   }
 };
 
-const updateCase = async (req, res) => {
-  const caseData = req.body;
-  const caseID = req.params.caseID;
-  const userId = req.validatedUser.id;
+const updateCase = async (event) => {
+  const caseData = JSON.parse(event.body);
+  const caseID = event.pathParameters.caseID;
+  const userId = event.requestContext.authorizer.claims.sub;
 
   if (!caseID) {
-    return res.status(400).json({ error: "Missing case ID in the request URL." });
+    return {
+      statusCode: 400,
+      body: JSON.stringify({ error: "Missing case ID in the request URL." }),
+    };
   }
 
   const caseParams = {
@@ -98,15 +124,19 @@ const updateCase = async (req, res) => {
     const caseItem = result.Item;
 
     if (!caseItem) {
-      res.status(404).json({ error: "Case not found" });
-      return;
+      return {
+        statusCode: 404,
+        body: JSON.stringify({ error: "Case not found" }),
+      };
     }
 
-    const caseDeadline = new Date(caseData.caseDeadline).toISOString();
-    const caseMaterials = req.files.map((file) => ({
-      filename: file.originalname,
-      filePath: file.location,
-    }));
+    const caseDeadline = caseData.caseDeadline ? new Date(caseData.caseDeadline).toISOString() : undefined;
+    const caseMaterials = event.files
+      ? event.files.map((file) => ({
+          filename: file.originalname,
+          filePath: file.location,
+        }))
+      : [];
 
     let updateExpression = "SET ";
     let expressionAttributeValues = {};
@@ -144,7 +174,7 @@ const updateCase = async (req, res) => {
     // Remove trailing comma and space from updateExpression
     updateExpression = updateExpression.slice(0, -2);
 
-    const params = {
+    const updateParams = {
       TableName: TABLES.CASE,
       Key: { id: caseID },
       UpdateExpression: updateExpression,
@@ -153,21 +183,26 @@ const updateCase = async (req, res) => {
       ReturnValues: "UPDATED_NEW",
     };
 
-    const updateCommand = new UpdateCommand(params);
+    const updateCommand = new UpdateCommand(updateParams);
     const updateResult = await dbClient.send(updateCommand);
 
-    res.status(200).json({
-      message: "Case updated successfully.",
-      data: updateResult.Attributes,
-    });
+    return {
+      statusCode: 200,
+      body: JSON.stringify({
+        message: "Case updated successfully.",
+        data: updateResult.Attributes,
+      }),
+    };
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: `Could not update case: ${error}` });
+    console.error("Error updating case: ", error);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: `Could not update case: ${error}` }),
+    };
   }
 };
 
 const getCases = async (event) => {
-  console.log("eventttttttt:: ", event);
   const caseStatus = event.pathParameters?.caseStatus;
 
   try {

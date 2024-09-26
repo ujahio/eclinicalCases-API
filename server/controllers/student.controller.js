@@ -3,8 +3,8 @@ import { v4 as uuidv4 } from "uuid";
 import { QueryCommand, ScanCommand } from "@aws-sdk/lib-dynamodb";
 import { TABLES } from "../services/dbTables.js";
 
-const getStudentCertificates = async (req, res) => {
-  const studentID = req.validatedUser.id;
+const getStudentCertificates = async (event) => {
+  const studentID = event.requestContext.authorizer.claims.sub;
 
   const params = {
     TableName: TABLES.CERTIFICATES,
@@ -20,21 +20,30 @@ const getStudentCertificates = async (req, res) => {
     const result = await dbClient.send(command);
 
     if (result.Items.length === 0) {
-      return res.status(404).json({ message: "No certificates found for this student." });
+      return {
+        statusCode: 404,
+        body: JSON.stringify({ message: "No certificates found for this student." }),
+      };
     }
 
-    res.status(200).json({
-      message: "Certificates retrieved successfully.",
-      data: result.Items,
-    });
+    return {
+      statusCode: 200,
+      body: JSON.stringify({
+        message: "Certificates retrieved successfully.",
+        data: result.Items,
+      }),
+    };
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: `Could not fetch certificates: ${error.message}` });
+    console.error("Error fetching certificates: ", error);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: `Could not fetch certificates: ${error.message}` }),
+    };
   }
 };
 
-const getCertificateByCaseID = async (req, res) => {
-  const caseID = req.params.caseID;
+const getCertificateByCaseID = async (event) => {
+  const caseID = event.pathParameters.caseID;
 
   const params = {
     TableName: TABLES.CERTIFICATES,
@@ -49,16 +58,25 @@ const getCertificateByCaseID = async (req, res) => {
     const result = await dbClient.send(command);
 
     if (result.Items.length === 0) {
-      return res.status(404).json({ message: "No certificate found for this case." });
+      return {
+        statusCode: 404,
+        body: JSON.stringify({ message: "No certificate found for this case." }),
+      };
     }
 
-    res.status(200).json({
-      message: "Certificate retrieved successfully.",
-      data: result.Items[0],
-    });
+    return {
+      statusCode: 200,
+      body: JSON.stringify({
+        message: "Certificate retrieved successfully.",
+        data: result.Items[0],
+      }),
+    };
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: `Could not fetch certificate: ${error.message}` });
+    console.error("Error fetching certificate by case ID: ", error);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: `Could not fetch certificate: ${error.message}` }),
+    };
   }
 };
 

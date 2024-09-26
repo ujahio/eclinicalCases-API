@@ -2,15 +2,15 @@ import dbClient from "../services/dbClient.js";
 import { v4 as uuidv4 } from "uuid";
 import { GetCommand, PutCommand, QueryCommand } from "@aws-sdk/lib-dynamodb";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
-import { generateCertificate } from "../utils/certificate.js";
+// import { generateCertificate } from "../utils/certificate.js";
 import { s3Client } from "../middlewares/uploadFile.js";
 import { TABLES } from "../services/dbTables.js";
 
-const submitCaseAnswers = async (req, res) => {
-  const studentID = req.validatedUser.id;
-  const { firstname, lastname } = req.validatedUser;
-  const fullName = firstname + " " + lastname;
-  const { caseID, caseTopicAnswer, caseExplanation, answers } = req.body;
+const submitCaseAnswers = async (event) => {
+  const studentID = event.requestContext.authorizer.claims.sub;
+  const { firstname, lastname } = event.requestContext.authorizer.claims;
+  const fullName = `${firstname} ${lastname}`;
+  const { caseID, caseTopicAnswer, caseExplanation, answers } = JSON.parse(event.body);
 
   const params = {
     TableName: TABLES.ANSWER,
@@ -30,7 +30,7 @@ const submitCaseAnswers = async (req, res) => {
     await dbClient.send(command);
 
     // Call grading function and get the result
-    const result = await gradeQuiz(res, caseID, answers, fullName, studentID);
+    const result = await gradeQuiz(caseID, answers, fullName, studentID);
 
     // Save the attempt result to the StudentCaseAttempts table
     const attemptParams = {
@@ -48,20 +48,27 @@ const submitCaseAnswers = async (req, res) => {
     const attemptCommand = new PutCommand(attemptParams);
     await dbClient.send(attemptCommand);
 
-    res.status(200).json({
-      message: "Answers submitted successfully.",
-      passed: result.passed,
-      pdfURL: result.pdfURL,
-      pngURL: result.pngURL,
-    });
+    return {
+      statusCode: 200,
+      body: JSON.stringify({
+        message: "Answers submitted successfully.",
+        passed: result.passed,
+        pdfURL: result.pdfURL,
+        pngURL: result.pngURL,
+      }),
+    };
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: `Could not submit answers: ${error}` });
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: `Could not submit answers: ${error.message}` }),
+    };
   }
 };
 
-const getStudentsAnswers = async (req, res) => {
-  const caseID = req.params.caseID;
+const getStudentsAnswers = async (event) => {
+  const caseID = event.pathParameters.caseID;
+
   const params = {
     TableName: TABLES.ANSWER,
     IndexName: "CaseIDIndex",
@@ -74,14 +81,21 @@ const getStudentsAnswers = async (req, res) => {
   try {
     const command = new QueryCommand(params);
     const result = await dbClient.send(command);
-    res.status(200).json({ answers: result.Items });
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ answers: result.Items }),
+    };
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: `Could not fetch answers: ${error}` });
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: `Could not fetch answers: ${error.message}` }),
+    };
   }
 };
 
-const gradeQuiz = async (res, caseID, studentAnswers, fullName, studentID) => {
+const gradeQuiz = async (caseID, studentAnswers, fullName, studentID) => {
   const caseParams = {
     TableName: TABLES.CASE,
     Key: { id: caseID },
@@ -92,7 +106,7 @@ const gradeQuiz = async (res, caseID, studentAnswers, fullName, studentID) => {
     const caseResult = await dbClient.send(caseCommand);
     const caseQuestions = caseResult?.Item?.caseQuestions;
     if (!caseQuestions) {
-      return res.status(400).json({ error: `caseQuestions are not found` });
+      throw new Error(`caseQuestions are not found`);
     }
     const caseTopic = caseResult.Item.caseTopic;
 
@@ -105,8 +119,9 @@ const gradeQuiz = async (res, caseID, studentAnswers, fullName, studentID) => {
     let pngURL = "";
     if (passed) {
       const certificateID = uuidv4();
-      const { pdfBuffer, pngBuffer } = await generateCertificate(fullName, caseTopic);
+      // const { pdfBuffer, pngBuffer } = await generateCertificate(fullName, caseTopic);
 
+      // Upload PDF to S3
       const pdfUploadParams = {
         Bucket: "local-bucket",
         Key: `certificates/${certificateID}.pdf`,
@@ -157,8 +172,8 @@ const gradeQuiz = async (res, caseID, studentAnswers, fullName, studentID) => {
       pngURL: pngURL,
     };
   } catch (error) {
-    console.error(error);
-    throw new Error("Could not grade quiz: " + error);
+    console.error("Error grading quiz: ", error);
+    throw new Error("Could not grade quiz: " + error.message);
   }
 };
 

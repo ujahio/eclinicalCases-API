@@ -13,29 +13,29 @@ const links = [
   JWT_SECRET,
   PASS_SECRET,
   bucket,
-  email
+  email,
 ];
 export const api = new sst.aws.ApiGatewayV2("MyApi");
 
 // Auth
 api.route("POST /api/auth/signin", {
-    handler: "server/controllers/auth.controller.signin",
+  handler: "server/controllers/auth.controller.signin",
   link: links,
 });
 api.route("POST /api/auth/signup", {
-    handler: "server/controllers/auth.controller.signup",
+  handler: "server/controllers/auth.controller.signup",
   link: links,
 });
 api.route("POST /api/auth/send-otp", {
-    handler: "server/controllers/auth.controller.sendOTP",
+  handler: "server/controllers/auth.controller.sendOTP",
   link: links,
 });
 api.route("POST /api/auth/reset-password", {
-    handler: "server/controllers/auth.controller.verifyOtpAndResetPassword",
+  handler: "server/controllers/auth.controller.verifyOtpAndResetPassword",
   link: links,
 });
 api.route("POST /api/auth/update-password", {
-    handler: "server/controllers/auth.controller.updatePassword",
+  handler: "server/controllers/auth.controller.updatePassword",
   link: links,
 });
 api.route("GET /api/auth/users", {
@@ -58,49 +58,49 @@ api.route("GET /api/case/all/{caseStatus}", {
   },
 });
 api.route("GET /api/case/ongoing-case", {
-    handler: "server/controllers/case.controller.getCases",
+  handler: "server/controllers/case.controller.getCases",
   link: links,
 });
 api.route("POST /api/case/add", {
-    handler: "server/controllers/case.controller.addCase",
+  handler: "server/controllers/case.controller.addCase",
   link: links,
   memory: "2048 MB",
-  binaryMediaTypes: ["*/*"],
+  // binaryMediaTypes: ["*/*"],
 });
 api.route("POST /api/case/update/{caseID}", {
-    handler: "server/controllers/case.controller.updateCase",
+  handler: "server/controllers/case.controller.updateCase",
   link: links,
 });
 api.route("POST /api/case/duplicate", {
-    handler: "server/controllers/case.controller.duplicateCase",
+  handler: "server/controllers/case.controller.duplicateCase",
   link: links,
 });
 api.route("POST /api/case/publish", {
-    handler: "server/controllers/case.controller.publishCase",
+  handler: "server/controllers/case.controller.publishCase",
   link: links,
 });
 api.route("POST /api/case/add/feedback", {
-    handler: "server/controllers/case.controller.getCases",
+  handler: "server/controllers/case.controller.getCases",
   link: links,
 });
 api.route("GET /api/case/feedbacks/{caseID}", {
-    handler: "server/controllers/case.controller.getCaseFeedback",
+  handler: "server/controllers/case.controller.getCaseFeedback",
   link: links,
 });
 api.route("GET /api/case/responses/{caseID}", {
-    handler: "server/controllers/case.controller.getCaseAnswers",
+  handler: "server/controllers/case.controller.getCaseAnswers",
   link: links,
 });
 api.route("GET /api/case/data/{caseID}", {
-    handler: "server/controllers/case.controller.getCaseData",
+  handler: "server/controllers/case.controller.getCaseData",
   link: links,
 });
 api.route("GET /api/case/student/attempts/{studentID}", {
-    handler: "server/controllers/case.controller.getCaseAttemptsByStudent",
+  handler: "server/controllers/case.controller.getCaseAttemptsByStudent",
   link: links,
 });
 api.route("DELETE /api/case/delete-case/{caseID}", {
-    handler: "server/controllers/case.controller.deleteCase",
+  handler: "server/controllers/case.controller.deleteCase",
   link: links,
 });
 // api.route("DELETE /api/case/delete/all/", {
@@ -110,20 +110,20 @@ api.route("DELETE /api/case/delete-case/{caseID}", {
 
 // Quiz
 api.route("POST /api/quiz/submit", {
-  handler: "handler.handler",
+  handler: "server/controllers/quiz.controller.submitCaseAnswers",
   link: links,
 });
 api.route("GET /api/quiz/answers/{caseID}", {
-  handler: "handler.handler",
+  handler: "server/controllers/quiz.controller.getStudentsAnswers",
   link: links,
 });
 
 // Student
 api.route("GET /api/student/certificates", {
-  handler: "handler.handler",
+  handler: "server/controllers/student.controller.getStudentCertificates",
   link: links,
 });
 api.route("GET /api/student/certificate/{caseID}", {
-  handler: "handler.handler",
+  handler: "server/controllers/student.controller.getCertificateByCaseID",
   link: links,
 });
