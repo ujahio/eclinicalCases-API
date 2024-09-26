@@ -36,6 +36,7 @@
     "axios": "^1.7.2",
     "bcryptjs": "^2.4.3",
     "better-sqlite3": "^11.2.1",
+    "busboy": "^1.6.0",
     "cors": "^2.8.5",
     "draft-js": "^0.11.7",
     "express": "^4.19.2",
