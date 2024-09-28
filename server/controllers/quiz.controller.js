@@ -1,9 +1,7 @@
 import dbClient from "../services/dbClient.js";
 import { v4 as uuidv4 } from "uuid";
 import { GetCommand, PutCommand, QueryCommand } from "@aws-sdk/lib-dynamodb";
-import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { generateCertificate } from "../utils/certificate.js";
-import { s3Client } from "../middlewares/uploadFile.js";
 import { TABLES } from "../services/dbTables.js";
 
 const submitCaseAnswers = async (req, res) => {
@@ -107,30 +105,19 @@ const gradeQuiz = async (res, caseID, studentAnswers, fullName, studentID) => {
       const certificateID = uuidv4();
       const { pdfBuffer, pngBuffer } = await generateCertificate(fullName, caseTopic);
 
-      const pdfUploadParams = {
-        Bucket: "local-bucket",
-        Key: `certificates/${certificateID}.pdf`,
-        Body: "pdfBuffer",
-        ACL: "public-read",
-        ContentType: "application/pdf",
+      // Upload PDF to S3
+      const pdfFile = {
+        originalname: `${certificateID}.pdf`,
+        buffer: pdfBuffer,
       };
-      const pdfUploadCommand = new PutObjectCommand(pdfUploadParams);
-      await s3Client.send(pdfUploadCommand);
-
-      pdfURL = `http://localhost:4599/local-bucket/certificates/${certificateID}.pdf`;
+      pdfURL = await uploadFileToBucket(pdfFile);
 
       // Upload PNG to S3
-      const pngUploadParams = {
-        Bucket: "local-bucket",
-        Key: `certificates/${certificateID}.png`,
-        Body: "pngBuffer",
-        ACL: "public-read",
-        ContentType: "image/png",
+      const pngFile = {
+        originalname: `${certificateID}.png`,
+        buffer: pngBuffer,
       };
-      const pngUploadCommand = new PutObjectCommand(pngUploadParams);
-      await s3Client.send(pngUploadCommand);
-
-      pngURL = `http://localhost:4599/local-bucket/certificates/${certificateID}.png`;
+      pngURL = await uploadFileToBucket(pngFile);
 
       // Save certificate record in DynamoDB
       const certificateRecord = {
