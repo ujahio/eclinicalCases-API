@@ -4,14 +4,17 @@ import useAllCases from "@/services/hooks/useAllCases";
 import useOngoingCases from "@/services/hooks/useOngoingCases";
 import dynamic from "next/dynamic";
 
-const DoctorDashboard = dynamic(() => import("@/presentation/doctor/Dashboard"), {
-  ssr: false,
-});
+const DoctorDashboardPage = dynamic(
+	() => import("@/presentation/doctor/Dashboard"),
+	{
+		ssr: false,
+	}
+);
 const Page = () => {
-  useOngoingCases();
-  useAllCases("recent");
+	useOngoingCases();
+	useAllCases("recent");
 
-  return <DoctorDashboard />;
+	return <DoctorDashboardPage />;
 };
 
 export default Page;
