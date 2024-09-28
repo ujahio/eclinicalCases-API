@@ -1,10 +1,11 @@
 const DOMAIN = process.env.NEXT_PUBLIC_DOMAIN;
 const REGION = $app.region;
 const AWS_ACCOUNT_NUMBER = $app.account;
-// import { permissionsBoundary } from "./iamPolicies";
 
 export const email = new sst.aws.Email("MyEmail", {
-	sender: `no-reply@${DOMAIN}`,
+	domain: DOMAIN,
+	sender: DOMAIN,
+	mailFromDomain: `no-reply@${DOMAIN}`,
 	transform: {
 		policy: (args) => {
 			// use $jsonParse and $jsonStringify helper functions to manipulate JSON strings
@@ -14,7 +15,7 @@ export const email = new sst.aws.Email("MyEmail", {
 					Effect: "Allow",
 					Principal: { Service: "ses.amazonaws.com" },
 					Action: "ses:SendEmail",
-					Resource: `arn:aws:ses:${REGION}:${AWS_ACCOUNT_NUMBER}:identity/no-reply@${DOMAIN}`,
+					Resource: `arn:aws:ses:${REGION}:${AWS_ACCOUNT_NUMBER}:identity/${DOMAIN}`,
 				});
 				return $jsonStringify(policy);
 			});

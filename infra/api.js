@@ -30,10 +30,9 @@ const links = [
 ];
 
 const STAGE = $app.stage;
+const DOMAIN = process.env.NEXT_PUBLIC_DOMAIN;
 const domainName =
-	STAGE === "production"
-		? "api.eccs-online.com"
-		: `${STAGE}-api.eccs-online.com`;
+	STAGE === "production" ? `api.${DOMAIN}` : `${STAGE}-api.${DOMAIN}`;
 
 export const api = new sst.aws.ApiGatewayV2("MyApi", {
 	domain: domainName,
