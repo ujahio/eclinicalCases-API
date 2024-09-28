@@ -11,15 +11,18 @@ import {
 } from "@aws-sdk/lib-dynamodb";
 import { readSingleItem } from "../services/dbOps.js";
 import { TABLES } from "../services/dbTables.js";
+import uploadFileToBucket from "../services/bucket.js";
 
 const addCase = async (req, res) => {
   const userID = req.validatedUser.id;
   const caseData = req.body;
   const draft = caseData.draft === "true";
   // const caseDeadline = new Date(caseData.caseDeadline).toISOString();
-  const caseMaterials = req.files.map((file) => ({
-    filename: file.originalname,
-    filePath: file.location,
+
+  const uploadedFiles = await Promise.all(req.files.map(uploadFileToBucket));
+  const caseMaterials = uploadedFiles.map((fileLink, index) => ({
+    filename: req.files[index].originalname,
+    filePath: fileLink,
   }));
 
   const caseItem = {
@@ -36,7 +39,6 @@ const addCase = async (req, res) => {
   if (caseData.caseExplanation) caseItem.caseExplanation = caseData.caseExplanation;
   if (caseData.caseDeadline) caseItem.caseDeadline = new Date(caseData.caseDeadline).toISOString();
   if (caseData.caseQuestions) caseItem.caseQuestions = JSON.parse(caseData.caseQuestions);
-
 
   if (!draft) {
     const activeCaseParams = {
@@ -103,11 +105,12 @@ const updateCase = async (req, res) => {
       return;
     }
 
-    const caseDeadline = new Date(caseData.caseDeadline).toISOString();
-    const caseMaterials = req.files.map((file) => ({
-      filename: file.originalname,
-      filePath: file.location,
-    }));
+	const caseDeadline = new Date(caseData.caseDeadline).toISOString();
+	const uploadedFiles = await Promise.all(req.files.map(uploadFileToBucket));
+	const caseMaterials = uploadedFiles.map((fileLink, index) => ({
+	  filename: req.files[index].originalname,
+	  filePath: fileLink,
+	}));
 
     let updateExpression = "SET ";
     let expressionAttributeValues = {};
