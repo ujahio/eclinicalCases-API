@@ -11,6 +11,7 @@ import {
 } from "@aws-sdk/lib-dynamodb";
 import { readSingleItem } from "../services/dbOps.js";
 import { TABLES } from "../services/dbTables.js";
+import uploadFileToBucket from "../services/bucket.js";
 
 const addCase = async (event) => {
   const buffer = Buffer.from(event.body, 'base64');

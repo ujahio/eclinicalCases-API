@@ -1,2 +1,16 @@
-export const JWT_SECRET = new sst.Secret("JWT_SECRET", process.env.JWT_SECRET);
-export const PASS_SECRET = new sst.Secret("PASS_SECRET", process.env.secretKey);
+export const NEXT_JWT_SECRET = new sst.Secret(
+	"NEXT_JWT_SECRET",
+	process.env.NEXT_JWT_SECRET
+);
+export const NEXT_PUBLIC_PASS_SECRET_KEY = new sst.Secret(
+	"NEXT_PUBLIC_PASS_SECRET_KEY",
+	process.env.NEXT_PUBLIC_PASS_SECRET_KEY
+);
+export const NEXT_PUBLIC_BASE_URL = new sst.Secret(
+	"NEXT_PUBLIC_BASE_URL",
+	process.env.NEXT_PUBLIC_BASE_URL
+);
+export const NEXT_PUBLIC_NODE_ENV = new sst.Secret(
+	"NEXT_PUBLIC_NODE_ENV",
+	process.env.NEXT_PUBLIC_NODE_ENV
+);

@@ -41,9 +41,13 @@ node_modules
 buckets/local-bucket/**
 .env
 .env.local
+.env.staging
+.env.production
+.env.prod
 
 # sst
 .sst
+sst-env.d.ts
 
 
 # open-next

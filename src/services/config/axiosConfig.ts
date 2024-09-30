@@ -16,9 +16,9 @@ caseApi.interceptors.response.use(null, handleApiError);
 studentApi.interceptors.response.use(null, handleApiError);
 
 export const config = (token: string) => {
-  return {
-    headers: {
-      Authorization: `Bearer ` + token,
-    },
-  };
+	return {
+		headers: {
+			Authorization: `Bearer ` + token,
+		},
+	};
 };

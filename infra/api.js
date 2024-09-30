@@ -1,21 +1,48 @@
 import { bucket } from "./storage";
-import { email } from "./email";
-import { JWT_SECRET, PASS_SECRET } from "./secrets";
-import { Users, Cases, Feedback, Answers, Certificates, StudentCaseAttempts } from "./dynamo";
+// import { email } from "./email";
+import {
+	NEXT_JWT_SECRET,
+	NEXT_PUBLIC_PASS_SECRET_KEY,
+	NEXT_PUBLIC_BASE_URL,
+} from "./secrets";
+
+import {
+	Users,
+	Cases,
+	Feedback,
+	Answers,
+	Certificates,
+	StudentCaseAttempts,
+} from "./dynamo";
 
 const links = [
-  Users,
-  Cases,
-  Feedback,
-  Answers,
-  Certificates,
-  StudentCaseAttempts,
-  JWT_SECRET,
-  PASS_SECRET,
-  bucket,
-  email,
+	Users,
+	Cases,
+	Feedback,
+	Answers,
+	Certificates,
+	StudentCaseAttempts,
+	NEXT_JWT_SECRET,
+	NEXT_PUBLIC_PASS_SECRET_KEY,
+	NEXT_PUBLIC_BASE_URL,
+	// email,
+	bucket,
 ];
-export const api = new sst.aws.ApiGatewayV2("MyApi");
+
+const STAGE = $app.stage;
+const domainName =
+	STAGE === "production"
+		? "api.eccs-online.com"
+		: `${STAGE}-api.eccs-online.com`;
+
+export const api = new sst.aws.ApiGatewayV2("MyApi", {
+	domain: domainName,
+});
+
+api.route("GET /", {
+	handler: "handler.handler",
+	link: links,
+});
 
 // Auth
 api.route("POST /api/auth/signin", {
@@ -45,8 +72,8 @@ api.route("GET /api/auth/users", {
 
 // Case
 api.route("GET /api/case/details/{caseID}", {
-  handler: "handler.handler",
-  link: links,
+	handler: "handler.handler",
+	link: links,
 });
 api.route("GET /api/case/all/{caseStatus}", {
   handler: "server/controllers/case.controller.getCases",

@@ -5,13 +5,13 @@ import { v4 as uuidv4 } from "uuid";
 import crypto from "crypto";
 import { PutCommand, ScanCommand } from "@aws-sdk/lib-dynamodb";
 import {
-  updateUserPassword,
-  generateOtp,
-  storeOtpInDb,
-  getOtpFromDb,
-  encryptPassword,
-  decryptPassword,
-  getUserByEmail,
+	updateUserPassword,
+	generateOtp,
+	storeOtpInDb,
+	getOtpFromDb,
+	encryptPassword,
+	decryptPassword,
+	getUserByEmail,
 } from "../utils/api_utils.js";
 import { TABLES } from "../services/dbTables.js";
 import { resources } from "../services/resources.js";
@@ -62,8 +62,8 @@ const signup = async (event) => {
     const command = new PutCommand(params);
     await dbClient.send(command);
 
-    // Remove password from the user object before sending response
-    delete user.password;
+		// Remove password from the user object before sending response
+		delete user.password;
 
     return {
       statusCode: 201,
@@ -94,18 +94,18 @@ const signin = async (event) => {
 
     const originalPassword = decryptPassword(password, resources.PASS_SECRET);
 
-    const params = {
-      TableName: TABLES.USER,
-      FilterExpression: "email = :email",
-      ExpressionAttributeValues: {
-        ":email": email,
-      },
-    };
+		const params = {
+			TableName: TABLES.USER,
+			FilterExpression: "email = :email",
+			ExpressionAttributeValues: {
+				":email": email,
+			},
+		};
 
-    const command = new ScanCommand(params);
-    const result = await dbClient.send(command);
+		const command = new ScanCommand(params);
+		const result = await dbClient.send(command);
 
-    const user = result.Items[0];
+		const user = result.Items[0];
 
     if (!user) {
       return { statusCode: 401, body: JSON.stringify({ error: "Invalid email or password" }) };
@@ -190,10 +190,10 @@ const getUsers = async () => {
       TableName: TABLES.USER,
     };
 
-    const command = new ScanCommand(params);
-    const result = await dbClient.send(command);
+		const command = new ScanCommand(params);
+		const result = await dbClient.send(command);
 
-    const users = result.Items;
+		const users = result.Items;
 
     return {
       statusCode: 200,
@@ -220,7 +220,10 @@ const updatePassword = async (event) => {
     const email = body.validatedUser.email;
     const { currentPassword, newPassword } = body;
 
-    let originalCurrentPassword = decryptPassword(currentPassword, resources.PASS_SECRET);
+		let originalCurrentPassword = decryptPassword(
+			currentPassword,
+			resources.NEXT_PUBLIC_PASS_SECRET_KEY
+		);
 
     const user = await getUserByEmail(email);
     const isPasswordCorrect = bcrypt.compareSync(originalCurrentPassword, user.password);
@@ -231,9 +234,12 @@ const updatePassword = async (event) => {
       };
     }
 
-    // Hash and update new password
-    let originalNewPassword = decryptPassword(newPassword, resources.PASS_SECRET);
-    const hashedPassword = bcrypt.hashSync(originalNewPassword, 4);
+		// Hash and update new password
+		let originalNewPassword = decryptPassword(
+			newPassword,
+			resources.NEXT_PUBLIC_PASS_SECRET_KEY
+		);
+		const hashedPassword = bcrypt.hashSync(originalNewPassword, 4);
 
     const updatedUser = await updateUserPassword(email, hashedPassword);
 
@@ -254,4 +260,11 @@ const updatePassword = async (event) => {
   }
 };
 
-export { signup, signin, sendOTP, verifyOtpAndResetPassword, getUsers, updatePassword };
+export {
+	signup,
+	signin,
+	sendOTP,
+	verifyOtpAndResetPassword,
+	getUsers,
+	updatePassword,
+};
