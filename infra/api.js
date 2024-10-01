@@ -70,17 +70,12 @@ api.route("GET /api/case/details/{caseID}", {
 	handler: "server/controllers/case.controller.getCase",
 	link: links,
 });
-api.route("GET /api/case/all/{caseStatus}", {
+api.route("GET /api/case/all/:caseStatus", {
 	handler: "server/controllers/case.controller.getCases",
 	link: links,
-	integrations: {
-		queryParameters: {
-			caseStatus: true,
-		},
-	},
 });
 api.route("GET /api/case/ongoing-case", {
-	handler: "server/controllers/case.controller.getCases",
+	handler: "server/controllers/case.controller.getOngoingCase",
 	link: links,
 });
 api.route("POST /api/case/add", {
@@ -102,7 +97,7 @@ api.route("POST /api/case/publish", {
 	link: links,
 });
 api.route("POST /api/case/add/feedback", {
-	handler: "server/controllers/case.controller.getCases",
+	handler: "server/controllers/case.controller.addFeedback",
 	link: links,
 });
 api.route("GET /api/case/feedbacks/{caseID}", {

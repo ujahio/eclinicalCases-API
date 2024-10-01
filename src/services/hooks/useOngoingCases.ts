@@ -1,26 +1,29 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "./hooks";
-import { fetchOngoingCases, resetOngoingCaseStatus } from "@/store/slices/case/onGoingCaseSlice";
+import {
+	fetchOngoingCases,
+	resetOngoingCaseStatus,
+} from "@/store/slices/case/onGoingCaseSlice";
 
 const useOngoingCases = () => {
-  const ongoingCasesState = useAppSelector((state) => state.onGoingCase);
-  const dispatch = useAppDispatch();
+	const ongoingCasesState = useAppSelector((state) => state.onGoingCase);
+	const dispatch = useAppDispatch();
 
-  const handleFetchOngoingCases = () => {
-    dispatch(fetchOngoingCases());
-  };
+	const handleFetchOngoingCases = () => {
+		dispatch(fetchOngoingCases());
+	};
 
-  useEffect(() => {
-    handleFetchOngoingCases();
-  }, []);
+	useEffect(() => {
+		handleFetchOngoingCases(); //todo: clean up this effect
+	}, []);
 
-  useEffect(() => {
-    if (ongoingCasesState.status === "succeeded") {
-      dispatch(resetOngoingCaseStatus());
-    }
-  }, [ongoingCasesState.status, dispatch]);
+	useEffect(() => {
+		if (ongoingCasesState.status === "succeeded") {
+			dispatch(resetOngoingCaseStatus());
+		}
+	}, [ongoingCasesState.status, dispatch]);
 
-  return null;
+	return null;
 };
 
 export default useOngoingCases;

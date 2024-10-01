@@ -29,8 +29,7 @@ export const updateCaseApi = (caseData: any, token: string, _id: any) => {
 };
 
 export const getAllCasesApi = (token: string, isRecent?: string) => {
-	let url = `/all/`;
-	url += `?caseStatus=${isRecent}`;
+	const url = isRecent ? `/all/?caseStatus=${isRecent}` : "/all";
 	return caseApi.get(url, config(token));
 };
 
