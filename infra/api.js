@@ -39,11 +39,6 @@ export const api = new sst.aws.ApiGatewayV2("MyApi", {
 	domain: domainName,
 });
 
-api.route("GET /", {
-	handler: "handler.handler",
-	link: links,
-});
-
 // Auth
 api.route("POST /api/auth/signin", {
 	handler: "server/controllers/auth.controller.signin",
@@ -72,7 +67,7 @@ api.route("GET /api/auth/users", {
 
 // Case
 api.route("GET /api/case/details/{caseID}", {
-	handler: "handler.handler",
+	handler: "server/controllers/case.controller.getCase",
 	link: links,
 });
 api.route("GET /api/case/all/{caseStatus}", {
