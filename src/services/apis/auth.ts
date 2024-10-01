@@ -1,4 +1,3 @@
-import { saltAndHashPassword } from "@/utils/password";
 import { authApi, config } from "../config/axiosConfig";
 
 export const signup = (formData: any) => authApi.post("/signup", formData);
