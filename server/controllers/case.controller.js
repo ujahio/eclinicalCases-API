@@ -9,31 +9,77 @@ import {
 	UpdateCommand,
 	QueryCommand,
 } from "@aws-sdk/lib-dynamodb";
+import busboy from "busboy";
+
 import { readSingleItem } from "../services/dbOps.js";
 import { TABLES } from "../services/dbTables.js";
 import uploadFileToBucket from "../services/bucket.js";
 
-const addCase = async (event) => {
-	const buffer = Buffer.from(event.body, "base64");
-	console.log("buffer: ", buffer);
-	console.log("event: ", event);
-	console.log("event.files: ", event.files);
-	const userID = event.requestContext.authorizer.claims.sub;
-	const caseData = JSON.parse(event.body);
-	const draft = caseData.draft === "true";
+const extrapolateFormData = async (event) => {
+	const contentType =
+		event.headers["content-type"] || event.headers["Content-Type"];
+	const formData = {};
 
-	console.log("event.files: ", event.files);
-	const caseMaterials = event.files.map((file) => ({
-		filename: file.originalname,
-		filePath: file.location,
-	}));
+	if (event.body && contentType.startsWith("multipart/form-data")) {
+		const bb = busboy({
+			headers: event.headers,
+		});
+
+		return new Promise((resolve, reject) => {
+			// Parse each part of the formData
+			bb.on("file", (fieldname, file, filename, encoding, mimetype) => {
+				file.on("data", (data) => {
+					formData[fieldname] = data.toString();
+				});
+			});
+
+			bb.on("field", (fieldname, value) => {
+				formData[fieldname] = value;
+			});
+
+			bb.on("finish", () => {
+				console.log("Parsed form data:", formData);
+				// processFormData(formData);
+				resolve(formData);
+			});
+
+			bb.on("error", (error) => {
+				reject({
+					statusCode: 500,
+					body: JSON.stringify({ message: "Error parsing form data", error }),
+				});
+			});
+
+			// Pass the decoded body to busboy
+			bb.end(Buffer.from(event.body, "base64").toString("binary"));
+		});
+	} else {
+		return {
+			statusCode: 400,
+			body: JSON.stringify({ message: "Invalid content type" }),
+		};
+	}
+};
+
+const addCase = async (event) => {
+	const caseData = await extrapolateFormData(event);
+	console.log("caseData: ", caseData);
+
+	// const userID = event.requestContext.authorizer.claims.sub;
+	const userID = "4b00ccbf-bf1a-4ed7-aaca-b0ffca878c3a";
+
+	// handle this!!!
+	// const caseMaterials = caseData.caseMaterials.map((file) => ({
+	// 	filename: file.originalname,
+	// 	filePath: file.location,
+	// }));
 
 	const caseItem = {
 		id: uuidv4(),
 		createdBy: userID,
 		createdAt: Date.now(),
-		caseStatus: draft ? "draft" : "active",
-		caseMaterials,
+		caseStatus: caseData.draft ? "draft" : "active",
+		// caseMaterials,
 	};
 
 	if (caseData.caseClue) caseItem.caseClue = caseData.caseClue;
@@ -47,7 +93,7 @@ const addCase = async (event) => {
 	if (caseData.caseQuestions)
 		caseItem.caseQuestions = JSON.parse(caseData.caseQuestions);
 
-	if (!draft) {
+	if (!caseData.draft) {
 		const activeCaseParams = {
 			TableName: TABLES.CASE,
 			FilterExpression: "#caseStatus = :caseStatus",
