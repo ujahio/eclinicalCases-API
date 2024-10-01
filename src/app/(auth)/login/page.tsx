@@ -9,36 +9,31 @@ import { saltAndHashPassword } from "@/utils/password";
 import { LoginFormValues } from "@/services/types/auth/login";
 
 const Login = () => {
-  const navigate = useRouter();
-  const dispatch = useAppDispatch();
-  const isLoading = useAppSelector((state) => state.login.status);
-  const userInfo = useAppSelector((state) => state.login.user);
-  const handleSubmitLoginUser = React.useCallback(
-    (val: LoginFormValues) => {
-      const hashedPassword = saltAndHashPassword(val.password);
-      dispatch(loginUser({ ...val, password: hashedPassword }));
-    },
-    [dispatch]
-  );
+	const navigate = useRouter();
+	const dispatch = useAppDispatch();
+	const isLoading = useAppSelector((state) => state.login.status);
+	const userInfo = useAppSelector((state) => state.login.user);
+	const handleSubmitLoginUser = React.useCallback(
+		(val: LoginFormValues) => {
+			const hashedPassword = saltAndHashPassword(val.password);
+			dispatch(loginUser({ ...val, password: hashedPassword }));
+		},
+		[dispatch]
+	);
 
-  // useEffect(() => {
-  //   const pp = saltAndHashPassword("teacher");
-  //   console.log("pp::: ", pp);
-  // }, []);
+	useEffect(() => {
+		if (isLoading === "succeeded") {
+			if (userInfo.user?.roles === "teacher") {
+				navigate.push("/doctor/dashboard");
+			}
+			if (userInfo.user?.roles === "user") {
+				navigate.push("/student/dashboard");
+			}
+			dispatch(resetStatus());
+		}
+	}, [isLoading]);
 
-  useEffect(() => {
-    if (isLoading === "succeeded") {
-      if (userInfo.user?.roles === "teacher") {
-        navigate.push("/doctor/dashboard");
-      }
-      if (userInfo.user?.roles[0] === "user") {
-        navigate.push("/student/dashboard");
-      }
-      dispatch(resetStatus());
-    }
-  }, [isLoading]);
-
-  return <LoginComp handleSubmit={handleSubmitLoginUser} />;
+	return <LoginComp handleSubmit={handleSubmitLoginUser} />;
 };
 
 export default Login;
