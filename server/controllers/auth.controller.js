@@ -56,7 +56,10 @@ const signup = async (event) => {
 			};
 		}
 
-		const originalPassword = decryptPassword(password, resources.PASS_SECRET);
+		const originalPassword = decryptPassword(
+			password,
+			resources.NEXT_PUBLIC_PASS_SECRET_KEY
+		);
 		const hashedPassword = bcrypt.hashSync(originalPassword, 10);
 		const userId = uuidv4();
 		const created_on = new Date().toISOString();
@@ -128,7 +131,10 @@ const signin = async (event) => {
 			};
 		}
 
-		const originalPassword = decryptPassword(password, resources.PASS_SECRET);
+		const originalPassword = decryptPassword(
+			password,
+			resources.NEXT_PUBLIC_PASS_SECRET_KEY
+		);
 
 		const params = {
 			TableName: TABLES.USER,
@@ -160,7 +166,7 @@ const signin = async (event) => {
 
 		const token = jwt.sign(
 			{ email: user.email, roles: user.roles },
-			resources.JWT_SECRET,
+			resources.NEXT_JWT_SECRET,
 			{
 				expiresIn: "1h",
 			}
@@ -221,7 +227,7 @@ const verifyOtpAndResetPassword = async (event) => {
 		const { email, otp, newPassword } = JSON.parse(event.body);
 		const originalPassword = decryptPassword(
 			newPassword,
-			resources.PASS_SECRET
+			resources.NEXT_PUBLIC_PASS_SECRET_KEY
 		);
 		const storedOtp = await getOtpFromDb(email);
 		const hashedPassword = bcrypt.hashSync(originalPassword, 4);
