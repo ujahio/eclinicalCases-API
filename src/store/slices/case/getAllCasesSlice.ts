@@ -12,8 +12,8 @@ export const getAllCases = createAsyncThunk(
 			return data;
 		} catch (error: any) {
 			return thunkAPI.rejectWithValue({
-				status: error.response.status,
-				message: error.response.data,
+				status: error.response?.status || error.status, // temp fix to set status manually
+				message: error.response?.data || error.message, // temp fix to set status manually
 			});
 		}
 	}
