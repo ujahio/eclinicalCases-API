@@ -1,5 +1,3 @@
-import dbClient from "../services/dbClient.js";
-import path from "path";
 import { v4 as uuidv4 } from "uuid";
 import {
 	GetCommand,
@@ -10,10 +8,13 @@ import {
 	QueryCommand,
 } from "@aws-sdk/lib-dynamodb";
 import busboy from "busboy";
+import jwt from "jsonwebtoken";
 
 import { readSingleItem } from "../services/dbOps.js";
 import { TABLES } from "../services/dbTables.js";
 import uploadFileToBucket from "../services/bucket.js";
+import dbClient from "../services/dbClient.js";
+import SECRETS from "../services/secrets.js";
 
 const extrapolateFormData = async (event) => {
 	const contentType =
@@ -61,12 +62,31 @@ const extrapolateFormData = async (event) => {
 	}
 };
 
+const verifyToken = (token, secretKey) => {
+	try {
+		// Verify the token using the secret key
+		const decoded = jwt.verify(token, secretKey);
+		// Token is valid; return the decoded token data
+		return decoded;
+	} catch (err) {
+		// Handle different types of JWT errors
+		if (err.name === "TokenExpiredError") {
+			console.error("Token has expired");
+		} else if (err.name === "JsonWebTokenError") {
+			console.error("Invalid token");
+		} else {
+			console.error("Could not verify token", err.message);
+		}
+		// Return null or an appropriate error response
+		return null;
+	}
+};
+
 const addCase = async (event) => {
 	const caseData = await extrapolateFormData(event);
-	console.log("caseData: ", caseData);
-
-	// const userID = event.requestContext.authorizer.claims.sub;
-	const userID = "4b00ccbf-bf1a-4ed7-aaca-b0ffca878c3a";
+	const userToken = event.headers.authorization.split(" ")[1];
+	const userInfo = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
+	const userID = userInfo.id;
 
 	// handle this!!!
 	// const caseMaterials = caseData.caseMaterials.map((file) => ({
@@ -264,8 +284,9 @@ const updateCase = async (event) => {
 };
 
 const getCases = async (event) => {
+	console.log("event", event);
 	const caseStatus = event.pathParameters?.caseStatus;
-	console.log("caseStatus****: ", caseStatus);
+	// console.log("caseStatus****: ", caseStatus);
 	try {
 		let params = {
 			TableName: TABLES.CASE,

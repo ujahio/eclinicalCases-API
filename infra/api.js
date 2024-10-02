@@ -4,6 +4,7 @@ import {
 	NEXT_JWT_SECRET,
 	NEXT_PUBLIC_PASS_SECRET_KEY,
 	NEXT_PUBLIC_BASE_URL,
+	NEXT_PUBLIC_NODE_ENV,
 } from "./secrets";
 
 import {
@@ -25,6 +26,7 @@ const links = [
 	NEXT_JWT_SECRET,
 	NEXT_PUBLIC_PASS_SECRET_KEY,
 	NEXT_PUBLIC_BASE_URL,
+	NEXT_PUBLIC_NODE_ENV,
 	// email,
 	bucket,
 ];
@@ -70,7 +72,7 @@ api.route("GET /api/case/details/{caseID}", {
 	handler: "server/controllers/case.controller.getCase",
 	link: links,
 });
-api.route("GET /api/case/all/:caseStatus", {
+api.route("GET /api/case/all/{caseStatus}", {
 	handler: "server/controllers/case.controller.getCases",
 	link: links,
 });
