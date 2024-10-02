@@ -88,7 +88,7 @@ const addCase = async (event) => {
 	const userInfo = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
 	const userID = userInfo.id;
 
-	// handle this!!!
+	// TODO: save case materials to S3 bucket and store the file paths in the case item
 	// const caseMaterials = caseData.caseMaterials.map((file) => ({
 	// 	filename: file.originalname,
 	// 	filePath: file.location,
