@@ -18,7 +18,9 @@ studentApi.interceptors.response.use(null, handleApiError);
 export const configureRequestHeaders = (token: string, formData?: any) => {
 	const headers = {
 		Authorization: `Bearer ` + token,
-		...(formData ? formData.getHeaders() : {}),
+		...(formData && formData.getHeaders
+			? formData.getHeaders()
+			: { "Content-Type": "multipart/form-data" }),
 	};
 	return {
 		headers,
