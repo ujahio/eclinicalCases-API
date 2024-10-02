@@ -1,21 +1,5 @@
 import { configureRequestHeaders, studentApi } from "../config/axiosConfig";
 
-export const submitCaseResponseApi = (responsePayload: any, token: string) => {
-	// const formData = new FormData();
-	// for (const key in responsePayload) {
-	//   if (key === "answers") {
-	//     formData.append(key, JSON.stringify(responsePayload[key]));
-	//   } else {
-	//     formData.append(key, responsePayload[key]);
-	//   }
-	// }
-	return studentApi.post(
-		`/quiz/submit/`,
-		responsePayload,
-		configureRequestHeaders(token)
-	);
-};
-
 const convertToFormData = (data: any) => {
 	const formData = new FormData();
 	for (const key in data) {
@@ -24,6 +8,14 @@ const convertToFormData = (data: any) => {
 		}
 	}
 	return formData;
+};
+
+export const submitCaseResponseApi = (responsePayload: any, token: string) => {
+	return studentApi.post(
+		`/quiz/submit`,
+		responsePayload,
+		configureRequestHeaders(token)
+	);
 };
 
 export const addFeedbackApi = (feedbackData: any, token: string) => {

@@ -16,6 +16,7 @@ import uploadFileToBucket from "../services/bucket.js";
 import dbClient from "../services/dbClient.js";
 import SECRETS from "../services/secrets.js";
 
+// TODO: move to a utility function
 const extrapolateFormData = async (event) => {
 	const contentType =
 		event.headers["content-type"] || event.headers["Content-Type"];
@@ -39,8 +40,6 @@ const extrapolateFormData = async (event) => {
 			});
 
 			bb.on("finish", () => {
-				console.log("Parsed form data:", formData);
-				// processFormData(formData);
 				resolve(formData);
 			});
 
@@ -284,9 +283,7 @@ const updateCase = async (event) => {
 };
 
 const getCases = async (event) => {
-	console.log("event", event);
 	const caseStatus = event.pathParameters?.caseStatus;
-	// console.log("caseStatus****: ", caseStatus);
 	try {
 		let params = {
 			TableName: TABLES.CASE,
@@ -661,7 +658,6 @@ const publishCase = async (event) => {
 
 	try {
 		const originalCase = await readSingleItem(singleItemParams);
-		console.log("originalCase: ", originalCase);
 		if (!originalCase) {
 			return res.status(400).json({ error: "Case does not exist" });
 		}
