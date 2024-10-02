@@ -39,6 +39,7 @@ const domainName =
 
 export const api = new sst.aws.ApiGatewayV2("MyApi", {
 	domain: domainName,
+	cors: true,
 });
 
 // Auth
