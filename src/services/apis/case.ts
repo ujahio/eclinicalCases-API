@@ -43,7 +43,7 @@ export const getAllCasesApi = (token: string, isRecent?: string) => {
 };
 
 export const fetchCaseDetailsApi = (caseId: any, token: string) => {
-	return caseApi.get(`/details/${caseId}/`, configureRequestHeaders(token));
+	return caseApi.get(`/details/${caseId}`, configureRequestHeaders(token));
 };
 
 export const fetchOngoingCasesApi = (token: string) => {
@@ -51,11 +51,11 @@ export const fetchOngoingCasesApi = (token: string) => {
 };
 export const deleteCaseApi = (caseId: string, token: string) => {
 	return caseApi.delete(
-		`/delete-case/${caseId}/`,
+		`/delete-case/${caseId}`,
 		configureRequestHeaders(token)
 	);
 };
 
 export const fetchCaseDataApi = (caseId: string, token: string) => {
-	return caseApi.get(`/data/${caseId}/`, configureRequestHeaders(token));
+	return caseApi.get(`/data/${caseId}`, configureRequestHeaders(token));
 };
