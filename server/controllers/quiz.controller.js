@@ -13,7 +13,6 @@ const submitCaseAnswers = async (event) => {
 	const caseInfo = await extrapolateFormData(event);
 	const userToken = event.headers.authorization.split(" ")[1];
 	const userInfo = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
-	console.log("userInfo", userInfo);
 
 	const { firstname, lastname, id: studentID } = userInfo;
 	const fullName = `${firstname} ${lastname}`;
@@ -34,15 +33,22 @@ const submitCaseAnswers = async (event) => {
 	try {
 		// 	const command = new PutCommand(params);
 		// 	await dbClient.send(command);
-		// 	// Call grading function and get the result
-		const result = await gradeQuiz({
+		// 	Call grading function and get the result
+		const gradedQuizResult = await gradeQuiz({
 			caseID: caseInfo.caseID,
 			studentAnswers: extractAnswers(caseInfo),
-			fullName,
-			studentID,
 		});
 
-		console.log("result", result);
+		return {
+			statusCode: 200,
+			body: JSON.stringify({
+				message: "Answers submitted successfully.",
+				passed: gradedQuizResult.passed,
+				failedQuestions: gradedQuizResult.failedQuestions,
+			}),
+		};
+
+		// console.log("result", result);
 		// 	// Save the attempt result to the StudentCaseAttempts table
 		// 	const attemptParams = {
 		// 		TableName: TABLES.STUDENTCASEATTEMPTS,
@@ -127,7 +133,7 @@ const getStudentsAnswers = async (event) => {
 	}
 };
 
-const gradeQuiz = async ({ caseID, studentAnswers, fullName, studentID }) => {
+const gradeQuiz = async ({ caseID, studentAnswers }) => {
 	const caseParams = {
 		TableName: TABLES.CASE,
 		Key: { id: caseID },
@@ -136,70 +142,96 @@ const gradeQuiz = async ({ caseID, studentAnswers, fullName, studentID }) => {
 	try {
 		const caseCommand = new GetCommand(caseParams);
 		const caseResult = await dbClient.send(caseCommand);
-		const caseQuestions = caseResult?.Item?.caseQuestions;
-		if (!caseQuestions) {
+		const teachersQuestions = caseResult?.Item?.caseQuestions;
+
+		if (!teachersQuestions) {
 			throw new Error(`caseQuestions are not found`);
 		}
 		const caseTopic = caseResult.Item.caseTopic;
 
-		const correctAnswers = caseQuestions.map(
-			(question) => question.correctAnswer
-		);
-		const studentSelectedOptions = studentAnswers.map(
-			(answer) => answer.correctAnswer
-		);
-		const passed = correctAnswers.every(
-			(answer, idx) => answer === studentSelectedOptions[idx]
-		);
+		// const correctAnswers = caseQuestions.map(
+		// 	(question) => question.correctAnswer
+		// );
+		// const studentSelectedOptions = studentAnswers.map(
+		// 	(answer) => answer.correctAnswer
+		// );
+		// const passed = correctAnswers.every(
+		// 	(answer, idx) => answer === studentSelectedOptions[idx]
+		// );
 
-		// Generate certificate
-		let pdfURL = "";
-		let pngURL = "";
-		if (passed) {
-			const certificateID = uuidv4();
-			// const { pdfBuffer, pngBuffer } = await generateCertificate(fullName, caseTopic);
-
-			// Upload PDF to S3
-			const pdfUploadParams = {
-				Bucket: "local-bucket",
-				Key: `certificates/${certificateID}.pdf`,
-				Body: "pdfBuffer",
-				ACL: "public-read",
-				ContentType: "application/pdf",
-			};
-			pdfURL = await uploadFileToBucket(pdfFile);
-
-			// Upload PNG to S3
-			const pngFile = {
-				originalname: `${certificateID}.png`,
-				buffer: pngBuffer,
-			};
-			pngURL = await uploadFileToBucket(pngFile);
-
-			// Save certificate record in DynamoDB
-			const certificateRecord = {
-				certificateID,
-				studentID: studentID,
-				caseID,
-				pdfURL,
-				pngURL,
-				generatedAt: new Date().toISOString(),
-			};
-
-			const putCommand = new PutCommand({
-				TableName: TABLES.CERTIFICATES,
-				Item: certificateRecord,
-			});
-			await dbClient.send(putCommand);
-		}
-
-		return {
-			passed,
-			correctAnswers,
-			studentAnswers,
-			pdfURL: pdfURL,
-			pngURL: pngURL,
+		let result = {
+			passed: true,
+			failedQuestions: [],
 		};
+
+		studentAnswers.forEach((studentAnswer, index) => {
+			const teacherQuestion = teachersQuestions[index];
+
+			// Compare the student's selected answer with the teacher's correct answer
+			if (
+				parseInt(studentAnswer.correctAnswer) !== teacherQuestion.correctAnswer
+			) {
+				result.passed = false;
+				result.failedQuestions.push({
+					question: studentAnswer.question,
+					studentAnswer: studentAnswer.options[studentAnswer.correctAnswer],
+					correctAnswer: teacherQuestion.options[teacherQuestion.correctAnswer],
+				});
+			}
+		});
+
+		return result;
+
+		// todo: move certificate generation to its own lambda for processing
+		// Upload certificate to S3
+		// Generate certificate
+		// let pdfURL = "";
+		// let pngURL = "";
+		// if (passed) {
+		// 	const certificateID = uuidv4();
+		// 	// const { pdfBuffer, pngBuffer } = await generateCertificate(fullName, caseTopic);
+
+		// 	// Upload PDF to S3
+		// 	const pdfUploadParams = {
+		// 		Bucket: "local-bucket",
+		// 		Key: `certificates/${certificateID}.pdf`,
+		// 		Body: "pdfBuffer",
+		// 		ACL: "public-read",
+		// 		ContentType: "application/pdf",
+		// 	};
+		// 	pdfURL = await uploadFileToBucket(pdfFile);
+
+		// 	// Upload PNG to S3
+		// 	const pngFile = {
+		// 		originalname: `${certificateID}.png`,
+		// 		buffer: pngBuffer,
+		// 	};
+		// 	pngURL = await uploadFileToBucket(pngFile);
+
+		// 	// Save certificate record in DynamoDB
+		// 	const certificateRecord = {
+		// 		certificateID,
+		// 		studentID: studentID,
+		// 		caseID,
+		// 		pdfURL,
+		// 		pngURL,
+		// 		generatedAt: new Date().toISOString(),
+		// 	};
+
+		// 	const putCommand = new PutCommand({
+		// 		TableName: TABLES.CERTIFICATES,
+		// 		Item: certificateRecord,
+		// 	});
+		// 	await dbClient.send(putCommand);
+		// }
+
+		// return {
+		// 	passed,
+		// 	correctAnswers,
+		// 	studentAnswers,
+		// 	pdfURL: pdfURL,
+		// 	pngURL: pngURL,
+		// };
 	} catch (error) {
 		console.error("Error grading quiz: ", error);
 		throw new Error("Could not grade quiz: " + error.message);
