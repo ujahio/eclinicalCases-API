@@ -2,6 +2,7 @@ import { UpdateCommand, GetCommand, ScanCommand } from "@aws-sdk/lib-dynamodb";
 import dbClient from "../services/dbClient.js";
 import crypto from "crypto";
 import { TABLES } from "../services/dbTables.js";
+import busboy from "busboy";
 
 function generateOtp() {
 	return Math.floor(100000 + Math.random() * 900000);
@@ -98,6 +99,88 @@ function decryptPassword(encryptedPassword, NEXT_PUBLIC_PASS_SECRET_KEY) {
 	return decrypted;
 }
 
+function parseLogToObject(log) {
+	const caseData = {}; // Initialize the final object
+	const feedback = []; // Initialize feedback array
+	const feedbackMap = {}; // Temporary object to map feedback indices
+
+	// Loop through each property in the log object
+	for (const [key, value] of Object.entries(log)) {
+		// Detect if the key belongs to feedback
+		const feedbackMatch = key.match(/feedback\[(\d+)\]\[(question|response)\]/);
+
+		if (feedbackMatch) {
+			const index = parseInt(feedbackMatch[1]);
+			const type = feedbackMatch[2];
+
+			// Initialize feedback object for the index if not exists
+			if (!feedbackMap[index]) {
+				feedbackMap[index] = {};
+			}
+
+			// Add the question or response to the respective feedback object
+			feedbackMap[index][type] = value;
+		} else {
+			// Otherwise, it's a regular key-value pair (like caseID)
+			caseData[key] = value;
+		}
+	}
+
+	// Convert feedback map to an array
+	for (const index in feedbackMap) {
+		feedback.push(feedbackMap[index]);
+	}
+
+	// Add feedback array to the final object
+	caseData.feedback = feedback;
+
+	return caseData;
+}
+
+export const extrapolateFormData = async (event) => {
+	const contentType =
+		event.headers["content-type"] || event.headers["Content-Type"];
+	const formData = {};
+
+	if (event.body && contentType.startsWith("multipart/form-data")) {
+		const bb = busboy({
+			headers: event.headers,
+		});
+
+		return new Promise((resolve, reject) => {
+			// Parse each part of the formData
+			bb.on("file", (fieldname, file, filename, encoding, mimetype) => {
+				file.on("data", (data) => {
+					formData[fieldname] = data.toString();
+				});
+			});
+
+			bb.on("field", (fieldname, value) => {
+				formData[fieldname] = value;
+			});
+
+			bb.on("finish", () => {
+				resolve(formData);
+			});
+
+			bb.on("error", (error) => {
+				reject({
+					statusCode: 500,
+					body: JSON.stringify({ message: "Error parsing form data", error }),
+				});
+			});
+
+			// Pass the decoded body to busboy
+			bb.end(Buffer.from(event.body, "base64").toString("binary"));
+		});
+	} else {
+		return {
+			statusCode: 400,
+			body: JSON.stringify({ message: "Invalid content type" }),
+		};
+	}
+};
+
 export {
 	updateUserPassword,
 	generateOtp,
@@ -106,4 +189,5 @@ export {
 	encryptPassword,
 	decryptPassword,
 	getUserByEmail,
+	parseLogToObject,
 };

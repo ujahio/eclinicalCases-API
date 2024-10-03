@@ -7,7 +7,6 @@ import {
 	UpdateCommand,
 	QueryCommand,
 } from "@aws-sdk/lib-dynamodb";
-import busboy from "busboy";
 import jwt from "jsonwebtoken";
 
 import { readSingleItem } from "../services/dbOps.js";
@@ -15,51 +14,8 @@ import { TABLES } from "../services/dbTables.js";
 import uploadFileToBucket from "../services/bucket.js";
 import dbClient from "../services/dbClient.js";
 import SECRETS from "../services/secrets.js";
-
+import { parseLogToObject, extrapolateFormData } from "../utils/api_utils.js";
 // TODO: move to a utility function
-export const extrapolateFormData = async (event) => {
-	const contentType =
-		event.headers["content-type"] || event.headers["Content-Type"];
-	const formData = {};
-
-	if (event.body && contentType.startsWith("multipart/form-data")) {
-		const bb = busboy({
-			headers: event.headers,
-		});
-
-		return new Promise((resolve, reject) => {
-			// Parse each part of the formData
-			bb.on("file", (fieldname, file, filename, encoding, mimetype) => {
-				file.on("data", (data) => {
-					formData[fieldname] = data.toString();
-				});
-			});
-
-			bb.on("field", (fieldname, value) => {
-				formData[fieldname] = value;
-			});
-
-			bb.on("finish", () => {
-				resolve(formData);
-			});
-
-			bb.on("error", (error) => {
-				reject({
-					statusCode: 500,
-					body: JSON.stringify({ message: "Error parsing form data", error }),
-				});
-			});
-
-			// Pass the decoded body to busboy
-			bb.end(Buffer.from(event.body, "base64").toString("binary"));
-		});
-	} else {
-		return {
-			statusCode: 400,
-			body: JSON.stringify({ message: "Invalid content type" }),
-		};
-	}
-};
 
 // todo: move to utility function
 export const verifyToken = (token, secretKey) => {
@@ -696,8 +652,10 @@ const publishCase = async (event) => {
 };
 
 const addFeedback = async (event) => {
-	const { caseID, feedback } = JSON.parse(event.body);
-	const studentID = event.requestContext.authorizer.claims.sub;
+	const userToken = event.headers.authorization.split(" ")[1];
+	const extrapolatedFormData = await extrapolateFormData(event);
+	const { caseID, feedback } = parseLogToObject(extrapolatedFormData);
+	const { id: studentID } = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
 
 	if (!caseID || !feedback) {
 		return {

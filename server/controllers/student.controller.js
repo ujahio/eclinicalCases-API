@@ -2,10 +2,11 @@ import dbClient from "../services/dbClient.js";
 import { v4 as uuidv4 } from "uuid";
 import { QueryCommand, ScanCommand } from "@aws-sdk/lib-dynamodb";
 import { TABLES } from "../services/dbTables.js";
-import { extrapolateFormData, verifyToken } from "./case.controller.js"; // todo: move utils function to util fild/folder
+import { verifyToken } from "./case.controller.js"; // todo: move utils function to util fild/folder
 import uploadFileToBucket from "../services/bucket.js";
 import SECRETS from "../services/secrets.js";
 import { generateCertificate } from "../utils/certificate.js";
+import { extrapolateFormData } from "../utils/api_utils.js";
 
 export const getStudentCertificates = async (event) => {
 	const studentID = event.requestContext.authorizer.claims.sub;

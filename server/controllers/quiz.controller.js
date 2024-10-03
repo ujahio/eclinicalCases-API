@@ -6,7 +6,7 @@ import { PutObjectCommand } from "@aws-sdk/client-s3";
 // import { s3Client } from "../middlewares/uploadFile.js";
 import { TABLES } from "../services/dbTables.js";
 import SECRETS from "../services/secrets.js";
-import { extrapolateFormData } from "./case.controller.js";
+import { extrapolateFormData } from "../utils/api_utils.js";
 import { verifyToken } from "../controllers/case.controller.js";
 
 const submitCaseAnswers = async (event) => {
