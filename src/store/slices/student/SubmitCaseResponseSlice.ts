@@ -15,19 +15,20 @@ export const submitCaseResponse = createAsyncThunk(
 				responsePayload,
 				token
 			);
-			if (studentsGrade.passed) {
-				// make new request to create certificate if quiz is passed
-				const { data: certificateInformation } = await generateCertificateApi(
-					{ caseTopic: responsePayload.caseTopicAnswer },
-					token
-				);
+			// temp comment out until pdf generation is implemented
+			// if (studentsGrade.passed) {
+			// 	// make new request to create certificate if quiz is passed
+			// 	const { data: certificateInformation } = await generateCertificateApi(
+			// 		{ caseTopic: responsePayload.caseTopicAnswer },
+			// 		token
+			// 	);
 
-				return {
-					passed: studentsGrade.passed,
-					pdfURL: certificateInformation.pdfURL,
-					pngURL: certificateInformation.pngURL,
-				};
-			}
+			// 	return {
+			// 		passed: studentsGrade.passed,
+			// 		pdfURL: certificateInformation.pdfURL,
+			// 		pngURL: certificateInformation.pngURL,
+			// 	};
+			// }
 			// if quizzes are failed, we need to indicate what questions weren't passed and display a banner
 			return {
 				passed: studentsGrade.passed,

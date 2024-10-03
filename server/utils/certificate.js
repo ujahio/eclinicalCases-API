@@ -2,6 +2,7 @@ import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
 import { convert } from "pdf-poppler";
 import fs from "fs";
 import path from "path";
+import SECRETS from "../services/secrets.js";
 
 export const generateCertificate = async (studentName, caseName) => {
 	// Generate PDF using pdf-lib
@@ -13,8 +14,21 @@ export const generateCertificate = async (studentName, caseName) => {
 	const fontRegular = await pdfDoc.embedFont(StandardFonts.Helvetica);
 	const fontBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
 	const logoPath = path.join(__dirname, "../assets/images", "logo.png");
-	console.log("logoPath", logoPath);
+
+	// const logoUrl = `${SECRETS.NEXT_PUBLIC_BASE_URL}/assets/images/logo.png`; // Replace with your actual domain
+	// console.log("Fetching logo from:", logoUrl);
+	// const response = await fetch(logoUrl);
+
+	// if (!response.ok) {
+	// 	throw new Error(`Failed to fetch logo image: ${response.statusText}`);
+	// }
+
+	// const logoBuffer = await response.buffer();
+
+	// console.log("logoPath", logoPath);
 	const logo = await pdfDoc.embedPng(fs.readFileSync(logoPath));
+	// const logo = await pdfDoc.embedPng(logoBuffer);
+
 	const logoDims = logo.scale(0.5);
 
 	// Center-align image
