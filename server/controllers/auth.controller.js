@@ -16,82 +16,122 @@ import {
 import { TABLES } from "../services/dbTables.js";
 import { resources } from "../services/resources.js";
 import { sendEmail } from "../services/emailSender.js";
+import { checkDuplicateUsernameOrEmail } from "../middlewares/verifySignUp";
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-const signup = async (req, res) => {
-	console.log("heyy", req.body);
-	const { firstname, lastname, email, password, roles } = req.body;
+const signup = async (event) => {
+	const duplicateCheckResponse = await checkDuplicateUsernameOrEmail(event);
 
-	if (!firstname) {
-		return res.status(400).json({ error: '"firstname" must be a string' });
-	} else if (!lastname || typeof lastname !== "string") {
-		return res.status(400).json({ error: '"lastname" must be a string' });
-	} else if (!email || typeof email !== "string") {
-		return res.status(400).json({ error: '"email" must be a string' });
-	} else if (!password || typeof password !== "string") {
-		return res.status(400).json({ error: '"password" must be a string' });
+	if (duplicateCheckResponse) {
+		return duplicateCheckResponse;
 	}
-
-	let originalPassword = decryptPassword(
-		password,
-		resources.NEXT_PUBLIC_PASS_SECRET_KEY
-	);
-	const hashedPassword = bcrypt.hashSync(originalPassword, 10);
-	const userId = uuidv4();
-	const created_on = new Date(Date.now()).toISOString();
-
-	const user = {
-		id: userId,
-		firstname,
-		lastname,
-		email,
-		password: hashedPassword,
-		created_on,
-		status: "active",
-		signUpLevel: 1,
-		paymentStatus: "inactive",
-		roles: roles || ["user"],
-	};
-
-	const params = {
-		TableName: TABLES.USER,
-		Item: user,
-	};
-
 	try {
+		const { firstname, lastname, email, password, roles } = JSON.parse(
+			event.body
+		);
+
+		if (!firstname || typeof firstname !== "string") {
+			return {
+				statusCode: 400,
+				body: JSON.stringify({ error: '"firstname" must be a string' }),
+			};
+		}
+		if (!lastname || typeof lastname !== "string") {
+			return {
+				statusCode: 400,
+				body: JSON.stringify({ error: '"lastname" must be a string' }),
+			};
+		}
+		if (!email || typeof email !== "string") {
+			return {
+				statusCode: 400,
+				body: JSON.stringify({ error: '"email" must be a string' }),
+			};
+		}
+		if (!password || typeof password !== "string") {
+			return {
+				statusCode: 400,
+				body: JSON.stringify({ error: '"password" must be a string' }),
+			};
+		}
+
+		const originalPassword = decryptPassword(
+			password,
+			resources.NEXT_PUBLIC_PASS_SECRET_KEY
+		);
+		const hashedPassword = bcrypt.hashSync(originalPassword, 10);
+		const userId = uuidv4();
+		const created_on = new Date().toISOString();
+
+		const user = {
+			id: userId,
+			firstname,
+			lastname,
+			email,
+			password: hashedPassword,
+			created_on,
+			status: "active",
+			signUpLevel: 1,
+			paymentStatus: "inactive",
+			roles: roles || "user",
+		};
+
+		const params = {
+			TableName: TABLES.USER,
+			Item: user,
+		};
+
 		const command = new PutCommand(params);
-		const result = await dbClient.send(command);
-		console.log("result: ", result);
+		await dbClient.send(command);
 
 		// Remove password from the user object before sending response
 		delete user.password;
 
-		res.status(201).json({
-			message: "User was registered successfully!",
-			data: user,
-		});
+		return {
+			statusCode: 201,
+			body: JSON.stringify({
+				message: "User was registered successfully!",
+				data: user,
+			}),
+		};
 	} catch (error) {
-		console.error(error);
-		res.status(500).json({ error: `Could not create user: ${error}` });
+		console.error("Signup error:", error);
+		return {
+			statusCode: 500,
+			body: JSON.stringify({
+				error: `Could not create user: ${error.message}`,
+			}),
+		};
 	}
 };
 
-const signin = async (req, res) => {
-	const { email, password } = req.body;
-
-	if (!email) {
-		return res.status(400).json({ error: '"email" is required' });
-	} else if (!EMAIL_REGEX.test(email)) {
-		return res
-			.status(400)
-			.json({ error: '"email" must be a valid email address' });
-	} else if (!password || typeof password !== "string") {
-		return res.status(400).json({ error: '"password" must be a string' });
-	}
-
+const signin = async (event) => {
 	try {
-		let originalPassword = decryptPassword(
+		const { email, password } = JSON.parse(event.body);
+
+		if (!email) {
+			return {
+				statusCode: 400,
+				body: JSON.stringify({ error: '"email" is required' }),
+			};
+		}
+		if (!EMAIL_REGEX.test(email)) {
+			return {
+				statusCode: 400,
+				body: JSON.stringify({
+					error: '"email" must be a valid email address',
+				}),
+			};
+		}
+		if (!password || typeof password !== "string") {
+			return {
+				statusCode: 400,
+				body: JSON.stringify({ error: '"password" must be a string' }),
+			};
+		}
+
+		const originalPassword = decryptPassword(
 			password,
 			resources.NEXT_PUBLIC_PASS_SECRET_KEY
 		);
@@ -110,59 +150,79 @@ const signin = async (req, res) => {
 		const user = result.Items[0];
 
 		if (!user) {
-			return res.status(401).json({ error: "Invalid email or password" });
+			return {
+				statusCode: 401,
+				body: JSON.stringify({ error: "Invalid email or password" }),
+			};
 		}
 
-		const hashedPassword = user.password;
-		const isValid = bcrypt.compareSync(originalPassword, hashedPassword);
-
+		const isValid = bcrypt.compareSync(originalPassword, user.password);
 		if (!isValid) {
-			return res.status(401).json({ error: "Invalid email or password" });
+			return {
+				statusCode: 401,
+				body: JSON.stringify({ error: "Invalid email or password" }),
+			};
 		}
-		const token = jwt.sign(user, resources.NEXT_JWT_SECRET, {
-			expiresIn: "1h",
-		});
 
-		res.status(200).json({
-			message: "Login successful!",
-			token,
-			user: {
-				id: user.UserID,
-				email: user.email,
-				roles: user.roles,
-			},
-		});
+		// const userToken = jwt.sign(user, resources.NEXT_JWT_SECRET, {
+		// 	expiresIn: "1h",
+		// });
+
+		const userToken = jwt.sign(user, resources.NEXT_JWT_SECRET);
+		return {
+			statusCode: 200,
+			body: JSON.stringify({
+				message: "Login successful!",
+				token: userToken,
+				user: {
+					id: user.id,
+					email: user.email,
+					roles: user.roles,
+				},
+			}),
+		};
 	} catch (error) {
-		console.error(error);
-		res.status(500).json({ error: "Could not login: " + error });
+		console.error("Signin error:", error);
+		return {
+			statusCode: 500,
+			body: JSON.stringify({ error: "Could not login: " + error.message }),
+		};
 	}
 };
 
-const sendOTP = async (req, res) => {
+const sendOTP = async (event) => {
 	try {
-		const { email } = req.body;
+		const { email } = JSON.parse(event.body);
 		const otp = generateOtp();
-		console.log("\n Your OTP is: ", otp + "\n");
+
+		console.log("Your OTP is:", otp);
+
 		await storeOtpInDb(email, otp);
 		await sendEmail(
 			email,
-			"ECCS LABS OTP for Password Reset",
+			"Your OTP for Password Reset",
 			`Your OTP is: ${otp}`
 		);
-		res.status(200).json({
-			message: "OTP sent to your email. Please verify and reset password.",
-		});
+
+		return {
+			statusCode: 200,
+			body: JSON.stringify({
+				message: "OTP sent to your email. Please verify and reset password.",
+			}),
+		};
 	} catch (error) {
-		console.error(error);
-		res.status(500).json({ error: "Could not send OTP: " + error });
+		console.error("Send OTP error:", error);
+		return {
+			statusCode: 500,
+			body: JSON.stringify({ error: "Could not send OTP: " + error.message }),
+		};
 	}
 };
 
-const verifyOtpAndResetPassword = async (req, res) => {
-	const { email, otp, newPassword } = req.body;
-
+const verifyOtpAndResetPassword = async (event) => {
 	try {
-		let originalPassword = decryptPassword(
+		const { email, otp, newPassword } = JSON.parse(event.body);
+		const originalPassword = decryptPassword(
 			newPassword,
 			resources.NEXT_PUBLIC_PASS_SECRET_KEY
 		);
@@ -170,19 +230,31 @@ const verifyOtpAndResetPassword = async (req, res) => {
 		const hashedPassword = bcrypt.hashSync(originalPassword, 4);
 
 		if (otp !== storedOtp) {
-			return res.status(401).json({ error: "Invalid OTP" });
+			return {
+				statusCode: 401,
+				body: JSON.stringify({ error: "Invalid OTP" }),
+			};
 		}
 		await updateUserPassword(email, hashedPassword);
-		res.status(200).json({
-			message: "Password reset successfully!",
-		});
+
+		return {
+			statusCode: 200,
+			body: JSON.stringify({
+				message: "Password reset successfully!",
+			}),
+		};
 	} catch (error) {
-		console.error(error);
-		res.status(500).json({ error: "Could not reset password: " + error });
+		console.error("Reset password error:", error);
+		return {
+			statusCode: 500,
+			body: JSON.stringify({
+				error: "Could not reset password: " + error.message,
+			}),
+		};
 	}
 };
 
-const getUsers = async (req, res) => {
+const getUsers = async () => {
 	try {
 		const params = {
 			TableName: TABLES.USER,
@@ -193,20 +265,30 @@ const getUsers = async (req, res) => {
 
 		const users = result.Items;
 
-		res.status(200).json({
-			message: "Users retrieved successfully!",
-			data: users,
-		});
+		return {
+			statusCode: 200,
+			body: JSON.stringify({
+				message: "Users retrieved successfully!",
+				data: users,
+			}),
+		};
 	} catch (error) {
-		console.error(error);
-		res.status(500).json({ error: "Could not retrieve users: " + error });
+		console.error("Error retrieving users:", error);
+
+		return {
+			statusCode: 500,
+			body: JSON.stringify({
+				error: "Could not retrieve users: " + error.message,
+			}),
+		};
 	}
 };
 
-const updatePassword = async (req, res) => {
+const updatePassword = async (event) => {
 	try {
-		const email = req.validatedUser.email;
-		const { currentPassword, newPassword } = req.body;
+		const body = JSON.parse(event.body);
+		const email = body.validatedUser.email;
+		const { currentPassword, newPassword } = body;
 
 		let originalCurrentPassword = decryptPassword(
 			currentPassword,
@@ -219,7 +301,10 @@ const updatePassword = async (req, res) => {
 			user.password
 		);
 		if (!isPasswordCorrect) {
-			return res.status(401).json({ error: "Current password is incorrect" });
+			return {
+				statusCode: 401,
+				body: JSON.stringify({ error: "Current password is incorrect" }),
+			};
 		}
 
 		// Hash and update new password
@@ -230,13 +315,23 @@ const updatePassword = async (req, res) => {
 		const hashedPassword = bcrypt.hashSync(originalNewPassword, 4);
 
 		const updatedUser = await updateUserPassword(email, hashedPassword);
-		res.status(200).json({
-			message: "Password updated successfully!",
-			data: updatedUser,
-		});
+
+		return {
+			statusCode: 200,
+			body: JSON.stringify({
+				message: "Password updated successfully!",
+				data: updatedUser,
+			}),
+		};
 	} catch (error) {
-		console.error(error);
-		res.status(500).json({ error: "Could not update password: " + error });
+		console.error("Error updating password:", error);
+
+		return {
+			statusCode: 500,
+			body: JSON.stringify({
+				error: "Could not update password: " + error.message,
+			}),
+		};
 	}
 };
 
