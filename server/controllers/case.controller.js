@@ -127,9 +127,10 @@ const addCase = async (event) => {
 };
 
 const updateCase = async (event) => {
-	const caseData = JSON.parse(event.body);
+	const caseData = await extrapolateFormData(event);
 	const caseID = event.pathParameters.caseID;
-	const userId = event.requestContext.authorizer.claims.sub;
+	const userToken = event.headers.authorization.split(" ")[1];
+	const { id: userId } = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
 
 	if (!caseID) {
 		return {
@@ -462,7 +463,8 @@ const getOngoingCase = async () => {
 const deleteCase = async (event) => {
 	try {
 		const caseID = event.pathParameters.caseID;
-		const userId = event.requestContext.authorizer.claims.sub;
+		const userToken = event.headers.authorization.split(" ")[1];
+		const { id: userId } = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
 
 		if (!caseID) {
 			return {

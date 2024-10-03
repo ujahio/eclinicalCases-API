@@ -9,7 +9,8 @@ import { generateCertificate } from "../utils/certificate.js";
 import { extrapolateFormData } from "../utils/api_utils.js";
 
 export const getStudentCertificates = async (event) => {
-	const studentID = event.requestContext.authorizer.claims.sub;
+	const userToken = event.headers.authorization.split(" ")[1];
+	const { id: studentID } = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
 
 	const params = {
 		TableName: TABLES.CERTIFICATES,

@@ -9,7 +9,7 @@ import SECRETS from "../services/secrets.js";
 import { extrapolateFormData } from "../utils/api_utils.js";
 import { verifyToken } from "../controllers/case.controller.js";
 
-const submitCaseAnswers = async (event) => {
+export const submitCaseAnswers = async (event) => {
 	const caseInfo = await extrapolateFormData(event);
 	const userToken = event.headers.authorization.split(" ")[1];
 	const userInfo = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
@@ -38,6 +38,11 @@ const submitCaseAnswers = async (event) => {
 			caseID: caseInfo.caseID,
 			studentAnswers: extractAnswers(caseInfo),
 		});
+
+		// handle updating the case with the students information
+		//    - will be used to generate the count of responses
+		//    - will be used to generate the count of feedback given
+		// studentsInformation needed to be updated (studentID, date case was taken, )
 
 		return {
 			statusCode: 200,
@@ -76,7 +81,7 @@ const extractAnswers = (caseInfo) => {
 	}, []);
 };
 
-const getStudentsAnswers = async (event) => {
+export const getStudentsAnswers = async (event) => {
 	const caseID = event.pathParameters.caseID;
 
 	const params = {
@@ -163,5 +168,3 @@ const gradeQuiz = async ({ caseID, studentAnswers }) => {
 		throw new Error("Could not grade quiz: " + error.message);
 	}
 };
-
-export { submitCaseAnswers, getStudentsAnswers };
