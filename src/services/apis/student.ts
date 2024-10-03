@@ -26,3 +26,11 @@ export const addFeedbackApi = (feedbackData: any, token: string) => {
 		configureRequestHeaders(token)
 	);
 };
+
+export const generateCertificateApi = (certificateInfo: any, token: string) => {
+	return studentApi.post(
+		"/quiz/generate-certificate",
+		certificateInfo,
+		configureRequestHeaders(token, certificateInfo)
+	);
+};

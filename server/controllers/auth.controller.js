@@ -164,9 +164,11 @@ const signin = async (event) => {
 			};
 		}
 
-		const userToken = jwt.sign(user, resources.NEXT_JWT_SECRET, {
-			expiresIn: "1h",
-		});
+		// const userToken = jwt.sign(user, resources.NEXT_JWT_SECRET, {
+		// 	expiresIn: "1h",
+		// });
+
+		const userToken = jwt.sign(user, resources.NEXT_JWT_SECRET);
 		return {
 			statusCode: 200,
 			body: JSON.stringify({

@@ -137,6 +137,10 @@ api.route("GET /api/quiz/answers/{caseID}", {
 	handler: "server/controllers/quiz.controller.getStudentsAnswers",
 	link: links,
 });
+api.route("POST /api/quiz/generate-certificate", {
+	handler: "server/controllers/student.controller.generatePassingCertificate",
+	link: links,
+});
 
 // Student
 api.route("GET /api/student/certificates", {

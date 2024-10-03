@@ -17,7 +17,7 @@ import dbClient from "../services/dbClient.js";
 import SECRETS from "../services/secrets.js";
 
 // TODO: move to a utility function
-const extrapolateFormData = async (event) => {
+export const extrapolateFormData = async (event) => {
 	const contentType =
 		event.headers["content-type"] || event.headers["Content-Type"];
 	const formData = {};
@@ -61,7 +61,8 @@ const extrapolateFormData = async (event) => {
 	}
 };
 
-const verifyToken = (token, secretKey) => {
+// todo: move to utility function
+export const verifyToken = (token, secretKey) => {
 	try {
 		// Verify the token using the secret key
 		const decoded = jwt.verify(token, secretKey);
@@ -87,7 +88,7 @@ const addCase = async (event) => {
 	const userInfo = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
 	const userID = userInfo.id;
 
-	// handle this!!!
+	// TODO: save case materials to S3 bucket and store the file paths in the case item
 	// const caseMaterials = caseData.caseMaterials.map((file) => ({
 	// 	filename: file.originalname,
 	// 	filePath: file.location,
