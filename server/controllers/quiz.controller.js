@@ -44,35 +44,9 @@ const submitCaseAnswers = async (event) => {
 			body: JSON.stringify({
 				message: "Answers submitted successfully.",
 				passed: gradedQuizResult.passed,
-				failedQuestions: gradedQuizResult.failedQuestions,
+				messageToDisplay: gradedQuizResult.messageToDisplay,
 			}),
 		};
-
-		// console.log("result", result);
-		// 	// Save the attempt result to the StudentCaseAttempts table
-		// 	const attemptParams = {
-		// 		TableName: TABLES.STUDENTCASEATTEMPTS,
-		// 		Item: {
-		// 			attemptID: uuidv4(),
-		// 			studentID,
-		// 			caseID,
-		// 			passed: result.passed,
-		// 			answers,
-		// 			correctAnswers: result.correctAnswers,
-		// 			submittedAt: Date.now(),
-		// 		},
-		// 	};
-		// 	const attemptCommand = new PutCommand(attemptParams);
-		// 	await dbClient.send(attemptCommand);
-		// 	return {
-		// 		statusCode: 200,
-		// 		body: JSON.stringify({
-		// 			message: "Answers submitted successfully.",
-		// 			passed: result.passed,
-		// 			pdfURL: result.pdfURL,
-		// 			pngURL: result.pngURL,
-		// 		}),
-		// };
 	} catch (error) {
 		console.error(error);
 		return {
@@ -147,22 +121,14 @@ const gradeQuiz = async ({ caseID, studentAnswers }) => {
 		if (!teachersQuestions) {
 			throw new Error(`caseQuestions are not found`);
 		}
-		const caseTopic = caseResult.Item.caseTopic;
-
-		// const correctAnswers = caseQuestions.map(
-		// 	(question) => question.correctAnswer
-		// );
-		// const studentSelectedOptions = studentAnswers.map(
-		// 	(answer) => answer.correctAnswer
-		// );
-		// const passed = correctAnswers.every(
-		// 	(answer, idx) => answer === studentSelectedOptions[idx]
-		// );
 
 		let result = {
 			passed: true,
 			failedQuestions: [],
+			messageToDisplay: "",
 		};
+
+		let correctCount = 0;
 
 		studentAnswers.forEach((studentAnswer, index) => {
 			const teacherQuestion = teachersQuestions[index];
@@ -172,66 +138,26 @@ const gradeQuiz = async ({ caseID, studentAnswers }) => {
 				parseInt(studentAnswer.correctAnswer) !== teacherQuestion.correctAnswer
 			) {
 				result.passed = false;
-				result.failedQuestions.push({
-					question: studentAnswer.question,
-					studentAnswer: studentAnswer.options[studentAnswer.correctAnswer],
-					correctAnswer: teacherQuestion.options[teacherQuestion.correctAnswer],
-				});
+				result.failedQuestions.push(index + 1); // Adding question index (1-based)
+			} else {
+				correctCount++;
 			}
 		});
 
+		// Calculate the percentage score
+		const totalQuestions = studentAnswers.length;
+		const scorePercentage = (correctCount / totalQuestions) * 100;
+
+		// Generate the messageToDisplay for score and incorrect questions
+		if (result.failedQuestions.length > 0) {
+			result.messageToDisplay = `You scored ${scorePercentage}%. You got question(s) ${result.failedQuestions.join(
+				" and "
+			)} incorrect.`;
+		} else {
+			result.messageToDisplay = `You scored ${scorePercentage}%. You got all questions correct.`;
+		}
+
 		return result;
-
-		// todo: move certificate generation to its own lambda for processing
-		// Upload certificate to S3
-		// Generate certificate
-		// let pdfURL = "";
-		// let pngURL = "";
-		// if (passed) {
-		// 	const certificateID = uuidv4();
-		// 	// const { pdfBuffer, pngBuffer } = await generateCertificate(fullName, caseTopic);
-
-		// 	// Upload PDF to S3
-		// 	const pdfUploadParams = {
-		// 		Bucket: "local-bucket",
-		// 		Key: `certificates/${certificateID}.pdf`,
-		// 		Body: "pdfBuffer",
-		// 		ACL: "public-read",
-		// 		ContentType: "application/pdf",
-		// 	};
-		// 	pdfURL = await uploadFileToBucket(pdfFile);
-
-		// 	// Upload PNG to S3
-		// 	const pngFile = {
-		// 		originalname: `${certificateID}.png`,
-		// 		buffer: pngBuffer,
-		// 	};
-		// 	pngURL = await uploadFileToBucket(pngFile);
-
-		// 	// Save certificate record in DynamoDB
-		// 	const certificateRecord = {
-		// 		certificateID,
-		// 		studentID: studentID,
-		// 		caseID,
-		// 		pdfURL,
-		// 		pngURL,
-		// 		generatedAt: new Date().toISOString(),
-		// 	};
-
-		// 	const putCommand = new PutCommand({
-		// 		TableName: TABLES.CERTIFICATES,
-		// 		Item: certificateRecord,
-		// 	});
-		// 	await dbClient.send(putCommand);
-		// }
-
-		// return {
-		// 	passed,
-		// 	correctAnswers,
-		// 	studentAnswers,
-		// 	pdfURL: pdfURL,
-		// 	pngURL: pngURL,
-		// };
 	} catch (error) {
 		console.error("Error grading quiz: ", error);
 		throw new Error("Could not grade quiz: " + error.message);

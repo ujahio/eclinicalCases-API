@@ -27,11 +27,13 @@ export const submitCaseResponse = createAsyncThunk(
 			// 		passed: studentsGrade.passed,
 			// 		pdfURL: certificateInformation.pdfURL,
 			// 		pngURL: certificateInformation.pngURL,
+			// 		messageToDisplay: studentsGrade.messageToDisplay,
 			// 	};
 			// }
 			// if quizzes are failed, we need to indicate what questions weren't passed and display a banner
 			return {
 				passed: studentsGrade.passed,
+				messageToDisplay: studentsGrade.messageToDisplay,
 				pdfURL: "",
 				pngURL: "",
 			};
