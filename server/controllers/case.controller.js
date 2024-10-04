@@ -42,7 +42,27 @@ export const handleDraftCase = async (event) => {
 	const draftCaseData = await extrapolateFormData(event);
 	const userToken = event.headers.authorization.split(" ")[1];
 	const userInfo = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
-	const userID = userInfo.id;
+	const teacherID = userInfo.id;
+
+	// TODO: evaluate required fields for draft cases
+	if (!teacherID || !draftCaseData.caseClue) {
+		return {
+			statusCode: 400,
+			body: JSON.stringify({
+				message: "Invalid input: missing required fields",
+			}),
+		};
+	}
+
+	// possible use coginito authorizer
+	if (userInfo.roles !== "teacher") {
+		return {
+			statusCode: 400,
+			body: JSON.stringify({
+				message: "Unauthorized user",
+			}),
+		};
+	}
 
 	// TODO: save case materials to S3 bucket and store the file paths in the case item
 	// const caseMaterials = caseData.caseMaterials.map((file) => ({
@@ -52,7 +72,7 @@ export const handleDraftCase = async (event) => {
 
 	const caseItem = {
 		id: uuidv4(),
-		createdBy: userID,
+		createdBy: teacherID,
 		createdAt: Date.now(),
 		caseStatus: "draft",
 		caseClue: draftCaseData.caseClue || undefined,
