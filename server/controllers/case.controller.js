@@ -96,7 +96,7 @@ export const handleDraftCase = async (event) => {
 	try {
 		const command = new PutCommand(params);
 		const result = await dbClient.send(command);
-
+		console.log("Draft Case added successfully", result);
 		return {
 			statusCode: 200,
 			body: JSON.stringify({
