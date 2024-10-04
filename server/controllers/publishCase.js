@@ -21,15 +21,12 @@ export const publishCase = async (event) => {
 
 	const newCaseId = caseId || uuidv4();
 	const todaysDate = new Date().toISOString();
-	console.log("TODAYS DATE", todaysDate);
 
 	const userToken = event.headers.authorization.split(" ")[1];
 	const { id: teacherId, roles } = verifyToken(
 		userToken,
 		SECRETS.NEXT_JWT_SECRET
 	);
-
-	console.log("TEACHER ID*****", teacherId);
 
 	// TODO: evaluate required fields for published cases
 	if (!teacherId || !caseClue) {
@@ -51,7 +48,6 @@ export const publishCase = async (event) => {
 		};
 	}
 
-	// Log input data
 	console.log(
 		`Publishing case for teacher ${teacherId}, case ID: ${newCaseId}`
 	);
@@ -98,7 +94,6 @@ export const publishCase = async (event) => {
 	}
 
 	try {
-		// Step 3: Update the case to published with additional attributes
 		const updateParams = new UpdateCommand({
 			TableName: TABLES.TEACHER_CASE_STUDIES,
 			Key: { id: newCaseId },
@@ -114,23 +109,20 @@ export const publishCase = async (event) => {
         createdAt = :createdAt
         `,
 			ExpressionAttributeValues: {
-				":caseStatus": "published", // Ensure this is a valid string
-				":publishedAt": todaysDate, // Ensure this is a valid timestamp (number)
-				":caseDeadline": caseDeadline, // Ensure this is a valid date (number)
-				":caseClue": caseClue, // Ensure this is a valid string
-				":caseDescription": caseDescription, // Ensure this is a valid string
-				":caseTopic": caseTopic, // Ensure this is a valid string
-				":caseExplanation": caseExplanation, // Ensure this is a valid string
-				":caseQuestions": caseQuestions, // Ensure this is a valid string (or JSON string)
+				":caseStatus": "published",
+				":publishedAt": todaysDate,
+				":caseDeadline": caseDeadline,
+				":caseClue": caseClue,
+				":caseDescription": caseDescription,
+				":caseTopic": caseTopic,
+				":caseExplanation": caseExplanation,
+				":caseQuestions": caseQuestions,
 				":createdAt": todaysDate,
 			},
 			ReturnValues: "ALL_NEW",
 		});
 
 		const updatedCase = await dbClient.send(updateParams);
-		console.log("updatedCase", updatedCase);
-
-		// Log success and return the updated case
 		console.log(
 			`Case ${newCaseId} successfully published for teacher ${teacherId}`
 		);

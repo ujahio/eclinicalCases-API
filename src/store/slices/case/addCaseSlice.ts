@@ -19,7 +19,6 @@ export const addCase = createAsyncThunk(
 				// const { data } = await addCaseApi(caseData, token);
 				// return data;
 				const { data } = await publishCaseApi(caseData, token);
-				console.log("publisheCaseApi", data);
 				return data;
 			}
 		} catch (error: any) {
