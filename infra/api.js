@@ -105,7 +105,7 @@ api.route("POST /api/case/duplicate", {
 	link: links,
 });
 api.route("POST /api/case/publish", {
-	handler: "server/controllers/case.controller.publishCase",
+	handler: "server/controllers/publishCase.publishCase",
 	link: links,
 });
 api.route("POST /api/case/add/feedback", {

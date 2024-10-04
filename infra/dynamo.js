@@ -14,13 +14,12 @@ export const TeacherCaseStudies = new sst.aws.Dynamo("TeacherCaseStudies", {
 		id: "string", // case_id
 		teacherId: "string", // Teacher's ID
 		caseStatus: "string", // Case study status: 'draft', 'published', or 'archived'
-		createdAt: "number", // Timestamp of creation (UNIX format)
+		caseDeadline: "string", // Case study deadline
 	},
 	primaryIndex: { hashKey: "id" }, // Primary key based on case_id
 	globalIndexes: {
-		CreatedAtIndex: { hashKey: "createdAt" }, // Index to query based on creation date
-		TeacherStatusIndex: { hashKey: "teacherId", sortKey: "caseStatus" }, // Index to query by teacher and case status (draft, published, archived)
-		ExpirationIndex: { hashKey: "caseStatus", sortKey: "expirationDate" }, // Index to find cases that are about to expire
+		TeacherStatusIndex: { hashKey: "teacherId", rangeKey: "caseStatus" }, // Index to query by teacher and case status (draft, published, archived)
+		CaseDeadlineIndex: { hashKey: "caseStatus", rangeKey: "caseDeadline" }, // Index to find cases that are about to expire
 	},
 });
 

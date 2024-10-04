@@ -72,7 +72,7 @@ export const handleDraftCase = async (event) => {
 
 	const caseItem = {
 		id: uuidv4(),
-		createdBy: teacherID,
+		teacherId: teacherID,
 		createdAt: Date.now(),
 		caseStatus: "draft",
 		caseClue: draftCaseData.caseClue || undefined,
@@ -672,63 +672,6 @@ const duplicateCase = async (event) => {
 	}
 };
 
-const publishCase = async (event) => {
-	const { caseID } = JSON.parse(event.body);
-
-	if (!caseID) {
-		return {
-			statusCode: 400,
-			body: JSON.stringify({
-				message: "CaseID not found.",
-			}),
-		};
-	}
-
-	const singleItemParams = {
-		TableName: TABLES.CASE,
-		Key: {
-			id: caseID,
-		},
-	};
-
-	try {
-		const originalCase = await readSingleItem(singleItemParams);
-		if (!originalCase) {
-			return res.status(400).json({ error: "Case does not exist" });
-		}
-
-		const params = {
-			TableName: TABLES.CASE,
-			Key: {
-				id: caseID,
-			},
-			UpdateExpression: "set caseStatus = :active",
-			ExpressionAttributeValues: {
-				":active": "active",
-			},
-		};
-
-		const command = new UpdateCommand(params);
-		const result = await dbClient.send(command);
-
-		return {
-			statusCode: 200,
-			body: JSON.stringify({
-				message: "Case activated successfully.",
-				data: result,
-			}),
-		};
-	} catch (error) {
-		console.error("Error activating case: ", error);
-		return {
-			statusCode: 500,
-			body: JSON.stringify({
-				error: `Could not activate case: ${error.message}`,
-			}),
-		};
-	}
-};
-
 const addFeedback = async (event) => {
 	const userToken = event.headers.authorization.split(" ")[1];
 	const extrapolatedFormData = await extrapolateFormData(event);
@@ -1043,7 +986,6 @@ export {
 	deleteCase,
 	deleteAllCases,
 	duplicateCase,
-	publishCase,
 	addFeedback,
 	getCaseFeedback,
 	getCaseAnswers,
