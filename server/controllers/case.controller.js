@@ -38,83 +38,6 @@ export const verifyToken = (token, secretKey) => {
 	}
 };
 
-export const handleDraftCase = async (event) => {
-	const draftCaseData = await extrapolateFormData(event);
-	const userToken = event.headers.authorization.split(" ")[1];
-	const userInfo = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
-	const teacherID = userInfo.id;
-
-	// TODO: evaluate required fields for draft cases
-	if (!teacherID || !draftCaseData.caseClue) {
-		return {
-			statusCode: 400,
-			body: JSON.stringify({
-				message: "Invalid input: missing required fields",
-			}),
-		};
-	}
-
-	// possible use coginito authorizer
-	if (userInfo.roles !== "teacher") {
-		return {
-			statusCode: 400,
-			body: JSON.stringify({
-				message: "Unauthorized user",
-			}),
-		};
-	}
-
-	// TODO: save case materials to S3 bucket and store the file paths in the case item
-	// const caseMaterials = caseData.caseMaterials.map((file) => ({
-	// 	filename: file.originalname,
-	// 	filePath: file.location,
-	// }));
-
-	const caseItem = {
-		id: uuidv4(),
-		teacherId: teacherID,
-		createdAt: Date.now(),
-		caseStatus: "draft",
-		caseClue: draftCaseData.caseClue || undefined,
-		caseDescription: draftCaseData.caseDescription || undefined,
-		caseTopic: draftCaseData.caseTopic || undefined,
-		caseExplanation: draftCaseData.caseExplanation || undefined,
-		caseDeadline: draftCaseData.caseDeadline
-			? new Date(draftCaseData.caseDeadline).toISOString()
-			: undefined,
-		caseQuestions: draftCaseData.caseQuestions
-			? JSON.parse(draftCaseData.caseQuestions)
-			: undefined,
-		caseMaterials: draftCaseData.caseMaterials || undefined,
-	};
-
-	const params = {
-		TableName: TABLES.TEACHER_CASE_STUDIES,
-		Item: caseItem,
-	};
-
-	try {
-		const command = new PutCommand(params);
-		const result = await dbClient.send(command);
-		console.log("Draft Case added successfully", result);
-		return {
-			statusCode: 200,
-			body: JSON.stringify({
-				message: "Draft Case added successfully.",
-				data: result,
-			}),
-		};
-	} catch (error) {
-		console.error("Error adding a draft case: ", error);
-		return {
-			statusCode: 500,
-			body: JSON.stringify({
-				error: `Could not create a draft case: ${error}`,
-			}),
-		};
-	}
-};
-
 // const addCase = async (event) => {
 // 	const caseData = await extrapolateFormData(event);
 // 	const userToken = event.headers.authorization.split(" ")[1];
@@ -455,82 +378,6 @@ const getCase = async (event) => {
 			statusCode: 500,
 			body: JSON.stringify({
 				error: `Could not retrieve case: ${error.message}`,
-			}),
-		};
-	}
-};
-
-const getOngoingCase = async () => {
-	try {
-		const params = {
-			TableName: TABLES.CASE,
-			FilterExpression: "#caseStatus = :caseStatus",
-			ExpressionAttributeNames: {
-				"#caseStatus": "caseStatus",
-			},
-			ExpressionAttributeValues: {
-				":caseStatus": "active",
-			},
-		};
-
-		const command = new ScanCommand(params);
-		const result = await dbClient.send(command);
-		const cases = result.Items;
-
-		// Fetch the total number of answers and feedbacks for each case
-		const detailedCasesPromises = cases.map(async (caseItem) => {
-			const caseID = caseItem.id;
-
-			// Count answers
-			const answersParams = {
-				TableName: TABLES.ANSWER,
-				IndexName: "CaseIDIndex",
-				KeyConditionExpression: "caseID = :caseID",
-				ExpressionAttributeValues: {
-					":caseID": caseID,
-				},
-				Select: "COUNT",
-			};
-			const answersCommand = new QueryCommand(answersParams);
-			const answersResult = await dbClient.send(answersCommand);
-			const totalAnswers = answersResult.Count;
-
-			// Count feedbacks
-			const feedbackParams = {
-				TableName: TABLES.FEEDBACK,
-				IndexName: "CaseIDIndex",
-				KeyConditionExpression: "caseID = :caseID",
-				ExpressionAttributeValues: {
-					":caseID": caseID,
-				},
-				Select: "COUNT",
-			};
-			const feedbackCommand = new QueryCommand(feedbackParams);
-			const feedbackResult = await dbClient.send(feedbackCommand);
-			const totalFeedbacks = feedbackResult.Count;
-
-			return {
-				...caseItem,
-				totalResponses: totalAnswers,
-				totalFeedbacks,
-			};
-		});
-
-		const detailedCases = await Promise.all(detailedCasesPromises);
-
-		return {
-			statusCode: 200,
-			body: JSON.stringify({
-				message: "Ongoing case retrieved successfully!",
-				data: detailedCases,
-			}),
-		};
-	} catch (error) {
-		console.error("Error retrieving ongoing case:", error);
-		return {
-			statusCode: 500,
-			body: JSON.stringify({
-				error: `Could not retrieve ongoing cases: ${error.message}`,
 			}),
 		};
 	}
@@ -982,7 +829,6 @@ export {
 	updateCase,
 	getCases,
 	getCase,
-	getOngoingCase,
 	deleteCase,
 	deleteAllCases,
 	duplicateCase,

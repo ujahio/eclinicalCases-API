@@ -80,7 +80,8 @@ api.route("GET /api/case/all/{caseStatus}", {
 	link: links,
 });
 api.route("GET /api/case/ongoing-case", {
-	handler: "server/controllers/case.controller.getOngoingCase",
+	handler:
+		"server/controllers/case.controller.handleOngoingCase.getOngoingCase",
 	link: links,
 });
 // api.route("POST /api/case/add", {
@@ -91,7 +92,7 @@ api.route("GET /api/case/ongoing-case", {
 // });
 
 api.route("POST /api/case/draft", {
-	handler: "server/controllers/case.controller.handleDraftCase",
+	handler: "server/controllers/handleDraftCase.getDraftCase",
 	link: links,
 	memory: "2048 MB",
 	// binaryMediaTypes: ["*/*"],
