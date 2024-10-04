@@ -80,8 +80,7 @@ api.route("GET /api/case/all/{caseStatus}", {
 	link: links,
 });
 api.route("GET /api/case/ongoing-case", {
-	handler:
-		"server/controllers/case.controller.handleOngoingCase.getOngoingCase",
+	handler: "server/controllers/handleOngoingCase.getOngoingCase",
 	link: links,
 });
 // api.route("POST /api/case/add", {
