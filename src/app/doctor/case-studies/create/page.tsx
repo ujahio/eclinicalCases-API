@@ -7,6 +7,7 @@ import { addCase, resetAddCaseStatus } from "@/store/slices/case/addCaseSlice";
 import { useRouter } from "next/navigation";
 import { CaseStudy } from "@/services/types/doctor/createCaseStudy";
 import dynamic from "next/dynamic";
+import { toast } from "react-toastify";
 
 const CreateCaseStudy = dynamic(
 	() => import("@/presentation/doctor/CreateCaseStudy"),
@@ -56,6 +57,16 @@ const Create = () => {
 	useEffect(() => {
 		if (addCaseState.status === "succeeded") {
 			dispatch(resetAddCaseStatus());
+			toast.success(addCaseState.newCase.message, {
+				position: "top-right",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "light",
+			});
 			navigate.push("/doctor/dashboard");
 		}
 	}, [addCaseState.status, dispatch]);
