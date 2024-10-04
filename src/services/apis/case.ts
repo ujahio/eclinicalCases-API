@@ -27,6 +27,15 @@ export const addCaseApi = (caseData: any, token: string) => {
 	);
 };
 
+export const addDraftCaseApi = (draftCaseData: any, token: string) => {
+	const formData = convertToFormData(draftCaseData);
+	return caseApi.post(
+		`/draft`,
+		formData,
+		configureRequestHeaders(token, formData)
+	);
+};
+
 export const updateCaseApi = (caseData: any, token: string, _id: any) => {
 	const formData = convertToFormData(caseData);
 	return caseApi.post(

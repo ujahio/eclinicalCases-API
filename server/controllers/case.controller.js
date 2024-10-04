@@ -38,8 +38,8 @@ export const verifyToken = (token, secretKey) => {
 	}
 };
 
-const addCase = async (event) => {
-	const caseData = await extrapolateFormData(event);
+export const handleDraftCase = async (event) => {
+	const draftCaseData = await extrapolateFormData(event);
 	const userToken = event.headers.authorization.split(" ")[1];
 	const userInfo = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
 	const userID = userInfo.id;
@@ -54,55 +54,22 @@ const addCase = async (event) => {
 		id: uuidv4(),
 		createdBy: userID,
 		createdAt: Date.now(),
-		caseStatus: caseData.draft ? "draft" : "active",
-		// caseMaterials,
+		caseStatus: "draft",
+		caseClue: draftCaseData.caseClue || undefined,
+		caseDescription: draftCaseData.caseDescription || undefined,
+		caseTopic: draftCaseData.caseTopic || undefined,
+		caseExplanation: draftCaseData.caseExplanation || undefined,
+		caseDeadline: draftCaseData.caseDeadline
+			? new Date(draftCaseData.caseDeadline).toISOString()
+			: undefined,
+		caseQuestions: draftCaseData.caseQuestions
+			? JSON.parse(draftCaseData.caseQuestions)
+			: undefined,
+		caseMaterials: draftCaseData.caseMaterials || undefined,
 	};
 
-	if (caseData.caseClue) caseItem.caseClue = caseData.caseClue;
-	if (caseData.caseDescription)
-		caseItem.caseDescription = caseData.caseDescription;
-	if (caseData.caseTopic) caseItem.caseTopic = caseData.caseTopic;
-	if (caseData.caseExplanation)
-		caseItem.caseExplanation = caseData.caseExplanation;
-	if (caseData.caseDeadline)
-		caseItem.caseDeadline = new Date(caseData.caseDeadline).toISOString();
-	if (caseData.caseQuestions)
-		caseItem.caseQuestions = JSON.parse(caseData.caseQuestions);
-
-	if (!caseData.draft) {
-		const activeCaseParams = {
-			TableName: TABLES.CASE,
-			FilterExpression: "#caseStatus = :caseStatus",
-			ExpressionAttributeNames: {
-				"#caseStatus": "caseStatus",
-			},
-			ExpressionAttributeValues: {
-				":caseStatus": "active",
-			},
-		};
-
-		try {
-			const activeCaseCommand = new ScanCommand(activeCaseParams);
-			const activeCaseResult = await dbClient.send(activeCaseCommand);
-			const activeCase = activeCaseResult.Items[0];
-
-			if (activeCase) {
-				return {
-					statusCode: 400,
-					body: JSON.stringify({ error: "Case is already published" }),
-				};
-			}
-		} catch (error) {
-			console.error("Error scanning active cases: ", error);
-			return {
-				statusCode: 500,
-				body: JSON.stringify({ error: "Could not check active cases" }),
-			};
-		}
-	}
-
 	const params = {
-		TableName: TABLES.CASE,
+		TableName: TABLES.TEACHER_CASE_STUDIES,
 		Item: caseItem,
 	};
 
@@ -113,18 +80,107 @@ const addCase = async (event) => {
 		return {
 			statusCode: 200,
 			body: JSON.stringify({
-				message: "Case added successfully.",
+				message: "Draft Case added successfully.",
 				data: result,
 			}),
 		};
 	} catch (error) {
-		console.error("Error adding case: ", error);
+		console.error("Error adding a draft case: ", error);
 		return {
 			statusCode: 500,
-			body: JSON.stringify({ error: `Could not create case: ${error}` }),
+			body: JSON.stringify({
+				error: `Could not create a draft case: ${error}`,
+			}),
 		};
 	}
 };
+
+// const addCase = async (event) => {
+// 	const caseData = await extrapolateFormData(event);
+// 	const userToken = event.headers.authorization.split(" ")[1];
+// 	const userInfo = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
+// 	const userID = userInfo.id;
+
+// 	// TODO: save case materials to S3 bucket and store the file paths in the case item
+// 	// const caseMaterials = caseData.caseMaterials.map((file) => ({
+// 	// 	filename: file.originalname,
+// 	// 	filePath: file.location,
+// 	// }));
+
+// 	const caseItem = {
+// 		id: uuidv4(),
+// 		createdBy: userID,
+// 		createdAt: Date.now(),
+// 		caseStatus: caseData.draft ? "draft" : "active",
+// 		caseClue: caseData.caseClue || undefined,
+// 		caseDescription: caseData.caseDescription || undefined,
+// 		caseTopic: caseData.caseTopic || undefined,
+// 		caseExplanation: caseData.caseExplanation || undefined,
+// 		caseDeadline: caseData.caseDeadline
+// 			? new Date(caseData.caseDeadline).toISOString()
+// 			: undefined,
+// 		caseQuestions: caseData.caseQuestions
+// 			? JSON.parse(caseData.caseQuestions)
+// 			: undefined,
+// 		// caseMaterials: undefined
+// 	};
+
+// 	if (!caseData.draft) {
+// 		const activeCaseParams = {
+// 			TableName: TABLES.CASE,
+// 			FilterExpression: "#caseStatus = :caseStatus",
+// 			ExpressionAttributeNames: {
+// 				"#caseStatus": "caseStatus",
+// 			},
+// 			ExpressionAttributeValues: {
+// 				":caseStatus": "active",
+// 			},
+// 		};
+
+// 		try {
+// 			const activeCaseCommand = new ScanCommand(activeCaseParams);
+// 			const activeCaseResult = await dbClient.send(activeCaseCommand);
+// 			const activeCase = activeCaseResult.Items[0];
+
+// 			if (activeCase) {
+// 				return {
+// 					statusCode: 400,
+// 					body: JSON.stringify({ error: "Case is already published" }),
+// 				};
+// 			}
+// 		} catch (error) {
+// 			console.error("Error scanning active cases: ", error);
+// 			return {
+// 				statusCode: 500,
+// 				body: JSON.stringify({ error: "Could not check active cases" }),
+// 			};
+// 		}
+// 	}
+
+// 	const params = {
+// 		TableName: TABLES.CASE,
+// 		Item: caseItem,
+// 	};
+
+// 	try {
+// 		const command = new PutCommand(params);
+// 		const result = await dbClient.send(command);
+
+// 		return {
+// 			statusCode: 200,
+// 			body: JSON.stringify({
+// 				message: "Case added successfully.",
+// 				data: result,
+// 			}),
+// 		};
+// 	} catch (error) {
+// 		console.error("Error adding case: ", error);
+// 		return {
+// 			statusCode: 500,
+// 			body: JSON.stringify({ error: `Could not create case: ${error}` }),
+// 		};
+// 	}
+// };
 
 const updateCase = async (event) => {
 	const caseData = await extrapolateFormData(event);
@@ -959,7 +1015,7 @@ const getCaseData = async (event) => {
 };
 
 export {
-	addCase,
+	// addCase,
 	updateCase,
 	getCases,
 	getCase,

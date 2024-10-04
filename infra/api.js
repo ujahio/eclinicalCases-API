@@ -14,6 +14,7 @@ import {
 	Answers,
 	Certificates,
 	StudentCaseAttempts,
+	TeacherCaseStudies,
 } from "./dynamo";
 
 const links = [
@@ -23,6 +24,7 @@ const links = [
 	Answers,
 	Certificates,
 	StudentCaseAttempts,
+	TeacherCaseStudies,
 	NEXT_JWT_SECRET,
 	NEXT_PUBLIC_PASS_SECRET_KEY,
 	NEXT_PUBLIC_BASE_URL,
@@ -81,8 +83,15 @@ api.route("GET /api/case/ongoing-case", {
 	handler: "server/controllers/case.controller.getOngoingCase",
 	link: links,
 });
-api.route("POST /api/case/add", {
-	handler: "server/controllers/case.controller.addCase",
+// api.route("POST /api/case/add", {
+// 	handler: "server/controllers/case.controller.addCase",
+// 	link: links,
+// 	memory: "2048 MB",
+// 	// binaryMediaTypes: ["*/*"],
+// });
+
+api.route("POST /api/case/draft", {
+	handler: "server/controllers/case.controller.handleDraftCase",
 	link: links,
 	memory: "2048 MB",
 	// binaryMediaTypes: ["*/*"],
