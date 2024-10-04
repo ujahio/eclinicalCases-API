@@ -9,12 +9,8 @@ const useOngoingCases = () => {
 	const ongoingCasesState = useAppSelector((state) => state.onGoingCase);
 	const dispatch = useAppDispatch();
 
-	const handleFetchOngoingCases = () => {
-		dispatch(fetchOngoingCases());
-	};
-
 	useEffect(() => {
-		handleFetchOngoingCases(); //todo: clean up this effect
+		dispatch(fetchOngoingCases());
 	}, []);
 
 	useEffect(() => {
