@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { PutCommand } from "@aws-sdk/lib-dynamodb";
+import { PutCommand, QueryCommand } from "@aws-sdk/lib-dynamodb";
 
 import { TABLES } from "../services/dbTables.js";
 import uploadFileToBucket from "../services/bucket.js";
@@ -8,7 +8,7 @@ import SECRETS from "../services/secrets.js";
 import { extrapolateFormData } from "../utils/api_utils.js";
 import { verifyToken } from "./case.controller.js"; // todo: move utils function to util fild/folder
 
-export const getDraftCase = async (event) => {
+export const addDraftCase = async (event) => {
 	const draftCaseData = await extrapolateFormData(event);
 	const userToken = event.headers.authorization.split(" ")[1];
 	const userInfo = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
@@ -80,6 +80,56 @@ export const getDraftCase = async (event) => {
 			statusCode: 500,
 			body: JSON.stringify({
 				error: `Could not create a draft case: ${error}`,
+			}),
+		};
+	}
+};
+
+export const getDraftCases = async (event) => {
+	const userToken = event.headers.authorization.split(" ")[1];
+	const userInfo = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
+	const teacherID = userInfo.id;
+
+	// TODO: evaluate required fields for draft cases
+	if (!teacherID) {
+		return {
+			statusCode: 400,
+			body: JSON.stringify({
+				message: "Invalid input: missing required fields",
+			}),
+		};
+	}
+
+	try {
+		const params = {
+			TableName: TABLES.TEACHER_CASE_STUDIES,
+			IndexName: "TeacherStatusIndex",
+			KeyConditionExpression:
+				"teacherId = :teacherId AND caseStatus = :caseStatus",
+			ExpressionAttributeValues: {
+				":teacherId": teacherID,
+				":caseStatus": "draft",
+			},
+		};
+
+		const command = new QueryCommand(params);
+		const result = await dbClient.send(command);
+		const draftCasesResult = result.Items;
+		console.log("Draft Cases retrieved successfully", draftCasesResult);
+
+		return {
+			statusCode: 200,
+			body: JSON.stringify({
+				message: "Draft Cases retrieved successfully!",
+				draftCasesInfo: draftCasesResult,
+			}),
+		};
+	} catch (error) {
+		console.error("Error retrieving draft cases:", error);
+		return {
+			statusCode: 500,
+			body: JSON.stringify({
+				error: `Could not retrieve draft cases: ${error.message}`,
 			}),
 		};
 	}

@@ -60,6 +60,10 @@ export const getAllCasesApi = (token: string, isRecent?: string) => {
 	return caseApi.get(url, configureRequestHeaders(token));
 };
 
+export const getDraftCasesApi = (token: string, isRecent?: string) => {
+	return caseApi.get("/draft", configureRequestHeaders(token));
+};
+
 export const fetchCaseDetailsApi = (caseId: any, token: string) => {
 	return caseApi.get(`/details/${caseId}`, configureRequestHeaders(token));
 };

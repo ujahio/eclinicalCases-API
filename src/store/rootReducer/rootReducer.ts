@@ -13,25 +13,27 @@ import onGoingCaseSlice from "../slices/case/onGoingCaseSlice";
 import deleteCaseSlice from "../slices/case/deleteCaseSlice";
 import getCaseDataSlice from "../slices/case/getCaseDataSlice";
 import changePasswordSlice from "../slices/auth/changePasswordSlice";
+import getDraftCasesSlice from "../slices/case/getDraftCasesSlice";
 
 const rootReducer = combineReducers({
-  // Accounts
-  login: loginSlice,
-  signup: signupSlice,
-  sendOtp: sendOtpSlice,
-  resetPassword: resetPasswordSlice,
-  changePassword: changePasswordSlice,
-  // case
-  addCase: addCaseSlice,
-  updateCase: updateCaseSlice,
-  getAllCases: getAllCasesSlice,
-  caseDetails: caseDetailsSlice,
-  onGoingCase: onGoingCaseSlice,
-  deleteCase: deleteCaseSlice,
-  getCaseData: getCaseDataSlice,
-  // student
-  submitCaseResponse: SubmitCaseResponseSlice,
-  addFeedback: addFeedbackSlice,
+	// Accounts
+	login: loginSlice,
+	signup: signupSlice,
+	sendOtp: sendOtpSlice,
+	resetPassword: resetPasswordSlice,
+	changePassword: changePasswordSlice,
+	// case
+	addCase: addCaseSlice,
+	updateCase: updateCaseSlice,
+	getAllCases: getAllCasesSlice,
+	caseDetails: caseDetailsSlice,
+	onGoingCase: onGoingCaseSlice,
+	deleteCase: deleteCaseSlice,
+	getCaseData: getCaseDataSlice,
+	getDraftCases: getDraftCasesSlice,
+	// student
+	submitCaseResponse: SubmitCaseResponseSlice,
+	addFeedback: addFeedbackSlice,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

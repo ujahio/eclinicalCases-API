@@ -90,8 +90,13 @@ api.route("GET /api/case/ongoing-case", {
 // 	// binaryMediaTypes: ["*/*"],
 // });
 
+api.route("GET /api/case/draft", {
+	handler: "server/controllers/handleDraftCase.getDraftCases",
+	link: links,
+});
+
 api.route("POST /api/case/draft", {
-	handler: "server/controllers/handleDraftCase.getDraftCase",
+	handler: "server/controllers/handleDraftCase.addDraftCase",
 	link: links,
 	memory: "2048 MB",
 	// binaryMediaTypes: ["*/*"],
