@@ -40,7 +40,7 @@ const getOngoingCaseForTeacher = async (userInfo) => {
 		// If no active cases found, return a message
 		if (!onGoingCase) {
 			return {
-				statusCode: 404,
+				statusCode: 200,
 				body: JSON.stringify({
 					message: "There are no ongoing cases at the moment.",
 				}),
