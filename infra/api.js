@@ -75,8 +75,8 @@ api.route("GET /api/case/details/{caseID}", {
 	handler: "server/controllers/case.controller.getCase",
 	link: links,
 });
-api.route("GET /api/case/all/{caseStatus}", {
-	handler: "server/controllers/case.controller.getCases",
+api.route("GET /api/case/archived-cases/{caseFilter}", {
+	handler: "server/controllers/handleArchivedCases.getArchivedCases",
 	link: links,
 });
 api.route("GET /api/case/ongoing-case", {

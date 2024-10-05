@@ -239,100 +239,6 @@ const updateCase = async (event) => {
 	}
 };
 
-const getCases = async (event) => {
-	const caseStatus = event.pathParameters?.caseStatus;
-	try {
-		let params = {
-			TableName: TABLES.CASE,
-			IndexName: "CreatedAtIndex",
-			ScanIndexForward: false, // Descending order
-			ExpressionAttributeNames: {
-				"#caseStatus": "caseStatus",
-			},
-		};
-
-		if (caseStatus && caseStatus === "recent") {
-			params = {
-				...params,
-				FilterExpression: "#caseStatus = :caseStatus",
-				ExpressionAttributeValues: {
-					":caseStatus": "active",
-				},
-				Limit: 4,
-			};
-		} else {
-			params = {
-				...params,
-				FilterExpression: "#caseStatus IN (:active, :draft)",
-				ExpressionAttributeValues: {
-					":active": "active",
-					":draft": "draft",
-				},
-			};
-		}
-		const command = new ScanCommand(params);
-		const result = await dbClient.send(command);
-		const cases = result.Items;
-
-		// Fetch total number of answers and feedbacks for each case
-		const detailedCasesPromises = cases.map(async (caseItem) => {
-			const caseID = caseItem.id;
-
-			// Count answers
-			const answersParams = {
-				TableName: TABLES.ANSWER,
-				IndexName: "CaseIDIndex",
-				KeyConditionExpression: "caseID = :caseID",
-				ExpressionAttributeValues: {
-					":caseID": caseID,
-				},
-				Select: "COUNT",
-			};
-			const answersCommand = new QueryCommand(answersParams);
-			const answersResult = await dbClient.send(answersCommand);
-			const totalAnswers = answersResult.Count;
-
-			// Count feedbacks
-			const feedbackParams = {
-				TableName: TABLES.FEEDBACK,
-				IndexName: "CaseIDIndex",
-				KeyConditionExpression: "caseID = :caseID",
-				ExpressionAttributeValues: {
-					":caseID": caseID,
-				},
-				Select: "COUNT",
-			};
-			const feedbackCommand = new QueryCommand(feedbackParams);
-			const feedbackResult = await dbClient.send(feedbackCommand);
-			const totalFeedbacks = feedbackResult.Count;
-
-			return {
-				...caseItem,
-				totalResponses: totalAnswers,
-				totalFeedbacks,
-			};
-		});
-
-		const detailedCases = await Promise.all(detailedCasesPromises);
-
-		return {
-			statusCode: 200,
-			body: JSON.stringify({
-				message: "Cases retrieved successfully!",
-				data: detailedCases,
-			}),
-		};
-	} catch (error) {
-		console.error("Error retrieving cases:", error);
-		return {
-			statusCode: 500,
-			body: JSON.stringify({
-				error: `Could not retrieve cases: ${error.message}`,
-			}),
-		};
-	}
-};
-
 const getCase = async (event) => {
 	const caseID = event.pathParameters.caseID;
 
@@ -827,7 +733,6 @@ const getCaseData = async (event) => {
 export {
 	// addCase,
 	updateCase,
-	getCases,
 	getCase,
 	deleteCase,
 	deleteAllCases,

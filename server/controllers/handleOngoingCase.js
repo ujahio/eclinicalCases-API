@@ -74,7 +74,7 @@ const getOngoingCaseForTeacher = async (userInfo) => {
 	}
 };
 
-const getCountOfStudentsFeedbacksAndResponses = async (caseID) => {
+export const getCountOfStudentsFeedbacksAndResponses = async (caseID) => {
 	const feedbackParams = {
 		TableName: TABLES.FEEDBACK,
 		IndexName: "CaseIDIndex",

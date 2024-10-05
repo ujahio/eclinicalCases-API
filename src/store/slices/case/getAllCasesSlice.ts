@@ -47,7 +47,7 @@ const getAllCasesSlice = createSlice({
 			})
 			.addCase(getAllCases.fulfilled, (state, action) => {
 				state.status = "succeeded";
-				state.cases = action.payload;
+				state.cases = action.payload.archivedCasesInfo;
 			})
 			.addCase(getAllCases.rejected, (state, action: any) => {
 				state.status = "failed";
