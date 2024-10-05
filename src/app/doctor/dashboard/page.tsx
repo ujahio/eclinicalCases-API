@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import useAllCases from "@/services/hooks/useAllCases";
+import useGetArchiveCases from "@/services/hooks/useGetArchiveCases";
 import useOngoingCases from "@/services/hooks/useOngoingCases";
 import dynamic from "next/dynamic";
 
@@ -12,7 +12,7 @@ const DoctorDashboardPage = dynamic(
 );
 const Page = () => {
 	useOngoingCases();
-	useAllCases("recent");
+	useGetArchiveCases("recent");
 
 	return <DoctorDashboardPage />;
 };

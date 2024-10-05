@@ -1,17 +1,17 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
 import {
-	getAllCases,
-	resetGetAllCasesStatus,
-} from "@/store/slices/case/getAllCasesSlice";
+	getArchiveCases,
+	resetGetArchiveCasesStatus,
+} from "@/store/slices/case/getArchiveCasesSlice";
 
-const useAllCases = (filterParam?: string) => {
+const useGetArchiveCases = (filterParam?: string) => {
 	const dispatch = useAppDispatch();
-	const allCasesState = useAppSelector((state) => state.getAllCases);
+	const allCasesState = useAppSelector((state) => state.getArchiveCases);
 
 	const handleGetAllCases = () => {
 		if (filterParam) {
-			dispatch(getAllCases(filterParam));
+			dispatch(getArchiveCases(filterParam));
 		}
 	};
 
@@ -21,7 +21,7 @@ const useAllCases = (filterParam?: string) => {
 
 	useEffect(() => {
 		if (allCasesState.status === "succeeded") {
-			dispatch(resetGetAllCasesStatus());
+			dispatch(resetGetArchiveCasesStatus());
 		}
 	}, [allCasesState.status, dispatch]);
 
@@ -31,4 +31,4 @@ const useAllCases = (filterParam?: string) => {
 	};
 };
 
-export default useAllCases;
+export default useGetArchiveCases;

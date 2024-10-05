@@ -18,11 +18,13 @@ const DoctorDashboard = () => {
 		setShowModal(!showModal);
 	};
 
-	const allCasesState = useAppSelector((state) => state.getAllCases.cases);
+	const archivedCasesState = useAppSelector(
+		(state) => state.getArchiveCases.cases
+	);
 	const publishedCaseInfo = useAppSelector((state) => state.onGoingCase.data);
 
-	const cases =
-		allCasesState?.map((caseItem: any) => ({
+	const archivedCases =
+		archivedCasesState?.map((caseItem: any) => ({
 			_id: caseItem.id,
 			title: caseItem.caseTopic,
 			description: JSON.parse(caseItem.caseDescription).blocks[0].text,
@@ -148,7 +150,7 @@ const DoctorDashboard = () => {
 						<h5 className="text-1sm sm:text-base text-dark uppercase">
 							RECENT CASE STUDIES
 						</h5>
-						{cases?.length > 0 ? (
+						{archivedCases?.length > 0 ? (
 							<Link
 								href="/doctor/cases"
 								className="text-dark font-medium text-sm sm:text-1sm cursor-pointer transition-colors hover:text-primary-300"
@@ -159,9 +161,9 @@ const DoctorDashboard = () => {
 						) : null}
 					</div>
 					<ul className="grid grid-cols-items gap-5 md:gap-6.25">
-						{cases?.length === 0
+						{archivedCases?.length === 0
 							? "No recent cases found!!!"
-							: cases?.map((caseM: any, index: number) => (
+							: archivedCases?.map((caseM: any, index: number) => (
 									// <Link href="/responses-feedback" key={index}>
 									<CaseCard case={caseM} key={caseM._id} />
 									// </Link>

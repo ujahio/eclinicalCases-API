@@ -3,7 +3,7 @@ import loginSlice from "../slices/auth/loginSlice";
 import signupSlice from "../slices/auth/signupSlice";
 import addCaseSlice from "../slices/case/addCaseSlice";
 import updateCaseSlice from "../slices/case/updateCaseSlice";
-import getAllCasesSlice from "../slices/case/getAllCasesSlice";
+import getArchiveCasesSlice from "../slices/case/getArchiveCasesSlice";
 import caseDetailsSlice from "../slices/case/caseDetailsSlice";
 import SubmitCaseResponseSlice from "../slices/student/SubmitCaseResponseSlice";
 import addFeedbackSlice from "../slices/student/addFeedbackSlice";
@@ -25,7 +25,7 @@ const rootReducer = combineReducers({
 	// case
 	addCase: addCaseSlice,
 	updateCase: updateCaseSlice,
-	getAllCases: getAllCasesSlice,
+	getArchiveCases: getArchiveCasesSlice,
 	caseDetails: caseDetailsSlice,
 	onGoingCase: onGoingCaseSlice,
 	deleteCase: deleteCaseSlice,
