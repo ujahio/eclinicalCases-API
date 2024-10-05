@@ -293,8 +293,9 @@ const deleteCase = async (event) => {
 	try {
 		const caseID = event.pathParameters.caseID;
 		const userToken = event.headers.authorization.split(" ")[1];
-		const { id: userId } = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
+		const { id: teacherId } = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
 
+		// Validate caseID
 		if (!caseID) {
 			return {
 				statusCode: 400,
@@ -302,29 +303,55 @@ const deleteCase = async (event) => {
 			};
 		}
 
-		const params = {
-			TableName: TABLES.CASE,
+		// Query the case to check if it's a draft and belongs to the teacher
+		const caseSearchParams = {
+			TableName: TABLES.TEACHER_CASE_STUDIES,
+			Key: { id: caseID }, // Use the primary key to get the case directly
+		};
+
+		const getCaseCommand = new GetCommand(caseSearchParams);
+		const result = await dbClient.send(getCaseCommand);
+		const draftCaseResult = result.Item;
+
+		// Check if case exists and is a draft case
+		if (
+			!draftCaseResult ||
+			draftCaseResult.teacherId !== teacherId ||
+			draftCaseResult.caseStatus !== "draft"
+		) {
+			return {
+				statusCode: 404,
+				body: JSON.stringify({
+					message: "No draft case found or unauthorized.",
+				}),
+			};
+		}
+
+		// Delete the case if it meets the criteria
+		const deleteParams = {
+			TableName: TABLES.TEACHER_CASE_STUDIES,
 			Key: {
 				id: caseID,
 			},
-			ConditionExpression: "createdBy = :createdBy",
+			ConditionExpression:
+				"teacherId = :teacherId AND caseStatus = :caseStatus", // Ensures only draft cases are deleted
 			ExpressionAttributeValues: {
-				":createdBy": userId,
+				":teacherId": teacherId,
+				":caseStatus": "draft",
 			},
 		};
-		const deleteCommand = new DeleteCommand(params);
+		const deleteCommand = new DeleteCommand(deleteParams);
 		await dbClient.send(deleteCommand);
 
 		return {
 			statusCode: 200,
-			body: JSON.stringify({ message: "Case deleted successfully!" }),
+			body: JSON.stringify({ message: "Draft case deleted successfully!" }),
 		};
 	} catch (error) {
 		console.error("Error deleting case:", error);
-
 		return {
-			statusCode: 404,
-			body: JSON.stringify({ error: "Case not found: " + error.message }),
+			statusCode: 500,
+			body: JSON.stringify({ error: "Error deleting case: " + error.message }),
 		};
 	}
 };

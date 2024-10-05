@@ -6,10 +6,10 @@ import { useAppSelector } from "@/services/hooks/hooks";
 export interface CaseCardProps {
 	case: {
 		_id: string;
-		title: string;
-		description: string;
-		deadline: string;
-		created: string;
+		caseTopic?: string;
+		description?: string;
+		caseDeadline?: string;
+		createdAt: string;
 		feedbackCount?: string;
 		totalResponses?: string;
 		caseStatus?: string;
@@ -20,10 +20,10 @@ export interface CaseCardProps {
 const CaseCard: FunctionComponent<CaseCardProps> = ({
 	case: {
 		_id,
-		title,
+		caseTopic,
 		description,
-		deadline,
-		created,
+		caseDeadline,
+		createdAt,
 		feedbackCount,
 		totalResponses,
 		caseStatus,
@@ -61,23 +61,23 @@ const CaseCard: FunctionComponent<CaseCardProps> = ({
 					/>
 				</g>
 			</svg>
-			<h5 className="font-bold text-base mt-3.75 mb-2.5">{title}</h5>
+			<h5 className="font-bold text-base mt-3.75 mb-2.5">{caseTopic}</h5>
 			<p className="text-grey-300 text-1sm text-sm">{description}</p>
 			<div className="flex flex-wrap items-center text-1xs justify-between mt-2">
 				<span className="inline-block pt-3">
-					<b>Created:</b> {created}
+					<b>Created:</b> {createdAt}
 				</span>
 				<span className="inline-block pt-3">
-					<b>Deadline:</b> {deadline}
+					<b>Deadline:</b> {caseDeadline}
 				</span>
 			</div>
 
 			<div className="flex mt-4">
 				<div className=" bg-neutral-200  rounded-sm w-24 text-center py-2 text-xs">
-					{feedbackCount} Feedback
+					{feedbackCount || 0} Feedback
 				</div>
 				<div className=" bg-neutral-200  rounded-sm w-24 text-center py-2 ml-3 text-xs">
-					{totalResponses} Responses
+					{totalResponses || 0} Responses
 				</div>
 			</div>
 

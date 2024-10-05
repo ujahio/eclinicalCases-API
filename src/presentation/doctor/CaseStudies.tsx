@@ -11,43 +11,25 @@ interface IProps {
 }
 
 const DoctorCaseStudies = ({ handleDeleteCase }: IProps) => {
-	const [searchQuery, setSearchQuery] = useState("");
-	// const allCasesState = useAppSelector((state) => state.getAllCases.cases);
+	// const allCasesState = useAppSelector((state) => state.getAllCases.cases); // this will become archinved cases
 	const draftCasesState = useAppSelector((state) => state.getDraftCases.cases);
 
-	console.log("draftCasesState", draftCasesState);
-
-	const cases = draftCasesState.map((caseItem: any) => ({
+	const draftCases = draftCasesState.map((caseItem: any) => ({
 		_id: caseItem.id,
-		title: caseItem.caseTopic,
+		caseTopic: caseItem.caseTopic,
 		description: JSON.parse(caseItem.caseDescription).blocks[0].text,
-		deadline: formatDate(caseItem.caseDeadline),
-		created: formatDate(caseItem.createdAt),
+		caseDeadline: formatDate(caseItem.caseDeadline),
+		createdAt: formatDate(caseItem.createdAt),
 		caseStatus: caseItem.caseStatus,
 	}));
 
-	const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setSearchQuery(e.target.value.toLowerCase());
-	};
-
-	const filteredCases = cases.filter(
-		(caseItem: any) =>
-			caseItem.title.toLowerCase().includes(searchQuery) ||
-			caseItem.description.toLowerCase().includes(searchQuery)
-	);
-
 	return (
 		<AdminLayout>
-			<SearchBar
-				placeholder="Search for case studies..."
-				onChange={handleSearch}
-			/>
-
 			<div className="mt-7.5">
 				<ul className="grid grid-cols-items gap-5 md:gap-6.25">
-					{filteredCases?.length > 0 ? (
+					{draftCases?.length > 0 ? (
 						<>
-							{filteredCases.map((caseS: any) => (
+							{draftCases.map((caseS: any) => (
 								<CaseCard
 									case={caseS}
 									key={caseS._id}
