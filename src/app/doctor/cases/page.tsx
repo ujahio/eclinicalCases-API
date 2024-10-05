@@ -23,7 +23,7 @@ const Page = () => {
 	const dispatch = useAppDispatch();
 
 	useGetDraftCases();
-	// need to retrieve archived cases
+	// TODO: need to retrieve archived cases
 
 	const handleDeleteCase = (caseId: string) => {
 		dispatch(deleteCase(caseId));

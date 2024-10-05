@@ -58,6 +58,7 @@ const getOngoingCaseForTeacher = async (userInfo) => {
 					caseTopic: onGoingCase.caseTopic,
 					createdAt: onGoingCase.createdAt,
 					caseDeadline: onGoingCase.caseDeadline,
+					caseStatus: onGoingCase.caseStatus,
 					feedbackCount: countOfStudentsFeedbackAndResponses.feedbackCount,
 					totalResponses: countOfStudentsFeedbackAndResponses.totalResponses,
 				},

@@ -9,7 +9,6 @@ export const getDraftCases = createAsyncThunk(
 			const state = thunkAPI.getState() as RootState;
 			const token = state?.login?.user?.token;
 			const { data } = await getDraftCasesApi(token);
-			console.log("draft cases data", data);
 			return data;
 		} catch (error: any) {
 			return thunkAPI.rejectWithValue({
