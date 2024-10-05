@@ -105,13 +105,13 @@ export const publishCase = async (event) => {
 		    caseTopic = :caseTopic,
 		    caseExplanation = :caseExplanation,
 		    caseQuestions = :caseQuestions,
-        publishedAt = :publishedAt,
+        publishedDate = :publishedDate,
         createdAt = :createdAt,
         teacherId = :teacherId
         `,
 			ExpressionAttributeValues: {
 				":caseStatus": "published",
-				":publishedAt": todaysDate,
+				":publishedDate": todaysDate,
 				":caseDeadline": caseDeadline,
 				":caseClue": caseClue,
 				":caseDescription": caseDescription,
