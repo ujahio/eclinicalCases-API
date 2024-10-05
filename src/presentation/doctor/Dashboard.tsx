@@ -21,7 +21,7 @@ const DoctorDashboard = () => {
 	const allCasesState = useAppSelector(
 		(state) => state.getAllCases.cases?.data
 	);
-	const ongoingCasesState = useAppSelector((state) => state.onGoingCase.data);
+	const onGoingCaseInfo = useAppSelector((state) => state.onGoingCase.data);
 	const cases =
 		allCasesState?.map((caseItem: any) => ({
 			_id: caseItem.id,
@@ -59,7 +59,7 @@ const DoctorDashboard = () => {
 					</h5>
 
 					<div className="w-full px-6 py-8 sm:px-8 sm:py-10 md:px-10 md:py-12 ongoing-case flex flex-col sm:flex-row sm:items-center justify-between flex-wrap text-white rounded-sm">
-						{ongoingCasesState?.length !== 0 ? (
+						{onGoingCaseInfo ? (
 							<div className="flex flex-col md:mr-4 mb-4">
 								<svg
 									className="w-6.25 sm:w-8 md:w-10"
@@ -79,7 +79,7 @@ const DoctorDashboard = () => {
 									</g>
 								</svg>
 								<h5 className="font-bold text-base mt-3.75 mb-2.5">
-									{ongoingCasesState?.caseTopic}
+									{onGoingCaseInfo?.caseTopic}
 								</h5>
 								<p className="text-1sm text-sm max-w-lg mb-5">
 									Learn how patients with a serious infection can be managed in
@@ -87,30 +87,29 @@ const DoctorDashboard = () => {
 								</p>
 								<div>
 									<span className="inline-block text-1xs">
-										<b>Created:</b> {formatDate(ongoingCasesState?.createdAt)}
+										<b>Created:</b> {formatDate(onGoingCaseInfo?.createdAt)}
 									</span>
 									<span className="block sm:inline-block text-1xs sm:ml-8">
-										<b>Deadline:</b>{" "}
-										{formatDate(ongoingCasesState?.caseDeadline)}
+										<b>Deadline:</b> {formatDate(onGoingCaseInfo?.caseDeadline)}
 									</span>
 								</div>
 								<div className="flex mt-6">
 									<button
 										onClick={() => {
-											setCaseId(ongoingCasesState?.data.id);
+											setCaseId(onGoingCaseInfo?.id);
 											setShowModal(true);
 										}}
 										className=" bg-neutral-200 bg-opacity-20 rounded-sm w-24 text-center py-2 text-xs"
 									>
-										{ongoingCasesState?.feedbackCount} Feedbacks
+										{onGoingCaseInfo?.feedbackCount} Feedbacks
 									</button>
 									<div className=" bg-neutral-200 bg-opacity-20 rounded-sm w-24 text-center py-2 ml-3 text-xs">
-										{ongoingCasesState?.totalResponses} Responses
+										{onGoingCaseInfo?.totalResponses} Responses
 									</div>
 								</div>
 							</div>
 						) : (
-							<p className="text-white">{"No ongoing cases found!!!"}</p>
+							<p className="text-white">There is currently no published case</p>
 						)}
 
 						<div className="min-w-min inline-block">

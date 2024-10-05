@@ -55,8 +55,11 @@ const getOngoingCaseForTeacher = async (userInfo) => {
 			body: JSON.stringify({
 				message: "Ongoing case retrieved successfully!",
 				caseInfo: {
-					...onGoingCase,
-					...countOfStudentsFeedbackAndResponses,
+					caseTopic: onGoingCase.caseTopic,
+					createdAt: onGoingCase.createdAt,
+					caseDeadline: onGoingCase.caseDeadline,
+					feedbackCount: countOfStudentsFeedbackAndResponses.feedbackCount,
+					totalResponses: countOfStudentsFeedbackAndResponses.totalResponses,
 				},
 			}),
 		};
