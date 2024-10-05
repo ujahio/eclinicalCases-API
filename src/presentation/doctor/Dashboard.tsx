@@ -18,21 +18,18 @@ const DoctorDashboard = () => {
 		setShowModal(!showModal);
 	};
 
-	const allCasesState = useAppSelector(
-		(state) => state.getAllCases.cases?.data
-	);
+	const allCasesState = useAppSelector((state) => state.getAllCases.cases);
 	const publishedCaseInfo = useAppSelector((state) => state.onGoingCase.data);
-	console.log("publishedCaseInfo", publishedCaseInfo);
 
 	const cases =
 		allCasesState?.map((caseItem: any) => ({
 			_id: caseItem.id,
 			title: caseItem.caseTopic,
-			// description: JSON.parse(caseItem.caseDescription).blocks[0].text,
-			description:
-				"Learn how patients with a serious infection can be managed in outpatient settings with the help of an OPAT service.",
+			description: JSON.parse(caseItem.caseDescription).blocks[0].text,
 			deadline: formatDate(caseItem.caseDeadline),
 			created: formatDate(caseItem.createdAt),
+			feedbackCount: caseItem.feedbackCount,
+			totalResponses: caseItem.totalResponses,
 		})) || null;
 
 	return (
