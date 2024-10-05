@@ -91,15 +91,18 @@ api.route("GET /api/case/ongoing-case", {
 // });
 
 api.route("GET /api/case/draft", {
-	handler: "server/controllers/handleDraftCase.getDraftCases",
+	handler: "server/controllers/handleDraftCases.getDraftCases",
 	link: links,
 });
 
 api.route("POST /api/case/draft", {
-	handler: "server/controllers/handleDraftCase.addDraftCase",
+	handler: "server/controllers/handleDraftCases.addDraftCase",
 	link: links,
 	memory: "2048 MB",
-	// binaryMediaTypes: ["*/*"],
+});
+api.route("DELETE /api/case/delete-case/{caseID}", {
+	handler: "server/controllers/handleDraftCases.deleteDraftCase",
+	link: links,
 });
 api.route("POST /api/case/update/{caseID}", {
 	handler: "server/controllers/case.controller.updateCase",
@@ -133,10 +136,7 @@ api.route("GET /api/case/student/attempts/{studentID}", {
 	handler: "server/controllers/case.controller.getCaseAttemptsByStudent",
 	link: links,
 });
-api.route("DELETE /api/case/delete-case/{caseID}", {
-	handler: "server/controllers/case.controller.deleteCase",
-	link: links,
-});
+
 // api.route("DELETE /api/case/delete/all/", {
 //   handler: "handler.handler",
 //   link: links,
