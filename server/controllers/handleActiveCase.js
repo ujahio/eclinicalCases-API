@@ -5,6 +5,7 @@ import uploadFileToBucket from "../services/bucket.js";
 import dbClient from "../services/dbClient.js";
 import SECRETS from "../services/secrets.js";
 import { verifyToken } from "./case.controller.js"; // todo: move utils function to util fild/folder
+import { getCountOfStudentsFeedbacksAndResponses } from "../utils/api_utils.js";
 
 export const getActiveCase = async (event) => {
 	const userToken = event.headers.authorization.split(" ")[1];
@@ -73,42 +74,4 @@ const getOngoingCaseForTeacher = async (userInfo) => {
 			}),
 		};
 	}
-};
-
-// TODO: move to a dynamodb service file
-export const getCountOfStudentsFeedbacksAndResponses = async (caseID) => {
-	const feedbackParams = {
-		TableName: TABLES.FEEDBACK,
-		IndexName: "CaseIDIndex",
-		KeyConditionExpression: "caseID = :caseID",
-		ExpressionAttributeValues: {
-			":caseID": caseID,
-		},
-		Select: "COUNT", // Only count the number of items
-	};
-
-	const responsesParams = {
-		TableName: TABLES.ANSWER,
-		IndexName: "CaseIDIndex",
-		KeyConditionExpression: "caseID = :caseID",
-		ExpressionAttributeValues: {
-			":caseID": caseID,
-		},
-		Select: "COUNT", // Only count the number of items
-	};
-
-	// Get the count of feedback items
-	const feedbackCommand = new QueryCommand(feedbackParams);
-	const feedbackResult = await dbClient.send(feedbackCommand);
-	const feedbackCount = feedbackResult.Count || 0;
-
-	// Get the count of answers items
-	const responsesCommand = new QueryCommand(responsesParams);
-	const totalResponsesResult = await dbClient.send(responsesCommand);
-	const totalResponses = totalResponsesResult.Count || 0;
-
-	return {
-		feedbackCount,
-		totalResponses,
-	};
 };
