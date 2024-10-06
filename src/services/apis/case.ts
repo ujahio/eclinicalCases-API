@@ -45,13 +45,9 @@ export const addDraftCaseApi = (draftCaseData: any, token: string) => {
 	);
 };
 
-export const updateCaseApi = (caseData: any, token: string, _id: any) => {
+export const updateDraftCaseApi = (caseData: any, token: string, _id: any) => {
 	const formData = convertToFormData(caseData);
-	return caseApi.post(
-		`/update/${_id}`,
-		formData,
-		configureRequestHeaders(token)
-	);
+	return caseApi.put(`/draft/${_id}`, formData, configureRequestHeaders(token));
 };
 
 export const getArchiveCasesApi = (token: string, isRecent?: string) => {
@@ -60,8 +56,9 @@ export const getArchiveCasesApi = (token: string, isRecent?: string) => {
 	return caseApi.get(url, configureRequestHeaders(token));
 };
 
-export const getDraftCasesApi = (token: string, isRecent?: string) => {
-	return caseApi.get("/draft", configureRequestHeaders(token));
+export const getDraftCasesApi = (caseId: string, token: string) => {
+	const url = caseId ? `/draft/${caseId}` : `/draft/`;
+	return caseApi.get(url, configureRequestHeaders(token));
 };
 
 export const fetchCaseDetailsApi = (caseId: any, token: string) => {

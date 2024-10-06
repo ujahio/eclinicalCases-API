@@ -1,5 +1,10 @@
 import { v4 as uuidv4 } from "uuid";
-import { PutCommand, QueryCommand } from "@aws-sdk/lib-dynamodb";
+import {
+	PutCommand,
+	QueryCommand,
+	GetCommand,
+	UpdateCommand,
+} from "@aws-sdk/lib-dynamodb";
 
 import { TABLES } from "../services/dbTables.js";
 import uploadFileToBucket from "../services/bucket.js";
@@ -86,11 +91,13 @@ export const addDraftCase = async (event) => {
 };
 
 export const getDraftCases = async (event) => {
+	const caseId = event.pathParameters?.caseId; // Optional caseId parameter
+
 	const userToken = event.headers.authorization.split(" ")[1];
 	const userInfo = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
 	const teacherID = userInfo.id;
 
-	// TODO: evaluate required fields for draft cases
+	// Ensure the required fields are provided
 	if (!teacherID) {
 		return {
 			statusCode: 400,
@@ -101,26 +108,42 @@ export const getDraftCases = async (event) => {
 	}
 
 	try {
-		const params = {
-			TableName: TABLES.TEACHER_CASE_STUDIES,
-			IndexName: "TeacherStatusIndex",
-			KeyConditionExpression:
-				"teacherId = :teacherId AND caseStatus = :caseStatus",
-			ExpressionAttributeValues: {
-				":teacherId": teacherID,
-				":caseStatus": "draft",
-			},
-		};
+		let params;
+
+		if (caseId) {
+			// Query for a single draft case by caseId
+
+			params = {
+				TableName: TABLES.TEACHER_CASE_STUDIES,
+				KeyConditionExpression: "id = :caseId", // Primary key query
+				ExpressionAttributeValues: {
+					":caseId": caseId,
+				},
+			};
+		} else {
+			// Query for all draft cases for the teacher
+			params = {
+				TableName: TABLES.TEACHER_CASE_STUDIES,
+				IndexName: "TeacherStatusIndex",
+				KeyConditionExpression:
+					"teacherId = :teacherId AND caseStatus = :caseStatus",
+				ExpressionAttributeValues: {
+					":teacherId": teacherID,
+					":caseStatus": "draft",
+				},
+			};
+		}
 
 		const command = new QueryCommand(params);
 		const result = await dbClient.send(command);
+
 		const draftCasesResult = result.Items;
 		console.log("Draft Cases retrieved successfully", draftCasesResult);
 
 		return {
 			statusCode: 200,
 			body: JSON.stringify({
-				message: "Draft Cases retrieved successfully!",
+				message: "Draft case(s) retrieved successfully!",
 				draftCasesInfo: draftCasesResult,
 			}),
 		};
@@ -198,6 +221,143 @@ export const deleteDraftCase = async (event) => {
 		return {
 			statusCode: 500,
 			body: JSON.stringify({ error: "Error deleting case: " + error.message }),
+		};
+	}
+};
+
+export const updateDraftCase = async (event) => {
+	// Extract form data and case ID from the event
+	const caseData = await extrapolateFormData(event);
+	const caseID = event.pathParameters.caseID;
+	const userToken = event.headers.authorization.split(" ")[1];
+	const { id: userId } = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
+
+	// Validate that caseID is present
+	if (!caseID) {
+		return {
+			statusCode: 400,
+			body: JSON.stringify({ error: "Missing case ID in the request URL." }),
+		};
+	}
+
+	const getCaseParams = {
+		TableName: TABLES.TEACHER_CASE_STUDIES,
+		Key: { id: caseID }, // Fetch by primary key
+	};
+
+	try {
+		// Fetch the case by ID
+		const command = new GetCommand(getCaseParams);
+		const result = await dbClient.send(command);
+		const caseItem = result.Item;
+
+		// If no case is found, return 404
+		if (!caseItem) {
+			return {
+				statusCode: 404,
+				body: JSON.stringify({ error: "Case not found" }),
+			};
+		}
+
+		// Check if the case belongs to the current user (teacher)
+		if (caseItem.teacherId !== userId) {
+			return {
+				statusCode: 403,
+				body: JSON.stringify({
+					error: "You do not have permission to update this case.",
+				}),
+			};
+		}
+
+		// Prepare caseDeadline and caseMaterials if provided
+		const caseDeadline = caseData.caseDeadline
+			? new Date(caseData.caseDeadline).toISOString()
+			: undefined;
+		const caseMaterials = event.files
+			? event.files.map((file) => ({
+					filename: file.originalname,
+					filePath: file.location,
+			  }))
+			: [];
+
+		// Prepare the update expression and dynamic attributes
+		let updateExpression = "SET ";
+		let expressionAttributeValues = {};
+		let expressionAttributeNames = {};
+
+		// List of fields that can be updated
+		const updatableFields = [
+			"caseClue",
+			"caseDescription",
+			"caseTopic",
+			"caseExplanation",
+			"caseQuestions",
+		];
+
+		// Loop through updatable fields and build the update expression
+		updatableFields.forEach((field) => {
+			if (caseData[field] !== undefined) {
+				const attributeName = `#${field}`;
+				const attributeValue = `:${field}`;
+
+				updateExpression += `${attributeName} = ${attributeValue}, `;
+				expressionAttributeNames[attributeName] = field;
+				expressionAttributeValues[attributeValue] =
+					field === "caseQuestions"
+						? JSON.parse(caseData[field])
+						: caseData[field];
+			}
+		});
+
+		// If case materials are provided, update them
+		if (caseMaterials.length > 0) {
+			const existingCaseMaterials = caseItem.caseMaterials || [];
+			const updatedCaseMaterials = [...existingCaseMaterials, ...caseMaterials];
+			updateExpression += "#caseMaterials = :caseMaterials, ";
+			expressionAttributeNames["#caseMaterials"] = "caseMaterials";
+			expressionAttributeValues[":caseMaterials"] = updatedCaseMaterials;
+		}
+
+		// If caseDeadline is provided, update it
+		if (caseDeadline) {
+			updateExpression += "#caseDeadline = :caseDeadline, ";
+			expressionAttributeNames["#caseDeadline"] = "caseDeadline";
+			expressionAttributeValues[":caseDeadline"] = caseDeadline;
+		}
+
+		// Remove trailing comma and space from updateExpression
+		updateExpression = updateExpression.slice(0, -2);
+
+		// Construct the update command for DynamoDB
+		const updateParams = {
+			TableName: TABLES.TEACHER_CASE_STUDIES, // Corrected table reference
+			Key: { id: caseID },
+			UpdateExpression: updateExpression,
+			ExpressionAttributeValues: expressionAttributeValues,
+			ExpressionAttributeNames: expressionAttributeNames,
+			ReturnValues: "UPDATED_NEW", // Return only updated attributes
+		};
+
+		// Send update command to DynamoDB
+		const updateCommand = new UpdateCommand(updateParams);
+		const updateResult = await dbClient.send(updateCommand);
+
+		// Return success response with updated attributes
+		return {
+			statusCode: 200,
+			body: JSON.stringify({
+				message: "Case updated successfully.",
+				data: updateResult.Attributes,
+			}),
+		};
+	} catch (error) {
+		// Catch and log errors, return a 500 status code with error details
+		console.error("Error updating case: ", error);
+		return {
+			statusCode: 500,
+			body: JSON.stringify({
+				error: `Could not update case: ${error.message}`,
+			}),
 		};
 	}
 };

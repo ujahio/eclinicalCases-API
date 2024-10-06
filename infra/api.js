@@ -87,10 +87,10 @@ api.route("GET /api/case/ongoing-case", {
 // 	handler: "server/controllers/case.controller.addCase",
 // 	link: links,
 // 	memory: "2048 MB",
-// 	// binaryMediaTypes: ["*/*"],
+// binaryMediaTypes: ["*/*"],
 // });
 
-api.route("GET /api/case/draft", {
+api.route("GET /api/case/draft/{caseId}", {
 	handler: "server/controllers/handleDraftCases.getDraftCases",
 	link: links,
 });
@@ -104,8 +104,8 @@ api.route("DELETE /api/case/delete-case/{caseID}", {
 	handler: "server/controllers/handleDraftCases.deleteDraftCase",
 	link: links,
 });
-api.route("POST /api/case/update/{caseID}", {
-	handler: "server/controllers/case.controller.updateCase",
+api.route("PUT /api/case/draft/{caseID}", {
+	handler: "server/controllers/handleDraftCases.updateDraftCase",
 	link: links,
 });
 api.route("POST /api/case/duplicate", {
