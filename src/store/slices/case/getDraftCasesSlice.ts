@@ -4,11 +4,11 @@ import { RootState } from "@/store/rootReducer/rootReducer";
 
 export const getDraftCases = createAsyncThunk(
 	"case/getDraftCases",
-	async (_, thunkAPI) => {
+	async (caseId, thunkAPI) => {
 		try {
 			const state = thunkAPI.getState() as RootState;
 			const token = state?.login?.user?.token;
-			const { data } = await getDraftCasesApi(token);
+			const { data } = await getDraftCasesApi(caseId, token);
 			return data;
 		} catch (error: any) {
 			return thunkAPI.rejectWithValue({

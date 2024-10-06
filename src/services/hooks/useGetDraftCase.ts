@@ -5,12 +5,12 @@ import {
 	resetGetDraftCasesStatus,
 } from "@/store/slices/case/getDraftCasesSlice";
 
-const useGetDraftCases = () => {
+const useGetDraftCases = (caseId?: string) => {
 	const getDraftCasesState = useAppSelector((state) => state.getDraftCases);
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
-		dispatch(getDraftCases());
+		dispatch(getDraftCases(caseId));
 	}, []);
 
 	useEffect(() => {

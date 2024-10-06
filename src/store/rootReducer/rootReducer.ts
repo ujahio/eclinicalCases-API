@@ -2,7 +2,7 @@ import { combineReducers } from "@reduxjs/toolkit";
 import loginSlice from "../slices/auth/loginSlice";
 import signupSlice from "../slices/auth/signupSlice";
 import addCaseSlice from "../slices/case/addCaseSlice";
-import updateCaseSlice from "../slices/case/updateCaseSlice";
+import updateDraftCaseSlice from "../slices/case/updateDraftCaseSlice";
 import getArchiveCasesSlice from "../slices/case/getArchiveCasesSlice";
 import caseDetailsSlice from "../slices/case/caseDetailsSlice";
 import SubmitCaseResponseSlice from "../slices/student/SubmitCaseResponseSlice";
@@ -24,7 +24,7 @@ const rootReducer = combineReducers({
 	changePassword: changePasswordSlice,
 	// case
 	addCase: addCaseSlice,
-	updateCase: updateCaseSlice,
+	updateDraftCase: updateDraftCaseSlice,
 	getArchiveCases: getArchiveCasesSlice,
 	caseDetails: caseDetailsSlice,
 	onGoingCase: onGoingCaseSlice,
