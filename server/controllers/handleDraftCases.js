@@ -4,6 +4,7 @@ import {
 	QueryCommand,
 	GetCommand,
 	UpdateCommand,
+	DeleteCommand,
 } from "@aws-sdk/lib-dynamodb";
 
 import { TABLES } from "../services/dbTables.js";
