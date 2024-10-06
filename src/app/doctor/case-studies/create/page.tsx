@@ -29,8 +29,9 @@ const initialCaseStudy: CaseStudy = {
 			correctAnswer: 0,
 		},
 	],
-	draft: false,
+	caseStatus: "draft",
 	caseMaterials: [],
+	shouldPublish: false,
 };
 
 const Create = () => {
@@ -50,9 +51,14 @@ const Create = () => {
 		switchTab(next);
 		setProgress(next);
 	};
-	const handleAddCase = (draft = false) => {
-		setCaseStudy({ ...caseStudy, draft: draft });
-		dispatch(addCase({ ...caseStudy, draft }));
+	const handleAddCase = () => {
+		setCaseStudy(caseStudy);
+		dispatch(addCase(caseStudy));
+	};
+
+	const handlePublishCase = () => {
+		setCaseStudy({ ...caseStudy, shouldPublish: true });
+		dispatch(addCase({ ...caseStudy, shouldPublish: true }));
 	};
 	useEffect(() => {
 		if (addCaseState.status === "succeeded") {
@@ -80,6 +86,7 @@ const Create = () => {
 			caseStudy={caseStudy}
 			setCaseStudy={setCaseStudy}
 			handleAddCase={handleAddCase}
+			handlePublishCase={handlePublishCase}
 		/>
 	);
 };

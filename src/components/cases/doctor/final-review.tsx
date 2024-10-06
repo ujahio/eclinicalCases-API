@@ -9,6 +9,7 @@ const FinalReview = ({
 	goNext,
 	caseStudy,
 	handleAddCase,
+	handlePublishCase,
 }: FinalReviewProps) => {
 	const parseEditorState = (data: string) => {
 		try {
@@ -25,6 +26,8 @@ const FinalReview = ({
 	const addingDraftCaseStatus = useAppSelector(
 		(state) => state.getDraftCases.status
 	);
+
+	const addCaseStatus = useAppSelector((state) => state.addCase.status);
 	const publishedCaseInfo = useAppSelector((state) => state.onGoingCase.data);
 
 	return (
@@ -95,12 +98,7 @@ const FinalReview = ({
 					!publishedCaseInfo ? "sm:grid-cols-2" : ""
 				} grid-cols-1 gap-4`}
 			>
-				<Button
-					btnStyle="outline"
-					size="lg"
-					centralize
-					onClick={() => handleAddCase(true)}
-				>
+				<Button btnStyle="outline" size="lg" centralize onClick={handleAddCase}>
 					{addingDraftCaseStatus === "loading"
 						? "Loading..."
 						: "Save As a Draft..."}
@@ -108,10 +106,10 @@ const FinalReview = ({
 				{!publishedCaseInfo && (
 					<Button
 						size="lg"
-						onClick={() => handleAddCase(false)}
+						onClick={handlePublishCase}
 						disabled={!!publishedCaseInfo}
 					>
-						{!caseStudy.draft && addCaseState === "loading"
+						{addCaseStatus === "loading"
 							? "Loading..."
 							: "POST TO ALL STUDENTS"}
 					</Button>

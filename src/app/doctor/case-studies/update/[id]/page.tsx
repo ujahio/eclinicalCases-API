@@ -1,5 +1,8 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 import UpdateCaseStudy from "@/presentation/doctor/UpdateCaseStudy";
 import { createCaseStudyTabs } from "@/services/constants";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
@@ -10,6 +13,7 @@ import {
 	resetGetDraftCasesStatus,
 	updateDraftCase,
 } from "@/store/slices/case/updateDraftCaseSlice";
+import { addCase } from "@/store/slices/case/addCaseSlice";
 
 const initialCaseStudy: CaseStudy = {
 	caseClue: "",
@@ -24,7 +28,7 @@ const initialCaseStudy: CaseStudy = {
 			correctAnswer: 0,
 		},
 	],
-	caseStatus: false,
+	caseStatus: "draft",
 	caseMaterials: [],
 };
 
@@ -39,7 +43,10 @@ const formatDateToYYYYMMDD = (dateString: any) => {
 
 const Update = ({ params }: any) => {
 	const dispatch = useAppDispatch();
+	const navigate = useRouter();
+
 	const getDraftCasesState = useAppSelector((state) => state.getDraftCases);
+	const addCaseState = useAppSelector((state) => state.addCase);
 
 	const {
 		active: activeTab,
@@ -69,6 +76,11 @@ const Update = ({ params }: any) => {
 		dispatch(updateDraftCase({ caseData: updatedCaseData, _id: params.id }));
 	};
 
+	const handlePublishCase = () => {
+		setCaseStudy({ ...caseStudy, shouldPublish: true });
+		dispatch(addCase({ ...caseStudy, shouldPublish: true }));
+	};
+
 	useEffect(() => {
 		if (getDraftCasesState.status === "succeeded") {
 			dispatch(resetGetDraftCasesStatus());
@@ -82,15 +94,27 @@ const Update = ({ params }: any) => {
 				caseDeadline: draftCaseDetails.caseDeadline
 					? formatDateToYYYYMMDD(draftCaseDetails.caseDeadline)
 					: "",
-				caseQuestions: draftCaseDetails.caseQuestions || [],
-				caseStatus: draftCaseDetails.caseStatus === "draft",
-				caseMaterials: [], // Initialize caseMaterials as an empty array
+				caseQuestions: draftCaseDetails.caseQuestions
+					? draftCaseDetails.caseQuestions
+					: [],
+				caseStatus: draftCaseDetails.caseStatus,
+				caseMaterials: [],
 			};
 
 			setCaseStudy(updatedCaseStudy);
 			setPrevCaseMaterials(draftCaseDetails.caseMaterials || []); // Set prevCaseMaterials
 
-			dispatch(resetGetDraftCasesStatus());
+			toast.success(addCaseState.newCase.message, {
+				position: "top-right",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "light",
+			});
+			navigate.push("/doctor/dashboard");
 		}
 	}, [getDraftCasesState.status, dispatch]);
 
@@ -106,6 +130,7 @@ const Update = ({ params }: any) => {
 			prevCaseMaterials={prevCaseMaterials}
 			setPrevCaseMaterials={setPrevCaseMaterials}
 			handleUpdateCase={handleUpdateCase}
+			handlePublishCase={handlePublishCase}
 		/>
 	);
 };

@@ -70,9 +70,7 @@ const DoctorCaseAnswer = ({
 				btnStyle="outline"
 				size="lg"
 				centralize
-				onClick={() => {
-					handleAddCase && handleAddCase(true);
-				}}
+				onClick={handleAddCase}
 				className="w-full mb-3"
 			>
 				{addingDraftCaseStatus === "loading"

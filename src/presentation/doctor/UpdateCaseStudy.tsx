@@ -24,6 +24,7 @@ const UpdateCaseStudy = ({
 	prevCaseMaterials,
 	setPrevCaseMaterials,
 	handleUpdateCase,
+	handlePublishCase,
 }: UpdateCaseStudyProps) => {
 	return (
 		<AdminLayout
@@ -88,6 +89,7 @@ const UpdateCaseStudy = ({
 						goNext={goNext}
 						caseStudy={caseStudy}
 						handleAddCase={handleUpdateCase}
+						handlePublishCase={handlePublishCase}
 					/>
 				)}
 			</div>

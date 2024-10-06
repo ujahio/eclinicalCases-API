@@ -12,8 +12,9 @@ export interface CaseStudy {
 	caseExplanation: string;
 	caseDeadline: string;
 	caseQuestions: CaseQuestion[];
-	caseStatus: boolean;
+	caseStatus: string;
 	caseMaterials: any[];
+	shouldPublish?: boolean;
 }
 
 export interface CreateCaseStudyProps {
@@ -25,13 +26,14 @@ export interface CreateCaseStudyProps {
 	caseStudy: CaseStudy;
 	setCaseStudy: React.Dispatch<React.SetStateAction<CaseStudy>>;
 	handleAddCase: handleAddCaseType;
+	handlePublishCase: React.Dispatch<React.SetStateAction<any>>;
 }
 
 export interface DoctorCaseQuestionProps {
 	goNext: () => void;
 	caseStudy: CaseStudy;
 	setCaseStudy: React.Dispatch<React.SetStateAction<CaseStudy>>;
-	handleAddCase?: handleAddCaseType;
+	handleAddCase: handleAddCaseType;
 }
 export interface DoctorCaseAnswerProps extends DoctorCaseQuestionProps {}
 export interface DoctorMaterialsAndDeadlineProps
@@ -41,6 +43,7 @@ export interface FinalReviewProps {
 	goNext: () => void;
 	caseStudy: CaseStudy;
 	handleAddCase: handleAddCaseType;
+	handlePublishCase: React.Dispatch<React.SetStateAction<any>>;
 }
 
 export interface UpdateCaseStudyProps {
@@ -54,4 +57,5 @@ export interface UpdateCaseStudyProps {
 	prevCaseMaterials: File[];
 	setPrevCaseMaterials: React.Dispatch<React.SetStateAction<File[]>>;
 	handleUpdateCase: any;
+	handlePublishCase: React.Dispatch<React.SetStateAction<any>>;
 }
