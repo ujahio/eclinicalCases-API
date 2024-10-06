@@ -65,8 +65,8 @@ export const fetchCaseDetailsApi = (caseId: any, token: string) => {
 	return caseApi.get(`/details/${caseId}`, configureRequestHeaders(token));
 };
 
-export const fetchOngoingCasesApi = (token: string) => {
-	return caseApi.get(`/ongoing-case`, configureRequestHeaders(token));
+export const fetchActiveCaseApi = (token: string) => {
+	return caseApi.get("/active-case", configureRequestHeaders(token));
 };
 export const deleteCaseApi = (caseId: string, token: string) => {
 	return caseApi.delete(

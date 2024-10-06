@@ -79,8 +79,8 @@ api.route("GET /api/case/archived-cases/{caseFilter}", {
 	handler: "server/controllers/handleArchivedCases.getArchivedCases",
 	link: links,
 });
-api.route("GET /api/case/ongoing-case", {
-	handler: "server/controllers/handleOngoingCase.getOngoingCase",
+api.route("GET /api/case/active-case", {
+	handler: "server/controllers/handleActiveCase.getActiveCase",
 	link: links,
 });
 // api.route("POST /api/case/add", {

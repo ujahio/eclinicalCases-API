@@ -1,4 +1,4 @@
-import { UpdateCommand, QueryCommand } from "@aws-sdk/lib-dynamodb";
+import { QueryCommand } from "@aws-sdk/lib-dynamodb";
 
 import { TABLES } from "../services/dbTables.js";
 import uploadFileToBucket from "../services/bucket.js";
@@ -6,7 +6,7 @@ import dbClient from "../services/dbClient.js";
 import SECRETS from "../services/secrets.js";
 import { verifyToken } from "./case.controller.js"; // todo: move utils function to util fild/folder
 
-export const getOngoingCase = async (event) => {
+export const getActiveCase = async (event) => {
 	const userToken = event.headers.authorization.split(" ")[1];
 	const userInfo = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
 	if (userInfo.roles === "student") {
@@ -75,6 +75,7 @@ const getOngoingCaseForTeacher = async (userInfo) => {
 	}
 };
 
+// TODO: move to a dynamodb service file
 export const getCountOfStudentsFeedbacksAndResponses = async (caseID) => {
 	const feedbackParams = {
 		TableName: TABLES.FEEDBACK,

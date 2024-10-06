@@ -21,17 +21,17 @@ const DoctorDashboard = () => {
 	const archivedCasesState = useAppSelector(
 		(state) => state.getArchiveCases.cases
 	);
-	const publishedCaseInfo = useAppSelector((state) => state.onGoingCase.data);
+	const publishedCaseInfo = useAppSelector((state) => state.activeCase.data);
 
 	const archivedCases =
 		archivedCasesState?.map((caseItem: any) => ({
 			_id: caseItem.id,
-			title: caseItem.caseTopic,
 			description: JSON.parse(caseItem.caseDescription).blocks[0].text,
-			deadline: formatDate(caseItem.caseDeadline),
-			created: formatDate(caseItem.createdAt),
+			caseDeadline: formatDate(caseItem.caseDeadline),
+			createdAt: formatDate(caseItem.createdAt),
 			feedbackCount: caseItem.feedbackCount,
 			totalResponses: caseItem.totalResponses,
+			caseTopic: caseItem.caseTopic,
 		})) || null;
 
 	return (

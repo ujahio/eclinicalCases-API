@@ -28,7 +28,7 @@ const FinalReview = ({
 	);
 
 	const addCaseStatus = useAppSelector((state) => state.addCase.status);
-	const publishedCaseInfo = useAppSelector((state) => state.onGoingCase.data);
+	const publishedCaseInfo = useAppSelector((state) => state.activeCase.data);
 
 	return (
 		<>

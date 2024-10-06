@@ -1,14 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { fetchOngoingCasesApi } from "@/services/apis/case";
+import { fetchActiveCaseApi } from "@/services/apis/case";
 import { RootState } from "@/store/rootReducer/rootReducer";
 
-export const fetchOngoingCases = createAsyncThunk(
-	"cases/fetchOngoingCases",
+export const getActiveCase = createAsyncThunk(
+	"cases/getActiveCase",
 	async (_, thunkAPI) => {
 		try {
 			const state = thunkAPI.getState() as RootState;
 			const token = state?.login?.user?.token;
-			const { data } = await fetchOngoingCasesApi(token);
+			const { data } = await fetchActiveCaseApi(token);
 			return data;
 		} catch (error: any) {
 			return thunkAPI.rejectWithValue(error.response.data);
@@ -39,14 +39,14 @@ const onGoingCaseSlice = createSlice({
 	},
 	extraReducers: (builder) => {
 		builder
-			.addCase(fetchOngoingCases.pending, (state) => {
+			.addCase(getActiveCase.pending, (state) => {
 				state.status = "loading";
 			})
-			.addCase(fetchOngoingCases.fulfilled, (state, action) => {
+			.addCase(getActiveCase.fulfilled, (state, action) => {
 				state.status = "succeeded";
 				state.data = action.payload.caseInfo;
 			})
-			.addCase(fetchOngoingCases.rejected, (state, action: any) => {
+			.addCase(getActiveCase.rejected, (state, action: any) => {
 				state.status = "failed";
 				state.error = action.payload;
 			});

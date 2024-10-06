@@ -7,7 +7,7 @@ import dbClient from "../services/dbClient.js";
 import SECRETS from "../services/secrets.js";
 import { extrapolateFormData } from "../utils/api_utils.js";
 import { verifyToken } from "./case.controller.js"; // todo: move utils function to util fild/folder
-import { getCountOfStudentsFeedbacksAndResponses } from "./handleOngoingCase.js";
+import { getCountOfStudentsFeedbacksAndResponses } from "./handleActiveCase.js";
 
 export const getArchivedCases = async (event) => {
 	const userToken = event.headers.authorization.split(" ")[1];
@@ -42,9 +42,13 @@ export const getArchivedCases = async (event) => {
 			params.Limit = 3;
 		}
 
+		console.log("params***", params);
+
 		const command = new QueryCommand(params);
 		const result = await dbClient.send(command);
 		const archivedCases = result.Items;
+
+		console.log("archivedCases***", archivedCases);
 
 		const archivedCasesResults = await Promise.all(
 			archivedCases.map(async (c) => {
