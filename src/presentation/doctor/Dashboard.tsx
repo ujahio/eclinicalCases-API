@@ -55,9 +55,25 @@ const DoctorDashboard = () => {
 					</div>
 				</div>
 				<div className="mt-14">
-					<h5 className="text-1sm sm:text-base text-dark uppercase mb-3.75">
-						ONGOING CASE STUDY
-					</h5>
+					<div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 sm:mb-1">
+						<h5 className="text-1sm sm:text-base text-dark uppercase">
+							ONGOING CASE STUDY
+						</h5>
+						<div className="min-w-min inline-block">
+							<div className="flex">
+								<Link href="/doctor/case-studies/create">
+									<Button
+										btnStyle="basic"
+										type="button"
+										size="md"
+										className="mr-1 bg-primary-300"
+									>
+										Create New Case
+									</Button>
+								</Link>
+							</div>
+						</div>
+					</div>
 
 					<div className="w-full px-6 py-8 sm:px-8 sm:py-10 md:px-10 md:py-12 ongoing-case flex flex-col sm:flex-row sm:items-center justify-between flex-wrap text-white rounded-sm">
 						{publishedCaseInfo ? (
@@ -114,7 +130,7 @@ const DoctorDashboard = () => {
 							<p className="text-white">There is currently no published case</p>
 						)}
 
-						<div className="min-w-min inline-block">
+						{/* <div className="min-w-min inline-block">
 							<div className="flex">
 								<Link href="/doctor/case-studies/create">
 									<Button
@@ -123,7 +139,7 @@ const DoctorDashboard = () => {
 										btnStyle="white"
 										className="mr-1"
 									>
-										Create New Case
+										View Case Study
 									</Button>
 								</Link>
 								<div>
@@ -142,7 +158,7 @@ const DoctorDashboard = () => {
 									</AppDropdown>
 								</div>
 							</div>
-						</div>
+						</div> */}
 					</div>
 				</div>
 				<div className="mt-14">
