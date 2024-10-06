@@ -17,7 +17,9 @@ const DoctorCaseStudies = ({ handleDeleteCase }: IProps) => {
 	const draftCases = draftCasesState.map((caseItem: any) => ({
 		_id: caseItem.id,
 		caseTopic: caseItem.caseTopic,
-		description: JSON.parse(caseItem.caseDescription).blocks[0].text,
+		description: caseItem.caseDescription
+			? JSON.parse(caseItem.caseDescription).blocks[0].text
+			: "",
 		caseDeadline: formatDate(caseItem.caseDeadline),
 		createdAt: formatDate(caseItem.createdAt),
 		caseStatus: caseItem.caseStatus,

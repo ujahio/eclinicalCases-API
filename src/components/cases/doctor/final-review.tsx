@@ -22,7 +22,9 @@ const FinalReview = ({
 	const caseDescription = parseEditorState(caseStudy.caseDescription || "{}");
 	const caseExplanation = parseEditorState(caseStudy.caseExplanation || "{}");
 
-	const addCaseState = useAppSelector((state) => state.addCase.status);
+	const addingDraftCaseStatus = useAppSelector(
+		(state) => state.getDraftCases.status
+	);
 	const publishedCaseInfo = useAppSelector((state) => state.onGoingCase.data);
 
 	return (
@@ -62,7 +64,7 @@ const FinalReview = ({
 					FURTHER LEARNING MATERIALS
 				</h3>
 				<ul className="flex flex-col w-full space-y-3 mb-9">
-					{caseStudy.caseMaterials.map((material: any, index: number) => (
+					{caseStudy.caseMaterials?.map((material: any, index: number) => (
 						<li key={index}>
 							<a
 								href={material.url}
@@ -99,7 +101,7 @@ const FinalReview = ({
 					centralize
 					onClick={() => handleAddCase(true)}
 				>
-					{caseStudy.draft && addCaseState === "loading"
+					{addingDraftCaseStatus === "loading"
 						? "Loading..."
 						: "Save As a Draft..."}
 				</Button>

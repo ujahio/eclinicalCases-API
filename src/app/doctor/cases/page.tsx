@@ -8,7 +8,7 @@ import {
 	deleteCase,
 	resetDeleteCaseStatus,
 } from "@/store/slices/case/deleteCaseSlice";
-import useGetDraftCases from "@/services/hooks/useGetDraftCases";
+import useGetDraftCase from "@/services/hooks/useGetDraftCase";
 import { getDraftCases } from "@/store/slices/case/getDraftCasesSlice";
 
 const DoctorCaseStudies = dynamic(
@@ -22,19 +22,16 @@ const Page = () => {
 	const deleteCaseState = useAppSelector((state) => state.deleteCase);
 	const dispatch = useAppDispatch();
 
-	useGetDraftCases();
+	useGetDraftCase();
 	// TODO: need to retrieve archived cases
 
 	const handleDeleteCase = (caseId: string) => {
 		dispatch(deleteCase(caseId));
 	};
-	const { handleGetAllCases } = useGetArchiveCases();
+
 	useEffect(() => {
 		if (deleteCaseState.status === "succeeded") {
 			dispatch(resetDeleteCaseStatus());
-			// handleGetAllCases();
-
-			// remove the case from the list of draft cases in state
 			dispatch(getDraftCases());
 		}
 	}, [deleteCaseState.status, dispatch]);
