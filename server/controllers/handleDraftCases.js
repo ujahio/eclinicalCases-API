@@ -20,22 +20,22 @@ export const addDraftCase = async (event) => {
 	const userInfo = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
 	const teacherID = userInfo.id;
 
+	// possible use coginito authorizer
+	if (!userInfo && userInfo.roles !== "teacher") {
+		return {
+			statusCode: 400,
+			body: JSON.stringify({
+				message: "Not authorized to use this resource",
+			}),
+		};
+	}
+
 	// TODO: evaluate required fields for draft cases
 	if (!teacherID || !draftCaseData.caseClue) {
 		return {
 			statusCode: 400,
 			body: JSON.stringify({
 				message: "Invalid input: missing required fields",
-			}),
-		};
-	}
-
-	// possible use coginito authorizer
-	if (userInfo.roles !== "teacher") {
-		return {
-			statusCode: 400,
-			body: JSON.stringify({
-				message: "Unauthorized user",
 			}),
 		};
 	}
@@ -92,18 +92,16 @@ export const addDraftCase = async (event) => {
 };
 
 export const getDraftCases = async (event) => {
-	const caseId = event.pathParameters?.caseId; // Optional caseId parameter
-
+	const caseId = event.pathParameters?.caseId;
 	const userToken = event.headers.authorization.split(" ")[1];
 	const userInfo = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
 	const teacherID = userInfo.id;
 
-	// Ensure the required fields are provided
-	if (!teacherID) {
+	if (!userInfo && !(roles === "teacher")) {
 		return {
 			statusCode: 400,
 			body: JSON.stringify({
-				message: "Invalid input: missing required fields",
+				message: "Not authorized to use this resource",
 			}),
 		};
 	}
@@ -163,7 +161,17 @@ export const deleteDraftCase = async (event) => {
 	try {
 		const caseID = event.pathParameters.caseID;
 		const userToken = event.headers.authorization.split(" ")[1];
-		const { id: teacherId } = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
+		const userInfo = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
+		const { id: teacherId } = userInfo;
+
+		if (!userInfo && !(roles === "teacher")) {
+			return {
+				statusCode: 400,
+				body: JSON.stringify({
+					message: "Not authorized to use this resource",
+				}),
+			};
+		}
 
 		// Validate caseID
 		if (!caseID) {
@@ -227,11 +235,21 @@ export const deleteDraftCase = async (event) => {
 };
 
 export const updateDraftCase = async (event) => {
-	// Extract form data and case ID from the event
 	const caseData = await extrapolateFormData(event);
 	const caseID = event.pathParameters.caseID;
 	const userToken = event.headers.authorization.split(" ")[1];
-	const { id: userId } = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
+	const userInfo = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
+	const { id: userId, roles } = userInfo;
+
+	// Possible use of Cognito authorizer
+	if (!userInfo && !(roles === "teacher")) {
+		return {
+			statusCode: 400,
+			body: JSON.stringify({
+				message: "Not authorized to use this resource",
+			}),
+		};
+	}
 
 	// Validate that caseID is present
 	if (!caseID) {
@@ -243,7 +261,7 @@ export const updateDraftCase = async (event) => {
 
 	const getCaseParams = {
 		TableName: TABLES.TEACHER_CASE_STUDIES,
-		Key: { id: caseID }, // Fetch by primary key
+		Key: { id: caseID },
 	};
 
 	try {
@@ -252,7 +270,6 @@ export const updateDraftCase = async (event) => {
 		const result = await dbClient.send(command);
 		const caseItem = result.Item;
 
-		// If no case is found, return 404
 		if (!caseItem) {
 			return {
 				statusCode: 404,
