@@ -1,14 +1,17 @@
 "use client";
 
-import ResponsesAndFeedback from "@/presentation/doctor/ResponsesAndFeedback";
 import React from "react";
+import dynamic from "next/dynamic";
 
-const ResponseFeedback = () => {
-  return (
-    <div>
-      <ResponsesAndFeedback />
-    </div>
-  );
+const ResponsesAndFeedbackPage = dynamic(
+	() => import("@/presentation/doctor/ResponsesAndFeedback"),
+	{
+		ssr: false,
+	}
+);
+
+const Page = () => {
+	return <ResponsesAndFeedbackPage />;
 };
 
-export default ResponseFeedback;
+export default Page;

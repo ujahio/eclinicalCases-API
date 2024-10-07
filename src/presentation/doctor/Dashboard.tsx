@@ -5,7 +5,6 @@ import AdminLayout from "@/components/layouts/dashboard/admin";
 import Image from "next/image";
 import Link from "next/link";
 import Button from "@/components/ui/Button";
-import AppDropdown, { AppDropdownItem } from "@/components/ui/Dropdown";
 import { useAppSelector } from "@/services/hooks/hooks";
 import { formatDate } from "@/utils/formatDate";
 import ResponseFeedbackModal from "@/components/modals/response-feedback-modal";
@@ -129,36 +128,22 @@ const DoctorDashboard = () => {
 						) : (
 							<p className="text-white">There is currently no published case</p>
 						)}
-
-						{/* <div className="min-w-min inline-block">
-							<div className="flex">
-								<Link href="/doctor/case-studies/create">
-									<Button
-										type="button"
-										size="md"
-										btnStyle="white"
-										className="mr-1"
-									>
-										View Case Study
-									</Button>
-								</Link>
-								<div>
-									<button className="h-8 sm:h-10 border-2 border-white w-10 rounded-sm focus:outline-none">
-										<div className="w-0.8 h-0.8 sm:w-1 sm:h-1 rounded-xs bg-white mb-1 mx-auto" />
-										<div className="w-0.8 h-0.8 sm:w-1 sm:h-1 rounded-xs bg-white mb-1 mx-auto" />
-										<div className="w-0.8 h-0.8 sm:w-1 sm:h-1 rounded-xs bg-white mx-auto" />
-									</button>
-									<AppDropdown>
-										<Link href="/case-studies/create">
-											<AppDropdownItem>Start From Scratch</AppDropdownItem>
-										</Link>
-										<AppDropdownItem>
-											Create From an Existing Case
-										</AppDropdownItem>
-									</AppDropdown>
+						{publishedCaseInfo && (
+							<div className="min-w-min inline-block">
+								<div className="flex">
+									<Link href="/doctor/responses-feedback">
+										<Button
+											type="button"
+											size="md"
+											btnStyle="white"
+											className="mr-1"
+										>
+											INFO
+										</Button>
+									</Link>
 								</div>
 							</div>
-						</div> */}
+						)}
 					</div>
 				</div>
 				<div className="mt-14">
@@ -171,18 +156,17 @@ const DoctorDashboard = () => {
 								href="/doctor/cases"
 								className="text-dark font-medium text-sm sm:text-1sm cursor-pointer transition-colors hover:text-primary-300"
 							>
-								View all
-								{/* ({cases?.length || 0}) */}
+								View All
 							</Link>
 						) : null}
 					</div>
 					<ul className="grid grid-cols-items gap-5 md:gap-6.25">
 						{archivedCases?.length === 0
-							? "No recent cases found!!!"
+							? "No archived cases found."
 							: archivedCases?.map((caseM: any, index: number) => (
-									// <Link href="/responses-feedback" key={index}>
-									<CaseCard case={caseM} key={caseM._id} />
-									// </Link>
+									<Link href="/doctor/responses-feedback" key={index}>
+										<CaseCard case={caseM} key={caseM._id} />
+									</Link>
 							  ))}
 					</ul>
 				</div>
