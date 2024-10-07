@@ -3,11 +3,13 @@
 import React, { useEffect } from "react";
 import dynamic from "next/dynamic";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
-import useAllCases from "@/services/hooks/useAllCases";
+import useGetArchiveCases from "@/services/hooks/useGetArchiveCases";
 import {
 	deleteCase,
 	resetDeleteCaseStatus,
 } from "@/store/slices/case/deleteCaseSlice";
+import useGetDraftCase from "@/services/hooks/useGetDraftCase";
+import { getDraftCases } from "@/store/slices/case/getDraftCasesSlice";
 
 const DoctorCaseStudies = dynamic(
 	() => import("@/presentation/doctor/CaseStudies"),
@@ -20,14 +22,17 @@ const Page = () => {
 	const deleteCaseState = useAppSelector((state) => state.deleteCase);
 	const dispatch = useAppDispatch();
 
+	useGetDraftCase();
+	useGetArchiveCases();
+
 	const handleDeleteCase = (caseId: string) => {
 		dispatch(deleteCase(caseId));
 	};
-	const { handleGetAllCases } = useAllCases();
+
 	useEffect(() => {
 		if (deleteCaseState.status === "succeeded") {
 			dispatch(resetDeleteCaseStatus());
-			handleGetAllCases();
+			dispatch(getDraftCases("")); // ugly fix for type error
 		}
 	}, [deleteCaseState.status, dispatch]);
 	return <DoctorCaseStudies handleDeleteCase={handleDeleteCase} />;

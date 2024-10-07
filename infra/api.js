@@ -14,6 +14,7 @@ import {
 	Answers,
 	Certificates,
 	StudentCaseAttempts,
+	TeacherCaseStudies,
 } from "./dynamo";
 
 const links = [
@@ -23,6 +24,7 @@ const links = [
 	Answers,
 	Certificates,
 	StudentCaseAttempts,
+	TeacherCaseStudies,
 	NEXT_JWT_SECRET,
 	NEXT_PUBLIC_PASS_SECRET_KEY,
 	NEXT_PUBLIC_BASE_URL,
@@ -73,30 +75,46 @@ api.route("GET /api/case/details/{caseID}", {
 	handler: "server/controllers/case.controller.getCase",
 	link: links,
 });
-api.route("GET /api/case/all/{caseStatus}", {
-	handler: "server/controllers/case.controller.getCases",
+api.route("GET /api/case/archived/{caseFilter}", {
+	handler: "server/controllers/handleArchivedCases.getArchivedCases",
 	link: links,
 });
-api.route("GET /api/case/ongoing-case", {
-	handler: "server/controllers/case.controller.getOngoingCase",
+api.route("GET /api/case/active", {
+	handler: "server/controllers/handleActiveCase.getActiveCase",
 	link: links,
 });
-api.route("POST /api/case/add", {
-	handler: "server/controllers/case.controller.addCase",
+// api.route("POST /api/case/add", {
+// 	handler: "server/controllers/case.controller.addCase",
+// 	link: links,
+// 	memory: "2048 MB",
+// binaryMediaTypes: ["*/*"],
+// });
+
+api.route("GET /api/case/draft/{caseId}", {
+	handler: "server/controllers/handleDraftCases.getDraftCases",
+	link: links,
+});
+
+api.route("POST /api/case/draft", {
+	handler: "server/controllers/handleDraftCases.addDraftCase",
 	link: links,
 	memory: "2048 MB",
-	// binaryMediaTypes: ["*/*"],
 });
-api.route("POST /api/case/update/{caseID}", {
-	handler: "server/controllers/case.controller.updateCase",
+api.route("PUT /api/case/draft/{caseID}", {
+	handler: "server/controllers/handleDraftCases.updateDraftCase",
 	link: links,
 });
+api.route("DELETE /api/case/delete-case/{caseID}", {
+	handler: "server/controllers/handleDraftCases.deleteDraftCase",
+	link: links,
+});
+
 api.route("POST /api/case/duplicate", {
 	handler: "server/controllers/case.controller.duplicateCase",
 	link: links,
 });
 api.route("POST /api/case/publish", {
-	handler: "server/controllers/case.controller.publishCase",
+	handler: "server/controllers/handlePublishCase.publishCase",
 	link: links,
 });
 api.route("POST /api/case/add/feedback", {
@@ -119,10 +137,7 @@ api.route("GET /api/case/student/attempts/{studentID}", {
 	handler: "server/controllers/case.controller.getCaseAttemptsByStudent",
 	link: links,
 });
-api.route("DELETE /api/case/delete-case/{caseID}", {
-	handler: "server/controllers/case.controller.deleteCase",
-	link: links,
-});
+
 // api.route("DELETE /api/case/delete/all/", {
 //   handler: "handler.handler",
 //   link: links,

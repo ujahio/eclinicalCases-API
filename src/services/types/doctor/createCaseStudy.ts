@@ -1,56 +1,61 @@
-export type handleAddCaseType = (draft?: boolean) => void;
+export type handleAddCaseType = React.Dispatch<React.SetStateAction<any>>;
 export interface CaseQuestion {
-  question: string;
-  options: string[];
-  correctAnswer: number;
+	question: string;
+	options: string[];
+	correctAnswer: number;
 }
 
 export interface CaseStudy {
-  caseClue: string;
-  caseDescription: string;
-  caseTopic: string;
-  caseExplanation: string;
-  caseDeadline: string;
-  caseQuestions: CaseQuestion[];
-  draft: boolean;
-  caseMaterials: any[];
+	caseClue: string;
+	caseDescription: string;
+	caseTopic: string;
+	caseExplanation: string;
+	caseDeadline: string;
+	caseQuestions: CaseQuestion[];
+	caseStatus: string;
+	caseMaterials: any[];
+	shouldPublish?: boolean;
 }
 
 export interface CreateCaseStudyProps {
-  activeTab: number;
-  switchTab: React.Dispatch<React.SetStateAction<number>>;
-  goNext: () => void;
-  progress: number;
-  isActive: (key: string) => boolean;
-  caseStudy: CaseStudy;
-  setCaseStudy: React.Dispatch<React.SetStateAction<CaseStudy>>;
-  handleAddCase: handleAddCaseType;
+	activeTab: number;
+	switchTab: React.Dispatch<React.SetStateAction<number>>;
+	goNext: () => void;
+	progress: number;
+	isActive: (key: string) => boolean;
+	caseStudy: CaseStudy;
+	setCaseStudy: React.Dispatch<React.SetStateAction<CaseStudy>>;
+	handleAddCase: handleAddCaseType;
+	handlePublishCase: React.Dispatch<React.SetStateAction<any>>;
 }
 
 export interface DoctorCaseQuestionProps {
-  goNext: () => void;
-  caseStudy: CaseStudy;
-  setCaseStudy: React.Dispatch<React.SetStateAction<CaseStudy>>;
-  handleAddCase?: handleAddCaseType;
+	goNext: () => void;
+	caseStudy: CaseStudy;
+	setCaseStudy: React.Dispatch<React.SetStateAction<CaseStudy>>;
+	handleAddCase: handleAddCaseType;
 }
 export interface DoctorCaseAnswerProps extends DoctorCaseQuestionProps {}
-export interface DoctorMaterialsAndDeadlineProps extends DoctorCaseQuestionProps {}
+export interface DoctorMaterialsAndDeadlineProps
+	extends DoctorCaseQuestionProps {}
 export interface DoctorCMEQuestionsProps extends DoctorCaseQuestionProps {}
 export interface FinalReviewProps {
-  goNext: () => void;
-  caseStudy: CaseStudy;
-  handleAddCase: handleAddCaseType;
+	goNext: () => void;
+	caseStudy: CaseStudy;
+	handleAddCase: handleAddCaseType;
+	handlePublishCase: React.Dispatch<React.SetStateAction<any>>;
 }
 
 export interface UpdateCaseStudyProps {
-  activeTab: number;
-  switchTab: React.Dispatch<React.SetStateAction<number>>;
-  goNext: () => void;
-  progress: number;
-  isActive: (key: string) => boolean;
-  caseStudy: CaseStudy;
-  setCaseStudy: React.Dispatch<React.SetStateAction<CaseStudy>>;
-  prevCaseMaterials: File[];
-  setPrevCaseMaterials: React.Dispatch<React.SetStateAction<File[]>>;
-  handleUpdateCase: any;
+	activeTab: number;
+	switchTab: React.Dispatch<React.SetStateAction<number>>;
+	goNext: () => void;
+	progress: number;
+	isActive: (key: string) => boolean;
+	caseStudy: CaseStudy;
+	setCaseStudy: React.Dispatch<React.SetStateAction<CaseStudy>>;
+	prevCaseMaterials: File[];
+	setPrevCaseMaterials: React.Dispatch<React.SetStateAction<File[]>>;
+	handleUpdateCase: any;
+	handlePublishCase: React.Dispatch<React.SetStateAction<any>>;
 }

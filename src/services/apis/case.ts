@@ -18,27 +18,46 @@ const convertToFormData = (caseStudy: any) => {
 	return formData;
 };
 
-export const addCaseApi = (caseData: any, token: string) => {
+// export const addCaseApi = (caseData: any, token: string) => {
+// 	const formData = convertToFormData(caseData);
+// 	return caseApi.post(
+// 		`/add`,
+// 		formData,
+// 		configureRequestHeaders(token, formData)
+// 	);
+// };
+
+export const publishCaseApi = (caseData: any, token: string) => {
 	const formData = convertToFormData(caseData);
 	return caseApi.post(
-		`/add`,
+		"/publish",
 		formData,
 		configureRequestHeaders(token, formData)
 	);
 };
 
-export const updateCaseApi = (caseData: any, token: string, _id: any) => {
-	const formData = convertToFormData(caseData);
+export const addDraftCaseApi = (draftCaseData: any, token: string) => {
+	const formData = convertToFormData(draftCaseData);
 	return caseApi.post(
-		`/update/${_id}`,
+		`/draft`,
 		formData,
-		configureRequestHeaders(token)
+		configureRequestHeaders(token, formData)
 	);
 };
 
-export const getAllCasesApi = (token: string, isRecent?: string) => {
-	let url = `/all/`;
-	url += `?caseStatus=${isRecent}`;
+export const updateDraftCaseApi = (caseData: any, token: string, _id: any) => {
+	const formData = convertToFormData(caseData);
+	return caseApi.put(`/draft/${_id}`, formData, configureRequestHeaders(token));
+};
+
+export const getArchiveCasesApi = (token: string, isRecent?: string) => {
+	const url = isRecent ? `/archived/?caseFilter=${isRecent}` : "/archived/";
+
+	return caseApi.get(url, configureRequestHeaders(token));
+};
+
+export const getDraftCasesApi = (caseId: string, token: string) => {
+	const url = caseId ? `/draft/${caseId}` : `/draft/`;
 	return caseApi.get(url, configureRequestHeaders(token));
 };
 
@@ -46,8 +65,8 @@ export const fetchCaseDetailsApi = (caseId: any, token: string) => {
 	return caseApi.get(`/details/${caseId}`, configureRequestHeaders(token));
 };
 
-export const fetchOngoingCasesApi = (token: string) => {
-	return caseApi.get(`/ongoing-case`, configureRequestHeaders(token));
+export const fetchActiveCaseApi = (token: string) => {
+	return caseApi.get("/active", configureRequestHeaders(token));
 };
 export const deleteCaseApi = (caseId: string, token: string) => {
 	return caseApi.delete(

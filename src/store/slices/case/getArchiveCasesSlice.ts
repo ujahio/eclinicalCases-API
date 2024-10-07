@@ -1,14 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getAllCasesApi } from "@/services/apis/case";
+import { getArchiveCasesApi } from "@/services/apis/case";
 import { RootState } from "@/store/rootReducer/rootReducer";
 
-export const getAllCases = createAsyncThunk(
-	"case/getAllCases",
+export const getArchiveCases = createAsyncThunk(
+	"case/getArchiveCases",
 	async (isRecent: any, thunkAPI) => {
 		try {
 			const state = thunkAPI.getState() as RootState;
 			const token = state?.login?.user?.token;
-			const { data } = await getAllCasesApi(token, isRecent);
+			const { data } = await getArchiveCasesApi(token, isRecent);
 			return data;
 		} catch (error: any) {
 			return thunkAPI.rejectWithValue({
@@ -19,42 +19,42 @@ export const getAllCases = createAsyncThunk(
 	}
 );
 
-interface GetAllCasesState {
+interface GetArchiveCasesState {
 	status: "idle" | "loading" | "succeeded" | "failed";
 	error: any;
 	cases: any;
 }
 
-const initialState: GetAllCasesState = {
+const initialState: GetArchiveCasesState = {
 	status: "idle",
 	error: null,
 	cases: [],
 };
 
-const getAllCasesSlice = createSlice({
-	name: "getAllCases",
+const getArchiveCasesSlice = createSlice({
+	name: "getArchiveCases",
 	initialState,
 	reducers: {
-		resetGetAllCasesStatus: (state) => {
+		resetGetArchiveCasesStatus: (state) => {
 			state.status = "idle";
 			state.error = null;
 		},
 	},
 	extraReducers: (builder) => {
 		builder
-			.addCase(getAllCases.pending, (state) => {
+			.addCase(getArchiveCases.pending, (state) => {
 				state.status = "loading";
 			})
-			.addCase(getAllCases.fulfilled, (state, action) => {
+			.addCase(getArchiveCases.fulfilled, (state, action) => {
 				state.status = "succeeded";
-				state.cases = action.payload;
+				state.cases = action.payload.archivedCasesInfo;
 			})
-			.addCase(getAllCases.rejected, (state, action: any) => {
+			.addCase(getArchiveCases.rejected, (state, action: any) => {
 				state.status = "failed";
 				state.error = action.payload;
 			});
 	},
 });
 
-export const { resetGetAllCasesStatus } = getAllCasesSlice.actions;
-export default getAllCasesSlice.reducer;
+export const { resetGetArchiveCasesStatus } = getArchiveCasesSlice.actions;
+export default getArchiveCasesSlice.reducer;
