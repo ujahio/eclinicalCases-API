@@ -10,17 +10,29 @@ import { getCountOfStudentsFeedbacksAndResponses } from "../utils/api_utils.js";
 export const getActiveCase = async (event) => {
 	const userToken = event.headers.authorization.split(" ")[1];
 	const userInfo = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
-	if (userInfo.roles === "student") {
-		await getOngoingCaseForStudent(event);
-	} else {
-		return await getOngoingCaseForTeacher(userInfo);
+
+	if (
+		!userInfo &&
+		!(userInfo.roles === "teacher" || userInfo.roles === "student")
+	) {
+		return {
+			statusCode: 400,
+			body: JSON.stringify({
+				message: "Not authorized to view this resource",
+			}),
+		};
 	}
-};
 
-const getOngoingCaseForStudent = async (event) => {};
+	if (!userInfo.id) {
+		return {
+			statusCode: 400,
+			body: JSON.stringify({
+				message: "Invalid input: missing required fields",
+			}),
+		};
+	}
 
-const getOngoingCaseForTeacher = async (userInfo) => {
-	const teacherID = userInfo.id;
+	// TODO: if you are a student, you have to your respective teacher id to get the active case
 
 	try {
 		const params = {
@@ -29,17 +41,17 @@ const getOngoingCaseForTeacher = async (userInfo) => {
 			KeyConditionExpression:
 				"teacherId = :teacherId AND caseStatus = :caseStatus",
 			ExpressionAttributeValues: {
-				":teacherId": teacherID,
+				":teacherId": userInfo.id,
 				":caseStatus": "published",
 			},
 		};
 
 		const command = new QueryCommand(params);
 		const result = await dbClient.send(command);
-		const onGoingCase = result.Items[0];
+		const activeCaseResult = result.Items[0];
 
 		// If no active cases found, return a message
-		if (!onGoingCase) {
+		if (!activeCaseResult) {
 			return {
 				statusCode: 200,
 				body: JSON.stringify({
@@ -48,23 +60,38 @@ const getOngoingCaseForTeacher = async (userInfo) => {
 			};
 		}
 
-		const countOfStudentsFeedbackAndResponses =
-			await getCountOfStudentsFeedbacksAndResponses(onGoingCase.id);
+		if (userInfo.roles === "teacher") {
+			const countOfStudentsFeedbackAndResponses =
+				await getCountOfStudentsFeedbacksAndResponses(activeCaseResult.id);
 
-		return {
-			statusCode: 200,
-			body: JSON.stringify({
-				message: "Ongoing case retrieved successfully!",
-				caseInfo: {
-					caseTopic: onGoingCase.caseTopic,
-					createdAt: onGoingCase.createdAt,
-					caseDeadline: onGoingCase.caseDeadline,
-					caseStatus: onGoingCase.caseStatus,
-					feedbackCount: countOfStudentsFeedbackAndResponses.feedbackCount,
-					totalResponses: countOfStudentsFeedbackAndResponses.totalResponses,
-				},
-			}),
-		};
+			return {
+				statusCode: 200,
+				body: JSON.stringify({
+					message: "Ongoing case retrieved successfully!",
+					caseInfo: {
+						caseTopic: activeCaseResult.caseTopic,
+						createdAt: activeCaseResult.createdAt,
+						caseDeadline: activeCaseResult.caseDeadline,
+						caseStatus: activeCaseResult.caseStatus,
+						feedbackCount: countOfStudentsFeedbackAndResponses.feedbackCount,
+						totalResponses: countOfStudentsFeedbackAndResponses.totalResponses,
+					},
+				}),
+			};
+		} else {
+			return {
+				statusCode: 200,
+				body: JSON.stringify({
+					message: "Ongoing case retrieved successfully!",
+					caseInfo: {
+						caseTopic: activeCaseResult.caseTopic,
+						createdAt: activeCaseResult.createdAt,
+						caseDeadline: activeCaseResult.caseDeadline,
+						caseStatus: activeCaseResult.caseStatus,
+					},
+				}),
+			};
+		}
 	} catch (error) {
 		console.error("Error retrieving ongoing case:", error);
 		return {
