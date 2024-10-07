@@ -7,28 +7,17 @@ import {
 
 const useGetArchiveCases = (filterParam?: string) => {
 	const dispatch = useAppDispatch();
-	const allCasesState = useAppSelector((state) => state.getArchiveCases);
-
-	const handleGetAllCases = () => {
-		if (filterParam) {
-			dispatch(getArchiveCases(filterParam));
-		}
-	};
+	const archivedCasesState = useAppSelector((state) => state.getArchiveCases);
 
 	useEffect(() => {
-		handleGetAllCases();
-	}, [dispatch, filterParam]);
+		dispatch(getArchiveCases(filterParam));
+	}, []);
 
 	useEffect(() => {
-		if (allCasesState.status === "succeeded") {
+		if (archivedCasesState.status === "succeeded") {
 			dispatch(resetGetArchiveCasesStatus());
 		}
-	}, [allCasesState.status, dispatch]);
-
-	return {
-		allCasesState,
-		handleGetAllCases,
-	};
+	}, [archivedCasesState.status, dispatch]);
 };
 
 export default useGetArchiveCases;

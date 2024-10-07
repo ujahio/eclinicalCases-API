@@ -23,7 +23,7 @@ const Page = () => {
 	const dispatch = useAppDispatch();
 
 	useGetDraftCase();
-	// TODO: need to retrieve archived cases
+	useGetArchiveCases();
 
 	const handleDeleteCase = (caseId: string) => {
 		dispatch(deleteCase(caseId));
@@ -32,7 +32,7 @@ const Page = () => {
 	useEffect(() => {
 		if (deleteCaseState.status === "succeeded") {
 			dispatch(resetDeleteCaseStatus());
-			dispatch(getDraftCases());
+			dispatch(getDraftCases("")); // ugly fix for type error
 		}
 	}, [deleteCaseState.status, dispatch]);
 	return <DoctorCaseStudies handleDeleteCase={handleDeleteCase} />;

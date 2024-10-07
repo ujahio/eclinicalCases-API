@@ -81,7 +81,7 @@ const CaseCard: FunctionComponent<CaseCardProps> = ({
 				</div>
 			</div>
 
-			{caseStatus === "draft" ? (
+			{caseStatus === "draft" && (
 				<div className="grid sm:grid-cols-2 grid-cols-1 gap-4 mt-3">
 					<Button
 						btnStyle="outline"
@@ -106,7 +106,24 @@ const CaseCard: FunctionComponent<CaseCardProps> = ({
 						{deleteCaseState === "loading" ? "Loading..." : "Delete"}
 					</Button>
 				</div>
-			) : null}
+			)}
+			{/* 
+      TODO: reinstate when duplicate feature is ready
+      {caseStatus === "archived" && (
+				<div className="grid sm:grid-cols-2 grid-cols-1 gap-4 mt-3">
+					<Button
+						btnStyle="outline"
+						size="md"
+						centralize
+						onClick={(e) => {
+							e.stopPropagation();
+							// navigate.push(`/doctor/case-studies/update/${_id}`);
+						}}
+					>
+						DUPLICATE
+					</Button>
+				</div>
+			)} */}
 		</article>
 	);
 };

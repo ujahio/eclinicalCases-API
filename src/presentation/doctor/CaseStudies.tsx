@@ -11,7 +11,9 @@ interface IProps {
 }
 
 const DoctorCaseStudies = ({ handleDeleteCase }: IProps) => {
-	// const allCasesState = useAppSelector((state) => state.getAllCases.cases); // this will become archinved cases
+	const archivedCasesState = useAppSelector(
+		(state) => state.getArchiveCases.cases
+	);
 	const draftCasesState = useAppSelector((state) => state.getDraftCases.cases);
 	const [activeTab, setActiveTab] = useState("drafts");
 
@@ -25,6 +27,18 @@ const DoctorCaseStudies = ({ handleDeleteCase }: IProps) => {
 		createdAt: formatDate(caseItem.createdAt),
 		caseStatus: caseItem.caseStatus,
 	}));
+
+	const archivedCases =
+		archivedCasesState.map((caseItem: any) => ({
+			_id: caseItem.id,
+			description: JSON.parse(caseItem.caseDescription).blocks[0].text,
+			caseDeadline: formatDate(caseItem.caseDeadline),
+			createdAt: formatDate(caseItem.createdAt),
+			feedbackCount: caseItem.feedbackCount,
+			totalResponses: caseItem.totalResponses,
+			caseTopic: caseItem.caseTopic,
+			caseStatus: caseItem.caseStatus,
+		})) || null;
 
 	const renderContent = () => {
 		switch (activeTab) {
@@ -51,7 +65,27 @@ const DoctorCaseStudies = ({ handleDeleteCase }: IProps) => {
 					</div>
 				);
 			case "archived":
-				return <p>List of archived case studies goes here...</p>;
+				return (
+					<div className="tab-content">
+						<ul className="grid grid-cols-items gap-5 md:gap-6.25">
+							{archivedCases?.length > 0 ? (
+								<>
+									{archivedCases.map((caseS: any) => (
+										<CaseCard
+											case={caseS}
+											key={caseS._id}
+											handleDeleteCase={handleDeleteCase}
+										/>
+									))}
+								</>
+							) : (
+								<p className="text-black">
+									No cases found matching your search query.
+								</p>
+							)}
+						</ul>
+					</div>
+				);
 			default:
 				return null;
 		}
@@ -79,31 +113,8 @@ const DoctorCaseStudies = ({ handleDeleteCase }: IProps) => {
 					</button>
 				</div>
 				{renderContent()}
-
-				{/* <div className="tab-content hidden">ARCHIVED CASES WILL GO HERE</div> */}
 			</div>
 		</AdminLayout>
-		// <>
-		// 	<div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden">
-		// 		<div className="flex justify-around border-b border-gray-200">
-		// 			<button className="flex-1 py-2 text-center text-gray-500 hover:text-black focus:outline-none focus:border-b-2 focus:border-black">
-		// 				Drafts
-		// 			</button>
-		// 			<button className="flex-1 py-2 text-center text-gray-500 hover:text-black focus:outline-none focus:border-b-2 focus:border-black">
-		// 				Archived
-		// 			</button>
-		// 		</div>
-
-		// 		<div className="p-4">
-		// 			<div className="tab-content">
-		// 				<p>List of draft case studies goes here...</p>
-		// 			</div>
-		// 			<div className="tab-content hidden">
-		// 				<p>List of archived case studies goes here...</p>
-		// 			</div>
-		// 		</div>
-		// 	</div>
-		// </>
 	);
 };
 
