@@ -13,6 +13,7 @@ interface IProps {
 const DoctorCaseStudies = ({ handleDeleteCase }: IProps) => {
 	// const allCasesState = useAppSelector((state) => state.getAllCases.cases); // this will become archinved cases
 	const draftCasesState = useAppSelector((state) => state.getDraftCases.cases);
+	const [activeTab, setActiveTab] = useState("drafts");
 
 	const draftCases = draftCasesState.map((caseItem: any) => ({
 		_id: caseItem.id,
@@ -25,28 +26,84 @@ const DoctorCaseStudies = ({ handleDeleteCase }: IProps) => {
 		caseStatus: caseItem.caseStatus,
 	}));
 
+	const renderContent = () => {
+		switch (activeTab) {
+			case "drafts":
+				return (
+					<div className="tab-content">
+						<ul className="grid grid-cols-items gap-5 md:gap-6.25">
+							{draftCases?.length > 0 ? (
+								<>
+									{draftCases.map((caseS: any) => (
+										<CaseCard
+											case={caseS}
+											key={caseS._id}
+											handleDeleteCase={handleDeleteCase}
+										/>
+									))}
+								</>
+							) : (
+								<p className="text-black">
+									No cases found matching your search query.
+								</p>
+							)}
+						</ul>
+					</div>
+				);
+			case "archived":
+				return <p>List of archived case studies goes here...</p>;
+			default:
+				return null;
+		}
+	};
+
 	return (
 		<AdminLayout>
 			<div className="mt-7.5">
-				<ul className="grid grid-cols-items gap-5 md:gap-6.25">
-					{draftCases?.length > 0 ? (
-						<>
-							{draftCases.map((caseS: any) => (
-								<CaseCard
-									case={caseS}
-									key={caseS._id}
-									handleDeleteCase={handleDeleteCase}
-								/>
-							))}
-						</>
-					) : (
-						<p className="text-black">
-							No cases found matching your search query.
-						</p>
-					)}
-				</ul>
+				<div className="flex justify-around border-b border-gray-200 mb-5">
+					<button
+						className={`flex-1 py-2 text-center text-gray-500 hover:text-black focus:outline-none focus:border-b-2 focus:border-black ${
+							activeTab === "drafts"
+								? "text-black border-b-2 border-black"
+								: "text-gray-500 hover:text-black"
+						}`}
+						onClick={() => setActiveTab("drafts")}
+					>
+						<h3 className="text-1sm">DRAFTS</h3>
+					</button>
+					<button
+						className="flex-1 py-2 text-center text-gray-500 hover:text-black focus:outline-none focus:border-b-2 focus:border-black"
+						onClick={() => setActiveTab("archived")}
+					>
+						<h3 className="text-1sm">ARCHIVED</h3>
+					</button>
+				</div>
+				{renderContent()}
+
+				{/* <div className="tab-content hidden">ARCHIVED CASES WILL GO HERE</div> */}
 			</div>
 		</AdminLayout>
+		// <>
+		// 	<div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden">
+		// 		<div className="flex justify-around border-b border-gray-200">
+		// 			<button className="flex-1 py-2 text-center text-gray-500 hover:text-black focus:outline-none focus:border-b-2 focus:border-black">
+		// 				Drafts
+		// 			</button>
+		// 			<button className="flex-1 py-2 text-center text-gray-500 hover:text-black focus:outline-none focus:border-b-2 focus:border-black">
+		// 				Archived
+		// 			</button>
+		// 		</div>
+
+		// 		<div className="p-4">
+		// 			<div className="tab-content">
+		// 				<p>List of draft case studies goes here...</p>
+		// 			</div>
+		// 			<div className="tab-content hidden">
+		// 				<p>List of archived case studies goes here...</p>
+		// 			</div>
+		// 		</div>
+		// 	</div>
+		// </>
 	);
 };
 
