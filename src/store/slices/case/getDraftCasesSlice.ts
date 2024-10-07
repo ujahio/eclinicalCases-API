@@ -4,7 +4,7 @@ import { RootState } from "@/store/rootReducer/rootReducer";
 
 export const getDraftCases = createAsyncThunk(
 	"case/getDraftCases",
-	async (caseId, thunkAPI) => {
+	async (caseId: any, thunkAPI) => {
 		try {
 			const state = thunkAPI.getState() as RootState;
 			const token = state?.login?.user?.token;

@@ -75,11 +75,11 @@ api.route("GET /api/case/details/{caseID}", {
 	handler: "server/controllers/case.controller.getCase",
 	link: links,
 });
-api.route("GET /api/case/archived-cases/{caseFilter}", {
+api.route("GET /api/case/archived/{caseFilter}", {
 	handler: "server/controllers/handleArchivedCases.getArchivedCases",
 	link: links,
 });
-api.route("GET /api/case/active-case", {
+api.route("GET /api/case/active", {
 	handler: "server/controllers/handleActiveCase.getActiveCase",
 	link: links,
 });
@@ -100,14 +100,15 @@ api.route("POST /api/case/draft", {
 	link: links,
 	memory: "2048 MB",
 });
-api.route("DELETE /api/case/delete-case/{caseID}", {
-	handler: "server/controllers/handleDraftCases.deleteDraftCase",
-	link: links,
-});
 api.route("PUT /api/case/draft/{caseID}", {
 	handler: "server/controllers/handleDraftCases.updateDraftCase",
 	link: links,
 });
+api.route("DELETE /api/case/delete-case/{caseID}", {
+	handler: "server/controllers/handleDraftCases.deleteDraftCase",
+	link: links,
+});
+
 api.route("POST /api/case/duplicate", {
 	handler: "server/controllers/case.controller.duplicateCase",
 	link: links,
