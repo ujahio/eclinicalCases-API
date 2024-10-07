@@ -15,21 +15,35 @@ export const publishCase = async (event) => {
 		caseDescription,
 		caseTopic,
 		caseExplanation,
-		caseDeadline, // Now passed directly from the front end
+		caseDeadline,
 		caseQuestions,
 	} = await extrapolateFormData(event);
 
-	const newCaseId = caseId || uuidv4();
-	const todaysDate = new Date().toISOString();
-
 	const userToken = event.headers.authorization.split(" ")[1];
-	const { id: teacherId, roles } = verifyToken(
-		userToken,
-		SECRETS.NEXT_JWT_SECRET
-	);
+	const userInfo = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
+
+	const { id: teacherId, roles } = userInfo;
+
+	// Possible use of Cognito authorizer
+	if (!userInfo && !(roles === "teacher")) {
+		return {
+			statusCode: 400,
+			body: JSON.stringify({
+				message: "Not authorized to use this resource",
+			}),
+		};
+	}
 
 	// TODO: evaluate required fields for published cases
-	if (!teacherId || !caseClue) {
+
+	if (
+		!caseClue ||
+		!caseDescription ||
+		!caseTopic ||
+		!caseExplanation ||
+		!teacherId ||
+		!caseQuestions
+	) {
 		return {
 			statusCode: 400,
 			body: JSON.stringify({
@@ -38,15 +52,8 @@ export const publishCase = async (event) => {
 		};
 	}
 
-	// Possible use of Cognito authorizer
-	if (roles !== "teacher") {
-		return {
-			statusCode: 400,
-			body: JSON.stringify({
-				message: "Unauthorized user",
-			}),
-		};
-	}
+	const newCaseId = caseId || uuidv4();
+	const todaysDate = new Date().toISOString();
 
 	console.log(
 		`Publishing case for teacher ${teacherId}, case ID: ${newCaseId}`
