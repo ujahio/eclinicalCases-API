@@ -43,10 +43,7 @@ const formatDateToYYYYMMDD = (dateString: any) => {
 
 const Update = ({ params }: any) => {
 	const dispatch = useAppDispatch();
-	const navigate = useRouter();
-
 	const getDraftCasesState = useAppSelector((state) => state.getDraftCases);
-	const addCaseState = useAppSelector((state) => state.addCase);
 
 	const {
 		active: activeTab,
@@ -103,18 +100,6 @@ const Update = ({ params }: any) => {
 
 			setCaseStudy(updatedCaseStudy);
 			setPrevCaseMaterials(draftCaseDetails.caseMaterials || []); // Set prevCaseMaterials
-
-			toast.success(addCaseState.newCase.message, {
-				position: "top-right",
-				autoClose: 5000,
-				hideProgressBar: false,
-				closeOnClick: true,
-				pauseOnHover: true,
-				draggable: true,
-				progress: undefined,
-				theme: "light",
-			});
-			navigate.push("/doctor/dashboard");
 		}
 	}, [getDraftCasesState.status, dispatch]);
 
