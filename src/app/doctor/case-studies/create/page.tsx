@@ -74,6 +74,17 @@ const Create = () => {
 				theme: "light",
 			});
 			navigate.push("/doctor/dashboard");
+		} else if (addCaseState.status === "failed") {
+			toast.error("Error adding a draft case", {
+				position: "top-right",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "light",
+			});
 		}
 	}, [addCaseState.status, dispatch]);
 	return (
