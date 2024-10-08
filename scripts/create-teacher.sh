@@ -37,7 +37,7 @@ read -p "Enter the email for the teacher: " email
 read -sp "Enter the password for the teacher: " plainTextPassword
 echo # Newline after the input
 
-role="teacher"
+user_role="teacher"
 signUpLevel=1
 status="active"
 
@@ -62,7 +62,7 @@ teacherInfo=$(jq -n \
   --arg id "$userId" \
   --arg lastname "$lastname" \
   --arg password "$hashedPassword" \
-  --arg role "$role" \
+  --arg user_role "$user_role" \
   --argjson signUpLevel "$signUpLevel" \
   --arg status "$status" \
   '{
@@ -72,7 +72,7 @@ teacherInfo=$(jq -n \
     id: { "S": $id },
     lastname: { "S": $lastname },
     password: { "S": $password },
-    role: { "S": $role },
+    user_role: { "S": $user_role },
     signUpLevel: { "N": ($signUpLevel | tostring) },
     status: { "S": $status }
   }')
