@@ -58,30 +58,34 @@ const signup = async (event) => {
 			};
 		}
 
+		let teacherId;
+
 		// Fetch the single teacher's ID from DynamoDB
-		const teacherParams = {
-			TableName: TABLES.USER,
-			IndexName: "UserRoleIndex", // Use user_role instead of role
-			KeyConditionExpression: "user_role = :user_role", // Use user_role
-			ExpressionAttributeValues: {
-				":user_role": "teacher",
-			},
-		};
-
-		const teacherCommand = new QueryCommand(teacherParams);
-		const teacherResult = await dbClient.send(teacherCommand);
-
-		if (!teacherResult.Items || teacherResult.Items.length === 0) {
-			return {
-				statusCode: 500,
-				body: JSON.stringify({
-					error: "No teacher found in the system.",
-				}),
+		if (user_role === "student") {
+			const teacherParams = {
+				TableName: TABLES.USER,
+				IndexName: "RoleIndex", // Use user_role instead of role
+				KeyConditionExpression: "user_role = :user_role", // Use user_role
+				ExpressionAttributeValues: {
+					":user_role": "teacher",
+				},
 			};
-		}
 
-		// Get the first (and only) teacher's ID
-		const teacherId = teacherResult.Items[0].id;
+			const teacherCommand = new QueryCommand(teacherParams);
+			const teacherResult = await dbClient.send(teacherCommand);
+
+			if (!teacherResult.Items || teacherResult.Items.length === 0) {
+				return {
+					statusCode: 500,
+					body: JSON.stringify({
+						error: "No teacher found in the system.",
+					}),
+				};
+			}
+
+			// Get the first (and only) teacher's ID
+			teacherId = teacherResult.Items[0].id;
+		}
 
 		// Prepare the new user data
 		const originalPassword = decryptPassword(
@@ -102,8 +106,8 @@ const signup = async (event) => {
 			status: "active",
 			signUpLevel: 1,
 			paymentStatus: "inactive",
-			user_role: user_role || "student", // Use user_role instead of role
-			teacherId: user_role === "student" ? teacherId : null, // Attach the teacherId to students
+			user_role,
+			teacherId: user_role === "student" ? teacherId : null,
 		};
 
 		const params = {
@@ -279,6 +283,7 @@ const verifyOtpAndResetPassword = async (event) => {
 	}
 };
 
+// is this needed?
 const getUsers = async () => {
 	try {
 		const params = {
@@ -360,11 +365,4 @@ const updatePassword = async (event) => {
 	}
 };
 
-export {
-	signup,
-	signin,
-	sendOTP,
-	verifyOtpAndResetPassword,
-	getUsers,
-	updatePassword,
-};
+export { signin, sendOTP, verifyOtpAndResetPassword, getUsers, updatePassword };
