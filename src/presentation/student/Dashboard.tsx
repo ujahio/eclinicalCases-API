@@ -9,18 +9,13 @@ import { formatDate } from "@/utils/formatDate";
 
 const StudentDashboard = () => {
 	const [showWelcomeModal, setShowWelcomeModal] = useState(true);
-	//   const { user } = SessionContext.useContainer();
-	useEffect(() => {
-		setTimeout(() => {
-			setShowWelcomeModal(true);
-		}, 500);
-	}, []);
+	// const { user } = useAppSelector((state) => state.login);
+	const publishedCaseInfo = useAppSelector((state) => state.activeCase.data);
+
 	const archivedCasesState = useAppSelector(
 		(state) => state.getArchiveCases.cases
 	);
-	// const publishedCaseInfo = useAppSelector((state) => state.onGoingCase.cases);
-	const publishedCaseInfo = useAppSelector((state) => state.activeCase.data);
-	const cases =
+	const archivedCases =
 		archivedCasesState?.map((caseItem: any) => ({
 			_id: caseItem.id,
 			description: JSON.parse(caseItem.caseDescription).blocks[0].text,
@@ -30,19 +25,26 @@ const StudentDashboard = () => {
 			totalResponses: caseItem.totalResponses,
 			caseTopic: caseItem.caseTopic,
 		})) || [];
+
+	// TODO: implementation of logic to show setShowWelcomeModal
+	// useEffect(() => {
+	// 	setTimeout(() => {
+	// 		setShowWelcomeModal(true);
+	// 	}, 500);
+	// }, []);
 	return (
 		<DashboardLayout>
 			<div className="grid gap-y-10 sm:gap-y-12.5">
-				{/* <div className="flex items-center justify-between">
-          <div className="inline-flex items-center">
-             <figure className="h-8 md:h-11.25 w-8 md:w-11.25 rounded-full overflow-hidden">
-              <img src={UserImg} alt="User image" className="h-full w-full" />
-            </figure>
-            <h4 className="text-dark font-medium text-1sm sm:text-base inline-block ml-2.5">
-              {`Hi, ${user?.name} 👋`}
-            </h4>
-          </div>
-        </div> */}
+				<div className="flex items-center justify-between">
+					<div className="inline-flex items-center">
+						{/* <figure className="h-8 md:h-11.25 w-8 md:w-11.25 rounded-full overflow-hidden">
+							<img src={UserImg} alt="User image" className="h-full w-full" />
+						</figure> */}
+						{/* <h4 className="text-dark font-medium text-1sm sm:text-base inline-block ml-2.5">
+							{`Hi, ${user?.name} ${user.role} 👋`}
+						</h4> */}
+					</div>
+				</div>
 				<div className="">
 					<h5 className="text-1sm sm:text-base text-dark uppercase mb-3.75">
 						ONGOING CASE STUDY
@@ -117,9 +119,9 @@ const StudentDashboard = () => {
             </Link> */}
 					</div>
 					<ul className="grid grid-cols-items gap-5 md:gap-6.25">
-						{cases?.length === 0
+						{archivedCases?.length === 0
 							? "No recent cases found!!!"
-							: cases?.map((caseM: any, index: number) => (
+							: archivedCases.map((caseM: any, index: number) => (
 									<Link href={`/student/case-studies/${caseM._id}`} key={index}>
 										<CaseCard case={caseM} />
 									</Link>

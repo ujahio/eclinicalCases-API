@@ -81,7 +81,11 @@ api.route("GET /api/case/archived/{caseFilter}", {
 	link: links,
 });
 api.route("GET /api/case/active", {
-	handler: "server/controllers/handleActiveCase.getActiveCase",
+	handler: "server/controllers/handlePublishedCase.getPublishedCase",
+	link: links,
+});
+api.route("POST /api/case/publish", {
+	handler: "server/controllers/handlePublishedCase.publishCase",
 	link: links,
 });
 // api.route("POST /api/case/add", {
@@ -114,10 +118,7 @@ api.route("POST /api/case/duplicate", {
 	handler: "server/controllers/case.controller.duplicateCase",
 	link: links,
 });
-api.route("POST /api/case/publish", {
-	handler: "server/controllers/handlePublishCase.publishCase",
-	link: links,
-});
+
 api.route("POST /api/case/add/feedback", {
 	handler: "server/controllers/case.controller.addFeedback",
 	link: links,

@@ -28,12 +28,14 @@ const CaseStudies = ({ params }: any) => {
 	const { active: activeTab, switchTab, isActive } = useProcessTabs(tabs, 0);
 	const [progress, setProgress] = useState(0);
 	const caseDetailsState = useAppSelector((state) => state.caseDetails);
+	console.log("caseDetailsState", caseDetailsState);
+	const publishedCaseInfo = useAppSelector((state) => state.activeCase.data);
+	console.log("publishedCaseInfo", publishedCaseInfo);
+
 	const submitResponseState = useAppSelector(
 		(state) => state.submitCaseResponse
 	);
-	const handleFetchCaseDetails = (caseId: any) => {
-		dispatch(fetchCaseDetails(caseId));
-	};
+
 	const [caseDetails, setCaseDetails] = useState<CaseDetail>({
 		caseID: params.id,
 		caseTopicAnswer: "",
@@ -59,9 +61,9 @@ const CaseStudies = ({ params }: any) => {
 
 	useEffect(() => {
 		if (params.id) {
-			handleFetchCaseDetails(params.id);
+			dispatch(fetchCaseDetails(params.id));
 		}
-	}, [params.id]);
+	}, [params.id, dispatch]);
 
 	useEffect(() => {
 		if (caseDetailsState.status === "succeeded") {
