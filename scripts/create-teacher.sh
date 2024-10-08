@@ -24,14 +24,19 @@ if [ -z "$secretKey" ]; then
   exit 1
 fi
 
+# Prompt the user to enter the teacher's first name
+read -p "Enter the first name for the teacher: " firstname
+
+# Prompt the user to enter the teacher's last name
+read -p "Enter the last name for the teacher: " lastname
+
+# Prompt the user to enter the teacher's email
+read -p "Enter the email for the teacher: " email
+
 # Prompt the user to enter the password
 read -sp "Enter the password for the teacher: " plainTextPassword
 echo # Newline after the input
 
-# Define teacher details
-firstname="John"
-lastname="Doe"
-email="teacher@example.com"
 role="teacher"
 signUpLevel=1
 status="active"
