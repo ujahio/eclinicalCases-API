@@ -12,7 +12,7 @@ export const getArchivedCases = async (event) => {
 	const teacherID = userInfo.id;
 	const caseFilter = event.queryStringParameters?.caseFilter;
 
-	if (!userInfo && !userInfo.roles === "teacher") {
+	if (!userInfo && !userInfo.user_role === "teacher") {
 		return {
 			statusCode: 400,
 			body: JSON.stringify({

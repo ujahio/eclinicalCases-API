@@ -14,7 +14,7 @@ export const verifyToken = async (req, res, next) => {
 		const data = {
 			id: decoded.id,
 			email: decoded.email,
-			roles: decoded.roles,
+			 decoded.user_role,
 			firstname: decoded.firstname,
 			lastname: decoded.lastname,
 		};

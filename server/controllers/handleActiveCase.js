@@ -13,7 +13,7 @@ export const getActiveCase = async (event) => {
 
 	if (
 		!userInfo &&
-		!(userInfo.roles === "teacher" || userInfo.roles === "student")
+		!(userInfo.user_role === "teacher" || userInfo.user_role === "student")
 	) {
 		return {
 			statusCode: 400,
@@ -60,7 +60,7 @@ export const getActiveCase = async (event) => {
 			};
 		}
 
-		if (userInfo.roles === "teacher") {
+		if (userInfo.user_role === "teacher") {
 			const countOfStudentsFeedbackAndResponses =
 				await getCountOfStudentsFeedbacksAndResponses(activeCaseResult.id);
 

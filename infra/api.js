@@ -17,6 +17,7 @@ import {
 	TeacherCaseStudies,
 } from "./dynamo";
 
+// TODO: link only the resources each route needs
 const links = [
 	Users,
 	Cases,
