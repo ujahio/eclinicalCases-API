@@ -9,7 +9,7 @@ import SECRETS from "../services/secrets.js";
 import { extrapolateFormData } from "../utils/api_utils.js";
 import { verifyToken } from "../controllers/case.controller.js";
 
-export const submitCaseAnswers = async (event) => {
+export const submitStudentsAnswers = async (event) => {
 	const caseInfo = await extrapolateFormData(event);
 	const userToken = event.headers.authorization.split(" ")[1];
 	const userInfo = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
@@ -23,7 +23,6 @@ export const submitCaseAnswers = async (event) => {
 			answerID: uuidv4(),
 			studentID,
 			caseID: caseInfo.caseID,
-			answers: extractAnswers(caseInfo),
 			caseTopicAnswer: caseInfo.caseTopicAnswer,
 			caseExplanation: caseInfo.caseExplanation,
 			submittedAt: Date.now(),
@@ -31,19 +30,16 @@ export const submitCaseAnswers = async (event) => {
 	};
 
 	try {
-		// 	const command = new PutCommand(params);
-		// 	await dbClient.send(command);
 		// 	Call grading function and get the result
 		const gradedQuizResult = await gradeQuiz({
 			caseID: caseInfo.caseID,
 			studentAnswers: extractAnswers(caseInfo),
 		});
 
-		// handle updating the case with the students information
-		//    - will be used to generate the count of responses
-		//    - will be used to generate the count of feedback given
-		// studentsInformation needed to be updated (studentID, date case was taken, )
-
+		if (gradedQuizResult.passed) {
+			const command = new PutCommand(params);
+			await dbClient.send(command);
+		}
 		return {
 			statusCode: 200,
 			body: JSON.stringify({
@@ -114,55 +110,70 @@ export const getStudentsAnswers = async (event) => {
 
 const gradeQuiz = async ({ caseID, studentAnswers }) => {
 	const caseParams = {
-		TableName: TABLES.CASE,
+		TableName: TABLES.TEACHER_CASE_STUDIES,
 		Key: { id: caseID },
 	};
 
 	try {
 		const caseCommand = new GetCommand(caseParams);
 		const caseResult = await dbClient.send(caseCommand);
-		const teachersQuestions = caseResult?.Item?.caseQuestions;
+		let teachersQuestions = caseResult?.Item?.caseQuestions;
 
-		if (!teachersQuestions) {
-			throw new Error(`caseQuestions are not found`);
+		// Parse teachersQuestions string into an object if it's a JSON string
+		if (typeof teachersQuestions === "string") {
+			teachersQuestions = JSON.parse(teachersQuestions);
 		}
 
-		let result = {
-			passed: true,
-			failedQuestions: [],
-			messageToDisplay: "",
-		};
+		return gradeAnswers({ studentAnswers, teachersQuestions });
+	} catch (error) {
+		console.error("Error grading quiz: ", error);
+		throw new Error("Could not grade quiz: " + error.message);
+	}
+};
 
-		let correctCount = 0;
+const gradeAnswers = ({ studentAnswers, teachersQuestions }) => {
+	let result = {
+		passed: true,
+		failedQuestions: [],
+		messageToDisplay: "",
+	};
 
-		studentAnswers.forEach((studentAnswer, index) => {
-			const teacherQuestion = teachersQuestions[index];
+	let correctCount = 0;
 
-			// Compare the student's selected answer with the teacher's correct answer
-			if (
-				parseInt(studentAnswer.correctAnswer) !== teacherQuestion.correctAnswer
-			) {
-				result.passed = false;
-				result.failedQuestions.push(index + 1); // Adding question index (1-based)
-			} else {
-				correctCount++;
-			}
-		});
+	studentAnswers.forEach((studentAnswer, index) => {
+		const teacherQuestion = teachersQuestions[index];
 
-		// Calculate the percentage score
-		const totalQuestions = studentAnswers.length;
-		const scorePercentage = (correctCount / totalQuestions) * 100;
-
-		// Generate the messageToDisplay for score and incorrect questions
-		if (result.failedQuestions.length > 0) {
-			result.messageToDisplay = `You scored ${scorePercentage}%. You got question(s) ${result.failedQuestions.join(
-				" and "
-			)} incorrect.`;
+		// Compare the student's selected answer with the teacher's correct answer
+		if (
+			parseInt(studentAnswer.studentAnswer) !== teacherQuestion.correctAnswer
+		) {
+			result.passed = false;
+			result.failedQuestions.push(index + 1); // Adding question index (1-based)
 		} else {
-			result.messageToDisplay = `You scored ${scorePercentage}%. You got all questions correct.`;
+			correctCount++;
 		}
+	});
+
+	// Calculate the percentage score
+	const totalQuestions = studentAnswers.length;
+	const scorePercentage = (correctCount / totalQuestions) * 100;
+
+	// Generate the messageToDisplay for score and incorrect questions
+	if (result.failedQuestions.length > 0) {
+		result.messageToDisplay = `You scored ${scorePercentage}%. You got question(s) ${result.failedQuestions.join(
+			" and "
+		)} incorrect.`;
+	} else {
+		result.messageToDisplay = `Congrats, You scored ${scorePercentage}%.`;
+	}
 
 		return result;
+		return result;
+	} catch (error) {
+		console.error("Error grading quiz: ", error);
+		throw new Error("Could not grade quiz: " + error.message);
+	}
+	return result;
 	} catch (error) {
 		console.error("Error grading quiz: ", error);
 		throw new Error("Could not grade quiz: " + error.message);

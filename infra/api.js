@@ -73,7 +73,7 @@ api.route("GET /api/auth/users", {
 
 // Case
 api.route("GET /api/case/details/{caseID}", {
-	handler: "server/controllers/case.controller.getCase",
+	handler: "server/controllers/case.controller.getCaseForStudentsResponse",
 	link: links,
 });
 api.route("GET /api/case/archived/{caseFilter}", {
@@ -147,7 +147,7 @@ api.route("GET /api/case/student/attempts/{studentID}", {
 
 // Quiz
 api.route("POST /api/quiz/submit", {
-	handler: "server/controllers/quiz.controller.submitCaseAnswers",
+	handler: "server/controllers/quiz.controller.submitStudentsAnswers",
 	link: links,
 });
 api.route("GET /api/quiz/answers/{caseID}", {
