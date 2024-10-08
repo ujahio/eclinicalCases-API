@@ -2,14 +2,12 @@ import jwt from "jsonwebtoken";
 import dbClient from "../services/dbClient.js";
 import bcrypt from "bcryptjs";
 import { v4 as uuidv4 } from "uuid";
-import crypto from "crypto";
 import { PutCommand, ScanCommand, QueryCommand } from "@aws-sdk/lib-dynamodb";
 import {
 	updateUserPassword,
 	generateOtp,
 	storeOtpInDb,
 	getOtpFromDb,
-	encryptPassword,
 	decryptPassword,
 	getUserByEmail,
 } from "../utils/api_utils.js";
@@ -20,18 +18,8 @@ import { checkDuplicateUsernameOrEmail } from "../middlewares/verifySignUp";
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-const signup = async (event) => {
+export const signup = async (event) => {
 	try {
-		const duplicateCheckResponse = await checkDuplicateUsernameOrEmail(event);
-
-		if (duplicateCheckResponse) {
-			return duplicateCheckResponse;
-		}
-
-		const { firstname, lastname, email, password, user_role } = JSON.parse(
-			event.body
-		);
-
 		// Validate input fields
 		if (!firstname || typeof firstname !== "string") {
 			return {
@@ -57,6 +45,16 @@ const signup = async (event) => {
 				body: JSON.stringify({ error: '"password" must be a string' }),
 			};
 		}
+
+		const duplicateCheckResponse = await checkDuplicateUsernameOrEmail(email);
+
+		if (duplicateCheckResponse) {
+			return duplicateCheckResponse;
+		}
+
+		const { firstname, lastname, email, password, user_role } = JSON.parse(
+			event.body
+		);
 
 		let teacherId;
 

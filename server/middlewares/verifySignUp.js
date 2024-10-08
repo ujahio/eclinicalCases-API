@@ -3,6 +3,7 @@ import dbClient from "../services/dbClient.js";
 import { TABLES } from "../services/dbTables.js";
 
 export const checkDuplicateUsernameOrEmail = async (event) => {
+	// TODO: expand check to make sure we are using pertinnent fields info to check for duplication
 	const { email } = JSON.parse(event.body);
 
 	try {
