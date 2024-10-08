@@ -32,8 +32,6 @@ export const getActiveCase = async (event) => {
 		};
 	}
 
-	// TODO: if you are a student, you have to your respective teacher id to get the active case
-
 	try {
 		const params = {
 			TableName: TABLES.TEACHER_CASE_STUDIES,
@@ -45,6 +43,10 @@ export const getActiveCase = async (event) => {
 				":caseStatus": "published",
 			},
 		};
+
+		if (userInfo.user_role === "student") {
+			params.ExpressionAttributeValues[":teacherId"] = userInfo.teacherId;
+		}
 
 		const command = new QueryCommand(params);
 		const result = await dbClient.send(command);
@@ -60,6 +62,14 @@ export const getActiveCase = async (event) => {
 			};
 		}
 
+		const caseInfo = {
+			id: activeCaseResult.id,
+			caseTopic: activeCaseResult.caseTopic,
+			createdAt: activeCaseResult.createdAt,
+			caseDeadline: activeCaseResult.caseDeadline,
+			caseStatus: activeCaseResult.caseStatus,
+		};
+
 		if (userInfo.user_role === "teacher") {
 			const countOfStudentsFeedbackAndResponses =
 				await getCountOfStudentsFeedbacksAndResponses(activeCaseResult.id);
@@ -69,10 +79,7 @@ export const getActiveCase = async (event) => {
 				body: JSON.stringify({
 					message: "Ongoing case retrieved successfully!",
 					caseInfo: {
-						caseTopic: activeCaseResult.caseTopic,
-						createdAt: activeCaseResult.createdAt,
-						caseDeadline: activeCaseResult.caseDeadline,
-						caseStatus: activeCaseResult.caseStatus,
+						...caseInfo,
 						feedbackCount: countOfStudentsFeedbackAndResponses.feedbackCount,
 						totalResponses: countOfStudentsFeedbackAndResponses.totalResponses,
 					},
@@ -83,12 +90,7 @@ export const getActiveCase = async (event) => {
 				statusCode: 200,
 				body: JSON.stringify({
 					message: "Ongoing case retrieved successfully!",
-					caseInfo: {
-						caseTopic: activeCaseResult.caseTopic,
-						createdAt: activeCaseResult.createdAt,
-						caseDeadline: activeCaseResult.caseDeadline,
-						caseStatus: activeCaseResult.caseStatus,
-					},
+					caseInfo,
 				}),
 			};
 		}

@@ -20,7 +20,6 @@ const StudentDashboard = () => {
 	);
 	// const publishedCaseInfo = useAppSelector((state) => state.onGoingCase.cases);
 	const publishedCaseInfo = useAppSelector((state) => state.activeCase.data);
-
 	const cases =
 		archivedCasesState?.map((caseItem: any) => ({
 			_id: caseItem.id,
@@ -53,7 +52,7 @@ const StudentDashboard = () => {
 						// style={{ backgroundImage: `url${OnGoingCaseBg}` }}
 						className="w-full px-6 py-8 sm:px-8 sm:py-10 md:px-10 md:py-12 ongoing-case bg-[url('../../assets/images/ongoing-case-bg.png')] flex flex-col sm:flex-row sm:items-center justify-between flex-wrap text-white rounded-sm relative"
 					>
-						{publishedCaseInfo?.data?.length > 0 ? (
+						{publishedCaseInfo ? (
 							<div className="flex flex-col md:mr-4 mb-4">
 								<svg
 									className="w-6.25 sm:w-8 md:w-10"
@@ -73,7 +72,7 @@ const StudentDashboard = () => {
 									</g>
 								</svg>
 								<h5 className="font-bold text-base mt-3.75 mb-2.5">
-									{publishedCaseInfo?.data[0]?.caseTopic}
+									{publishedCaseInfo?.caseTopic}
 								</h5>
 								<p className="text-1sm text-sm max-w-lg mb-5">
 									Learn how patients with a serious infection can be managed in
@@ -81,12 +80,11 @@ const StudentDashboard = () => {
 								</p>
 								<div>
 									<span className="inline-block text-1xs">
-										<b>Created:</b>{" "}
-										{formatDate(publishedCaseInfo?.data[0]?.createdAt)}
+										<b>Created:</b> {formatDate(publishedCaseInfo?.createdAt)}
 									</span>
 									<span className="block sm:inline-block text-1xs sm:ml-8">
 										<b>Deadline:</b>{" "}
-										{formatDate(publishedCaseInfo?.data[0]?.caseDeadline)}
+										{formatDate(publishedCaseInfo?.caseDeadline)}
 									</span>
 								</div>
 							</div>
@@ -99,9 +97,7 @@ const StudentDashboard = () => {
 								type="button"
 								size="md"
 								btnStyle="white"
-								{...(publishedCaseInfo?.data?.length > 0 && {
-									href: `/student/case-studies/${publishedCaseInfo.data[0].id}`,
-								})}
+								href={`/student/case-studies/${publishedCaseInfo?.id}`}
 							>
 								View Case
 							</Button>
