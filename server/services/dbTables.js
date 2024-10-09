@@ -5,7 +5,7 @@ export const TABLES = {
 	CASE: Resource.Cases.name,
 	TEACHER_CASE_STUDIES: Resource.TeacherCaseStudies.name,
 	FEEDBACK: Resource.Feedback.name,
-	ANSWER: Resource.Answers.name,
+	STUDENT_RESPONSES: Resource.StudentsResponses.name,
 	CERTIFICATES: Resource.Certificates.name,
 	STUDENTCASEATTEMPTS: Resource.StudentCaseAttempts.name,
 };
