@@ -198,7 +198,7 @@ export const getCountOfStudentsFeedbacksAndResponses = async (caseID) => {
 	};
 
 	const responsesParams = {
-		TableName: TABLES.ANSWER,
+		TableName: TABLES.STUDENT_RESPONSES,
 		IndexName: "CaseIDIndex",
 		KeyConditionExpression: "caseID = :caseID",
 		ExpressionAttributeValues: {

@@ -167,7 +167,7 @@ export const getStudentsResponses = async (event) => {
 	const { id: studentID } = userInfo;
 
 	const params = {
-		TableName: TABLES.ANSWER,
+		TableName: TABLES.STUDENT_RESPONSES,
 		IndexName: "StudentIDIndex",
 		KeyConditionExpression: "studentID = :studentID",
 		ExpressionAttributeValues: {

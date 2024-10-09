@@ -301,7 +301,7 @@ const getCaseAnswers = async (event) => {
 	const caseID = event.pathParameters.caseID;
 
 	const answersParams = {
-		TableName: TABLES.ANSWER,
+		TableName: TABLES.STUDENT_RESPONSES,
 		IndexName: "CaseIDIndex",
 		KeyConditionExpression: "caseID = :caseID",
 		ExpressionAttributeValues: {
@@ -404,7 +404,7 @@ const getCaseData = async (event) => {
 	};
 
 	const answersParams = {
-		TableName: TABLES.ANSWER,
+		TableName: TABLES.STUDENT_RESPONSES,
 		IndexName: "CaseIDIndex",
 		KeyConditionExpression: "caseID = :caseID",
 		ExpressionAttributeValues: {

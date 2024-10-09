@@ -246,7 +246,7 @@ export const getPublishedCase = async (event) => {
 		// Student flow: Check if the student has responded to the active case
 		if (userInfo.user_role === "student") {
 			const answerParams = {
-				TableName: TABLES.ANSWER,
+				TableName: TABLES.STUDENT_RESPONSES,
 				IndexName: "StudentIDIndex", // Using the index to query answers by studentID
 				KeyConditionExpression: "studentID = :studentID",
 				ExpressionAttributeValues: {
