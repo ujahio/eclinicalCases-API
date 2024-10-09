@@ -131,7 +131,9 @@ const DoctorDashboard = () => {
 						{publishedCaseInfo && (
 							<div className="min-w-min inline-block">
 								<div className="flex">
-									<Link href="/doctor/responses-feedback">
+									<Link
+										href={`/doctor/responses-feedback/${publishedCaseInfo.id}`}
+									>
 										<Button
 											type="button"
 											size="md"
@@ -164,7 +166,10 @@ const DoctorDashboard = () => {
 						{archivedCases?.length === 0
 							? "No archived cases found."
 							: archivedCases?.map((caseM: any, index: number) => (
-									<Link href="/doctor/responses-feedback" key={index}>
+									<Link
+										href={`/doctor/responses-feedback/${caseM._id}`}
+										key={index}
+									>
 										<CaseCard case={caseM} key={caseM._id} />
 									</Link>
 							  ))}
