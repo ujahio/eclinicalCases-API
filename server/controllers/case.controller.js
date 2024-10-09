@@ -14,7 +14,11 @@ import { TABLES } from "../services/dbTables.js";
 import uploadFileToBucket from "../services/bucket.js";
 import dbClient from "../services/dbClient.js";
 import SECRETS from "../services/secrets.js";
-import { parseLogToObject, extrapolateFormData } from "../utils/api_utils.js";
+import {
+	parseLogToObject,
+	extrapolateFormData,
+	getDetailsOfStudentsFeedbackAndResponses,
+} from "../utils/api_utils.js";
 // TODO: move to a utility function
 
 // todo: move to utility function
@@ -394,89 +398,18 @@ const getCaseAttemptsByStudent = async (event) => {
 const getCaseData = async (event) => {
 	const caseID = event.pathParameters.caseID;
 
-	const feedbackParams = {
-		TableName: TABLES.FEEDBACK,
-		IndexName: "CaseIDIndex",
-		KeyConditionExpression: "caseID = :caseID",
-		ExpressionAttributeValues: {
-			":caseID": caseID,
-		},
-	};
-
-	const answersParams = {
-		TableName: TABLES.STUDENT_RESPONSES,
-		IndexName: "CaseIDIndex",
-		KeyConditionExpression: "caseID = :caseID",
-		ExpressionAttributeValues: {
-			":caseID": caseID,
-		},
-	};
-
 	try {
-		const feedbackCommand = new QueryCommand(feedbackParams);
-		const feedbackResult = await dbClient.send(feedbackCommand);
-
-		const answersCommand = new QueryCommand(answersParams);
-		const answersResult = await dbClient.send(answersCommand);
-
-		// Combine feedback and answers by studentID
-		const combinedData = {};
-
-		feedbackResult.Items.forEach((feedback) => {
-			if (!combinedData[feedback.studentID]) {
-				combinedData[feedback.studentID] = {
-					student: {},
-					feedback: [],
-					answers: [],
-				};
-			}
-			combinedData[feedback.studentID].feedback.push(feedback);
-		});
-
-		answersResult.Items.forEach((answer) => {
-			if (!combinedData[answer.studentID]) {
-				combinedData[answer.studentID] = {
-					student: {},
-					feedback: [],
-					answers: [],
-				};
-			}
-			combinedData[answer.studentID].answers.push(answer);
-		});
-
-		// Fetch details of each student
-		const studentDetailsPromises = Object.keys(combinedData).map(
-			async (studentID) => {
-				const userParams = {
-					TableName: TABLES.USER,
-					IndexName: "IDIndex",
-					KeyConditionExpression: "id = :id",
-					ExpressionAttributeValues: {
-						":id": studentID,
-					},
-				};
-
-				const userCommand = new QueryCommand(userParams);
-				const userResult = await dbClient.send(userCommand);
-				if (userResult.Items.length > 0) {
-					const user = userResult.Items[0];
-					combinedData[studentID].student = {
-						firstName: user.firstname,
-						lastName: user.lastname,
-					};
-				} else {
-					throw new Error(`User with id ${studentID} not found`);
-				}
-			}
+		const { responseItems } = await getDetailsOfStudentsFeedbackAndResponses(
+			caseID,
+			true
 		);
-
-		await Promise.all(studentDetailsPromises);
-
-		const responseData = Object.values(combinedData);
 
 		return {
 			statusCode: 200,
-			body: JSON.stringify(responseData),
+			body: JSON.stringify({
+				message: "Case data retrieved successfully.",
+				responseItems,
+			}),
 		};
 	} catch (error) {
 		console.error(error);

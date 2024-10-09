@@ -219,13 +219,11 @@ export const getDetailsOfStudentsFeedbackAndResponses = async (
 	const feedbackCommand = new QueryCommand(feedbackParams);
 	const feedbackResult = await dbClient.send(feedbackCommand);
 	const feedbackItems = feedbackResult.Items || []; // Full details if details flag is true
-	const feedbackCount = feedbackResult.Count || 0; // Count if details flag is false
 
 	// Fetch responses
 	const responsesCommand = new QueryCommand(responsesParams);
 	const totalResponsesResult = await dbClient.send(responsesCommand);
 	const responseItems = totalResponsesResult.Items || []; // Full details if details flag is true
-	const totalResponses = totalResponsesResult.Count || 0; // Count if details flag is false
 
 	// If details are required, proceed to fetch user information for each response
 	if (details) {
@@ -236,6 +234,7 @@ export const getDetailsOfStudentsFeedbackAndResponses = async (
 		const userPromises = studentIDs.map(async (studentID) => {
 			const userParams = {
 				TableName: TABLES.USER,
+				IndexName: "IDIndex",
 				KeyConditionExpression: "id = :id",
 				ExpressionAttributeValues: {
 					":id": studentID,
@@ -253,29 +252,32 @@ export const getDetailsOfStudentsFeedbackAndResponses = async (
 		// Merge the user information with responses and feedback
 		const responseWithUserDetails = responseItems.map((response) => {
 			const user = users.find((u) => u && u.id === response.studentID);
-			return {
-				...response,
-				firstname: user ? user.firstname : "Unknown",
-				lastname: user ? user.lastname : "Unknown",
-			};
-		});
+			const feedbackMap = feedbackItems.filter(
+				(fb) => fb.studentID === response.studentID
+			);
 
-		const feedbackWithUserDetails = feedbackItems.map((feedback) => {
-			const user = users.find((u) => u && u.id === feedback.studentID);
+			// Return only the necessary fields
 			return {
-				...feedback,
-				firstname: user ? user.firstname : "Unknown",
-				lastname: user ? user.lastname : "Unknown",
+				id: user ? user.id : "",
+				firstName: user ? user.firstname : "Unknown",
+				lastName: user ? user.lastname : "Unknown",
+				submittedAt: response.submittedAt || "N/A", // Assuming submittedAt exists in the response
+				caseExplanation: response.caseExplanation || "N/A", // Assuming caseExplanation exists in the response
+				feedback: feedbackMap.length
+					? feedbackMap.map((fb) => fb.feedback)
+					: [], // Return empty array if no feedback
 			};
 		});
 
 		return {
-			feedbackItems: feedbackWithUserDetails, // Full feedback details with user info
-			responseItems: responseWithUserDetails, // Full response details with user info
+			responseItems: responseWithUserDetails, // Full response details with required fields
 		};
 	}
 
 	// Return only the counts if details are not requested
+	const feedbackCount = feedbackResult.Count || 0; // Count if details flag is false
+	const totalResponses = totalResponsesResult.Count || 0; // Count if details flag is false
+
 	return {
 		feedbackCount, // Just feedback count
 		totalResponses, // Just response count
