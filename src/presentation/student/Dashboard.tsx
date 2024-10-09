@@ -91,16 +91,18 @@ const StudentDashboard = () => {
 							<p className="text-white">{"No ongoing cases found!!!"}</p>
 						)}
 
-						<div className="min-w-min inline-block">
-							<Button
-								type="button"
-								size="md"
-								btnStyle="white"
-								href={`/student/case-studies/${publishedCaseInfo?.id}`}
-							>
-								View Case
-							</Button>
-						</div>
+						{publishedCaseInfo && (
+							<div className="min-w-min inline-block">
+								<Button
+									type="button"
+									size="md"
+									btnStyle="white"
+									href={`/student/case-studies/${publishedCaseInfo?.id}`}
+								>
+									View Case
+								</Button>
+							</div>
+						)}
 					</div>
 				</div>
 				<div className="">
