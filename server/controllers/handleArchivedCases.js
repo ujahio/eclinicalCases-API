@@ -4,7 +4,7 @@ import uploadFileToBucket from "../services/bucket.js";
 import dbClient from "../services/dbClient.js";
 import SECRETS from "../services/secrets.js";
 import { verifyToken } from "./case.controller.js"; // todo: move utils function to util fild/folder
-import { getCountOfStudentsFeedbacksAndResponses } from "../utils/api_utils.js";
+import { getDetailsOfStudentsFeedbackAndResponses } from "../utils/api_utils.js";
 
 export const getArchivedCases = async (event) => {
 	const userToken = event.headers.authorization.split(" ")[1];
@@ -54,7 +54,7 @@ export const getArchivedCases = async (event) => {
 		const archivedCasesResults = await Promise.all(
 			archivedCases.map(async (c) => {
 				const caseID = c.id;
-				const countResults = await getCountOfStudentsFeedbacksAndResponses(
+				const countResults = await getDetailsOfStudentsFeedbackAndResponses(
 					caseID
 				);
 				return {

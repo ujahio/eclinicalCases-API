@@ -155,7 +155,8 @@ export const getStudentsResponses = async (event) => {
 	const userToken = event.headers.authorization.split(" ")[1];
 	const userInfo = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
 	const caseFilter = event.pathParameters.caseFilter;
-	if (!userInfo && !userInfo.user_role === "teacher") {
+
+	if (!userInfo || userInfo.user_role !== "student") {
 		return {
 			statusCode: 400,
 			body: JSON.stringify({

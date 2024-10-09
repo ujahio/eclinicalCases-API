@@ -186,7 +186,14 @@ export const extrapolateFormData = async (event) => {
 	}
 };
 
-export const getCountOfStudentsFeedbacksAndResponses = async (caseID) => {
+export const getDetailsOfStudentsFeedbackAndResponses = async (
+	caseID,
+	details = false
+) => {
+	// Choose whether to select only count or all attributes based on the 'details' flag
+	const selectOption = details ? "ALL_ATTRIBUTES" : "COUNT";
+
+	// Parameters for fetching feedback
 	const feedbackParams = {
 		TableName: TABLES.FEEDBACK,
 		IndexName: "CaseIDIndex",
@@ -194,9 +201,10 @@ export const getCountOfStudentsFeedbacksAndResponses = async (caseID) => {
 		ExpressionAttributeValues: {
 			":caseID": caseID,
 		},
-		Select: "COUNT", // Only count the number of items
+		Select: selectOption, // Conditional selection based on details flag
 	};
 
+	// Parameters for fetching responses
 	const responsesParams = {
 		TableName: TABLES.STUDENT_RESPONSES,
 		IndexName: "CaseIDIndex",
@@ -204,22 +212,73 @@ export const getCountOfStudentsFeedbacksAndResponses = async (caseID) => {
 		ExpressionAttributeValues: {
 			":caseID": caseID,
 		},
-		Select: "COUNT", // Only count the number of items
+		Select: selectOption, // Conditional selection based on details flag
 	};
 
-	// Get the count of feedback items
+	// Fetch feedback
 	const feedbackCommand = new QueryCommand(feedbackParams);
 	const feedbackResult = await dbClient.send(feedbackCommand);
-	const feedbackCount = feedbackResult.Count || 0;
+	const feedbackItems = feedbackResult.Items || []; // Full details if details flag is true
+	const feedbackCount = feedbackResult.Count || 0; // Count if details flag is false
 
-	// Get the count of answers items
+	// Fetch responses
 	const responsesCommand = new QueryCommand(responsesParams);
 	const totalResponsesResult = await dbClient.send(responsesCommand);
-	const totalResponses = totalResponsesResult.Count || 0;
+	const responseItems = totalResponsesResult.Items || []; // Full details if details flag is true
+	const totalResponses = totalResponsesResult.Count || 0; // Count if details flag is false
 
+	// If details are required, proceed to fetch user information for each response
+	if (details) {
+		// Map studentID to their corresponding response and feedback
+		const studentIDs = responseItems.map((response) => response.studentID);
+
+		// Fetch user details from the USERS table
+		const userPromises = studentIDs.map(async (studentID) => {
+			const userParams = {
+				TableName: TABLES.USER,
+				KeyConditionExpression: "id = :id",
+				ExpressionAttributeValues: {
+					":id": studentID,
+				},
+			};
+
+			const userCommand = new QueryCommand(userParams);
+			const userResult = await dbClient.send(userCommand);
+			return userResult.Items[0] || null; // Return null if user not found
+		});
+
+		// Wait for all user queries to complete
+		const users = await Promise.all(userPromises);
+
+		// Merge the user information with responses and feedback
+		const responseWithUserDetails = responseItems.map((response) => {
+			const user = users.find((u) => u && u.id === response.studentID);
+			return {
+				...response,
+				firstname: user ? user.firstname : "Unknown",
+				lastname: user ? user.lastname : "Unknown",
+			};
+		});
+
+		const feedbackWithUserDetails = feedbackItems.map((feedback) => {
+			const user = users.find((u) => u && u.id === feedback.studentID);
+			return {
+				...feedback,
+				firstname: user ? user.firstname : "Unknown",
+				lastname: user ? user.lastname : "Unknown",
+			};
+		});
+
+		return {
+			feedbackItems: feedbackWithUserDetails, // Full feedback details with user info
+			responseItems: responseWithUserDetails, // Full response details with user info
+		};
+	}
+
+	// Return only the counts if details are not requested
 	return {
-		feedbackCount,
-		totalResponses,
+		feedbackCount, // Just feedback count
+		totalResponses, // Just response count
 	};
 };
 
