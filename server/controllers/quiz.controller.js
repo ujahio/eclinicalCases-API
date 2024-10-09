@@ -167,15 +167,5 @@ const gradeAnswers = ({ studentAnswers, teachersQuestions }) => {
 		result.messageToDisplay = `Congrats, You scored ${scorePercentage}%.`;
 	}
 
-		return result;
-		return result;
-	} catch (error) {
-		console.error("Error grading quiz: ", error);
-		throw new Error("Could not grade quiz: " + error.message);
-	}
 	return result;
-	} catch (error) {
-		console.error("Error grading quiz: ", error);
-		throw new Error("Could not grade quiz: " + error.message);
-	}
 };
