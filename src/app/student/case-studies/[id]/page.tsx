@@ -20,26 +20,24 @@ const tabs = [
 	"Case Model Question",
 	"Case Model Answers",
 	"CME Questions",
-	"Certificate",
 	"Feedbacks",
+	"Certificate",
 ];
 const CaseStudies = ({ params }: any) => {
 	const dispatch = useAppDispatch();
 	const { active: activeTab, switchTab, isActive } = useProcessTabs(tabs, 0);
 	const [progress, setProgress] = useState(0);
-	const caseDetailsState = useAppSelector((state) => state.caseDetails);
-	const submitResponseState = useAppSelector(
-		(state) => state.submitCaseResponse
-	);
-	const handleFetchCaseDetails = (caseId: any) => {
-		dispatch(fetchCaseDetails(caseId));
-	};
 	const [caseDetails, setCaseDetails] = useState<CaseDetail>({
 		caseID: params.id,
 		caseTopicAnswer: "",
 		caseExplanation: "",
 		answers: [],
 	});
+
+	const caseDetailsState = useAppSelector((state) => state.caseDetails);
+	const submitResponseState = useAppSelector(
+		(state) => state.submitCaseResponse
+	);
 
 	const handleSubmitResponse = () => {
 		dispatch(submitCaseResponse(caseDetails));
@@ -59,21 +57,20 @@ const CaseStudies = ({ params }: any) => {
 
 	useEffect(() => {
 		if (params.id) {
-			handleFetchCaseDetails(params.id);
+			dispatch(fetchCaseDetails(params.id));
 		}
-	}, [params.id]);
+	}, [params.id, dispatch]);
 
 	useEffect(() => {
 		if (caseDetailsState.status === "succeeded") {
 			dispatch(resetCaseDetailsStatus());
 			const parsedQuestions =
-				caseDetailsState.caseDetails?.data?.caseQuestions || "[]";
+				JSON.parse(caseDetailsState?.data.caseQuestions) || [];
 			const updatedCaseDetails = {
 				...caseDetails,
 				answers: parsedQuestions.map((question: any) => ({
 					question: question.question,
 					options: question.options,
-					correctAnswer: null,
 				})),
 			};
 			setCaseDetails(updatedCaseDetails);
@@ -97,6 +94,16 @@ const CaseStudies = ({ params }: any) => {
 					theme: "light",
 				});
 			} else {
+				toast.success(submitResponseState.response.messageToDisplay, {
+					position: "top-right",
+					autoClose: 5000,
+					hideProgressBar: false,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+					progress: undefined,
+					theme: "light",
+				});
 				switchTab(4);
 				setProgress(4);
 			}

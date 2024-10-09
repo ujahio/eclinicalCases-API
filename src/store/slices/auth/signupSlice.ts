@@ -10,6 +10,7 @@ export const signupUser = createAsyncThunk(
 				lastname: signupData.personalDetails.lastName,
 				email: signupData.personalDetails.email,
 				password: signupData.personalDetails.password,
+				user_role: signupData.user_role,
 			};
 			const { data } = await signup(filteredSignupData);
 			return data;

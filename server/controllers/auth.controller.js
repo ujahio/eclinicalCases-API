@@ -2,14 +2,12 @@ import jwt from "jsonwebtoken";
 import dbClient from "../services/dbClient.js";
 import bcrypt from "bcryptjs";
 import { v4 as uuidv4 } from "uuid";
-import crypto from "crypto";
-import { PutCommand, ScanCommand } from "@aws-sdk/lib-dynamodb";
+import { PutCommand, ScanCommand, QueryCommand } from "@aws-sdk/lib-dynamodb";
 import {
 	updateUserPassword,
 	generateOtp,
 	storeOtpInDb,
 	getOtpFromDb,
-	encryptPassword,
 	decryptPassword,
 	getUserByEmail,
 } from "../utils/api_utils.js";
@@ -20,17 +18,9 @@ import { checkDuplicateUsernameOrEmail } from "../middlewares/verifySignUp";
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-const signup = async (event) => {
-	const duplicateCheckResponse = await checkDuplicateUsernameOrEmail(event);
-
-	if (duplicateCheckResponse) {
-		return duplicateCheckResponse;
-	}
+export const signup = async (event) => {
 	try {
-		const { firstname, lastname, email, password, roles } = JSON.parse(
-			event.body
-		);
-
+		// Validate input fields
 		if (!firstname || typeof firstname !== "string") {
 			return {
 				statusCode: 400,
@@ -56,13 +46,53 @@ const signup = async (event) => {
 			};
 		}
 
+		const duplicateCheckResponse = await checkDuplicateUsernameOrEmail(email);
+
+		if (duplicateCheckResponse) {
+			return duplicateCheckResponse;
+		}
+
+		const { firstname, lastname, email, password, user_role } = JSON.parse(
+			event.body
+		);
+
+		let teacherId;
+
+		// Fetch the single teacher's ID from DynamoDB
+		if (user_role === "student") {
+			const teacherParams = {
+				TableName: TABLES.USER,
+				IndexName: "RoleIndex", // Use user_role instead of role
+				KeyConditionExpression: "user_role = :user_role", // Use user_role
+				ExpressionAttributeValues: {
+					":user_role": "teacher",
+				},
+			};
+
+			const teacherCommand = new QueryCommand(teacherParams);
+			const teacherResult = await dbClient.send(teacherCommand);
+
+			if (!teacherResult.Items || teacherResult.Items.length === 0) {
+				return {
+					statusCode: 500,
+					body: JSON.stringify({
+						error: "No teacher found in the system.",
+					}),
+				};
+			}
+
+			// Get the first (and only) teacher's ID
+			teacherId = teacherResult.Items[0].id;
+		}
+
+		// Prepare the new user data
 		const originalPassword = decryptPassword(
 			password,
 			resources.NEXT_PUBLIC_PASS_SECRET_KEY
 		);
 		const hashedPassword = bcrypt.hashSync(originalPassword, 10);
 		const userId = uuidv4();
-		const created_on = new Date().toISOString();
+		const createdAt = new Date().toISOString();
 
 		const user = {
 			id: userId,
@@ -70,11 +100,12 @@ const signup = async (event) => {
 			lastname,
 			email,
 			password: hashedPassword,
-			created_on,
+			createdAt,
 			status: "active",
 			signUpLevel: 1,
 			paymentStatus: "inactive",
-			roles: roles || "user",
+			user_role,
+			teacherId: user_role === "student" ? teacherId : null,
 		};
 
 		const params = {
@@ -85,7 +116,7 @@ const signup = async (event) => {
 		const command = new PutCommand(params);
 		await dbClient.send(command);
 
-		// Remove password from the user object before sending response
+		// Remove password before sending response
 		delete user.password;
 
 		return {
@@ -164,10 +195,6 @@ const signin = async (event) => {
 			};
 		}
 
-		// const userToken = jwt.sign(user, resources.NEXT_JWT_SECRET, {
-		// 	expiresIn: "1h",
-		// });
-
 		const userToken = jwt.sign(user, resources.NEXT_JWT_SECRET);
 		return {
 			statusCode: 200,
@@ -177,7 +204,7 @@ const signin = async (event) => {
 				user: {
 					id: user.id,
 					email: user.email,
-					roles: user.roles,
+					user_role: user.user_role,
 				},
 			}),
 		};
@@ -254,6 +281,7 @@ const verifyOtpAndResetPassword = async (event) => {
 	}
 };
 
+// is this needed?
 const getUsers = async () => {
 	try {
 		const params = {
@@ -335,11 +363,4 @@ const updatePassword = async (event) => {
 	}
 };
 
-export {
-	signup,
-	signin,
-	sendOTP,
-	verifyOtpAndResetPassword,
-	getUsers,
-	updatePassword,
-};
+export { signin, sendOTP, verifyOtpAndResetPassword, getUsers, updatePassword };

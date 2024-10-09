@@ -1,11 +1,13 @@
 export const Users = new sst.aws.Dynamo("Users", {
 	fields: {
-		email: "string",
-		id: "string",
+		email: "string", // User's email
+		id: "string", // User's unique ID
+		user_role: "string", // User's role: 'student', 'teacher', etc.
 	},
-	primaryIndex: { hashKey: "email" },
+	primaryIndex: { hashKey: "email" }, // Primary index based on email
 	globalIndexes: {
-		IDIndex: { hashKey: "id" },
+		IDIndex: { hashKey: "id" }, // Index based on user ID
+		RoleIndex: { hashKey: "user_role" }, // New index to query by role (e.g., 'teacher')
 	},
 });
 
@@ -61,6 +63,7 @@ export const Answers = new sst.aws.Dynamo("Answers", {
 	primaryIndex: { hashKey: "answerID", rangeKey: "studentID" },
 	globalIndexes: {
 		CaseIDIndex: { hashKey: "caseID" },
+		StudentIDIndex: { hashKey: "studentID" },
 	},
 });
 

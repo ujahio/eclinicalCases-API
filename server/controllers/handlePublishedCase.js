@@ -7,6 +7,7 @@ import dbClient from "../services/dbClient.js";
 import SECRETS from "../services/secrets.js";
 import { extrapolateFormData } from "../utils/api_utils.js";
 import { verifyToken } from "./case.controller.js"; // todo: move utils function to util fild/folder
+import { getCountOfStudentsFeedbacksAndResponses } from "../utils/api_utils.js";
 
 export const publishCase = async (event) => {
 	const {
@@ -153,6 +154,140 @@ export const publishCase = async (event) => {
 			body: JSON.stringify({
 				message: "Error publishing case.",
 				error: error.message,
+			}),
+		};
+	}
+};
+
+export const getPublishedCase = async (event) => {
+	const userToken = event.headers.authorization.split(" ")[1];
+	const userInfo = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
+
+	// Check for valid user roles and authentication
+	if (
+		!userInfo &&
+		!(userInfo.user_role === "teacher" || userInfo.user_role === "student")
+	) {
+		return {
+			statusCode: 400,
+			body: JSON.stringify({
+				message: "Not authorized to view this resource",
+			}),
+		};
+	}
+
+	if (!userInfo.id) {
+		return {
+			statusCode: 400,
+			body: JSON.stringify({
+				message: "Invalid input: missing required fields",
+			}),
+		};
+	}
+
+	try {
+		const params = {
+			TableName: TABLES.TEACHER_CASE_STUDIES,
+			IndexName: "TeacherStatusIndex",
+			KeyConditionExpression:
+				"teacherId = :teacherId AND caseStatus = :caseStatus",
+			ExpressionAttributeValues: {
+				":teacherId": userInfo.id,
+				":caseStatus": "published",
+			},
+		};
+
+		// If the user is a student, adjust the query to use their teacher's ID
+		if (userInfo.user_role === "student") {
+			params.ExpressionAttributeValues[":teacherId"] = userInfo.teacherId;
+		}
+
+		const command = new QueryCommand(params);
+		const result = await dbClient.send(command);
+		const activeCaseResult = result.Items[0];
+
+		// If no active cases found, return a message
+		if (!activeCaseResult) {
+			return {
+				statusCode: 200,
+				body: JSON.stringify({
+					message: "There are no ongoing cases at the moment.",
+				}),
+			};
+		}
+
+		// Prepare case info to be sent
+		const caseInfo = {
+			id: activeCaseResult.id,
+			caseTopic: activeCaseResult.caseTopic,
+			createdAt: activeCaseResult.createdAt,
+			caseDeadline: activeCaseResult.caseDeadline,
+			caseStatus: activeCaseResult.caseStatus,
+		};
+
+		// Teacher flow - unchanged
+		if (userInfo.user_role === "teacher") {
+			const countOfStudentsFeedbackAndResponses =
+				await getCountOfStudentsFeedbacksAndResponses(activeCaseResult.id);
+
+			return {
+				statusCode: 200,
+				body: JSON.stringify({
+					message: "Ongoing case retrieved successfully!",
+					caseInfo: {
+						...caseInfo,
+						feedbackCount: countOfStudentsFeedbackAndResponses.feedbackCount,
+						totalResponses: countOfStudentsFeedbackAndResponses.totalResponses,
+					},
+				}),
+			};
+		}
+
+		// Student flow: Check if the student has responded to the active case
+		if (userInfo.user_role === "student") {
+			const answerParams = {
+				TableName: TABLES.ANSWER,
+				IndexName: "StudentIDIndex", // Using the index to query answers by studentID
+				KeyConditionExpression: "studentID = :studentID",
+				ExpressionAttributeValues: {
+					":studentID": userInfo.id,
+				},
+				FilterExpression: "caseID = :caseID", // Filter results by caseID
+				ExpressionAttributeValues: {
+					":studentID": userInfo.id,
+					":caseID": activeCaseResult.id,
+				},
+			};
+
+			// Query the Answers table to check for existing responses
+			const answerCommand = new QueryCommand(answerParams);
+			const answerResult = await dbClient.send(answerCommand);
+
+			// If the student hasn't responded to the case, return the active case
+			if (answerResult.Items.length === 0) {
+				return {
+					statusCode: 200,
+					body: JSON.stringify({
+						message: "You have not responded to this case yet.",
+						caseInfo,
+					}),
+				};
+			}
+
+			// If the student has already responded, return a different message
+			return {
+				statusCode: 200,
+				body: JSON.stringify({
+					message: "You have already responded to this case.",
+				}),
+			};
+		}
+	} catch (error) {
+		console.error("Error retrieving ongoing case:", error);
+		return {
+			statusCode: 500,
+			body: JSON.stringify({
+				error: `Could not retrieve ongoing cases: ${error.message}`,
 			}),
 		};
 	}

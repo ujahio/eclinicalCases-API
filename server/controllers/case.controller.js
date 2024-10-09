@@ -38,54 +38,52 @@ export const verifyToken = (token, secretKey) => {
 	}
 };
 
-const getCase = async (event) => {
-	const caseID = event.pathParameters.caseID;
+export const getCaseForStudentsResponse = async (event) => {
+	const userToken = event.headers.authorization.split(" ")[1];
+	const userInfo = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
 
-	if (!caseID) {
-		return {
-			statusCode: 400,
-			body: JSON.stringify({ error: "Missing case ID in the request URL." }),
-		};
-	}
+	const params = {
+		TableName: TABLES.TEACHER_CASE_STUDIES,
+		IndexName: "TeacherStatusIndex",
+		KeyConditionExpression:
+			"teacherId = :teacherId AND caseStatus = :caseStatus",
+		ExpressionAttributeValues: {
+			":teacherId": userInfo.teacherId,
+			":caseStatus": "published",
+		},
+	};
 
-	try {
-		const params = {
-			TableName: TABLES.CASE,
-			Key: {
-				id: caseID,
-			},
-		};
+	const command = new QueryCommand(params);
+	const result = await dbClient.send(command);
+	const publishedCaseResult = result.Items[0];
 
-		const command = new GetCommand(params);
-		const result = await dbClient.send(command);
-		const caseData = result.Item;
-
-		if (!caseData) {
-			return {
-				statusCode: 404,
-				body: JSON.stringify({
-					message: "Case not found.",
-					data: {},
-				}),
-			};
-		}
-
+	if (!publishedCaseResult) {
 		return {
 			statusCode: 200,
 			body: JSON.stringify({
-				message: "Case retrieved successfully!",
-				data: caseData,
-			}),
-		};
-	} catch (error) {
-		console.error("Error retrieving case:", error);
-		return {
-			statusCode: 500,
-			body: JSON.stringify({
-				error: `Could not retrieve case: ${error.message}`,
+				message: "There is currently no published case.",
 			}),
 		};
 	}
+
+	const caseInfo = {
+		id: publishedCaseResult.id,
+		caseTopic: publishedCaseResult.caseTopic,
+		caseDeadline: publishedCaseResult.caseDeadline,
+		caseStatus: publishedCaseResult.caseStatus,
+		caseDescription: publishedCaseResult.caseDescription,
+		caseQuestions: publishedCaseResult.caseQuestions,
+		caseClue: publishedCaseResult.caseClue,
+		caseExplanation: publishedCaseResult.caseExplanation,
+	};
+
+	return {
+		statusCode: 200,
+		body: JSON.stringify({
+			message: "Case details retrieved successfully!",
+			caseInfo,
+		}),
+	};
 };
 
 const deleteAllCases = async () => {
@@ -491,7 +489,7 @@ const getCaseData = async (event) => {
 
 export {
 	// addCase,
-	getCase,
+
 	deleteAllCases,
 	duplicateCase,
 	addFeedback,

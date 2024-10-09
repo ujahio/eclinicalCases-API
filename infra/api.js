@@ -17,6 +17,7 @@ import {
 	TeacherCaseStudies,
 } from "./dynamo";
 
+// TODO: link only the resources each route needs
 const links = [
 	Users,
 	Cases,
@@ -72,7 +73,7 @@ api.route("GET /api/auth/users", {
 
 // Case
 api.route("GET /api/case/details/{caseID}", {
-	handler: "server/controllers/case.controller.getCase",
+	handler: "server/controllers/case.controller.getCaseForStudentsResponse",
 	link: links,
 });
 api.route("GET /api/case/archived/{caseFilter}", {
@@ -80,7 +81,11 @@ api.route("GET /api/case/archived/{caseFilter}", {
 	link: links,
 });
 api.route("GET /api/case/active", {
-	handler: "server/controllers/handleActiveCase.getActiveCase",
+	handler: "server/controllers/handlePublishedCase.getPublishedCase",
+	link: links,
+});
+api.route("POST /api/case/publish", {
+	handler: "server/controllers/handlePublishedCase.publishCase",
 	link: links,
 });
 // api.route("POST /api/case/add", {
@@ -113,10 +118,7 @@ api.route("POST /api/case/duplicate", {
 	handler: "server/controllers/case.controller.duplicateCase",
 	link: links,
 });
-api.route("POST /api/case/publish", {
-	handler: "server/controllers/handlePublishCase.publishCase",
-	link: links,
-});
+
 api.route("POST /api/case/add/feedback", {
 	handler: "server/controllers/case.controller.addFeedback",
 	link: links,
@@ -145,7 +147,7 @@ api.route("GET /api/case/student/attempts/{studentID}", {
 
 // Quiz
 api.route("POST /api/quiz/submit", {
-	handler: "server/controllers/quiz.controller.submitCaseAnswers",
+	handler: "server/controllers/quiz.controller.submitStudentsAnswers",
 	link: links,
 });
 api.route("GET /api/quiz/answers/{caseID}", {
@@ -164,5 +166,9 @@ api.route("GET /api/student/certificates", {
 });
 api.route("GET /api/student/certificate/{caseID}", {
 	handler: "server/controllers/student.controller.getCertificateByCaseID",
+	link: links,
+});
+api.route("GET /api/student/get-responses/{caseFilter}", {
+	handler: "server/controllers/student.controller.getStudentsResponses",
 	link: links,
 });

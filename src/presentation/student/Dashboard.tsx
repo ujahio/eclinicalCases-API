@@ -6,44 +6,42 @@ import WalkthroughModal from "@/components/modals/Walkthrough";
 import CaseCard from "@/components/cases/CaseCard";
 import { useAppSelector } from "@/services/hooks/hooks";
 import { formatDate } from "@/utils/formatDate";
+import ResponseCaseCard from "@/components/cases/ResponseCaseCard";
 
 const StudentDashboard = () => {
 	const [showWelcomeModal, setShowWelcomeModal] = useState(true);
-	//   const { user } = SessionContext.useContainer();
-	useEffect(() => {
-		setTimeout(() => {
-			setShowWelcomeModal(true);
-		}, 500);
-	}, []);
-	const archivedCasesState = useAppSelector(
-		(state) => state.getArchiveCases.cases
-	);
-	// const publishedCaseInfo = useAppSelector((state) => state.onGoingCase.cases);
+	// const { user } = useAppSelector((state) => state.login);
 	const publishedCaseInfo = useAppSelector((state) => state.activeCase.data);
 
-	const cases =
-		archivedCasesState?.map((caseItem: any) => ({
+	const studentsResponsesToCases = useAppSelector(
+		(state) => state.studentsResponsesToCases.responses
+	);
+	const studentsResponses =
+		studentsResponsesToCases.map((caseItem: any) => ({
 			_id: caseItem.id,
-			description: JSON.parse(caseItem.caseDescription).blocks[0].text,
-			caseDeadline: formatDate(caseItem.caseDeadline),
-			createdAt: formatDate(caseItem.createdAt),
-			feedbackCount: caseItem.feedbackCount,
-			totalResponses: caseItem.totalResponses,
-			caseTopic: caseItem.caseTopic,
+			submittedAt: formatDate(caseItem.submittedAt),
+			caseTopic: caseItem.caseTopicAnswer,
 		})) || [];
+
+	// TODO: implementation of logic to show setShowWelcomeModal
+	// useEffect(() => {
+	// 	setTimeout(() => {
+	// 		setShowWelcomeModal(true);
+	// 	}, 500);
+	// }, []);
 	return (
 		<DashboardLayout>
 			<div className="grid gap-y-10 sm:gap-y-12.5">
-				{/* <div className="flex items-center justify-between">
-          <div className="inline-flex items-center">
-             <figure className="h-8 md:h-11.25 w-8 md:w-11.25 rounded-full overflow-hidden">
-              <img src={UserImg} alt="User image" className="h-full w-full" />
-            </figure>
-            <h4 className="text-dark font-medium text-1sm sm:text-base inline-block ml-2.5">
-              {`Hi, ${user?.name} 👋`}
-            </h4>
-          </div>
-        </div> */}
+				<div className="flex items-center justify-between">
+					<div className="inline-flex items-center">
+						{/* <figure className="h-8 md:h-11.25 w-8 md:w-11.25 rounded-full overflow-hidden">
+							<img src={UserImg} alt="User image" className="h-full w-full" />
+						</figure> */}
+						{/* <h4 className="text-dark font-medium text-1sm sm:text-base inline-block ml-2.5">
+							{`Hi, ${user?.name} ${user.role} 👋`}
+						</h4> */}
+					</div>
+				</div>
 				<div className="">
 					<h5 className="text-1sm sm:text-base text-dark uppercase mb-3.75">
 						ONGOING CASE STUDY
@@ -53,7 +51,7 @@ const StudentDashboard = () => {
 						// style={{ backgroundImage: `url${OnGoingCaseBg}` }}
 						className="w-full px-6 py-8 sm:px-8 sm:py-10 md:px-10 md:py-12 ongoing-case bg-[url('../../assets/images/ongoing-case-bg.png')] flex flex-col sm:flex-row sm:items-center justify-between flex-wrap text-white rounded-sm relative"
 					>
-						{publishedCaseInfo?.data?.length > 0 ? (
+						{publishedCaseInfo ? (
 							<div className="flex flex-col md:mr-4 mb-4">
 								<svg
 									className="w-6.25 sm:w-8 md:w-10"
@@ -73,7 +71,7 @@ const StudentDashboard = () => {
 									</g>
 								</svg>
 								<h5 className="font-bold text-base mt-3.75 mb-2.5">
-									{publishedCaseInfo?.data[0]?.caseTopic}
+									{publishedCaseInfo?.caseTopic}
 								</h5>
 								<p className="text-1sm text-sm max-w-lg mb-5">
 									Learn how patients with a serious infection can be managed in
@@ -81,12 +79,11 @@ const StudentDashboard = () => {
 								</p>
 								<div>
 									<span className="inline-block text-1xs">
-										<b>Created:</b>{" "}
-										{formatDate(publishedCaseInfo?.data[0]?.createdAt)}
+										<b>Created:</b> {formatDate(publishedCaseInfo?.createdAt)}
 									</span>
 									<span className="block sm:inline-block text-1xs sm:ml-8">
 										<b>Deadline:</b>{" "}
-										{formatDate(publishedCaseInfo?.data[0]?.caseDeadline)}
+										{formatDate(publishedCaseInfo?.caseDeadline)}
 									</span>
 								</div>
 							</div>
@@ -94,18 +91,18 @@ const StudentDashboard = () => {
 							<p className="text-white">{"No ongoing cases found!!!"}</p>
 						)}
 
-						<div className="min-w-min inline-block">
-							<Button
-								type="button"
-								size="md"
-								btnStyle="white"
-								{...(publishedCaseInfo?.data?.length > 0 && {
-									href: `/student/case-studies/${publishedCaseInfo.data[0].id}`,
-								})}
-							>
-								View Case
-							</Button>
-						</div>
+						{publishedCaseInfo && (
+							<div className="min-w-min inline-block">
+								<Button
+									type="button"
+									size="md"
+									btnStyle="white"
+									href={`/student/case-studies/${publishedCaseInfo?.id}`}
+								>
+									View Case
+								</Button>
+							</div>
+						)}
 					</div>
 				</div>
 				<div className="">
@@ -121,12 +118,14 @@ const StudentDashboard = () => {
             </Link> */}
 					</div>
 					<ul className="grid grid-cols-items gap-5 md:gap-6.25">
-						{cases?.length === 0
+						{studentsResponses?.length === 0
 							? "No recent cases found!!!"
-							: cases?.map((caseM: any, index: number) => (
-									<Link href={`/student/case-studies/${caseM._id}`} key={index}>
-										<CaseCard case={caseM} />
-									</Link>
+							: studentsResponses.map((caseM: any, index: number) => (
+									// <Link href="/responses-feedback" key={index}>
+									<>
+										<ResponseCaseCard case={caseM} />
+									</>
+									// </Link>
 							  ))}
 					</ul>
 				</div>

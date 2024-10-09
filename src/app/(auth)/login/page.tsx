@@ -23,10 +23,10 @@ const Login = () => {
 
 	useEffect(() => {
 		if (isLoading === "succeeded") {
-			if (userInfo.user?.roles === "teacher") {
+			if (userInfo.user?.user_role === "teacher") {
 				navigate.push("/doctor/dashboard");
 			}
-			if (userInfo.user?.roles === "user") {
+			if (userInfo.user?.user_role === "student") {
 				navigate.push("/student/dashboard");
 			}
 			dispatch(resetStatus());

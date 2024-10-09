@@ -14,7 +14,10 @@ import { SignupValues } from "@/services/types/auth/signup";
 const Signup = () => {
 	const navigate = useRouter();
 	const dispatch = useAppDispatch();
-	const [user, setUser] = useState({ email: "", password: "" });
+	const [user, setUser] = useState({
+		email: "",
+		password: "",
+	});
 	const isLoading = useAppSelector((state) => state.signup.status);
 	const isLoadingLogin = useAppSelector((state) => state.login.status);
 	const userInfo = useAppSelector((state) => state.login.user);
@@ -23,7 +26,7 @@ const Signup = () => {
 		(val: SignupValues) => {
 			const { email, password } = val.personalDetails;
 			setUser({ email, password });
-			dispatch(signupUser(val));
+			dispatch(signupUser({ ...val, user_role: "student" }));
 		},
 		[dispatch]
 	);
@@ -42,10 +45,10 @@ const Signup = () => {
 
 	useEffect(() => {
 		if (isLoadingLogin === "succeeded") {
-			if (userInfo.user?.roles === "teacher") {
+			if (userInfo.user?.user_role === "teacher") {
 				navigate.push("/doctor/dashboard");
 			}
-			if (userInfo.user?.roles === "user") {
+			if (userInfo.user?.user_role === "student") {
 				navigate.push("/student/dashboard");
 			}
 			dispatch(resetStatusLogin());
