@@ -6,24 +6,21 @@ import WalkthroughModal from "@/components/modals/Walkthrough";
 import CaseCard from "@/components/cases/CaseCard";
 import { useAppSelector } from "@/services/hooks/hooks";
 import { formatDate } from "@/utils/formatDate";
+import ResponseCaseCard from "@/components/cases/ResponseCaseCard";
 
 const StudentDashboard = () => {
 	const [showWelcomeModal, setShowWelcomeModal] = useState(true);
 	// const { user } = useAppSelector((state) => state.login);
 	const publishedCaseInfo = useAppSelector((state) => state.activeCase.data);
 
-	const archivedCasesState = useAppSelector(
-		(state) => state.getArchiveCases.cases
+	const studentsResponsesToCases = useAppSelector(
+		(state) => state.studentsResponsesToCases.responses
 	);
-	const archivedCases =
-		archivedCasesState?.map((caseItem: any) => ({
+	const studentsResponses =
+		studentsResponsesToCases.map((caseItem: any) => ({
 			_id: caseItem.id,
-			description: JSON.parse(caseItem.caseDescription).blocks[0].text,
-			caseDeadline: formatDate(caseItem.caseDeadline),
-			createdAt: formatDate(caseItem.createdAt),
-			feedbackCount: caseItem.feedbackCount,
-			totalResponses: caseItem.totalResponses,
-			caseTopic: caseItem.caseTopic,
+			submittedAt: formatDate(caseItem.submittedAt),
+			caseTopic: caseItem.caseTopicAnswer,
 		})) || [];
 
 	// TODO: implementation of logic to show setShowWelcomeModal
@@ -119,12 +116,14 @@ const StudentDashboard = () => {
             </Link> */}
 					</div>
 					<ul className="grid grid-cols-items gap-5 md:gap-6.25">
-						{archivedCases?.length === 0
+						{studentsResponses?.length === 0
 							? "No recent cases found!!!"
-							: archivedCases.map((caseM: any, index: number) => (
-									<Link href={`/student/case-studies/${caseM._id}`} key={index}>
-										<CaseCard case={caseM} />
-									</Link>
+							: studentsResponses.map((caseM: any, index: number) => (
+									// <Link href="/responses-feedback" key={index}>
+									<>
+										<ResponseCaseCard case={caseM} />
+									</>
+									// </Link>
 							  ))}
 					</ul>
 				</div>

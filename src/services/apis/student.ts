@@ -34,3 +34,10 @@ export const generateCertificateApi = (certificateInfo: any, token: string) => {
 		configureRequestHeaders(token, certificateInfo)
 	);
 };
+
+export const getStudentsResponsesApi = (isRecent: any, token: string) => {
+	const url = isRecent
+		? `/student/get-responses/?caseFilter=${isRecent}`
+		: "/student/get-responses/";
+	return studentApi.get(url, configureRequestHeaders(token));
+};

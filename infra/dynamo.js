@@ -63,6 +63,7 @@ export const Answers = new sst.aws.Dynamo("Answers", {
 	primaryIndex: { hashKey: "answerID", rangeKey: "studentID" },
 	globalIndexes: {
 		CaseIDIndex: { hashKey: "caseID" },
+		StudentIDIndex: { hashKey: "studentID" },
 	},
 });
 
