@@ -150,3 +150,63 @@ export const generatePassingCertificate = async (event) => {
 		}),
 	};
 };
+
+export const getStudentsResponses = async (event) => {
+	const userToken = event.headers.authorization.split(" ")[1];
+	const userInfo = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
+	const caseFilter = event.pathParameters.caseFilter;
+	if (!userInfo && !userInfo.user_role === "teacher") {
+		return {
+			statusCode: 400,
+			body: JSON.stringify({
+				message: "Not authorized to view this resource",
+			}),
+		};
+	}
+
+	const { id: studentID } = userInfo;
+
+	const params = {
+		TableName: TABLES.ANSWER,
+		IndexName: "StudentIDIndex",
+		KeyConditionExpression: "studentID = :studentID",
+		ExpressionAttributeValues: {
+			":studentID": studentID,
+		},
+		ScanIndexForward: false, // Sort in descending order (latest first)
+	};
+
+	if (caseFilter && caseFilter === "recent") {
+		params.Limit = 3;
+	}
+
+	try {
+		const command = new QueryCommand(params);
+		const result = await dbClient.send(command);
+
+		if (result.Items.length === 0) {
+			return {
+				statusCode: 404,
+				body: JSON.stringify({
+					message: "No responses found for this student.",
+				}),
+			};
+		}
+
+		return {
+			statusCode: 200,
+			body: JSON.stringify({
+				message: "Responses retrieved successfully.",
+				data: result.Items,
+			}),
+		};
+	} catch (error) {
+		console.error("Error fetching recent responses: ", error);
+		return {
+			statusCode: 500,
+			body: JSON.stringify({
+				error: `Could not fetch responses: ${error.message}`,
+			}),
+		};
+	}
+};
