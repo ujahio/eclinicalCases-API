@@ -163,6 +163,7 @@ export const getPublishedCase = async (event) => {
 	const userToken = event.headers.authorization.split(" ")[1];
 	const userInfo = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
 
+	// Check for valid user roles and authentication
 	if (
 		!userInfo &&
 		!(userInfo.user_role === "teacher" || userInfo.user_role === "student")
@@ -196,6 +197,7 @@ export const getPublishedCase = async (event) => {
 			},
 		};
 
+		// If the user is a student, adjust the query to use their teacher's ID
 		if (userInfo.user_role === "student") {
 			params.ExpressionAttributeValues[":teacherId"] = userInfo.teacherId;
 		}
@@ -214,6 +216,7 @@ export const getPublishedCase = async (event) => {
 			};
 		}
 
+		// Prepare case info to be sent
 		const caseInfo = {
 			id: activeCaseResult.id,
 			caseTopic: activeCaseResult.caseTopic,
@@ -222,6 +225,7 @@ export const getPublishedCase = async (event) => {
 			caseStatus: activeCaseResult.caseStatus,
 		};
 
+		// Teacher flow - unchanged
 		if (userInfo.user_role === "teacher") {
 			const countOfStudentsFeedbackAndResponses =
 				await getCountOfStudentsFeedbacksAndResponses(activeCaseResult.id);
@@ -237,12 +241,44 @@ export const getPublishedCase = async (event) => {
 					},
 				}),
 			};
-		} else {
+		}
+
+		// Student flow: Check if the student has responded to the active case
+		if (userInfo.user_role === "student") {
+			const answerParams = {
+				TableName: TABLES.ANSWER,
+				IndexName: "StudentIDIndex", // Using the index to query answers by studentID
+				KeyConditionExpression: "studentID = :studentID",
+				ExpressionAttributeValues: {
+					":studentID": userInfo.id,
+				},
+				FilterExpression: "caseID = :caseID", // Filter results by caseID
+				ExpressionAttributeValues: {
+					":studentID": userInfo.id,
+					":caseID": activeCaseResult.id,
+				},
+			};
+
+			// Query the Answers table to check for existing responses
+			const answerCommand = new QueryCommand(answerParams);
+			const answerResult = await dbClient.send(answerCommand);
+
+			// If the student hasn't responded to the case, return the active case
+			if (answerResult.Items.length === 0) {
+				return {
+					statusCode: 200,
+					body: JSON.stringify({
+						message: "You have not responded to this case yet.",
+						caseInfo,
+					}),
+				};
+			}
+
+			// If the student has already responded, return a different message
 			return {
 				statusCode: 200,
 				body: JSON.stringify({
-					message: "Ongoing case retrieved successfully!",
-					caseInfo,
+					message: "You have already responded to this case.",
 				}),
 			};
 		}
