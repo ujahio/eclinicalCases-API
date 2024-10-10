@@ -19,7 +19,7 @@ const initialCaseStudy: CaseStudy = {
 	caseClue: "",
 	caseDescription: "",
 	caseTopic: "",
-	caseExplanation: "",
+	caseExplanation: null,
 	caseDeadline: "",
 	caseQuestions: [
 		{

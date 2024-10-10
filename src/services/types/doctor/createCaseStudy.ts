@@ -9,7 +9,7 @@ export interface CaseStudy {
 	caseClue: string;
 	caseDescription: string;
 	caseTopic: string;
-	caseExplanation: string;
+	caseExplanation: string | null;
 	caseDeadline: string;
 	caseQuestions: CaseQuestion[];
 	caseStatus: string;

@@ -12,18 +12,28 @@ const DoctorCaseAnswer = ({
 	setCaseStudy,
 	handleAddCase,
 }: DoctorCaseAnswerProps) => {
-	const [editorState, setEditorState] = useState(() =>
-		caseStudy.caseExplanation
-			? EditorState.createWithContent(
-					convertFromRaw(JSON.parse(caseStudy.caseExplanation))
-			  )
-			: EditorState.createEmpty()
-	);
+	const [isEditorMounted, setIsEditorMounted] = useState(false);
+
+	const [editorState, setEditorState] = useState(() => {
+		if (caseStudy.caseExplanation) {
+			try {
+				// Try to parse the caseExplanation if it exists and is valid JSON
+				const parsedExplanation = JSON.parse(caseStudy.caseExplanation);
+				return EditorState.createWithContent(convertFromRaw(parsedExplanation));
+			} catch (error) {
+				console.error("Invalid caseExplanation JSON:", error);
+				// In case of an invalid JSON, initialize an empty editor state
+				return EditorState.createEmpty();
+			}
+		} else {
+			// If caseExplanation is not defined, initialize an empty editor state
+			return EditorState.createEmpty();
+		}
+	});
 	const addingDraftCaseStatus = useAppSelector(
 		(state) => state.getDraftCases.status
 	);
 	useEffect(() => {
-		// Update caseStudy state whenever editorState changes
 		const contentState = editorState.getCurrentContent();
 		const contentStateJSON = convertToRaw(contentState);
 		setCaseStudy({
@@ -32,7 +42,13 @@ const DoctorCaseAnswer = ({
 		});
 	}, [editorState, setCaseStudy]);
 
+	useEffect(() => {
+		// Set a flag to true to mount the editor after the component mounts
+		setIsEditorMounted(true);
+	}, []);
+
 	const onEditorStateChange = (newEditorState: EditorState) => {
+		console.log("newEditorState", newEditorState);
 		setEditorState(newEditorState);
 	};
 	return (
@@ -55,15 +71,17 @@ const DoctorCaseAnswer = ({
 					<label className="text-grey-300 text-1sm capitalize font-normal">
 						Further Explanation
 					</label>
-					<Editor
-						editorState={editorState}
-						onEditorStateChange={onEditorStateChange}
-						editorStyle={{
-							height: "400px",
-							border: "solid 1px #E7EBEF",
-							padding: "0px 15px",
-						}}
-					/>
+					{isEditorMounted && (
+						<Editor
+							editorState={editorState}
+							onEditorStateChange={onEditorStateChange}
+							editorStyle={{
+								height: "400px",
+								border: "solid 1px #E7EBEF",
+								padding: "0px 15px",
+							}}
+						/>
+					)}
 				</div>
 			</div>
 			<Button
