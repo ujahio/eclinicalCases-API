@@ -7,16 +7,8 @@ import Link from "next/link";
 import Button from "@/components/ui/Button";
 import { useAppSelector } from "@/services/hooks/hooks";
 import { formatDate } from "@/utils/formatDate";
-import ResponseFeedbackModal from "@/components/modals/response-feedback-modal";
 
 const DoctorDashboard = () => {
-	const [showModal, setShowModal] = useState(false);
-	const [caseId, setCaseId] = useState(null);
-
-	const toggleModal = () => {
-		setShowModal(!showModal);
-	};
-
 	const archivedCasesState = useAppSelector(
 		(state) => state.getArchiveCases.cases
 	);
@@ -35,12 +27,6 @@ const DoctorDashboard = () => {
 
 	return (
 		<AdminLayout>
-			<ResponseFeedbackModal
-				show={showModal}
-				toggle={toggleModal}
-				student={"selectedStudent"}
-				caseId={caseId}
-			/>
 			<div>
 				<div className="flex items-center justify-between">
 					<div className="inline-flex items-center">
@@ -111,15 +97,9 @@ const DoctorDashboard = () => {
 									</span>
 								</div>
 								<div className="flex mt-6">
-									<button
-										onClick={() => {
-											setCaseId(publishedCaseInfo?.id);
-											setShowModal(true);
-										}}
-										className=" bg-neutral-200 bg-opacity-20 rounded-sm w-24 text-center py-2 text-xs"
-									>
+									<div className=" bg-neutral-200 bg-opacity-20 rounded-sm w-24 text-center py-2 text-xs">
 										{publishedCaseInfo?.feedbackCount} Feedbacks
-									</button>
+									</div>
 									<div className=" bg-neutral-200 bg-opacity-20 rounded-sm w-24 text-center py-2 ml-3 text-xs">
 										{publishedCaseInfo?.totalResponses} Responses
 									</div>
