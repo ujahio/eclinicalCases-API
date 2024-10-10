@@ -171,4 +171,5 @@ api.route("GET /api/student/certificate/{caseID}", {
 api.route("GET /api/student/get-responses/{caseFilter}", {
 	handler: "server/controllers/student.controller.getStudentsResponses",
 	link: links,
+	runtime: "nodejs20.x",
 });
