@@ -399,16 +399,28 @@ const getCaseData = async (event) => {
 	const caseID = event.pathParameters.caseID;
 
 	try {
-		const { responseItems } = await getDetailsOfStudentsFeedbackAndResponses(
-			caseID,
-			true
-		);
+		const getCaseParams = {
+			TableName: TABLES.TEACHER_CASE_STUDIES,
+			Key: { id: caseID },
+		};
+
+		const caseCommand = new GetCommand(getCaseParams);
+		const caseResult = await dbClient.send(caseCommand);
+		const caseItem = caseResult.Item;
+
+		const { responseItems, feedbackCount, totalResponses } =
+			await getDetailsOfStudentsFeedbackAndResponses(caseID, true);
 
 		return {
 			statusCode: 200,
 			body: JSON.stringify({
 				message: "Case data retrieved successfully.",
 				responseItems,
+				caseInfo: {
+					caseTopic: caseItem.caseTopic,
+					totalResponses,
+					feedbackCount,
+				},
 			}),
 		};
 	} catch (error) {
@@ -422,7 +434,6 @@ const getCaseData = async (event) => {
 
 export {
 	// addCase,
-
 	deleteAllCases,
 	duplicateCase,
 	addFeedback,

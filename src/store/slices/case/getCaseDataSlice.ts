@@ -25,7 +25,10 @@ interface GetCaseDataState {
 const initialState: GetCaseDataState = {
 	status: "idle",
 	error: null,
-	caseData: {},
+	caseData: {
+		caseInfo: {},
+		responsesAndFeedbackInfo: [],
+	},
 };
 
 const getCaseDataSlice = createSlice({
@@ -44,7 +47,8 @@ const getCaseDataSlice = createSlice({
 			})
 			.addCase(fetchCaseData.fulfilled, (state, action) => {
 				state.status = "succeeded";
-				state.caseData = action.payload;
+				state.caseData.responsesAndFeedbackInfo = action.payload.responseItems;
+				state.caseData.caseInfo = action.payload.caseInfo;
 			})
 			.addCase(fetchCaseData.rejected, (state, action: any) => {
 				state.status = "failed";
