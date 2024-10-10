@@ -6,6 +6,7 @@ export interface ModalProps {
 	size?: "sm" | "md" | "lg";
 	children?: any;
 	caseId?: any;
+	studentInfo?: any;
 }
 
 const Modal: FC<ModalProps> = ({ show, toggle, size = "md", children }) => {

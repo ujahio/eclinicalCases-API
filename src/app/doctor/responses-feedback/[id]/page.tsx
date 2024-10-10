@@ -16,21 +16,20 @@ const ResponsesAndFeedbackPage = dynamic(
 );
 
 const Page = ({ params }: any) => {
-	const [student, setStudent] = useState("");
+	const [studentInfo, setStudent] = useState({});
 	const dispatch = useAppDispatch();
 	const caseDataState = useAppSelector((state) => state.getCaseData);
-	console.log("caseDataState", caseDataState);
 
 	const caseFeedbackAndResponsesInfo =
-		caseDataState.caseData.responseItems || [];
-	console.log("caseFeedbackAndResponsesInfo", caseFeedbackAndResponsesInfo);
+		caseDataState.caseData.responsesAndFeedbackInfo;
+	const caseInformationForDisplay = caseDataState.caseData.caseInfo;
 
 	useEffect(() => {
 		if (caseDataState.status === "succeeded") {
 			dispatch(resetCaseDataStatus());
 		}
 	}, [caseDataState.status, dispatch]);
-	// get caseId
+
 	useEffect(() => {
 		const caseId = params.id;
 		if (caseId) {
@@ -40,9 +39,10 @@ const Page = ({ params }: any) => {
 
 	return (
 		<ResponsesAndFeedbackPage
-			student={student}
+			studentInfo={studentInfo}
 			setStudent={setStudent}
 			caseFeedbackAndResponsesInfo={caseFeedbackAndResponsesInfo}
+			caseInformationForDisplay={caseInformationForDisplay}
 		/>
 	);
 };

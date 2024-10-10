@@ -9,11 +9,11 @@ import ResponseFeedbackModal from "@/components/modals/response-feedback-modal";
 import { formatDate } from "@/utils/formatDate";
 
 const ResponsesAndFeedback = ({
-	student,
+	studentInfo,
 	setStudent,
 	caseFeedbackAndResponsesInfo,
-}) => {
-	console.log("caseFeedbackAndResponsesInfo", caseFeedbackAndResponsesInfo);
+	caseInformationForDisplay,
+}: any) => {
 	const [showResponseAndFeedbackModal, setShowResponseAndFeedbackModal] =
 		useState(false);
 	return (
@@ -36,25 +36,29 @@ const ResponsesAndFeedback = ({
 						/>
 					</g>
 				</svg>
-				<h5 className="font-bold text-base mt-3.75 mb-2.5">Malaria</h5>
+				<h5 className="font-bold text-base mt-3.75 mb-2.5">
+					{caseInformationForDisplay.caseTopic}
+				</h5>
 				<div className=" bg-neutral-200  rounded-sm w-40 text-center py-2 text-xs">
-					4 Responses & Feedbacks
+					{`${caseInformationForDisplay.totalResponses || 0} Responses & ${
+						caseInformationForDisplay.feedbackCount || 0
+					} Feedbacks`}
 				</div>
 			</article>
 			<div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-y-3 gap-x-2 w-full">
-				{caseFeedbackAndResponsesInfo.map(
-					({ img, firstName, lastName, id, submittedAt }) => (
+				{caseFeedbackAndResponsesInfo.map((st: any) => {
+					const { img, firstName, lastName, id, submittedAt } = st;
+					return (
 						<div
 							className="bg-white border-grey-border border-0.375 rounded-sm sm:w-64 md:w-80 lg:w-64 xl:w-88 sm:px-4 md:px-7 px-7 py-5 cursor-pointer"
 							id="firsStudent"
 							onClick={() => {
-								setStudent(id);
+								setStudent(st);
 								setShowResponseAndFeedbackModal(true);
 							}}
 							key={id}
 						>
 							<div className="flex">
-								<Image src={img} alt="" className="w-auto h-12" />
 								<div className="ml-3">
 									<h2 className="text-lg text-dark font-medium">{`${firstName} ${lastName}`}</h2>
 									<p className="text-grey-300">
@@ -64,39 +68,16 @@ const ResponsesAndFeedback = ({
 								</div>
 							</div>
 						</div>
-					)
-				)}
+					);
+				})}
 			</div>
 			<ResponseFeedbackModal
-				student={student}
+				studentInfo={studentInfo}
 				show={showResponseAndFeedbackModal}
 				toggle={setShowResponseAndFeedbackModal}
 			/>
 		</AdminLayout>
 	);
 };
-
-// const data = [
-// 	{
-// 		img: student1,
-// 		name: "John Doe",
-// 		id: "first",
-// 	},
-// 	{
-// 		img: student2,
-// 		name: "Ifeoluwa Olabode",
-// 		id: "second",
-// 	},
-// 	{
-// 		img: student3,
-// 		name: "Amos Covenant",
-// 		id: "third",
-// 	},
-// 	{
-// 		img: student4,
-// 		name: "Doyinsola Precious",
-// 		id: "last",
-// 	},
-// ];
 
 export default ResponsesAndFeedback;

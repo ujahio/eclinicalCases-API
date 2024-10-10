@@ -9,89 +9,43 @@ import Modal, { ModalProps } from "../ui/Modal";
 import useProcessTabs from "@/services/hooks/useProcessTabs";
 import Image from "next/image";
 import Tabs from "../ui/Tabs";
-import { useAppSelector } from "@/services/hooks/hooks";
 
 import { formatDate } from "@/utils/formatDate";
 
-const tabs = ["Responses", "Feedback"];
+const tabs = ["Response", "Feedback"];
 
 const ResponseFeedbackModal: FunctionComponent<ModalProps> = ({
 	show,
 	toggle,
+	studentInfo,
 }) => {
 	const { isActive, active, switchTab } = useProcessTabs(tabs, 0);
-	const caseDataState = useAppSelector((state) => state.getCaseData);
-
-	const [currentRecordIndex, setCurrentRecordIndex] = useState(0);
-
-	const caseFeedbackAndResponsesInfo = caseDataState.caseData;
-	const currentData = caseFeedbackAndResponsesInfo
-		? caseFeedbackAndResponsesInfo[currentRecordIndex]
-		: null;
-
-	const handleNext = () => {
-		if (currentRecordIndex < caseFeedbackAndResponsesInfo.length - 1) {
-			setCurrentRecordIndex(currentRecordIndex + 1);
-		}
-	};
-
-	const handlePrevious = () => {
-		if (currentRecordIndex > 0) {
-			setCurrentRecordIndex(currentRecordIndex - 1);
-		}
-	};
-
 	return (
 		<Modal {...{ show, toggle, size: "lg" }}>
-			<div>
-				<div>
-					{/* {student == "selectedStudent" && (
-						<div className="flex mb-4">
-							<Image src={student1} alt="" className="h-12 w-auto" />{" "}
-							<div className="ml-3">
-								<h2 className="text-lg text-dark font-medium">
-									{currentData?.student?.firstName}{" "}
-									{currentData?.student?.lastName}
-								</h2>
-								<p className="text-grey-300">
-									<span className="font-medium">Submitted on:</span>{" "}
-									{formatDate(currentData?.feedback[0]?.createdAt)}
-								</p>
-							</div>
-						</div>
-					)} */}
+			<div className="flex mb-4">
+				<Image src={student1} alt="" className="h-12 w-auto" />{" "}
+				<div className="ml-3">
+					<h2 className="text-lg text-dark font-medium">
+						{studentInfo?.firstName} {studentInfo?.lastName}
+					</h2>
+					<p className="text-grey-300">
+						<span className="font-medium">Submitted on:</span>{" "}
+						{formatDate(studentInfo?.submittedAt)}
+					</p>
 				</div>
+			</div>
 
-				<div className="border-b border-grey-400 border-opacity-40 h-11.25 sm:h-12.5 relative">
-					<Tabs tabs={tabs} changeTab={switchTab} active={active} />
-				</div>
+			<div className="border-b border-grey-400 border-opacity-40 h-11.25 sm:h-12.5 relative">
+				<Tabs tabs={tabs} changeTab={switchTab} active={active} />
+			</div>
 
-				<div className="items-center mt-10 sm:mt-12.5">
-					{isActive("responses") && (
-						<ResponseModal answers={currentData?.answers} />
-					)}
-					{isActive("feedback") && (
-						<FeedbackModal feedback={currentData?.feedback[0]} />
-					)}
-				</div>
-				<div className="flex justify-between mt-6">
-					<button
-						onClick={handlePrevious}
-						disabled={currentRecordIndex === 0}
-						className="px-4 py-2 bg-gray-300 text-white rounded"
-					>
-						Previous
-					</button>
-					<button
-						onClick={handleNext}
-						disabled={
-							currentRecordIndex === caseFeedbackAndResponsesInfo?.length - 1
-						}
-						className="px-4 py-2 bg-gray-300 text-white rounded"
-					>
-						Next
-					</button>
-				</div>
+			<div className="items-center mt-5 sm:mt-7">
+				{isActive("response") && (
+					<ResponseModal caseExplanation={studentInfo?.caseExplanation} />
+				)}
+				{isActive("feedback") && (
+					<FeedbackModal feedback={studentInfo?.feedback} />
+				)}
 			</div>
 		</Modal>
 	);
