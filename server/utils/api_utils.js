@@ -215,15 +215,17 @@ export const getDetailsOfStudentsFeedbackAndResponses = async (
 		Select: selectOption, // Conditional selection based on details flag
 	};
 
-	// Fetch feedback
 	const feedbackCommand = new QueryCommand(feedbackParams);
 	const feedbackResult = await dbClient.send(feedbackCommand);
 	const feedbackItems = feedbackResult.Items || []; // Full details if details flag is true
 
-	// Fetch responses
 	const responsesCommand = new QueryCommand(responsesParams);
 	const totalResponsesResult = await dbClient.send(responsesCommand);
 	const responseItems = totalResponsesResult.Items || []; // Full details if details flag is true
+
+	// Return only the counts if details are not requested
+	const feedbackCount = feedbackResult.Count || 0; // Count if details flag is false
+	const totalResponses = totalResponsesResult.Count || 0; // Count if details flag is false
 
 	// If details are required, proceed to fetch user information for each response
 	if (details) {
@@ -256,6 +258,11 @@ export const getDetailsOfStudentsFeedbackAndResponses = async (
 				(fb) => fb.studentID === response.studentID
 			);
 
+			// Flatten the feedback array of objects for each student
+			const flattenedFeedback = feedbackMap.length
+				? feedbackMap.flatMap((fb) => fb.feedback) // Flattening the array of feedback objects
+				: [];
+
 			// Return only the necessary fields
 			return {
 				id: user ? user.id : "",
@@ -263,24 +270,20 @@ export const getDetailsOfStudentsFeedbackAndResponses = async (
 				lastName: user ? user.lastname : "Unknown",
 				submittedAt: response.submittedAt || "N/A", // Assuming submittedAt exists in the response
 				caseExplanation: response.caseExplanation || "N/A", // Assuming caseExplanation exists in the response
-				feedback: feedbackMap.length
-					? feedbackMap.map((fb) => fb.feedback)
-					: [], // Return empty array if no feedback
+				feedback: flattenedFeedback, // Flattened array of feedback objects
 			};
 		});
 
 		return {
 			responseItems: responseWithUserDetails, // Full response details with required fields
+			feedbackCount,
+			totalResponses,
 		};
 	}
 
-	// Return only the counts if details are not requested
-	const feedbackCount = feedbackResult.Count || 0; // Count if details flag is false
-	const totalResponses = totalResponsesResult.Count || 0; // Count if details flag is false
-
 	return {
-		feedbackCount, // Just feedback count
-		totalResponses, // Just response count
+		feedbackCount,
+		totalResponses,
 	};
 };
 
