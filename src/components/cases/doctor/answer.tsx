@@ -48,7 +48,6 @@ const DoctorCaseAnswer = ({
 	}, []);
 
 	const onEditorStateChange = (newEditorState: EditorState) => {
-		console.log("newEditorState", newEditorState);
 		setEditorState(newEditorState);
 	};
 	return (
