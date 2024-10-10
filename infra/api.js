@@ -168,8 +168,8 @@ api.route("GET /api/student/certificate/{caseID}", {
 	handler: "server/controllers/student.controller.getCertificateByCaseID",
 	link: links,
 });
-api.route("GET /api/student/get-responses/{caseFilter}", {
-	handler: "server/controllers/student.controller.getStudentsResponses",
-	link: links,
-	runtime: "nodejs20.x",
-});
+// api.route("GET /api/student/get-responses/{caseFilter}", {
+// 	handler: "server/controllers/student.controller.getStudentsResponses",
+// 	link: links,
+// 	runtime: "nodejs20.x",
+// });
