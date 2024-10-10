@@ -54,7 +54,7 @@ export const Feedback = new sst.aws.Dynamo("Feedback", {
 	},
 });
 
-export const Answers = new sst.aws.Dynamo("Answers", {
+export const StudentsResponses = new sst.aws.Dynamo("StudentsResponses", {
 	fields: {
 		answerID: "string",
 		studentID: "string",

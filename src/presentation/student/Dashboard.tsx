@@ -110,22 +110,12 @@ const StudentDashboard = () => {
 						<h5 className="text-1sm sm:text-base text-dark uppercase">
 							RECENT CASE STUDIES
 						</h5>
-						{/* <Link
-              href="/student/case-studies"
-              className="text-dark font-medium text-sm sm:text-1sm cursor-pointer transition-colors hover:text-primary-300"
-            >
-              {`View all `}
-            </Link> */}
 					</div>
 					<ul className="grid grid-cols-items gap-5 md:gap-6.25">
 						{studentsResponses?.length === 0
 							? "No recent cases found!!!"
 							: studentsResponses.map((caseM: any, index: number) => (
-									// <Link href="/responses-feedback" key={index}>
-									<>
-										<ResponseCaseCard case={caseM} />
-									</>
-									// </Link>
+									<ResponseCaseCard case={caseM} key={caseM._id} />
 							  ))}
 					</ul>
 				</div>

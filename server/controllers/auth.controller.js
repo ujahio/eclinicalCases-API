@@ -19,6 +19,9 @@ import { checkDuplicateUsernameOrEmail } from "../middlewares/verifySignUp";
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
 export const signup = async (event) => {
+	const { firstname, lastname, email, password, user_role } = JSON.parse(
+		event.body
+	);
 	try {
 		// Validate input fields
 		if (!firstname || typeof firstname !== "string") {
@@ -46,15 +49,11 @@ export const signup = async (event) => {
 			};
 		}
 
-		const duplicateCheckResponse = await checkDuplicateUsernameOrEmail(email);
+		const duplicateCheckResponse = await checkDuplicateUsernameOrEmail(event);
 
 		if (duplicateCheckResponse) {
 			return duplicateCheckResponse;
 		}
-
-		const { firstname, lastname, email, password, user_role } = JSON.parse(
-			event.body
-		);
 
 		let teacherId;
 

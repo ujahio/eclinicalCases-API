@@ -7,7 +7,7 @@ import dbClient from "../services/dbClient.js";
 import SECRETS from "../services/secrets.js";
 import { extrapolateFormData } from "../utils/api_utils.js";
 import { verifyToken } from "./case.controller.js"; // todo: move utils function to util fild/folder
-import { getCountOfStudentsFeedbacksAndResponses } from "../utils/api_utils.js";
+import { getDetailsOfStudentsFeedbackAndResponses } from "../utils/api_utils.js";
 
 export const publishCase = async (event) => {
 	const {
@@ -228,7 +228,7 @@ export const getPublishedCase = async (event) => {
 		// Teacher flow - unchanged
 		if (userInfo.user_role === "teacher") {
 			const countOfStudentsFeedbackAndResponses =
-				await getCountOfStudentsFeedbacksAndResponses(activeCaseResult.id);
+				await getDetailsOfStudentsFeedbackAndResponses(activeCaseResult.id);
 
 			return {
 				statusCode: 200,
@@ -246,7 +246,7 @@ export const getPublishedCase = async (event) => {
 		// Student flow: Check if the student has responded to the active case
 		if (userInfo.user_role === "student") {
 			const answerParams = {
-				TableName: TABLES.ANSWER,
+				TableName: TABLES.STUDENT_RESPONSES,
 				IndexName: "StudentIDIndex", // Using the index to query answers by studentID
 				KeyConditionExpression: "studentID = :studentID",
 				ExpressionAttributeValues: {

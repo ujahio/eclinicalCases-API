@@ -18,7 +18,7 @@ export const submitStudentsAnswers = async (event) => {
 	const fullName = `${firstname} ${lastname}`;
 
 	const params = {
-		TableName: TABLES.ANSWER,
+		TableName: TABLES.STUDENT_RESPONSES,
 		Item: {
 			answerID: uuidv4(),
 			studentID,
@@ -81,7 +81,7 @@ export const getStudentsAnswers = async (event) => {
 	const caseID = event.pathParameters.caseID;
 
 	const params = {
-		TableName: TABLES.ANSWER,
+		TableName: TABLES.STUDENT_RESPONSES,
 		IndexName: "CaseIDIndex",
 		KeyConditionExpression: "caseID = :caseID",
 		ExpressionAttributeValues: {

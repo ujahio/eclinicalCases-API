@@ -155,7 +155,8 @@ export const getStudentsResponses = async (event) => {
 	const userToken = event.headers.authorization.split(" ")[1];
 	const userInfo = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
 	const caseFilter = event.pathParameters.caseFilter;
-	if (!userInfo && !userInfo.user_role === "teacher") {
+
+	if (!userInfo || userInfo.user_role !== "student") {
 		return {
 			statusCode: 400,
 			body: JSON.stringify({
@@ -167,7 +168,7 @@ export const getStudentsResponses = async (event) => {
 	const { id: studentID } = userInfo;
 
 	const params = {
-		TableName: TABLES.ANSWER,
+		TableName: TABLES.STUDENT_RESPONSES,
 		IndexName: "StudentIDIndex",
 		KeyConditionExpression: "studentID = :studentID",
 		ExpressionAttributeValues: {
