@@ -1,4 +1,4 @@
-export const Users = new sst.aws.Dynamo("Users", {
+export const Users_Table = new sst.aws.Dynamo("ECCSUsers", {
 	fields: {
 		email: "string", // User's email
 		id: "string", // User's unique ID
@@ -27,17 +27,6 @@ export const TeacherCaseStudies = new sst.aws.Dynamo("TeacherCaseStudies", {
 			hashKey: "teacherId",
 			rangeKey: "publishedDate",
 		},
-	},
-});
-
-export const Cases = new sst.aws.Dynamo("Cases", {
-	fields: {
-		id: "string",
-		createdAt: "number",
-	},
-	primaryIndex: { hashKey: "id" },
-	globalIndexes: {
-		CreatedAtIndex: { hashKey: "createdAt" },
 	},
 });
 
@@ -77,16 +66,5 @@ export const Certificates = new sst.aws.Dynamo("Certificates", {
 	globalIndexes: {
 		StudentIDIndex: { hashKey: "studentID" },
 		CaseIDIndex: { hashKey: "caseID" },
-	},
-});
-
-export const StudentCaseAttempts = new sst.aws.Dynamo("StudentCaseAttempts", {
-	fields: {
-		attemptID: "string",
-		studentID: "string",
-	},
-	primaryIndex: { hashKey: "attemptID" },
-	globalIndexes: {
-		StudentIDIndex: { hashKey: "studentID" },
 	},
 });
