@@ -1,4 +1,4 @@
-export const Users_Table = new sst.aws.Dynamo("ECCSUsers", {
+export const ECCSUsers = new sst.aws.Dynamo("ECCSUsers", {
 	fields: {
 		email: "string", // User's email
 		id: "string", // User's unique ID

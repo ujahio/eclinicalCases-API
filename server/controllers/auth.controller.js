@@ -136,7 +136,7 @@ export const signup = async (event) => {
 	}
 };
 
-const signin = async (event) => {
+export const signin = async (event) => {
 	try {
 		const { email, password } = JSON.parse(event.body);
 
@@ -216,7 +216,7 @@ const signin = async (event) => {
 	}
 };
 
-const sendOTP = async (event) => {
+export const sendOTP = async (event) => {
 	try {
 		const { email } = JSON.parse(event.body);
 		const otp = generateOtp();
@@ -245,7 +245,7 @@ const sendOTP = async (event) => {
 	}
 };
 
-const verifyOtpAndResetPassword = async (event) => {
+export const verifyOtpAndResetPassword = async (event) => {
 	try {
 		const { email, otp, newPassword } = JSON.parse(event.body);
 		const originalPassword = decryptPassword(
@@ -281,7 +281,7 @@ const verifyOtpAndResetPassword = async (event) => {
 };
 
 // is this needed?
-const getUsers = async () => {
+export const getUsers = async () => {
 	try {
 		const params = {
 			TableName: TABLES.USER,
@@ -311,7 +311,7 @@ const getUsers = async () => {
 	}
 };
 
-const updatePassword = async (event) => {
+export const updatePassword = async (event) => {
 	try {
 		const body = JSON.parse(event.body);
 		const email = body.validatedUser.email;
@@ -362,4 +362,4 @@ const updatePassword = async (event) => {
 	}
 };
 
-export { signin, sendOTP, verifyOtpAndResetPassword, getUsers, updatePassword };
+export { sendOTP, verifyOtpAndResetPassword, getUsers, updatePassword };

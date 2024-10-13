@@ -90,7 +90,7 @@ export const getCaseForStudentsResponse = async (event) => {
 	};
 };
 
-const deleteAllCases = async () => {
+export const deleteAllCases = async () => {
 	try {
 		const params = {
 			TableName: TABLES.CASE,
@@ -125,7 +125,7 @@ const deleteAllCases = async () => {
 	}
 };
 
-const duplicateCase = async (event) => {
+export const duplicateCase = async (event) => {
 	const { caseID } = JSON.parse(event.body);
 
 	try {
@@ -186,7 +186,7 @@ const duplicateCase = async (event) => {
 	}
 };
 
-const addFeedback = async (event) => {
+export const addFeedback = async (event) => {
 	const userToken = event.headers.authorization.split(" ")[1];
 	const extrapolatedFormData = await extrapolateFormData(event);
 	const { caseID, feedback } = parseLogToObject(extrapolatedFormData);
@@ -230,7 +230,7 @@ const addFeedback = async (event) => {
 	}
 };
 
-const getCaseFeedback = async (event) => {
+export const getCaseFeedback = async (event) => {
 	const caseID = event.pathParameters.caseID;
 
 	if (!caseID) {
@@ -301,7 +301,7 @@ const getCaseFeedback = async (event) => {
 		};
 	}
 };
-const getCaseAnswers = async (event) => {
+export const getCaseAnswers = async (event) => {
 	const caseID = event.pathParameters.caseID;
 
 	const answersParams = {
@@ -361,41 +361,7 @@ const getCaseAnswers = async (event) => {
 	}
 };
 
-const getCaseAttemptsByStudent = async (event) => {
-	const studentID = event.pathParameters.studentID;
-
-	const params = {
-		TableName: TABLES.STUDENTCASEATTEMPTS,
-		IndexName: "StudentIDIndex",
-		KeyConditionExpression: "studentID = :studentID",
-		ExpressionAttributeValues: {
-			":studentID": studentID,
-		},
-	};
-
-	try {
-		const command = new QueryCommand(params);
-		const result = await dbClient.send(command);
-
-		return {
-			statusCode: 200,
-			body: JSON.stringify({
-				message: "Case attempts retrieved successfully.",
-				data: result.Items,
-			}),
-		};
-	} catch (error) {
-		console.error(error);
-		return {
-			statusCode: 500,
-			body: JSON.stringify({
-				error: `Could not fetch case attempts: ${error.message}`,
-			}),
-		};
-	}
-};
-
-const getCaseData = async (event) => {
+export const getCaseData = async (event) => {
 	const caseID = event.pathParameters.caseID;
 
 	try {
@@ -430,15 +396,4 @@ const getCaseData = async (event) => {
 			body: JSON.stringify({ error: `Could not fetch data: ${error.message}` }),
 		};
 	}
-};
-
-export {
-	// addCase,
-	deleteAllCases,
-	duplicateCase,
-	addFeedback,
-	getCaseFeedback,
-	getCaseAnswers,
-	getCaseAttemptsByStudent,
-	getCaseData,
 };
