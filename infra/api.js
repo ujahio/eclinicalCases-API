@@ -1,5 +1,5 @@
 import { bucket } from "./storage";
-import { email } from "./email";
+// import { email } from "./email";
 import {
 	NEXT_JWT_SECRET,
 	NEXT_PUBLIC_PASS_SECRET_KEY,
