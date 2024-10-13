@@ -361,5 +361,3 @@ export const updatePassword = async (event) => {
 		};
 	}
 };
-
-export { sendOTP, verifyOtpAndResetPassword, getUsers, updatePassword };
