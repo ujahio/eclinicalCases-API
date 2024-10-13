@@ -2,10 +2,15 @@ import dbClient from "../services/dbClient.js";
 import { v4 as uuidv4 } from "uuid";
 import { QueryCommand, ScanCommand } from "@aws-sdk/lib-dynamodb";
 import { TABLES } from "../services/dbTables.js";
-import { sendEmail } from "../services/emailSender.js";
+import { verifyToken } from "./case.controller.js"; // todo: move utils function to util fild/folder
+import uploadFileToBucket from "../services/bucket.js";
+import SECRETS from "../services/secrets.js";
+import { generateCertificate } from "../utils/certificate.js";
+import { extrapolateFormData } from "../utils/api_utils.js";
 
-const getStudentCertificates = async (req, res) => {
-	const studentID = req.validatedUser.id;
+export const getStudentCertificates = async (event) => {
+	const userToken = event.headers.authorization.split(" ")[1];
+	const { id: studentID } = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
 
 	const params = {
 		TableName: TABLES.CERTIFICATES,
@@ -21,25 +26,34 @@ const getStudentCertificates = async (req, res) => {
 		const result = await dbClient.send(command);
 
 		if (result.Items.length === 0) {
-			return res
-				.status(404)
-				.json({ message: "No certificates found for this student." });
+			return {
+				statusCode: 404,
+				body: JSON.stringify({
+					message: "No certificates found for this student.",
+				}),
+			};
 		}
 
-		res.status(200).json({
-			message: "Certificates retrieved successfully.",
-			data: result.Items,
-		});
+		return {
+			statusCode: 200,
+			body: JSON.stringify({
+				message: "Certificates retrieved successfully.",
+				data: result.Items,
+			}),
+		};
 	} catch (error) {
-		console.error(error);
-		res
-			.status(500)
-			.json({ error: `Could not fetch certificates: ${error.message}` });
+		console.error("Error fetching certificates: ", error);
+		return {
+			statusCode: 500,
+			body: JSON.stringify({
+				error: `Could not fetch certificates: ${error.message}`,
+			}),
+		};
 	}
 };
 
-const getCertificateByCaseID = async (req, res) => {
-	const caseID = req.params.caseID;
+export const getCertificateByCaseID = async (event) => {
+	const caseID = event.pathParameters.caseID;
 
 	const params = {
 		TableName: TABLES.CERTIFICATES,
@@ -54,51 +68,146 @@ const getCertificateByCaseID = async (req, res) => {
 		const result = await dbClient.send(command);
 
 		if (result.Items.length === 0) {
-			return res
-				.status(404)
-				.json({ message: "No certificate found for this case." });
+			return {
+				statusCode: 404,
+				body: JSON.stringify({
+					message: "No certificate found for this case.",
+				}),
+			};
 		}
-
-		res.status(200).json({
-			message: "Certificate retrieved successfully.",
-			data: result.Items[0],
-		});
-	} catch (error) {
-		console.error(error);
-		res
-			.status(500)
-			.json({ error: `Could not fetch certificate: ${error.message}` });
-	}
-};
-
-const newCaseNotification = async (event) => {
-	try {
-		const params = {
-			TableName: TABLES.USER,
-			ProjectionExpression: "email",
-		};
-
-		const command = new ScanCommand(params);
-		const result = await dbClient.send(command);
-
-		const emailAddressesOfStudents = result.Items.map((item) => item.email);
-		const subjectOfEmail = "New case available!";
-		const bodyOfEmail =
-			"A new case has been posted. Please login to your account to view the case.";
-
-		await sendEmail(emailAddressesOfStudents, subjectOfEmail, bodyOfEmail);
 
 		return {
 			statusCode: 200,
-			body: "Students notified successfully.",
+			body: JSON.stringify({
+				message: "Certificate retrieved successfully.",
+				data: result.Items[0],
+			}),
 		};
 	} catch (error) {
-		console.error(error);
+		console.error("Error fetching certificate by case ID: ", error);
 		return {
 			statusCode: 500,
-			body: `Could not notify students: ${error.message}`,
+			body: JSON.stringify({
+				error: `Could not fetch certificate: ${error.message}`,
+			}),
 		};
 	}
 };
 
-export { getStudentCertificates, getCertificateByCaseID, newCaseNotification };
+export const generatePassingCertificate = async (event) => {
+	const certificateInfo = await extrapolateFormData(event);
+	console.log("certificateInfo", certificateInfo);
+	const userToken = event.headers.authorization.split(" ")[1];
+	const userInfo = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
+	const { firstname, lastname, id: studentID } = userInfo;
+	const fullName = `${firstname} ${lastname}`;
+
+	// // Upload certificate to S3
+	// // Generate certificate
+	let pdfURL = "";
+	let pngURL = "";
+	const certificateID = uuidv4();
+	const { pdfBuffer, pngBuffer } = await generateCertificate(
+		fullName,
+		certificateInfo.caseTopic
+	);
+	// // Upload PDF to S3
+	const pdfUploadParams = {
+		// Bucket: "local-bucket",
+		originalName: `certificates/${certificateID}.pdf`,
+		buffer: pdfBuffer,
+		// ACL: "public-read",
+		// ContentType: "application/pdf",
+	};
+	pdfURL = await uploadFileToBucket(pdfUploadParams);
+	// // Upload PNG to S3
+	const pngFile = {
+		originalname: `${certificateID}.png`,
+		buffer: pngBuffer,
+	};
+	pngURL = await uploadFileToBucket(pngFile);
+	// // Save certificate record in DynamoDB
+	const certificateRecord = {
+		certificateID,
+		studentID,
+		caseID,
+		pdfURL,
+		pngURL,
+		generatedAt: new Date().toISOString(),
+	};
+	const putCommand = new PutCommand({
+		TableName: TABLES.CERTIFICATES,
+		Item: certificateRecord,
+	});
+	await dbClient.send(putCommand);
+
+	return {
+		statusCode: 200,
+		body: JSON.stringify({
+			message: "Certificate generated successfully.",
+			pdfURL,
+			pngURL,
+		}),
+	};
+};
+
+export const getStudentsResponses = async (event) => {
+	const userToken = event.headers.authorization.split(" ")[1];
+	const userInfo = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
+	const caseFilter = event.pathParameters.caseFilter;
+
+	if (!userInfo || userInfo.user_role !== "student") {
+		return {
+			statusCode: 400,
+			body: JSON.stringify({
+				message: "Not authorized to view this resource",
+			}),
+		};
+	}
+
+	const { id: studentID } = userInfo;
+
+	const params = {
+		TableName: TABLES.STUDENT_RESPONSES,
+		IndexName: "StudentIDIndex",
+		KeyConditionExpression: "studentID = :studentID",
+		ExpressionAttributeValues: {
+			":studentID": studentID,
+		},
+		ScanIndexForward: false, // Sort in descending order (latest first)
+	};
+
+	if (caseFilter && caseFilter === "recent") {
+		params.Limit = 3;
+	}
+
+	try {
+		const command = new QueryCommand(params);
+		const result = await dbClient.send(command);
+
+		if (result.Items.length === 0) {
+			return {
+				statusCode: 404,
+				body: JSON.stringify({
+					message: "No responses found for this student.",
+				}),
+			};
+		}
+
+		return {
+			statusCode: 200,
+			body: JSON.stringify({
+				message: "Responses retrieved successfully.",
+				data: result.Items,
+			}),
+		};
+	} catch (error) {
+		console.error("Error fetching recent responses: ", error);
+		return {
+			statusCode: 500,
+			body: JSON.stringify({
+				error: `Could not fetch responses: ${error.message}`,
+			}),
+		};
+	}
+};

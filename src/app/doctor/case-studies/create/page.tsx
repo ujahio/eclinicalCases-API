@@ -7,61 +7,99 @@ import { addCase, resetAddCaseStatus } from "@/store/slices/case/addCaseSlice";
 import { useRouter } from "next/navigation";
 import { CaseStudy } from "@/services/types/doctor/createCaseStudy";
 import dynamic from "next/dynamic";
-const CreateCaseStudy = dynamic(() => import("@/presentation/doctor/CreateCaseStudy"), {
-  ssr: false,
-});
+import { toast } from "react-toastify";
+
+const CreateCaseStudy = dynamic(
+	() => import("@/presentation/doctor/CreateCaseStudy"),
+	{
+		ssr: false,
+	}
+);
+
 const initialCaseStudy: CaseStudy = {
-  caseClue: "",
-  caseDescription: "",
-  caseTopic: "",
-  caseExplanation: "",
-  caseDeadline: "",
-  caseQuestions: [
-    {
-      question: "",
-      options: [""],
-      correctAnswer: 0,
-    },
-  ],
-  draft: false,
-  caseMaterials: [],
+	caseClue: "",
+	caseDescription: "",
+	caseTopic: "",
+	caseExplanation: "",
+	caseDeadline: "",
+	caseQuestions: [
+		{
+			question: "",
+			options: [""],
+			correctAnswer: 0,
+		},
+	],
+	caseStatus: "draft",
+	caseMaterials: [],
+	shouldPublish: false,
 };
 
 const Create = () => {
-  const navigate = useRouter();
-  const dispatch = useAppDispatch();
-  const addCaseState = useAppSelector((state) => state.addCase);
-  const [caseStudy, setCaseStudy] = useState(initialCaseStudy);
-  const { active: activeTab, switchTab, isActive } = useProcessTabs(createCaseStudyTabs, 0);
-  const [progress, setProgress] = useState(1);
+	const navigate = useRouter();
+	const dispatch = useAppDispatch();
+	const addCaseState = useAppSelector((state) => state.addCase);
+	const [caseStudy, setCaseStudy] = useState(initialCaseStudy);
+	const {
+		active: activeTab,
+		switchTab,
+		isActive,
+	} = useProcessTabs(createCaseStudyTabs, 0);
+	const [progress, setProgress] = useState(1);
 
-  const goNext = () => {
-    const next = activeTab + 1;
-    switchTab(next);
-    setProgress(next);
-  };
-  const handleAddCase = (draft = false) => {
-    setCaseStudy({ ...caseStudy, draft: draft });
-    dispatch(addCase({ ...caseStudy, draft }));
-  };
-  useEffect(() => {
-    if (addCaseState.status === "succeeded") {
-      dispatch(resetAddCaseStatus());
-      navigate.push("/doctor/dashboard");
-    }
-  }, [addCaseState.status, dispatch]);
-  return (
-    <CreateCaseStudy
-      activeTab={activeTab}
-      switchTab={switchTab}
-      goNext={goNext}
-      progress={progress}
-      isActive={isActive}
-      caseStudy={caseStudy}
-      setCaseStudy={setCaseStudy}
-      handleAddCase={handleAddCase}
-    />
-  );
+	const goNext = () => {
+		const next = activeTab + 1;
+		switchTab(next);
+		setProgress(next);
+	};
+	const handleAddCase = () => {
+		setCaseStudy(caseStudy);
+		dispatch(addCase(caseStudy));
+	};
+
+	const handlePublishCase = () => {
+		setCaseStudy({ ...caseStudy, shouldPublish: true });
+		dispatch(addCase({ ...caseStudy, shouldPublish: true }));
+	};
+	useEffect(() => {
+		if (addCaseState.status === "succeeded") {
+			dispatch(resetAddCaseStatus());
+			toast.success(addCaseState.newCase.message, {
+				position: "top-right",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "light",
+			});
+			navigate.push("/doctor/dashboard");
+		} else if (addCaseState.status === "failed") {
+			toast.error("Error adding a draft case", {
+				position: "top-right",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "light",
+			});
+		}
+	}, [addCaseState.status, dispatch]);
+	return (
+		<CreateCaseStudy
+			activeTab={activeTab}
+			switchTab={switchTab}
+			goNext={goNext}
+			progress={progress}
+			isActive={isActive}
+			caseStudy={caseStudy}
+			setCaseStudy={setCaseStudy}
+			handleAddCase={handleAddCase}
+			handlePublishCase={handlePublishCase}
+		/>
+	);
 };
 
 export default Create;

@@ -1,10 +1,9 @@
 import { Resource } from "sst";
 
 export const TABLES = {
-  USER: Resource.Users.name,
-  CASE: Resource.Cases.name,
-  FEEDBACK: Resource.Feedback.name,
-  ANSWER: Resource.Answers.name,
-  CERTIFICATES: Resource.Certificates.name,
-  STUDENTCASEATTEMPTS: Resource.StudentCaseAttempts.name,
+	USER: Resource.ECCSUsers.name,
+	TEACHER_CASE_STUDIES: Resource.TeacherCaseStudies.name,
+	FEEDBACK: Resource.Feedback.name,
+	STUDENT_RESPONSES: Resource.StudentsResponses.name,
+	CERTIFICATES: Resource.Certificates.name,
 };

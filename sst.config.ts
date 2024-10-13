@@ -3,7 +3,7 @@
 export default $config({
 	app(input) {
 		return {
-			name: "e-clinical-js",
+			name: "eClinicalCasesSolutions",
 			removal: input?.stage === "production" ? "retain" : "remove",
 			home: "aws",
 		};
@@ -12,7 +12,7 @@ export default $config({
 		// Bucket
 		await import("./infra/client");
 		// Bucket
-		await import("./infra/storage")  
+		await import("./infra/storage");
 		// API
 		await import("./infra/api");
 		// Tables

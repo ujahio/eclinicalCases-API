@@ -2,32 +2,39 @@ import { ScanCommand } from "@aws-sdk/lib-dynamodb";
 import dbClient from "../services/dbClient.js";
 import { TABLES } from "../services/dbTables.js";
 
-const checkDuplicateUsernameOrEmail = async (req, res, next) => {
-  const { email } = req.body;
+export const checkDuplicateUsernameOrEmail = async (event) => {
+	// TODO: expand check to make sure we are using pertinnent fields info to check for duplication
+	const { email } = JSON.parse(event.body);
 
-  try {
-    const params = {
-      TableName: TABLES.USER,
-      FilterExpression: "email = :email",
-      ExpressionAttributeValues: {
-        ":email": email,
-      },
-    };
+	try {
+		const params = {
+			TableName: TABLES.USER,
+			FilterExpression: "email = :email",
+			ExpressionAttributeValues: {
+				":email": email,
+			},
+		};
 
-    const command = new ScanCommand(params);
-    const result = await dbClient.send(command);
+		const command = new ScanCommand(params);
+		const result = await dbClient.send(command);
 
-    const user = result.Items[0];
+		const user = result.Items[0];
 
-    if (user) {
-      return res.status(400).json({ error: "Username or email already exists" });
-    }
+		if (user) {
+			return {
+				statusCode: 400,
+				body: JSON.stringify({ error: "Username or email already exists" }),
+			};
+		}
 
-    next();
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Error checking for duplicate username or email" });
-  }
+		return null;
+	} catch (error) {
+		console.error(error);
+		return {
+			statusCode: 500,
+			body: JSON.stringify({
+				error: "Error checking for duplicate username or email",
+			}),
+		};
+	}
 };
-
-export { checkDuplicateUsernameOrEmail };

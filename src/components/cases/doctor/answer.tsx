@@ -6,73 +6,105 @@ import { Editor } from "react-draft-wysiwyg";
 import { useAppSelector } from "@/services/hooks/hooks";
 import { DoctorCaseAnswerProps } from "@/services/types/doctor/createCaseStudy";
 
-const DoctorCaseAnswer = ({ goNext, caseStudy, setCaseStudy, handleAddCase }: DoctorCaseAnswerProps) => {
-  const [editorState, setEditorState] = useState(() =>
-    caseStudy.caseExplanation
-      ? EditorState.createWithContent(convertFromRaw(JSON.parse(caseStudy.caseExplanation)))
-      : EditorState.createEmpty()
-  );
-  const addCaseState = useAppSelector((state) => state.addCase.status);
+const DoctorCaseAnswer = ({
+	goNext,
+	caseStudy,
+	setCaseStudy,
+	handleAddCase,
+}: DoctorCaseAnswerProps) => {
+	const [isEditorMounted, setIsEditorMounted] = useState(false);
 
-  useEffect(() => {
-    // Update caseStudy state whenever editorState changes
-    const contentState = editorState.getCurrentContent();
-    const contentStateJSON = convertToRaw(contentState);
-    setCaseStudy({
-      ...caseStudy,
-      caseExplanation: JSON.stringify(contentStateJSON),
-    });
-  }, [editorState, setCaseStudy]);
+	const [editorState, setEditorState] = useState(() => {
+		if (caseStudy.caseExplanation) {
+			try {
+				// Try to parse the caseExplanation if it exists and is valid JSON
+				const parsedExplanation = JSON.parse(caseStudy.caseExplanation);
+				return EditorState.createWithContent(convertFromRaw(parsedExplanation));
+			} catch (error) {
+				console.error("Invalid caseExplanation JSON:", error);
+				// In case of an invalid JSON, initialize an empty editor state
+				return EditorState.createEmpty();
+			}
+		} else {
+			// If caseExplanation is not defined, initialize an empty editor state
+			return EditorState.createEmpty();
+		}
+	});
+	const addingDraftCaseStatus = useAppSelector(
+		(state) => state.getDraftCases.status
+	);
+	useEffect(() => {
+		const contentState = editorState.getCurrentContent();
+		const contentStateJSON = convertToRaw(contentState);
+		setCaseStudy({
+			...caseStudy,
+			caseExplanation: JSON.stringify(contentStateJSON),
+		});
+	}, [editorState, setCaseStudy]);
 
-  const onEditorStateChange = (newEditorState: EditorState) => {
-    setEditorState(newEditorState);
-  };
-  return (
-    <>
-      <div className="mb-5 sm:mb-6">
-        <h6 className="text-1xs sm:text-sm font-bold text-blue uppercase mb-2.5">Case Model Answer Setup</h6>
-        <InputField
-          placeholder="Case model topic"
-          label="Case Model Topic"
-          name="caseTopic"
-          value={caseStudy.caseTopic}
-          onChange={(e) => setCaseStudy({ ...caseStudy, caseTopic: e.target.value })}
-        />
+	useEffect(() => {
+		// Set a flag to true to mount the editor after the component mounts
+		setIsEditorMounted(true);
+	}, []);
 
-        <div className="mt-5">
-          <label className="text-grey-300 text-1sm capitalize font-normal">Further Explanation</label>
-          <Editor
-            editorState={editorState}
-            onEditorStateChange={onEditorStateChange}
-            editorStyle={{
-              height: "400px",
-              border: "solid 1px #E7EBEF",
-              padding: "0px 15px",
-            }}
-          />
-        </div>
-      </div>
-      <Button
-        btnStyle="outline"
-        size="lg"
-        centralize
-        onClick={() => {
-          handleAddCase && handleAddCase(true);
-        }}
-        className="w-full mb-3"
-      >
-        {caseStudy.draft && addCaseState === "loading" ? "Loading..." : "Save As a Draft..."}
-      </Button>
-      <div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
-        <Button btnStyle="outline" size="lg" centralize>
-          GO BACK TO CASE MODEL SETUP
-        </Button>
-        <Button btnStyle="basic" size="lg" centralize onClick={() => goNext()}>
-          PROCEED TO MATERIALS AND DEADLINE
-        </Button>
-      </div>
-    </>
-  );
+	const onEditorStateChange = (newEditorState: EditorState) => {
+		setEditorState(newEditorState);
+	};
+	return (
+		<>
+			<div className="mb-5 sm:mb-6">
+				<h6 className="text-1xs sm:text-sm font-bold text-blue uppercase mb-2.5">
+					Case Model Answer Setup
+				</h6>
+				<InputField
+					placeholder="Case model topic"
+					label="Case Model Topic"
+					name="caseTopic"
+					value={caseStudy.caseTopic}
+					onChange={(e) =>
+						setCaseStudy({ ...caseStudy, caseTopic: e.target.value })
+					}
+				/>
+
+				<div className="mt-5">
+					<label className="text-grey-300 text-1sm capitalize font-normal">
+						Further Explanation
+					</label>
+					{isEditorMounted && (
+						<Editor
+							editorState={editorState}
+							onEditorStateChange={onEditorStateChange}
+							editorStyle={{
+								height: "400px",
+								border: "solid 1px #E7EBEF",
+								padding: "0px 15px",
+							}}
+						/>
+					)}
+				</div>
+			</div>
+			<Button
+				btnStyle="outline"
+				size="lg"
+				centralize
+				onClick={handleAddCase}
+				className="w-full mb-3"
+			>
+				{addingDraftCaseStatus === "loading"
+					? "Loading..."
+					: "Save As a Draft..."}
+			</Button>
+
+			<div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
+				<Button btnStyle="outline" size="lg" centralize>
+					GO BACK TO CASE MODEL SETUP
+				</Button>
+				<Button btnStyle="basic" size="lg" centralize onClick={() => goNext()}>
+					PROCEED TO MATERIALS AND DEADLINE
+				</Button>
+			</div>
+		</>
+	);
 };
 
 export default DoctorCaseAnswer;

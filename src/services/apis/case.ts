@@ -1,4 +1,4 @@
-import { caseApi, config } from "../config/axiosConfig";
+import { caseApi, configureRequestHeaders } from "../config/axiosConfig";
 
 const convertToFormData = (caseStudy: any) => {
 	const formData = new FormData();
@@ -18,33 +18,63 @@ const convertToFormData = (caseStudy: any) => {
 	return formData;
 };
 
-export const addCaseApi = (caseData: any, token: string) => {
+// export const addCaseApi = (caseData: any, token: string) => {
+// 	const formData = convertToFormData(caseData);
+// 	return caseApi.post(
+// 		`/add`,
+// 		formData,
+// 		configureRequestHeaders(token, formData)
+// 	);
+// };
+
+export const publishCaseApi = (caseData: any, token: string) => {
 	const formData = convertToFormData(caseData);
-	return caseApi.post(`/add`, formData, config(token));
+	return caseApi.post(
+		"/publish",
+		formData,
+		configureRequestHeaders(token, formData)
+	);
 };
 
-export const updateCaseApi = (caseData: any, token: string, _id: any) => {
-	const formData = convertToFormData(caseData);
-	return caseApi.post(`/update/${_id}`, formData, config(token));
+export const addDraftCaseApi = (draftCaseData: any, token: string) => {
+	const formData = convertToFormData(draftCaseData);
+	return caseApi.post(
+		`/draft`,
+		formData,
+		configureRequestHeaders(token, formData)
+	);
 };
 
-export const getAllCasesApi = (token: string, isRecent?: string) => {
-	let url = `/all/`;
-	url += `?caseStatus=${isRecent}`;
-	return caseApi.get(url, config(token));
+export const updateDraftCaseApi = (caseData: any, token: string, _id: any) => {
+	const formData = convertToFormData(caseData);
+	return caseApi.put(`/draft/${_id}`, formData, configureRequestHeaders(token));
+};
+
+export const getArchiveCasesApi = (token: string, isRecent?: string) => {
+	const url = isRecent ? `/archived/?caseFilter=${isRecent}` : "/archived/";
+
+	return caseApi.get(url, configureRequestHeaders(token));
+};
+
+export const getDraftCasesApi = (caseId: string, token: string) => {
+	const url = caseId ? `/draft/${caseId}` : `/draft/`;
+	return caseApi.get(url, configureRequestHeaders(token));
 };
 
 export const fetchCaseDetailsApi = (caseId: any, token: string) => {
-	return caseApi.get(`/details/${caseId}`, config(token));
+	return caseApi.get(`/details/${caseId}`, configureRequestHeaders(token));
 };
 
-export const fetchOngoingCasesApi = (token: string) => {
-	return caseApi.get(`/ongoing-case`, config(token));
+export const fetchActiveCaseApi = (token: string) => {
+	return caseApi.get("/active", configureRequestHeaders(token));
 };
 export const deleteCaseApi = (caseId: string, token: string) => {
-	return caseApi.delete(`/delete-case/${caseId}`, config(token));
+	return caseApi.delete(
+		`/delete-case/${caseId}`,
+		configureRequestHeaders(token)
+	);
 };
 
 export const fetchCaseDataApi = (caseId: string, token: string) => {
-	return caseApi.get(`/data/${caseId}`, config(token));
+	return caseApi.get(`/data/${caseId}`, configureRequestHeaders(token));
 };

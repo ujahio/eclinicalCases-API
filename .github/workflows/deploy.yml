@@ -35,13 +35,13 @@ jobs:
         run: npm install
 
       - name: Install SST CLI
-        run: npm install -g sst
+        run: npm install -g sst@3.1.78
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:role/gh-deployment-stg
+          role-to-assume: arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:role/gh-actions-staging
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Deploy to Staging
-        run: sst deploy --stage staging
+        run: sst deploy --stage preproduction

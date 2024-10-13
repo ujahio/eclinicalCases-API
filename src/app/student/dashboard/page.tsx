@@ -2,12 +2,14 @@
 
 import React from "react";
 import StudentDashboardComp from "@/presentation/student/Dashboard";
-import useAllCases from "@/services/hooks/useAllCases";
-import useOngoingCases from "@/services/hooks/useOngoingCases";
+import useGetStudentsResponsesToCases from "@/services/hooks/useGetStudentsResponsesToCases";
+import useGetActiveCase from "@/services/hooks/useGetActiveCase";
+
 const StudentDashboard = () => {
-  useOngoingCases();
-  useAllCases("recent");
-  return <StudentDashboardComp />;
+	useGetActiveCase();
+	useGetStudentsResponsesToCases("recent"); // need to find out if we should be retrieving the same type of archived cases for students
+
+	return <StudentDashboardComp />;
 };
 
 export default StudentDashboard;
