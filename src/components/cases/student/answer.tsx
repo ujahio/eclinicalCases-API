@@ -109,7 +109,8 @@ const StudentCaseAnswer: FC<StudentCaseAnswerProps> = ({
 					</div>
 				</div>
 			)}
-			<div className="border-grey-border border rounded-sm p-3 sm:p-6 mb-5 sm:mb-6">
+			{/*TEMP COMMENT OUT UNTIL UPLOADING FILES IS WORKING*/}
+			{/* <div className="border-grey-border border rounded-sm p-3 sm:p-6 mb-5 sm:mb-6">
 				<h6 className="text-1xs sm:text-sm font-bold text-blue uppercase mb-2.5">
 					FURTHER LEARNING MATERIALS
 				</h6>
@@ -142,7 +143,7 @@ const StudentCaseAnswer: FC<StudentCaseAnswerProps> = ({
 						}
 					)}
 				</ul>
-			</div>
+			</div> */}
 			<div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
 				<Button
 					btnStyle="outline"

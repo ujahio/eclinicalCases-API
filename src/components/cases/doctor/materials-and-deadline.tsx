@@ -1,8 +1,14 @@
+import React, { useState, ChangeEvent, useRef, useEffect } from "react";
 import { InputField } from "@/components/form-elements";
 import Button from "@/components/ui/Button";
-import { useAppSelector } from "@/services/hooks/hooks";
+import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
 import { DoctorMaterialsAndDeadlineProps } from "@/services/types/doctor/createCaseStudy";
-import React, { useState, ChangeEvent, useRef } from "react";
+// import { deleteFileFromS3 } from "../../../../server/services/bucket";
+import {
+	uploadPdf,
+	resetUploadPdfStatus,
+} from "@/store/slices/case/uploadPdfSlice";
+import { toast } from "react-toastify";
 
 const DoctorMaterialsAndDeadline = ({
 	goNext,
@@ -10,38 +16,108 @@ const DoctorMaterialsAndDeadline = ({
 	setCaseStudy,
 	handleAddCase,
 }: DoctorMaterialsAndDeadlineProps) => {
-	const [files, setFiles] = useState<File[]>([]);
+	const dispatch = useAppDispatch();
+
+	const [files, setFiles] = useState<{ name: string; s3Url: string }[]>([]);
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	const addingDraftCaseStatus = useAppSelector(
 		(state) => state.getDraftCases.status
 	);
+	const uploadPdfState = useAppSelector((state) => state.uploadPdf);
 	const addFile = () => {
 		if (fileInputRef.current) {
 			fileInputRef.current.click(); // Click the file input to open the dialog
 		}
 	};
 
-	const removeFile = (index: number) => {
-		const updatedFiles = [...files];
-		updatedFiles.splice(index, 1);
-		setFiles(updatedFiles);
-		setCaseStudy({ ...caseStudy, caseMaterials: updatedFiles }); // Update caseStudy state
-	};
+	// const removeFile = async (index: number) => {
+	// 	const fileToRemove = files[index]; // Get the file to remove from the list
 
-	const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+	// 	// Remove the file from S3 before removing it from the state
+	// 	try {
+	// 		// Assuming fileToRemove.s3Url is the pre-signed URL or S3 key
+	// 		const fileKey = fileToRemove.s3Url || fileToRemove.name; // You may store fileKey or use file name as the key
+
+	// 		// Create a function to delete the file from S3
+	// 		await deleteFileFromS3(fileKey);
+
+	// 		// Now remove the file from the state
+	// 		const updatedFiles = [...files];
+	// 		updatedFiles.splice(index, 1);
+	// 		setFiles(updatedFiles);
+	// 		setCaseStudy({ ...caseStudy, caseMaterials: updatedFiles }); // Update caseStudy state
+	// 	} catch (error) {
+	// 		console.error("Error removing file from S3:", error);
+	// 	}
+	// };
+
+	// const removeFile = (index: number) => {
+	// 	const updatedFiles = [...files];
+	// 	updatedFiles.splice(index, 1);
+	// 	setFiles(updatedFiles);
+	// 	setCaseStudy({ ...caseStudy, caseMaterials: updatedFiles }); // Update caseStudy state
+	// };
+
+	const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
 		const selectedFile = e.target.files && e.target.files[0];
+		console.log("selectedFile", selectedFile);
+
 		if (selectedFile) {
-			setFiles([...files, selectedFile]);
-			setCaseStudy({ ...caseStudy, caseMaterials: [...files, selectedFile] }); // Update caseStudy state
+			console.log("selectedFile", selectedFile);
+			dispatch(
+				// uploadPdf({ selectedFile: pdfInfo, bucketName: "CaseMaterials" })
+				uploadPdf({ selectedFile, bucketName: "CaseMaterials" })
+			);
+
+			const updatedFiles = [
+				...files,
+				{ name: selectedFile.name }, // Capture the file metadata
+			];
+
+			setFiles(updatedFiles);
+			setCaseStudy({ ...caseStudy, caseMaterials: updatedFiles }); // Update caseStudy state
 		}
 	};
+
+	// TODO: comment out for now until we figure out proper upload implementation
+	// useEffect(() => {
+	// 	if (uploadPdfState.status === "succeeded") {
+	// 		dispatch(resetUploadPdfStatus());
+	// 		// should use the name of the document
+	// 		toast.success("Pdf uploaded succesfully", {
+	// 			position: "top-right",
+	// 			autoClose: 5000,
+	// 			hideProgressBar: false,
+	// 			closeOnClick: true,
+	// 			pauseOnHover: true,
+	// 			draggable: true,
+	// 			progress: undefined,
+	// 			theme: "light",
+	// 		});
+	// 	} else if (uploadPdfState.status === "failed") {
+	// 		toast.error("Error uploading case materials", {
+	// 			position: "top-right",
+	// 			autoClose: 5000,
+	// 			hideProgressBar: false,
+	// 			closeOnClick: true,
+	// 			pauseOnHover: true,
+	// 			draggable: true,
+	// 			progress: undefined,
+	// 			theme: "light",
+	// 		});
+	// 	}
+	// }, [uploadPdfState.status, dispatch]);
 
 	return (
 		<>
 			<h6 className="text-1xs sm:text-sm font-bold text-blue uppercase mb-4">
-				Materials and deadline
+				Deadline
 			</h6>
-			<div className="mb-5 sm:mb-6">
+			{/*TEMP COMMENT OUT UNTIL UPLOADING FILES IS WORKING*/}
+			{/* <h6 className="text-1xs sm:text-sm font-bold text-blue uppercase mb-4">
+				Materials and deadline
+			</h6> */}
+			{/* <div className="mb-5 sm:mb-6">
 				<label className="text-grey-300 text-1sm font-normal">
 					Materials for further readings
 				</label>
@@ -102,7 +178,7 @@ const DoctorMaterialsAndDeadline = ({
 						/>
 					</svg>
 				</Button>
-			</div>
+			</div> */}
 			<div className="mb-5 sm:mb-6">
 				<InputField
 					placeholder=""

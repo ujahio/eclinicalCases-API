@@ -61,9 +61,13 @@ const DoctorMaterialsAndDeadline: FunctionComponent<
 	return (
 		<>
 			<h6 className="text-1xs sm:text-sm font-bold text-blue uppercase mb-4">
-				Materials and deadline
+				Deadline
 			</h6>
-			<div className="mb-5 sm:mb-6">
+			{/*TEMP COMMENT OUT UNTIL UPLOADING FILES IS WORKING*/}
+			{/* <h6 className="text-1xs sm:text-sm font-bold text-blue uppercase mb-4">
+				Materials and deadline
+			</h6> */}
+			{/* <div className="mb-5 sm:mb-6">
 				<label className="text-grey-300 text-1sm font-normal">
 					Materials for further readings
 				</label>
@@ -156,7 +160,7 @@ const DoctorMaterialsAndDeadline: FunctionComponent<
 						/>
 					</svg>
 				</Button>
-			</div>
+			</div> */}
 			<div className="mb-5 sm:mb-6">
 				<InputField
 					placeholder=""
