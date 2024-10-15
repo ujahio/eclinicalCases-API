@@ -40,10 +40,14 @@ const DoctorDashboard = () => {
 					</div>
 				</div>
 				<div className="mt-14">
-					<div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 sm:mb-1">
-						<h5 className="text-1sm sm:text-base text-dark uppercase">
-							ONGOING CASE STUDY
-						</h5>
+					<div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 sm:mb-5">
+						{publishedCaseInfo ? (
+							<h5 className="text-1sm sm:text-base text-dark uppercase">
+								ONGOING CASE STUDY
+							</h5>
+						) : (
+							<div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 sm:mb-5" />
+						)}
 						<div className="min-w-min inline-block">
 							<div className="flex">
 								<Link href="/doctor/case-studies/create">
@@ -144,7 +148,7 @@ const DoctorDashboard = () => {
 					</div>
 					<ul className="grid grid-cols-items gap-5 md:gap-6.25">
 						{archivedCases?.length === 0
-							? "No archived cases found."
+							? "You have no recent case studies."
 							: archivedCases?.map((caseM: any, index: number) => (
 									<Link
 										href={`/doctor/responses-feedback/${caseM._id}`}
