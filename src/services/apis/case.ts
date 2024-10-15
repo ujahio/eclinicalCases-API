@@ -3,6 +3,7 @@ import { caseApi, configureRequestHeaders } from "../config/axiosConfig";
 const convertToFormData = (caseStudy: any) => {
 	const formData = new FormData();
 
+	// refactor to remove scenarios for caseMaterials and caseQuestions
 	for (const key in caseStudy) {
 		if (key === "caseMaterials") {
 			for (let i = 0; i < caseStudy.caseMaterials.length; i++) {
@@ -77,4 +78,15 @@ export const deleteCaseApi = (caseId: string, token: string) => {
 
 export const fetchCaseDataApi = (caseId: string, token: string) => {
 	return caseApi.get(`/data/${caseId}`, configureRequestHeaders(token));
+};
+
+export const uploadPdfToS3Api = (pdfInfo: any, token: string) => {
+	const formData = new FormData();
+	formData.append("pdfFile", pdfInfo.selectedFile);
+
+	const url = pdfInfo.bucketName
+		? `/upload-pdf/?dirName=${pdfInfo.bucketName}`
+		: `/upload-pdf/`;
+
+	return caseApi.post(url, formData, configureRequestHeaders(token, formData));
 };

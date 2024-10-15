@@ -1,5 +1,5 @@
-import { bucket } from "./storage";
 // import { email } from "./email";
+import { CaseMaterials } from "./storage";
 import {
 	NEXT_JWT_SECRET,
 	NEXT_PUBLIC_PASS_SECRET_KEY,
@@ -21,6 +21,7 @@ const links = [
 	StudentsResponses,
 	Certificates,
 	TeacherCaseStudies,
+	CaseMaterials,
 	NEXT_JWT_SECRET,
 	NEXT_PUBLIC_PASS_SECRET_KEY,
 	NEXT_PUBLIC_BASE_URL,
@@ -35,6 +36,7 @@ const domainName =
 
 export const api = new sst.aws.ApiGatewayV2("eclinicalCasesSolutions", {
 	domain: domainName,
+	cors: true,
 });
 
 // Auth
@@ -96,12 +98,10 @@ api.route("POST /api/case/publish", {
 	handler: "server/controllers/handlePublishedCase.publishCase",
 	link: links,
 });
-// api.route("POST /api/case/add", {
-// 	handler: "server/controllers/case.controller.addCase",
-// 	link,
-// 	memory: "2048 MB",
-// 	binaryMediaTypes: ["*/*"],
-// });
+api.route("POST /api/case/upload-pdf/{dirName}", {
+	handler: "server/controllers/case.controller.uploadPdf",
+	link: links,
+});
 
 api.route("GET /api/case/draft/{caseId}", {
 	handler: "server/controllers/handleDraftCases.getDraftCases",

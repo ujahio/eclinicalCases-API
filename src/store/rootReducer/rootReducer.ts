@@ -15,6 +15,7 @@ import getCaseDataSlice from "../slices/case/getCaseDataSlice";
 import changePasswordSlice from "../slices/auth/changePasswordSlice";
 import getDraftCasesSlice from "../slices/case/getDraftCasesSlice";
 import getStudentsResponsesToCasesSlice from "../slices/student/getStudentsResponsesToCasesSlice";
+import uploadPdfSlice from "../slices/case/uploadPdfSlice";
 
 const rootReducer = combineReducers({
 	// Accounts
@@ -32,6 +33,7 @@ const rootReducer = combineReducers({
 	deleteCase: deleteCaseSlice,
 	getCaseData: getCaseDataSlice,
 	getDraftCases: getDraftCasesSlice,
+	uploadPdf: uploadPdfSlice,
 	// student
 	submitCaseResponse: SubmitCaseResponseSlice,
 	studentsResponsesToCases: getStudentsResponsesToCasesSlice,

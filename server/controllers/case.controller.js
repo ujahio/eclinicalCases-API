@@ -8,10 +8,9 @@ import {
 	QueryCommand,
 } from "@aws-sdk/lib-dynamodb";
 import jwt from "jsonwebtoken";
-
+import { getSignedUrlFromS3 } from "../services/bucket.js";
 import { readSingleItem } from "../services/dbOps.js";
 import { TABLES } from "../services/dbTables.js";
-import uploadFileToBucket from "../services/bucket.js";
 import dbClient from "../services/dbClient.js";
 import SECRETS from "../services/secrets.js";
 import {
@@ -394,6 +393,48 @@ export const getCaseData = async (event) => {
 		return {
 			statusCode: 500,
 			body: JSON.stringify({ error: `Could not fetch data: ${error.message}` }),
+		};
+	}
+};
+
+export const uploadPdf = async (event) => {
+	const userToken = event.headers.authorization.split(" ")[1];
+	const pdfInfo = await extrapolateFormData(event);
+	const bucketName = event.pathParameters?.dirName;
+
+	const userInfo = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
+	const { id: teacherID } = userInfo;
+
+	if (!userInfo || !teacherID) {
+		return {
+			statusCode: 401,
+			body: JSON.stringify({ error: "Unauthorized" }),
+		};
+	}
+
+	// pngFile
+
+	try {
+		const pdfUrl = await getSignedUrlFromS3(pdfInfo, bucketName);
+
+		return {
+			statusCode: 200,
+			body: JSON.stringify({
+				pdfUrl,
+				message: "PDF uploaded successfully!",
+				// fileUrl: `https://${Resource.CaseMaterials.name}.s3.${
+				// 	aws.getRegionOutput().name
+				// }.amazonaws.com/${pdfInfo.name}`,
+			}),
+		};
+	} catch (error) {
+		console.error("Error uploading file:", error);
+
+		return {
+			statusCode: 500,
+			body: JSON.stringify({
+				error: "Could not upload file: " + error.message,
+			}),
 		};
 	}
 };
