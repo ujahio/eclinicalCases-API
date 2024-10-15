@@ -60,7 +60,6 @@ const StudentCaseStudy = ({
 					<StudentCasePresentation
 						goNext={goNext}
 						caseDescription={caseDescription}
-						caseClue={caseDetailsState?.caseClue}
 						caseDeadline={caseDetailsState?.caseDeadline}
 					/>
 				)}
