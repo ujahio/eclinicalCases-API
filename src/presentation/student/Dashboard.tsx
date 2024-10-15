@@ -47,9 +47,9 @@ const StudentDashboard = () => {
 						</h4> */}
 					</div>
 				</div>
-				<div className="">
+				<div>
 					{publishedCaseInfo ? (
-						<h5 className="text-1sm sm:text-base text-dark">
+						<h5 className="text-1sm sm:text-base text-dark mb-3 sm:mb-5">
 							ONGOING CASE STUDY
 						</h5>
 					) : (
