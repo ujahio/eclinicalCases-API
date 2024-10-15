@@ -1,6 +1,6 @@
 import { QueryCommand } from "@aws-sdk/lib-dynamodb";
 import { TABLES } from "../services/dbTables.js";
-import uploadFileToBucket from "../services/bucket.js";
+// import uploadFileToBucket from "../services/bucket.js";
 import dbClient from "../services/dbClient.js";
 import SECRETS from "../services/secrets.js";
 import { verifyToken } from "./case.controller.js"; // todo: move utils function to util fild/folder

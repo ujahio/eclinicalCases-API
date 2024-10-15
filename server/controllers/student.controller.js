@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import { QueryCommand, ScanCommand } from "@aws-sdk/lib-dynamodb";
 import { TABLES } from "../services/dbTables.js";
 import { verifyToken } from "./case.controller.js"; // todo: move utils function to util fild/folder
-import uploadFileToBucket from "../services/bucket.js";
+// import { uploadFileToBucket } from "../services/bucket.js";
 import SECRETS from "../services/secrets.js";
 import { generateCertificate } from "../utils/certificate.js";
 import { extrapolateFormData } from "../utils/api_utils.js";
@@ -94,67 +94,67 @@ export const getCertificateByCaseID = async (event) => {
 	}
 };
 
-export const generatePassingCertificate = async (event) => {
-	const certificateInfo = await extrapolateFormData(event);
-	console.log("certificateInfo", certificateInfo);
-	const userToken = event.headers.authorization.split(" ")[1];
-	const userInfo = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
-	const { firstname, lastname, id: studentID } = userInfo;
-	const fullName = `${firstname} ${lastname}`;
+// export const generatePassingCertificate = async (event) => {
+// 	const certificateInfo = await extrapolateFormData(event);
+// 	console.log("certificateInfo", certificateInfo);
+// 	const userToken = event.headers.authorization.split(" ")[1];
+// 	const userInfo = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
+// 	const { firstname, lastname, id: studentID } = userInfo;
+// 	const fullName = `${firstname} ${lastname}`;
 
-	// // Upload certificate to S3
-	// // Generate certificate
-	let pdfURL = "";
-	let pngURL = "";
-	const certificateID = uuidv4();
-	const { pdfBuffer, pngBuffer } = await generateCertificate(
-		fullName,
-		certificateInfo.caseTopic
-	);
-	// // Upload PDF to S3
-	const pdfUploadParams = {
-		// Bucket: "local-bucket",
-		originalName: `certificates/${certificateID}.pdf`,
-		buffer: pdfBuffer,
-		// ACL: "public-read",
-		// ContentType: "application/pdf",
-	};
-	pdfURL = await uploadFileToBucket(pdfUploadParams);
-	// // Upload PNG to S3
-	const pngFile = {
-		originalname: `${certificateID}.png`,
-		buffer: pngBuffer,
-	};
-	pngURL = await uploadFileToBucket(pngFile);
-	// // Save certificate record in DynamoDB
-	const certificateRecord = {
-		certificateID,
-		studentID,
-		caseID,
-		pdfURL,
-		pngURL,
-		generatedAt: new Date().toISOString(),
-	};
-	const putCommand = new PutCommand({
-		TableName: TABLES.CERTIFICATES,
-		Item: certificateRecord,
-	});
-	await dbClient.send(putCommand);
+// 	// // Upload certificate to S3
+// 	// // Generate certificate
+// 	let pdfURL = "";
+// 	let pngURL = "";
+// 	const certificateID = uuidv4();
+// 	const { pdfBuffer, pngBuffer } = await generateCertificate(
+// 		fullName,
+// 		certificateInfo.caseTopic
+// 	);
+// 	// // Upload PDF to S3
+// 	const pdfUploadParams = {
+// 		// Bucket: "local-bucket",
+// 		originalName: `certificates/${certificateID}.pdf`,
+// 		buffer: pdfBuffer,
+// 		// ACL: "public-read",
+// 		// ContentType: "application/pdf",
+// 	};
+// 	pdfURL = await uploadFileToBucket(pdfUploadParams);
+// 	// // Upload PNG to S3
+// 	const pngFile = {
+// 		originalname: `${certificateID}.png`,
+// 		buffer: pngBuffer,
+// 	};
+// 	pngURL = await uploadFileToBucket(pngFile);
+// 	// // Save certificate record in DynamoDB
+// 	const certificateRecord = {
+// 		certificateID,
+// 		studentID,
+// 		caseID,
+// 		pdfURL,
+// 		pngURL,
+// 		generatedAt: new Date().toISOString(),
+// 	};
+// 	const putCommand = new PutCommand({
+// 		TableName: TABLES.CERTIFICATES,
+// 		Item: certificateRecord,
+// 	});
+// 	await dbClient.send(putCommand);
 
-	return {
-		statusCode: 200,
-		body: JSON.stringify({
-			message: "Certificate generated successfully.",
-			pdfURL,
-			pngURL,
-		}),
-	};
-};
+// 	return {
+// 		statusCode: 200,
+// 		body: JSON.stringify({
+// 			message: "Certificate generated successfully.",
+// 			pdfURL,
+// 			pngURL,
+// 		}),
+// 	};
+// };
 
 export const getStudentsResponses = async (event) => {
 	const userToken = event.headers.authorization.split(" ")[1];
 	const userInfo = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
-	const caseFilter = event.pathParameters.caseFilter;
+	const caseFilter = event.pathParameters?.caseFilter;
 
 	if (!userInfo || userInfo.user_role !== "student") {
 		return {
