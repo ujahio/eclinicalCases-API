@@ -49,7 +49,7 @@ const StudentCaseStudy = ({
 						changeTab={switchTab}
 						tabs={tabs}
 						canClickBackward
-						canClickForward
+						canClickForward={false}
 						progress={progress}
 					/>
 				</nav>
