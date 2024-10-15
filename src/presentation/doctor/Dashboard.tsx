@@ -107,7 +107,9 @@ const DoctorDashboard = () => {
 								</div>
 							</div>
 						) : (
-							<p className="text-white">There is currently no published case</p>
+							<p className="text-white">
+								There is no active case at the moment.
+							</p>
 						)}
 						{publishedCaseInfo && (
 							<div className="min-w-min inline-block">

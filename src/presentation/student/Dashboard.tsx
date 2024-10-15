@@ -43,10 +43,13 @@ const StudentDashboard = () => {
 					</div>
 				</div>
 				<div className="">
-					<h5 className="text-1sm sm:text-base text-dark uppercase mb-3.75">
-						ONGOING CASE STUDY
-					</h5>
-
+					{publishedCaseInfo ? (
+						<h5 className="text-1sm sm:text-base text-dark">
+							ONGOING CASE STUDY
+						</h5>
+					) : (
+						<div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 sm:mb-5" />
+					)}
 					<div
 						// style={{ backgroundImage: `url${OnGoingCaseBg}` }}
 						className="w-full px-6 py-8 sm:px-8 sm:py-10 md:px-10 md:py-12 ongoing-case bg-[url('../../assets/images/ongoing-case-bg.png')] flex flex-col sm:flex-row sm:items-center justify-between flex-wrap text-white rounded-sm relative"
@@ -88,7 +91,9 @@ const StudentDashboard = () => {
 								</div>
 							</div>
 						) : (
-							<p className="text-white">{"No ongoing cases found!!!"}</p>
+							<p className="text-white">
+								There is no active case at the moment.
+							</p>
 						)}
 
 						{publishedCaseInfo && (
