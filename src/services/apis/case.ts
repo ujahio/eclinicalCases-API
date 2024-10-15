@@ -83,10 +83,10 @@ export const fetchCaseDataApi = (caseId: string, token: string) => {
 export const uploadPdfToS3Api = (pdfInfo: any, token: string) => {
 	const formData = new FormData();
 	formData.append("pdfFile", pdfInfo.selectedFile);
-
-	const url = pdfInfo.bucketName
-		? `/upload-pdf/?dirName=${pdfInfo.bucketName}`
-		: `/upload-pdf/`;
-
-	return caseApi.post(url, formData, configureRequestHeaders(token, formData));
+	formData.append("bucketName", pdfInfo.bucketName);
+	return caseApi.post(
+		"/upload-pdf",
+		formData,
+		configureRequestHeaders(token, formData)
+	);
 };

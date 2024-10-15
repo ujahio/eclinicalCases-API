@@ -36,10 +36,10 @@ const DoctorMaterialsAndDeadline = ({
 	// 	// Remove the file from S3 before removing it from the state
 	// 	try {
 	// 		// Assuming fileToRemove.s3Url is the pre-signed URL or S3 key
-	// 		const fileKey = fileToRemove.s3Url || fileToRemove.name; // You may store fileKey or use file name as the key
+	// 		// const fileKey = fileToRemove.s3Url || fileToRemove.name; // You may store fileKey or use file name as the key
 
 	// 		// Create a function to delete the file from S3
-	// 		await deleteFileFromS3(fileKey);
+	// 		// await deleteFileFromS3(fileKey);
 
 	// 		// Now remove the file from the state
 	// 		const updatedFiles = [...files];
@@ -80,6 +80,8 @@ const DoctorMaterialsAndDeadline = ({
 	};
 
 	// TODO: comment out for now until we figure out proper upload implementation
+	// This may not be necessary because the UI will update with files when upload has happend.
+	// Just need to confirm when the upload is done.
 	// useEffect(() => {
 	// 	if (uploadPdfState.status === "succeeded") {
 	// 		dispatch(resetUploadPdfStatus());
@@ -116,8 +118,8 @@ const DoctorMaterialsAndDeadline = ({
 			{/*TEMP COMMENT OUT UNTIL UPLOADING FILES IS WORKING*/}
 			{/* <h6 className="text-1xs sm:text-sm font-bold text-blue uppercase mb-4">
 				Materials and deadline
-			</h6> */}
-			{/* <div className="mb-5 sm:mb-6">
+			</h6>
+			<div className="mb-5 sm:mb-6">
 				<label className="text-grey-300 text-1sm font-normal">
 					Materials for further readings
 				</label>

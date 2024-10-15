@@ -22,17 +22,13 @@ import { Resource } from "sst";
 
 // export default uploadFileToBucket;
 
-export const getSignedUrlFromS3 = async (
-	pdfInfo,
-	bucketName,
-	region = "us-east-1"
-) => {
+export const getSignedUrlFromS3 = async (pdfInfo, region = "us-east-1") => {
 	console.log("pdfInfo", pdfInfo);
 	try {
 		// Create the S3 client
 		const s3Client = new S3Client({ region });
 
-		const { pdfFile: pdfRawFile } = pdfInfo;
+		const { pdfFile: pdfRawFile, bucketName } = pdfInfo;
 
 		// Define the S3 PutObjectCommand parameters
 		const params = {

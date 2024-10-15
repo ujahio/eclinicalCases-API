@@ -98,7 +98,7 @@ api.route("POST /api/case/publish", {
 	handler: "server/controllers/handlePublishedCase.publishCase",
 	link: links,
 });
-api.route("POST /api/case/upload-pdf/{dirName}", {
+api.route("POST /api/case/upload-pdf", {
 	handler: "server/controllers/case.controller.uploadPdf",
 	link: links,
 });

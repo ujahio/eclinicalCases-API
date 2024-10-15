@@ -400,7 +400,6 @@ export const getCaseData = async (event) => {
 export const uploadPdf = async (event) => {
 	const userToken = event.headers.authorization.split(" ")[1];
 	const pdfInfo = await extrapolateFormData(event);
-	const bucketName = event.pathParameters?.dirName;
 
 	const userInfo = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
 	const { id: teacherID } = userInfo;
@@ -415,7 +414,7 @@ export const uploadPdf = async (event) => {
 	// pngFile
 
 	try {
-		const pdfUrl = await getSignedUrlFromS3(pdfInfo, bucketName);
+		const pdfUrl = await getSignedUrlFromS3(pdfInfo);
 
 		return {
 			statusCode: 200,
