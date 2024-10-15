@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import UserImg from "@/assets/images/admin.png";
 import { CaseCard } from "@/components/cases";
 import AdminLayout from "@/components/layouts/dashboard/admin";
@@ -14,16 +14,13 @@ const DoctorDashboard = () => {
 	);
 	const publishedCaseInfo = useAppSelector((state) => state.activeCase.data);
 
-	const archivedCases =
-		archivedCasesState?.map((caseItem: any) => ({
-			_id: caseItem.id,
-			description: JSON.parse(caseItem.caseDescription).blocks[0].text,
-			caseDeadline: formatDate(caseItem.caseDeadline),
-			createdAt: formatDate(caseItem.createdAt),
-			feedbackCount: caseItem.feedbackCount,
-			totalResponses: caseItem.totalResponses,
-			caseTopic: caseItem.caseTopic,
-		})) || null;
+	const archivedCases = archivedCasesState.map((caseItem: any) => ({
+		...caseItem,
+		_id: caseItem.id,
+		description: JSON.parse(caseItem.caseDescription).blocks[0].text,
+		caseDeadline: formatDate(caseItem.caseDeadline),
+		createdAt: formatDate(caseItem.createdAt),
+	}));
 
 	return (
 		<AdminLayout>
