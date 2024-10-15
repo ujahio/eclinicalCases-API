@@ -16,9 +16,14 @@ const StudentDashboard = () => {
 	const studentsResponsesToCases = useAppSelector(
 		(state) => state.studentsResponsesToCases.responses
 	);
-	const studentsResponses =
+
+	const studentsResponses: {
+		_id: string;
+		submittedAt: string;
+		caseTopic: string;
+	}[] =
 		studentsResponsesToCases.map((caseItem: any) => ({
-			_id: caseItem.id,
+			_id: caseItem.caseID,
 			submittedAt: formatDate(caseItem.submittedAt),
 			caseTopic: caseItem.caseTopicAnswer,
 		})) || [];
@@ -119,9 +124,15 @@ const StudentDashboard = () => {
 					<ul className="grid grid-cols-items gap-5 md:gap-6.25">
 						{studentsResponses?.length === 0
 							? "No recent cases found!!!"
-							: studentsResponses.map((caseM: any, index: number) => (
-									<ResponseCaseCard case={caseM} key={caseM._id} />
-							  ))}
+							: studentsResponses.map(
+									(caseM: {
+										_id: string;
+										submittedAt: string;
+										caseTopic: string;
+									}) => {
+										return <ResponseCaseCard case={caseM} key={caseM._id} />;
+									}
+							  )}
 					</ul>
 				</div>
 			</div>
