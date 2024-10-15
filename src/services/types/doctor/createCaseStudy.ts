@@ -21,6 +21,7 @@ export interface CreateCaseStudyProps {
 	activeTab: number;
 	switchTab: React.Dispatch<React.SetStateAction<number>>;
 	goNext: () => void;
+	goBack: () => void;
 	progress: number;
 	isActive: (key: string) => boolean;
 	caseStudy: CaseStudy;
@@ -35,12 +36,17 @@ export interface DoctorCaseQuestionProps {
 	setCaseStudy: React.Dispatch<React.SetStateAction<CaseStudy>>;
 	handleAddCase: handleAddCaseType;
 }
-export interface DoctorCaseAnswerProps extends DoctorCaseQuestionProps {}
+export interface DoctorCaseAnswerProps extends DoctorCaseQuestionProps {
+	goBack: () => void;
+}
 export interface DoctorMaterialsAndDeadlineProps
-	extends DoctorCaseQuestionProps {}
-export interface DoctorCMEQuestionsProps extends DoctorCaseQuestionProps {}
+	extends DoctorCaseQuestionProps {
+	goBack: () => void;
+}
+export interface DoctorCMEQuestionsProps extends DoctorCaseQuestionProps {
+	goBack: () => void;
+}
 export interface FinalReviewProps {
-	goNext: () => void;
 	caseStudy: CaseStudy;
 	handleAddCase: handleAddCaseType;
 	handlePublishCase: React.Dispatch<React.SetStateAction<any>>;
@@ -50,6 +56,7 @@ export interface UpdateCaseStudyProps {
 	activeTab: number;
 	switchTab: React.Dispatch<React.SetStateAction<number>>;
 	goNext: () => void;
+  goBack: () => void;
 	progress: number;
 	isActive: (key: string) => boolean;
 	caseStudy: CaseStudy;

@@ -1,6 +1,5 @@
 "use client";
-import React from "react";
-
+import React, { FunctionComponent } from "react";
 import {
 	DoctorCMEQuestions,
 	DoctorCaseAnswer,
@@ -15,17 +14,18 @@ import { createCaseStudyTabs } from "@/services/constants";
 import { APP_CONTAINER, APP_SPACING } from "@/services/constants/styles";
 import { CreateCaseStudyProps } from "@/services/types/doctor/createCaseStudy";
 
-const CreateCaseStudy = ({
+const CreateCaseStudy: FunctionComponent<CreateCaseStudyProps> = ({
 	activeTab,
 	switchTab,
 	goNext,
+	goBack,
 	progress,
 	isActive,
 	caseStudy,
 	setCaseStudy,
 	handleAddCase,
 	handlePublishCase,
-}: CreateCaseStudyProps) => {
+}) => {
 	return (
 		<AdminLayout
 			extraNav={
@@ -59,6 +59,7 @@ const CreateCaseStudy = ({
 				{isActive("case_model_answers_setup") && (
 					<DoctorCaseAnswer
 						goNext={goNext}
+						goBack={goBack}
 						caseStudy={caseStudy}
 						setCaseStudy={setCaseStudy}
 						handleAddCase={handleAddCase}
@@ -68,6 +69,7 @@ const CreateCaseStudy = ({
 				{isActive("materials_and_deadline") && (
 					<DoctorMaterialsAndDeadline
 						goNext={goNext}
+						goBack={goBack}
 						caseStudy={caseStudy}
 						setCaseStudy={setCaseStudy}
 						handleAddCase={handleAddCase}
@@ -77,6 +79,7 @@ const CreateCaseStudy = ({
 				{isActive("cme_questions") && (
 					<DoctorCMEQuestions
 						goNext={goNext}
+						goBack={goBack}
 						caseStudy={caseStudy}
 						setCaseStudy={setCaseStudy}
 						handleAddCase={handleAddCase}
@@ -84,7 +87,6 @@ const CreateCaseStudy = ({
 				)}
 				{isActive("final_review") && (
 					<FinalReview
-						goNext={goNext}
 						caseStudy={caseStudy}
 						handleAddCase={handleAddCase}
 						handlePublishCase={handlePublishCase}

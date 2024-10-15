@@ -1,15 +1,12 @@
+import React, { FunctionComponent, useState, ChangeEvent, useRef } from "react";
 import { InputField } from "@/components/form-elements";
 import Button from "@/components/ui/Button";
 import { useAppSelector } from "@/services/hooks/hooks";
 import { DoctorMaterialsAndDeadlineProps } from "@/services/types/doctor/createCaseStudy";
-import React, { useState, ChangeEvent, useRef } from "react";
 
-const DoctorMaterialsAndDeadline = ({
-	goNext,
-	caseStudy,
-	setCaseStudy,
-	handleAddCase,
-}: DoctorMaterialsAndDeadlineProps) => {
+const DoctorMaterialsAndDeadline: FunctionComponent<
+	DoctorMaterialsAndDeadlineProps
+> = ({ goNext, goBack, caseStudy, setCaseStudy, handleAddCase }) => {
 	const [files, setFiles] = useState<File[]>([]);
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	const addingDraftCaseStatus = useAppSelector(
@@ -133,7 +130,7 @@ const DoctorMaterialsAndDeadline = ({
 					size="lg"
 					centralize
 					className="text-xs"
-					onClick={goNext}
+					onClick={goBack}
 				>
 					GO BACK TO CASE MODEL ANSWER SETUP
 				</Button>
