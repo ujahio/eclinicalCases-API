@@ -58,7 +58,7 @@ const DoctorMaterialsAndDeadline = ({
 	// 	setCaseStudy({ ...caseStudy, caseMaterials: updatedFiles }); // Update caseStudy state
 	// };
 
-	const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
+	const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const selectedFile = e.target.files && e.target.files[0];
 		console.log("selectedFile", selectedFile);
 
