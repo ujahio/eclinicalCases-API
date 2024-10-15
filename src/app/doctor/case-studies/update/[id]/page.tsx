@@ -1,8 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { toast } from "react-toastify";
-import { useRouter } from "next/navigation";
+import React, { FunctionComponent, useEffect, useState } from "react";
 import UpdateCaseStudy from "@/presentation/doctor/UpdateCaseStudy";
 import { createCaseStudyTabs } from "@/services/constants";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
@@ -41,7 +39,7 @@ const formatDateToYYYYMMDD = (dateString: any) => {
 	return `${year}-${month}-${day}`;
 };
 
-const Update = ({ params }: any) => {
+const Update: FunctionComponent<any> = ({ params }) => {
 	const dispatch = useAppDispatch();
 	const getDraftCasesState = useAppSelector((state) => state.getDraftCases);
 
@@ -59,6 +57,12 @@ const Update = ({ params }: any) => {
 
 	const goNext = () => {
 		const next = activeTab + 1;
+		switchTab(next);
+		setProgress(next);
+	};
+
+	const goBack = () => {
+		const next = activeTab - 1;
 		switchTab(next);
 		setProgress(next);
 	};
@@ -108,6 +112,7 @@ const Update = ({ params }: any) => {
 			activeTab={activeTab}
 			switchTab={switchTab}
 			goNext={goNext}
+			goBack={goBack}
 			progress={progress}
 			isActive={isActive}
 			caseStudy={caseStudy}

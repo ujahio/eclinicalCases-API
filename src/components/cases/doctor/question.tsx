@@ -1,17 +1,17 @@
 import { InputField } from "@/components/form-elements";
 import Button from "@/components/ui/Button";
-import React, { Fragment, FunctionComponent, useEffect, useState } from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
 import { EditorState, convertFromRaw, convertToRaw } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
 import { useAppSelector } from "@/services/hooks/hooks";
 import { DoctorCaseQuestionProps } from "@/services/types/doctor/createCaseStudy";
 
-const DoctorCaseQuestion = ({
+const DoctorCaseQuestion: FunctionComponent<DoctorCaseQuestionProps> = ({
 	goNext,
 	caseStudy,
 	setCaseStudy,
 	handleAddCase,
-}: DoctorCaseQuestionProps) => {
+}) => {
 	const [editorState, setEditorState] = useState(EditorState.createEmpty());
 	const [initialLoad, setInitialLoad] = useState(true);
 	const addingDraftCaseStatus = useAppSelector(
@@ -75,20 +75,18 @@ const DoctorCaseQuestion = ({
 					/>
 				</div>
 			</div>
-			<Button
-				btnStyle="outline"
-				size="lg"
-				centralize
-				onClick={handleAddCase}
-				className="w-full mb-3"
-			>
-				{addingDraftCaseStatus === "loading"
-					? "Loading..."
-					: "Save As a Draft..."}
-			</Button>
+
 			<div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
-				<Button btnStyle="outline" size="lg" centralize>
-					GO BACK HOME
+				<Button
+					btnStyle="outline"
+					size="lg"
+					centralize
+					onClick={handleAddCase}
+					className="w-full mb-3"
+				>
+					{addingDraftCaseStatus === "loading"
+						? "Loading..."
+						: "Save As a Draft..."}
 				</Button>
 				<Button
 					btnStyle="basic"

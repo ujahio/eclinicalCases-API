@@ -77,7 +77,6 @@ export const getCaseForStudentsResponse = async (event) => {
 		caseStatus: publishedCaseResult.caseStatus,
 		caseDescription: publishedCaseResult.caseDescription,
 		caseQuestions: publishedCaseResult.caseQuestions,
-		caseClue: publishedCaseResult.caseClue,
 		caseExplanation: publishedCaseResult.caseExplanation,
 	};
 
