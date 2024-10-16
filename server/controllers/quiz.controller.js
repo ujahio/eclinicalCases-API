@@ -6,11 +6,11 @@ import { PutObjectCommand } from "@aws-sdk/client-s3";
 // import { s3Client } from "../middlewares/uploadFile.js";
 import { TABLES } from "../services/dbTables.js";
 import SECRETS from "../services/secrets.js";
-import { extrapolateFormData } from "../utils/api_utils.js";
+import { extrapolateRequestBody } from "../utils/api_utils.js";
 import { verifyToken } from "../controllers/case.controller.js";
 
 export const submitStudentsAnswers = async (event) => {
-	const caseInfo = await extrapolateFormData(event);
+	const caseInfo = await extrapolateRequestBody(event);
 	const userToken = event.headers.authorization.split(" ")[1];
 	const userInfo = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
 

@@ -142,7 +142,7 @@ function parseLogToObject(log) {
 	return caseData;
 }
 
-export const extrapolateFormData = async (event) => {
+export const extrapolateRequestBody = async (event) => {
 	const contentType =
 		event.headers["content-type"] || event.headers["Content-Type"];
 	const formData = {};

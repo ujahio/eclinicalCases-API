@@ -6,7 +6,7 @@ import { verifyToken } from "./case.controller.js"; // todo: move utils function
 // import { uploadFileToBucket } from "../services/bucket.js";
 import SECRETS from "../services/secrets.js";
 import { generateCertificate } from "../utils/certificate.js";
-import { extrapolateFormData } from "../utils/api_utils.js";
+import { extrapolateRequestBody } from "../utils/api_utils.js";
 
 export const getStudentCertificates = async (event) => {
 	const userToken = event.headers.authorization.split(" ")[1];
@@ -95,7 +95,7 @@ export const getCertificateByCaseID = async (event) => {
 };
 
 // export const generatePassingCertificate = async (event) => {
-// 	const certificateInfo = await extrapolateFormData(event);
+// 	const certificateInfo = await extrapolateRequestBody(event);
 // 	console.log("certificateInfo", certificateInfo);
 // 	const userToken = event.headers.authorization.split(" ")[1];
 // 	const userInfo = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
