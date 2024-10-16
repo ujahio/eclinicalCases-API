@@ -5,6 +5,7 @@ import { useAppSelector } from "@/services/hooks/hooks";
 
 interface DoctorMaterialsAndDeadlineProps {
 	goNext: () => void;
+	goBack: () => void;
 	caseStudy: any;
 	setCaseStudy: React.Dispatch<React.SetStateAction<any>>;
 	prevCaseMaterials: any;
@@ -16,6 +17,7 @@ const DoctorMaterialsAndDeadline: FunctionComponent<
 	DoctorMaterialsAndDeadlineProps
 > = ({
 	goNext,
+	goBack,
 	caseStudy,
 	setCaseStudy,
 	prevCaseMaterials,
@@ -191,7 +193,7 @@ const DoctorMaterialsAndDeadline: FunctionComponent<
 					size="lg"
 					centralize
 					className="text-xs"
-					onClick={goNext}
+					onClick={goBack}
 				>
 					GO BACK TO CASE MODEL ANSWER SETUP
 				</Button>

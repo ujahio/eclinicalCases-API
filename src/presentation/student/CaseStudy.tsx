@@ -49,7 +49,7 @@ const StudentCaseStudy = ({
 						changeTab={switchTab}
 						tabs={tabs}
 						canClickBackward
-						canClickForward
+						canClickForward={false}
 						progress={progress}
 					/>
 				</nav>
@@ -60,7 +60,6 @@ const StudentCaseStudy = ({
 					<StudentCasePresentation
 						goNext={goNext}
 						caseDescription={caseDescription}
-						caseClue={caseDetailsState?.caseClue}
 						caseDeadline={caseDetailsState?.caseDeadline}
 					/>
 				)}

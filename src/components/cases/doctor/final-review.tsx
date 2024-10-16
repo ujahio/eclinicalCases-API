@@ -5,12 +5,11 @@ import { convertFromRaw, Editor, EditorState } from "draft-js";
 import { useAppSelector } from "@/services/hooks/hooks";
 import { FinalReviewProps } from "@/services/types/doctor/createCaseStudy";
 
-const FinalReview = ({
-	goNext,
+const FinalReview: FunctionComponent<FinalReviewProps> = ({
 	caseStudy,
 	handleAddCase,
 	handlePublishCase,
-}: FinalReviewProps) => {
+}) => {
 	const parseEditorState = (data: string) => {
 		try {
 			return EditorState.createWithContent(convertFromRaw(JSON.parse(data)));

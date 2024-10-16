@@ -1,21 +1,12 @@
-import React, { useState, ChangeEvent, useRef, useEffect } from "react";
+import React, { FunctionComponent, useState, ChangeEvent, useRef } from "react";
 import { InputField } from "@/components/form-elements";
 import Button from "@/components/ui/Button";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
 import { DoctorMaterialsAndDeadlineProps } from "@/services/types/doctor/createCaseStudy";
-// import { deleteFileFromS3 } from "../../../../server/services/bucket";
-import {
-	uploadPdf,
-	resetUploadPdfStatus,
-} from "@/store/slices/case/uploadPdfSlice";
-import { toast } from "react-toastify";
 
-const DoctorMaterialsAndDeadline = ({
-	goNext,
-	caseStudy,
-	setCaseStudy,
-	handleAddCase,
-}: DoctorMaterialsAndDeadlineProps) => {
+const DoctorMaterialsAndDeadline: FunctionComponent<
+	DoctorMaterialsAndDeadlineProps
+> = ({ goNext, goBack, caseStudy, setCaseStudy, handleAddCase }) => {
 	const dispatch = useAppDispatch();
 
 	const [files, setFiles] = useState<{ name: string; s3Url: string }[]>([]);
@@ -211,7 +202,7 @@ const DoctorMaterialsAndDeadline = ({
 					size="lg"
 					centralize
 					className="text-xs"
-					onClick={goNext}
+					onClick={goBack}
 				>
 					GO BACK TO CASE MODEL ANSWER SETUP
 				</Button>

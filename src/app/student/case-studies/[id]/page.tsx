@@ -26,7 +26,7 @@ const tabs = [
 const CaseStudies = ({ params }: any) => {
 	const dispatch = useAppDispatch();
 	const { active: activeTab, switchTab, isActive } = useProcessTabs(tabs, 0);
-	const [progress, setProgress] = useState(0);
+	const [progress, setProgress] = useState(1);
 	const [caseDetails, setCaseDetails] = useState<CaseDetail>({
 		caseID: params.id,
 		caseTopicAnswer: "",

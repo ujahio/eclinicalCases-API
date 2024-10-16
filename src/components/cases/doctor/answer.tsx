@@ -1,17 +1,18 @@
 import { InputField } from "@/components/form-elements";
 import Button from "@/components/ui/Button";
-import React, { Fragment, FunctionComponent, useEffect, useState } from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
 import { EditorState, convertFromRaw, convertToRaw } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
 import { useAppSelector } from "@/services/hooks/hooks";
 import { DoctorCaseAnswerProps } from "@/services/types/doctor/createCaseStudy";
 
-const DoctorCaseAnswer = ({
+const DoctorCaseAnswer: FunctionComponent<DoctorCaseAnswerProps> = ({
 	goNext,
+	goBack,
 	caseStudy,
 	setCaseStudy,
 	handleAddCase,
-}: DoctorCaseAnswerProps) => {
+}) => {
 	const [isEditorMounted, setIsEditorMounted] = useState(false);
 
 	const [editorState, setEditorState] = useState(() => {
@@ -96,10 +97,10 @@ const DoctorCaseAnswer = ({
 			</Button>
 
 			<div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
-				<Button btnStyle="outline" size="lg" centralize>
+				<Button btnStyle="outline" size="lg" centralize onClick={goBack}>
 					GO BACK TO CASE MODEL SETUP
 				</Button>
-				<Button btnStyle="basic" size="lg" centralize onClick={() => goNext()}>
+				<Button btnStyle="basic" size="lg" centralize onClick={goNext}>
 					PROCEED TO MATERIALS AND DEADLINE
 				</Button>
 			</div>

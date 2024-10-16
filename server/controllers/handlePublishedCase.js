@@ -120,7 +120,7 @@ export const publishCase = async (event) => {
 			ExpressionAttributeValues: {
 				":caseStatus": "published",
 				":publishedDate": todaysDate,
-				":caseDeadline": caseDeadline,
+				":caseDeadline": new Date(caseDeadline).toISOString(),
 				":caseClue": caseClue,
 				":caseDescription": caseDescription,
 				":caseTopic": caseTopic,

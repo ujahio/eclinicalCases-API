@@ -1,9 +1,9 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import useGetArchiveCases from "@/services/hooks/useGetArchiveCases";
 import useGetActiveCase from "@/services/hooks/useGetActiveCase";
-import dynamic from "next/dynamic";
 
 const DoctorDashboardPage = dynamic(
 	() => import("@/presentation/doctor/Dashboard"),
