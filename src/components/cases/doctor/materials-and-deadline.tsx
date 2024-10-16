@@ -110,8 +110,7 @@ const DoctorMaterialsAndDeadline: FunctionComponent<
 				caseMaterials: updatedFiles.map((fileInfo) => ({
 					fileName: fileInfo.fileName,
 					documentKey: fileInfo.documentKey,
-					url: fileInfo.pdfUrl, // evaluate if this is necessary
-					type: fileInfo.selectedFile.type, //evaluate if this is necessary
+					type: fileInfo.selectedFile.type,
 				})),
 			});
 		}
