@@ -1,3 +1,4 @@
+import axios from "axios";
 import { caseApi, configureRequestHeaders } from "../config/axiosConfig";
 
 const convertToFormData = (caseStudy: any) => {
@@ -80,13 +81,30 @@ export const fetchCaseDataApi = (caseId: string, token: string) => {
 	return caseApi.get(`/data/${caseId}`, configureRequestHeaders(token));
 };
 
-export const uploadPdfToS3Api = (pdfInfo: any, token: string) => {
-	const formData = new FormData();
-	formData.append("pdfFile", pdfInfo.selectedFile);
-	formData.append("bucketName", pdfInfo.bucketName);
-	return caseApi.post(
-		"/upload-pdf",
-		formData,
-		configureRequestHeaders(token, formData)
-	);
+export const getPresignedUrlForDocumentUploadApi = (token: string) => {
+	return caseApi.get("/get-signed-url", configureRequestHeaders(token));
+};
+
+export const addPdfToCaseMaterialsApi = async ({
+	pdfUrl,
+	selectedFile,
+}: {
+	pdfUrl: string;
+	selectedFile: File;
+}) => {
+	await axios.put(pdfUrl, selectedFile, {
+		headers: {
+			"Content-Type": selectedFile.type || "application/octet-stream",
+		},
+	});
+};
+
+export const deletePdfFromCaseMaterialsApi = (
+	fileKey: string,
+	token: string
+) => {
+	return caseApi.delete("/delete-case-material", {
+		data: { fileKey },
+		...configureRequestHeaders(token),
+	});
 };

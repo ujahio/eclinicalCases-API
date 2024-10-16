@@ -98,8 +98,14 @@ api.route("POST /api/case/publish", {
 	handler: "server/controllers/handlePublishedCase.publishCase",
 	link: links,
 });
-api.route("POST /api/case/upload-pdf", {
-	handler: "server/controllers/case.controller.uploadPdf",
+api.route("GET /api/case/get-signed-url", {
+	handler:
+		"server/controllers/case.controller.getSignedUrlToUploadForCaseMaterials",
+	link: links,
+});
+
+api.route("DELETE /api/case/delete-case-material", {
+	handler: "server/controllers/case.controller.deleteCaseMaterial",
 	link: links,
 });
 

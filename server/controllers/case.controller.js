@@ -8,17 +8,19 @@ import {
 	QueryCommand,
 } from "@aws-sdk/lib-dynamodb";
 import jwt from "jsonwebtoken";
-import { getSignedUrlFromS3 } from "../services/bucket.js";
+import {
+	deleteCaseMaterialFromS3,
+	getSignedUrlFromS3,
+} from "../services/bucket.js";
 import { readSingleItem } from "../services/dbOps.js";
 import { TABLES } from "../services/dbTables.js";
 import dbClient from "../services/dbClient.js";
 import SECRETS from "../services/secrets.js";
 import {
 	parseLogToObject,
-	extrapolateFormData,
+	extrapolateRequestBody,
 	getDetailsOfStudentsFeedbackAndResponses,
 } from "../utils/api_utils.js";
-// TODO: move to a utility function
 
 // todo: move to utility function
 export const verifyToken = (token, secretKey) => {
@@ -88,41 +90,6 @@ export const getCaseForStudentsResponse = async (event) => {
 	};
 };
 
-export const deleteAllCases = async () => {
-	try {
-		const params = {
-			TableName: TABLES.CASE,
-		};
-		const scanCommand = new ScanCommand(params);
-		const result = await dbClient.send(scanCommand);
-		const cases = result.Items;
-		const deletePromises = cases.map((caseItem) => {
-			const deleteParams = {
-				TableName: TABLES.CASE,
-				Key: {
-					id: caseItem.id,
-				},
-			};
-			const deleteCommand = new DeleteCommand(deleteParams);
-			return dbClient.send(deleteCommand);
-		});
-		await Promise.all(deletePromises);
-		return {
-			statusCode: 200,
-			body: JSON.stringify({ message: "All cases deleted successfully!" }),
-		};
-	} catch (error) {
-		console.error("Error deleting cases:", error);
-
-		return {
-			statusCode: 500,
-			body: JSON.stringify({
-				error: "Could not delete cases: " + error.message,
-			}),
-		};
-	}
-};
-
 export const duplicateCase = async (event) => {
 	const { caseID } = JSON.parse(event.body);
 
@@ -186,7 +153,7 @@ export const duplicateCase = async (event) => {
 
 export const addFeedback = async (event) => {
 	const userToken = event.headers.authorization.split(" ")[1];
-	const extrapolatedFormData = await extrapolateFormData(event);
+	const extrapolatedFormData = await extrapolateRequestBody(event);
 	const { caseID, feedback } = parseLogToObject(extrapolatedFormData);
 	const { id: studentID } = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
 
@@ -396,10 +363,8 @@ export const getCaseData = async (event) => {
 	}
 };
 
-export const uploadPdf = async (event) => {
+export const getSignedUrlToUploadForCaseMaterials = async (event) => {
 	const userToken = event.headers.authorization.split(" ")[1];
-	const pdfInfo = await extrapolateFormData(event);
-
 	const userInfo = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
 	const { id: teacherID } = userInfo;
 
@@ -410,19 +375,15 @@ export const uploadPdf = async (event) => {
 		};
 	}
 
-	// pngFile
-
 	try {
-		const pdfUrl = await getSignedUrlFromS3(pdfInfo);
+		const { pdfUrl, documentKey } = await getSignedUrlFromS3();
 
 		return {
 			statusCode: 200,
 			body: JSON.stringify({
 				pdfUrl,
+				documentKey,
 				message: "PDF uploaded successfully!",
-				// fileUrl: `https://${Resource.CaseMaterials.name}.s3.${
-				// 	aws.getRegionOutput().name
-				// }.amazonaws.com/${pdfInfo.name}`,
 			}),
 		};
 	} catch (error) {
@@ -432,6 +393,39 @@ export const uploadPdf = async (event) => {
 			statusCode: 500,
 			body: JSON.stringify({
 				error: "Could not upload file: " + error.message,
+			}),
+		};
+	}
+};
+
+export const deleteCaseMaterial = async (event) => {
+	const { fileKey } = await extrapolateRequestBody(event);
+	try {
+		if (!fileKey) {
+			return {
+				statusCode: 400,
+				body: JSON.stringify({
+					message: "Missing required parameters: fileKey",
+				}),
+			};
+		}
+
+		await deleteCaseMaterialFromS3(fileKey);
+
+		return {
+			statusCode: 200,
+			body: JSON.stringify({
+				message: `File with key ${fileKey} deleted successfully.`,
+			}),
+		};
+	} catch (error) {
+		console.error("Error deleting file from S3:", error);
+
+		return {
+			statusCode: 500,
+			body: JSON.stringify({
+				message: "Error deleting file from S3",
+				error: error.message,
 			}),
 		};
 	}

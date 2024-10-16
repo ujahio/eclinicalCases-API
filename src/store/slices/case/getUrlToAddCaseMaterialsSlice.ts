@@ -1,15 +1,15 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { uploadPdfToS3Api } from "@/services/apis/case";
+import { getPresignedUrlForDocumentUploadApi } from "@/services/apis/case";
 import { RootState } from "@/store/rootReducer/rootReducer";
 
-export const uploadPdf = createAsyncThunk(
-	"case/upload-pdfs",
-	async (pdfInfo: any, thunkAPI) => {
+export const getUrlToAddCaseMaterials = createAsyncThunk(
+	"case/get-url-to-add-case-materials",
+	async (_, thunkAPI) => {
 		try {
 			const state = thunkAPI.getState() as RootState;
 			const token = state?.login?.user?.token;
-			const { data } = await uploadPdfToS3Api(pdfInfo, token);
-
+			const { data } = await getPresignedUrlForDocumentUploadApi(token);
+			console.log("data", data);
 			return data;
 		} catch (error: any) {
 			return thunkAPI.rejectWithValue({
@@ -20,18 +20,18 @@ export const uploadPdf = createAsyncThunk(
 	}
 );
 
-interface UploadPdfState {
+interface GetUrlToAddCaseMaterialsState {
 	status: "idle" | "loading" | "succeeded" | "failed";
 	error: any;
 }
 
-const initialState: UploadPdfState = {
+const initialState: GetUrlToAddCaseMaterialsState = {
 	status: "idle",
 	error: null,
 };
 
-const uploadPdfSlice = createSlice({
-	name: "uploadPdf",
+const urlToAddCaseMaterialsSlice = createSlice({
+	name: "urlToAddCaseMaterials",
 	initialState,
 	reducers: {
 		resetUploadPdfStatus: (state) => {
@@ -41,18 +41,18 @@ const uploadPdfSlice = createSlice({
 	},
 	extraReducers: (builder) => {
 		builder
-			.addCase(uploadPdf.pending, (state) => {
+			.addCase(getUrlToAddCaseMaterials.pending, (state) => {
 				state.status = "loading";
 			})
-			.addCase(uploadPdf.fulfilled, (state, action) => {
+			.addCase(getUrlToAddCaseMaterials.fulfilled, (state, action) => {
 				state.status = "succeeded";
 			})
-			.addCase(uploadPdf.rejected, (state, action: any) => {
+			.addCase(getUrlToAddCaseMaterials.rejected, (state, action: any) => {
 				state.status = "failed";
 				state.error = action.payload;
 			});
 	},
 });
 
-export const { resetUploadPdfStatus } = uploadPdfSlice.actions;
-export default uploadPdfSlice.reducer;
+export const { resetUploadPdfStatus } = urlToAddCaseMaterialsSlice.actions;
+export default urlToAddCaseMaterialsSlice.reducer;

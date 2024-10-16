@@ -3,111 +3,123 @@ import { InputField } from "@/components/form-elements";
 import Button from "@/components/ui/Button";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
 import { DoctorMaterialsAndDeadlineProps } from "@/services/types/doctor/createCaseStudy";
+import { getUrlToAddCaseMaterials } from "@/store/slices/case/getUrlToAddCaseMaterialsSlice";
+import { toast } from "react-toastify";
+import {
+	addPdfToCaseMaterialsApi,
+	deletePdfFromCaseMaterialsApi,
+} from "@/services/apis/case";
 
 const DoctorMaterialsAndDeadline: FunctionComponent<
 	DoctorMaterialsAndDeadlineProps
 > = ({ goNext, goBack, caseStudy, setCaseStudy, handleAddCase }) => {
 	const dispatch = useAppDispatch();
 
-	const [files, setFiles] = useState<{ name: string; s3Url: string }[]>([]);
+	const [files, setFiles] = useState<
+		{
+			fileName: string;
+			documentKey: string;
+			selectedFile: File;
+			pdfUrl: string;
+		}[]
+	>([]);
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	const addingDraftCaseStatus = useAppSelector(
 		(state) => state.getDraftCases.status
 	);
-	const uploadPdfState = useAppSelector((state) => state.uploadPdf);
+	const getUrlToUploadPdfToCaseMaterialsState = useAppSelector(
+		(state) => state.urlToAddCaseMaterials
+	);
+
+	const userToken = useAppSelector((state) => state.login.user?.token);
+
 	const addFile = () => {
 		if (fileInputRef.current) {
 			fileInputRef.current.click(); // Click the file input to open the dialog
 		}
 	};
 
-	// const removeFile = async (index: number) => {
-	// 	const fileToRemove = files[index]; // Get the file to remove from the list
-
-	// 	// Remove the file from S3 before removing it from the state
-	// 	try {
-	// 		// Assuming fileToRemove.s3Url is the pre-signed URL or S3 key
-	// 		// const fileKey = fileToRemove.s3Url || fileToRemove.name; // You may store fileKey or use file name as the key
-
-	// 		// Create a function to delete the file from S3
-	// 		// await deleteFileFromS3(fileKey);
-
-	// 		// Now remove the file from the state
-	// 		const updatedFiles = [...files];
-	// 		updatedFiles.splice(index, 1);
-	// 		setFiles(updatedFiles);
-	// 		setCaseStudy({ ...caseStudy, caseMaterials: updatedFiles }); // Update caseStudy state
-	// 	} catch (error) {
-	// 		console.error("Error removing file from S3:", error);
-	// 	}
-	// };
-
-	// const removeFile = (index: number) => {
-	// 	const updatedFiles = [...files];
-	// 	updatedFiles.splice(index, 1);
-	// 	setFiles(updatedFiles);
-	// 	setCaseStudy({ ...caseStudy, caseMaterials: updatedFiles }); // Update caseStudy state
-	// };
-
-	const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-		const selectedFile = e.target.files && e.target.files[0];
-		console.log("selectedFile", selectedFile);
-
-		if (selectedFile) {
-			console.log("selectedFile", selectedFile);
-			dispatch(
-				// uploadPdf({ selectedFile: pdfInfo, bucketName: "CaseMaterials" })
-				uploadPdf({ selectedFile, bucketName: "CaseMaterials" })
+	const removeFile = async (documentKey: string | null = null) => {
+		try {
+			if (documentKey) {
+				await deletePdfFromCaseMaterialsApi(documentKey, userToken);
+				console.log(`File with key ${documentKey} deleted from S3`);
+			}
+			const updatedFiles = files.filter(
+				(file) => file.documentKey !== documentKey
 			);
-
-			const updatedFiles = [
-				...files,
-				{ name: selectedFile.name }, // Capture the file metadata
-			];
-
 			setFiles(updatedFiles);
-			setCaseStudy({ ...caseStudy, caseMaterials: updatedFiles }); // Update caseStudy state
+			setCaseStudy({ ...caseStudy, caseMaterials: updatedFiles });
+		} catch (error) {
+			console.error("Error removing file from S3:", error);
+			toast.error("Error deleting file", {
+				position: "top-right",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "light",
+			});
 		}
 	};
 
-	// TODO: comment out for now until we figure out proper upload implementation
-	// This may not be necessary because the UI will update with files when upload has happend.
-	// Just need to confirm when the upload is done.
-	// useEffect(() => {
-	// 	if (uploadPdfState.status === "succeeded") {
-	// 		dispatch(resetUploadPdfStatus());
-	// 		// should use the name of the document
-	// 		toast.success("Pdf uploaded succesfully", {
-	// 			position: "top-right",
-	// 			autoClose: 5000,
-	// 			hideProgressBar: false,
-	// 			closeOnClick: true,
-	// 			pauseOnHover: true,
-	// 			draggable: true,
-	// 			progress: undefined,
-	// 			theme: "light",
-	// 		});
-	// 	} else if (uploadPdfState.status === "failed") {
-	// 		toast.error("Error uploading case materials", {
-	// 			position: "top-right",
-	// 			autoClose: 5000,
-	// 			hideProgressBar: false,
-	// 			closeOnClick: true,
-	// 			pauseOnHover: true,
-	// 			draggable: true,
-	// 			progress: undefined,
-	// 			theme: "light",
-	// 		});
-	// 	}
-	// }, [uploadPdfState.status, dispatch]);
+	const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
+		const selectedFile = e.target.files && e.target.files[0];
+
+		if (selectedFile) {
+			const response = await dispatch(getUrlToAddCaseMaterials());
+			const { pdfUrl, documentKey } = response.payload;
+
+			const updatedFiles = [
+				...files,
+				{
+					selectedFile,
+					fileName: selectedFile.name,
+					documentKey,
+					pdfUrl,
+				},
+			];
+
+			setFiles(updatedFiles);
+
+			try {
+				await addPdfToCaseMaterialsApi({
+					pdfUrl,
+					selectedFile,
+				});
+			} catch (error) {
+				removeFile(documentKey);
+
+				console.error("Error uploading case materials", error);
+				toast.error("Error uploading case materials", {
+					position: "top-right",
+					autoClose: 5000,
+					hideProgressBar: false,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+					progress: undefined,
+					theme: "light",
+				});
+			}
+
+			setCaseStudy({
+				...caseStudy,
+				caseMaterials: updatedFiles.map((fileInfo) => ({
+					fileName: fileInfo.fileName,
+					documentKey: fileInfo.documentKey,
+					url: fileInfo.pdfUrl, // evaluate if this is necessary
+					type: fileInfo.selectedFile.type, //evaluate if this is necessary
+				})),
+			});
+		}
+	};
 
 	return (
 		<>
 			<h6 className="text-1xs sm:text-sm font-bold text-blue uppercase mb-4">
-				Deadline
-			</h6>
-			{/*TEMP COMMENT OUT UNTIL UPLOADING FILES IS WORKING*/}
-			{/* <h6 className="text-1xs sm:text-sm font-bold text-blue uppercase mb-4">
 				Materials and deadline
 			</h6>
 			<div className="mb-5 sm:mb-6">
@@ -120,11 +132,12 @@ const DoctorMaterialsAndDeadline: FunctionComponent<
 					className="hidden"
 					accept=".doc,.docx,.pdf,.xls,.xlsx,.ppt,.pptx"
 					onChange={handleFileChange}
+					disabled={getUrlToUploadPdfToCaseMaterialsState.status === "loading"}
 				/>
 				<ul className="mt-3 space-y-2">
 					{caseStudy.caseMaterials.map((file: any, index: number) => (
 						<li
-							key={file.name}
+							key={file.documentKey}
 							className="flex items-center justify-between px-5 py-2 border-grey-border bg-white border text-1xs sm:text-sm"
 						>
 							<div className="inline-flex items-center">
@@ -139,10 +152,10 @@ const DoctorMaterialsAndDeadline: FunctionComponent<
 										fill="currentColor"
 									/>
 								</svg>
-								<span className="text-dark">{file.name}</span>
+								<span className="text-dark">{file.fileName}</span>
 							</div>
 							<button
-								onClick={() => removeFile(index)}
+								onClick={() => removeFile(file.documentKey)}
 								className="no-outline h-4 w-4"
 							>
 								<svg width="100%" height="100%" viewBox="0 0 19.799 19.799">
@@ -171,7 +184,7 @@ const DoctorMaterialsAndDeadline: FunctionComponent<
 						/>
 					</svg>
 				</Button>
-			</div> */}
+			</div>
 			<div className="mb-5 sm:mb-6">
 				<InputField
 					placeholder=""

@@ -7,64 +7,38 @@ import {
 import crypto from "crypto";
 import { Resource } from "sst";
 
-// const uploadFileToBucket = async (file) => {
-//   const params = {
-//     Bucket: Resource.MyBucket.name,
-//     Key: file.originalname,
-//     Body: file.buffer,
-//   };
-//   const command = new PutObjectCommand(params);
-//   const s3Client = new S3Client({ region: "us-east-1" });
-//   const signedUrl = await getSignedUrl(s3Client, command);
-//   console.log("signedUrl: ", signedUrl);
-//   return signedUrl;
-// };
-
-// export default uploadFileToBucket;
-
-export const getSignedUrlFromS3 = async (pdfInfo, region = "us-east-1") => {
-	console.log("pdfInfo", pdfInfo);
+export const getSignedUrlFromS3 = async (region = "us-east-1") => {
 	try {
-		// Create the S3 client
 		const s3Client = new S3Client({ region });
 
-		const { pdfFile: pdfRawFile, bucketName } = pdfInfo;
+		const key = crypto.randomUUID();
 
-		// Define the S3 PutObjectCommand parameters
 		const params = {
-			Bucket: Resource[bucketName].name,
-
-			// Key: fileContent.name,
-			Key: crypto.randomUUID(),
-			Body: Buffer.from(pdfRawFile, "base64"),
-			ContentType: pdfInfo.type || "application/pdf", // Optional: Set the content type
+			Bucket: Resource.CaseMaterials.name,
+			Key: key,
+			ContentType: "application/pdf",
 		};
 
 		console.log("params", params);
 
-		// Create the PutObjectCommand
 		const command = new PutObjectCommand(params);
+		const pdfUrl = await getSignedUrl(s3Client, command);
 
-		// Generate a pre-signed URL valid for 1 hour
-		const signedUrl = await getSignedUrl(s3Client, command);
-
-		console.log("Pre-signed URL generated: ", signedUrl);
-		return signedUrl;
+		return { pdfUrl, documentKey: key };
 	} catch (error) {
 		console.error("Error generating pre-signed URL: ", error);
 		throw new Error("Failed to generate pre-signed URL");
 	}
 };
 
-export const deleteFileFromS3 = async (
+export const deleteCaseMaterialFromS3 = async (
 	fileKey,
-	bucketName = "your-s3-bucket-name",
 	region = "us-east-1"
 ) => {
 	try {
 		const s3Client = new S3Client({ region });
 		const deleteParams = {
-			Bucket: bucketName,
+			Bucket: Resource.CaseMaterials.name,
 			Key: fileKey,
 		};
 
