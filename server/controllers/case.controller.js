@@ -46,6 +46,7 @@ export const getCaseForStudentsResponse = async (event) => {
 		caseDescription: publishedCaseResult.caseDescription,
 		caseQuestions: publishedCaseResult.caseQuestions,
 		caseExplanation: publishedCaseResult.caseExplanation,
+		caseMaterials: publishedCaseResult.caseMaterials,
 	};
 
 	return {

@@ -9,8 +9,6 @@ export const getPublishedCase = createAsyncThunk(
 			const state = thunkAPI.getState() as RootState;
 			const token = state?.login?.user?.token;
 			const { data: pubishedCase } = await fetchPublishedCaseApi(token);
-			// get the case materials documentKeys
-			// get the presigned url for fetching the documents
 			return pubishedCase;
 		} catch (error: any) {
 			return thunkAPI.rejectWithValue(error.response.data);
