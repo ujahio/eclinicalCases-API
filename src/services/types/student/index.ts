@@ -1,8 +1,13 @@
 export interface CaseDetail {
 	caseID: string;
+	caseTopic: string;
 	caseTopicAnswer: string;
 	caseExplanation: string;
 	answers: Answer[];
+	caseDescription: string;
+	caseDeadline: string;
+	studentCaseTopicResponse: string;
+	studentCaseExplanation: string;
 }
 
 export interface Answer {

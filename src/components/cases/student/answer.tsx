@@ -6,30 +6,34 @@ import React, { FC, useState } from "react";
 interface StudentCaseAnswerProps {
 	goNext: () => void;
 	goBack: () => void;
-	caseTopicAnswer: string;
+	caseTopic: string;
 	caseExplanation: any;
+	studentCaseExplanation: string;
+	studentCaseTopicResponse: string;
 }
 
 const StudentCaseAnswer: FC<StudentCaseAnswerProps> = ({
 	goNext,
 	goBack,
-	caseTopicAnswer,
+	caseTopic,
 	caseExplanation,
+	studentCaseExplanation,
+	studentCaseTopicResponse,
 }) => {
-	const caseDetailsState = useAppSelector((state) => state.caseDetails?.data);
 	const [compareMode, setCompareMode] = useState<boolean>(false);
-	const rawContent =
-		caseDetailsState && caseDetailsState.caseExplanation
-			? JSON.parse(caseDetailsState.caseExplanation)
-			: { blocks: [], entityMap: {} };
-	const rawContent1 = caseExplanation
+
+	const teacherCaseStudyExplanationRawContent = caseExplanation
 		? JSON.parse(caseExplanation)
 		: { blocks: [], entityMap: {} };
+	const studentCaseResponseRawContent = studentCaseExplanation
+		? JSON.parse(studentCaseExplanation)
+		: { blocks: [], entityMap: {} };
+
 	const teacherCaseDescription = EditorState.createWithContent(
-		convertFromRaw(rawContent)
+		convertFromRaw(teacherCaseStudyExplanationRawContent)
 	);
-	const caseExplanationT = EditorState.createWithContent(
-		convertFromRaw(rawContent1)
+	const studentCaseExplanationContent = EditorState.createWithContent(
+		convertFromRaw(studentCaseResponseRawContent)
 	);
 	return (
 		<>
@@ -50,7 +54,7 @@ const StudentCaseAnswer: FC<StudentCaseAnswerProps> = ({
 						TEACHER’S MODEL ANSWER
 					</h6>
 					<h6 className="text-1xs sm:text-sm font-medium text-grey-300 uppercase mb-2.5">
-						{caseDetailsState?.caseTopic}
+						{caseTopic}
 					</h6>
 					<div className="text-dark sm:text-base text-1sm">
 						<div className="mb-9 bg-gray-200 p-2.5">
@@ -73,12 +77,12 @@ const StudentCaseAnswer: FC<StudentCaseAnswerProps> = ({
 						</div>
 						<div className="mb-5 sm:mb-6">
 							<h6 className="text-1xs sm:text-sm font-medium text-grey-300 uppercase mb-2.5">
-								{caseTopicAnswer}
+								{studentCaseTopicResponse}
 							</h6>
 							<div className="text-dark sm:text-base text-1sm">
 								<div className="mb-9 bg-gray-200 p-2.5">
 									<Editor
-										editorState={caseExplanationT}
+										editorState={studentCaseExplanationContent}
 										readOnly={true}
 										onChange={() => {}}
 									/>
@@ -94,7 +98,7 @@ const StudentCaseAnswer: FC<StudentCaseAnswerProps> = ({
 						</div>
 						<div className="mb-5 sm:mb-6">
 							<h6 className="text-1xs sm:text-sm font-medium text-grey-300 uppercase mb-2.5">
-								{caseDetailsState?.caseTopic}
+								{caseTopic}
 							</h6>
 							<div className="text-dark sm:text-base text-1sm">
 								<div className="mb-9 bg-gray-200 p-2.5">
@@ -109,13 +113,12 @@ const StudentCaseAnswer: FC<StudentCaseAnswerProps> = ({
 					</div>
 				</div>
 			)}
-			{/*TEMP COMMENT OUT UNTIL UPLOADING FILES IS WORKING*/}
-			{/* <div className="border-grey-border border rounded-sm p-3 sm:p-6 mb-5 sm:mb-6">
+			<div className="border-grey-border border rounded-sm p-3 sm:p-6 mb-5 sm:mb-6">
 				<h6 className="text-1xs sm:text-sm font-bold text-blue uppercase mb-2.5">
 					FURTHER LEARNING MATERIALS
 				</h6>
 
-				<ul className="flex flex-col w-full space-y-3">
+				{/* <ul className="flex flex-col w-full space-y-3">
 					{caseDetailsState?.caseMaterials?.map(
 						(material: any, index: number) => {
 							// Replace backslashes with forward slashes in the file path
@@ -142,8 +145,8 @@ const StudentCaseAnswer: FC<StudentCaseAnswerProps> = ({
 							);
 						}
 					)}
-				</ul>
-			</div> */}
+				</ul> */}
+			</div>
 			<div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
 				<Button
 					btnStyle="outline"

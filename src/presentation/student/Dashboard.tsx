@@ -79,7 +79,7 @@ const StudentDashboard = () => {
 									</g>
 								</svg>
 								<h5 className="font-bold text-base mt-3.75 mb-2.5">
-									{publishedCaseInfo?.caseTopic}
+									NEW CASE INFO
 								</h5>
 								<p className="text-1sm text-sm max-w-lg mb-5">
 									Learn how patients with a serious infection can be managed in
