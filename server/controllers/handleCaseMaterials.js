@@ -18,32 +18,40 @@ export const getSignedUrlsToFetchForCaseMaterials = async (event) => {
 	}
 
 	try {
-		// Extract the documentKeys from the request body
-		const { documentKeys } = await extrapolateRequestBody(event);
+		// Extract the documentKeys and fileNames from the request body
+		const { documentKeys, fileNames } = await extrapolateRequestBody(event);
+		console.log({ documentKeys, fileNames });
 
-		// Validate input: Ensure it's an array of documentKeys
-		if (!Array.isArray(documentKeys) || documentKeys.length === 0) {
+		// Validate input: Ensure both documentKeys and fileNames are arrays and have matching lengths
+		if (
+			!Array.isArray(documentKeys) ||
+			!Array.isArray(fileNames) ||
+			documentKeys.length === 0 ||
+			documentKeys.length !== fileNames.length
+		) {
 			return {
 				statusCode: 400,
 				body: JSON.stringify({
-					error: "documentKeys must be a non-empty array",
+					error:
+						"Invalid input: documentKeys and fileNames must be non-empty arrays of equal length",
 				}),
 			};
 		}
 
-		// Generate pre-signed URLs for each documentKey
+		// Generate pre-signed URLs for each documentKey and attach the corresponding file name
 		const signedUrls = await Promise.all(
-			documentKeys.map(async (documentKey) => {
+			documentKeys.map(async (documentKey, index) => {
 				const { pdfUrl } = await getSignedUrlForFetchingFromS3(documentKey);
-				return { documentKey, pdfUrl }; // Return both the documentKey and its signed URL
+				const fileName = fileNames[index]; // Get the corresponding file name
+				return { documentKey, pdfUrl, fileName }; // Include both documentKey, signed URL, and fileName
 			})
 		);
 
-		// Return the array of signed URLs
+		// Return the array of signed URLs and file names
 		return {
 			statusCode: 200,
 			body: JSON.stringify({
-				signedUrls, // An array of { documentKey, pdfUrl } for each document
+				signedUrls, // An array of { documentKey, pdfUrl, fileName } for each document
 				message: "Pre-signed URLs for downloading generated successfully!",
 			}),
 		};

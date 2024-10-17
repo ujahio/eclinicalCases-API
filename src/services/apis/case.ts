@@ -4,7 +4,6 @@ import { caseApi, configureRequestHeaders } from "../config/axiosConfig";
 const convertToFormData = (caseStudy: any) => {
 	const formData = new FormData();
 
-	// refactor to remove scenarios for caseMaterials and caseQuestions
 	for (const key in caseStudy) {
 		if (key === "caseMaterials") {
 			formData.append(key, JSON.stringify(caseStudy.caseMaterials));
@@ -87,14 +86,33 @@ export const getPresignedUrlForDocumentUploadApi = (token: string) => {
 	);
 };
 
-export const getPresignedUrlForFetchingDocumentsApi = (
-	documentKeys: string[],
-	token: string
-) => {
-	return caseApi.post("/get-signed-url-for-pdf-fetch", {
-		data: { documentKeys },
-		...configureRequestHeaders(token),
+export const getPresignedUrlForFetchingDocumentsApi = ({
+	documentKeys,
+	token,
+	fileNames,
+}: {
+	documentKeys: string[];
+	token: string;
+	fileNames: string[];
+}) => {
+	const formData = new FormData();
+
+	// Append each documentKey and corresponding fileName as unique form data fields
+	documentKeys.forEach((documentKey, index) => {
+		formData.append(`documentKeys[${index}]`, documentKey); // Append each documentKey
+		formData.append(`fileNames[${index}]`, fileNames[index]); // Append corresponding fileName
 	});
+
+	// Log the formData keys using forEach (to avoid the iteration warning)
+	formData.forEach((value, key) => {
+		console.log(`${key}: ${value}`);
+	});
+
+	return caseApi.post(
+		"/get-signed-url-for-pdf-fetch",
+		formData,
+		configureRequestHeaders(token, formData)
+	);
 };
 
 export const addPdfToCaseMaterialsApi = async ({

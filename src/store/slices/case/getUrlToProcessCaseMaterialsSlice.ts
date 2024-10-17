@@ -11,7 +11,12 @@ export const getUrlToProcessCaseMaterials = createAsyncThunk(
 		{
 			fileProcess,
 			documentKeys,
-		}: { fileProcess: "upload" | "download"; documentKeys: string[] },
+			fileNames,
+		}: {
+			fileProcess: "upload" | "download";
+			documentKeys: string[];
+			fileNames: string[];
+		},
 		thunkAPI
 	) => {
 		try {
@@ -22,10 +27,11 @@ export const getUrlToProcessCaseMaterials = createAsyncThunk(
 				console.log("data", data);
 				return data;
 			} else if (fileProcess === "download") {
-				const { data } = await getPresignedUrlForFetchingDocumentsApi(
+				const { data } = await getPresignedUrlForFetchingDocumentsApi({
 					documentKeys,
-					token
-				);
+					fileNames,
+					token,
+				});
 				return data;
 			}
 		} catch (error: any) {
