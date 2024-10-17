@@ -1,17 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
-import {
-	GetCommand,
-	PutCommand,
-	ScanCommand,
-	DeleteCommand,
-	UpdateCommand,
-	QueryCommand,
-} from "@aws-sdk/lib-dynamodb";
-import jwt from "jsonwebtoken";
-import {
-	deleteCaseMaterialFromS3,
-	getSignedUrlFromS3,
-} from "../services/bucket.js";
+import { GetCommand, PutCommand, QueryCommand } from "@aws-sdk/lib-dynamodb";
+
 import { readSingleItem } from "../services/dbOps.js";
 import { TABLES } from "../services/dbTables.js";
 import dbClient from "../services/dbClient.js";
@@ -20,28 +9,8 @@ import {
 	parseLogToObject,
 	extrapolateRequestBody,
 	getDetailsOfStudentsFeedbackAndResponses,
+	verifyToken,
 } from "../utils/api_utils.js";
-
-// todo: move to utility function
-export const verifyToken = (token, secretKey) => {
-	try {
-		// Verify the token using the secret key
-		const decoded = jwt.verify(token, secretKey);
-		// Token is valid; return the decoded token data
-		return decoded;
-	} catch (err) {
-		// Handle different types of JWT errors
-		if (err.name === "TokenExpiredError") {
-			console.error("Token has expired");
-		} else if (err.name === "JsonWebTokenError") {
-			console.error("Invalid token");
-		} else {
-			console.error("Could not verify token", err.message);
-		}
-		// Return null or an appropriate error response
-		return null;
-	}
-};
 
 export const getCaseForStudentsResponse = async (event) => {
 	const userToken = event.headers.authorization.split(" ")[1];
@@ -359,74 +328,6 @@ export const getCaseData = async (event) => {
 		return {
 			statusCode: 500,
 			body: JSON.stringify({ error: `Could not fetch data: ${error.message}` }),
-		};
-	}
-};
-
-export const getSignedUrlToUploadForCaseMaterials = async (event) => {
-	const userToken = event.headers.authorization.split(" ")[1];
-	const userInfo = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
-	const { id: teacherID } = userInfo;
-
-	if (!userInfo || !teacherID) {
-		return {
-			statusCode: 401,
-			body: JSON.stringify({ error: "Unauthorized" }),
-		};
-	}
-
-	try {
-		const { pdfUrl, documentKey } = await getSignedUrlFromS3();
-
-		return {
-			statusCode: 200,
-			body: JSON.stringify({
-				pdfUrl,
-				documentKey,
-				message: "PDF uploaded successfully!",
-			}),
-		};
-	} catch (error) {
-		console.error("Error uploading file:", error);
-
-		return {
-			statusCode: 500,
-			body: JSON.stringify({
-				error: "Could not upload file: " + error.message,
-			}),
-		};
-	}
-};
-
-export const deleteCaseMaterial = async (event) => {
-	const { fileKey } = await extrapolateRequestBody(event);
-	try {
-		if (!fileKey) {
-			return {
-				statusCode: 400,
-				body: JSON.stringify({
-					message: "Missing required parameters: fileKey",
-				}),
-			};
-		}
-
-		await deleteCaseMaterialFromS3(fileKey);
-
-		return {
-			statusCode: 200,
-			body: JSON.stringify({
-				message: `File with key ${fileKey} deleted successfully.`,
-			}),
-		};
-	} catch (error) {
-		console.error("Error deleting file from S3:", error);
-
-		return {
-			statusCode: 500,
-			body: JSON.stringify({
-				message: "Error deleting file from S3",
-				error: error.message,
-			}),
 		};
 	}
 };

@@ -3,8 +3,10 @@ import { TABLES } from "../services/dbTables.js";
 // import uploadFileToBucket from "../services/bucket.js";
 import dbClient from "../services/dbClient.js";
 import SECRETS from "../services/secrets.js";
-import { verifyToken } from "./case.controller.js"; // todo: move utils function to util fild/folder
-import { getDetailsOfStudentsFeedbackAndResponses } from "../utils/api_utils.js";
+import {
+	getDetailsOfStudentsFeedbackAndResponses,
+	verifyToken,
+} from "../utils/api_utils.js";
 
 export const getArchivedCases = async (event) => {
 	const userToken = event.headers.authorization.split(" ")[1];

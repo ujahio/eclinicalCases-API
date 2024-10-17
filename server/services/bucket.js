@@ -3,11 +3,36 @@ import {
 	S3Client,
 	PutObjectCommand,
 	DeleteObjectCommand,
+	GetObjectCommand,
 } from "@aws-sdk/client-s3";
 import crypto from "crypto";
 import { Resource } from "sst";
 
-export const getSignedUrlFromS3 = async (region = "us-east-1") => {
+export const getSignedUrlForFetchingFromS3 = async (
+	documentKey,
+	region = "us-east-1"
+) => {
+	try {
+		const s3Client = new S3Client({ region });
+
+		const params = {
+			Bucket: Resource.CaseMaterials.name,
+			Key: documentKey, // Use the documentKey to fetch the correct file
+		};
+
+		console.log("params", params);
+
+		const command = new GetObjectCommand(params);
+		const pdfUrl = await getSignedUrl(s3Client, command, { expiresIn: 3600 }); // Pre-signed URL valid for 1 hour
+
+		return { pdfUrl };
+	} catch (error) {
+		console.error("Error generating pre-signed URL for fetch:", error);
+		throw new Error("Failed to generate pre-signed URL for fetch");
+	}
+};
+
+export const getSignedUrlToUploadToS3 = async (region = "us-east-1") => {
 	try {
 		const s3Client = new S3Client({ region });
 
@@ -22,7 +47,7 @@ export const getSignedUrlFromS3 = async (region = "us-east-1") => {
 		console.log("params", params);
 
 		const command = new PutObjectCommand(params);
-		const pdfUrl = await getSignedUrl(s3Client, command);
+		const pdfUrl = await getSignedUrl(s3Client, command, { expiresIn: 3600 });
 
 		return { pdfUrl, documentKey: key };
 	} catch (error) {

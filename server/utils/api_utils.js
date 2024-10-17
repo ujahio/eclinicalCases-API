@@ -8,6 +8,7 @@ import dbClient from "../services/dbClient.js";
 import crypto from "crypto";
 import { TABLES } from "../services/dbTables.js";
 import busboy from "busboy";
+import jwt from "jsonwebtoken";
 
 function generateOtp() {
 	return Math.floor(100000 + Math.random() * 900000);
@@ -285,6 +286,29 @@ export const getDetailsOfStudentsFeedbackAndResponses = async (
 		feedbackCount,
 		totalResponses,
 	};
+};
+
+export const verifyToken = (token, secretKey) => {
+	try {
+		if (!token) {
+			return { statusCode: 403, message: "No token provided!" };
+		}
+		// Verify the token using the secret key
+		const decoded = jwt.verify(token, secretKey);
+		// Token is valid; return the decoded token data
+		return decoded;
+	} catch (err) {
+		// Handle different types of JWT errors
+		if (err.name === "TokenExpiredError") {
+			console.error("Token has expired");
+		} else if (err.name === "JsonWebTokenError") {
+			console.error("Invalid token");
+		} else {
+			console.error("Could not verify token", err.message);
+		}
+		// Return null or an appropriate error response
+		return null;
+	}
 };
 
 export {

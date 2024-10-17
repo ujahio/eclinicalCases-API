@@ -90,7 +90,7 @@ api.route("GET /api/case/archived/{caseFilter}", {
 	handler: "server/controllers/handleArchivedCases.getArchivedCases",
 	link: links,
 });
-api.route("GET /api/case/active", {
+api.route("GET /api/case/publish", {
 	handler: "server/controllers/handlePublishedCase.getPublishedCase",
 	link: links,
 });
@@ -98,14 +98,20 @@ api.route("POST /api/case/publish", {
 	handler: "server/controllers/handlePublishedCase.publishCase",
 	link: links,
 });
-api.route("GET /api/case/get-signed-url", {
+api.route("GET /api/case/get-signed-url-for-pdf-upload", {
 	handler:
-		"server/controllers/case.controller.getSignedUrlToUploadForCaseMaterials",
+		"server/controllers/handleCaseMaterials.getSignedUrlToUploadForCaseMaterials",
+	link: links,
+});
+
+api.route("POST /api/case/get-signed-url-for-pdf-fetch", {
+	handler:
+		"server/controllers/handleCaseMaterials.getSignedUrlsToFetchForCaseMaterials",
 	link: links,
 });
 
 api.route("DELETE /api/case/delete-case-material", {
-	handler: "server/controllers/case.controller.deleteCaseMaterial",
+	handler: "server/controllers/handleCaseMaterials.deleteCaseMaterial",
 	link: links,
 });
 
