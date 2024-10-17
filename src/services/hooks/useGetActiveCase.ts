@@ -1,17 +1,17 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "./hooks";
 import {
-	getActiveCase,
+	getPublishedCase,
 	resetOngoingCaseStatus,
-} from "@/store/slices/case/getActiveCaseSlice";
+} from "@/store/slices/case/getPublishedCaseSlice";
 
 const useGetActiveCase = () => {
 	const activeCaseState = useAppSelector((state) => state.activeCase);
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
-		dispatch(getActiveCase());
-	}, []);
+		dispatch(getPublishedCase());
+	}, [dispatch]);
 
 	useEffect(() => {
 		if (activeCaseState.status === "succeeded") {
