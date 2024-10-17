@@ -6,7 +6,9 @@ const convertToFormData = (caseStudy: any) => {
 
 	// refactor to remove scenarios for caseMaterials and caseQuestions
 	for (const key in caseStudy) {
-		if (key === "caseQuestions") {
+		if (key === "caseMaterials") {
+			formData.append(key, JSON.stringify(caseStudy.caseMaterials));
+		} else if (key === "caseQuestions") {
 			formData.append(key, JSON.stringify(caseStudy[key]));
 		} else {
 			formData.append(key, caseStudy[key]);
@@ -26,6 +28,7 @@ const convertToFormData = (caseStudy: any) => {
 // };
 
 export const publishCaseApi = (caseData: any, token: string) => {
+	console.log("caseData", caseData);
 	const formData = convertToFormData(caseData);
 	return caseApi.post(
 		"/publish",
