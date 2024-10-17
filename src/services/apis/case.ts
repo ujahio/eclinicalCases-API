@@ -6,11 +6,7 @@ const convertToFormData = (caseStudy: any) => {
 
 	// refactor to remove scenarios for caseMaterials and caseQuestions
 	for (const key in caseStudy) {
-		if (key === "caseMaterials") {
-			for (let i = 0; i < caseStudy.caseMaterials.length; i++) {
-				formData.append(`caseMaterials`, caseStudy.caseMaterials[i]);
-			}
-		} else if (key === "caseQuestions") {
+		if (key === "caseQuestions") {
 			formData.append(key, JSON.stringify(caseStudy[key]));
 		} else {
 			formData.append(key, caseStudy[key]);
@@ -67,8 +63,8 @@ export const fetchCaseDetailsApi = (caseId: any, token: string) => {
 	return caseApi.get(`/details/${caseId}`, configureRequestHeaders(token));
 };
 
-export const fetchActiveCaseApi = (token: string) => {
-	return caseApi.get("/active", configureRequestHeaders(token));
+export const fetchPublishedCaseApi = (token: string) => {
+	return caseApi.get("/publish", configureRequestHeaders(token));
 };
 export const deleteCaseApi = (caseId: string, token: string) => {
 	return caseApi.delete(
@@ -82,7 +78,20 @@ export const fetchCaseDataApi = (caseId: string, token: string) => {
 };
 
 export const getPresignedUrlForDocumentUploadApi = (token: string) => {
-	return caseApi.get("/get-signed-url", configureRequestHeaders(token));
+	return caseApi.get(
+		"/get-signed-url-for-pdf-upload",
+		configureRequestHeaders(token)
+	);
+};
+
+export const getPresignedUrlForFetchingDocumentsApi = (
+	documentKeys: string[],
+	token: string
+) => {
+	return caseApi.post("/get-signed-url-for-pdf-fetch", {
+		data: { documentKeys },
+		...configureRequestHeaders(token),
+	});
 };
 
 export const addPdfToCaseMaterialsApi = async ({
