@@ -8,6 +8,7 @@ export interface CaseDetail {
 	caseDeadline: string;
 	studentCaseTopicResponse: string;
 	studentCaseExplanation: string;
+	caseMaterials: { fileName: string; documentKey: string }[];
 }
 
 export interface Answer {

@@ -27,7 +27,6 @@ const convertToFormData = (caseStudy: any) => {
 // };
 
 export const publishCaseApi = (caseData: any, token: string) => {
-	console.log("caseData", caseData);
 	const formData = convertToFormData(caseData);
 	return caseApi.post(
 		"/publish",
@@ -101,11 +100,6 @@ export const getPresignedUrlForFetchingDocumentsApi = ({
 	documentKeys.forEach((documentKey, index) => {
 		formData.append(`documentKeys[${index}]`, documentKey); // Append each documentKey
 		formData.append(`fileNames[${index}]`, fileNames[index]); // Append corresponding fileName
-	});
-
-	// Log the formData keys using forEach (to avoid the iteration warning)
-	formData.forEach((value, key) => {
-		console.log(`${key}: ${value}`);
 	});
 
 	return caseApi.post(

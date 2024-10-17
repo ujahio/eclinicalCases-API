@@ -35,8 +35,6 @@ const StudentCaseStudy = ({
 		convertFromRaw(JSON.parse(caseDetails?.caseDescription || fallbackContent))
 	);
 
-	console.log("caseDetails", caseDetails);
-
 	return (
 		<DashboardLayout
 			extraNav={

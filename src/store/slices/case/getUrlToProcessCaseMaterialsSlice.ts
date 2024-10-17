@@ -24,7 +24,6 @@ export const getUrlToProcessCaseMaterials = createAsyncThunk(
 			const token = state?.login?.user?.token;
 			if (fileProcess === "upload") {
 				const { data } = await getPresignedUrlForDocumentUploadApi(token);
-				console.log("data", data);
 				return data;
 			} else if (fileProcess === "download") {
 				const { data } = await getPresignedUrlForFetchingDocumentsApi({

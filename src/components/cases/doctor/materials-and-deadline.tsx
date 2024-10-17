@@ -43,7 +43,6 @@ const DoctorMaterialsAndDeadline: FunctionComponent<
 				setIsRemoving(documentKey);
 
 				await deletePdfFromCaseMaterialsApi(documentKey, userToken);
-				console.log(`File with key ${documentKey} deleted from S3`);
 			}
 			const updatedFiles = files.filter(
 				(file) => file.documentKey !== documentKey
