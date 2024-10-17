@@ -154,15 +154,21 @@ export const extrapolateRequestBody = async (event) => {
 		});
 
 		return new Promise((resolve, reject) => {
-			// Parse each part of the formData
-			bb.on("file", (fieldname, file, filename, encoding, mimetype) => {
-				file.on("data", (data) => {
-					formData[fieldname] = data.toString();
-				});
-			});
+			// Initialize arrays to hold document keys and file names
+			formData.documentKeys = [];
+			formData.fileNames = [];
 
 			bb.on("field", (fieldname, value) => {
-				formData[fieldname] = value;
+				// Check if the fieldname starts with 'documentKey' to gather all document keys
+				if (fieldname.startsWith("documentKey")) {
+					formData.documentKeys.push(value); // Accumulate document keys
+				}
+				// Check if the fieldname starts with 'fileName' to gather all file names
+				else if (fieldname.startsWith("fileName")) {
+					formData.fileNames.push(value); // Accumulate file names
+				} else {
+					formData[fieldname] = value; // Regular field processing for other fields
+				}
 			});
 
 			bb.on("finish", () => {
@@ -191,7 +197,6 @@ export const getDetailsOfStudentsFeedbackAndResponses = async (
 	caseID,
 	details = false
 ) => {
-	// Choose whether to select only count or all attributes based on the 'details' flag
 	const selectOption = details ? "ALL_ATTRIBUTES" : "COUNT";
 
 	// Parameters for fetching feedback
