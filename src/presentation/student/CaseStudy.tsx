@@ -81,6 +81,7 @@ const StudentCaseStudy = ({
 						studentCaseTopicResponse={caseDetails?.studentCaseTopicResponse}
 						studentCaseExplanation={caseDetails?.studentCaseExplanation}
 						caseExplanation={caseDetails?.caseExplanation}
+						caseMaterialsMetaData={caseDetails?.caseMaterials}
 					/>
 				)}
 

@@ -72,6 +72,7 @@ const CaseStudies = ({ params }: any) => {
 				})),
 				studentCaseTopicResponse: "",
 				studentCaseExplanation: "",
+				caseMaterials: JSON.parse(caseDetailsState?.data.caseMaterials),
 			};
 			setCaseDetails(updatedCaseDetails);
 		}
