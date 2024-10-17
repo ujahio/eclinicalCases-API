@@ -69,9 +69,6 @@ const FinalReview: FunctionComponent<FinalReviewProps> = ({
 					{caseStudy.caseMaterials?.map((material: any, index: number) => (
 						<li key={material.documentKey}>
 							<div className="flex items-center p-2 border-grey-400 border rounded-sm">
-								<div className="bg-dark p-1.25 text-white font-medium text-xs rounded-sm">
-									{material.type}
-								</div>
 								<span className="text-1sm sm:text-sm text-dark inline-block ml-2 sm:ml-2.5">
 									{material.fileName}
 								</span>

@@ -13,7 +13,10 @@ export interface CaseStudy {
 	caseDeadline: string;
 	caseQuestions: CaseQuestion[];
 	caseStatus: string;
-	caseMaterials: any[];
+	caseMaterials: {
+		fileName: string;
+		documentKey: string;
+	}[];
 	shouldPublish?: boolean;
 }
 
@@ -56,7 +59,7 @@ export interface UpdateCaseStudyProps {
 	activeTab: number;
 	switchTab: React.Dispatch<React.SetStateAction<number>>;
 	goNext: () => void;
-  goBack: () => void;
+	goBack: () => void;
 	progress: number;
 	isActive: (key: string) => boolean;
 	caseStudy: CaseStudy;

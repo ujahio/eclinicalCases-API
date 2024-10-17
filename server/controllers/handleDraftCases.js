@@ -40,12 +40,6 @@ export const addDraftCase = async (event) => {
 		};
 	}
 
-	// TODO: save case materials to S3 bucket and store the file paths in the case item
-	// const caseMaterials = caseData.caseMaterials.map((file) => ({
-	// 	filename: file.originalname,
-	// 	filePath: file.location,
-	// }));
-
 	const caseItem = {
 		id: uuidv4(),
 		teacherId: teacherID,

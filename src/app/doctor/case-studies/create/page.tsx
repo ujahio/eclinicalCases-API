@@ -63,8 +63,9 @@ const Create: FunctionComponent = () => {
 	};
 
 	const handlePublishCase = () => {
-		setCaseStudy({ ...caseStudy, shouldPublish: true });
-		dispatch(addCase({ ...caseStudy, shouldPublish: true }));
+		const publishedCaseInfo = { ...caseStudy, shouldPublish: true };
+		setCaseStudy(publishedCaseInfo);
+		dispatch(addCase(publishedCaseInfo));
 	};
 	useEffect(() => {
 		if (addCaseState.status === "succeeded") {
