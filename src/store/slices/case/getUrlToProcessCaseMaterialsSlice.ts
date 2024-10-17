@@ -1,16 +1,33 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getPresignedUrlForDocumentUploadApi } from "@/services/apis/case";
+import {
+	getPresignedUrlForDocumentUploadApi,
+	getPresignedUrlForFetchingDocumentsApi,
+} from "@/services/apis/case";
 import { RootState } from "@/store/rootReducer/rootReducer";
 
-export const getUrlToAddCaseMaterials = createAsyncThunk(
-	"case/get-url-to-add-case-materials",
-	async (_, thunkAPI) => {
+export const getUrlToProcessCaseMaterials = createAsyncThunk(
+	"case/get-url-to-process-case-materials",
+	async (
+		{
+			fileProcess,
+			documentKeys,
+		}: { fileProcess: "upload" | "download"; documentKeys: string[] },
+		thunkAPI
+	) => {
 		try {
 			const state = thunkAPI.getState() as RootState;
 			const token = state?.login?.user?.token;
-			const { data } = await getPresignedUrlForDocumentUploadApi(token);
-			console.log("data", data);
-			return data;
+			if (fileProcess === "upload") {
+				const { data } = await getPresignedUrlForDocumentUploadApi(token);
+				console.log("data", data);
+				return data;
+			} else if (fileProcess === "download") {
+				const { data } = await getPresignedUrlForFetchingDocumentsApi(
+					documentKeys,
+					token
+				);
+				return data;
+			}
 		} catch (error: any) {
 			return thunkAPI.rejectWithValue({
 				status: error.response.status,
@@ -20,12 +37,12 @@ export const getUrlToAddCaseMaterials = createAsyncThunk(
 	}
 );
 
-interface GetUrlToAddCaseMaterialsState {
+interface getUrlToProcessCaseMaterialsState {
 	status: "idle" | "loading" | "succeeded" | "failed";
 	error: any;
 }
 
-const initialState: GetUrlToAddCaseMaterialsState = {
+const initialState: getUrlToProcessCaseMaterialsState = {
 	status: "idle",
 	error: null,
 };
@@ -41,13 +58,13 @@ const urlToAddCaseMaterialsSlice = createSlice({
 	},
 	extraReducers: (builder) => {
 		builder
-			.addCase(getUrlToAddCaseMaterials.pending, (state) => {
+			.addCase(getUrlToProcessCaseMaterials.pending, (state) => {
 				state.status = "loading";
 			})
-			.addCase(getUrlToAddCaseMaterials.fulfilled, (state, action) => {
+			.addCase(getUrlToProcessCaseMaterials.fulfilled, (state, action) => {
 				state.status = "succeeded";
 			})
-			.addCase(getUrlToAddCaseMaterials.rejected, (state, action: any) => {
+			.addCase(getUrlToProcessCaseMaterials.rejected, (state, action: any) => {
 				state.status = "failed";
 				state.error = action.payload;
 			});

@@ -17,6 +17,7 @@ export const publishCase = async (event) => {
 		caseExplanation,
 		caseDeadline,
 		caseQuestions,
+		caseMaterials,
 	} = await extrapolateRequestBody(event);
 
 	const userToken = event.headers.authorization.split(" ")[1];
@@ -101,10 +102,7 @@ export const publishCase = async (event) => {
 	}
 
 	try {
-		const updateParams = new UpdateCommand({
-			TableName: TABLES.TEACHER_CASE_STUDIES,
-			Key: { id: newCaseId },
-			UpdateExpression: `
+		let updateExpression = `
 		SET caseStatus = :caseStatus,
 		    caseDeadline = :caseDeadline,
 		    caseClue = :caseClue,
@@ -112,22 +110,34 @@ export const publishCase = async (event) => {
 		    caseTopic = :caseTopic,
 		    caseExplanation = :caseExplanation,
 		    caseQuestions = :caseQuestions,
-        publishedDate = :publishedDate,
-        createdAt = :createdAt,
-        teacherId = :teacherId
-        `,
-			ExpressionAttributeValues: {
-				":caseStatus": "published",
-				":publishedDate": todaysDate,
-				":caseDeadline": new Date(caseDeadline).toISOString(),
-				":caseClue": caseClue,
-				":caseDescription": caseDescription,
-				":caseTopic": caseTopic,
-				":caseExplanation": caseExplanation,
-				":caseQuestions": caseQuestions,
-				":createdAt": todaysDate,
-				":teacherId": teacherId,
-			},
+            publishedDate = :publishedDate,
+            createdAt = :createdAt,
+            teacherId = :teacherId
+    `;
+
+		const expressionAttributeValues = {
+			":caseStatus": "published",
+			":publishedDate": todaysDate,
+			":caseDeadline": new Date(caseDeadline).toISOString(),
+			":caseClue": caseClue,
+			":caseDescription": caseDescription,
+			":caseTopic": caseTopic,
+			":caseExplanation": caseExplanation,
+			":caseQuestions": caseQuestions,
+			":createdAt": todaysDate,
+			":teacherId": teacherId,
+		};
+		// Conditionally add the caseMaterials field if it exists
+		if (caseMaterials) {
+			updateExpression += ", caseMaterials = :caseMaterials";
+			expressionAttributeValues[":caseMaterials"] = caseMaterials;
+		}
+
+		const updateParams = new UpdateCommand({
+			TableName: TABLES.TEACHER_CASE_STUDIES,
+			Key: { id: newCaseId },
+			UpdateExpression: updateExpression,
+			ExpressionAttributeValues: expressionAttributeValues,
 			ReturnValues: "ALL_NEW",
 		});
 
