@@ -159,20 +159,7 @@ api.route("GET /api/case/student/attempts/{studentID}", {
 	link: links,
 });
 
-// api.route("DELETE /api/case/delete/all/", {
-// 	handler: "handler.handler",
-// 	link,
-// });
-
 // Quiz;
-api.route("POST /api/quiz/submit", {
-	handler: "server/controllers/quiz.controller.submitStudentsAnswers",
-	link: links,
-});
-api.route("GET /api/quiz/answers/{caseID}", {
-	handler: "server/controllers/quiz.controller.getStudentsAnswers",
-	link: links,
-});
 api.route("POST /api/quiz/generate-certificate", {
 	handler: "server/controllers/student.controller.generatePassingCertificate",
 	link: links,
@@ -187,7 +174,12 @@ api.route("GET /api/student/certificate/{caseID}", {
 	handler: "server/controllers/student.controller.getCertificateByCaseID",
 	link: links,
 });
-api.route("GET /api/student/get-responses/{caseFilter}", {
+api.route("GET /api/student/responses/{caseFilter}", {
 	handler: "server/controllers/student.controller.getStudentsResponses",
+	link: links,
+});
+
+api.route("POST /api/student/response", {
+	handler: "server/controllers/student.controller.submitStudentResponse",
 	link: links,
 });
