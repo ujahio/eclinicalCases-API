@@ -88,18 +88,15 @@ export const getPresignedUrlForDocumentUploadApi = (token: string) => {
 export const getPresignedUrlForFetchingDocumentsApi = ({
 	documentKeys,
 	token,
-	fileNames,
 }: {
 	documentKeys: string[];
 	token: string;
-	fileNames: string[];
 }) => {
 	const formData = new FormData();
 
-	// Append each documentKey and corresponding fileName as unique form data fields
+	// Append each documentKey as unique form data fields
 	documentKeys.forEach((documentKey, index) => {
 		formData.append(`documentKeys[${index}]`, documentKey); // Append each documentKey
-		formData.append(`fileNames[${index}]`, fileNames[index]); // Append corresponding fileName
 	});
 
 	return caseApi.post(

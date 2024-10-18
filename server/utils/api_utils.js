@@ -162,10 +162,6 @@ export const extrapolateRequestBody = async (event) => {
 				// Check if the fieldname starts with 'documentKey' to gather all document keys
 				if (fieldname.startsWith("documentKey")) {
 					formData.documentKeys.push(value); // Accumulate document keys
-				}
-				// Check if the fieldname starts with 'fileName' to gather all file names
-				else if (fieldname.startsWith("fileName")) {
-					formData.fileNames.push(value); // Accumulate file names
 				} else {
 					formData[fieldname] = value; // Regular field processing for other fields
 				}

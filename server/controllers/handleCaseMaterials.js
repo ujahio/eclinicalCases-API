@@ -18,17 +18,10 @@ export const getSignedUrlsToFetchForCaseMaterials = async (event) => {
 	}
 
 	try {
-		// Extract the documentKeys and fileNames from the request body
-		const { documentKeys, fileNames } = await extrapolateRequestBody(event);
-		console.log({ documentKeys, fileNames });
+		const { documentKeys } = await extrapolateRequestBody(event);
 
 		// Validate input: Ensure both documentKeys and fileNames are arrays and have matching lengths
-		if (
-			!Array.isArray(documentKeys) ||
-			!Array.isArray(fileNames) ||
-			documentKeys.length === 0 ||
-			documentKeys.length !== fileNames.length
-		) {
+		if (!Array.isArray(documentKeys) || documentKeys.length === 0) {
 			return {
 				statusCode: 400,
 				body: JSON.stringify({
@@ -40,18 +33,18 @@ export const getSignedUrlsToFetchForCaseMaterials = async (event) => {
 
 		// Generate pre-signed URLs for each documentKey and attach the corresponding file name
 		const signedUrls = await Promise.all(
-			documentKeys.map(async (documentKey, index) => {
-				const { pdfUrl } = await getSignedUrlForFetchingFromS3(documentKey);
-				const fileName = fileNames[index]; // Get the corresponding file name
-				return { documentKey, pdfUrl, fileName }; // Include both documentKey, signed URL, and fileName
+			documentKeys.map(async (documentKey) => {
+				const { pdfUrl, expiryTimestamp } = await getSignedUrlForFetchingFromS3(
+					documentKey
+				);
+				return { documentKey, pdfUrl, expiryTimestamp }; // Include both documentKey, signed URL, and fileName
 			})
 		);
 
-		// Return the array of signed URLs and file names
 		return {
 			statusCode: 200,
 			body: JSON.stringify({
-				signedUrls, // An array of { documentKey, pdfUrl, fileName } for each document
+				signedUrls,
 				message: "Pre-signed URLs for downloading generated successfully!",
 			}),
 		};

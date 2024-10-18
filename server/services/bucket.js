@@ -1,20 +1,17 @@
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import {
-	S3Client,
 	PutObjectCommand,
 	DeleteObjectCommand,
 	GetObjectCommand,
 } from "@aws-sdk/client-s3";
 import crypto from "crypto";
 import { Resource } from "sst";
+import s3Client from "./s3Client";
 
-export const getSignedUrlForFetchingFromS3 = async (
-	documentKey,
-	region = "us-east-1"
-) => {
+export const getSignedUrlForFetchingFromS3 = async (documentKey) => {
+	const expiresIn = 3600; // URL valid for 1 hour (3600 seconds)
+
 	try {
-		const s3Client = new S3Client({ region });
-
 		const params = {
 			Bucket: Resource.CaseMaterials.name,
 			Key: documentKey, // Use the documentKey to fetch the correct file
@@ -23,19 +20,18 @@ export const getSignedUrlForFetchingFromS3 = async (
 		console.log("params", params);
 
 		const command = new GetObjectCommand(params);
-		const pdfUrl = await getSignedUrl(s3Client, command, { expiresIn: 3600 }); // Pre-signed URL valid for 1 hour
+		const pdfUrl = await getSignedUrl(s3Client, command, { expiresIn }); // Pre-signed URL valid for 1 hour
+		const expiryTimestamp = Date.now() + expiresIn * 1000; // Calculate expiry as current time + expiresIn (milliseconds)
 
-		return { pdfUrl };
+		return { pdfUrl, expiryTimestamp };
 	} catch (error) {
 		console.error("Error generating pre-signed URL for fetch:", error);
 		throw new Error("Failed to generate pre-signed URL for fetch");
 	}
 };
 
-export const getSignedUrlToUploadToS3 = async (region = "us-east-1") => {
+export const getSignedUrlToUploadToS3 = async () => {
 	try {
-		const s3Client = new S3Client({ region });
-
 		const key = crypto.randomUUID();
 
 		const params = {
@@ -56,12 +52,8 @@ export const getSignedUrlToUploadToS3 = async (region = "us-east-1") => {
 	}
 };
 
-export const deleteCaseMaterialFromS3 = async (
-	fileKey,
-	region = "us-east-1"
-) => {
+export const deleteCaseMaterialFromS3 = async (fileKey) => {
 	try {
-		const s3Client = new S3Client({ region });
 		const deleteParams = {
 			Bucket: Resource.CaseMaterials.name,
 			Key: fileKey,
