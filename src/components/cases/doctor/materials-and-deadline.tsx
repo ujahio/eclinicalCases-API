@@ -3,7 +3,7 @@ import { InputField } from "@/components/form-elements";
 import Button from "@/components/ui/Button";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
 import { DoctorMaterialsAndDeadlineProps } from "@/services/types/doctor/createCaseStudy";
-import { getUrlToProcessCaseMaterials } from "@/store/slices/case/getUrlToProcessCaseMaterialsSlice";
+import { getCaseMaterials } from "@/store/slices/case/getCaseMaterialsSlice";
 import { toast } from "react-toastify";
 import {
 	addPdfToCaseMaterialsApi,
@@ -72,10 +72,8 @@ const DoctorMaterialsAndDeadline: FunctionComponent<
 		if (selectedFile) {
 			setIsUploading(true);
 			const response = await dispatch(
-				getUrlToProcessCaseMaterials({
+				getCaseMaterials({
 					fileProcess: "upload",
-					documentKeys: [],
-					fileNames: [],
 				})
 			);
 			const { pdfUrl, documentKey } = response.payload;

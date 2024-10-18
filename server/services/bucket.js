@@ -17,8 +17,6 @@ export const getSignedUrlForFetchingFromS3 = async (documentKey) => {
 			Key: documentKey, // Use the documentKey to fetch the correct file
 		};
 
-		console.log("params", params);
-
 		const command = new GetObjectCommand(params);
 		const pdfUrl = await getSignedUrl(s3Client, command, { expiresIn }); // Pre-signed URL valid for 1 hour
 		const expiryTimestamp = Date.now() + expiresIn * 1000; // Calculate expiry as current time + expiresIn (milliseconds)
@@ -39,8 +37,6 @@ export const getSignedUrlToUploadToS3 = async () => {
 			Key: key,
 			ContentType: "application/pdf",
 		};
-
-		console.log("params", params);
 
 		const command = new PutObjectCommand(params);
 		const pdfUrl = await getSignedUrl(s3Client, command, { expiresIn: 3600 });
