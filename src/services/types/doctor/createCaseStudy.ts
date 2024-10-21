@@ -7,7 +7,7 @@ export interface CaseQuestion {
 
 export interface CaseStudy {
 	caseClue: string;
-	caseDescription: string;
+	caseDescription: string | null;
 	caseTopic: string;
 	caseExplanation: string | null;
 	caseDeadline: string;

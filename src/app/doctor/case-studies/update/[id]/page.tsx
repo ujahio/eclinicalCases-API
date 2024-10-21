@@ -15,7 +15,7 @@ import { addCase } from "@/store/slices/case/addCaseSlice";
 
 const initialCaseStudy: CaseStudy = {
 	caseClue: "",
-	caseDescription: "",
+	caseDescription: null,
 	caseTopic: "",
 	caseExplanation: null,
 	caseDeadline: "",
@@ -67,13 +67,7 @@ const Update: FunctionComponent<any> = ({ params }) => {
 	};
 
 	const handleUpdateCase = () => {
-		const updatedCaseData: any = caseStudy;
-		// If no new materials are added, remove caseMaterials from the payload
-		if (updatedCaseData.caseMaterials?.length === 0) {
-			delete updatedCaseData.caseMaterials;
-		}
-
-		dispatch(updateDraftCase({ caseData: updatedCaseData, _id: params.id }));
+		dispatch(updateDraftCase({ caseData: caseStudy, _id: params.id }));
 	};
 
 	const handlePublishCase = () => {

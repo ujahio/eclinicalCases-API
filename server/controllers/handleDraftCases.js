@@ -286,7 +286,7 @@ export const updateDraftCase = async (event) => {
 			: undefined;
 
 		const caseMaterialsToProcess =
-			caseData.caseMaterials.length > 0
+			caseData.caseMaterials && caseData.caseMaterials.length > 0
 				? JSON.parse(caseData.caseMaterials)
 				: [];
 
@@ -308,7 +308,7 @@ export const updateDraftCase = async (event) => {
 			const fieldValue = caseData[field];
 
 			// Only process fields that are defined and not null/empty
-			if (!fieldValue) {
+			if (fieldValue) {
 				const attributeName = `#${field}`;
 				const attributeValue = `:${field}`;
 
