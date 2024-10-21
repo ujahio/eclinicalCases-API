@@ -142,9 +142,6 @@ const extractAnswers = (caseInfo) => {
 };
 
 const gradeQuiz = async ({ caseID, studentAnswers }) => {
-	console.log("Grading quiz with caseID: ", caseID);
-	console.log("Grading quiz with studentAnswers: ", studentAnswers);
-
 	const caseParams = {
 		TableName: TABLES.TEACHER_CASE_STUDIES,
 		Key: { id: caseID },

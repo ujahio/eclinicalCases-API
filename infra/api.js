@@ -93,7 +93,6 @@ api.route("GET /api/case/archived/{caseFilter}", {
 api.route("GET /api/case/publish", {
 	handler: "server/controllers/handlePublishedCase.getPublishedCase",
 	link: links,
-	runtime: "nodejs18.x",
 });
 api.route("POST /api/case/publish", {
 	handler: "server/controllers/handlePublishedCase.publishCase",
@@ -183,4 +182,5 @@ api.route("GET /api/student/responses/{caseFilter}", {
 api.route("POST /api/student/response", {
 	handler: "server/controllers/student.controller.submitStudentResponse",
 	link: links,
+	runtime: "nodejs18.x",
 });
