@@ -52,7 +52,7 @@ export interface DoctorCMEQuestionsProps extends DoctorCaseQuestionProps {
 export interface FinalReviewProps {
 	caseStudy: CaseStudy;
 	handleAddCase: handleAddCaseType;
-	handlePublishCase: React.Dispatch<React.SetStateAction<any>>;
+	handlePublishCase: () => void;
 }
 
 export interface UpdateCaseStudyProps {
@@ -64,8 +64,6 @@ export interface UpdateCaseStudyProps {
 	isActive: (key: string) => boolean;
 	caseStudy: CaseStudy;
 	setCaseStudy: React.Dispatch<React.SetStateAction<CaseStudy>>;
-	prevCaseMaterials: File[];
-	setPrevCaseMaterials: React.Dispatch<React.SetStateAction<File[]>>;
-	handleUpdateCase: any;
-	handlePublishCase: React.Dispatch<React.SetStateAction<any>>;
+	handleUpdateCase: () => void;
+	handlePublishCase: () => void;
 }

@@ -50,7 +50,6 @@ const Update: FunctionComponent<any> = ({ params }) => {
 	} = useProcessTabs(createCaseStudyTabs, 0);
 	const [progress, setProgress] = useState(1);
 	const [caseStudy, setCaseStudy] = useState(initialCaseStudy);
-	const [prevCaseMaterials, setPrevCaseMaterials] = useState<File[]>([]);
 
 	// get draft case for the case
 	useGetDraftCase(params.id);
@@ -99,13 +98,14 @@ const Update: FunctionComponent<any> = ({ params }) => {
 					? draftCaseDetails.caseQuestions
 					: [],
 				caseStatus: draftCaseDetails.caseStatus,
-				caseMaterials: [],
+				caseMaterials: draftCaseDetails.caseMaterials
+					? JSON.parse(draftCaseDetails?.caseMaterials)
+					: [],
 			};
 
 			setCaseStudy(updatedCaseStudy);
-			setPrevCaseMaterials(draftCaseDetails.caseMaterials || []); // Set prevCaseMaterials
 		}
-	}, [getDraftCasesState.status, dispatch]);
+	}, [getDraftCasesState, dispatch]);
 
 	return (
 		<UpdateCaseStudy
@@ -117,8 +117,6 @@ const Update: FunctionComponent<any> = ({ params }) => {
 			isActive={isActive}
 			caseStudy={caseStudy}
 			setCaseStudy={setCaseStudy}
-			prevCaseMaterials={prevCaseMaterials}
-			setPrevCaseMaterials={setPrevCaseMaterials}
 			handleUpdateCase={handleUpdateCase}
 			handlePublishCase={handlePublishCase}
 		/>

@@ -280,16 +280,15 @@ export const updateDraftCase = async (event) => {
 			};
 		}
 
-		// Prepare caseDeadline and caseMaterials if provided
+		// Prepare caseDeadline if provided
 		const caseDeadline = caseData.caseDeadline
 			? new Date(caseData.caseDeadline).toISOString()
 			: undefined;
-		const caseMaterials = event.files
-			? event.files.map((file) => ({
-					filename: file.originalname,
-					filePath: file.location,
-			  }))
-			: [];
+
+		const caseMaterialsToProcess =
+			caseData.caseMaterials.length > 0
+				? JSON.parse(caseData.caseMaterials)
+				: [];
 
 		// Prepare the update expression and dynamic attributes
 		let updateExpression = "SET ";
@@ -305,28 +304,28 @@ export const updateDraftCase = async (event) => {
 			"caseQuestions",
 		];
 
-		// Loop through updatable fields and build the update expression
 		updatableFields.forEach((field) => {
-			if (caseData[field] !== undefined) {
+			const fieldValue = caseData[field];
+
+			// Only process fields that are defined and not null/empty
+			if (!fieldValue) {
 				const attributeName = `#${field}`;
 				const attributeValue = `:${field}`;
 
 				updateExpression += `${attributeName} = ${attributeValue}, `;
 				expressionAttributeNames[attributeName] = field;
 				expressionAttributeValues[attributeValue] =
-					field === "caseQuestions"
-						? JSON.parse(caseData[field])
-						: caseData[field];
+					field === "caseQuestions" ? JSON.parse(fieldValue) : fieldValue;
 			}
 		});
 
 		// If case materials are provided, update them
-		if (caseMaterials.length > 0) {
-			const existingCaseMaterials = caseItem.caseMaterials || [];
-			const updatedCaseMaterials = [...existingCaseMaterials, ...caseMaterials];
+		if (caseMaterialsToProcess.length > 0) {
 			updateExpression += "#caseMaterials = :caseMaterials, ";
 			expressionAttributeNames["#caseMaterials"] = "caseMaterials";
-			expressionAttributeValues[":caseMaterials"] = updatedCaseMaterials;
+			expressionAttributeValues[":caseMaterials"] = JSON.stringify(
+				caseMaterialsToProcess
+			);
 		}
 
 		// If caseDeadline is provided, update it
