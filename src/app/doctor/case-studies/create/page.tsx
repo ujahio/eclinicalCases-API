@@ -93,7 +93,7 @@ const Create: FunctionComponent = () => {
 				theme: "light",
 			});
 		}
-	}, [addCaseState.status, dispatch]);
+	}, [addCaseState, dispatch, navigate]);
 	return (
 		<CreateCaseStudy
 			activeTab={activeTab}
