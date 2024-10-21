@@ -41,4 +41,4 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Deploy to Staging
-        run: sst deploy --stage preproduction
+        run: npx sst deploy --stage preproduction
