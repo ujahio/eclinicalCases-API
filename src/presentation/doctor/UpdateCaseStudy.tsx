@@ -22,8 +22,6 @@ const UpdateCaseStudy: FunctionComponent<UpdateCaseStudyProps> = ({
 	isActive,
 	caseStudy,
 	setCaseStudy,
-	prevCaseMaterials,
-	setPrevCaseMaterials,
 	handleUpdateCase,
 	handlePublishCase,
 }) => {
@@ -73,8 +71,8 @@ const UpdateCaseStudy: FunctionComponent<UpdateCaseStudyProps> = ({
 						goBack={goBack}
 						caseStudy={caseStudy}
 						setCaseStudy={setCaseStudy}
-						prevCaseMaterials={prevCaseMaterials}
-						setPrevCaseMaterials={setPrevCaseMaterials}
+						caseMaterials={caseStudy.caseMaterials}
+						caseDeadline={caseStudy.caseDeadline}
 						handleAddCase={handleUpdateCase}
 					/>
 				)}

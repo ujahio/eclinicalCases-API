@@ -67,18 +67,12 @@ const FinalReview: FunctionComponent<FinalReviewProps> = ({
 				</h3>
 				<ul className="flex flex-col w-full space-y-3 mb-9">
 					{caseStudy.caseMaterials?.map((material: any, index: number) => (
-						<li key={index}>
-							<a
-								href={material.url}
-								className="flex items-center p-2 border-grey-400 border rounded-sm"
-							>
-								<div className="bg-dark p-1.25 text-white font-medium text-xs rounded-sm">
-									{material.type}
-								</div>
+						<li key={material.documentKey}>
+							<div className="flex items-center p-2 border-grey-400 border rounded-sm">
 								<span className="text-1sm sm:text-sm text-dark inline-block ml-2 sm:ml-2.5">
-									{material.name}
+									{material.fileName}
 								</span>
-							</a>
+							</div>
 						</li>
 					))}
 				</ul>

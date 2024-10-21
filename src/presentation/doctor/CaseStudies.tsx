@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import AdminLayout from "@/components/layouts/dashboard/admin";
-import { SearchBar } from "@/components/form-elements";
-import Link from "next/link";
 import { CaseCard } from "@/components/cases";
 import { useAppSelector } from "@/services/hooks/hooks";
 import { formatDate } from "@/utils/formatDate";
@@ -19,13 +17,13 @@ const DoctorCaseStudies = ({ handleDeleteCase }: IProps) => {
 
 	const draftCases = draftCasesState.map((caseItem: any) => ({
 		_id: caseItem.id,
-		caseTopic: caseItem.caseTopic,
-		description: caseItem.caseDescription
-			? JSON.parse(caseItem.caseDescription).blocks[0].text
+		caseTopic: caseItem?.caseTopic,
+		description: caseItem?.caseDescription
+			? JSON.parse(caseItem?.caseDescription).blocks[0].text
 			: "",
-		caseDeadline: formatDate(caseItem.caseDeadline),
-		createdAt: formatDate(caseItem.createdAt),
-		caseStatus: caseItem.caseStatus,
+		caseDeadline: formatDate(caseItem?.caseDeadline),
+		createdAt: formatDate(caseItem?.createdAt),
+		caseStatus: caseItem?.caseStatus,
 	}));
 
 	const archivedCases =

@@ -15,7 +15,7 @@ import { addCase } from "@/store/slices/case/addCaseSlice";
 
 const initialCaseStudy: CaseStudy = {
 	caseClue: "",
-	caseDescription: "",
+	caseDescription: null,
 	caseTopic: "",
 	caseExplanation: null,
 	caseDeadline: "",
@@ -50,7 +50,6 @@ const Update: FunctionComponent<any> = ({ params }) => {
 	} = useProcessTabs(createCaseStudyTabs, 0);
 	const [progress, setProgress] = useState(1);
 	const [caseStudy, setCaseStudy] = useState(initialCaseStudy);
-	const [prevCaseMaterials, setPrevCaseMaterials] = useState<File[]>([]);
 
 	// get draft case for the case
 	useGetDraftCase(params.id);
@@ -68,13 +67,7 @@ const Update: FunctionComponent<any> = ({ params }) => {
 	};
 
 	const handleUpdateCase = () => {
-		const updatedCaseData: any = caseStudy;
-		// If no new materials are added, remove caseMaterials from the payload
-		if (updatedCaseData.caseMaterials?.length === 0) {
-			delete updatedCaseData.caseMaterials;
-		}
-
-		dispatch(updateDraftCase({ caseData: updatedCaseData, _id: params.id }));
+		dispatch(updateDraftCase({ caseData: caseStudy, _id: params.id }));
 	};
 
 	const handlePublishCase = () => {
@@ -99,13 +92,14 @@ const Update: FunctionComponent<any> = ({ params }) => {
 					? draftCaseDetails.caseQuestions
 					: [],
 				caseStatus: draftCaseDetails.caseStatus,
-				caseMaterials: [],
+				caseMaterials: draftCaseDetails.caseMaterials
+					? JSON.parse(draftCaseDetails?.caseMaterials)
+					: [],
 			};
 
 			setCaseStudy(updatedCaseStudy);
-			setPrevCaseMaterials(draftCaseDetails.caseMaterials || []); // Set prevCaseMaterials
 		}
-	}, [getDraftCasesState.status, dispatch]);
+	}, [getDraftCasesState, dispatch]);
 
 	return (
 		<UpdateCaseStudy
@@ -117,8 +111,6 @@ const Update: FunctionComponent<any> = ({ params }) => {
 			isActive={isActive}
 			caseStudy={caseStudy}
 			setCaseStudy={setCaseStudy}
-			prevCaseMaterials={prevCaseMaterials}
-			setPrevCaseMaterials={setPrevCaseMaterials}
 			handleUpdateCase={handleUpdateCase}
 			handlePublishCase={handlePublishCase}
 		/>

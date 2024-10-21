@@ -8,10 +8,8 @@ import Button from "@/components/ui/Button";
 interface StudentCaseQuestionProps {
 	goNext: () => void;
 	goBack: () => void;
-	caseDetails: {
-		caseTopicAnswer: string;
-		caseExplanation: string;
-	};
+	studentCaseTopicResponse: string;
+	studentCaseExplanation: string;
 	setCaseDetails: (details: any) => void;
 }
 
@@ -29,13 +27,14 @@ export type QuestionErrorProps = {
 const StudentCaseQuestion: FunctionComponent<StudentCaseQuestionProps> = ({
 	goNext,
 	goBack,
-	caseDetails,
 	setCaseDetails,
+	studentCaseTopicResponse,
+	studentCaseExplanation,
 }) => {
 	const [editorState, setEditorState] = useState(() =>
-		caseDetails.caseExplanation
+		studentCaseExplanation
 			? EditorState.createWithContent(
-					convertFromRaw(JSON.parse(caseDetails.caseExplanation))
+					convertFromRaw(JSON.parse(studentCaseExplanation))
 			  )
 			: EditorState.createEmpty()
 	);
@@ -45,7 +44,7 @@ const StudentCaseQuestion: FunctionComponent<StudentCaseQuestionProps> = ({
 		const contentStateJSON = convertToRaw(contentState);
 		setCaseDetails((prevDetails: any) => ({
 			...prevDetails,
-			caseExplanation: JSON.stringify(contentStateJSON),
+			studentCaseExplanation: JSON.stringify(contentStateJSON),
 		}));
 	}, [editorState, setCaseDetails]);
 
@@ -84,11 +83,13 @@ const StudentCaseQuestion: FunctionComponent<StudentCaseQuestionProps> = ({
 		goNext();
 	};
 
-	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleStudentCaseTopicInput = (
+		e: React.ChangeEvent<HTMLInputElement>
+	) => {
 		const { value } = e.target;
 		setCaseDetails((prevDetails: any) => ({
 			...prevDetails,
-			caseTopicAnswer: value,
+			studentCaseTopicResponse: value,
 		}));
 	};
 
@@ -99,8 +100,8 @@ const StudentCaseQuestion: FunctionComponent<StudentCaseQuestionProps> = ({
 					Case Model QUESTION
 				</h6>
 				<InputField
-					value={caseDetails.caseTopicAnswer}
-					onChange={handleInputChange}
+					value={studentCaseTopicResponse}
+					onChange={handleStudentCaseTopicInput}
 					placeholder="Guess case model topic"
 					label="What is the topic for this case based on the topic clue given earlier?"
 					name="caseModelTopicGuess"
@@ -135,7 +136,6 @@ const StudentCaseQuestion: FunctionComponent<StudentCaseQuestionProps> = ({
 				<Button btnStyle="outline" size="lg" centralize onClick={goBack}>
 					Case Presentation
 				</Button>
-				{/* <Button btnStyle="basic" size="lg" centralize onClick={goNext}> */}
 				<Button
 					btnStyle="basic"
 					size="lg"
