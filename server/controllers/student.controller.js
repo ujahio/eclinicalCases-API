@@ -81,18 +81,6 @@ export const submitStudentResponse = async (event) => {
 	const { firstname, lastname, id: studentID } = userInfo;
 	const fullName = `${firstname} ${lastname}`;
 
-	const params = {
-		TableName: TABLES.STUDENT_RESPONSES,
-		Item: {
-			answerID: uuidv4(),
-			studentID,
-			caseID: caseInfo.id,
-			caseTopicAnswer: caseInfo.studentCaseTopicResponse,
-			caseExplanation: caseInfo.studentCaseExplanation,
-			submittedAt: Date.now(),
-		},
-	};
-
 	try {
 		// 	Call grading function and get the result
 		const gradedQuizResult = await gradeQuiz({
@@ -101,8 +89,42 @@ export const submitStudentResponse = async (event) => {
 		});
 
 		if (gradedQuizResult.passed) {
+			// generate certificate
+			const dateTimeStamp = new Date();
+			const submittedAt = dateTimeStamp.toISOString();
+			const { certificationID, certificateUrl, certificateBase64 } =
+				await generateCertificate(fullName, caseInfo.caseTopic, dateTimeStamp);
+
+			const params = {
+				TableName: TABLES.STUDENT_RESPONSES,
+				Item: {
+					answerID: uuidv4(),
+					studentID,
+					certificationID,
+					caseID: caseInfo.id,
+					caseTopicAnswer: caseInfo.studentCaseTopicResponse,
+					caseExplanation: caseInfo.studentCaseExplanation,
+					submittedAt,
+				},
+			};
+
 			const command = new PutCommand(params);
 			await dbClient.send(command);
+
+			return {
+				statusCode: 200,
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					message: "Answers submitted successfully.",
+					passed: gradedQuizResult.passed,
+					messageToDisplay: gradedQuizResult.messageToDisplay,
+					certificationID,
+					certificateUrl,
+					certificateFile: `data:application/pdf;base64,${certificateBase64}`,
+				}),
+			};
 		}
 		return {
 			statusCode: 200,
@@ -288,60 +310,3 @@ export const getCertificateByCaseID = async (event) => {
 		};
 	}
 };
-
-// export const generatePassingCertificate = async (event) => {
-// 	const certificateInfo = await extrapolateRequestBody(event);
-// 	console.log("certificateInfo", certificateInfo);
-// 	const userToken = event.headers.authorization.split(" ")[1];
-// 	const userInfo = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
-// 	const { firstname, lastname, id: studentID } = userInfo;
-// 	const fullName = `${firstname} ${lastname}`;
-
-// 	// // Upload certificate to S3
-// 	// // Generate certificate
-// 	let pdfURL = "";
-// 	let pngURL = "";
-// 	const certificateID = uuidv4();
-// 	const { pdfBuffer, pngBuffer } = await generateCertificate(
-// 		fullName,
-// 		certificateInfo.caseTopic
-// 	);
-// 	// // Upload PDF to S3
-// 	const pdfUploadParams = {
-// 		// Bucket: "local-bucket",
-// 		originalName: `certificates/${certificateID}.pdf`,
-// 		buffer: pdfBuffer,
-// 		// ACL: "public-read",
-// 		// ContentType: "application/pdf",
-// 	};
-// 	pdfURL = await uploadFileToBucket(pdfUploadParams);
-// 	// // Upload PNG to S3
-// 	const pngFile = {
-// 		originalname: `${certificateID}.png`,
-// 		buffer: pngBuffer,
-// 	};
-// 	pngURL = await uploadFileToBucket(pngFile);
-// 	// // Save certificate record in DynamoDB
-// 	const certificateRecord = {
-// 		certificateID,
-// 		studentID,
-// 		caseID,
-// 		pdfURL,
-// 		pngURL,
-// 		generatedAt: new Date().toISOString(),
-// 	};
-// 	const putCommand = new PutCommand({
-// 		TableName: TABLES.CERTIFICATES,
-// 		Item: certificateRecord,
-// 	});
-// 	await dbClient.send(putCommand);
-
-// 	return {
-// 		statusCode: 200,
-// 		body: JSON.stringify({
-// 			message: "Certificate generated successfully.",
-// 			pdfURL,
-// 			pngURL,
-// 		}),
-// 	};
-// };

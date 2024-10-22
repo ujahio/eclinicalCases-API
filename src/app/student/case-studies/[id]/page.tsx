@@ -23,10 +23,10 @@ const tabs = [
 	"Feedbacks",
 	"Certificate",
 ];
-const CaseStudies = ({ params }: any) => {
+const CaseStudies = ({ params }: { params: { id: string } }) => {
 	const dispatch = useAppDispatch();
 	const { active: activeTab, switchTab, isActive } = useProcessTabs(tabs, 0);
-	const [progress, setProgress] = useState(1);
+	const [progress, setProgress] = useState(5);
 
 	const caseDetailsState = useAppSelector((state) => state.caseDetails);
 	const [caseDetails, setCaseDetails] = useState<CaseDetail>(

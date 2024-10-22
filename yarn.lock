@@ -4852,7 +4852,7 @@ sst-linux-x86@3.2.26:
   resolved "https://registry.yarnpkg.com/sst-linux-x86/-/sst-linux-x86-3.2.26.tgz#ecedb1d7df7b5cf4d7b0c66e8668140702e277b0"
   integrity sha512-bfY5IEPz+RPLgdiZ8N3k1bjQ6CixL4zSIr5RoMjkEsXZY2Sct68r2FUjv2Y9cRhlrqgCdiftasQibg8ZRLU27g==
 
-sst@latest:
+sst@3.2.26:
   version "3.2.26"
   resolved "https://registry.yarnpkg.com/sst/-/sst-3.2.26.tgz#f0dbad5dc80e9544b99d291a1d7b71a345756118"
   integrity sha512-L8reOZOu/yOtC/FjnSYT5lxTDXoqkMBEcI+SC6yve28pvKK9TDWrlBehvYVcJcFaf0oywc/azt1X1SZRJf96nw==

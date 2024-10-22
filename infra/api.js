@@ -1,5 +1,5 @@
 // import { email } from "./email";
-import { CaseMaterials } from "./storage";
+import { CaseMaterials, ECCSUsersCertificates } from "./storage";
 import {
 	NEXT_JWT_SECRET,
 	NEXT_PUBLIC_PASS_SECRET_KEY,
@@ -22,6 +22,7 @@ const links = [
 	Certificates,
 	TeacherCaseStudies,
 	CaseMaterials,
+	ECCSUsersCertificates,
 	NEXT_JWT_SECRET,
 	NEXT_PUBLIC_PASS_SECRET_KEY,
 	NEXT_PUBLIC_BASE_URL,
@@ -159,12 +160,6 @@ api.route("GET /api/case/student/attempts/{studentID}", {
 	link: links,
 });
 
-// Quiz;
-api.route("POST /api/quiz/generate-certificate", {
-	handler: "server/controllers/student.controller.generatePassingCertificate",
-	link: links,
-});
-
 // Student;
 api.route("GET /api/student/certificates", {
 	handler: "server/controllers/student.controller.getStudentCertificates",
@@ -183,4 +178,10 @@ api.route("POST /api/student/response", {
 	handler: "server/controllers/student.controller.submitStudentResponse",
 	link: links,
 	runtime: "nodejs18.x",
+	copyFiles: [
+		{
+			from: "./server/assets/images/logo.png",
+			to: "assets/images/logo.png",
+		},
+	],
 });
