@@ -7,6 +7,7 @@ import {
 } from "@/store/slices/student/addFeedbackSlice";
 import { useParams } from "next/navigation";
 import React, { FunctionComponent, useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 interface StudentFeedbacksProps {
 	goNext: () => void;
@@ -44,6 +45,27 @@ const StudentFeedbacks: FunctionComponent<StudentFeedbacksProps> = ({
 	useEffect(() => {
 		if (feedbackState.status === "succeeded") {
 			dispatch(resetAddFeedbackStatus());
+			toast.success("Feedback successfully updated", {
+				position: "top-right",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "light",
+			});
+		} else if (feedbackState.status === "failed") {
+			toast.error("Error sending feedback", {
+				position: "top-right",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "light",
+			});
 		}
 	}, [feedbackState.status, dispatch]);
 
