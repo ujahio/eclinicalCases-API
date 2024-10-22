@@ -19,14 +19,6 @@ export const addFeedbackApi = (feedbackData: any, token: string) => {
 	);
 };
 
-export const generateCertificateApi = (certificateInfo: any, token: string) => {
-	return studentApi.post(
-		"/quiz/generate-certificate",
-		certificateInfo,
-		configureRequestHeaders(token, certificateInfo)
-	);
-};
-
 export const getStudentsResponsesApi = (isRecent: any, token: string) => {
 	const url = isRecent
 		? `/student/responses/?caseFilter=${isRecent}`

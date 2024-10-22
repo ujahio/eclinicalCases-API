@@ -2,12 +2,17 @@
 import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
 import path from "path";
 import fs from "fs";
-import { PutObjectCommand } from "@aws-sdk/client-s3";
+import { GetObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
 import s3Client from "../services/s3Client";
 import crypto from "crypto";
 import { Resource } from "sst";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
-export const generateCertificate = async (studentName, caseName) => {
+export const generateCertificate = async (
+	studentName,
+	caseName,
+	submissionDate
+) => {
 	try {
 		// Generate PDF using pdf-lib
 		const pdfDoc = await PDFDocument.create();
@@ -67,14 +72,14 @@ export const generateCertificate = async (studentName, caseName) => {
 		);
 		drawCenteredText(caseName, 25, fontBold, height - 450);
 		drawCenteredText(
-			`Date: ${new Date().toLocaleDateString()}`,
+			`Date: ${submissionDate.toLocaleDateString("en-US")}`,
 			15,
 			fontRegular,
 			height - 500
 		);
 
-		// Save PDF as a buffer
 		const pdfBytes = await pdfDoc.save();
+		const pdfBase64 = Buffer.from(pdfBytes).toString("base64");
 		const key = crypto.randomUUID();
 
 		// Upload PDF to S3
@@ -91,7 +96,21 @@ export const generateCertificate = async (studentName, caseName) => {
 
 		await uploadPdfToS3(pdfBytes);
 
-		return { pdfBuffer: pdfBytes, certificateID: key };
+		// Generate a signed URL for the uploaded PDF
+		const signedUrl = await getSignedUrl(
+			s3Client,
+			new GetObjectCommand({
+				Bucket: Resource.ECCSUsersCertificates.name,
+				Key: key,
+			}),
+			{ expiresIn: 3600 } // URL expires in 1 hour
+		);
+
+		return {
+			certificateID: key,
+			certificateUrl: signedUrl,
+			certificateBase64: pdfBase64,
+		};
 	} catch (err) {
 		console.error("Error generating certificate: ", err);
 		throw new Error("Failed to generate certificate");
