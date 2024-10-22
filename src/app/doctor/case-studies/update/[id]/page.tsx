@@ -1,8 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { toast } from "react-toastify";
-import { useRouter } from "next/navigation";
+import React, { FunctionComponent, useEffect, useState } from "react";
 import UpdateCaseStudy from "@/presentation/doctor/UpdateCaseStudy";
 import { createCaseStudyTabs } from "@/services/constants";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
@@ -17,7 +15,7 @@ import { addCase } from "@/store/slices/case/addCaseSlice";
 
 const initialCaseStudy: CaseStudy = {
 	caseClue: "",
-	caseDescription: "",
+	caseDescription: null,
 	caseTopic: "",
 	caseExplanation: null,
 	caseDeadline: "",
@@ -41,7 +39,7 @@ const formatDateToYYYYMMDD = (dateString: any) => {
 	return `${year}-${month}-${day}`;
 };
 
-const Update = ({ params }: any) => {
+const Update: FunctionComponent<any> = ({ params }) => {
 	const dispatch = useAppDispatch();
 	const getDraftCasesState = useAppSelector((state) => state.getDraftCases);
 
@@ -52,7 +50,6 @@ const Update = ({ params }: any) => {
 	} = useProcessTabs(createCaseStudyTabs, 0);
 	const [progress, setProgress] = useState(1);
 	const [caseStudy, setCaseStudy] = useState(initialCaseStudy);
-	const [prevCaseMaterials, setPrevCaseMaterials] = useState<File[]>([]);
 
 	// get draft case for the case
 	useGetDraftCase(params.id);
@@ -63,14 +60,14 @@ const Update = ({ params }: any) => {
 		setProgress(next);
 	};
 
-	const handleUpdateCase = () => {
-		const updatedCaseData: any = caseStudy;
-		// If no new materials are added, remove caseMaterials from the payload
-		if (updatedCaseData.caseMaterials?.length === 0) {
-			delete updatedCaseData.caseMaterials;
-		}
+	const goBack = () => {
+		const next = activeTab - 1;
+		switchTab(next);
+		setProgress(next);
+	};
 
-		dispatch(updateDraftCase({ caseData: updatedCaseData, _id: params.id }));
+	const handleUpdateCase = () => {
+		dispatch(updateDraftCase({ caseData: caseStudy, _id: params.id }));
 	};
 
 	const handlePublishCase = () => {
@@ -95,25 +92,25 @@ const Update = ({ params }: any) => {
 					? draftCaseDetails.caseQuestions
 					: [],
 				caseStatus: draftCaseDetails.caseStatus,
-				caseMaterials: [],
+				caseMaterials: draftCaseDetails.caseMaterials
+					? JSON.parse(draftCaseDetails?.caseMaterials)
+					: [],
 			};
 
 			setCaseStudy(updatedCaseStudy);
-			setPrevCaseMaterials(draftCaseDetails.caseMaterials || []); // Set prevCaseMaterials
 		}
-	}, [getDraftCasesState.status, dispatch]);
+	}, [getDraftCasesState, dispatch]);
 
 	return (
 		<UpdateCaseStudy
 			activeTab={activeTab}
 			switchTab={switchTab}
 			goNext={goNext}
+			goBack={goBack}
 			progress={progress}
 			isActive={isActive}
 			caseStudy={caseStudy}
 			setCaseStudy={setCaseStudy}
-			prevCaseMaterials={prevCaseMaterials}
-			setPrevCaseMaterials={setPrevCaseMaterials}
 			handleUpdateCase={handleUpdateCase}
 			handlePublishCase={handlePublishCase}
 		/>

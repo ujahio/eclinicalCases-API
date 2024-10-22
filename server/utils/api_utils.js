@@ -8,6 +8,7 @@ import dbClient from "../services/dbClient.js";
 import crypto from "crypto";
 import { TABLES } from "../services/dbTables.js";
 import busboy from "busboy";
+import jwt from "jsonwebtoken";
 
 function generateOtp() {
 	return Math.floor(100000 + Math.random() * 900000);
@@ -142,7 +143,7 @@ function parseLogToObject(log) {
 	return caseData;
 }
 
-export const extrapolateFormData = async (event) => {
+export const extrapolateRequestBody = async (event) => {
 	const contentType =
 		event.headers["content-type"] || event.headers["Content-Type"];
 	const formData = {};
@@ -153,15 +154,17 @@ export const extrapolateFormData = async (event) => {
 		});
 
 		return new Promise((resolve, reject) => {
-			// Parse each part of the formData
-			bb.on("file", (fieldname, file, filename, encoding, mimetype) => {
-				file.on("data", (data) => {
-					formData[fieldname] = data.toString();
-				});
-			});
+			// Initialize arrays to hold document keys and file names
+			formData.documentKeys = [];
+			formData.fileNames = [];
 
 			bb.on("field", (fieldname, value) => {
-				formData[fieldname] = value;
+				// Check if the fieldname starts with 'documentKey' to gather all document keys
+				if (fieldname.startsWith("documentKey")) {
+					formData.documentKeys.push(value); // Accumulate document keys
+				} else {
+					formData[fieldname] = value; // Regular field processing for other fields
+				}
 			});
 
 			bb.on("finish", () => {
@@ -190,7 +193,6 @@ export const getDetailsOfStudentsFeedbackAndResponses = async (
 	caseID,
 	details = false
 ) => {
-	// Choose whether to select only count or all attributes based on the 'details' flag
 	const selectOption = details ? "ALL_ATTRIBUTES" : "COUNT";
 
 	// Parameters for fetching feedback
@@ -285,6 +287,29 @@ export const getDetailsOfStudentsFeedbackAndResponses = async (
 		feedbackCount,
 		totalResponses,
 	};
+};
+
+export const verifyToken = (token, secretKey) => {
+	try {
+		if (!token) {
+			return { statusCode: 403, message: "No token provided!" };
+		}
+		// Verify the token using the secret key
+		const decoded = jwt.verify(token, secretKey);
+		// Token is valid; return the decoded token data
+		return decoded;
+	} catch (err) {
+		// Handle different types of JWT errors
+		if (err.name === "TokenExpiredError") {
+			console.error("Token has expired");
+		} else if (err.name === "JsonWebTokenError") {
+			console.error("Invalid token");
+		} else {
+			console.error("Could not verify token", err.message);
+		}
+		// Return null or an appropriate error response
+		return null;
+	}
 };
 
 export {

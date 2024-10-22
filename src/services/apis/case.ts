@@ -1,3 +1,4 @@
+import axios from "axios";
 import { caseApi, configureRequestHeaders } from "../config/axiosConfig";
 
 const convertToFormData = (caseStudy: any) => {
@@ -5,9 +6,7 @@ const convertToFormData = (caseStudy: any) => {
 
 	for (const key in caseStudy) {
 		if (key === "caseMaterials") {
-			for (let i = 0; i < caseStudy.caseMaterials.length; i++) {
-				formData.append(`caseMaterials`, caseStudy.caseMaterials[i]);
-			}
+			formData.append(key, JSON.stringify(caseStudy.caseMaterials));
 		} else if (key === "caseQuestions") {
 			formData.append(key, JSON.stringify(caseStudy[key]));
 		} else {
@@ -65,8 +64,8 @@ export const fetchCaseDetailsApi = (caseId: any, token: string) => {
 	return caseApi.get(`/details/${caseId}`, configureRequestHeaders(token));
 };
 
-export const fetchActiveCaseApi = (token: string) => {
-	return caseApi.get("/active", configureRequestHeaders(token));
+export const fetchPublishedCaseApi = (token: string) => {
+	return caseApi.get("/publish", configureRequestHeaders(token));
 };
 export const deleteCaseApi = (caseId: string, token: string) => {
 	return caseApi.delete(
@@ -77,4 +76,56 @@ export const deleteCaseApi = (caseId: string, token: string) => {
 
 export const fetchCaseDataApi = (caseId: string, token: string) => {
 	return caseApi.get(`/data/${caseId}`, configureRequestHeaders(token));
+};
+
+export const getPresignedUrlForDocumentUploadApi = (token: string) => {
+	return caseApi.get(
+		"/get-signed-url-for-pdf-upload",
+		configureRequestHeaders(token)
+	);
+};
+
+export const getPresignedUrlForFetchingDocumentsApi = ({
+	documentKeys,
+	token,
+}: {
+	documentKeys: string[];
+	token: string;
+}) => {
+	const formData = new FormData();
+
+	// Append each documentKey as unique form data fields
+	documentKeys.forEach((documentKey, index) => {
+		formData.append(`documentKeys[${index}]`, documentKey); // Append each documentKey
+	});
+
+	return caseApi.post(
+		"/get-signed-url-for-pdf-fetch",
+		formData,
+		configureRequestHeaders(token, formData)
+	);
+};
+
+export const addPdfToCaseMaterialsApi = async ({
+	pdfUrl,
+	selectedFile,
+}: {
+	pdfUrl: string;
+	selectedFile: File;
+}) => {
+	await axios.put(pdfUrl, selectedFile, {
+		headers: {
+			"Content-Type": selectedFile.type || "application/octet-stream",
+		},
+	});
+};
+
+export const deletePdfFromCaseMaterialsApi = (
+	fileKey: string,
+	token: string
+) => {
+	return caseApi.delete("/delete-case-material", {
+		data: { fileKey },
+		...configureRequestHeaders(token),
+	});
 };

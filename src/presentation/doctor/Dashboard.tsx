@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import UserImg from "@/assets/images/admin.png";
 import { CaseCard } from "@/components/cases";
 import AdminLayout from "@/components/layouts/dashboard/admin";
@@ -14,16 +14,13 @@ const DoctorDashboard = () => {
 	);
 	const publishedCaseInfo = useAppSelector((state) => state.activeCase.data);
 
-	const archivedCases =
-		archivedCasesState?.map((caseItem: any) => ({
-			_id: caseItem.id,
-			description: JSON.parse(caseItem.caseDescription).blocks[0].text,
-			caseDeadline: formatDate(caseItem.caseDeadline),
-			createdAt: formatDate(caseItem.createdAt),
-			feedbackCount: caseItem.feedbackCount,
-			totalResponses: caseItem.totalResponses,
-			caseTopic: caseItem.caseTopic,
-		})) || null;
+	const archivedCases = archivedCasesState.map((caseItem: any) => ({
+		...caseItem,
+		_id: caseItem.id,
+		description: JSON.parse(caseItem.caseDescription).blocks[0].text,
+		caseDeadline: formatDate(caseItem.caseDeadline),
+		createdAt: formatDate(caseItem.createdAt),
+	}));
 
 	return (
 		<AdminLayout>
@@ -40,10 +37,14 @@ const DoctorDashboard = () => {
 					</div>
 				</div>
 				<div className="mt-14">
-					<div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 sm:mb-1">
-						<h5 className="text-1sm sm:text-base text-dark uppercase">
-							ONGOING CASE STUDY
-						</h5>
+					<div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 sm:mb-5">
+						{publishedCaseInfo ? (
+							<h5 className="text-1sm sm:text-base text-dark uppercase">
+								ONGOING CASE STUDY
+							</h5>
+						) : (
+							<div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 sm:mb-5" />
+						)}
 						<div className="min-w-min inline-block">
 							<div className="flex">
 								<Link href="/doctor/case-studies/create">
@@ -106,7 +107,9 @@ const DoctorDashboard = () => {
 								</div>
 							</div>
 						) : (
-							<p className="text-white">There is currently no published case</p>
+							<p className="text-white">
+								There is no active case at the moment.
+							</p>
 						)}
 						{publishedCaseInfo && (
 							<div className="min-w-min inline-block">
@@ -144,7 +147,7 @@ const DoctorDashboard = () => {
 					</div>
 					<ul className="grid grid-cols-items gap-5 md:gap-6.25">
 						{archivedCases?.length === 0
-							? "No archived cases found."
+							? "You have no recent case studies."
 							: archivedCases?.map((caseM: any, index: number) => (
 									<Link
 										href={`/doctor/responses-feedback/${caseM._id}`}

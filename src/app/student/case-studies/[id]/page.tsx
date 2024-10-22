@@ -23,18 +23,16 @@ const tabs = [
 	"Feedbacks",
 	"Certificate",
 ];
-const CaseStudies = ({ params }: any) => {
+const CaseStudies = ({ params }: { params: { id: string } }) => {
 	const dispatch = useAppDispatch();
 	const { active: activeTab, switchTab, isActive } = useProcessTabs(tabs, 0);
-	const [progress, setProgress] = useState(0);
-	const [caseDetails, setCaseDetails] = useState<CaseDetail>({
-		caseID: params.id,
-		caseTopicAnswer: "",
-		caseExplanation: "",
-		answers: [],
-	});
+	const [progress, setProgress] = useState(5);
 
 	const caseDetailsState = useAppSelector((state) => state.caseDetails);
+	const [caseDetails, setCaseDetails] = useState<CaseDetail>(
+		caseDetailsState.data
+	);
+
 	const submitResponseState = useAppSelector(
 		(state) => state.submitCaseResponse
 	);
@@ -67,21 +65,22 @@ const CaseStudies = ({ params }: any) => {
 			const parsedQuestions =
 				JSON.parse(caseDetailsState?.data.caseQuestions) || [];
 			const updatedCaseDetails = {
-				...caseDetails,
+				...caseDetailsState?.data,
 				answers: parsedQuestions.map((question: any) => ({
 					question: question.question,
 					options: question.options,
 				})),
+				studentCaseTopicResponse: "",
+				studentCaseExplanation: "",
+				caseMaterials: JSON.parse(caseDetailsState?.data.caseMaterials),
 			};
 			setCaseDetails(updatedCaseDetails);
 		}
-	}, [caseDetailsState.status, dispatch]);
+	}, [caseDetailsState, dispatch]);
 
 	useEffect(() => {
 		if (submitResponseState.status === "succeeded") {
 			dispatch(resetSubmitCaseResponseStatus());
-			// switchTab(5);
-			// setProgress(5);
 			if (!submitResponseState.response.passed) {
 				toast.error(submitResponseState.response.messageToDisplay, {
 					position: "top-right",
@@ -108,8 +107,7 @@ const CaseStudies = ({ params }: any) => {
 				setProgress(4);
 			}
 		}
-	}, [submitResponseState.status, dispatch]);
-
+	}, [submitResponseState, dispatch, switchTab]);
 	return (
 		<div>
 			<StudentCaseStudy

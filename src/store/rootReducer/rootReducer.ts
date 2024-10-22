@@ -9,12 +9,13 @@ import SubmitCaseResponseSlice from "../slices/student/SubmitCaseResponseSlice";
 import addFeedbackSlice from "../slices/student/addFeedbackSlice";
 import sendOtpSlice from "../slices/auth/sendOtpSlice";
 import resetPasswordSlice from "../slices/auth/resetPasswordSlice";
-import getActiveCaseSlice from "../slices/case/getActiveCaseSlice";
+import getPublishedCaseSlice from "../slices/case/getPublishedCaseSlice";
 import deleteCaseSlice from "../slices/case/deleteCaseSlice";
 import getCaseDataSlice from "../slices/case/getCaseDataSlice";
 import changePasswordSlice from "../slices/auth/changePasswordSlice";
 import getDraftCasesSlice from "../slices/case/getDraftCasesSlice";
 import getStudentsResponsesToCasesSlice from "../slices/student/getStudentsResponsesToCasesSlice";
+import caseMaterialsSlice from "../slices/case/getCaseMaterialsSlice";
 
 const rootReducer = combineReducers({
 	// Accounts
@@ -28,10 +29,11 @@ const rootReducer = combineReducers({
 	updateDraftCase: updateDraftCaseSlice,
 	getArchiveCases: getArchiveCasesSlice,
 	caseDetails: caseDetailsSlice,
-	activeCase: getActiveCaseSlice,
+	activeCase: getPublishedCaseSlice,
 	deleteCase: deleteCaseSlice,
 	getCaseData: getCaseDataSlice,
 	getDraftCases: getDraftCasesSlice,
+	caseMaterials: caseMaterialsSlice,
 	// student
 	submitCaseResponse: SubmitCaseResponseSlice,
 	studentsResponsesToCases: getStudentsResponsesToCasesSlice,

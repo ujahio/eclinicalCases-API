@@ -1,46 +1,14 @@
 import { v4 as uuidv4 } from "uuid";
-import {
-	GetCommand,
-	PutCommand,
-	ScanCommand,
-	DeleteCommand,
-	UpdateCommand,
-	QueryCommand,
-} from "@aws-sdk/lib-dynamodb";
-import jwt from "jsonwebtoken";
-
-import { readSingleItem } from "../services/dbOps.js";
+import { GetCommand, PutCommand, QueryCommand } from "@aws-sdk/lib-dynamodb";
 import { TABLES } from "../services/dbTables.js";
-import uploadFileToBucket from "../services/bucket.js";
 import dbClient from "../services/dbClient.js";
 import SECRETS from "../services/secrets.js";
 import {
 	parseLogToObject,
-	extrapolateFormData,
+	extrapolateRequestBody,
 	getDetailsOfStudentsFeedbackAndResponses,
+	verifyToken,
 } from "../utils/api_utils.js";
-// TODO: move to a utility function
-
-// todo: move to utility function
-export const verifyToken = (token, secretKey) => {
-	try {
-		// Verify the token using the secret key
-		const decoded = jwt.verify(token, secretKey);
-		// Token is valid; return the decoded token data
-		return decoded;
-	} catch (err) {
-		// Handle different types of JWT errors
-		if (err.name === "TokenExpiredError") {
-			console.error("Token has expired");
-		} else if (err.name === "JsonWebTokenError") {
-			console.error("Invalid token");
-		} else {
-			console.error("Could not verify token", err.message);
-		}
-		// Return null or an appropriate error response
-		return null;
-	}
-};
 
 export const getCaseForStudentsResponse = async (event) => {
 	const userToken = event.headers.authorization.split(" ")[1];
@@ -77,8 +45,8 @@ export const getCaseForStudentsResponse = async (event) => {
 		caseStatus: publishedCaseResult.caseStatus,
 		caseDescription: publishedCaseResult.caseDescription,
 		caseQuestions: publishedCaseResult.caseQuestions,
-		caseClue: publishedCaseResult.caseClue,
 		caseExplanation: publishedCaseResult.caseExplanation,
+		caseMaterials: publishedCaseResult.caseMaterials,
 	};
 
 	return {
@@ -88,41 +56,6 @@ export const getCaseForStudentsResponse = async (event) => {
 			caseInfo,
 		}),
 	};
-};
-
-export const deleteAllCases = async () => {
-	try {
-		const params = {
-			TableName: TABLES.CASE,
-		};
-		const scanCommand = new ScanCommand(params);
-		const result = await dbClient.send(scanCommand);
-		const cases = result.Items;
-		const deletePromises = cases.map((caseItem) => {
-			const deleteParams = {
-				TableName: TABLES.CASE,
-				Key: {
-					id: caseItem.id,
-				},
-			};
-			const deleteCommand = new DeleteCommand(deleteParams);
-			return dbClient.send(deleteCommand);
-		});
-		await Promise.all(deletePromises);
-		return {
-			statusCode: 200,
-			body: JSON.stringify({ message: "All cases deleted successfully!" }),
-		};
-	} catch (error) {
-		console.error("Error deleting cases:", error);
-
-		return {
-			statusCode: 500,
-			body: JSON.stringify({
-				error: "Could not delete cases: " + error.message,
-			}),
-		};
-	}
 };
 
 export const duplicateCase = async (event) => {
@@ -188,7 +121,7 @@ export const duplicateCase = async (event) => {
 
 export const addFeedback = async (event) => {
 	const userToken = event.headers.authorization.split(" ")[1];
-	const extrapolatedFormData = await extrapolateFormData(event);
+	const extrapolatedFormData = await extrapolateRequestBody(event);
 	const { caseID, feedback } = parseLogToObject(extrapolatedFormData);
 	const { id: studentID } = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
 

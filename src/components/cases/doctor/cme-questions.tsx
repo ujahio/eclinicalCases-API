@@ -4,12 +4,13 @@ import { useAppSelector } from "@/services/hooks/hooks";
 import { DoctorCMEQuestionsProps } from "@/services/types/doctor/createCaseStudy";
 import React, { FunctionComponent } from "react";
 
-const DoctorCMEQuestions = ({
+const DoctorCMEQuestions: FunctionComponent<DoctorCMEQuestionsProps> = ({
 	goNext,
+	goBack,
 	caseStudy,
 	setCaseStudy,
 	handleAddCase,
-}: DoctorCMEQuestionsProps) => {
+}) => {
 	const addingDraftCaseStatus = useAppSelector(
 		(state) => state.getDraftCases.status
 	);
@@ -242,7 +243,7 @@ const DoctorCMEQuestions = ({
 					size="lg"
 					centralize
 					className="text-xs"
-					onClick={goNext}
+					onClick={goBack}
 				>
 					GO BACK TO MATERIALS AND DEADLINE
 				</Button>

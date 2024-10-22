@@ -1,5 +1,5 @@
-import { bucket } from "./storage";
-import { email } from "./email";
+// import { email } from "./email";
+import { CaseMaterials, ECCSUsersCertificates } from "./storage";
 import {
 	NEXT_JWT_SECRET,
 	NEXT_PUBLIC_PASS_SECRET_KEY,
@@ -21,6 +21,8 @@ const links = [
 	StudentsResponses,
 	Certificates,
 	TeacherCaseStudies,
+	CaseMaterials,
+	ECCSUsersCertificates,
 	NEXT_JWT_SECRET,
 	NEXT_PUBLIC_PASS_SECRET_KEY,
 	NEXT_PUBLIC_BASE_URL,
@@ -34,6 +36,7 @@ const domainName =
 
 export const api = new sst.aws.ApiGatewayV2("eclinicalCasesSolutions", {
 	domain: domainName,
+	cors: true,
 });
 
 // Auth
@@ -87,7 +90,7 @@ api.route("GET /api/case/archived/{caseFilter}", {
 	handler: "server/controllers/handleArchivedCases.getArchivedCases",
 	link: links,
 });
-api.route("GET /api/case/active", {
+api.route("GET /api/case/publish", {
 	handler: "server/controllers/handlePublishedCase.getPublishedCase",
 	link: links,
 });
@@ -95,12 +98,22 @@ api.route("POST /api/case/publish", {
 	handler: "server/controllers/handlePublishedCase.publishCase",
 	link: links,
 });
-// api.route("POST /api/case/add", {
-// 	handler: "server/controllers/case.controller.addCase",
-// 	link,
-// 	memory: "2048 MB",
-// 	binaryMediaTypes: ["*/*"],
-// });
+api.route("GET /api/case/get-signed-url-for-pdf-upload", {
+	handler:
+		"server/controllers/handleCaseMaterials.getSignedUrlToUploadForCaseMaterials",
+	link: links,
+});
+
+api.route("POST /api/case/get-signed-url-for-pdf-fetch", {
+	handler:
+		"server/controllers/handleCaseMaterials.getSignedUrlsToFetchForCaseMaterials",
+	link: links,
+});
+
+api.route("DELETE /api/case/delete-case-material", {
+	handler: "server/controllers/handleCaseMaterials.deleteCaseMaterial",
+	link: links,
+});
 
 api.route("GET /api/case/draft/{caseId}", {
 	handler: "server/controllers/handleDraftCases.getDraftCases",
@@ -146,25 +159,6 @@ api.route("GET /api/case/student/attempts/{studentID}", {
 	link: links,
 });
 
-// api.route("DELETE /api/case/delete/all/", {
-// 	handler: "handler.handler",
-// 	link,
-// });
-
-// Quiz;
-api.route("POST /api/quiz/submit", {
-	handler: "server/controllers/quiz.controller.submitStudentsAnswers",
-	link: links,
-});
-api.route("GET /api/quiz/answers/{caseID}", {
-	handler: "server/controllers/quiz.controller.getStudentsAnswers",
-	link: links,
-});
-api.route("POST /api/quiz/generate-certificate", {
-	handler: "server/controllers/student.controller.generatePassingCertificate",
-	link: links,
-});
-
 // Student;
 api.route("GET /api/student/certificates", {
 	handler: "server/controllers/student.controller.getStudentCertificates",
@@ -174,11 +168,19 @@ api.route("GET /api/student/certificate/{caseID}", {
 	handler: "server/controllers/student.controller.getCertificateByCaseID",
 	link: links,
 });
-api.route("GET /api/student/get-responses/{caseFilter}", {
+api.route("GET /api/student/responses/{caseFilter}", {
 	handler: "server/controllers/student.controller.getStudentsResponses",
 	link: links,
 });
-api.route("POST /api/student/new-case-notification", {
-	handler: "server/controllers/student.controller.newCaseNotification",
+
+api.route("POST /api/student/response", {
+	handler: "server/controllers/student.controller.submitStudentResponse",
 	link: links,
+	runtime: "nodejs18.x",
+	copyFiles: [
+		{
+			from: "./server/assets/images/logo.png",
+			to: "assets/images/logo.png",
+		},
+	],
 });

@@ -16,9 +16,14 @@ const StudentDashboard = () => {
 	const studentsResponsesToCases = useAppSelector(
 		(state) => state.studentsResponsesToCases.responses
 	);
-	const studentsResponses =
+
+	const studentsResponses: {
+		_id: string;
+		submittedAt: string;
+		caseTopic: string;
+	}[] =
 		studentsResponsesToCases.map((caseItem: any) => ({
-			_id: caseItem.id,
+			_id: caseItem.caseID,
 			submittedAt: formatDate(caseItem.submittedAt),
 			caseTopic: caseItem.caseTopicAnswer,
 		})) || [];
@@ -42,11 +47,14 @@ const StudentDashboard = () => {
 						</h4> */}
 					</div>
 				</div>
-				<div className="">
-					<h5 className="text-1sm sm:text-base text-dark uppercase mb-3.75">
-						ONGOING CASE STUDY
-					</h5>
-
+				<div>
+					{publishedCaseInfo ? (
+						<h5 className="text-1sm sm:text-base text-dark mb-3 sm:mb-5">
+							ONGOING CASE STUDY
+						</h5>
+					) : (
+						<div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 sm:mb-5" />
+					)}
 					<div
 						// style={{ backgroundImage: `url${OnGoingCaseBg}` }}
 						className="w-full px-6 py-8 sm:px-8 sm:py-10 md:px-10 md:py-12 ongoing-case bg-[url('../../assets/images/ongoing-case-bg.png')] flex flex-col sm:flex-row sm:items-center justify-between flex-wrap text-white rounded-sm relative"
@@ -71,7 +79,7 @@ const StudentDashboard = () => {
 									</g>
 								</svg>
 								<h5 className="font-bold text-base mt-3.75 mb-2.5">
-									{publishedCaseInfo?.caseTopic}
+									NEW CASE INFO
 								</h5>
 								<p className="text-1sm text-sm max-w-lg mb-5">
 									Learn how patients with a serious infection can be managed in
@@ -88,7 +96,9 @@ const StudentDashboard = () => {
 								</div>
 							</div>
 						) : (
-							<p className="text-white">{"No ongoing cases found!!!"}</p>
+							<p className="text-white">
+								There is no active case at the moment.
+							</p>
 						)}
 
 						{publishedCaseInfo && (
@@ -114,9 +124,15 @@ const StudentDashboard = () => {
 					<ul className="grid grid-cols-items gap-5 md:gap-6.25">
 						{studentsResponses?.length === 0
 							? "No recent cases found!!!"
-							: studentsResponses.map((caseM: any, index: number) => (
-									<ResponseCaseCard case={caseM} key={caseM._id} />
-							  ))}
+							: studentsResponses.map(
+									(caseM: {
+										_id: string;
+										submittedAt: string;
+										caseTopic: string;
+									}) => {
+										return <ResponseCaseCard case={caseM} key={caseM._id} />;
+									}
+							  )}
 					</ul>
 				</div>
 			</div>

@@ -31,11 +31,8 @@ const StudentCaseStudy = ({
 	goNext,
 	goBack,
 }: StudentCaseStudyProps) => {
-	const caseDetailsState = useAppSelector((state) => state.caseDetails?.data);
 	const caseDescription = EditorState.createWithContent(
-		convertFromRaw(
-			JSON.parse(caseDetailsState?.caseDescription || fallbackContent)
-		)
+		convertFromRaw(JSON.parse(caseDetails?.caseDescription || fallbackContent))
 	);
 
 	return (
@@ -49,7 +46,7 @@ const StudentCaseStudy = ({
 						changeTab={switchTab}
 						tabs={tabs}
 						canClickBackward
-						canClickForward
+						canClickForward={false}
 						progress={progress}
 					/>
 				</nav>
@@ -60,8 +57,7 @@ const StudentCaseStudy = ({
 					<StudentCasePresentation
 						goNext={goNext}
 						caseDescription={caseDescription}
-						caseClue={caseDetailsState?.caseClue}
-						caseDeadline={caseDetailsState?.caseDeadline}
+						caseDeadline={caseDetails?.caseDeadline}
 					/>
 				)}
 
@@ -69,7 +65,8 @@ const StudentCaseStudy = ({
 					<StudentCaseQuestion
 						goNext={goNext}
 						goBack={goBack}
-						caseDetails={caseDetails}
+						studentCaseTopicResponse={caseDetails?.studentCaseTopicResponse}
+						studentCaseExplanation={caseDetails?.studentCaseExplanation}
 						setCaseDetails={setCaseDetails}
 					/>
 				)}
@@ -78,8 +75,11 @@ const StudentCaseStudy = ({
 					<StudentCaseAnswer
 						goNext={goNext}
 						goBack={goBack}
-						caseTopicAnswer={caseDetails.caseTopicAnswer}
-						caseExplanation={caseDetails.caseExplanation}
+						caseTopic={caseDetails?.caseTopic}
+						studentCaseTopicResponse={caseDetails?.studentCaseTopicResponse}
+						studentCaseExplanation={caseDetails?.studentCaseExplanation}
+						caseExplanation={caseDetails?.caseExplanation}
+						caseMaterialsMetaData={caseDetails?.caseMaterials}
 					/>
 				)}
 
@@ -94,7 +94,7 @@ const StudentCaseStudy = ({
 
 				{isActive("feedbacks") && <StudentFeedbacks goNext={goNext} />}
 
-				{isActive("certificate") && <StudentCertificate goNext={goNext} />}
+				{isActive("certificate") && <StudentCertificate />}
 			</div>
 		</DashboardLayout>
 	);

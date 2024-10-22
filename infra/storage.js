@@ -1,1 +1,5 @@
-export const bucket = new sst.aws.Bucket("MyBucket");
+export const CaseMaterials = new sst.aws.Bucket("CaseMaterials");
+
+export const ECCSUsersCertificates = new sst.aws.Bucket(
+	"ECCSUsersCertificates"
+);

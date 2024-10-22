@@ -2,11 +2,10 @@ import { v4 as uuidv4 } from "uuid";
 import { UpdateCommand, QueryCommand } from "@aws-sdk/lib-dynamodb";
 
 import { TABLES } from "../services/dbTables.js";
-import uploadFileToBucket from "../services/bucket.js";
+// import uploadFileToBucket from "../services/bucket.js";
 import dbClient from "../services/dbClient.js";
 import SECRETS from "../services/secrets.js";
-import { extrapolateFormData } from "../utils/api_utils.js";
-import { verifyToken } from "./case.controller.js"; // todo: move utils function to util fild/folder
+import { extrapolateRequestBody, verifyToken } from "../utils/api_utils.js";
 import { getDetailsOfStudentsFeedbackAndResponses } from "../utils/api_utils.js";
 
 export const publishCase = async (event) => {
@@ -18,7 +17,8 @@ export const publishCase = async (event) => {
 		caseExplanation,
 		caseDeadline,
 		caseQuestions,
-	} = await extrapolateFormData(event);
+		caseMaterials,
+	} = await extrapolateRequestBody(event);
 
 	const userToken = event.headers.authorization.split(" ")[1];
 	const userInfo = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
@@ -102,10 +102,7 @@ export const publishCase = async (event) => {
 	}
 
 	try {
-		const updateParams = new UpdateCommand({
-			TableName: TABLES.TEACHER_CASE_STUDIES,
-			Key: { id: newCaseId },
-			UpdateExpression: `
+		let updateExpression = `
 		SET caseStatus = :caseStatus,
 		    caseDeadline = :caseDeadline,
 		    caseClue = :caseClue,
@@ -113,22 +110,34 @@ export const publishCase = async (event) => {
 		    caseTopic = :caseTopic,
 		    caseExplanation = :caseExplanation,
 		    caseQuestions = :caseQuestions,
-        publishedDate = :publishedDate,
-        createdAt = :createdAt,
-        teacherId = :teacherId
-        `,
-			ExpressionAttributeValues: {
-				":caseStatus": "published",
-				":publishedDate": todaysDate,
-				":caseDeadline": caseDeadline,
-				":caseClue": caseClue,
-				":caseDescription": caseDescription,
-				":caseTopic": caseTopic,
-				":caseExplanation": caseExplanation,
-				":caseQuestions": caseQuestions,
-				":createdAt": todaysDate,
-				":teacherId": teacherId,
-			},
+            publishedDate = :publishedDate,
+            createdAt = :createdAt,
+            teacherId = :teacherId
+    `;
+
+		const expressionAttributeValues = {
+			":caseStatus": "published",
+			":publishedDate": todaysDate,
+			":caseDeadline": new Date(caseDeadline).toISOString(),
+			":caseClue": caseClue,
+			":caseDescription": caseDescription,
+			":caseTopic": caseTopic,
+			":caseExplanation": caseExplanation,
+			":caseQuestions": caseQuestions,
+			":createdAt": todaysDate,
+			":teacherId": teacherId,
+		};
+		// Conditionally add the caseMaterials field if it exists
+		if (caseMaterials) {
+			updateExpression += ", caseMaterials = :caseMaterials";
+			expressionAttributeValues[":caseMaterials"] = caseMaterials;
+		}
+
+		const updateParams = new UpdateCommand({
+			TableName: TABLES.TEACHER_CASE_STUDIES,
+			Key: { id: newCaseId },
+			UpdateExpression: updateExpression,
+			ExpressionAttributeValues: expressionAttributeValues,
 			ReturnValues: "ALL_NEW",
 		});
 

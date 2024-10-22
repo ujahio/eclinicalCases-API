@@ -10,14 +10,6 @@ const convertToFormData = (data: any) => {
 	return formData;
 };
 
-export const submitCaseResponseApi = (responsePayload: any, token: string) => {
-	return studentApi.post(
-		`/quiz/submit`,
-		responsePayload,
-		configureRequestHeaders(token)
-	);
-};
-
 export const addFeedbackApi = (feedbackData: any, token: string) => {
 	const formData = convertToFormData(feedbackData);
 	return studentApi.post(
@@ -27,17 +19,17 @@ export const addFeedbackApi = (feedbackData: any, token: string) => {
 	);
 };
 
-export const generateCertificateApi = (certificateInfo: any, token: string) => {
-	return studentApi.post(
-		"/quiz/generate-certificate",
-		certificateInfo,
-		configureRequestHeaders(token, certificateInfo)
-	);
-};
-
 export const getStudentsResponsesApi = (isRecent: any, token: string) => {
 	const url = isRecent
-		? `/student/get-responses/?caseFilter=${isRecent}`
-		: "/student/get-responses/";
+		? `/student/responses/?caseFilter=${isRecent}`
+		: "/student/responses/";
 	return studentApi.get(url, configureRequestHeaders(token));
+};
+
+export const submitCaseResponseApi = (responsePayload: any, token: string) => {
+	return studentApi.post(
+		"student/response",
+		responsePayload,
+		configureRequestHeaders(token)
+	);
 };

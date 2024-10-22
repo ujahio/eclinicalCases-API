@@ -8,14 +8,13 @@ import {
 } from "@aws-sdk/lib-dynamodb";
 
 import { TABLES } from "../services/dbTables.js";
-import uploadFileToBucket from "../services/bucket.js";
+// import uploadFileToBucket from "../services/bucket.js";
 import dbClient from "../services/dbClient.js";
 import SECRETS from "../services/secrets.js";
-import { extrapolateFormData } from "../utils/api_utils.js";
-import { verifyToken } from "./case.controller.js"; // todo: move utils function to util fild/folder
+import { extrapolateRequestBody, verifyToken } from "../utils/api_utils.js";
 
 export const addDraftCase = async (event) => {
-	const draftCaseData = await extrapolateFormData(event);
+	const draftCaseData = await extrapolateRequestBody(event);
 	const userToken = event.headers.authorization.split(" ")[1];
 	const userInfo = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
 	const teacherID = userInfo.id;
@@ -39,12 +38,6 @@ export const addDraftCase = async (event) => {
 			}),
 		};
 	}
-
-	// TODO: save case materials to S3 bucket and store the file paths in the case item
-	// const caseMaterials = caseData.caseMaterials.map((file) => ({
-	// 	filename: file.originalname,
-	// 	filePath: file.location,
-	// }));
 
 	const caseItem = {
 		id: uuidv4(),
@@ -235,7 +228,7 @@ export const deleteDraftCase = async (event) => {
 };
 
 export const updateDraftCase = async (event) => {
-	const caseData = await extrapolateFormData(event);
+	const caseData = await extrapolateRequestBody(event);
 	const caseID = event.pathParameters.caseID;
 	const userToken = event.headers.authorization.split(" ")[1];
 	const userInfo = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
@@ -287,16 +280,15 @@ export const updateDraftCase = async (event) => {
 			};
 		}
 
-		// Prepare caseDeadline and caseMaterials if provided
+		// Prepare caseDeadline if provided
 		const caseDeadline = caseData.caseDeadline
 			? new Date(caseData.caseDeadline).toISOString()
 			: undefined;
-		const caseMaterials = event.files
-			? event.files.map((file) => ({
-					filename: file.originalname,
-					filePath: file.location,
-			  }))
-			: [];
+
+		const caseMaterialsToProcess =
+			caseData.caseMaterials && caseData.caseMaterials.length > 0
+				? JSON.parse(caseData.caseMaterials)
+				: [];
 
 		// Prepare the update expression and dynamic attributes
 		let updateExpression = "SET ";
@@ -312,28 +304,28 @@ export const updateDraftCase = async (event) => {
 			"caseQuestions",
 		];
 
-		// Loop through updatable fields and build the update expression
 		updatableFields.forEach((field) => {
-			if (caseData[field] !== undefined) {
+			const fieldValue = caseData[field];
+
+			// Only process fields that are defined and not null/empty
+			if (fieldValue) {
 				const attributeName = `#${field}`;
 				const attributeValue = `:${field}`;
 
 				updateExpression += `${attributeName} = ${attributeValue}, `;
 				expressionAttributeNames[attributeName] = field;
 				expressionAttributeValues[attributeValue] =
-					field === "caseQuestions"
-						? JSON.parse(caseData[field])
-						: caseData[field];
+					field === "caseQuestions" ? JSON.parse(fieldValue) : fieldValue;
 			}
 		});
 
 		// If case materials are provided, update them
-		if (caseMaterials.length > 0) {
-			const existingCaseMaterials = caseItem.caseMaterials || [];
-			const updatedCaseMaterials = [...existingCaseMaterials, ...caseMaterials];
+		if (caseMaterialsToProcess.length > 0) {
 			updateExpression += "#caseMaterials = :caseMaterials, ";
 			expressionAttributeNames["#caseMaterials"] = "caseMaterials";
-			expressionAttributeValues[":caseMaterials"] = updatedCaseMaterials;
+			expressionAttributeValues[":caseMaterials"] = JSON.stringify(
+				caseMaterialsToProcess
+			);
 		}
 
 		// If caseDeadline is provided, update it

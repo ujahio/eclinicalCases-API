@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, FunctionComponent } from "react";
 import useProcessTabs from "@/services/hooks/useProcessTabs";
 import { createCaseStudyTabs } from "@/services/constants";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
@@ -34,7 +34,7 @@ const initialCaseStudy: CaseStudy = {
 	shouldPublish: false,
 };
 
-const Create = () => {
+const Create: FunctionComponent = () => {
 	const navigate = useRouter();
 	const dispatch = useAppDispatch();
 	const addCaseState = useAppSelector((state) => state.addCase);
@@ -51,14 +51,21 @@ const Create = () => {
 		switchTab(next);
 		setProgress(next);
 	};
+	const goBack = () => {
+		const next = activeTab - 1;
+		switchTab(next);
+		setProgress(next);
+	};
+
 	const handleAddCase = () => {
 		setCaseStudy(caseStudy);
 		dispatch(addCase(caseStudy));
 	};
 
 	const handlePublishCase = () => {
-		setCaseStudy({ ...caseStudy, shouldPublish: true });
-		dispatch(addCase({ ...caseStudy, shouldPublish: true }));
+		const publishedCaseInfo = { ...caseStudy, shouldPublish: true };
+		setCaseStudy(publishedCaseInfo);
+		dispatch(addCase(publishedCaseInfo));
 	};
 	useEffect(() => {
 		if (addCaseState.status === "succeeded") {
@@ -86,12 +93,13 @@ const Create = () => {
 				theme: "light",
 			});
 		}
-	}, [addCaseState.status, dispatch]);
+	}, [addCaseState, dispatch, navigate]);
 	return (
 		<CreateCaseStudy
 			activeTab={activeTab}
 			switchTab={switchTab}
 			goNext={goNext}
+			goBack={goBack}
 			progress={progress}
 			isActive={isActive}
 			caseStudy={caseStudy}

@@ -9,7 +9,6 @@ export const getStudentsResponsesToCases = createAsyncThunk(
 			const state = thunkAPI.getState() as RootState;
 			const token = state?.login?.user?.token;
 			const { data } = await getStudentsResponsesApi(isRecent, token);
-			console.log("data", data);
 			return data;
 		} catch (error: any) {
 			return thunkAPI.rejectWithValue(error.response.data);

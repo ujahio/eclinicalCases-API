@@ -7,13 +7,16 @@ export interface CaseQuestion {
 
 export interface CaseStudy {
 	caseClue: string;
-	caseDescription: string;
+	caseDescription: string | null;
 	caseTopic: string;
 	caseExplanation: string | null;
 	caseDeadline: string;
 	caseQuestions: CaseQuestion[];
 	caseStatus: string;
-	caseMaterials: any[];
+	caseMaterials: {
+		fileName: string;
+		documentKey: string;
+	}[];
 	shouldPublish?: boolean;
 }
 
@@ -21,6 +24,7 @@ export interface CreateCaseStudyProps {
 	activeTab: number;
 	switchTab: React.Dispatch<React.SetStateAction<number>>;
 	goNext: () => void;
+	goBack: () => void;
 	progress: number;
 	isActive: (key: string) => boolean;
 	caseStudy: CaseStudy;
@@ -35,12 +39,17 @@ export interface DoctorCaseQuestionProps {
 	setCaseStudy: React.Dispatch<React.SetStateAction<CaseStudy>>;
 	handleAddCase: handleAddCaseType;
 }
-export interface DoctorCaseAnswerProps extends DoctorCaseQuestionProps {}
+export interface DoctorCaseAnswerProps extends DoctorCaseQuestionProps {
+	goBack: () => void;
+}
 export interface DoctorMaterialsAndDeadlineProps
-	extends DoctorCaseQuestionProps {}
-export interface DoctorCMEQuestionsProps extends DoctorCaseQuestionProps {}
+	extends DoctorCaseQuestionProps {
+	goBack: () => void;
+}
+export interface DoctorCMEQuestionsProps extends DoctorCaseQuestionProps {
+	goBack: () => void;
+}
 export interface FinalReviewProps {
-	goNext: () => void;
 	caseStudy: CaseStudy;
 	handleAddCase: handleAddCaseType;
 	handlePublishCase: React.Dispatch<React.SetStateAction<any>>;
@@ -50,12 +59,11 @@ export interface UpdateCaseStudyProps {
 	activeTab: number;
 	switchTab: React.Dispatch<React.SetStateAction<number>>;
 	goNext: () => void;
+	goBack: () => void;
 	progress: number;
 	isActive: (key: string) => boolean;
 	caseStudy: CaseStudy;
 	setCaseStudy: React.Dispatch<React.SetStateAction<CaseStudy>>;
-	prevCaseMaterials: File[];
-	setPrevCaseMaterials: React.Dispatch<React.SetStateAction<File[]>>;
-	handleUpdateCase: any;
-	handlePublishCase: React.Dispatch<React.SetStateAction<any>>;
+	handleUpdateCase: () => void;
+	handlePublishCase: () => void;
 }

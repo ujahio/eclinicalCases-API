@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FunctionComponent } from "react";
 import {
 	DoctorCMEQuestions,
 	DoctorCaseAnswer,
@@ -13,19 +13,18 @@ import { createCaseStudyTabs } from "@/services/constants";
 import { APP_CONTAINER, APP_SPACING } from "@/services/constants/styles";
 import { UpdateCaseStudyProps } from "@/services/types/doctor/createCaseStudy";
 
-const UpdateCaseStudy = ({
+const UpdateCaseStudy: FunctionComponent<UpdateCaseStudyProps> = ({
 	activeTab,
 	switchTab,
 	goNext,
+	goBack,
 	progress,
 	isActive,
 	caseStudy,
 	setCaseStudy,
-	prevCaseMaterials,
-	setPrevCaseMaterials,
 	handleUpdateCase,
 	handlePublishCase,
-}: UpdateCaseStudyProps) => {
+}) => {
 	return (
 		<AdminLayout
 			extraNav={
@@ -59,6 +58,7 @@ const UpdateCaseStudy = ({
 				{isActive("case_model_answers_setup") && (
 					<DoctorCaseAnswer
 						goNext={goNext}
+						goBack={goBack}
 						caseStudy={caseStudy}
 						setCaseStudy={setCaseStudy}
 						handleAddCase={handleUpdateCase}
@@ -68,10 +68,11 @@ const UpdateCaseStudy = ({
 				{isActive("materials_and_deadline") && (
 					<DoctorMaterialsAndDeadlineForUpdate
 						goNext={goNext}
+						goBack={goBack}
 						caseStudy={caseStudy}
 						setCaseStudy={setCaseStudy}
-						prevCaseMaterials={prevCaseMaterials}
-						setPrevCaseMaterials={setPrevCaseMaterials}
+						caseMaterials={caseStudy.caseMaterials}
+						caseDeadline={caseStudy.caseDeadline}
 						handleAddCase={handleUpdateCase}
 					/>
 				)}
@@ -79,6 +80,7 @@ const UpdateCaseStudy = ({
 				{isActive("cme_questions") && (
 					<DoctorCMEQuestions
 						goNext={goNext}
+						goBack={goBack}
 						caseStudy={caseStudy}
 						setCaseStudy={setCaseStudy}
 						handleAddCase={handleUpdateCase}
@@ -86,7 +88,6 @@ const UpdateCaseStudy = ({
 				)}
 				{isActive("final_review") && (
 					<FinalReview
-						goNext={goNext}
 						caseStudy={caseStudy}
 						handleAddCase={handleUpdateCase}
 						handlePublishCase={handlePublishCase}

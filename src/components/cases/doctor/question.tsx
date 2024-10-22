@@ -1,47 +1,49 @@
 import { InputField } from "@/components/form-elements";
 import Button from "@/components/ui/Button";
-import React, { Fragment, FunctionComponent, useEffect, useState } from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
 import { EditorState, convertFromRaw, convertToRaw } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
 import { useAppSelector } from "@/services/hooks/hooks";
 import { DoctorCaseQuestionProps } from "@/services/types/doctor/createCaseStudy";
 
-const DoctorCaseQuestion = ({
+const DoctorCaseQuestion: FunctionComponent<DoctorCaseQuestionProps> = ({
 	goNext,
 	caseStudy,
 	setCaseStudy,
 	handleAddCase,
-}: DoctorCaseQuestionProps) => {
-	const [editorState, setEditorState] = useState(EditorState.createEmpty());
-	const [initialLoad, setInitialLoad] = useState(true);
+}) => {
+	const [editorState, setEditorState] = useState(() => {
+		if (caseStudy.caseDescription) {
+			try {
+				// Try to parse the caseExplanation if it exists and is valid JSON
+				const parsedDescription = JSON.parse(caseStudy.caseDescription);
+				return EditorState.createWithContent(convertFromRaw(parsedDescription));
+			} catch (error) {
+				console.error("Invalid caseDescription JSON:", error);
+				// In case of an invalid JSON, initialize an empty editor state
+				return EditorState.createEmpty();
+			}
+		} else {
+			// If caseExplanation is not defined, initialize an empty editor state
+			return EditorState.createEmpty();
+		}
+	});
+
 	const addingDraftCaseStatus = useAppSelector(
 		(state) => state.getDraftCases.status
 	);
 
 	useEffect(() => {
-		if (initialLoad && caseStudy.caseDescription) {
-			try {
-				const contentState = JSON.parse(caseStudy.caseDescription);
-				if (contentState && contentState.blocks) {
-					setEditorState(
-						EditorState.createWithContent(convertFromRaw(contentState))
-					);
-				}
-			} catch (e) {
-				console.error("Failed to parse caseDescription:", e);
-			}
-			setInitialLoad(false);
-		}
-	}, [caseStudy.caseDescription, initialLoad]);
+		const contentState = editorState.getCurrentContent();
+		const contentStateJSON = convertToRaw(contentState);
+		setCaseStudy({
+			...caseStudy,
+			caseDescription: JSON.stringify(contentStateJSON),
+		});
+	}, [editorState, setCaseStudy]);
 
 	const onEditorStateChange = (newEditorState: EditorState) => {
 		setEditorState(newEditorState);
-		const contentState = newEditorState.getCurrentContent();
-		const contentStateJSON = convertToRaw(contentState);
-		setCaseStudy((prevCaseStudy: any) => ({
-			...prevCaseStudy,
-			caseDescription: JSON.stringify(contentStateJSON),
-		}));
 	};
 	return (
 		<>
@@ -75,20 +77,18 @@ const DoctorCaseQuestion = ({
 					/>
 				</div>
 			</div>
-			<Button
-				btnStyle="outline"
-				size="lg"
-				centralize
-				onClick={handleAddCase}
-				className="w-full mb-3"
-			>
-				{addingDraftCaseStatus === "loading"
-					? "Loading..."
-					: "Save As a Draft..."}
-			</Button>
+
 			<div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
-				<Button btnStyle="outline" size="lg" centralize>
-					GO BACK HOME
+				<Button
+					btnStyle="outline"
+					size="lg"
+					centralize
+					onClick={handleAddCase}
+					className="w-full mb-3"
+				>
+					{addingDraftCaseStatus === "loading"
+						? "Loading..."
+						: "Save As a Draft..."}
 				</Button>
 				<Button
 					btnStyle="basic"
