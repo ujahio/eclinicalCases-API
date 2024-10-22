@@ -11,32 +11,39 @@ export const submitCaseResponse = createAsyncThunk(
 		try {
 			const state = thunkAPI.getState() as RootState;
 			const token = state?.login?.user?.token;
-			const { data: studentsGrade } = await submitCaseResponseApi(
-				responsePayload,
-				token
-			);
+			// const { data: studentsGrade } = await submitCaseResponseApi(
+			// 	responsePayload,
+			// 	token
+			// );
 			// temp comment out until pdf generation is implemented
 			// if (studentsGrade.passed) {
-			// 	// make new request to create certificate if quiz is passed
-			// 	const { data: certificateInformation } = await generateCertificateApi(
-			// 		{ caseTopic: responsePayload.caseTopicAnswer },
-			// 		token
-			// 	);
+			// make new request to create certificate if quiz is passed
+			// const { data: certificateInformation } = await generateCertificateApi(
+			// 	{ caseTopic: responsePayload.caseTopicAnswer },
+			// 	token
+			// );
 
-			// 	return {
-			// 		passed: studentsGrade.passed,
-			// 		pdfURL: certificateInformation.pdfURL,
-			// 		pngURL: certificateInformation.pngURL,
-			// 		messageToDisplay: studentsGrade.messageToDisplay,
-			// 	};
+			const { data: certificateInformation } = await generateCertificateApi(
+				{ caseTopic: "MALARIA" },
+				token
+			);
+
+			console.log("certificateInformation", certificateInformation);
+
+			// return {
+			// passed: studentsGrade.passed,
+			// 	pdfURL: certificateInformation.pdfURL,
+			// 	pngURL: certificateInformation.pngURL,
+			// 	messageToDisplay: studentsGrade.messageToDisplay,
+			// };
 			// }
 			// if quizzes are failed, we need to indicate what questions weren't passed and display a banner
-			return {
-				passed: studentsGrade.passed,
-				messageToDisplay: studentsGrade.messageToDisplay,
-				pdfURL: "",
-				pngURL: "",
-			};
+			// return {
+			// 	passed: studentsGrade.passed,
+			// 	messageToDisplay: studentsGrade.messageToDisplay,
+			// 	pdfURL: "",
+			// 	pngURL: "",
+			// };
 		} catch (error: any) {
 			return thunkAPI.rejectWithValue({
 				status: error.response?.status || error.status, // temp fix to set status manually

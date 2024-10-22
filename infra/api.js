@@ -1,5 +1,5 @@
 // import { email } from "./email";
-import { CaseMaterials } from "./storage";
+import { CaseMaterials, ECCSUsersCertificates } from "./storage";
 import {
 	NEXT_JWT_SECRET,
 	NEXT_PUBLIC_PASS_SECRET_KEY,
@@ -22,6 +22,7 @@ const links = [
 	Certificates,
 	TeacherCaseStudies,
 	CaseMaterials,
+	ECCSUsersCertificates,
 	NEXT_JWT_SECRET,
 	NEXT_PUBLIC_PASS_SECRET_KEY,
 	NEXT_PUBLIC_BASE_URL,

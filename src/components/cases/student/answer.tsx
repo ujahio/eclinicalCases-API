@@ -205,6 +205,8 @@ const StudentCaseAnswer: FC<StudentCaseAnswerProps> = ({
 									href={material.pdfUrl} // Use the signed URL for downloading
 									download={material.fileName} // Use the fileName for download
 									className="flex items-center"
+									target="_blank"
+									rel="noopener noreferrer"
 								>
 									<div className="bg-dark p-1.25 text-white font-medium text-xs rounded-sm">
 										{material.fileName.split(".").pop()?.toUpperCase() || "PDF"}
