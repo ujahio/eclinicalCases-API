@@ -136,11 +136,12 @@ const StudentDashboard = () => {
 					</ul>
 				</div>
 			</div>
-			<WalkthroughModal
+			{/* TEMP COMMENT OUT UNTIL CONTENT AND FUNCTIONALITY IS FINALIZED */}
+			{/* <WalkthroughModal
 				show={showWelcomeModal}
 				toggle={setShowWelcomeModal}
 				size="lg"
-			/>
+			/> */}
 		</DashboardLayout>
 	);
 };
