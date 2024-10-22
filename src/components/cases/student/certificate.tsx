@@ -41,6 +41,10 @@ const StudentCertificate: FunctionComponent = () => {
 
 				const canvas = canvasRef.current;
 				const context = canvas.getContext("2d");
+
+				if (!context) {
+					throw new Error("Canvas context is not available.");
+				}
 				canvas.height = viewport.height;
 				canvas.width = viewport.width;
 
