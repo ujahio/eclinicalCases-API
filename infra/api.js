@@ -164,6 +164,12 @@ api.route("GET /api/case/student/attempts/{studentID}", {
 api.route("POST /api/quiz/generate-certificate", {
 	handler: "server/controllers/student.controller.generatePassingCertificate",
 	link: links,
+	copyFiles: [
+		{
+			from: "./server/assets/images/logo.png",
+			to: "assets/images/logo.png",
+		},
+	],
 });
 
 // Student;
