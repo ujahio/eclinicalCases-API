@@ -1,4 +1,4 @@
-// import { email } from "./email";
+import { ECCSEmail } from "./email";
 import { CaseMaterials, ECCSUsersCertificates } from "./storage";
 import {
 	NEXT_JWT_SECRET,
@@ -25,6 +25,7 @@ const links = [
 	NEXT_PUBLIC_PASS_SECRET_KEY,
 	NEXT_PUBLIC_BASE_URL,
 	NEXT_PUBLIC_NODE_ENV,
+	ECCSEmail,
 ];
 
 const STAGE = $app.stage;
@@ -152,12 +153,13 @@ api.route("GET /api/case/data/{caseID}", {
 	handler: "server/controllers/case.controller.getCaseData",
 	link: links,
 });
+
+// Student;
 api.route("GET /api/case/student/attempts/{studentID}", {
 	handler: "server/controllers/case.controller.getCaseAttemptsByStudent",
 	link: links,
 });
 
-// Student;
 api.route("GET /api/student/certificates", {
 	handler: "server/controllers/student.controller.getStudentCertificates",
 	link: links,

@@ -7,6 +7,7 @@ import dbClient from "../services/dbClient.js";
 import SECRETS from "../services/secrets.js";
 import { extrapolateRequestBody, verifyToken } from "../utils/api_utils.js";
 import { getDetailsOfStudentsFeedbackAndResponses } from "../utils/api_utils.js";
+import { sendEmail } from "../services/emailSender.js";
 
 export const publishCase = async (event) => {
 	const {
@@ -144,6 +145,11 @@ export const publishCase = async (event) => {
 		const updatedCase = await dbClient.send(updateParams);
 		console.log(
 			`Case ${newCaseId} successfully published for teacher ${teacherId}`
+		);
+		sendEmail(
+			"testing@example.com",
+			"Case Published",
+			"Your case has been published"
 		);
 		return {
 			statusCode: 200,

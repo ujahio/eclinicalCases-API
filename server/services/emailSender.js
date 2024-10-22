@@ -1,32 +1,20 @@
 import { Resource } from "sst";
-import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
+import { SESv2Client, SendEmailCommand } from "@aws-sdk/client-sesv2";
 
-const sesClient = new SESClient({ region: "us-east-1" });
+const sesClient = new SESv2Client();
 
 export const sendEmail = async (toAddress, subject, body) => {
 	try {
 		await sesClient.send(
 			new SendEmailCommand({
-				Source: Resource.MyEmail.sender,
+				FromEmailAddress: Resource.ECCSEmail.sender,
 				Destination: {
 					ToAddresses: [toAddress],
 				},
-				Message: {
-					/* required */
-					Body: {
-						/* required */
-						Html: {
-							Charset: "UTF-8",
-							Data: body,
-						},
-						Text: {
-							Charset: "UTF-8",
-							Data: "TEXT_FORMAT_BODY",
-						},
-					},
-					Subject: {
-						Charset: "UTF-8",
-						Data: subject,
+				Content: {
+					Simple: {
+						Subject: { Data: subject },
+						Body: { Text: { Data: body } },
 					},
 				},
 			})
