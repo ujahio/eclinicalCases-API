@@ -109,7 +109,7 @@ export const generateCertificate = async (
 		return {
 			certificateID: key,
 			certificateUrl: signedUrl,
-			certificateBase64: pdfBase64,
+			certificateBase64: `data:application/pdf;base64,${pdfBase64}`,
 		};
 	} catch (err) {
 		console.error("Error generating certificate: ", err);

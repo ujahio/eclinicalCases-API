@@ -31,10 +31,6 @@
 		"jsonwebtoken": "^9.0.2",
 		"next": "14.2.3",
 		"pdf-lib": "^1.17.1",
-		"pdf-poppler": "^0.2.1",
-		"pdf2png-mp": "^0.5.4",
-		"pdfkit": "^0.15.0",
-		"pg": "^8.12.0",
 		"react": "^18",
 		"react-dom": "^18",
 		"react-draft-wysiwyg": "^1.15.0",
@@ -45,7 +41,6 @@
 		"redux-persist": "^6.0.0",
 		"redux-persist-transform-filter": "^0.0.22",
 		"sass": "^1.77.3",
-		"serverless-http": "^3.2.0",
 		"sst": "3.2.26",
 		"uuid": "^10.0.0",
 		"yup": "^1.4.0"
@@ -56,6 +51,7 @@
 		"@types/react-dom": "^18",
 		"eslint": "^8",
 		"eslint-config-next": "14.2.3",
+		"pdfjs-dist": "^4.7.76",
 		"postcss": "^8",
 		"tailwindcss": "^3.4.1",
 		"typescript": "^5"
