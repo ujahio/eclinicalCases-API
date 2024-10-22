@@ -5,5 +5,4 @@ export const TABLES = {
 	TEACHER_CASE_STUDIES: Resource.TeacherCaseStudies.name,
 	FEEDBACK: Resource.Feedback.name,
 	STUDENT_RESPONSES: Resource.StudentsResponses.name,
-	CERTIFICATES: Resource.Certificates.name,
 };

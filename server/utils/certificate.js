@@ -27,12 +27,24 @@ export const generateCertificate = async (
 		const logoPath = path.join(__dirname, "../../assets/images/logo.png");
 		const logoBuffer = await fs.promises.readFile(logoPath);
 		const logo = await pdfDoc.embedPng(logoBuffer);
-		const logoDims = logo.scale(0.5);
+		const logoDims = logo.scale(0.7);
+
+		// Add black border with white margins
+		const borderThickness = 14;
+		const margin = 30;
+		page.drawRectangle({
+			x: margin,
+			y: margin,
+			width: width - 2 * margin,
+			height: height - 2 * margin,
+			borderColor: rgb(0, 0, 0),
+			borderWidth: borderThickness,
+		});
 
 		// Center-align image
 		page.drawImage(logo, {
 			x: (width - logoDims.width) / 2,
-			y: height - logoDims.height - 30,
+			y: height - logoDims.height - 50,
 			width: logoDims.width,
 			height: logoDims.height,
 		});
@@ -109,7 +121,7 @@ export const generateCertificate = async (
 		return {
 			certificateID: key,
 			certificateUrl: signedUrl,
-			certificateBase64: pdfBase64,
+			certificateBase64: `data:application/pdf;base64,${pdfBase64}`,
 		};
 	} catch (err) {
 		console.error("Error generating certificate: ", err);

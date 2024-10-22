@@ -55,16 +55,3 @@ export const StudentsResponses = new sst.aws.Dynamo("StudentsResponses", {
 		StudentIDIndex: { hashKey: "studentID" },
 	},
 });
-
-export const Certificates = new sst.aws.Dynamo("Certificates", {
-	fields: {
-		certificateID: "string",
-		studentID: "string",
-		caseID: "string",
-	},
-	primaryIndex: { hashKey: "certificateID", rangeKey: "studentID" },
-	globalIndexes: {
-		StudentIDIndex: { hashKey: "studentID" },
-		CaseIDIndex: { hashKey: "caseID" },
-	},
-});

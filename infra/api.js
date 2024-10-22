@@ -11,7 +11,6 @@ import {
 	ECCSUsers,
 	Feedback,
 	StudentsResponses,
-	Certificates,
 	TeacherCaseStudies,
 } from "./dynamo";
 
@@ -19,7 +18,6 @@ const links = [
 	ECCSUsers,
 	Feedback,
 	StudentsResponses,
-	Certificates,
 	TeacherCaseStudies,
 	CaseMaterials,
 	ECCSUsersCertificates,
