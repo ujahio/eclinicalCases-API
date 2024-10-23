@@ -13,7 +13,7 @@ export const getSignedUrlForFetchingFromS3 = async (documentKey) => {
 
 	try {
 		const params = {
-			Bucket: Resource.CaseMaterials.name,
+			Bucket: Resource.CaseLearningMaterials.name,
 			Key: documentKey, // Use the documentKey to fetch the correct file
 		};
 
@@ -33,7 +33,7 @@ export const getSignedUrlToUploadToS3 = async () => {
 		const key = crypto.randomUUID();
 
 		const params = {
-			Bucket: Resource.CaseMaterials.name,
+			Bucket: Resource.CaseLearningMaterials.name,
 			Key: key,
 			ContentType: "application/pdf",
 		};
@@ -51,7 +51,7 @@ export const getSignedUrlToUploadToS3 = async () => {
 export const deleteCaseMaterialFromS3 = async (fileKey) => {
 	try {
 		const deleteParams = {
-			Bucket: Resource.CaseMaterials.name,
+			Bucket: Resource.CaseLearningMaterials.name,
 			Key: fileKey,
 		};
 

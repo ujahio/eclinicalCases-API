@@ -1,5 +1,5 @@
 import { ECCSEmail } from "./email";
-import { CaseMaterials, ECCSUsersCertificates } from "./storage";
+import { CaseLearningMaterials, ECCSUsersCertificates } from "./storage";
 import {
 	NEXT_JWT_SECRET,
 	NEXT_PUBLIC_PASS_SECRET_KEY,
@@ -15,17 +15,17 @@ import {
 } from "./dynamo";
 
 const links = [
+	ECCSEmail,
 	ECCSUsers,
 	Feedback,
 	StudentsResponses,
 	TeacherCaseStudies,
-	CaseMaterials,
+	CaseLearningMaterials,
 	ECCSUsersCertificates,
 	NEXT_JWT_SECRET,
 	NEXT_PUBLIC_PASS_SECRET_KEY,
 	NEXT_PUBLIC_BASE_URL,
 	NEXT_PUBLIC_NODE_ENV,
-	ECCSEmail,
 ];
 
 const STAGE = $app.stage;
