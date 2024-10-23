@@ -146,11 +146,11 @@ export const publishCase = async (event) => {
 		console.log(
 			`Case ${newCaseId} successfully published for teacher ${teacherId}`
 		);
-		sendEmail(
-			"testing@example.com",
-			"Case Published",
-			"Your case has been published"
-		);
+		// await sendEmail(
+		// 	ADDRESSES GOES HERE,
+		// 	"Case Published",
+		// 	"Your case has been published"
+		// );
 		return {
 			statusCode: 200,
 			body: JSON.stringify({
@@ -159,7 +159,6 @@ export const publishCase = async (event) => {
 			}),
 		};
 	} catch (error) {
-		// Log error
 		console.error(
 			`Error publishing case ${newCaseId} for teacher ${teacherId}:`,
 			error
