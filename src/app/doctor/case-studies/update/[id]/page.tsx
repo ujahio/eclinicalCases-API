@@ -13,23 +13,6 @@ import {
 } from "@/store/slices/case/updateDraftCaseSlice";
 import { addCase } from "@/store/slices/case/addCaseSlice";
 
-const initialCaseStudy: CaseStudy = {
-	caseClue: "",
-	caseDescription: null,
-	caseTopic: "",
-	caseExplanation: null,
-	caseDeadline: "",
-	caseQuestions: [
-		{
-			question: "",
-			options: [""],
-			correctAnswer: 0,
-		},
-	],
-	caseStatus: "draft",
-	caseMaterials: [],
-};
-
 // TODO: move to a utility file/folder
 const formatDateToYYYYMMDD = (dateString: any) => {
 	const date = new Date(dateString);

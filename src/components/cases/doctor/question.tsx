@@ -29,7 +29,6 @@ const DoctorCaseQuestion: FunctionComponent<DoctorCaseQuestionProps> = ({
 	});
 
 	useEffect(() => {
-		// Set a flag to true to mount the editor after the component mounts
 		setIsEditorMounted(true);
 	}, []);
 

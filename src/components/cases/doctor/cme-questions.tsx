@@ -117,15 +117,15 @@ const DoctorCMEQuestions: FunctionComponent<DoctorCMEQuestionsProps> = ({
 								</svg>
 							</Button>
 						</div>
-						<div>
-							<InputField
-								label=""
-								placeholder={`Enter question ${index + 1}`}
-								name={`question-${index}`}
-								value={question.question}
-								onChange={(e) => updateQuestionText(e, index)}
-							/>
-						</div>
+
+						<InputField
+							label=""
+							placeholder={`Enter question ${index + 1}`}
+							name={`question-${index}`}
+							value={question.question}
+							onChange={(e) => updateQuestionText(e, index)}
+						/>
+
 						<div className="mt-8">
 							<div className="flex items-center justify-between mb-1.25">
 								<label className="text-grey-300 text-1sm capitalize font-medium">
