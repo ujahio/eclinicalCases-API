@@ -161,7 +161,8 @@ api.route("GET /api/case/student/attempts/{studentID}", {
 });
 
 api.route("GET /api/student/certificates", {
-	handler: "server/controllers/student.controller.getStudentCertificates",
+	handler:
+		"server/controllers/handleStudentsCertificates.getStudentCertificates",
 	link: links,
 });
 api.route("GET /api/student/certificate/{caseID}", {

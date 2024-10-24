@@ -1,42 +1,85 @@
-import React, { useState } from "react";
-import CertificateImg from "@/assets/images/certificate.png";
+import React, { useState, useRef, useEffect } from "react";
+import useRenderPdf from "@/services/hooks/useRenderPdf";
 import Modal from "@/components/ui/Modal";
 import DashboardLayout from "@/components/layouts/dashboard";
-import { SearchBar } from "@/components/form-elements";
-import Image from "next/image";
+import Button from "../../components/ui/Button";
 
-const Certificates = () => {
-  const [showCertModal, setShowCertModal] = useState(false);
+const Certificates = ({
+	studentsCertificatesInfo,
+}: {
+	studentsCertificatesInfo: {
+		caseTopicAnswer: string;
+		signedUrl: string;
+		base64Pdf: string;
+		certificateID: string;
+	}[];
+}) => {
+	const [showCertModal, setShowCertModal] = useState(false);
+	const [selectedPdf, setSelectedPdf] = useState<string | null>(null);
+	const modalCanvasRef = useRef<HTMLCanvasElement | null>(null);
+	const { renderPdf } = useRenderPdf();
 
-  const certPopUp = () => {
-    setShowCertModal(true);
-  };
+	const certPopUp = (pdfBase64: string) => {
+		setSelectedPdf(pdfBase64);
+		setShowCertModal(true);
+	};
 
-  return (
-    <DashboardLayout>
-      <SearchBar placeholder="Search for certificates" />
-      <div className="mt-7.5">
-        <ul className="grid grid-cols-items gap-5 md:gap-6.25">
-          {[...Array(6)].map((_, index) => (
-            <li className="w-full flex flex-col md:max-w-md cursor-pointer" key={index}>
-              <button className=" focus:outline-none" onClick={certPopUp}>
-                <figure className="w-full mb-2.5">
-                  <Image src={CertificateImg} alt="Certificate image" className="w-full" />
-                </figure>
-              </button>
-              <h6 className="text-dark font-medium text-1sm sm:text-base">Malaria</h6>
-              <span className="text-grey-300 text-sm">12 Dec, 2020</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <Modal show={showCertModal} toggle={setShowCertModal} size="lg">
-        <figure className="py-2">
-          <Image src={CertificateImg} alt="" />
-        </figure>
-      </Modal>
-    </DashboardLayout>
-  );
+	useEffect(() => {
+		if (selectedPdf && modalCanvasRef.current) {
+			renderPdf(selectedPdf, modalCanvasRef);
+		}
+	}, [selectedPdf, renderPdf]);
+
+	return (
+		<DashboardLayout>
+			<div className="mt-7.5">
+				<ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6.25">
+					{studentsCertificatesInfo?.map((certificate) => {
+						return (
+							<li
+								className="w-full flex flex-col cursor-pointer"
+								key={certificate.certificateID}
+							>
+								<button
+									className="focus:outline-none"
+									onClick={() => certPopUp(certificate.base64Pdf)}
+								>
+									<figure className="w-full mb-2.5">
+										<canvas
+											ref={(el) => {
+												if (el) {
+													renderPdf(
+														certificate.base64Pdf,
+														{ current: el },
+														1.0
+													);
+												}
+											}}
+											className="w-full h-42"
+										/>
+									</figure>
+								</button>
+								<Button size="sm" centralize btnStyle="outline">
+									<a
+										href={certificate.signedUrl}
+										target="_blank"
+										rel="noopener noreferrer"
+									>
+										Download
+									</a>
+								</Button>
+							</li>
+						);
+					})}
+				</ul>
+			</div>
+			<Modal show={showCertModal} toggle={setShowCertModal} size="lg">
+				<figure className="py-2">
+					{selectedPdf && <canvas ref={modalCanvasRef} className="w-full" />}
+				</figure>
+			</Modal>
+		</DashboardLayout>
+	);
 };
 
 export default Certificates;

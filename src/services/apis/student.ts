@@ -33,3 +33,8 @@ export const submitCaseResponseApi = (responsePayload: any, token: string) => {
 		configureRequestHeaders(token)
 	);
 };
+
+export const getStudentsCertificatesApi = (token: string) => {
+	const url = "/student/certificates";
+	return studentApi.get(url, configureRequestHeaders(token));
+};

@@ -16,6 +16,7 @@ import changePasswordSlice from "../slices/auth/changePasswordSlice";
 import getDraftCasesSlice from "../slices/case/getDraftCasesSlice";
 import getStudentsResponsesToCasesSlice from "../slices/student/getStudentsResponsesToCasesSlice";
 import caseMaterialsSlice from "../slices/case/getCaseMaterialsSlice";
+import studentsCertificatesSlice from "../slices/case/getStudentsCertificatesSlice";
 
 const rootReducer = combineReducers({
 	// Accounts
@@ -38,6 +39,7 @@ const rootReducer = combineReducers({
 	submitCaseResponse: SubmitCaseResponseSlice,
 	studentsResponsesToCases: getStudentsResponsesToCasesSlice,
 	addFeedback: addFeedbackSlice,
+	studentsCertificates: studentsCertificatesSlice,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
