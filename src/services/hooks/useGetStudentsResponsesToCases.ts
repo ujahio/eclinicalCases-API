@@ -13,7 +13,7 @@ const useGetStudentsResponsesToCases = (filterParam?: string) => {
 
 	useEffect(() => {
 		dispatch(getStudentsResponsesToCases(filterParam));
-	}, []);
+	}, [dispatch, filterParam]);
 
 	useEffect(() => {
 		if (studentsResponsesToCasesState.status === "succeeded") {

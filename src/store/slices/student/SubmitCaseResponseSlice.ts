@@ -16,7 +16,7 @@ export const submitCaseResponse = createAsyncThunk(
 			return {
 				passed: studentPassingInfo.passed,
 				messageToDisplay: studentPassingInfo.messageToDisplay,
-				certificationID: studentPassingInfo.certificationID,
+				certificateID: studentPassingInfo.certificateID,
 				certificateUrl: studentPassingInfo.certificateUrl,
 				certificateFile: studentPassingInfo.certificateFile,
 			};

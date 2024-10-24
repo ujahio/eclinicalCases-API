@@ -92,7 +92,7 @@ export const submitStudentResponse = async (event) => {
 			// generate certificate
 			const dateTimeStamp = new Date();
 			const submittedAt = dateTimeStamp.toISOString();
-			const { certificationID, certificateUrl, certificateBase64 } =
+			const { certificateID, certificateUrl, certificateBase64 } =
 				await generateCertificate(fullName, caseInfo.caseTopic, dateTimeStamp);
 
 			const params = {
@@ -100,7 +100,7 @@ export const submitStudentResponse = async (event) => {
 				Item: {
 					answerID: uuidv4(),
 					studentID,
-					certificationID,
+					certificateID,
 					caseID: caseInfo.id,
 					caseTopicAnswer: caseInfo.studentCaseTopicResponse,
 					caseExplanation: caseInfo.studentCaseExplanation,
@@ -120,7 +120,7 @@ export const submitStudentResponse = async (event) => {
 					message: "Answers submitted successfully.",
 					passed: gradedQuizResult.passed,
 					messageToDisplay: gradedQuizResult.messageToDisplay,
-					certificationID,
+					certificateID,
 					certificateUrl,
 					certificateFile: `data:application/pdf;base64,${certificateBase64}`,
 				}),
@@ -223,50 +223,6 @@ const gradeAnswers = ({ studentAnswers, teachersQuestions }) => {
 	}
 
 	return result;
-};
-
-export const getStudentCertificates = async (event) => {
-	const userToken = event.headers.authorization.split(" ")[1];
-	const { id: studentID } = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
-
-	const params = {
-		TableName: TABLES.CERTIFICATES,
-		IndexName: "StudentIDIndex",
-		KeyConditionExpression: "studentID = :studentID",
-		ExpressionAttributeValues: {
-			":studentID": studentID,
-		},
-	};
-
-	try {
-		const command = new QueryCommand(params);
-		const result = await dbClient.send(command);
-
-		if (result.Items.length === 0) {
-			return {
-				statusCode: 404,
-				body: JSON.stringify({
-					message: "No certificates found for this student.",
-				}),
-			};
-		}
-
-		return {
-			statusCode: 200,
-			body: JSON.stringify({
-				message: "Certificates retrieved successfully.",
-				data: result.Items,
-			}),
-		};
-	} catch (error) {
-		console.error("Error fetching certificates: ", error);
-		return {
-			statusCode: 500,
-			body: JSON.stringify({
-				error: `Could not fetch certificates: ${error.message}`,
-			}),
-		};
-	}
 };
 
 export const getCertificateByCaseID = async (event) => {
