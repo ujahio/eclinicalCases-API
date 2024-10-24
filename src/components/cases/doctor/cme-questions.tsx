@@ -144,7 +144,7 @@ const DoctorCMEQuestions: FunctionComponent<DoctorCMEQuestionsProps> = ({
 									<li className="flex items-stretch mt-2.5" key={optionIndex}>
 										<label
 											htmlFor={`question-${index}-option-${optionIndex}`}
-											className="px-3 border border-grey-border flex items-center justify-center rounded-xs mr-2.5 cursor-pointer"
+											className="h-12 sm:h-12 px-3 border border-grey-border flex items-center justify-center rounded-xs mr-2.5 cursor-pointer"
 										>
 											<input
 												type="radio"

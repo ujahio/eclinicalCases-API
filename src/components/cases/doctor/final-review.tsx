@@ -55,13 +55,13 @@ const FinalReview: FunctionComponent<FinalReviewProps> = ({
 				<h3 className="uppercase font-bold text-sm text-blue mb-2">
 					FURTHER EXPLANATION
 				</h3>
-				<p className="mb-9 bg-gray-200 p-2.5">
+				<div className="mb-9 bg-gray-200 p-2.5">
 					<Editor
 						editorState={caseExplanation}
 						readOnly={true}
 						onChange={() => {}}
 					/>
-				</p>
+				</div>
 				<h3 className="uppercase font-bold text-sm text-blue mb-4">
 					FURTHER LEARNING MATERIALS
 				</h3>
