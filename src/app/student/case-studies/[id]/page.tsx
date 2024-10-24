@@ -1,5 +1,5 @@
 "use client";
-
+import React, { useEffect, useState, use } from "react";
 import StudentCaseStudy from "@/presentation/student/CaseStudy";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
 import {
@@ -10,7 +10,6 @@ import {
 	resetSubmitCaseResponseStatus,
 	submitCaseResponse,
 } from "@/store/slices/student/SubmitCaseResponseSlice";
-import React, { useEffect, useState } from "react";
 import useProcessTabs from "@/services/hooks/useProcessTabs";
 import { toast } from "react-toastify";
 import { CaseDetail } from "@/services/types/student";
@@ -23,10 +22,14 @@ const tabs = [
 	"Feedbacks",
 	"Certificate",
 ];
-const CaseStudies = ({ params }: { params: { id: string } }) => {
+
+const CaseStudies = ({ params }: { params: any }) => {
 	const dispatch = useAppDispatch();
 	const { active: activeTab, switchTab, isActive } = useProcessTabs(tabs, 0);
 	const [progress, setProgress] = useState(5);
+	const paramsToUse: {
+		id: string;
+	} = use(params);
 
 	const caseDetailsState = useAppSelector((state) => state.caseDetails);
 	const [caseDetails, setCaseDetails] = useState<CaseDetail>(
@@ -54,10 +57,10 @@ const CaseStudies = ({ params }: { params: { id: string } }) => {
 	};
 
 	useEffect(() => {
-		if (params.id) {
-			dispatch(fetchCaseDetails(params.id));
+		if (paramsToUse.id) {
+			dispatch(fetchCaseDetails(paramsToUse.id));
 		}
-	}, [params.id, dispatch]);
+	}, [paramsToUse, dispatch]);
 
 	useEffect(() => {
 		if (caseDetailsState.status === "succeeded") {
