@@ -31,7 +31,7 @@ const Login = () => {
 			}
 			dispatch(resetStatus());
 		}
-	}, [isLoading]);
+	}, [isLoading, dispatch, navigate, userInfo]);
 
 	return <LoginComp handleSubmit={handleSubmitLoginUser} />;
 };
