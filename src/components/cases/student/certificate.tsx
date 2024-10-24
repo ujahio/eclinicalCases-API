@@ -71,7 +71,7 @@ const StudentCertificate: FunctionComponent = () => {
 			<div className="mb-5 sm:mb-6">
 				<figure className="w-full" id="pdfCertificate">
 					{submitResponseState?.response?.certificateFile ? (
-						<canvas ref={canvasRef} />
+						<canvas ref={canvasRef} className="w-full h-42" />
 					) : (
 						<p className="text-grey-300 text-1sm text-sm">
 							Loading certificate...

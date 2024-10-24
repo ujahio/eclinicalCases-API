@@ -3,6 +3,7 @@ import * as pdfjsLib from "pdfjs-dist";
 import "pdfjs-dist/build/pdf.worker.mjs";
 import Modal from "@/components/ui/Modal";
 import DashboardLayout from "@/components/layouts/dashboard";
+import Button from "../../components/ui/Button";
 
 const Certificates = ({
 	studentsCertificatesInfo,
@@ -104,6 +105,15 @@ const Certificates = ({
 										/>
 									</figure>
 								</button>
+								<Button size="sm" centralize btnStyle="outline">
+									<a
+										href={certificate.signedUrl}
+										target="_blank"
+										rel="noopener noreferrer"
+									>
+										Download
+									</a>
+								</Button>
 							</li>
 						);
 					})}
