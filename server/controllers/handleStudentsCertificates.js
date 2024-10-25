@@ -21,19 +21,28 @@ const streamToBase64 = async (stream) => {
 
 export const getStudentCertificates = async (event) => {
 	const userToken = event.headers.authorization.split(" ")[1];
-	const { id: studentID } = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
+	const userInfo = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
+	const { id: studentID } = userInfo;
 
-	const params = {
-		TableName: TABLES.STUDENT_RESPONSES,
-		IndexName: "StudentIDIndex",
-		KeyConditionExpression: "studentID = :studentID",
-		ExpressionAttributeValues: {
-			":studentID": studentID,
-		},
-	};
+	if (!userInfo && !userInfo.id && userInfo.user_role !== "student") {
+		return {
+			statusCode: 400,
+			body: JSON.stringify({
+				error: "Not authorized to use this resource",
+			}),
+		};
+	}
 
 	try {
-		// Fetch certificates from DynamoDB
+		const params = {
+			TableName: TABLES.STUDENT_RESPONSES,
+			IndexName: "StudentIDIndex",
+			KeyConditionExpression: "studentID = :studentID",
+			ExpressionAttributeValues: {
+				":studentID": studentID,
+			},
+		};
+
 		const command = new QueryCommand(params);
 		const result = await dbClient.send(command);
 		let processedCertificates = [];

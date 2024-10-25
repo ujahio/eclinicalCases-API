@@ -21,7 +21,7 @@ export const addDraftCase = async (event) => {
 	const teacherID = userInfo.id;
 
 	// possible use coginito authorizer
-	if (!userInfo && userInfo.user_role !== "teacher") {
+	if (!userInfo || !userInfo.id || userInfo.user_role !== "teacher") {
 		return {
 			statusCode: 400,
 			body: JSON.stringify({
