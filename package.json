@@ -39,7 +39,7 @@
 		"react-toastify": "^10.0.6",
 		"redux-persist": "^6.0.0",
 		"redux-persist-transform-filter": "^0.0.22",
-		"sass": "^1.80.4",
+		"sass": "^1.77.3",
 		"sst": "3.2.26",
 		"uuid": "^10.0.0",
 		"yup": "^1.4.0"
