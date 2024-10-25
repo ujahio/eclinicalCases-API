@@ -141,17 +141,13 @@ api.route("GET /api/student/certificates", {
 		"server/controllers/handleStudentsCertificates.getStudentCertificates",
 	link: links,
 });
-api.route("GET /api/student/certificate/{caseID}", {
-	handler: "server/controllers/student.controller.getCertificateByCaseID",
-	link: links,
-});
 api.route("GET /api/student/responses/{caseFilter}", {
-	handler: "server/controllers/student.controller.getStudentsResponses",
+	handler: "server/controllers/handleStudentsResponse.getStudentsResponses",
 	link: links,
 });
 
 api.route("POST /api/student/response", {
-	handler: "server/controllers/student.controller.submitStudentResponse",
+	handler: "server/controllers/handleStudentsResponse.submitStudentResponse",
 	link: links,
 	runtime: "nodejs18.x",
 	copyFiles: [
