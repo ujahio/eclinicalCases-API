@@ -6,6 +6,7 @@ import {
 	UpdateCommand,
 	DeleteCommand,
 } from "@aws-sdk/lib-dynamodb";
+import { sortBy, isEqual } from "lodash";
 
 import { TABLES } from "../services/dbTables.js";
 // import uploadFileToBucket from "../services/bucket.js";
@@ -185,15 +186,20 @@ export const deleteDraftCase = async (event) => {
 		const draftCaseResult = result.Item;
 
 		// Check if case exists and is a draft case
-		if (
-			!draftCaseResult ||
-			draftCaseResult.teacherId !== teacherId ||
-			draftCaseResult.caseStatus !== "draft"
-		) {
+		if (!draftCaseResult || draftCaseResult.caseStatus !== "draft") {
 			return {
 				statusCode: 404,
 				body: JSON.stringify({
-					message: "No draft case found or unauthorized.",
+					error: "No draft case found.",
+				}),
+			};
+		}
+
+		if (draftCaseResult.teacherId !== teacherId) {
+			return {
+				statusCode: 400,
+				body: JSON.stringify({
+					message: "Not authorized to delete this resource",
 				}),
 			};
 		}
@@ -205,7 +211,7 @@ export const deleteDraftCase = async (event) => {
 				id: caseID,
 			},
 			ConditionExpression:
-				"teacherId = :teacherId AND caseStatus = :caseStatus", // Ensures only draft cases are deleted
+				"teacherId = :teacherId AND caseStatus = :caseStatus",
 			ExpressionAttributeValues: {
 				":teacherId": teacherId,
 				":caseStatus": "draft",
@@ -225,6 +231,12 @@ export const deleteDraftCase = async (event) => {
 			body: JSON.stringify({ error: "Error deleting case: " + error.message }),
 		};
 	}
+};
+
+const areArraysEqualRegardlessOfOrder = (array1, array2, key) => {
+	const sortedArray1 = sortBy(array1, [key]);
+	const sortedArray2 = sortBy(array2, [key]);
+	return isEqual(sortedArray1, sortedArray2);
 };
 
 export const updateDraftCase = async (event) => {
@@ -252,13 +264,12 @@ export const updateDraftCase = async (event) => {
 		};
 	}
 
-	const getCaseParams = {
-		TableName: TABLES.TEACHER_CASE_STUDIES,
-		Key: { id: caseID },
-	};
-
 	try {
-		// Fetch the case by ID
+		const getCaseParams = {
+			TableName: TABLES.TEACHER_CASE_STUDIES,
+			Key: { id: caseID },
+		};
+
 		const command = new GetCommand(getCaseParams);
 		const result = await dbClient.send(command);
 		const caseItem = result.Item;
@@ -319,8 +330,14 @@ export const updateDraftCase = async (event) => {
 			}
 		});
 
+		const hasCaseMaterialsBeenUpdated = areArraysEqualRegardlessOfOrder(
+			caseMaterialsToProcess,
+			caseItem.caseMaterials,
+			"documentKey"
+		);
+
 		// If case materials are provided, update them
-		if (caseMaterialsToProcess.length > 0) {
+		if (!hasCaseMaterialsBeenUpdated) {
 			updateExpression += "#caseMaterials = :caseMaterials, ";
 			expressionAttributeNames["#caseMaterials"] = "caseMaterials";
 			expressionAttributeValues[":caseMaterials"] = JSON.stringify(

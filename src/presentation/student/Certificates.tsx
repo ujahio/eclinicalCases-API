@@ -85,7 +85,7 @@ const Certificates = ({
 				</>
 			)}
 			{studentsCertificatesInfo.length === 0 && (
-				<h3>There are no certificates at the moment</h3>
+				<h3>There are no certificates at the moment.</h3>
 			)}
 		</DashboardLayout>
 	);

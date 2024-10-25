@@ -145,7 +145,6 @@ const DoctorMaterialsAndDeadline: FunctionComponent<
 		}
 	};
 
-	// Handle initial render to show previously uploaded files
 	useEffect(() => {
 		if (caseMaterials?.length > 0 && materials.length === 0) {
 			setMaterials(caseMaterials); // Populate the materials state with the previous uploads
@@ -170,9 +169,9 @@ const DoctorMaterialsAndDeadline: FunctionComponent<
 					multiple
 				/>
 				<ul className="mt-3 space-y-2">
-					{materials.map((file) => (
+					{materials.map((file, index) => (
 						<li
-							key={file.documentKey}
+							key={`${index}-file.documentKey`}
 							className="flex items-center justify-between px-5 py-2 border-grey-border bg-white border text-1xs sm:text-sm"
 						>
 							<div className="inline-flex items-center">
