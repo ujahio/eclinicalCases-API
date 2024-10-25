@@ -46,15 +46,6 @@ export const getStudentsResponses = async (event) => {
 		const command = new QueryCommand(params);
 		const result = await dbClient.send(command);
 
-		if (result.Items.length === 0) {
-			return {
-				statusCode: 404,
-				body: JSON.stringify({
-					message: "No responses found for this student.",
-				}),
-			};
-		}
-
 		return {
 			statusCode: 200,
 			body: JSON.stringify({
