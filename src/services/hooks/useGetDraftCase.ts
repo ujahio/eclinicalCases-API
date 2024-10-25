@@ -11,7 +11,7 @@ const useGetDraftCases = (caseId?: string) => {
 
 	useEffect(() => {
 		dispatch(getDraftCases(caseId));
-	}, []);
+	}, [caseId, dispatch]);
 
 	useEffect(() => {
 		if (getDraftCasesState.status === "succeeded") {

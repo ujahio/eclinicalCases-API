@@ -117,15 +117,15 @@ const DoctorCMEQuestions: FunctionComponent<DoctorCMEQuestionsProps> = ({
 								</svg>
 							</Button>
 						</div>
-						<div>
-							<InputField
-								label=""
-								placeholder={`Enter question ${index + 1}`}
-								name={`question-${index}`}
-								value={question.question}
-								onChange={(e) => updateQuestionText(e, index)}
-							/>
-						</div>
+
+						<InputField
+							label=""
+							placeholder={`Enter question ${index + 1}`}
+							name={`question-${index}`}
+							value={question.question}
+							onChange={(e) => updateQuestionText(e, index)}
+						/>
+
 						<div className="mt-8">
 							<div className="flex items-center justify-between mb-1.25">
 								<label className="text-grey-300 text-1sm capitalize font-medium">
@@ -144,7 +144,7 @@ const DoctorCMEQuestions: FunctionComponent<DoctorCMEQuestionsProps> = ({
 									<li className="flex items-stretch mt-2.5" key={optionIndex}>
 										<label
 											htmlFor={`question-${index}-option-${optionIndex}`}
-											className="px-3 border border-grey-border flex items-center justify-center rounded-xs mr-2.5 cursor-pointer"
+											className="h-12 sm:h-12 px-3 border border-grey-border flex items-center justify-center rounded-xs mr-2.5 cursor-pointer"
 										>
 											<input
 												type="radio"

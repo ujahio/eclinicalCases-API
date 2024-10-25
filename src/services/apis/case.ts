@@ -17,15 +17,6 @@ const convertToFormData = (caseStudy: any) => {
 	return formData;
 };
 
-// export const addCaseApi = (caseData: any, token: string) => {
-// 	const formData = convertToFormData(caseData);
-// 	return caseApi.post(
-// 		`/add`,
-// 		formData,
-// 		configureRequestHeaders(token, formData)
-// 	);
-// };
-
 export const publishCaseApi = (caseData: any, token: string) => {
 	const formData = convertToFormData(caseData);
 	return caseApi.post(

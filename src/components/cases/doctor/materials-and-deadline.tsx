@@ -67,6 +67,7 @@ const DoctorMaterialsAndDeadline: FunctionComponent<
 	};
 
 	const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
+		e.preventDefault();
 		const selectedFile = e.target.files && e.target.files[0];
 
 		if (selectedFile) {

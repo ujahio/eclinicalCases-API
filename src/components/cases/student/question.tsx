@@ -31,6 +31,8 @@ const StudentCaseQuestion: FunctionComponent<StudentCaseQuestionProps> = ({
 	studentCaseTopicResponse,
 	studentCaseExplanation,
 }) => {
+	const [isEditorMounted, setIsEditorMounted] = useState(false);
+
 	const [editorState, setEditorState] = useState(() =>
 		studentCaseExplanation
 			? EditorState.createWithContent(
@@ -38,15 +40,6 @@ const StudentCaseQuestion: FunctionComponent<StudentCaseQuestionProps> = ({
 			  )
 			: EditorState.createEmpty()
 	);
-
-	useEffect(() => {
-		const contentState = editorState.getCurrentContent();
-		const contentStateJSON = convertToRaw(contentState);
-		setCaseDetails((prevDetails: any) => ({
-			...prevDetails,
-			studentCaseExplanation: JSON.stringify(contentStateJSON),
-		}));
-	}, [editorState, setCaseDetails]);
 
 	const [inputsForValidation, setErrorsForValidatedInputs] =
 		useState<QuestionErrorProps>({
@@ -60,8 +53,18 @@ const StudentCaseQuestion: FunctionComponent<StudentCaseQuestionProps> = ({
 			},
 		});
 
+	useEffect(() => {
+		setIsEditorMounted(true);
+	}, []);
+
 	const onEditorStateChange = (newEditorState: EditorState) => {
 		setEditorState(newEditorState);
+		const contentState = newEditorState.getCurrentContent();
+		const contentStateJSON = convertToRaw(contentState);
+		setCaseDetails((prevDetails: any) => ({
+			...prevDetails,
+			studentCaseExplanation: JSON.stringify(contentStateJSON),
+		}));
 	};
 
 	const handleSubmitStudentResponse = (
@@ -112,19 +115,20 @@ const StudentCaseQuestion: FunctionComponent<StudentCaseQuestionProps> = ({
 					<div className="text-grey-300 text-1sm capitalize font-normal">
 						Give Further Explanation For Your Answer
 					</div>
-
-					<Editor
-						editorState={editorState}
-						onEditorStateChange={onEditorStateChange}
-						editorStyle={{
-							height: "400px",
-							border:
-								inputsForValidation.explanation.status === "error"
-									? "1px solid red"
-									: "solid 1px #E7EBEF",
-							padding: "0px 15px",
-						}}
-					/>
+					{isEditorMounted && (
+						<Editor
+							editorState={editorState}
+							onEditorStateChange={onEditorStateChange}
+							editorStyle={{
+								height: "400px",
+								border:
+									inputsForValidation.explanation.status === "error"
+										? "1px solid red"
+										: "solid 1px #E7EBEF",
+								padding: "0px 15px",
+							}}
+						/>
+					)}
 					{inputsForValidation.explanation.status === "error" && (
 						<p className="mt-0.625 font-light text-xxs text-red">
 							{inputsForValidation.explanation.validationMessage}

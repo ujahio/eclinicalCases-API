@@ -1,6 +1,6 @@
 "use client";
 
-import React, { FunctionComponent, useEffect, useState } from "react";
+import React, { FunctionComponent, useEffect, useState, use } from "react";
 import UpdateCaseStudy from "@/presentation/doctor/UpdateCaseStudy";
 import { createCaseStudyTabs } from "@/services/constants";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
@@ -12,23 +12,6 @@ import {
 	updateDraftCase,
 } from "@/store/slices/case/updateDraftCaseSlice";
 import { addCase } from "@/store/slices/case/addCaseSlice";
-
-const initialCaseStudy: CaseStudy = {
-	caseClue: "",
-	caseDescription: null,
-	caseTopic: "",
-	caseExplanation: null,
-	caseDeadline: "",
-	caseQuestions: [
-		{
-			question: "",
-			options: [""],
-			correctAnswer: 0,
-		},
-	],
-	caseStatus: "draft",
-	caseMaterials: [],
-};
 
 // TODO: move to a utility file/folder
 const formatDateToYYYYMMDD = (dateString: any) => {
@@ -49,10 +32,14 @@ const Update: FunctionComponent<any> = ({ params }) => {
 		isActive,
 	} = useProcessTabs(createCaseStudyTabs, 0);
 	const [progress, setProgress] = useState(1);
-	const [caseStudy, setCaseStudy] = useState(initialCaseStudy);
+	const [caseStudy, setCaseStudy] = useState(getDraftCasesState.cases[0]);
+
+	const paramsToUse: {
+		id: string;
+	} = use(params);
 
 	// get draft case for the case
-	useGetDraftCase(params.id);
+	useGetDraftCase(paramsToUse.id);
 
 	const goNext = () => {
 		const next = activeTab + 1;
@@ -67,7 +54,7 @@ const Update: FunctionComponent<any> = ({ params }) => {
 	};
 
 	const handleUpdateCase = () => {
-		dispatch(updateDraftCase({ caseData: caseStudy, _id: params.id }));
+		dispatch(updateDraftCase({ caseData: caseStudy, _id: paramsToUse.id }));
 	};
 
 	const handlePublishCase = () => {

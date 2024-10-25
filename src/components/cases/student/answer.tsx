@@ -3,7 +3,6 @@ import Button from "@/components/ui/Button";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
 import { convertFromRaw, Editor, EditorState } from "draft-js";
 import { getCaseMaterials } from "@/store/slices/case/getCaseMaterialsSlice";
-import { useSelector } from "react-redux";
 import { RootState } from "@/store/rootReducer/rootReducer";
 
 interface StudentCaseAnswerProps {
@@ -50,7 +49,7 @@ const StudentCaseAnswer: FC<StudentCaseAnswerProps> = ({
 	);
 
 	// Select cached materials from Redux store
-	const cachedMaterials = useSelector(
+	const cachedMaterials = useAppSelector(
 		(state: RootState) => state.caseMaterials.pdfMaterials
 	);
 

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { FunctionComponent, useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import {
 	fetchCaseData,
@@ -24,6 +24,10 @@ const Page = ({ params }: any) => {
 		caseDataState.caseData.responsesAndFeedbackInfo;
 	const caseInformationForDisplay = caseDataState.caseData.caseInfo;
 
+	const paramsToUse: {
+		id: string;
+	} = use(params);
+
 	useEffect(() => {
 		if (caseDataState.status === "succeeded") {
 			dispatch(resetCaseDataStatus());
@@ -31,11 +35,11 @@ const Page = ({ params }: any) => {
 	}, [caseDataState.status, dispatch]);
 
 	useEffect(() => {
-		const caseId = params.id;
+		const caseId = paramsToUse.id;
 		if (caseId) {
 			dispatch(fetchCaseData(caseId));
 		}
-	}, [params.id]);
+	}, [paramsToUse, dispatch]);
 
 	return (
 		<ResponsesAndFeedbackPage

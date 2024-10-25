@@ -16,7 +16,7 @@ const DoctorCaseAnswer: FunctionComponent<DoctorCaseAnswerProps> = ({
 	const [isEditorMounted, setIsEditorMounted] = useState(false);
 
 	const [editorState, setEditorState] = useState(() => {
-		if (caseStudy.caseExplanation) {
+		if (caseStudy?.caseExplanation) {
 			try {
 				// Try to parse the caseExplanation if it exists and is valid JSON
 				const parsedExplanation = JSON.parse(caseStudy.caseExplanation);
@@ -34,22 +34,19 @@ const DoctorCaseAnswer: FunctionComponent<DoctorCaseAnswerProps> = ({
 	const addingDraftCaseStatus = useAppSelector(
 		(state) => state.getDraftCases.status
 	);
-	useEffect(() => {
-		const contentState = editorState.getCurrentContent();
-		const contentStateJSON = convertToRaw(contentState);
-		setCaseStudy({
-			...caseStudy,
-			caseExplanation: JSON.stringify(contentStateJSON),
-		});
-	}, [editorState, setCaseStudy]);
 
 	useEffect(() => {
-		// Set a flag to true to mount the editor after the component mounts
 		setIsEditorMounted(true);
 	}, []);
 
 	const onEditorStateChange = (newEditorState: EditorState) => {
 		setEditorState(newEditorState);
+		const contentState = newEditorState.getCurrentContent();
+		const contentStateJSON = convertToRaw(contentState);
+		setCaseStudy({
+			...caseStudy,
+			caseExplanation: JSON.stringify(contentStateJSON),
+		});
 	};
 	return (
 		<>
@@ -62,9 +59,10 @@ const DoctorCaseAnswer: FunctionComponent<DoctorCaseAnswerProps> = ({
 					label="Case Model Topic"
 					name="caseTopic"
 					value={caseStudy.caseTopic}
-					onChange={(e) =>
-						setCaseStudy({ ...caseStudy, caseTopic: e.target.value })
-					}
+					onChange={(e) => {
+						e.preventDefault();
+						setCaseStudy({ ...caseStudy, caseTopic: e.target.value });
+					}}
 				/>
 
 				<div className="mt-5">
