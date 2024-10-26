@@ -15,16 +15,21 @@ const DoctorCaseStudies = ({ handleDeleteCase }: IProps) => {
 	const draftCasesState = useAppSelector((state) => state.getDraftCases.cases);
 	const [activeTab, setActiveTab] = useState("drafts");
 
-	const draftCases = draftCasesState.map((caseItem: any) => ({
-		_id: caseItem.id,
-		caseTopic: caseItem?.caseTopic,
-		description: caseItem?.caseDescription
-			? JSON.parse(caseItem?.caseDescription).blocks[0].text
-			: "",
-		caseDeadline: formatDate(caseItem?.caseDeadline),
-		createdAt: formatDate(caseItem?.createdAt),
-		caseStatus: caseItem?.caseStatus,
-	}));
+	const draftCases = draftCasesState.map((caseItem: any) => {
+		console.log("caseItem", caseItem);
+		return {
+			_id: caseItem.id,
+			caseTopic: caseItem?.caseTopic,
+			description: caseItem?.caseDescription
+				? caseItem?.caseDescription.blocks[0].text
+				: "",
+			caseDeadline: caseItem?.caseDeadline
+				? formatDate(caseItem?.caseDeadline)
+				: "N/A",
+			createdAt: caseItem?.createdAt ? formatDate(caseItem?.createdAt) : "N/A",
+			caseStatus: caseItem?.caseStatus,
+		};
+	});
 
 	const archivedCases =
 		archivedCasesState.map((caseItem: any) => ({
