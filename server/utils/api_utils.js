@@ -143,6 +143,20 @@ function parseLogToObject(log) {
 	return caseData;
 }
 
+const parseValue = (value) => {
+	try {
+		// Attempt JSON parsing
+		const parsed = JSON.parse(value);
+		return parsed;
+	} catch (e) {
+		// For strings, check for boolean or numeric conversion if JSON parsing fails
+		if (value === "true") return true;
+		if (value === "false") return false;
+		const num = Number(value);
+		return isNaN(num) ? value : num; // Return number if parsable, else return original string
+	}
+};
+
 export const extrapolateRequestBody = async (event) => {
 	const contentType =
 		event.headers["content-type"] || event.headers["Content-Type"];
@@ -156,16 +170,43 @@ export const extrapolateRequestBody = async (event) => {
 		return new Promise((resolve, reject) => {
 			// Initialize arrays to hold document keys and file names
 			formData.documentKeys = [];
-			formData.fileNames = [];
 
 			bb.on("field", (fieldname, value) => {
+				console.log("fieldname/value", { fieldname, value });
+				const parsedValue = parseValue(value);
+
+				console.log("parsedValue", parsedValue);
+
 				// Check if the fieldname starts with 'documentKey' to gather all document keys
 				if (fieldname.startsWith("documentKey")) {
-					formData.documentKeys.push(value); // Accumulate document keys
+					formData.documentKeys.push(parsedValue); // Accumulate document keys with the correct type
 				} else {
-					formData[fieldname] = value; // Regular field processing for other fields
+					formData[fieldname] = parsedValue; // Regular field processing for other fields with the correct type
+					console.log("formData[fieldname]", formData[fieldname]);
+					console.log("parsedValue", parsedValue);
 				}
 			});
+
+			// bb.on("field", (fieldname, value) => {
+			// 	console.log("fieldname/value", { fieldname, value });
+			// 	const parsedValue = parseValue(value);
+
+			// 	// Check if the fieldname starts with 'documentKey' to gather all document keys
+			// 	if (fieldname.startsWith("documentKey")) {
+			// 		formData.documentKeys.push(parsedValue); // Accumulate document keys with the correct type
+			// 	} else {
+			// 		formData[fieldname] = parsedValue; // Regular field processing for other fields with the correct type
+			// 	}
+			// });
+
+			// bb.on("field", (fieldname, value) => {
+			// 	// Check if the fieldname starts with 'documentKey' to gather all document keys
+			// 	if (fieldname.startsWith("documentKey")) {
+			// 		formData.documentKeys.push(value); // Accumulate document keys
+			// 	} else {
+			// 		formData[fieldname] = value; // Regular field processing for other fields
+			// 	}
+			// });
 
 			bb.on("finish", () => {
 				resolve(formData);

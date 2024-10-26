@@ -66,20 +66,20 @@ const Update: FunctionComponent<any> = ({ params }) => {
 		if (getDraftCasesState.status === "succeeded") {
 			dispatch(resetGetDraftCasesStatus());
 			const draftCaseDetails = getDraftCasesState.cases[0];
-
+			console.log("draftCaseDetails", draftCaseDetails);
 			const updatedCaseStudy = {
-				caseClue: draftCaseDetails.caseClue || "",
-				caseDescription: draftCaseDetails.caseDescription,
-				caseTopic: draftCaseDetails.caseTopic || "",
-				caseExplanation: draftCaseDetails.caseExplanation,
-				caseDeadline: draftCaseDetails.caseDeadline
-					? formatDateToYYYYMMDD(draftCaseDetails.caseDeadline)
+				caseClue: draftCaseDetails?.caseClue || "",
+				caseDescription: draftCaseDetails?.caseDescription,
+				caseTopic: draftCaseDetails?.caseTopic || "",
+				caseExplanation: draftCaseDetails?.caseExplanation,
+				caseDeadline: draftCaseDetails?.caseDeadline
+					? formatDateToYYYYMMDD(draftCaseDetails?.caseDeadline)
 					: "",
-				caseQuestions: draftCaseDetails.caseQuestions
+				caseQuestions: draftCaseDetails?.caseQuestions
 					? draftCaseDetails.caseQuestions
 					: [],
-				caseStatus: draftCaseDetails.caseStatus,
-				caseMaterials: draftCaseDetails.caseMaterials
+				caseStatus: draftCaseDetails?.caseStatus,
+				caseMaterials: draftCaseDetails?.caseMaterials
 					? JSON.parse(draftCaseDetails?.caseMaterials)
 					: [],
 			};
