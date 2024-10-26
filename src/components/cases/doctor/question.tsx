@@ -5,6 +5,7 @@ import { EditorState, convertFromRaw, convertToRaw } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
 import { useAppSelector } from "@/services/hooks/hooks";
 import { DoctorCaseQuestionProps } from "@/services/types/doctor/createCaseStudy";
+import { toast } from "react-toastify";
 
 const DoctorCaseQuestion: FunctionComponent<DoctorCaseQuestionProps> = ({
 	goNext,
@@ -13,20 +14,24 @@ const DoctorCaseQuestion: FunctionComponent<DoctorCaseQuestionProps> = ({
 	handleAddCase,
 }) => {
 	const [isEditorMounted, setIsEditorMounted] = useState(false);
+	const [isInitialized, setIsInitialized] = useState(false);
 
-	const [editorState, setEditorState] = useState(() => {
+	const [editorState, setEditorState] = useState(EditorState.createEmpty());
+
+	useEffect(() => {
 		if (caseStudy?.caseDescription) {
-			try {
-				const parsedDescription = JSON.parse(caseStudy.caseDescription);
-				return EditorState.createWithContent(convertFromRaw(parsedDescription));
-			} catch (error) {
-				console.error("Invalid caseDescription JSON:", error);
-				return EditorState.createEmpty();
-			}
-		} else {
-			return EditorState.createEmpty();
+			console.log("caseStudy?.caseDescription", caseStudy?.caseDescription);
+			const parsedDescription =
+				typeof caseStudy.caseDescription === "string"
+					? JSON.parse(caseStudy.caseDescription)
+					: caseStudy.caseDescription;
+
+			setEditorState(
+				EditorState.createWithContent(convertFromRaw(parsedDescription))
+			);
+			setIsInitialized(true);
 		}
-	});
+	}, [caseStudy?.caseDescription, isInitialized]);
 
 	useEffect(() => {
 		setIsEditorMounted(true);
@@ -35,6 +40,8 @@ const DoctorCaseQuestion: FunctionComponent<DoctorCaseQuestionProps> = ({
 	const addingDraftCaseStatus = useAppSelector(
 		(state) => state.getDraftCases.status
 	);
+
+	console.log("addingDraftCaseStatus", addingDraftCaseStatus);
 
 	const onEditorStateChange = (newEditorState: EditorState) => {
 		setEditorState(newEditorState);
