@@ -82,7 +82,7 @@ const Create: FunctionComponent = () => {
 			});
 			navigate.push("/doctor/dashboard");
 		} else if (addCaseState.status === "failed") {
-			toast.error("Error adding a draft case", {
+			toast.error(addCaseState.error.message.message, {
 				position: "top-right",
 				autoClose: 5000,
 				hideProgressBar: false,
