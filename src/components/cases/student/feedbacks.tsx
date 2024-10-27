@@ -34,11 +34,31 @@ const StudentFeedbacks: FunctionComponent<StudentFeedbacksProps> = ({
 		return feedbackItem?.response === value;
 	};
 
+	const prepareFeedbackItems = (feedback: any) => {
+		const feedbackResponses = feedback.map(
+			({ question, response }: { question: string; response: string }) => ({
+				question,
+				response: response || "",
+			})
+		);
+
+		// Get the first 4 items and increment their response
+		const modifiedResponses = feedbackResponses
+			.slice(0, feedback.length - 1)
+			.map((item: any) => {
+				return {
+					...item,
+					response:
+						item.response !== "" ? String(Number(item.response) + 1) : "",
+				};
+			});
+
+		modifiedResponses.push(feedbackResponses[4]);
+		return modifiedResponses;
+	};
+
 	const handleAddFeedback = () => {
-		const feedbackData = feedback.map(({ question, response }) => ({
-			question,
-			response: response || "",
-		}));
+		const feedbackData = prepareFeedbackItems(feedback);
 		dispatch(addFeedback({ caseID: params.id, feedback: feedbackData }));
 	};
 
