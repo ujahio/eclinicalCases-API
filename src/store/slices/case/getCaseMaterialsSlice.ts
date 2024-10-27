@@ -29,30 +29,30 @@ export const getCaseMaterials = createAsyncThunk(
 
 			// Handle downloads: check for cached URLs first
 			if (fileProcess === "download") {
-				if (!documentKeys || documentKeys.length === 0) {
-					throw new Error(
-						"documentKeys are required for downloading case materials."
-					);
-				}
+				// if (!documentKeys || documentKeys.length === 0) {
+				// 	throw new Error(
+				// 		"documentKeys are required for downloading case materials."
+				// 	);
+				// }
 
-				const { pdfMaterials } = state.caseMaterials; // Cached materials
+				// const { pdfMaterials } = state.caseMaterials; // Cached materials
 
-				// Filter out documentKeys that are already in the state
-				const uncachedKeys = documentKeys.filter(
-					(docKey) => !pdfMaterials[docKey]
-				);
+				// // Filter out documentKeys that are already in the state
+				// const uncachedKeys = documentKeys.filter(
+				// 	(docKey) => !pdfMaterials[docKey]
+				// );
 
-				if (uncachedKeys.length === 0) {
-					// All URLs are cached, no need to fetch
-					return {
-						cached: true,
-						signedUrls: documentKeys.map((docKey) => pdfMaterials[docKey]),
-					};
-				}
+				// if (uncachedKeys.length === 0) {
+				// 	// All URLs are cached, no need to fetch
+				// 	return {
+				// 		cached: true,
+				// 		signedUrls: documentKeys.map((docKey) => pdfMaterials[docKey]),
+				// 	};
+				// }
 
 				// Fetch only uncached URLs
 				const { data } = await getPresignedUrlForFetchingDocumentsApi({
-					documentKeys: uncachedKeys,
+					documentKeys,
 					token,
 				});
 

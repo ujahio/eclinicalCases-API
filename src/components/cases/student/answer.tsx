@@ -60,25 +60,25 @@ const StudentCaseAnswer: FC<StudentCaseAnswerProps> = ({
 		);
 
 		// Identify keys that need fetching (either not cached or expired)
-		const uncachedKeys = documentKeys.filter(
-			(key) =>
-				!cachedMaterials[key] ||
-				cachedMaterials[key].expiryTimestamp <= currentTime
-		);
+		// const uncachedKeys = documentKeys.filter(
+		// 	(key) =>
+		// 		!cachedMaterials[key] ||
+		// 		cachedMaterials[key].expiryTimestamp <= currentTime
+		// );
 
 		const getCaseMaterialsCall = async () => {
 			try {
 				setLoading(true);
 
 				// If there are uncached or expired keys, fetch them
-				if (uncachedKeys.length > 0) {
-					await dispatch(
-						getCaseMaterials({
-							fileProcess: "download",
-							documentKeys: uncachedKeys,
-						})
-					);
-				}
+				// if (uncachedKeys.length > 0) {
+				await dispatch(
+					getCaseMaterials({
+						fileProcess: "download",
+						documentKeys,
+					})
+				);
+				// }
 			} catch (error) {
 				console.error("Error fetching case materials", error);
 			} finally {
@@ -87,24 +87,24 @@ const StudentCaseAnswer: FC<StudentCaseAnswerProps> = ({
 		};
 
 		// Only fetch if there are uncached or expired keys
-		if (uncachedKeys.length > 0) {
+		if (caseMaterialsMetaData.length > 0) {
 			getCaseMaterialsCall();
 		}
 	}, [caseMaterialsMetaData, dispatch, cachedMaterials, currentTime]);
 
 	// Use useEffect to set materials only after loading completes
-	useEffect(() => {
-		if (!loading) {
-			// Combine cached and newly fetched materials
-			const updatedMaterials = caseMaterialsMetaData.map((material: any) => {
-				const cachedMaterial = cachedMaterials[material.documentKey];
-				return cachedMaterial && cachedMaterial.expiryTimestamp > currentTime
-					? { ...material, pdfUrl: cachedMaterial.pdfUrl } // Use cached URL if still valid
-					: material; // Otherwise, use metadata without the URL (it may still be loading)
-			});
-			setMaterials(updatedMaterials);
-		}
-	}, [loading, caseMaterialsMetaData, cachedMaterials, currentTime]);
+	// useEffect(() => {
+	// 	if (!loading) {
+	// 		// Combine cached and newly fetched materials
+	// 		const updatedMaterials = caseMaterialsMetaData.map((material: any) => {
+	// 			const cachedMaterial = cachedMaterials[material.documentKey];
+	// 			return cachedMaterial && cachedMaterial.expiryTimestamp > currentTime
+	// 				? { ...material, pdfUrl: cachedMaterial.pdfUrl } // Use cached URL if still valid
+	// 				: material; // Otherwise, use metadata without the URL (it may still be loading)
+	// 		});
+	// 		setMaterials(updatedMaterials);
+	// 	}
+	// }, [loading, caseMaterialsMetaData, cachedMaterials, currentTime]);
 
 	return (
 		<>

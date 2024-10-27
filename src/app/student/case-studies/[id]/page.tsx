@@ -63,10 +63,12 @@ const CaseStudies = ({ params }: { params: any }) => {
 	}, [paramsToUse, dispatch]);
 
 	useEffect(() => {
+		console.log("caseDetailsState", caseDetailsState);
 		if (caseDetailsState.status === "succeeded") {
 			dispatch(resetCaseDetailsStatus());
-			const parsedQuestions =
-				JSON.parse(caseDetailsState?.data.caseQuestions) || [];
+			// const parsedQuestions =
+			// 	JSON.parse(caseDetailsState?.data.caseQuestions) || [];
+			const parsedQuestions = caseDetailsState?.data.caseQuestions || [];
 			const updatedCaseDetails = {
 				...caseDetailsState?.data,
 				answers: parsedQuestions.map((question: any) => ({
@@ -75,7 +77,8 @@ const CaseStudies = ({ params }: { params: any }) => {
 				})),
 				studentCaseTopicResponse: "",
 				studentCaseExplanation: "",
-				caseMaterials: JSON.parse(caseDetailsState?.data.caseMaterials),
+				// caseMaterials: JSON.parse(caseDetailsState?.data.caseMaterials),
+				caseMaterials: caseDetailsState?.data.caseMaterials,
 			};
 			setCaseDetails(updatedCaseDetails);
 		}

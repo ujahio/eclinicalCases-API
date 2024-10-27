@@ -2,6 +2,13 @@ import Button from "@/components/ui/Button";
 import { formatDate } from "@/utils/formatDate";
 import { Editor } from "draft-js";
 import React, { FunctionComponent } from "react";
+import { useAppSelector } from "@/services/hooks/hooks";
+import { convertFromRaw, EditorState } from "draft-js";
+
+const fallbackContent = {
+	blocks: [],
+	entityMap: {},
+};
 
 interface StudentCasePresentationProps {
 	goNext: () => void;
@@ -12,6 +19,9 @@ interface StudentCasePresentationProps {
 const StudentCasePresentation: FunctionComponent<
 	StudentCasePresentationProps
 > = ({ goNext, caseDescription, caseDeadline }) => {
+	const caseDescriptionData = EditorState.createWithContent(
+		convertFromRaw(caseDescription || fallbackContent)
+	);
 	return (
 		<>
 			<div className="mb-5 sm:mb-6">
@@ -20,7 +30,7 @@ const StudentCasePresentation: FunctionComponent<
 				</h6>
 				<div className="mb-9 bg-gray-200 p-2.5">
 					<Editor
-						editorState={caseDescription}
+						editorState={caseDescriptionData}
 						readOnly={true}
 						onChange={() => {}}
 					/>

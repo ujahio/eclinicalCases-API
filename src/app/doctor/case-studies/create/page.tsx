@@ -16,11 +16,29 @@ const CreateCaseStudy = dynamic(
 	}
 );
 
+const initialCaseStudy: CaseStudy = {
+	caseClue: "",
+	caseDescription: "",
+	caseTopic: "",
+	caseExplanation: "",
+	caseDeadline: "",
+	caseQuestions: [
+		{
+			question: "",
+			options: [""],
+			correctAnswer: 0,
+		},
+	],
+	caseStatus: "draft",
+	caseMaterials: [],
+	shouldPublish: false,
+};
+
 const Create: FunctionComponent = () => {
 	const navigate = useRouter();
 	const dispatch = useAppDispatch();
 	const addCaseState = useAppSelector((state) => state.addCase);
-	const [caseStudy, setCaseStudy] = useState({});
+	const [caseStudy, setCaseStudy] = useState(initialCaseStudy);
 	const {
 		active: activeTab,
 		switchTab,
