@@ -17,7 +17,6 @@ const DoctorDashboard = () => {
 	const archivedCases = archivedCasesState.map((caseItem: any) => ({
 		...caseItem,
 		_id: caseItem.id,
-		description: JSON.parse(caseItem.caseDescription).blocks[0].text,
 		caseDeadline: formatDate(caseItem.caseDeadline),
 		createdAt: formatDate(caseItem.createdAt),
 	}));
