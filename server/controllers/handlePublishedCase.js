@@ -23,10 +23,10 @@ export const publishCase = async (event) => {
 	const userToken = event.headers.authorization.split(" ")[1];
 	const userInfo = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
 
-	const { id: teacherId, roles } = userInfo;
+	const { id: teacherId } = userInfo;
 
 	// Possible use of Cognito authorizer
-	if (!userInfo && !(roles === "teacher")) {
+	if (!userInfo || userInfo.user_role !== "teacher") {
 		return {
 			statusCode: 400,
 			body: JSON.stringify({
@@ -35,30 +35,52 @@ export const publishCase = async (event) => {
 		};
 	}
 
-	// TODO: evaluate required fields for published cases
-
-	if (
-		!caseClue ||
-		!caseDescription ||
-		!caseTopic ||
-		!caseExplanation ||
-		!teacherId ||
-		!caseQuestions
-	) {
+	if (!caseClue) {
 		return {
 			statusCode: 400,
 			body: JSON.stringify({
-				message: "Invalid input: missing required fields",
+				message: "Invalid input: missing case topic clue",
 			}),
 		};
 	}
 
-	const newCaseId = caseId || uuidv4();
-	const todaysDate = new Date().toISOString();
+	if (!caseDescription) {
+		return {
+			statusCode: 400,
+			body: JSON.stringify({
+				message: "Invalid input: missing case description",
+			}),
+		};
+	}
 
-	console.log(
-		`Publishing case for teacher ${teacherId}, case ID: ${newCaseId}`
-	);
+	if (!caseTopic) {
+		return {
+			statusCode: 400,
+			body: JSON.stringify({
+				message: "Invalid input: missing case topic",
+			}),
+		};
+	}
+
+	if (!caseExplanation) {
+		return {
+			statusCode: 400,
+			body: JSON.stringify({
+				message: "Invalid input: missing case study explanation",
+			}),
+		};
+	}
+
+	if (!caseDeadline) {
+		return {
+			statusCode: 400,
+			body: JSON.stringify({
+				message: "Invalid input: missing case deadline",
+			}),
+		};
+	}
+
+	// TODO: Add validation for caseQuestions and caseMaterials
 
 	try {
 		// Step 1: Check if the teacher already has an active published case
@@ -100,6 +122,9 @@ export const publishCase = async (event) => {
 			}),
 		};
 	}
+
+	const newCaseId = caseId || uuidv4();
+	const todaysDate = new Date().toISOString();
 
 	try {
 		let updateExpression = `
