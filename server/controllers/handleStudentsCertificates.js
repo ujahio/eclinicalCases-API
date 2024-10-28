@@ -29,6 +29,7 @@ export const getStudentCertificates = async (event) => {
 			statusCode: 400,
 			body: JSON.stringify({
 				error: "Not authorized to use this resource",
+				message: "Error getting students certificates.",
 			}),
 		};
 	}
@@ -102,7 +103,8 @@ export const getStudentCertificates = async (event) => {
 		return {
 			statusCode: 500,
 			body: JSON.stringify({
-				error: `Could not fetch certificates: ${error.message}`,
+				error: `Error fetching certificates: ${error.message}`,
+				message: `Error fetching certificates.`,
 			}),
 		};
 	}
