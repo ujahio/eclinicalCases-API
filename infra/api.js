@@ -60,26 +60,6 @@ api.route("POST /api/auth/update-password", {
 	link: links,
 });
 
-// is this route needed?
-// api.route("GET /api/auth/users", {
-// 	handler: "server/controllers/auth.controller.getUsers",
-// 	link: [
-// 		ECCSUsers,
-
-// 		Feedback,
-// 		StudentsResponses,
-// 		Certificates,
-
-// 		TeacherCaseStudies,
-// 		NEXT_JWT_SECRET,
-// 		NEXT_PUBLIC_PASS_SECRET_KEY,
-// 		NEXT_PUBLIC_BASE_URL,
-// 		NEXT_PUBLIC_NODE_ENV,
-// 		// email,
-// 		bucket,
-// 	],
-// });
-
 //Case;
 api.route("GET /api/case/details/{caseID}", {
 	handler: "server/controllers/case.controller.getCaseForStudentsResponse",
@@ -97,23 +77,6 @@ api.route("POST /api/case/publish", {
 	handler: "server/controllers/handlePublishedCase.publishCase",
 	link: links,
 });
-api.route("GET /api/case/get-signed-url-for-pdf-upload", {
-	handler:
-		"server/controllers/handleCaseMaterials.getSignedUrlToUploadForCaseMaterials",
-	link: links,
-});
-
-api.route("POST /api/case/get-signed-url-for-pdf-fetch", {
-	handler:
-		"server/controllers/handleCaseMaterials.getSignedUrlsToFetchForCaseMaterials",
-	link: links,
-});
-
-api.route("DELETE /api/case/delete-case-material", {
-	handler: "server/controllers/handleCaseMaterials.deleteCaseMaterial",
-	link: links,
-});
-
 api.route("GET /api/case/draft/{caseId}", {
 	handler: "server/controllers/handleDraftCases.getDraftCases",
 	link: links,
@@ -131,12 +94,36 @@ api.route("DELETE /api/case/delete-case/{caseID}", {
 	handler: "server/controllers/handleDraftCases.deleteDraftCase",
 	link: links,
 });
-
-api.route("POST /api/case/duplicate", {
-	handler: "server/controllers/case.controller.duplicateCase",
+api.route("GET /api/case/data/{caseID}", {
+	handler: "server/controllers/case.controller.getCaseData",
 	link: links,
 });
 
+// NOT CURRENTLY USED BUT MAYBE USED SO KEEP
+// api.route("POST /api/case/duplicate", {
+// 	handler: "server/controllers/case.controller.duplicateCase",
+// 	link: links,
+// });
+
+// Case Materials
+api.route("GET /api/case/get-signed-url-for-pdf-upload", {
+	handler:
+		"server/controllers/handleCaseMaterials.getSignedUrlToUploadForCaseMaterials",
+	link: links,
+});
+
+api.route("POST /api/case/get-signed-url-for-pdf-fetch", {
+	handler:
+		"server/controllers/handleCaseMaterials.getSignedUrlsToFetchForCaseMaterials",
+	link: links,
+});
+
+api.route("DELETE /api/case/delete-case-material", {
+	handler: "server/controllers/handleCaseMaterials.deleteCaseMaterial",
+	link: links,
+});
+
+// Student;
 api.route("POST /api/case/add/feedback", {
 	handler: "server/controllers/case.controller.addFeedback",
 	link: links,
@@ -149,33 +136,18 @@ api.route("GET /api/case/responses/{caseID}", {
 	handler: "server/controllers/case.controller.getCaseAnswers",
 	link: links,
 });
-api.route("GET /api/case/data/{caseID}", {
-	handler: "server/controllers/case.controller.getCaseData",
-	link: links,
-});
-
-// Student;
-api.route("GET /api/case/student/attempts/{studentID}", {
-	handler: "server/controllers/case.controller.getCaseAttemptsByStudent",
-	link: links,
-});
-
 api.route("GET /api/student/certificates", {
 	handler:
 		"server/controllers/handleStudentsCertificates.getStudentCertificates",
 	link: links,
 });
-api.route("GET /api/student/certificate/{caseID}", {
-	handler: "server/controllers/student.controller.getCertificateByCaseID",
-	link: links,
-});
 api.route("GET /api/student/responses/{caseFilter}", {
-	handler: "server/controllers/student.controller.getStudentsResponses",
+	handler: "server/controllers/handleStudentsResponse.getStudentsResponses",
 	link: links,
 });
 
 api.route("POST /api/student/response", {
-	handler: "server/controllers/student.controller.submitStudentResponse",
+	handler: "server/controllers/handleStudentsResponse.submitStudentResponse",
 	link: links,
 	runtime: "nodejs18.x",
 	copyFiles: [

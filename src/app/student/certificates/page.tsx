@@ -1,13 +1,20 @@
 "use client";
 
 import React, { useEffect } from "react";
+import dynamic from "next/dynamic";
 import { toast } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
 import {
 	getStudentsCertificates,
 	resetStudentsCertificatesStatus,
 } from "@/store/slices/case/getStudentsCertificatesSlice";
-import CertificatesComp from "@/presentation/student/Certificates";
+
+const CertificatesComp = dynamic(
+	() => import("@/presentation/student/Certificates"),
+	{
+		ssr: false,
+	}
+);
 
 const Certificates = () => {
 	const dispatch = useAppDispatch();
@@ -29,9 +36,7 @@ const Certificates = () => {
 	}, [studentsCertificatesState, dispatch]);
 
 	return (
-		<div>
-			<CertificatesComp studentsCertificatesInfo={studentsCertificatesInfo} />
-		</div>
+		<CertificatesComp studentsCertificatesInfo={studentsCertificatesInfo} />
 	);
 };
 

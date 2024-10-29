@@ -12,39 +12,40 @@ const DoctorCaseQuestion: FunctionComponent<DoctorCaseQuestionProps> = ({
 	setCaseStudy,
 	handleAddCase,
 }) => {
+	const [isEditorMounted, setIsEditorMounted] = useState(false);
+
 	const [editorState, setEditorState] = useState(() => {
-		if (caseStudy.caseDescription) {
+		if (caseStudy?.caseDescription) {
 			try {
-				// Try to parse the caseExplanation if it exists and is valid JSON
 				const parsedDescription = JSON.parse(caseStudy.caseDescription);
 				return EditorState.createWithContent(convertFromRaw(parsedDescription));
 			} catch (error) {
 				console.error("Invalid caseDescription JSON:", error);
-				// In case of an invalid JSON, initialize an empty editor state
 				return EditorState.createEmpty();
 			}
 		} else {
-			// If caseExplanation is not defined, initialize an empty editor state
 			return EditorState.createEmpty();
 		}
 	});
+
+	useEffect(() => {
+		setIsEditorMounted(true);
+	}, []);
 
 	const addingDraftCaseStatus = useAppSelector(
 		(state) => state.getDraftCases.status
 	);
 
-	useEffect(() => {
-		const contentState = editorState.getCurrentContent();
+	const onEditorStateChange = (newEditorState: EditorState) => {
+		setEditorState(newEditorState);
+		const contentState = newEditorState.getCurrentContent();
 		const contentStateJSON = convertToRaw(contentState);
 		setCaseStudy({
 			...caseStudy,
 			caseDescription: JSON.stringify(contentStateJSON),
 		});
-	}, [editorState, setCaseStudy]);
-
-	const onEditorStateChange = (newEditorState: EditorState) => {
-		setEditorState(newEditorState);
 	};
+
 	return (
 		<>
 			<div className="mb-5 sm:mb-6">
@@ -55,8 +56,9 @@ const DoctorCaseQuestion: FunctionComponent<DoctorCaseQuestionProps> = ({
 					placeholder="Case model clue"
 					label="Case model clue"
 					name="caseClue"
-					value={caseStudy.caseClue}
-					onChange={(e) => {
+					value={caseStudy?.caseClue}
+					onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+						e.preventDefault();
 						const { value } = e.target;
 						setCaseStudy({ ...caseStudy, caseClue: value });
 					}}
@@ -66,15 +68,17 @@ const DoctorCaseQuestion: FunctionComponent<DoctorCaseQuestionProps> = ({
 					<label className="text-grey-300 text-1sm capitalize font-normal">
 						Case Model Description
 					</label>
-					<Editor
-						editorState={editorState}
-						onEditorStateChange={onEditorStateChange}
-						editorStyle={{
-							height: "400px",
-							border: "solid 1px #E7EBEF",
-							padding: "0px 15px",
-						}}
-					/>
+					{isEditorMounted && (
+						<Editor
+							editorState={editorState}
+							onEditorStateChange={onEditorStateChange}
+							editorStyle={{
+								height: "400px",
+								border: "solid 1px #E7EBEF",
+								padding: "0px 15px",
+							}}
+						/>
+					)}
 				</div>
 			</div>
 

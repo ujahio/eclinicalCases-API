@@ -7,7 +7,6 @@ export interface CaseCardProps {
 	case: {
 		_id: string;
 		caseTopic?: string;
-		description?: string;
 		caseDeadline?: string;
 		createdAt: string;
 		feedbackCount?: string;
@@ -21,7 +20,6 @@ const CaseCard: FunctionComponent<CaseCardProps> = ({
 	case: {
 		_id,
 		caseTopic,
-		description,
 		caseDeadline,
 		createdAt,
 		feedbackCount,
@@ -62,7 +60,6 @@ const CaseCard: FunctionComponent<CaseCardProps> = ({
 				</g>
 			</svg>
 			<h5 className="font-bold text-base mt-3.75 mb-2.5">{caseTopic}</h5>
-			<p className="text-grey-300 text-1sm text-sm">{description}</p>
 			<div className="flex flex-wrap items-center text-1xs justify-between mt-2">
 				<span className="inline-block pt-3">
 					<b>Created:</b> {createdAt}

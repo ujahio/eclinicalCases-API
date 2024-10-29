@@ -7,7 +7,6 @@ import {
 } from "@/components/cases";
 import FinalReview from "@/components/cases/doctor/final-review";
 import AdminLayout from "@/components/layouts/dashboard/admin";
-import Button from "@/components/ui/Button";
 import ProcessTabs from "@/components/ui/process-tabs";
 import { createCaseStudyTabs } from "@/services/constants";
 import { APP_CONTAINER, APP_SPACING } from "@/services/constants/styles";
@@ -39,9 +38,6 @@ const UpdateCaseStudy: FunctionComponent<UpdateCaseStudyProps> = ({
 						canClickForward={false}
 						progress={progress}
 					/>
-					<Button size="sm" btnStyle="outline" className="ml-auto">
-						View existing case studies
-					</Button>
 				</nav>
 			}
 		>

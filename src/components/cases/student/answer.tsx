@@ -3,7 +3,6 @@ import Button from "@/components/ui/Button";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
 import { convertFromRaw, Editor, EditorState } from "draft-js";
 import { getCaseMaterials } from "@/store/slices/case/getCaseMaterialsSlice";
-import { useSelector } from "react-redux";
 import { RootState } from "@/store/rootReducer/rootReducer";
 
 interface StudentCaseAnswerProps {
@@ -50,7 +49,7 @@ const StudentCaseAnswer: FC<StudentCaseAnswerProps> = ({
 	);
 
 	// Select cached materials from Redux store
-	const cachedMaterials = useSelector(
+	const cachedMaterials = useAppSelector(
 		(state: RootState) => state.caseMaterials.pdfMaterials
 	);
 
@@ -60,26 +59,16 @@ const StudentCaseAnswer: FC<StudentCaseAnswerProps> = ({
 			(material: any) => material.documentKey
 		);
 
-		// Identify keys that need fetching (either not cached or expired)
-		const uncachedKeys = documentKeys.filter(
-			(key) =>
-				!cachedMaterials[key] ||
-				cachedMaterials[key].expiryTimestamp <= currentTime
-		);
-
 		const getCaseMaterialsCall = async () => {
 			try {
 				setLoading(true);
 
-				// If there are uncached or expired keys, fetch them
-				if (uncachedKeys.length > 0) {
-					await dispatch(
-						getCaseMaterials({
-							fileProcess: "download",
-							documentKeys: uncachedKeys,
-						})
-					);
-				}
+				await dispatch(
+					getCaseMaterials({
+						fileProcess: "download",
+						documentKeys,
+					})
+				);
 			} catch (error) {
 				console.error("Error fetching case materials", error);
 			} finally {
@@ -87,25 +76,22 @@ const StudentCaseAnswer: FC<StudentCaseAnswerProps> = ({
 			}
 		};
 
-		// Only fetch if there are uncached or expired keys
-		if (uncachedKeys.length > 0) {
+		if (caseMaterialsMetaData.length > 0) {
 			getCaseMaterialsCall();
 		}
-	}, [caseMaterialsMetaData, dispatch, cachedMaterials, currentTime]);
+	}, [caseMaterialsMetaData, dispatch]);
 
-	// Use useEffect to set materials only after loading completes
 	useEffect(() => {
-		if (!loading) {
-			// Combine cached and newly fetched materials
-			const updatedMaterials = caseMaterialsMetaData.map((material: any) => {
-				const cachedMaterial = cachedMaterials[material.documentKey];
-				return cachedMaterial && cachedMaterial.expiryTimestamp > currentTime
-					? { ...material, pdfUrl: cachedMaterial.pdfUrl } // Use cached URL if still valid
-					: material; // Otherwise, use metadata without the URL (it may still be loading)
-			});
-			setMaterials(updatedMaterials);
-		}
-	}, [loading, caseMaterialsMetaData, cachedMaterials, currentTime]);
+		const caseMaterials = caseMaterialsMetaData.map((itemA) => {
+			const uploadedItem = cachedMaterials[itemA.documentKey];
+			return {
+				...itemA,
+				pdfUrl: uploadedItem ? uploadedItem.pdfUrl : null,
+			};
+		});
+
+		setMaterials(caseMaterials);
+	}, [cachedMaterials, caseMaterialsMetaData]);
 
 	return (
 		<>
@@ -121,7 +107,6 @@ const StudentCaseAnswer: FC<StudentCaseAnswerProps> = ({
 				</Button>
 			</div>
 
-			{/* Conditional rendering based on compareMode */}
 			{!compareMode && (
 				<div className="mb-5 sm:mb-6">
 					<h6 className="text-1xs sm:text-sm font-bold text-blue uppercase mr-3.75 mb-2.5">

@@ -67,6 +67,7 @@ const DoctorMaterialsAndDeadline: FunctionComponent<
 	};
 
 	const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
+		e.preventDefault();
 		const selectedFile = e.target.files && e.target.files[0];
 
 		if (selectedFile) {
@@ -138,7 +139,7 @@ const DoctorMaterialsAndDeadline: FunctionComponent<
 					onChange={handleFileChange}
 				/>
 				<ul className="mt-3 space-y-2">
-					{caseStudy.caseMaterials.map((file) =>
+					{caseStudy.caseMaterials?.map((file) =>
 						isRemoving === file.documentKey ? (
 							<li
 								key={file.documentKey}

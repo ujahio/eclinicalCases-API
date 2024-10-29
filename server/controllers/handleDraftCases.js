@@ -6,6 +6,7 @@ import {
 	UpdateCommand,
 	DeleteCommand,
 } from "@aws-sdk/lib-dynamodb";
+import { sortBy, isEqual } from "lodash";
 
 import { TABLES } from "../services/dbTables.js";
 // import uploadFileToBucket from "../services/bucket.js";
@@ -20,11 +21,12 @@ export const addDraftCase = async (event) => {
 	const teacherID = userInfo.id;
 
 	// possible use coginito authorizer
-	if (!userInfo && userInfo.user_role !== "teacher") {
+	if (!userInfo || !userInfo.id || userInfo.user_role !== "teacher") {
 		return {
 			statusCode: 400,
 			body: JSON.stringify({
-				message: "Not authorized to use this resource",
+				error: "Not authorized to use this resource",
+				message: "Error adding a draft case.",
 			}),
 		};
 	}
@@ -34,7 +36,8 @@ export const addDraftCase = async (event) => {
 		return {
 			statusCode: 400,
 			body: JSON.stringify({
-				message: "Invalid input: missing required fields",
+				error: "Invalid input: missing required fields",
+				message: "Error adding a draft case.",
 			}),
 		};
 	}
@@ -78,7 +81,8 @@ export const addDraftCase = async (event) => {
 		return {
 			statusCode: 500,
 			body: JSON.stringify({
-				error: `Could not create a draft case: ${error}`,
+				error: `Error adding a draft case: ${error.message}`,
+				message: "Error adding a draft case.",
 			}),
 		};
 	}
@@ -94,7 +98,8 @@ export const getDraftCases = async (event) => {
 		return {
 			statusCode: 400,
 			body: JSON.stringify({
-				message: "Not authorized to use this resource",
+				error: "Not authorized to use this resource",
+				message: "Error retrieving draft cases.",
 			}),
 		};
 	}
@@ -144,7 +149,8 @@ export const getDraftCases = async (event) => {
 		return {
 			statusCode: 500,
 			body: JSON.stringify({
-				error: `Could not retrieve draft cases: ${error.message}`,
+				error: `Error retrieving draft cases: ${error.message}`,
+				message: "Error retrieving draft cases.",
 			}),
 		};
 	}
@@ -162,6 +168,7 @@ export const deleteDraftCase = async (event) => {
 				statusCode: 400,
 				body: JSON.stringify({
 					message: "Not authorized to use this resource",
+					message: "Error deleting draft case.",
 				}),
 			};
 		}
@@ -170,7 +177,10 @@ export const deleteDraftCase = async (event) => {
 		if (!caseID) {
 			return {
 				statusCode: 400,
-				body: JSON.stringify({ error: "Missing case ID in the request URL." }),
+				body: JSON.stringify({
+					error: "Missing case ID in the request URL.",
+					message: "Error deleting draft case.",
+				}),
 			};
 		}
 
@@ -185,15 +195,22 @@ export const deleteDraftCase = async (event) => {
 		const draftCaseResult = result.Item;
 
 		// Check if case exists and is a draft case
-		if (
-			!draftCaseResult ||
-			draftCaseResult.teacherId !== teacherId ||
-			draftCaseResult.caseStatus !== "draft"
-		) {
+		if (!draftCaseResult || draftCaseResult.caseStatus !== "draft") {
 			return {
 				statusCode: 404,
 				body: JSON.stringify({
-					message: "No draft case found or unauthorized.",
+					error: "No draft case found.",
+					message: "Error deleting draft case.",
+				}),
+			};
+		}
+
+		if (draftCaseResult.teacherId !== teacherId) {
+			return {
+				statusCode: 400,
+				body: JSON.stringify({
+					message: "Error deleting draft case.",
+					error: "Not authorized to delete this resource",
 				}),
 			};
 		}
@@ -205,7 +222,7 @@ export const deleteDraftCase = async (event) => {
 				id: caseID,
 			},
 			ConditionExpression:
-				"teacherId = :teacherId AND caseStatus = :caseStatus", // Ensures only draft cases are deleted
+				"teacherId = :teacherId AND caseStatus = :caseStatus",
 			ExpressionAttributeValues: {
 				":teacherId": teacherId,
 				":caseStatus": "draft",
@@ -219,12 +236,21 @@ export const deleteDraftCase = async (event) => {
 			body: JSON.stringify({ message: "Draft case deleted successfully!" }),
 		};
 	} catch (error) {
-		console.error("Error deleting case:", error);
+		console.error("Error deleting draft case:", error);
 		return {
 			statusCode: 500,
-			body: JSON.stringify({ error: "Error deleting case: " + error.message }),
+			body: JSON.stringify({
+				error: `Error deleting draft case: ${error.message}`,
+				message: "Error deleting draft case.",
+			}),
 		};
 	}
+};
+
+const areArraysEqualRegardlessOfOrder = (array1, array2, key) => {
+	const sortedArray1 = sortBy(array1, [key]);
+	const sortedArray2 = sortBy(array2, [key]);
+	return isEqual(sortedArray1, sortedArray2);
 };
 
 export const updateDraftCase = async (event) => {
@@ -239,7 +265,8 @@ export const updateDraftCase = async (event) => {
 		return {
 			statusCode: 400,
 			body: JSON.stringify({
-				message: "Not authorized to use this resource",
+				error: "Not authorized to use this resource",
+				message: "Error updating draft case.",
 			}),
 		};
 	}
@@ -248,17 +275,19 @@ export const updateDraftCase = async (event) => {
 	if (!caseID) {
 		return {
 			statusCode: 400,
-			body: JSON.stringify({ error: "Missing case ID in the request URL." }),
+			body: JSON.stringify({
+				error: "Missing case ID in the request URL.",
+				message: "Error updating draft case.",
+			}),
 		};
 	}
 
-	const getCaseParams = {
-		TableName: TABLES.TEACHER_CASE_STUDIES,
-		Key: { id: caseID },
-	};
-
 	try {
-		// Fetch the case by ID
+		const getCaseParams = {
+			TableName: TABLES.TEACHER_CASE_STUDIES,
+			Key: { id: caseID },
+		};
+
 		const command = new GetCommand(getCaseParams);
 		const result = await dbClient.send(command);
 		const caseItem = result.Item;
@@ -266,7 +295,10 @@ export const updateDraftCase = async (event) => {
 		if (!caseItem) {
 			return {
 				statusCode: 404,
-				body: JSON.stringify({ error: "Case not found" }),
+				body: JSON.stringify({
+					error: "Case not found",
+					message: "Error updating draft case.",
+				}),
 			};
 		}
 
@@ -276,6 +308,7 @@ export const updateDraftCase = async (event) => {
 				statusCode: 403,
 				body: JSON.stringify({
 					error: "You do not have permission to update this case.",
+					message: "Error updating draft case.",
 				}),
 			};
 		}
@@ -319,8 +352,14 @@ export const updateDraftCase = async (event) => {
 			}
 		});
 
+		const hasCaseMaterialsBeenUpdated = areArraysEqualRegardlessOfOrder(
+			caseMaterialsToProcess,
+			caseItem.caseMaterials,
+			"documentKey"
+		);
+
 		// If case materials are provided, update them
-		if (caseMaterialsToProcess.length > 0) {
+		if (!hasCaseMaterialsBeenUpdated) {
 			updateExpression += "#caseMaterials = :caseMaterials, ";
 			expressionAttributeNames["#caseMaterials"] = "caseMaterials";
 			expressionAttributeValues[":caseMaterials"] = JSON.stringify(
@@ -362,11 +401,12 @@ export const updateDraftCase = async (event) => {
 		};
 	} catch (error) {
 		// Catch and log errors, return a 500 status code with error details
-		console.error("Error updating case: ", error);
+		console.error("Error updating draft case: ", error);
 		return {
 			statusCode: 500,
 			body: JSON.stringify({
-				error: `Could not update case: ${error.message}`,
+				error: `Error updating draft case: ${error.message}`,
+				message: "Error updating draft case.",
 			}),
 		};
 	}

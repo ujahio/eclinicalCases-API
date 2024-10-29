@@ -174,7 +174,10 @@ export const extrapolateRequestBody = async (event) => {
 			bb.on("error", (error) => {
 				reject({
 					statusCode: 500,
-					body: JSON.stringify({ message: "Error parsing form data", error }),
+					body: JSON.stringify({
+						message: "Error extrapolating request body",
+						error: `Error extrapolating request body: ${error.message}`,
+					}),
 				});
 			});
 
@@ -184,7 +187,7 @@ export const extrapolateRequestBody = async (event) => {
 	} else {
 		return {
 			statusCode: 400,
-			body: JSON.stringify({ message: "Invalid content type" }),
+			body: JSON.stringify({ error: "Invalid content type" }),
 		};
 	}
 };
@@ -292,7 +295,7 @@ export const getDetailsOfStudentsFeedbackAndResponses = async (
 export const verifyToken = (token, secretKey) => {
 	try {
 		if (!token) {
-			return { statusCode: 403, message: "No token provided!" };
+			return { statusCode: 403, error: "No token provided!" };
 		}
 		// Verify the token using the secret key
 		const decoded = jwt.verify(token, secretKey);

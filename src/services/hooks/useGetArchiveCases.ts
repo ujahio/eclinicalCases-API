@@ -11,7 +11,7 @@ const useGetArchiveCases = (filterParam?: string) => {
 
 	useEffect(() => {
 		dispatch(getArchiveCases(filterParam));
-	}, []);
+	}, [dispatch, filterParam]);
 
 	useEffect(() => {
 		if (archivedCasesState.status === "succeeded") {

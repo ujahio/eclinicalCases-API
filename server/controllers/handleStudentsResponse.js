@@ -21,7 +21,8 @@ export const getStudentsResponses = async (event) => {
 		return {
 			statusCode: 400,
 			body: JSON.stringify({
-				message: "Not authorized to view this resource",
+				error: "Not authorized to view this resource",
+				message: "Error getting students responses.",
 			}),
 		};
 	}
@@ -46,15 +47,6 @@ export const getStudentsResponses = async (event) => {
 		const command = new QueryCommand(params);
 		const result = await dbClient.send(command);
 
-		if (result.Items.length === 0) {
-			return {
-				statusCode: 404,
-				body: JSON.stringify({
-					message: "No responses found for this student.",
-				}),
-			};
-		}
-
 		return {
 			statusCode: 200,
 			body: JSON.stringify({
@@ -67,7 +59,8 @@ export const getStudentsResponses = async (event) => {
 		return {
 			statusCode: 500,
 			body: JSON.stringify({
-				error: `Could not fetch responses: ${error.message}`,
+				error: `Error fetching recent responses: ${error.message}`,
+				message: `Error fetching certificates.`,
 			}),
 		};
 	}
@@ -135,11 +128,12 @@ export const submitStudentResponse = async (event) => {
 			}),
 		};
 	} catch (error) {
-		console.error(error);
+		console.error("Error submitting students responses", error);
 		return {
 			statusCode: 500,
 			body: JSON.stringify({
-				error: `Could not submit answers: ${error.message}`,
+				error: `Error submitting students responses: ${error.message}`,
+				message: `Error submitting students responses.`,
 			}),
 		};
 	}
@@ -223,46 +217,4 @@ const gradeAnswers = ({ studentAnswers, teachersQuestions }) => {
 	}
 
 	return result;
-};
-
-export const getCertificateByCaseID = async (event) => {
-	const caseID = event.pathParameters.caseID;
-
-	const params = {
-		TableName: TABLES.CERTIFICATES,
-		FilterExpression: "caseID = :caseID",
-		ExpressionAttributeValues: {
-			":caseID": caseID,
-		},
-	};
-
-	try {
-		const command = new ScanCommand(params);
-		const result = await dbClient.send(command);
-
-		if (result.Items.length === 0) {
-			return {
-				statusCode: 404,
-				body: JSON.stringify({
-					message: "No certificate found for this case.",
-				}),
-			};
-		}
-
-		return {
-			statusCode: 200,
-			body: JSON.stringify({
-				message: "Certificate retrieved successfully.",
-				data: result.Items[0],
-			}),
-		};
-	} catch (error) {
-		console.error("Error fetching certificate by case ID: ", error);
-		return {
-			statusCode: 500,
-			body: JSON.stringify({
-				error: `Could not fetch certificate: ${error.message}`,
-			}),
-		};
-	}
 };

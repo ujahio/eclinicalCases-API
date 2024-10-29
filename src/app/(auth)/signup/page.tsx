@@ -41,7 +41,7 @@ const Signup = () => {
 			navigate.push("/login");
 			dispatch(resetStatus());
 		}
-	}, [isLoading]);
+	}, [isLoading, dispatch, handleSubmitLoginUser, navigate]);
 
 	useEffect(() => {
 		if (isLoadingLogin === "succeeded") {
@@ -53,7 +53,7 @@ const Signup = () => {
 			}
 			dispatch(resetStatusLogin());
 		}
-	}, [isLoadingLogin]);
+	}, [isLoadingLogin, dispatch, navigate, userInfo]);
 
 	return <SignupComp handleSignUp={handleSubmitSignupUser} />;
 };

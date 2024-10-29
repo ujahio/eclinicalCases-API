@@ -25,8 +25,8 @@ export const getSignedUrlsToFetchForCaseMaterials = async (event) => {
 			return {
 				statusCode: 400,
 				body: JSON.stringify({
-					error:
-						"Invalid input: documentKeys and fileNames must be non-empty arrays of equal length",
+					error: "Invalid input: No document keys provided",
+					message: "Error fetching files.",
 				}),
 			};
 		}
@@ -54,7 +54,8 @@ export const getSignedUrlsToFetchForCaseMaterials = async (event) => {
 		return {
 			statusCode: 500,
 			body: JSON.stringify({
-				error: "Could not fetch files: " + error.message,
+				error: `Error fetching files: ${error.message}`,
+				message: "Error fetching files.",
 			}),
 		};
 	}
@@ -89,7 +90,8 @@ export const getSignedUrlToUploadForCaseMaterials = async (event) => {
 		return {
 			statusCode: 500,
 			body: JSON.stringify({
-				error: "Could not upload file: " + error.message,
+				error: `Error uploading file: ${error.message}`,
+				message: "Error uploading file.",
 			}),
 		};
 	}
@@ -102,7 +104,8 @@ export const deleteCaseMaterial = async (event) => {
 			return {
 				statusCode: 400,
 				body: JSON.stringify({
-					message: "Missing required parameters: fileKey",
+					message: "Error deleting file.",
+					error: "Missing required parameters: fileKey",
 				}),
 			};
 		}
@@ -116,13 +119,13 @@ export const deleteCaseMaterial = async (event) => {
 			}),
 		};
 	} catch (error) {
-		console.error("Error deleting file from S3:", error);
+		console.error(`Error deleting file with key ${fileKey} from S3:`, error);
 
 		return {
 			statusCode: 500,
 			body: JSON.stringify({
-				message: "Error deleting file from S3",
-				error: error.message,
+				error: `Error deleting file with key ${fileKey} from S3: ${error.message}`,
+				message: "Error deleting case material.",
 			}),
 		};
 	}

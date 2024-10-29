@@ -24,42 +24,65 @@ export const publishCase = async (event) => {
 	const userToken = event.headers.authorization.split(" ")[1];
 	const userInfo = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
 
-	const { id: teacherId, roles } = userInfo;
+	const { id: teacherId } = userInfo;
 
 	// Possible use of Cognito authorizer
-	if (!userInfo && !(roles === "teacher")) {
+	if (!userInfo || userInfo.user_role !== "teacher") {
 		return {
 			statusCode: 400,
 			body: JSON.stringify({
-				message: "Not authorized to use this resource",
+				error: "Not authorized to use this resource",
+				message: "Error publishing case case.",
 			}),
 		};
 	}
 
-	// TODO: evaluate required fields for published cases
-
-	if (
-		!caseClue ||
-		!caseDescription ||
-		!caseTopic ||
-		!caseExplanation ||
-		!teacherId ||
-		!caseQuestions
-	) {
+	if (!caseClue) {
 		return {
 			statusCode: 400,
 			body: JSON.stringify({
-				message: "Invalid input: missing required fields",
+				message: "Invalid input: missing case topic clue",
 			}),
 		};
 	}
 
-	const newCaseId = caseId || uuidv4();
-	const todaysDate = new Date().toISOString();
+	if (!caseDescription) {
+		return {
+			statusCode: 400,
+			body: JSON.stringify({
+				message: "Invalid input: missing case description",
+			}),
+		};
+	}
 
-	console.log(
-		`Publishing case for teacher ${teacherId}, case ID: ${newCaseId}`
-	);
+	if (!caseTopic) {
+		return {
+			statusCode: 400,
+			body: JSON.stringify({
+				message: "Invalid input: missing case topic",
+			}),
+		};
+	}
+
+	if (!caseExplanation) {
+		return {
+			statusCode: 400,
+			body: JSON.stringify({
+				message: "Invalid input: missing case study explanation",
+			}),
+		};
+	}
+
+	if (!caseDeadline) {
+		return {
+			statusCode: 400,
+			body: JSON.stringify({
+				message: "Invalid input: missing case deadline",
+			}),
+		};
+	}
+
+	// TODO: Add validation for caseQuestions and caseMaterials
 
 	try {
 		// Step 1: Check if the teacher already has an active published case
@@ -82,25 +105,25 @@ export const publishCase = async (event) => {
 			return {
 				statusCode: 400,
 				body: JSON.stringify({
+					error: "Error publishing case",
 					message:
 						"You already have an active published case. Please archive or wait for it to expire before publishing another case.",
 				}),
 			};
 		}
 	} catch (error) {
-		// Log error
-		console.error(
-			`Error checking for published case ${newCaseId} for teacher ${teacherId}:`,
-			error
-		);
+		console.error("Error checking for published case:", error);
 		return {
 			statusCode: 500,
 			body: JSON.stringify({
+				error: `Error checking for published case: ${error.message}`,
 				message: "Error checking for published case.",
-				error: error.message,
 			}),
 		};
 	}
+
+	const newCaseId = caseId || uuidv4();
+	const todaysDate = new Date().toISOString();
 
 	try {
 		let updateExpression = `
@@ -166,8 +189,8 @@ export const publishCase = async (event) => {
 		return {
 			statusCode: 500,
 			body: JSON.stringify({
-				message: "Error publishing case.",
-				error: error.message,
+				error: `Error publishing case ${newCaseId} for teacher ${teacherId}: ${error.message}`,
+				message: `Error publishing new case`,
 			}),
 		};
 	}
@@ -185,7 +208,8 @@ export const getPublishedCase = async (event) => {
 		return {
 			statusCode: 400,
 			body: JSON.stringify({
-				message: "Not authorized to view this resource",
+				error: "Not authorized to view this resource",
+				message: "Error getting publishing case",
 			}),
 		};
 	}
@@ -194,7 +218,8 @@ export const getPublishedCase = async (event) => {
 		return {
 			statusCode: 400,
 			body: JSON.stringify({
-				message: "Invalid input: missing required fields",
+				error: "Invalid input: missing required fields",
+				message: "Error getting publishing case",
 			}),
 		};
 	}
@@ -297,11 +322,12 @@ export const getPublishedCase = async (event) => {
 			};
 		}
 	} catch (error) {
-		console.error("Error retrieving ongoing case:", error);
+		console.error("Error retrieving published case:", error);
 		return {
 			statusCode: 500,
 			body: JSON.stringify({
-				error: `Could not retrieve ongoing cases: ${error.message}`,
+				error: `Error retrieving published case: ${error.message}`,
+				message: `Error retrieving published case.`,
 			}),
 		};
 	}
