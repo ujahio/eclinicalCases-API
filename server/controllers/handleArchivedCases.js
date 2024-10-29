@@ -18,7 +18,8 @@ export const getArchivedCases = async (event) => {
 		return {
 			statusCode: 400,
 			body: JSON.stringify({
-				message: "Not authorized to view this resource",
+				error: "Not authorized to view this resource",
+				message: "Error getting archived cases.",
 			}),
 		};
 	}
@@ -27,7 +28,8 @@ export const getArchivedCases = async (event) => {
 		return {
 			statusCode: 400,
 			body: JSON.stringify({
-				message: "Invalid input: missing required fields",
+				error: "Invalid input: missing required fields",
+				message: "Error getting archived cases.",
 			}),
 		};
 	}
@@ -79,11 +81,12 @@ export const getArchivedCases = async (event) => {
 			}),
 		};
 	} catch (error) {
-		console.error("Error retrieving cases:", error);
+		console.error("Error retrieving archived cases:", error);
 		return {
 			statusCode: 500,
 			body: JSON.stringify({
-				error: `Could not retrieve cases: ${error.message}`,
+				error: `Error retrieving archived cases: ${error.message}`,
+				message: "Error retrieving archived cases.",
 			}),
 		};
 	}

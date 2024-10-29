@@ -27,25 +27,25 @@ export const signup = async (event) => {
 		if (!firstname || typeof firstname !== "string") {
 			return {
 				statusCode: 400,
-				body: JSON.stringify({ error: '"firstname" must be a string' }),
+				body: JSON.stringify({ message: '"firstname" must be a string' }),
 			};
 		}
 		if (!lastname || typeof lastname !== "string") {
 			return {
 				statusCode: 400,
-				body: JSON.stringify({ error: '"lastname" must be a string' }),
+				body: JSON.stringify({ message: '"lastname" must be a string' }),
 			};
 		}
 		if (!email || typeof email !== "string") {
 			return {
 				statusCode: 400,
-				body: JSON.stringify({ error: '"email" must be a string' }),
+				body: JSON.stringify({ message: '"email" must be a string' }),
 			};
 		}
 		if (!password || typeof password !== "string") {
 			return {
 				statusCode: 400,
-				body: JSON.stringify({ error: '"password" must be a string' }),
+				body: JSON.stringify({ message: '"password" must be a string' }),
 			};
 		}
 
@@ -73,7 +73,7 @@ export const signup = async (event) => {
 
 			if (!teacherResult.Items || teacherResult.Items.length === 0) {
 				return {
-					statusCode: 500,
+					statusCode: 500, // TODO: check for correct status, it should be 400, not 500
 					body: JSON.stringify({
 						error: "No teacher found in the system.",
 					}),
@@ -126,11 +126,12 @@ export const signup = async (event) => {
 			}),
 		};
 	} catch (error) {
-		console.error("Signup error:", error);
+		console.error("Error creating new user:", error);
 		return {
 			statusCode: 500,
 			body: JSON.stringify({
-				error: `Could not create user: ${error.message}`,
+				details: `Error creating new user: ${error.message}`,
+				message: "Error creating new user.",
 			}),
 		};
 	}
@@ -143,21 +144,21 @@ export const signin = async (event) => {
 		if (!email) {
 			return {
 				statusCode: 400,
-				body: JSON.stringify({ error: '"email" is required' }),
+				body: JSON.stringify({ message: '"email" is required' }),
 			};
 		}
 		if (!EMAIL_REGEX.test(email)) {
 			return {
 				statusCode: 400,
 				body: JSON.stringify({
-					error: '"email" must be a valid email address',
+					message: '"email" must be a valid email address',
 				}),
 			};
 		}
 		if (!password || typeof password !== "string") {
 			return {
 				statusCode: 400,
-				body: JSON.stringify({ error: '"password" must be a string' }),
+				body: JSON.stringify({ message: '"password" must be a string' }),
 			};
 		}
 
@@ -182,7 +183,7 @@ export const signin = async (event) => {
 		if (!user) {
 			return {
 				statusCode: 401,
-				body: JSON.stringify({ error: "Invalid email or password" }),
+				body: JSON.stringify({ message: "Invalid email or password" }),
 			};
 		}
 
@@ -190,7 +191,7 @@ export const signin = async (event) => {
 		if (!isValid) {
 			return {
 				statusCode: 401,
-				body: JSON.stringify({ error: "Invalid email or password" }),
+				body: JSON.stringify({ message: "Invalid email or password" }),
 			};
 		}
 
@@ -208,10 +209,13 @@ export const signin = async (event) => {
 			}),
 		};
 	} catch (error) {
-		console.error("Signin error:", error);
+		console.error("Error signing in:", error);
 		return {
 			statusCode: 500,
-			body: JSON.stringify({ error: "Could not login: " + error.message }),
+			body: JSON.stringify({
+				error: `Error signing in: ${error.message}`,
+				message: "Error signing in.",
+			}),
 		};
 	}
 };
@@ -237,10 +241,13 @@ export const sendOTP = async (event) => {
 			}),
 		};
 	} catch (error) {
-		console.error("Send OTP error:", error);
+		console.error("Error sending OTP:", error);
 		return {
 			statusCode: 500,
-			body: JSON.stringify({ error: "Could not send OTP: " + error.message }),
+			body: JSON.stringify({
+				error: `Error sending OTP: ${error.message}`,
+				message: "Error sending one-time password.",
+			}),
 		};
 	}
 };
@@ -258,7 +265,10 @@ export const verifyOtpAndResetPassword = async (event) => {
 		if (otp !== storedOtp) {
 			return {
 				statusCode: 401,
-				body: JSON.stringify({ error: "Invalid OTP" }),
+				body: JSON.stringify({
+					message: "Invalid OTP",
+					error: "Invalid OTP",
+				}),
 			};
 		}
 		await updateUserPassword(email, hashedPassword);
@@ -270,11 +280,12 @@ export const verifyOtpAndResetPassword = async (event) => {
 			}),
 		};
 	} catch (error) {
-		console.error("Reset password error:", error);
+		console.error("Error resetting password:", error);
 		return {
 			statusCode: 500,
 			body: JSON.stringify({
-				error: "Could not reset password: " + error.message,
+				error: `Error resetting password: ${error.message}`,
+				message: "Error resetting password.",
 			}),
 		};
 	}
@@ -305,7 +316,8 @@ export const getUsers = async () => {
 		return {
 			statusCode: 500,
 			body: JSON.stringify({
-				error: "Could not retrieve users: " + error.message,
+				error: `Error retrieving users: ${error.message}`,
+				message: "Error retrieving users.",
 			}),
 		};
 	}
@@ -330,7 +342,7 @@ export const updatePassword = async (event) => {
 		if (!isPasswordCorrect) {
 			return {
 				statusCode: 401,
-				body: JSON.stringify({ error: "Current password is incorrect" }),
+				body: JSON.stringify({ message: "Password is incorrect" }),
 			};
 		}
 
@@ -356,7 +368,8 @@ export const updatePassword = async (event) => {
 		return {
 			statusCode: 500,
 			body: JSON.stringify({
-				error: "Could not update password: " + error.message,
+				error: `Error updating password: ${error.message}`,
+				message: "Error updating password.",
 			}),
 		};
 	}

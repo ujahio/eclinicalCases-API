@@ -65,7 +65,9 @@ export const duplicateCase = async (event) => {
 		if (!caseID) {
 			return {
 				statusCode: 400,
-				body: JSON.stringify({ error: "Missing case ID in the request body." }),
+				body: JSON.stringify({
+					error: "Missing case ID in the request body.",
+				}),
 			};
 		}
 
@@ -113,7 +115,8 @@ export const duplicateCase = async (event) => {
 		return {
 			statusCode: 500,
 			body: JSON.stringify({
-				error: "Could not duplicate case: " + error.message,
+				error: `Error duplicating case: ${error.message}`,
+				message: "Error duplicating case.",
 			}),
 		};
 	}
@@ -157,7 +160,8 @@ export const addFeedback = async (event) => {
 		return {
 			statusCode: 500,
 			body: JSON.stringify({
-				error: `Could not submit feedback: ${error.message}`,
+				error: `Error submitting feedback: ${error.message}`,
+				message: "Error submitting feedback.",
 			}),
 		};
 	}
@@ -169,7 +173,10 @@ export const getCaseFeedback = async (event) => {
 	if (!caseID) {
 		return {
 			statusCode: 400,
-			body: JSON.stringify({ error: "Missing case ID in the request." }),
+			body: JSON.stringify({
+				error: "Missing case ID in the request.",
+				message: "Error getting feedback.",
+			}),
 		};
 	}
 
@@ -229,7 +236,8 @@ export const getCaseFeedback = async (event) => {
 		return {
 			statusCode: 500,
 			body: JSON.stringify({
-				error: `Could not fetch feedback: ${error.message}`,
+				error: `Error fetching feedback: ${error.message}`,
+				message: "Error fetching feedback.",
 			}),
 		};
 	}
@@ -284,11 +292,12 @@ export const getCaseAnswers = async (event) => {
 			body: JSON.stringify({ answers: detailedAnswers }),
 		};
 	} catch (error) {
-		console.error(error);
+		console.error("Error fetching responses", error);
 		return {
 			statusCode: 500,
 			body: JSON.stringify({
-				error: `Could not fetch answers: ${error.message}`,
+				error: `Error fetching responses: ${error.message}`,
+				message: "Error fetching responses.",
 			}),
 		};
 	}
@@ -323,10 +332,13 @@ export const getCaseData = async (event) => {
 			}),
 		};
 	} catch (error) {
-		console.error(error);
+		console.error("Error fetching case data", error);
 		return {
 			statusCode: 500,
-			body: JSON.stringify({ error: `Could not fetch data: ${error.message}` }),
+			body: JSON.stringify({
+				error: `Error fetching case data: ${error.message}`,
+				message: "Error fetching case data.",
+			}),
 		};
 	}
 };
