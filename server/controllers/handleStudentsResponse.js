@@ -21,7 +21,8 @@ export const getStudentsResponses = async (event) => {
 		return {
 			statusCode: 400,
 			body: JSON.stringify({
-				message: "Not authorized to view this resource",
+				error: "Not authorized to view this resource",
+				message: "Error getting students responses.",
 			}),
 		};
 	}
@@ -58,7 +59,8 @@ export const getStudentsResponses = async (event) => {
 		return {
 			statusCode: 500,
 			body: JSON.stringify({
-				error: `Could not fetch responses: ${error.message}`,
+				error: `Error fetching recent responses: ${error.message}`,
+				message: `Error fetching certificates.`,
 			}),
 		};
 	}
@@ -126,11 +128,12 @@ export const submitStudentResponse = async (event) => {
 			}),
 		};
 	} catch (error) {
-		console.error(error);
+		console.error("Error submitting students responses", error);
 		return {
 			statusCode: 500,
 			body: JSON.stringify({
-				error: `Could not submit answers: ${error.message}`,
+				error: `Error submitting students responses: ${error.message}`,
+				message: `Error submitting students responses.`,
 			}),
 		};
 	}

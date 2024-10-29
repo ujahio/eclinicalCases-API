@@ -23,17 +23,21 @@ export const checkDuplicateUsernameOrEmail = async (event) => {
 		if (user) {
 			return {
 				statusCode: 400,
-				body: JSON.stringify({ error: "Username or email already exists" }),
+				body: JSON.stringify({
+					message: "Username or email already exists",
+					error: "Username or email already exists",
+				}),
 			};
 		}
 
 		return null;
 	} catch (error) {
-		console.error(error);
+		console.error("Error checking for duplicate user", error);
 		return {
 			statusCode: 500,
 			body: JSON.stringify({
-				error: "Error checking for duplicate username or email",
+				error: `Error checking for duplicate user: ${error.message}`,
+				message: `Error checking for duplicate user.`,
 			}),
 		};
 	}
