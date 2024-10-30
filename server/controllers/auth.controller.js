@@ -19,21 +19,21 @@ import { checkDuplicateUsernameOrEmail } from "../middlewares/verifySignUp";
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
 export const signup = async (event) => {
-	const { firstname, lastname, email, password, user_role } = JSON.parse(
+	const { firstName, lastName, email, password, user_role } = JSON.parse(
 		event.body
 	);
 	try {
 		// Validate input fields
-		if (!firstname || typeof firstname !== "string") {
+		if (!firstName || typeof firstName !== "string") {
 			return {
 				statusCode: 400,
-				body: JSON.stringify({ message: '"firstname" must be a string' }),
+				body: JSON.stringify({ message: '"firstName" must be a string' }),
 			};
 		}
-		if (!lastname || typeof lastname !== "string") {
+		if (!lastName || typeof lastName !== "string") {
 			return {
 				statusCode: 400,
-				body: JSON.stringify({ message: '"lastname" must be a string' }),
+				body: JSON.stringify({ message: '"lastName" must be a string' }),
 			};
 		}
 		if (!email || typeof email !== "string") {
@@ -95,8 +95,8 @@ export const signup = async (event) => {
 
 		const user = {
 			id: userId,
-			firstname,
-			lastname,
+			firstName,
+			lastName,
 			email,
 			password: hashedPassword,
 			createdAt,

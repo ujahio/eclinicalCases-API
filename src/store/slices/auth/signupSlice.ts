@@ -6,8 +6,8 @@ export const signupUser = createAsyncThunk(
 	async (signupData: any, thunkAPI) => {
 		try {
 			const filteredSignupData = {
-				firstname: signupData.personalDetails.firstName,
-				lastname: signupData.personalDetails.lastName,
+				firstName: signupData.personalDetails.firstName,
+				lastName: signupData.personalDetails.lastName,
 				email: signupData.personalDetails.email,
 				password: signupData.personalDetails.password,
 				user_role: signupData.user_role,

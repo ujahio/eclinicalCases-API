@@ -271,8 +271,8 @@ export const getDetailsOfStudentsFeedbackAndResponses = async (
 			// Return only the necessary fields
 			return {
 				id: user ? user.id : "",
-				firstName: user ? user.firstname : "Unknown",
-				lastName: user ? user.lastname : "Unknown",
+				firstName: user ? user.firstName : "Unknown",
+				lastName: user ? user.lastName : "Unknown",
 				submittedAt: response.submittedAt || "N/A", // Assuming submittedAt exists in the response
 				caseExplanation: response.caseExplanation || "N/A", // Assuming caseExplanation exists in the response
 				feedback: flattenedFeedback, // Flattened array of feedback objects

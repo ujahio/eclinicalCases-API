@@ -211,8 +211,8 @@ export const getCaseFeedback = async (event) => {
 					const user = userResult.Items[0];
 					return {
 						student: {
-							firstName: user.firstname,
-							lastName: user.lastname,
+							firstName: user.firstName,
+							lastName: user.lastName,
 						},
 						...feedback,
 					};
@@ -275,8 +275,8 @@ export const getCaseAnswers = async (event) => {
 				const user = userResult.Items[0];
 				return {
 					student: {
-						firstName: user.firstname,
-						lastName: user.lastname,
+						firstName: user.firstName,
+						lastName: user.lastName,
 					},
 					...answer,
 				};

@@ -71,8 +71,8 @@ export const submitStudentResponse = async (event) => {
 	const userToken = event.headers.authorization.split(" ")[1];
 	const userInfo = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
 
-	const { firstname, lastname, id: studentID } = userInfo;
-	const fullName = `${firstname} ${lastname}`;
+	const { firstName, lastName, id: studentID } = userInfo;
+	const fullName = `${firstName} ${lastName}`;
 
 	try {
 		// 	Call grading function and get the result

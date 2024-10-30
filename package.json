@@ -45,10 +45,10 @@
 		"yup": "^1.4.0"
 	},
 	"devDependencies": {
+		"@types/draft-js": "^0.11.18",
 		"@types/node": "^22.7.9",
 		"@types/react": "^18",
 		"@types/react-dom": "^18",
-		"@types/draft-js": "^0.11.18",
 		"@types/react-draft-wysiwyg": "^1.13.8",
 		"eslint": "^8",
 		"eslint-config-next": "14.2.3",
