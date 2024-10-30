@@ -18,7 +18,7 @@ export const NEXT_PUBLIC_DOMAIN = new sst.Secret(
 	"NEXT_PUBLIC_DOMAIN",
 	process.env.NEXT_PUBLIC_DOMAIN
 );
-export const NEXT_AUTH_SECRET = new sst.Secret(
-	"NEXT_AUTH_SECRET",
-	process.env.NEXT_AUTH_SECRET
+export const AUTH_SECRET = new sst.Secret(
+	"AUTH_SECRET",
+	process.env.AUTH_SECRET
 );
