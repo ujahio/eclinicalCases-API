@@ -53,6 +53,10 @@ export const userPool = new sst.aws.CognitoUserPool(
 						required: false,
 					},
 				],
+				verificationMessageTemplate: {
+					defaultEmailOption: "CONFIRM_WITH_LINK",
+					emailMessageByLink: "Message goes here {##Click Here##}",
+				},
 			},
 		},
 	},
