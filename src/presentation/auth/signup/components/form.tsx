@@ -4,11 +4,12 @@ import React, {
 	useState,
 	ChangeEvent,
 } from "react";
-import PropTypes from "prop-types";
 import Button from "@/components/ui/Button";
 import { InputField, PasswordField } from "@/components/form-elements";
-import Toast from "@/components/Toast";
 import { saltAndHashPassword } from "@/utils/password";
+import { toast } from "react-toastify";
+
+// TODO: ADD EMAIL VALIDATION USING ZOD!!!!!
 
 export interface PersonalDetailsProps {
 	firstName: string;
@@ -24,8 +25,9 @@ type SignUpFormProps = {
 };
 
 export const SignUpForm: FunctionComponent<SignUpFormProps> = ({
-	switchByKey,
-	caputurePersonalDetails,
+	// switchByKey,
+	// caputurePersonalDetails,
+	handleSignUp,
 }) => {
 	const [personalDetails, setPersonalDetails] = useState<PersonalDetailsProps>({
 		firstName: "",
@@ -36,14 +38,20 @@ export const SignUpForm: FunctionComponent<SignUpFormProps> = ({
 	});
 	const submitForm = (e: FormEvent) => {
 		e.preventDefault();
+		console.log("personalDetails", personalDetails);
 
 		if (personalDetails.password === personalDetails.confirmPassword) {
 			const hashedPassword = saltAndHashPassword(personalDetails.password);
-			const updatedDetails = { ...personalDetails, password: hashedPassword };
-			caputurePersonalDetails(updatedDetails);
-			switchByKey("professional_details");
+			const updatedDetails = {
+				...personalDetails,
+				password: hashedPassword,
+				confirmPassword: hashedPassword,
+			};
+			handleSignUp(updatedDetails);
+			// caputurePersonalDetails(updatedDetails);
+			// switchByKey("professional_details");
 		} else {
-			Toast({ success: "error", message: "Passwords do not match" });
+			toast.error("Passwords do not match");
 		}
 	};
 
@@ -123,7 +131,7 @@ export const SignUpForm: FunctionComponent<SignUpFormProps> = ({
 
 			<div className="mt-8">
 				<Button block>
-					Continue
+					SIGN UP
 					<svg
 						width="12"
 						height="12"

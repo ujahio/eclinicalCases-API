@@ -21,8 +21,9 @@ const SignupTeacher = () => {
 
 	const handleSubmitSignupUser = React.useCallback(
 		(val: SignupValues) => {
-			const { email, password } = val.personalDetails;
-			setUser({ email, password });
+			console.log("SIGNUP VALUES", val);
+			// const { email, password } = val.personalDetails;
+			// setUser({ email, password });
 			dispatch(signupUser({ ...val, user_role: "teacher" }));
 		},
 		[dispatch]
@@ -34,23 +35,23 @@ const SignupTeacher = () => {
 
 	useEffect(() => {
 		if (isLoading === "succeeded") {
-			handleSubmitLoginUser();
+			// handleSubmitLoginUser();
 			navigate.push("/login");
 			dispatch(resetStatus());
 		}
 	}, [isLoading, dispatch, handleSubmitLoginUser, navigate]);
 
-	useEffect(() => {
-		if (isLoadingLogin === "succeeded") {
-			if (userInfo.user?.user_role === "teacher") {
-				navigate.push("/doctor/dashboard");
-			}
-			if (userInfo.user?.user_role === "student") {
-				navigate.push("/student/dashboard");
-			}
-			dispatch(resetStatusLogin());
-		}
-	}, [isLoadingLogin, dispatch, navigate, userInfo]);
+	// useEffect(() => {
+	// 	if (isLoadingLogin === "succeeded") {
+	// 		if (userInfo.user?.user_role === "teacher") {
+	// 			navigate.push("/doctor/dashboard");
+	// 		}
+	// 		if (userInfo.user?.user_role === "student") {
+	// 			navigate.push("/student/dashboard");
+	// 		}
+	// 		dispatch(resetStatusLogin());
+	// 	}
+	// }, [isLoadingLogin, dispatch, navigate, userInfo]);
 
 	return <SignupComp handleSignUp={handleSubmitSignupUser} />;
 };

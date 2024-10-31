@@ -4,12 +4,13 @@ import { signup } from "@/services/apis/auth";
 export const signupUser = createAsyncThunk(
 	"auth/signup",
 	async (signupData: any, thunkAPI) => {
+		console.log("SIGNUP DATA", signupData);
 		try {
 			const filteredSignupData = {
-				firstName: signupData.personalDetails.firstName,
-				lastName: signupData.personalDetails.lastName,
-				email: signupData.personalDetails.email,
-				password: signupData.personalDetails.password,
+				firstName: signupData.firstName,
+				lastName: signupData.lastName,
+				email: signupData.email,
+				password: signupData.password,
 				user_role: signupData.user_role,
 			};
 			const { data } = await signup(filteredSignupData);
