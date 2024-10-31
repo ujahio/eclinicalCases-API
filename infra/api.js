@@ -6,6 +6,7 @@ import {
 	NEXT_PUBLIC_BASE_URL,
 	NEXT_PUBLIC_NODE_ENV,
 } from "./secrets";
+import { userPool, eccsWebClient } from "./auth";
 
 import {
 	ECCSUsers,
@@ -25,6 +26,8 @@ const links = [
 	NEXT_PUBLIC_PASS_SECRET_KEY,
 	NEXT_PUBLIC_BASE_URL,
 	NEXT_PUBLIC_NODE_ENV,
+	userPool,
+	eccsWebClient,
 ];
 
 const STAGE = $app.stage;
