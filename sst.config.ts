@@ -1,11 +1,16 @@
-/// <reference path="./.sst/platform/config.d.ts" />
+/// <reference path="./.sst-old/platform/config.d.ts" />
 
 export default $config({
 	app(input) {
 		return {
-			name: "eClinicalCasesSolutions",
+			name: "eccs-labs",
 			removal: input?.stage === "production" ? "retain" : "remove",
 			home: "aws",
+			providers: {
+				aws: {
+					region: "me-south-1",
+				},
+			},
 		};
 	},
 	async run() {
