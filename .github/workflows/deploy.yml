@@ -10,7 +10,7 @@ permissions:
   contents: read # This is required for actions/checkout
 
 env:
-  AWS_REGION: us-east-1
+  AWS_REGION: me-south-1
   NEXT_PUBLIC_NODE_ENV: staging
   AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
   NEXT_JWT_SECRET: ${{ secrets.NEXT_JWT_SECRET }}

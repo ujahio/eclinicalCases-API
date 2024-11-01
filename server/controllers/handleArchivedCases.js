@@ -1,8 +1,7 @@
 import { QueryCommand } from "@aws-sdk/lib-dynamodb";
-import { TABLES } from "../services/dbTables.js";
+import { Resource } from "sst";
 // import uploadFileToBucket from "../services/bucket.js";
 import dbClient from "../services/dbClient.js";
-import SECRETS from "../services/secrets.js";
 import {
 	getDetailsOfStudentsFeedbackAndResponses,
 	verifyToken,
@@ -10,7 +9,7 @@ import {
 
 export const getArchivedCases = async (event) => {
 	const userToken = event.headers.authorization.split(" ")[1];
-	const userInfo = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
+	const userInfo = verifyToken(userToken, Resource.NEXT_JWT_SECRET.value);
 	const teacherID = userInfo.id;
 	const caseFilter = event.queryStringParameters?.caseFilter;
 
@@ -36,7 +35,7 @@ export const getArchivedCases = async (event) => {
 
 	try {
 		let params = {
-			TableName: TABLES.TEACHER_CASE_STUDIES,
+			TableName: Resource.TeacherCaseStudies.name,
 			IndexName: "TeacherPublishedDateIndex",
 			KeyConditionExpression: "teacherId = :teacherId",
 			FilterExpression: "caseStatus = :caseStatus",
