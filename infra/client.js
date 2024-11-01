@@ -9,7 +9,7 @@ const STAGE = $app.stage;
 const domainName =
 	STAGE === "production" ? "eccs-online.com" : `${STAGE}.eccs-online.com`;
 
-export const client = new sst.aws.Nextjs("MyWeb", {
+export const client = new sst.aws.Nextjs("eccsLabsClient", {
 	link: [
 		NEXT_JWT_SECRET,
 		NEXT_PUBLIC_BASE_URL,

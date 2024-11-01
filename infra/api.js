@@ -33,7 +33,7 @@ const domainName =
 		? "api.eccs-online.com"
 		: `${STAGE}-api.eccs-online.com`;
 
-export const api = new sst.aws.ApiGatewayV2("eclinicalCasesSolutions", {
+export const api = new sst.aws.ApiGatewayV2("eccs", {
 	domain: domainName,
 	cors: true,
 });

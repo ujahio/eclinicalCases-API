@@ -1,9 +1,9 @@
-/// <reference path="./.sst-old/platform/config.d.ts" />
+/// <reference path="./.sst/platform/config.d.ts" />
 
 export default $config({
 	app(input) {
 		return {
-			name: "eccs-labs",
+			name: "eccs-labs-app",
 			removal: input?.stage === "production" ? "retain" : "remove",
 			home: "aws",
 			providers: {
