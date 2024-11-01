@@ -2,9 +2,6 @@ import { GetObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { QueryCommand } from "@aws-sdk/lib-dynamodb";
 import { Resource } from "sst";
-
-import SECRETS from "../services/secrets.js";
-import { TABLES } from "../services/dbTables.js";
 import dbClient from "../services/dbClient.js";
 import { verifyToken } from "../utils/api_utils.js";
 import s3Client from "../services/s3Client.js";
@@ -21,7 +18,7 @@ const streamToBase64 = async (stream) => {
 
 export const getStudentCertificates = async (event) => {
 	const userToken = event.headers.authorization.split(" ")[1];
-	const userInfo = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
+	const userInfo = verifyToken(userToken, Resource.NEXT_JWT_SECRET.value);
 	const { id: studentID } = userInfo;
 
 	if (!userInfo && !userInfo.id && userInfo.user_role !== "student") {
@@ -36,7 +33,7 @@ export const getStudentCertificates = async (event) => {
 
 	try {
 		const params = {
-			TableName: TABLES.STUDENT_RESPONSES,
+			TableName: Resource.StudentsResponses.name,
 			IndexName: "StudentIDIndex",
 			KeyConditionExpression: "studentID = :studentID",
 			ExpressionAttributeValues: {

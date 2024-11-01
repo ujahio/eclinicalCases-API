@@ -11,10 +11,9 @@ import {
 	decryptPassword,
 	getUserByEmail,
 } from "../utils/api_utils.js";
-import { TABLES } from "../services/dbTables.js";
-import { resources } from "../services/resources.js";
 import { sendEmail } from "../services/emailSender.js";
 import { checkDuplicateUsernameOrEmail } from "../middlewares/verifySignUp";
+import { Resource } from "sst";
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
@@ -60,7 +59,7 @@ export const signup = async (event) => {
 		// Fetch the single teacher's ID from DynamoDB
 		if (user_role === "student") {
 			const teacherParams = {
-				TableName: TABLES.USER,
+				TableName: Resource.ECCSUsers.name,
 				IndexName: "RoleIndex", // Use user_role instead of role
 				KeyConditionExpression: "user_role = :user_role", // Use user_role
 				ExpressionAttributeValues: {
@@ -87,7 +86,7 @@ export const signup = async (event) => {
 		// Prepare the new user data
 		const originalPassword = decryptPassword(
 			password,
-			resources.NEXT_PUBLIC_PASS_SECRET_KEY
+			Resource.NEXT_PUBLIC_PASS_SECRET_KEY.value
 		);
 		const hashedPassword = bcrypt.hashSync(originalPassword, 10);
 		const userId = uuidv4();
@@ -108,7 +107,7 @@ export const signup = async (event) => {
 		};
 
 		const params = {
-			TableName: TABLES.USER,
+			TableName: Resource.ECCSUsers.name,
 			Item: user,
 		};
 
@@ -164,11 +163,11 @@ export const signin = async (event) => {
 
 		const originalPassword = decryptPassword(
 			password,
-			resources.NEXT_PUBLIC_PASS_SECRET_KEY
+			Resource.NEXT_PUBLIC_PASS_SECRET_KEY.value
 		);
 
 		const params = {
-			TableName: TABLES.USER,
+			TableName: Resource.ECCSUsers.name,
 			FilterExpression: "email = :email",
 			ExpressionAttributeValues: {
 				":email": email,
@@ -195,7 +194,7 @@ export const signin = async (event) => {
 			};
 		}
 
-		const userToken = jwt.sign(user, resources.NEXT_JWT_SECRET);
+		const userToken = jwt.sign(user, Resource.NEXT_JWT_SECRET.value);
 		return {
 			statusCode: 200,
 			body: JSON.stringify({
@@ -257,7 +256,7 @@ export const verifyOtpAndResetPassword = async (event) => {
 		const { email, otp, newPassword } = JSON.parse(event.body);
 		const originalPassword = decryptPassword(
 			newPassword,
-			resources.NEXT_PUBLIC_PASS_SECRET_KEY
+			Resource.NEXT_PUBLIC_PASS_SECRET_KEY.value
 		);
 		const storedOtp = await getOtpFromDb(email);
 		const hashedPassword = bcrypt.hashSync(originalPassword, 4);
@@ -295,7 +294,7 @@ export const verifyOtpAndResetPassword = async (event) => {
 export const getUsers = async () => {
 	try {
 		const params = {
-			TableName: TABLES.USER,
+			TableName: Resource.ECCSUsers.name,
 		};
 
 		const command = new ScanCommand(params);
@@ -331,7 +330,7 @@ export const updatePassword = async (event) => {
 
 		let originalCurrentPassword = decryptPassword(
 			currentPassword,
-			resources.NEXT_PUBLIC_PASS_SECRET_KEY
+			Resource.NEXT_PUBLIC_PASS_SECRET_KEY.value
 		);
 
 		const user = await getUserByEmail(email);
@@ -349,7 +348,7 @@ export const updatePassword = async (event) => {
 		// Hash and update new password
 		let originalNewPassword = decryptPassword(
 			newPassword,
-			resources.NEXT_PUBLIC_PASS_SECRET_KEY
+			Resource.NEXT_PUBLIC_PASS_SECRET_KEY.value
 		);
 		const hashedPassword = bcrypt.hashSync(originalNewPassword, 4);
 

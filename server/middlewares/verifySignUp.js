@@ -1,6 +1,6 @@
 import { ScanCommand } from "@aws-sdk/lib-dynamodb";
 import dbClient from "../services/dbClient.js";
-import { TABLES } from "../services/dbTables.js";
+import { Resource } from "sst";
 
 export const checkDuplicateUsernameOrEmail = async (event) => {
 	// TODO: expand check to make sure we are using pertinnent fields info to check for duplication
@@ -8,7 +8,7 @@ export const checkDuplicateUsernameOrEmail = async (event) => {
 
 	try {
 		const params = {
-			TableName: TABLES.USER,
+			TableName: Resource.ECCSUsers.name,
 			FilterExpression: "email = :email",
 			ExpressionAttributeValues: {
 				":email": email,

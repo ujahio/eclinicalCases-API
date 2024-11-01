@@ -1,8 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
+import { Resource } from "sst";
 import { GetCommand, PutCommand, QueryCommand } from "@aws-sdk/lib-dynamodb";
-import { TABLES } from "../services/dbTables.js";
 import dbClient from "../services/dbClient.js";
-import SECRETS from "../services/secrets.js";
 import {
 	parseLogToObject,
 	extrapolateRequestBody,
@@ -12,10 +11,10 @@ import {
 
 export const getCaseForStudentsResponse = async (event) => {
 	const userToken = event.headers.authorization.split(" ")[1];
-	const userInfo = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
+	const userInfo = verifyToken(userToken, Resource.NEXT_JWT_SECRET.value);
 
 	const params = {
-		TableName: TABLES.TEACHER_CASE_STUDIES,
+		TableName: Resource.TeacherCaseStudies.name,
 		IndexName: "TeacherStatusIndex",
 		KeyConditionExpression:
 			"teacherId = :teacherId AND caseStatus = :caseStatus",
@@ -72,7 +71,7 @@ export const duplicateCase = async (event) => {
 		}
 
 		const singleItemParams = {
-			TableName: TABLES.CASE,
+			TableName: Resource.TeacherCaseStudies.name,
 			Key: {
 				id: caseID,
 			},
@@ -95,7 +94,7 @@ export const duplicateCase = async (event) => {
 			createdAt: Date.now().toString(),
 		};
 		const putParams = {
-			TableName: TABLES.CASE,
+			TableName: Resource.TeacherCaseStudies.name,
 			Item: duplicateCase,
 		};
 
@@ -126,7 +125,10 @@ export const addFeedback = async (event) => {
 	const userToken = event.headers.authorization.split(" ")[1];
 	const extrapolatedFormData = await extrapolateRequestBody(event);
 	const { caseID, feedback } = parseLogToObject(extrapolatedFormData);
-	const { id: studentID } = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
+	const { id: studentID } = verifyToken(
+		userToken,
+		Resource.NEXT_JWT_SECRET.value
+	);
 
 	if (!caseID || !feedback) {
 		return {
@@ -138,7 +140,7 @@ export const addFeedback = async (event) => {
 	}
 
 	const params = {
-		TableName: TABLES.FEEDBACK,
+		TableName: Resource.Feedback.name,
 		Item: {
 			feedbackID: uuidv4(),
 			caseID,
@@ -181,7 +183,7 @@ export const getCaseFeedback = async (event) => {
 	}
 
 	const params = {
-		TableName: TABLES.FEEDBACK,
+		TableName: Resource.Feedback.name,
 		IndexName: "CaseIDIndex",
 		KeyConditionExpression: "caseID = :caseID",
 		ExpressionAttributeValues: {
@@ -197,7 +199,7 @@ export const getCaseFeedback = async (event) => {
 		const studentDetailsPromises = feedbackResult.Items.map(
 			async (feedback) => {
 				const userParams = {
-					TableName: TABLES.USER,
+					TableName: Resource.ECCSUsers.name,
 					IndexName: "IDIndex",
 					KeyConditionExpression: "id = :id",
 					ExpressionAttributeValues: {
@@ -246,7 +248,7 @@ export const getCaseAnswers = async (event) => {
 	const caseID = event.pathParameters.caseID;
 
 	const answersParams = {
-		TableName: TABLES.STUDENT_RESPONSES,
+		TableName: Resource.StudentsResponses.name,
 		IndexName: "CaseIDIndex",
 		KeyConditionExpression: "caseID = :caseID",
 		ExpressionAttributeValues: {
@@ -261,7 +263,7 @@ export const getCaseAnswers = async (event) => {
 		// Fetch details of each student
 		const studentDetailsPromises = answersResult.Items.map(async (answer) => {
 			const userParams = {
-				TableName: TABLES.USER,
+				TableName: Resource.ECCSUsers.name,
 				IndexName: "IDIndex",
 				KeyConditionExpression: "id = :id",
 				ExpressionAttributeValues: {
@@ -308,7 +310,7 @@ export const getCaseData = async (event) => {
 
 	try {
 		const getCaseParams = {
-			TableName: TABLES.TEACHER_CASE_STUDIES,
+			TableName: Resource.TeacherCaseStudies.name,
 			Key: { id: caseID },
 		};
 
