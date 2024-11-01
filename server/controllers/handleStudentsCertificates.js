@@ -54,7 +54,7 @@ export const getStudentCertificates = async (event) => {
 						const signedUrl = await getSignedUrl(
 							s3Client,
 							new GetObjectCommand({
-								Bucket: Resource.ECCSUsersCertificates.name,
+								Bucket: Resource.Certificates.name,
 								Key: certificateID,
 							}),
 							{ expiresIn: 3600 } // URL expires in 1 hour
@@ -63,7 +63,7 @@ export const getStudentCertificates = async (event) => {
 						// Fetch the base64 content of the certificate PDF from S3
 						const pdfObject = await s3Client.send(
 							new GetObjectCommand({
-								Bucket: Resource.ECCSUsersCertificates.name,
+								Bucket: Resource.Certificates.name,
 								Key: certificateID,
 							})
 						);
