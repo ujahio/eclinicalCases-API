@@ -31,8 +31,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # - name: Install dependencies
+      #   run: npm install
+
       - name: Install dependencies
-        run: npm install
+        uses: borales/actions-yarn@v5
+        with:
+          cmd: install # will run `yarn install` command
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
