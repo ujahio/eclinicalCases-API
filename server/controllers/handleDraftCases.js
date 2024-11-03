@@ -7,7 +7,7 @@ import {
 	DeleteCommand,
 } from "@aws-sdk/lib-dynamodb";
 import { sortBy, isEqual } from "lodash";
-import RESOURCES from "../services/resources.js";
+import { Resource } from "sst";
 // import uploadFileToBucket from "../services/bucket.js";
 import dbClient from "../services/dbClient.js";
 import { extrapolateRequestBody, verifyToken } from "../utils/api_utils.js";
@@ -15,7 +15,7 @@ import { extrapolateRequestBody, verifyToken } from "../utils/api_utils.js";
 export const addDraftCase = async (event) => {
 	const draftCaseData = await extrapolateRequestBody(event);
 	const userToken = event.headers.authorization.split(" ")[1];
-	const userInfo = verifyToken(userToken, RESOURCES.NEXT_JWT_SECRET);
+	const userInfo = verifyToken(userToken, Resource.NEXT_JWT_SECRET.value);
 	const teacherID = userInfo.id;
 
 	// possible use coginito authorizer
@@ -59,7 +59,7 @@ export const addDraftCase = async (event) => {
 	};
 
 	const params = {
-		TableName: RESOURCES.TEACHER_CASE_STUDIES,
+		TableName: Resource.TeacherCaseStudies.name,
 		Item: caseItem,
 	};
 
@@ -89,7 +89,7 @@ export const addDraftCase = async (event) => {
 export const getDraftCases = async (event) => {
 	const caseId = event.pathParameters?.caseId;
 	const userToken = event.headers.authorization.split(" ")[1];
-	const userInfo = verifyToken(userToken, RESOURCES.NEXT_JWT_SECRET);
+	const userInfo = verifyToken(userToken, Resource.NEXT_JWT_SECRET.value);
 	const teacherID = userInfo.id;
 
 	if (!userInfo && !(roles === "teacher")) {
@@ -109,7 +109,7 @@ export const getDraftCases = async (event) => {
 			// Query for a single draft case by caseId
 
 			params = {
-				TableName: RESOURCES.TEACHER_CASE_STUDIES,
+				TableName: Resource.TeacherCaseStudies.name,
 				KeyConditionExpression: "id = :caseId", // Primary key query
 				ExpressionAttributeValues: {
 					":caseId": caseId,
@@ -118,7 +118,7 @@ export const getDraftCases = async (event) => {
 		} else {
 			// Query for all draft cases for the teacher
 			params = {
-				TableName: RESOURCES.TEACHER_CASE_STUDIES,
+				TableName: Resource.TeacherCaseStudies.name,
 				IndexName: "TeacherStatusIndex",
 				KeyConditionExpression:
 					"teacherId = :teacherId AND caseStatus = :caseStatus",
@@ -158,7 +158,7 @@ export const deleteDraftCase = async (event) => {
 	try {
 		const caseID = event.pathParameters.caseID;
 		const userToken = event.headers.authorization.split(" ")[1];
-		const userInfo = verifyToken(userToken, RESOURCES.NEXT_JWT_SECRET);
+		const userInfo = verifyToken(userToken, Resource.NEXT_JWT_SECRET.value);
 		const { id: teacherId } = userInfo;
 
 		if (!userInfo && !(roles === "teacher")) {
@@ -184,7 +184,7 @@ export const deleteDraftCase = async (event) => {
 
 		// Query the case to check if it's a draft and belongs to the teacher
 		const caseSearchParams = {
-			TableName: RESOURCES.TEACHER_CASE_STUDIES,
+			TableName: Resource.TeacherCaseStudies.name,
 			Key: { id: caseID }, // Use the primary key to get the case directly
 		};
 
@@ -215,7 +215,7 @@ export const deleteDraftCase = async (event) => {
 
 		// Delete the case if it meets the criteria
 		const deleteParams = {
-			TableName: RESOURCES.TEACHER_CASE_STUDIES,
+			TableName: Resource.TeacherCaseStudies.name,
 			Key: {
 				id: caseID,
 			},
@@ -255,7 +255,7 @@ export const updateDraftCase = async (event) => {
 	const caseData = await extrapolateRequestBody(event);
 	const caseID = event.pathParameters.caseID;
 	const userToken = event.headers.authorization.split(" ")[1];
-	const userInfo = verifyToken(userToken, RESOURCES.NEXT_JWT_SECRET);
+	const userInfo = verifyToken(userToken, Resource.NEXT_JWT_SECRET.value);
 	const { id: userId, roles } = userInfo;
 
 	// Possible use of Cognito authorizer
@@ -282,7 +282,7 @@ export const updateDraftCase = async (event) => {
 
 	try {
 		const getCaseParams = {
-			TableName: RESOURCES.TEACHER_CASE_STUDIES,
+			TableName: Resource.TeacherCaseStudies.name,
 			Key: { id: caseID },
 		};
 
@@ -377,7 +377,7 @@ export const updateDraftCase = async (event) => {
 
 		// Construct the update command for DynamoDB
 		const updateParams = {
-			TableName: RESOURCES.TEACHER_CASE_STUDIES,
+			TableName: Resource.TeacherCaseStudies.name, // Corrected table reference
 			Key: { id: caseID },
 			UpdateExpression: updateExpression,
 			ExpressionAttributeValues: expressionAttributeValues,

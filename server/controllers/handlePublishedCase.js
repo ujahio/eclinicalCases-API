@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 import { UpdateCommand, QueryCommand } from "@aws-sdk/lib-dynamodb";
-import RESOURCES from "../services/resources.js";
+import { Resource } from "sst";
 // import uploadFileToBucket from "../services/bucket.js";
 import dbClient from "../services/dbClient.js";
 import { extrapolateRequestBody, verifyToken } from "../utils/api_utils.js";
@@ -19,7 +19,7 @@ export const publishCase = async (event) => {
 	} = await extrapolateRequestBody(event);
 
 	const userToken = event.headers.authorization.split(" ")[1];
-	const userInfo = verifyToken(userToken, RESOURCES.NEXT_JWT_SECRET);
+	const userInfo = verifyToken(userToken, Resource.NEXT_JWT_SECRET.value);
 
 	const { id: teacherId } = userInfo;
 
@@ -85,7 +85,7 @@ export const publishCase = async (event) => {
 		// Step 1: Check if the teacher already has an active published case
 		const activeCase = await dbClient.send(
 			new QueryCommand({
-				TableName: RESOURCES.TEACHER_CASE_STUDIES,
+				TableName: Resource.TeacherCaseStudies.name,
 				IndexName: "TeacherStatusIndex",
 				KeyConditionExpression:
 					"teacherId = :teacherId AND caseStatus = :caseStatus",
@@ -155,7 +155,7 @@ export const publishCase = async (event) => {
 		}
 
 		const updateParams = new UpdateCommand({
-			TableName: RESOURCES.TEACHER_CASE_STUDIES,
+			TableName: Resource.TeacherCaseStudies.name,
 			Key: { id: newCaseId },
 			UpdateExpression: updateExpression,
 			ExpressionAttributeValues: expressionAttributeValues,
@@ -191,7 +191,7 @@ export const publishCase = async (event) => {
 
 export const getPublishedCase = async (event) => {
 	const userToken = event.headers.authorization.split(" ")[1];
-	const userInfo = verifyToken(userToken, RESOURCES.NEXT_JWT_SECRET);
+	const userInfo = verifyToken(userToken, Resource.NEXT_JWT_SECRET.value);
 
 	// Check for valid user roles and authentication
 	if (
@@ -219,7 +219,7 @@ export const getPublishedCase = async (event) => {
 
 	try {
 		const params = {
-			TableName: RESOURCES.TEACHER_CASE_STUDIES,
+			TableName: Resource.TeacherCaseStudies.name,
 			IndexName: "TeacherStatusIndex",
 			KeyConditionExpression:
 				"teacherId = :teacherId AND caseStatus = :caseStatus",
@@ -278,7 +278,7 @@ export const getPublishedCase = async (event) => {
 		// Student flow: Check if the student has responded to the active case
 		if (userInfo.user_role === "student") {
 			const answerParams = {
-				TableName: RESOURCES.STUDENT_RESPONSES,
+				TableName: Resource.StudentsResponses.name,
 				IndexName: "StudentIDIndex", // Using the index to query answers by studentID
 				KeyConditionExpression: "studentID = :studentID",
 				ExpressionAttributeValues: {

@@ -1,14 +1,14 @@
-import dbClient from "../services/dbClient.js";
 import { v4 as uuidv4 } from "uuid";
 import { QueryCommand, GetCommand, PutCommand } from "@aws-sdk/lib-dynamodb";
-import RESOURCES from "../services/resources.js";
+import dbClient from "../services/dbClient.js";
+import { Resource } from "sst";
 // import { uploadFileToBucket } from "../services/bucket.js";
 import { generateCertificate } from "../utils/certificate.js";
 import { extrapolateRequestBody, verifyToken } from "../utils/api_utils.js";
 
 export const getStudentsResponses = async (event) => {
 	const userToken = event.headers.authorization.split(" ")[1];
-	const userInfo = verifyToken(userToken, RESOURCES.NEXT_JWT_SECRET);
+	const userInfo = verifyToken(userToken, Resource.NEXT_JWT_SECRET.value);
 	const caseFilter = event.pathParameters?.caseFilter;
 
 	if (!userInfo || userInfo.user_role !== "student") {
@@ -24,7 +24,7 @@ export const getStudentsResponses = async (event) => {
 	const { id: studentID } = userInfo;
 
 	const params = {
-		TableName: RESOURCES.STUDENT_RESPONSES,
+		TableName: Resource.StudentsResponses.name,
 		IndexName: "StudentIDIndex",
 		KeyConditionExpression: "studentID = :studentID",
 		ExpressionAttributeValues: {
@@ -63,7 +63,7 @@ export const getStudentsResponses = async (event) => {
 export const submitStudentResponse = async (event) => {
 	const caseInfo = await extrapolateRequestBody(event);
 	const userToken = event.headers.authorization.split(" ")[1];
-	const userInfo = verifyToken(userToken, RESOURCES.NEXT_JWT_SECRET);
+	const userInfo = verifyToken(userToken, Resource.NEXT_JWT_SECRET.value);
 
 	const { firstname, lastname, id: studentID } = userInfo;
 	const fullName = `${firstname} ${lastname}`;
@@ -83,7 +83,7 @@ export const submitStudentResponse = async (event) => {
 				await generateCertificate(fullName, caseInfo.caseTopic, dateTimeStamp);
 
 			const params = {
-				TableName: RESOURCES.STUDENT_RESPONSES,
+				TableName: Resource.StudentsResponses.name,
 				Item: {
 					answerID: uuidv4(),
 					studentID,
@@ -153,7 +153,7 @@ const extractAnswers = (caseInfo) => {
 
 const gradeQuiz = async ({ caseID, studentAnswers }) => {
 	const caseParams = {
-		TableName: RESOURCES.TEACHER_CASE_STUDIES,
+		TableName: Resource.TeacherCaseStudies.name,
 		Key: { id: caseID },
 	};
 
