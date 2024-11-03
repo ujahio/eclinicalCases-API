@@ -13,7 +13,7 @@ const domainName =
 		? NEXT_PUBLIC_DOMAIN
 		: `${STAGE}.${NEXT_PUBLIC_DOMAIN}`;
 
-export const client = new sst.aws.Nextjs("MyWeb", {
+export const client = new sst.aws.Nextjs("eccslabsClient", {
 	link: [
 		NEXT_JWT_SECRET,
 		NEXT_PUBLIC_BASE_URL,

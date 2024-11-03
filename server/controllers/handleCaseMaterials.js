@@ -1,14 +1,14 @@
+import { Resource } from "sst";
 import {
 	deleteCaseMaterialFromS3,
 	getSignedUrlForFetchingFromS3,
 	getSignedUrlToUploadToS3,
 } from "../services/bucket.js";
 import { extrapolateRequestBody, verifyToken } from "../utils/api_utils.js";
-import SECRETS from "../services/secrets.js";
 
 export const getSignedUrlsToFetchForCaseMaterials = async (event) => {
 	const userToken = event.headers.authorization.split(" ")[1];
-	const userInfo = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
+	const userInfo = verifyToken(userToken, Resource.NEXT_JWT_SECRET.value);
 
 	if (!userInfo || !userInfo.id) {
 		return {
@@ -63,7 +63,7 @@ export const getSignedUrlsToFetchForCaseMaterials = async (event) => {
 
 export const getSignedUrlToUploadForCaseMaterials = async (event) => {
 	const userToken = event.headers.authorization.split(" ")[1];
-	const userInfo = verifyToken(userToken, SECRETS.NEXT_JWT_SECRET);
+	const userInfo = verifyToken(userToken, Resource.NEXT_JWT_SECRET.value);
 	const { id: teacherID } = userInfo;
 
 	if (!userInfo || !teacherID) {

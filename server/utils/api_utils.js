@@ -4,11 +4,11 @@ import {
 	ScanCommand,
 	QueryCommand,
 } from "@aws-sdk/lib-dynamodb";
-import dbClient from "../services/dbClient.js";
+import { Resource } from "sst";
 import crypto from "crypto";
-import { TABLES } from "../services/dbTables.js";
 import busboy from "busboy";
 import jwt from "jsonwebtoken";
+import dbClient from "../services/dbClient.js";
 
 function generateOtp() {
 	return Math.floor(100000 + Math.random() * 900000);
@@ -16,7 +16,7 @@ function generateOtp() {
 
 async function storeOtpInDb(email, otp) {
 	const params = {
-		TableName: TABLES.USER,
+		TableName: Resource.ECCSUsers.name,
 		Key: {
 			email: email,
 		},
@@ -32,7 +32,7 @@ async function storeOtpInDb(email, otp) {
 
 async function getOtpFromDb(email) {
 	const params = {
-		TableName: TABLES.USER,
+		TableName: Resource.ECCSUsers.name,
 		Key: {
 			email: email,
 		},
@@ -46,7 +46,7 @@ async function getOtpFromDb(email) {
 
 async function updateUserPassword(email, newPassword) {
 	const params = {
-		TableName: TABLES.USER,
+		TableName: Resource.ECCSUsers.name,
 		Key: {
 			email: email,
 		},
@@ -63,7 +63,7 @@ async function updateUserPassword(email, newPassword) {
 async function getUserByEmail(email) {
 	try {
 		const params = {
-			TableName: TABLES.USER,
+			TableName: Resource.ECCSUsers.name,
 			FilterExpression: "email = :email",
 			ExpressionAttributeValues: {
 				":email": email,
@@ -200,7 +200,7 @@ export const getDetailsOfStudentsFeedbackAndResponses = async (
 
 	// Parameters for fetching feedback
 	const feedbackParams = {
-		TableName: TABLES.FEEDBACK,
+		TableName: Resource.Feedback.name,
 		IndexName: "CaseIDIndex",
 		KeyConditionExpression: "caseID = :caseID",
 		ExpressionAttributeValues: {
@@ -211,7 +211,7 @@ export const getDetailsOfStudentsFeedbackAndResponses = async (
 
 	// Parameters for fetching responses
 	const responsesParams = {
-		TableName: TABLES.STUDENT_RESPONSES,
+		TableName: Resource.StudentsResponses.name,
 		IndexName: "CaseIDIndex",
 		KeyConditionExpression: "caseID = :caseID",
 		ExpressionAttributeValues: {
@@ -240,7 +240,7 @@ export const getDetailsOfStudentsFeedbackAndResponses = async (
 		// Fetch user details from the USERS table
 		const userPromises = studentIDs.map(async (studentID) => {
 			const userParams = {
-				TableName: TABLES.USER,
+				TableName: Resource.ECCSUsers.name,
 				IndexName: "IDIndex",
 				KeyConditionExpression: "id = :id",
 				ExpressionAttributeValues: {

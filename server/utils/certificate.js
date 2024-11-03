@@ -97,7 +97,7 @@ export const generateCertificate = async (
 		// Upload PDF to S3
 		const uploadPdfToS3 = async (buffer) => {
 			const params = {
-				Bucket: Resource.ECCSUsersCertificates.name,
+				Bucket: Resource.Certificates.name,
 				Key: key, // will save the certificate key to another item in the database for future reference
 				Body: buffer,
 				ContentType: "application/pdf",
@@ -112,7 +112,7 @@ export const generateCertificate = async (
 		const signedUrl = await getSignedUrl(
 			s3Client,
 			new GetObjectCommand({
-				Bucket: Resource.ECCSUsersCertificates.name,
+				Bucket: Resource.Certificates.name,
 				Key: key,
 			}),
 			{ expiresIn: 3600 } // URL expires in 1 hour

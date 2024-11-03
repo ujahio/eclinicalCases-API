@@ -1,6 +1,6 @@
 import { ScanCommand } from "@aws-sdk/lib-dynamodb";
 import dbClient from "../services/dbClient.js";
-import { TABLES } from "../services/dbTables.js";
+import { Resource } from "sst";
 
 // THIS MAY NOT BE NECESSARY ANYMORE AS COGNITO HANDLES THIS!
 // export const checkDuplicateUsernameOrEmail = async (email) => {
