@@ -166,6 +166,11 @@ export const publishCase = async (event) => {
 		console.log(
 			`Case ${newCaseId} successfully published for teacher ${teacherId}`
 		);
+		// await sendEmail(
+		// 	ADDRESSES GOES HERE,
+		// 	"Case Published",
+		// 	"Your case has been published"
+		// );
 		return {
 			statusCode: 200,
 			body: JSON.stringify({
