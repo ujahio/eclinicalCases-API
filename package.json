@@ -40,7 +40,7 @@
 		"redux-persist": "^6.0.0",
 		"redux-persist-transform-filter": "^0.0.22",
 		"sass": "1.77.3",
-		"sst": "3.2.26",
+		"sst": "3.2.73",
 		"uuid": "^10.0.0",
 		"yup": "^1.4.0"
 	},
