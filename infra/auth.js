@@ -3,7 +3,7 @@
 import { client } from "./client";
 
 export const userPool = new sst.aws.CognitoUserPool(
-	"eccs",
+	"eccslabs",
 	{
 		transform: {
 			userPool: {

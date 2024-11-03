@@ -4,7 +4,7 @@ import { Resource } from "sst";
 
 // Set up JWKS client to retrieve the Cognito public key
 const client = jwksClient({
-	jwksUri: `https://cognito-idp.${process.env.NEXT_PUBLIC_REGION}.amazonaws.com/${Resource.eccs.id}/.well-known/jwks.json`,
+	jwksUri: `https://cognito-idp.${process.env.NEXT_PUBLIC_REGION}.amazonaws.com/${Resource.eccslabs.id}/.well-known/jwks.json`,
 });
 
 // Helper to get the public key for token verification

@@ -51,7 +51,7 @@ const authOptions = {
 		Cognito({
 			clientId: Resource.eccswebclient.id,
 			clientSecret: Resource.eccswebclient.secret,
-			issuer: `https://cognito-idp.${process.env.NEXT_PUBLIC_REGION}.amazonaws.com/${Resource.eccs.id}`,
+			issuer: `https://cognito-idp.${process.env.NEXT_PUBLIC_REGION}.amazonaws.com/${Resource.eccslabs.id}`,
 		}),
 	],
 	callbacks: {
