@@ -1,4 +1,4 @@
-// import { email } from "./email";
+import { ECCSEmail } from "./email";
 import { CaseMaterials, ECCSUsersCertificates } from "./storage";
 import {
 	NEXT_JWT_SECRET,
@@ -28,13 +28,14 @@ const links = [
 	NEXT_PUBLIC_NODE_ENV,
 	userPool,
 	eccsWebClient,
+	ECCSEmail,
 ];
+
+const DOMAIN = process.env.NEXT_PUBLIC_DOMAIN;
 
 const STAGE = $app.stage;
 const domainName =
-	STAGE === "production"
-		? "api.eccs-online.com"
-		: `${STAGE}-api.eccs-online.com`;
+	STAGE === "production" ? `api.${DOMAIN}` : `${STAGE}-api.${DOMAIN}`;
 
 export const api = new sst.aws.ApiGatewayV2("eccs", {
 	domain: domainName,
