@@ -55,8 +55,10 @@ export const userPool = new sst.aws.CognitoUserPool(
 				],
 				verificationMessageTemplate: {
 					defaultEmailOption: "CONFIRM_WITH_LINK",
-					emailMessageByLink: "Message goes here {##Click Here##}",
+					emailMessageByLink:
+						"Thank you for registering with eccs-online.com. Please {##click this link##} to complete your registration and access the latest course contents.",
 				},
+				emailVerificationSubject: "eccs-online.com - Verify your email",
 			},
 		},
 	},
@@ -89,11 +91,7 @@ export const eccsWebClient = userPool.addClient(`${stagePrefix}eccswebclient`, {
 		client: {
 			allowedOauthFlows: ["code"],
 			refreshTokenValidity: 1,
-			generateSecret: true,
-			callbackUrls: [
-				$interpolate`https://${stagePrefix}${process.env.NEXT_PUBLIC_DOMAIN}/api/auth/callback/cognito`,
-				"http://localhost:3000/api/auth/callback/cognito",
-			],
+			generateSecret: false,
 			logoutUrls: [
 				$interpolate`https://${stagePrefix}${process.env.NEXT_PUBLIC_DOMAIN}`,
 				"http://localhost:3000",
