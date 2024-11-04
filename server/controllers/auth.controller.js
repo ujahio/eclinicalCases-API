@@ -3,8 +3,7 @@ import { Resource } from "sst";
 import dbClient from "../services/dbClient.js";
 import bcrypt from "bcryptjs";
 import {
-	AdminCreateUserCommand,
-	AdminSetUserPasswordCommand,
+	SignUpCommand,
 	AdminGetUserCommand,
 	ListUsersCommand,
 } from "@aws-sdk/client-cognito-identity-provider";
@@ -122,33 +121,28 @@ export const signup = async (event) => {
 			Resource.NEXT_PUBLIC_PASS_SECRET_KEY.value
 		);
 
+		const stagePrefix =
+			Resource.App.stage.toLowerCase() === "production"
+				? ""
+				: `${Resource.App.stage.toLowerCase()}-`;
+
+		const cognitoWebClient = `${stagePrefix}eccswebclient`;
+
 		const signupParams = {
-			UserPoolId: Resource.eccslabs.id,
+			ClientId: Resource[cognitoWebClient].id,
 			Username: email,
-			Password: password,
+			Password: originalPassword,
 			UserAttributes: userAttributes,
 		};
 
-		const createUserCommand = new AdminCreateUserCommand(signupParams);
-		const signupResponse = await cognitoClient.send(createUserCommand);
-
-		// Set the password to permanent by authenticating the user with the new password
-		const setPasswordCommand = new AdminSetUserPasswordCommand({
-			UserPoolId: Resource.eccslabs.id,
-			Username: email,
-			Password: originalPassword,
-			Permanent: true,
-		});
-		await cognitoClient.send(setPasswordCommand);
-
-		console.log("signupResponse", signupResponse);
+		const signupCommand = new SignUpCommand(signupParams);
+		await cognitoClient.send(signupCommand);
 
 		// Return a success response without password information
 		return {
 			statusCode: 201,
 			body: JSON.stringify({
 				message: "User was registered successfully! Please verify your email.",
-				userSub: signupResponse.User?.Username,
 			}),
 		};
 	} catch (error) {
