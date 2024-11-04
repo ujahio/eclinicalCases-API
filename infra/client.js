@@ -19,7 +19,6 @@ export const client = new sst.aws.Nextjs("eccslabsClient", {
 		NEXT_PUBLIC_BASE_URL,
 		NEXT_PUBLIC_NODE_ENV,
 		NEXT_PUBLIC_PASS_SECRET_KEY,
-		// authUrl,
 		userPool,
 		eccsWebClient,
 	],

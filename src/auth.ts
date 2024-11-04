@@ -45,12 +45,19 @@ declare module "next-auth" {
 	}
 }
 
+const stagePrefix =
+	Resource.App.stage.toLowerCase() === "production"
+		? ""
+		: `${Resource.App.stage.toLowerCase()}-`;
+
+const cognitoWebClient = `${stagePrefix}eccswebclient`;
+
 const authOptions = {
 	theme: { logo: "https://next-auth.js.org/img/logo/logo-sm.png" },
 	providers: [
 		Cognito({
-			clientId: Resource.eccswebclient.id,
-			clientSecret: Resource.eccswebclient.secret,
+			clientId: Resource[cognitoWebClient].id,
+			clientSecret: Resource[cognitoWebClient].secret,
 			issuer: `https://cognito-idp.${process.env.NEXT_PUBLIC_REGION}.amazonaws.com/${Resource.eccslabs.id}`,
 		}),
 	],

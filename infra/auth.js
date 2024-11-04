@@ -79,18 +79,23 @@ export const authUrl = $concat(
 	".amazoncognito.com"
 );
 
-export const eccsWebClient = userPool.addClient("eccswebclient", {
+const stagePrefix =
+	$app.stage.toLowerCase() === "production"
+		? ""
+		: `${$app.stage.toLowerCase()}-`;
+
+export const eccsWebClient = userPool.addClient(`${stagePrefix}eccswebclient`, {
 	transform: {
 		client: {
 			allowedOauthFlows: ["code"],
 			refreshTokenValidity: 1,
 			generateSecret: true,
 			callbackUrls: [
-				$interpolate`https://${process.env.NEXT_PUBLIC_DOMAIN}/api/auth/callback/cognito`,
+				$interpolate`https://${stagePrefix}${process.env.NEXT_PUBLIC_DOMAIN}/api/auth/callback/cognito`,
 				"http://localhost:3000/api/auth/callback/cognito",
 			],
 			logoutUrls: [
-				$interpolate`https://${process.env.NEXT_PUBLIC_DOMAIN}`,
+				$interpolate`https://${stagePrefix}${process.env.NEXT_PUBLIC_DOMAIN}`,
 				"http://localhost:3000",
 			],
 			supportedIdentityProviders: ["COGNITO"],
