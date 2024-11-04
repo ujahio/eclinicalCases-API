@@ -62,6 +62,28 @@ const authOptions = {
 		}),
 	],
 	callbacks: {
+		async authorized({ request, token }) {
+			// Check if the user is authenticated
+			if (token) {
+				const { pathname } = request.nextUrl;
+
+				// Restrict students from accessing the /admin route
+				if (pathname.startsWith("/admin") && token.user_role === "student") {
+					return false; // Deny access
+				}
+
+				// Restrict students from accessing the /admin route
+				if (pathname.startsWith("/login") && token.user_role === "teacher") {
+					return false; // Deny access
+				}
+
+				// Allow all other requests for authenticated users
+				return true;
+			}
+
+			// Deny access if the user is not authenticated
+			return false;
+		},
 		async jwt({ token, account }) {
 			// Initial sign-in
 			if (account) {
