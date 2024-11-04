@@ -48,7 +48,7 @@ api.route("POST /api/auth/signin", {
 	handler: "server/controllers/auth.controller.signin",
 });
 api.route("POST /api/auth/signup", {
-	link: links,
+	link: [...links, userPool, eccsWebClient],
 	handler: "server/controllers/auth.controller.signup",
 });
 api.route("POST /api/auth/send-otp", {

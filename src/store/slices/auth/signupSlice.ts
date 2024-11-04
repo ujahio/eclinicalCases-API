@@ -4,7 +4,6 @@ import { signup } from "@/services/apis/auth";
 export const signupUser = createAsyncThunk(
 	"auth/signup",
 	async (signupData: any, thunkAPI) => {
-		console.log("SIGNUP DATA", signupData);
 		try {
 			const filteredSignupData = {
 				firstName: signupData.firstName,
@@ -16,7 +15,10 @@ export const signupUser = createAsyncThunk(
 			const { data } = await signup(filteredSignupData);
 			return data;
 		} catch (error: any) {
-			return thunkAPI.rejectWithValue(error.response.data);
+			return thunkAPI.rejectWithValue({
+				status: error.response?.status || error.status, // temp fix to set status manually
+				message: error.response?.data || error.message, // temp fix to set status manually
+			});
 		}
 	}
 );

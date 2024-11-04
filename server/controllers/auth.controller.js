@@ -153,12 +153,11 @@ export const signup = async (event) => {
 			}),
 		};
 	} catch (error) {
-		console.error("Error registering user:", error);
 		return {
 			statusCode: 500,
 			body: JSON.stringify({
-				message: "Error creating new user.",
-				error: error.message,
+				message: error.message,
+				error: "Error registering user.",
 			}),
 		};
 	}
