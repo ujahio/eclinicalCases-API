@@ -63,22 +63,32 @@ const authOptions = {
 	],
 	callbacks: {
 		async authorized({ request, token }) {
+			const { pathname } = request.nextUrl;
+
+			// Allow access to the login page for unauthenticated users
+			if (!token) {
+				// Allow public access to certain routes for unauthenticated users
+				if (
+					pathname === "/login" ||
+					pathname === "/signup" ||
+					pathname === "/admin" ||
+					pathname === "/"
+				) {
+					return true;
+				}
+				// Deny access to all other routes if unauthenticated
+				return false;
+			}
+
 			// Check if the user is authenticated
-			if (token) {
-				const { pathname } = request.nextUrl;
+			// Restrict students from accessing the /admin route
+			if (pathname.startsWith("/admin") && token.user_role === "student") {
+				return false; // Deny access
+			}
 
-				// Restrict students from accessing the /admin route
-				if (pathname.startsWith("/admin") && token.user_role === "student") {
-					return false; // Deny access
-				}
-
-				// Restrict students from accessing the /admin route
-				if (pathname.startsWith("/login") && token.user_role === "teacher") {
-					return false; // Deny access
-				}
-
-				// Allow all other requests for authenticated users
-				return true;
+			// Restrict students from accessing the /admin route
+			if (pathname.startsWith("/signup") && token.user_role === "teacher") {
+				return false; // Deny access
 			}
 
 			// Deny access if the user is not authenticated
