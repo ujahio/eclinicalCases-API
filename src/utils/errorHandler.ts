@@ -4,7 +4,7 @@ export const handleApiError = (error: any): Promise<never> => {
 	const defaultErrorMessage = "An unexpected error occurred";
 	let errorMessage = defaultErrorMessage;
 	if (error.response && error.response.data) {
-		errorMessage = error.response.data?.error.message || errorMessage;
+		errorMessage = error.response.data?.message || errorMessage;
 	}
 
 	toast.error(errorMessage, {
