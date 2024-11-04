@@ -125,9 +125,8 @@ export const signup = async (event) => {
 		const signupParams = {
 			UserPoolId: Resource.eccslabs.id,
 			Username: email,
-			TemporaryPassword: originalPassword, // Cognito requires an initial temporary password
+			Password: password,
 			UserAttributes: userAttributes,
-			MessageAction: "SUPPRESS", // Prevent sending automatic confirmation email
 		};
 
 		const createUserCommand = new AdminCreateUserCommand(signupParams);
