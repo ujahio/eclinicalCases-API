@@ -1,10 +1,10 @@
 import { v4 as uuidv4 } from "uuid";
 import { UpdateCommand, QueryCommand } from "@aws-sdk/lib-dynamodb";
 import { Resource } from "sst";
-// import uploadFileToBucket from "../services/bucket.js";
 import dbClient from "../services/dbClient.js";
 import { extrapolateRequestBody, verifyToken } from "../utils/api_utils.js";
 import { getDetailsOfStudentsFeedbackAndResponses } from "../utils/api_utils.js";
+import getUserInfo from "../persistence.helpers/getUserInfo.js";
 
 export const publishCase = async (event) => {
 	const {
@@ -195,19 +195,18 @@ export const publishCase = async (event) => {
 };
 
 export const getPublishedCase = async (event) => {
-	const userToken = event.headers.authorization.split(" ")[1];
-	const userInfo = verifyToken(userToken, Resource.NEXT_JWT_SECRET.value);
+	const userInfo = await getUserInfo(event);
 
-	// Check for valid user roles and authentication
 	if (
-		!userInfo &&
-		!(userInfo.user_role === "teacher" || userInfo.user_role === "student")
+		!userInfo ||
+		userInfo.user_role !== "teacher" ||
+		userInfo.user_role !== "student"
 	) {
 		return {
 			statusCode: 400,
 			body: JSON.stringify({
 				error: "Not authorized to view this resource",
-				message: "Error getting publishing case",
+				message: "Error getting published case",
 			}),
 		};
 	}
@@ -217,7 +216,7 @@ export const getPublishedCase = async (event) => {
 			statusCode: 400,
 			body: JSON.stringify({
 				error: "Invalid input: missing required fields",
-				message: "Error getting publishing case",
+				message: "Error getting published case",
 			}),
 		};
 	}

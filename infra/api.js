@@ -69,15 +69,33 @@ api.route("GET /api/case/details/{caseID}", {
 });
 api.route("GET /api/case/archived/{caseFilter}", {
 	handler: "server/controllers/handleArchivedCases.getArchivedCases",
-	link: links,
+	link: [...links, userPool],
+	// link: links,
+	auth: {
+		jwt: {
+			audiences: [eccsWebClient.id],
+			issuer: $interpolate`https://cognito-idp.${
+				aws.getArnOutput(userPool).region
+			}.amazonaws.com/${userPool.id}`,
+		},
+	},
 });
 api.route("GET /api/case/publish", {
 	handler: "server/controllers/handlePublishedCase.getPublishedCase",
-	link: links,
+	link: [...links, userPool],
+	// link: links,
+	auth: {
+		jwt: {
+			audiences: [eccsWebClient.id],
+			issuer: $interpolate`https://cognito-idp.${
+				aws.getArnOutput(userPool).region
+			}.amazonaws.com/${userPool.id}`,
+		},
+	},
 });
 api.route("POST /api/case/publish", {
 	handler: "server/controllers/handlePublishedCase.publishCase",
-	link: links,
+	link: [...links, userPool],
 });
 api.route("GET /api/case/draft/{caseId}", {
 	handler: "server/controllers/handleDraftCases.getDraftCases",
