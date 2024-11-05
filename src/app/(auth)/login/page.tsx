@@ -1,37 +1,43 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import LoginComp from "@/presentation/auth/login";
 import { useRouter } from "next/navigation";
-import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
-import { loginUser, resetStatus } from "@/store/slices/auth/loginSlice";
-import { saltAndHashPassword } from "@/utils/password";
+import { signIn, useSession } from "next-auth/react";
 import { LoginFormValues } from "@/services/types/auth/login";
+import { saltAndHashPassword } from "@/utils/password";
 
 const Login = () => {
+	const { data: session, status } = useSession(); // Get session and status from NextAuth
 	const navigate = useRouter();
-	const dispatch = useAppDispatch();
-	const isLoading = useAppSelector((state) => state.login.status);
-	const userInfo = useAppSelector((state) => state.login.user);
-	const handleSubmitLoginUser = React.useCallback(
-		(val: LoginFormValues) => {
-			const hashedPassword = saltAndHashPassword(val.password);
-			dispatch(loginUser({ ...val, password: hashedPassword }));
-		},
-		[dispatch]
-	);
+
+	const handleSubmitLoginUser = useCallback(async (val: LoginFormValues) => {
+		console.log("val", val);
+		const hashedPassword = saltAndHashPassword(val.password);
+
+		// Use NextAuth signIn method with custom credentials
+		const result = await signIn("credentials", {
+			redirect: false, // prevent NextAuth from handling redirects
+			email: val.email,
+			password: hashedPassword,
+		});
+
+		if (result?.error) {
+			console.error("Sign-in error:", result.error);
+			// Display error to user if needed, e.g., set a state variable for error
+		}
+	}, []);
 
 	useEffect(() => {
-		if (isLoading === "succeeded") {
-			if (userInfo.user?.user_role === "teacher") {
+		if (status === "authenticated" && session?.user) {
+			// Use the user's role to handle navigation
+			if (session.user.user_role === "teacher") {
 				navigate.push("/doctor/dashboard");
-			}
-			if (userInfo.user?.user_role === "student") {
+			} else if (session.user.user_role === "student") {
 				navigate.push("/student/dashboard");
 			}
-			dispatch(resetStatus());
 		}
-	}, [isLoading, dispatch, navigate, userInfo]);
+	}, [status, session, navigate]);
 
 	return <LoginComp handleSubmit={handleSubmitLoginUser} />;
 };
