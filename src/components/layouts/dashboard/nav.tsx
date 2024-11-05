@@ -8,7 +8,8 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { APP_CONTAINER, APP_SPACING } from "@/services/constants/styles";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
-import { logout } from "@/store/slices/auth/loginSlice";
+// import { logout } from "@/store/slices/auth/loginSlice";
+import { signOut } from "next-auth/react"; // Import NextAuth signOut
 
 interface NavProps {
 	navLinks?: { path: string; label: string }[];
@@ -41,7 +42,7 @@ const Nav: FunctionComponent<NavProps> = ({
 	};
 
 	const logoutUser = async () => {
-		dispatch(logout());
+		await signOut({ redirect: false });
 		router.push("/login");
 	};
 
