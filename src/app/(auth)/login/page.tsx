@@ -12,7 +12,6 @@ const Login = () => {
 	const navigate = useRouter();
 
 	const handleSubmitLoginUser = useCallback(async (val: LoginFormValues) => {
-		console.log("val", val);
 		const hashedPassword = saltAndHashPassword(val.password);
 
 		// Use NextAuth signIn method with custom credentials

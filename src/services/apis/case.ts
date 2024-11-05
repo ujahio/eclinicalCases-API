@@ -40,7 +40,7 @@ export const updateDraftCaseApi = (caseData: any, token: string, _id: any) => {
 	return caseApi.put(`/draft/${_id}`, formData, configureRequestHeaders(token));
 };
 
-export const getArchiveCasesApi = (token: string, isRecent?: string) => {
+export const getArchiveCasesApi = (token?: string, isRecent?: string) => {
 	const url = isRecent ? `/archived/?caseFilter=${isRecent}` : "/archived/";
 
 	return caseApi.get(url, configureRequestHeaders(token));
@@ -55,7 +55,7 @@ export const fetchCaseDetailsApi = (caseId: any, token: string) => {
 	return caseApi.get(`/details/${caseId}`, configureRequestHeaders(token));
 };
 
-export const fetchPublishedCaseApi = (token: string) => {
+export const fetchPublishedCaseApi = (token?: string) => {
 	return caseApi.get("/publish", configureRequestHeaders(token));
 };
 export const deleteCaseApi = (caseId: string, token: string) => {

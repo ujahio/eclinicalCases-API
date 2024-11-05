@@ -15,9 +15,9 @@ authApi.interceptors.response.use(null, handleApiError);
 caseApi.interceptors.response.use(null, handleApiError);
 studentApi.interceptors.response.use(null, handleApiError);
 
-export const configureRequestHeaders = (token: string, formData?: any) => {
+export const configureRequestHeaders = (token?: string, formData?: any) => {
 	const headers = {
-		Authorization: `Bearer ` + token,
+		...(token ? { Authorization: `Bearer ` + token } : {}),
 		...(formData && formData.getHeaders
 			? formData.getHeaders()
 			: { "Content-Type": "multipart/form-data" }),
