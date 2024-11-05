@@ -19,7 +19,7 @@ export const addFeedbackApi = (feedbackData: any, token: string) => {
 	);
 };
 
-export const getStudentsResponsesApi = (isRecent: any, token: string) => {
+export const getStudentsResponsesApi = (isRecent: any, token?: string) => {
 	const url = isRecent
 		? `/student/responses/?caseFilter=${isRecent}`
 		: "/student/responses/";

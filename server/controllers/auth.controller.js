@@ -90,16 +90,24 @@ export const signup = async (event) => {
 
 		let teacherId;
 		// Fetch the first available teacher's ID from Cognito if the user role is 'student'
+		// This is going to be an issue as users grow, magic number of 60
 		if (user_role === "student") {
 			const listTeachersCommand = new ListUsersCommand({
 				UserPoolId: Resource.eccslabs.id,
-				Filter: 'custom:user_role = "teacher"',
-				Limit: 1,
+				Limit: 60, // Adjust the limit as needed
 			});
 
-			const teachers = await cognitoClient.send(listTeachersCommand);
+			const listOfUsers = await cognitoClient.send(listTeachersCommand);
 
-			if (!teachers.Users || teachers.Users.length === 0) {
+			// Filter users by custom:user_role attribute in code
+			// Should only be one teacher
+			const teachersList = listOfUsers.Users.filter((user) => {
+				return user.Attributes.some(
+					(attr) => attr.Name === "custom:user_role" && attr.Value === "teacher"
+				);
+			});
+
+			if (!teachersList || teachersList.length === 0) {
 				return {
 					statusCode: 400,
 					body: JSON.stringify({
@@ -109,7 +117,7 @@ export const signup = async (event) => {
 			}
 
 			// Get the first (and only) teacher's ID
-			teacherId = teachers.Users[0].Username;
+			teacherId = teachersList[0].Username;
 		}
 
 		// Register the new user in Cognito
@@ -147,6 +155,7 @@ export const signup = async (event) => {
 			}),
 		};
 	} catch (error) {
+		console.error("Error registering user:", error);
 		return {
 			statusCode: 500,
 			body: JSON.stringify({

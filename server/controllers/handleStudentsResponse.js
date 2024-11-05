@@ -5,11 +5,10 @@ import { Resource } from "sst";
 // import { uploadFileToBucket } from "../services/bucket.js";
 import { generateCertificate } from "../utils/certificate.js";
 import { extrapolateRequestBody, verifyToken } from "../utils/api_utils.js";
+import getUserInfo from "../persistence.helpers/getUserInfo.js";
 
 export const getStudentsResponses = async (event) => {
-	const userToken = event.headers.authorization.split(" ")[1];
-	const userInfo = verifyToken(userToken, Resource.NEXT_JWT_SECRET.value);
-	const caseFilter = event.pathParameters?.caseFilter;
+	const userInfo = await getUserInfo(event);
 
 	if (!userInfo || userInfo.user_role !== "student") {
 		return {
@@ -21,23 +20,23 @@ export const getStudentsResponses = async (event) => {
 		};
 	}
 
-	const { id: studentID } = userInfo;
-
-	const params = {
-		TableName: Resource.StudentsResponses.name,
-		IndexName: "StudentIDIndex",
-		KeyConditionExpression: "studentID = :studentID",
-		ExpressionAttributeValues: {
-			":studentID": studentID,
-		},
-		ScanIndexForward: false, // Sort in descending order (latest first)
-	};
-
-	if (caseFilter && caseFilter === "recent") {
-		params.Limit = 3;
-	}
-
 	try {
+		const caseFilter = event.pathParameters?.caseFilter;
+		const { id: studentID } = userInfo;
+
+		const params = {
+			TableName: Resource.StudentsResponses.name,
+			IndexName: "StudentIDIndex",
+			KeyConditionExpression: "studentID = :studentID",
+			ExpressionAttributeValues: {
+				":studentID": studentID,
+			},
+			ScanIndexForward: false, // Sort in descending order (latest first)
+		};
+
+		if (caseFilter && caseFilter === "recent") {
+			params.Limit = 3;
+		}
 		const command = new QueryCommand(params);
 		const result = await dbClient.send(command);
 

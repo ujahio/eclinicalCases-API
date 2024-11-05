@@ -163,7 +163,16 @@ api.route("GET /api/student/certificates", {
 });
 api.route("GET /api/student/responses/{caseFilter}", {
 	handler: "server/controllers/handleStudentsResponse.getStudentsResponses",
-	link: links,
+	link: [...links, userPool],
+	// link: links,
+	auth: {
+		jwt: {
+			audiences: [eccsWebClient.id],
+			issuer: $interpolate`https://cognito-idp.${
+				aws.getArnOutput(userPool).region
+			}.amazonaws.com/${userPool.id}`,
+		},
+	},
 });
 
 api.route("POST /api/student/response", {
