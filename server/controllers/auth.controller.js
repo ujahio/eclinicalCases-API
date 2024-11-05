@@ -6,6 +6,7 @@ import {
 	SignUpCommand,
 	AdminGetUserCommand,
 	ListUsersCommand,
+	AdminInitiateAuthCommand,
 } from "@aws-sdk/client-cognito-identity-provider";
 import { ScanCommand } from "@aws-sdk/lib-dynamodb";
 import {
@@ -21,6 +22,13 @@ import cognitoClient from "../services/cognitoClient.js";
 // import { checkDuplicateUsernameOrEmail } from "../middlewares/verifySignUp";
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+const stagePrefix =
+	Resource.App.stage.toLowerCase() === "production"
+		? ""
+		: `${Resource.App.stage.toLowerCase()}.`;
+
+const cognitoWebClient = `${stagePrefix}eccswebclient`;
 
 export const signup = async (event) => {
 	const { firstName, lastName, email, password, user_role } = JSON.parse(
@@ -121,13 +129,6 @@ export const signup = async (event) => {
 			Resource.NEXT_PUBLIC_PASS_SECRET_KEY.value
 		);
 
-		const stagePrefix =
-			Resource.App.stage.toLowerCase() === "production"
-				? ""
-				: `${Resource.App.stage.toLowerCase()}-`;
-
-		const cognitoWebClient = `${stagePrefix}eccswebclient`;
-
 		const signupParams = {
 			ClientId: Resource[cognitoWebClient].id,
 			Username: email,
@@ -186,45 +187,49 @@ export const signin = async (event) => {
 			Resource.NEXT_PUBLIC_PASS_SECRET_KEY.value
 		);
 
-		const params = {
-			TableName: Resource.ECCSUsers.name,
-			FilterExpression: "email = :email",
-			ExpressionAttributeValues: {
-				":email": email,
+		const authCommand = new AdminInitiateAuthCommand({
+			UserPoolId: Resource.eccslabs.id,
+			ClientId: Resource[cognitoWebClient].id,
+			AuthFlow: "ADMIN_NO_SRP_AUTH",
+			AuthParameters: {
+				USERNAME: email,
+				PASSWORD: originalPassword,
 			},
-		};
+		});
 
-		const command = new ScanCommand(params);
-		const result = await dbClient.send(command);
+		const authResponse = await cognitoClient.send(authCommand);
 
-		const user = result.Items[0];
+		// Retrieve additional user attributes
+		const userCommand = new AdminGetUserCommand({
+			UserPoolId: Resource.eccslabs.id,
+			Username: email,
+		});
 
-		if (!user) {
-			return {
-				statusCode: 401,
-				body: JSON.stringify({ message: "Invalid email or password" }),
-			};
-		}
+		const userResponse = await cognitoClient.send(userCommand);
 
-		const isValid = bcrypt.compareSync(originalPassword, user.password);
-		if (!isValid) {
-			return {
-				statusCode: 401,
-				body: JSON.stringify({ message: "Invalid email or password" }),
-			};
-		}
+		// Extract user attributes
+		const firstName = userResponse.UserAttributes.find(
+			(attr) => attr.Name === "custom:firstName"
+		)?.Value;
+		const lastName = userResponse.UserAttributes.find(
+			(attr) => attr.Name === "custom:lastName"
+		)?.Value;
+		const user_role = userResponse.UserAttributes.find(
+			(attr) => attr.Name === "custom:user_role"
+		)?.Value;
 
-		const userToken = jwt.sign(user, Resource.NEXT_JWT_SECRET.value);
+		// Return authentication tokens along with additional user details
 		return {
 			statusCode: 200,
 			body: JSON.stringify({
 				message: "Login successful!",
-				token: userToken,
-				user: {
-					id: user.id,
-					email: user.email,
-					user_role: user.user_role,
-				},
+				accessToken: authResponse.AuthenticationResult.AccessToken,
+				idToken: authResponse.AuthenticationResult.IdToken,
+				refreshToken: authResponse.AuthenticationResult.RefreshToken,
+				firstName,
+				lastName,
+				user_role,
+				id: userResponse.Username,
 			}),
 		};
 	} catch (error) {

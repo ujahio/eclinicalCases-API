@@ -26,8 +26,6 @@ const links = [
 	NEXT_PUBLIC_PASS_SECRET_KEY,
 	NEXT_PUBLIC_BASE_URL,
 	NEXT_PUBLIC_NODE_ENV,
-	userPool,
-	eccsWebClient,
 	ECCSEmail,
 ];
 
@@ -44,7 +42,7 @@ export const api = new sst.aws.ApiGatewayV2("eccs", {
 
 // Auth
 api.route("POST /api/auth/signin", {
-	link: links,
+	link: [...links, userPool, eccsWebClient],
 	handler: "server/controllers/auth.controller.signin",
 });
 api.route("POST /api/auth/signup", {
