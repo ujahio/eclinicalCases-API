@@ -84,18 +84,14 @@ export const authUrl = $concat(
 const stagePrefix =
 	$app.stage.toLowerCase() === "production"
 		? ""
-		: `${$app.stage.toLowerCase()}-`;
+		: `${$app.stage.toLowerCase()}.`;
 
 export const eccsWebClient = userPool.addClient(`${stagePrefix}eccswebclient`, {
 	transform: {
 		client: {
-			allowedOauthFlows: ["code"],
-			refreshTokenValidity: 1,
-			generateSecret: false,
-			logoutUrls: [
-				$interpolate`https://${stagePrefix}${process.env.NEXT_PUBLIC_DOMAIN}`,
-				"http://localhost:3000",
-			],
+			explicitAuthFlows: ["ADMIN_NO_SRP_AUTH", "USER_PASSWORD_AUTH"],
+			refreshTokenValidity: 1, // Refresh token validity in days
+			generateSecret: false, // No client secret needed for programmatic JWT flow
 			supportedIdentityProviders: ["COGNITO"],
 		},
 	},
