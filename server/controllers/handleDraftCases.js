@@ -151,12 +151,10 @@ export const getDraftCases = async (event) => {
 
 export const deleteDraftCase = async (event) => {
 	try {
+		const userInfo = await getUserInfo(event);
 		const caseID = event.pathParameters.caseID;
-		const userToken = event.headers.authorization.split(" ")[1];
-		const userInfo = verifyToken(userToken, Resource.NEXT_JWT_SECRET.value);
-		const { id: teacherId } = userInfo;
 
-		if (!userInfo && !(roles === "teacher")) {
+		if (!userInfo || userInfo.user_role !== "teacher") {
 			return {
 				statusCode: 400,
 				body: JSON.stringify({
@@ -198,6 +196,8 @@ export const deleteDraftCase = async (event) => {
 			};
 		}
 
+		const { id: teacherId } = userInfo;
+
 		if (draftCaseResult.teacherId !== teacherId) {
 			return {
 				statusCode: 400,
@@ -208,7 +208,6 @@ export const deleteDraftCase = async (event) => {
 			};
 		}
 
-		// Delete the case if it meets the criteria
 		const deleteParams = {
 			TableName: Resource.TeacherCaseStudies.name,
 			Key: {
