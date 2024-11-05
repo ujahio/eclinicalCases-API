@@ -8,16 +8,13 @@ import {
 } from "@aws-sdk/lib-dynamodb";
 import { sortBy, isEqual } from "lodash";
 import { Resource } from "sst";
-// import uploadFileToBucket from "../services/bucket.js";
 import dbClient from "../services/dbClient.js";
 import { extrapolateRequestBody, verifyToken } from "../utils/api_utils.js";
+import getUserInfo from "../persistence.helpers/getUserInfo.js";
 
 export const addDraftCase = async (event) => {
+	const userInfo = await getUserInfo(event);
 	const draftCaseData = await extrapolateRequestBody(event);
-	const userToken = event.headers.authorization.split(" ")[1];
-	const userInfo = verifyToken(userToken, Resource.NEXT_JWT_SECRET.value);
-	const teacherID = userInfo.id;
-
 	// possible use coginito authorizer
 	if (!userInfo || !userInfo.id || userInfo.user_role !== "teacher") {
 		return {
@@ -30,7 +27,7 @@ export const addDraftCase = async (event) => {
 	}
 
 	// TODO: evaluate required fields for draft cases
-	if (!teacherID || !draftCaseData.caseClue) {
+	if (!userInfo.id || !draftCaseData.caseClue) {
 		return {
 			statusCode: 400,
 			body: JSON.stringify({
@@ -40,30 +37,32 @@ export const addDraftCase = async (event) => {
 		};
 	}
 
-	const caseItem = {
-		id: uuidv4(),
-		teacherId: teacherID,
-		createdAt: Date.now(),
-		caseStatus: "draft",
-		caseClue: draftCaseData.caseClue || undefined,
-		caseDescription: draftCaseData.caseDescription || undefined,
-		caseTopic: draftCaseData.caseTopic || undefined,
-		caseExplanation: draftCaseData.caseExplanation || undefined,
-		caseDeadline: draftCaseData.caseDeadline
-			? new Date(draftCaseData.caseDeadline).toISOString()
-			: undefined,
-		caseQuestions: draftCaseData.caseQuestions
-			? JSON.parse(draftCaseData.caseQuestions)
-			: undefined,
-		caseMaterials: draftCaseData.caseMaterials || undefined,
-	};
-
-	const params = {
-		TableName: Resource.TeacherCaseStudies.name,
-		Item: caseItem,
-	};
-
 	try {
+		const teacherID = userInfo.id;
+
+		const caseItem = {
+			id: uuidv4(),
+			teacherId: teacherID,
+			createdAt: Date.now(),
+			caseStatus: "draft",
+			caseClue: draftCaseData.caseClue || undefined,
+			caseDescription: draftCaseData.caseDescription || undefined,
+			caseTopic: draftCaseData.caseTopic || undefined,
+			caseExplanation: draftCaseData.caseExplanation || undefined,
+			caseDeadline: draftCaseData.caseDeadline
+				? new Date(draftCaseData.caseDeadline).toISOString()
+				: undefined,
+			caseQuestions: draftCaseData.caseQuestions
+				? JSON.parse(draftCaseData.caseQuestions)
+				: undefined,
+			caseMaterials: draftCaseData.caseMaterials || undefined,
+		};
+
+		const params = {
+			TableName: Resource.TeacherCaseStudies.name,
+			Item: caseItem,
+		};
+
 		const command = new PutCommand(params);
 		const result = await dbClient.send(command);
 		console.log("Draft Case added successfully", result);
@@ -87,12 +86,9 @@ export const addDraftCase = async (event) => {
 };
 
 export const getDraftCases = async (event) => {
-	const caseId = event.pathParameters?.caseId;
-	const userToken = event.headers.authorization.split(" ")[1];
-	const userInfo = verifyToken(userToken, Resource.NEXT_JWT_SECRET.value);
-	const teacherID = userInfo.id;
+	const userInfo = await getUserInfo(event);
 
-	if (!userInfo && !(roles === "teacher")) {
+	if (!userInfo || userInfo.user_role !== "teacher") {
 		return {
 			statusCode: 400,
 			body: JSON.stringify({
@@ -104,19 +100,18 @@ export const getDraftCases = async (event) => {
 
 	try {
 		let params;
+		const teacherID = userInfo.id;
+		const caseId = event.pathParameters?.caseId;
 
 		if (caseId) {
-			// Query for a single draft case by caseId
-
 			params = {
 				TableName: Resource.TeacherCaseStudies.name,
-				KeyConditionExpression: "id = :caseId", // Primary key query
+				KeyConditionExpression: "id = :caseId",
 				ExpressionAttributeValues: {
 					":caseId": caseId,
 				},
 			};
 		} else {
-			// Query for all draft cases for the teacher
 			params = {
 				TableName: Resource.TeacherCaseStudies.name,
 				IndexName: "TeacherStatusIndex",

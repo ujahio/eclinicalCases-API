@@ -46,7 +46,7 @@ export const getArchiveCasesApi = (token?: string, isRecent?: string) => {
 	return caseApi.get(url, configureRequestHeaders(token));
 };
 
-export const getDraftCasesApi = (caseId: string, token: string) => {
+export const getDraftCasesApi = (caseId: string, token?: string) => {
 	const url = caseId ? `/draft/${caseId}` : `/draft/`;
 	return caseApi.get(url, configureRequestHeaders(token));
 };

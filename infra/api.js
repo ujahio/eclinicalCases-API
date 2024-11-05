@@ -49,10 +49,10 @@ api.route("POST /api/auth/signup", {
 	link: [...links, userPool, eccsWebClient],
 	handler: "server/controllers/auth.controller.signup",
 });
-api.route("POST /api/auth/send-otp", {
-	handler: "server/controllers/auth.controller.sendOTP",
-	link: links,
-});
+// api.route("POST /api/auth/send-otp", {
+// 	handler: "server/controllers/auth.controller.sendOTP",
+// 	link: links,
+// });
 api.route("POST /api/auth/reset-password", {
 	handler: "server/controllers/auth.controller.verifyOtpAndResetPassword",
 	link: links,
@@ -63,10 +63,10 @@ api.route("POST /api/auth/update-password", {
 });
 
 //Case;
-api.route("GET /api/case/details/{caseID}", {
-	handler: "server/controllers/case.controller.getCaseForStudentsResponse",
-	link: links,
-});
+// api.route("GET /api/case/details/{caseID}", {
+// 	handler: "server/controllers/case.controller.getCaseForStudentsResponse",
+// 	link: links,
+// });
 api.route("GET /api/case/archived/{caseFilter}", {
 	handler: "server/controllers/handleArchivedCases.getArchivedCases",
 	link: [...links, userPool],
@@ -99,7 +99,16 @@ api.route("POST /api/case/publish", {
 });
 api.route("GET /api/case/draft/{caseId}", {
 	handler: "server/controllers/handleDraftCases.getDraftCases",
-	link: links,
+	link: [...links, userPool],
+	// link: links,
+	auth: {
+		jwt: {
+			audiences: [eccsWebClient.id],
+			issuer: $interpolate`https://cognito-idp.${
+				aws.getArnOutput(userPool).region
+			}.amazonaws.com/${userPool.id}`,
+		},
+	},
 });
 
 api.route("POST /api/case/draft", {
@@ -114,10 +123,10 @@ api.route("DELETE /api/case/delete-case/{caseID}", {
 	handler: "server/controllers/handleDraftCases.deleteDraftCase",
 	link: links,
 });
-api.route("GET /api/case/data/{caseID}", {
-	handler: "server/controllers/case.controller.getCaseData",
-	link: links,
-});
+// api.route("GET /api/case/data/{caseID}", {
+// 	handler: "server/controllers/case.controller.getCaseData",
+// 	link: links,
+// });
 
 // NOT CURRENTLY USED BUT MAYBE USED SO KEEP
 // api.route("POST /api/case/duplicate", {
