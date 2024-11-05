@@ -196,11 +196,11 @@ export const publishCase = async (event) => {
 
 export const getPublishedCase = async (event) => {
 	const userInfo = await getUserInfo(event);
+	console.log("userInfo", userInfo);
 
 	if (
 		!userInfo ||
-		userInfo.user_role !== "teacher" ||
-		userInfo.user_role !== "student"
+		!(userInfo.user_role === "teacher" || userInfo.user_role === "student")
 	) {
 		return {
 			statusCode: 400,
