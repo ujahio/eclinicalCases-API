@@ -11,7 +11,9 @@ import {
 	resetGetDraftCasesStatus,
 	updateDraftCase,
 } from "@/store/slices/case/updateDraftCaseSlice";
-import { addCase } from "@/store/slices/case/addCaseSlice";
+import { addCase, resetAddCaseStatus } from "@/store/slices/case/addCaseSlice";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 // TODO: move to a utility file/folder
 const formatDateToYYYYMMDD = (dateString: any) => {
@@ -23,8 +25,11 @@ const formatDateToYYYYMMDD = (dateString: any) => {
 };
 
 const Update: FunctionComponent<any> = ({ params }) => {
+	const navigate = useRouter();
+
 	const dispatch = useAppDispatch();
 	const getDraftCasesState = useAppSelector((state) => state.getDraftCases);
+	const addCaseState = useAppSelector((state) => state.addCase);
 
 	const {
 		active: activeTab,
@@ -87,6 +92,34 @@ const Update: FunctionComponent<any> = ({ params }) => {
 			setCaseStudy(updatedCaseStudy);
 		}
 	}, [getDraftCasesState, dispatch]);
+
+	useEffect(() => {
+		if (addCaseState.status === "succeeded") {
+			dispatch(resetAddCaseStatus());
+			toast.success(addCaseState.newCase.message, {
+				position: "top-right",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "light",
+			});
+			navigate.push("/doctor/dashboard");
+		} else if (addCaseState.status === "failed") {
+			toast.error(addCaseState.error.message.message, {
+				position: "top-right",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "light",
+			});
+		}
+	}, [addCaseState, dispatch, navigate]);
 
 	return (
 		<UpdateCaseStudy
