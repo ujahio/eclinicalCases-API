@@ -6,21 +6,24 @@ import { Resource } from "sst";
 import { generateCertificate } from "../utils/certificate.js";
 import { extrapolateRequestBody } from "../utils/api_utils.js";
 import getUserInfo from "../persistence.helpers/getUserInfo.js";
+import decodeToken from "../utils/decodeToken.js";
 
 export const getStudentsResponses = async (event) => {
-	const userInfo = await getUserInfo(event);
-
-	if (!userInfo || userInfo.user_role !== "student") {
-		return {
-			statusCode: 400,
-			body: JSON.stringify({
-				error: "Not authorized to view this resource",
-				message: "Error getting students responses.",
-			}),
-		};
-	}
-
 	try {
+		const decodedToken = decodeToken(event);
+		const username = decodedToken.username;
+		const userInfo = await getUserInfo(username);
+
+		if (!userInfo || userInfo.user_role !== "student") {
+			return {
+				statusCode: 400,
+				body: JSON.stringify({
+					error: "Not authorized to view this resource",
+					message: "Error getting students responses.",
+				}),
+			};
+		}
+
 		const caseFilter = event.pathParameters?.caseFilter;
 		const { id: studentID } = userInfo;
 
@@ -60,10 +63,12 @@ export const getStudentsResponses = async (event) => {
 };
 
 export const submitStudentResponse = async (event) => {
-	const userInfo = await getUserInfo(event);
-	const caseInfo = await extrapolateRequestBody(event);
-
 	try {
+		const decodedToken = decodeToken(event);
+		const username = decodedToken.username;
+		const userInfo = await getUserInfo(username);
+		const caseInfo = await extrapolateRequestBody(event);
+
 		const { firstName, lastName, id: studentID } = userInfo;
 		const fullName = `${firstName} ${lastName}`;
 		// 	Call grading function and get the result

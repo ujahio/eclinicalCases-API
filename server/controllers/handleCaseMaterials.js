@@ -6,9 +6,12 @@ import {
 } from "../services/bucket.js";
 import { extrapolateRequestBody } from "../utils/api_utils.js";
 import getUserInfo from "../persistence.helpers/getUserInfo.js";
+import decodeToken from "../utils/decodeToken.js";
 
 export const getSignedUrlsToFetchForCaseMaterials = async (event) => {
-	const userInfo = await getUserInfo(event);
+	const decodedToken = decodeToken(event);
+	const username = decodedToken.username;
+	const userInfo = await getUserInfo(username);
 
 	if (!userInfo || !userInfo.id) {
 		return {
@@ -61,17 +64,7 @@ export const getSignedUrlsToFetchForCaseMaterials = async (event) => {
 	}
 };
 
-export const getSignedUrlToUploadForCaseMaterials = async (event) => {
-	const userInfo = await getUserInfo(event);
-	const { id: teacherID } = userInfo;
-
-	if (!userInfo || !teacherID) {
-		return {
-			statusCode: 401,
-			body: JSON.stringify({ error: "Unauthorized" }),
-		};
-	}
-
+export const getSignedUrlToUploadForCaseMaterials = async () => {
 	try {
 		const { pdfUrl, documentKey } = await getSignedUrlToUploadToS3();
 
@@ -97,8 +90,6 @@ export const getSignedUrlToUploadForCaseMaterials = async (event) => {
 };
 
 export const deleteCaseMaterial = async (event) => {
-	await getUserInfo(event);
-
 	const { fileKey } = await extrapolateRequestBody(event);
 	if (!fileKey) {
 		return {

@@ -8,52 +8,66 @@ import {
 	getDetailsOfStudentsFeedbackAndResponses,
 } from "../utils/api_utils.js";
 import getUserInfo from "../persistence.helpers/getUserInfo.js";
+import decodeToken from "../utils/decodeToken.js";
 
 export const getCaseForStudentsResponse = async (event) => {
-	const userInfo = await getUserInfo(event);
+	try {
+		const decodedToken = decodeToken(event);
+		const username = decodedToken.username;
+		const userInfo = await getUserInfo(username);
 
-	const params = {
-		TableName: Resource.TeacherCaseStudies.name,
-		IndexName: "TeacherStatusIndex",
-		KeyConditionExpression:
-			"teacherId = :teacherId AND caseStatus = :caseStatus",
-		ExpressionAttributeValues: {
-			":teacherId": userInfo.teacherId,
-			":caseStatus": "published",
-		},
-	};
+		const params = {
+			TableName: Resource.TeacherCaseStudies.name,
+			IndexName: "TeacherStatusIndex",
+			KeyConditionExpression:
+				"teacherId = :teacherId AND caseStatus = :caseStatus",
+			ExpressionAttributeValues: {
+				":teacherId": userInfo.teacherId,
+				":caseStatus": "published",
+			},
+		};
 
-	const command = new QueryCommand(params);
-	const result = await dbClient.send(command);
-	const publishedCaseResult = result.Items[0];
+		const command = new QueryCommand(params);
+		const result = await dbClient.send(command);
+		const publishedCaseResult = result.Items[0];
 
-	if (!publishedCaseResult) {
+		if (!publishedCaseResult) {
+			return {
+				statusCode: 200,
+				body: JSON.stringify({
+					message: "There is currently no published case.",
+				}),
+			};
+		}
+
+		const caseInfo = {
+			id: publishedCaseResult.id,
+			caseTopic: publishedCaseResult.caseTopic,
+			caseDeadline: publishedCaseResult.caseDeadline,
+			caseStatus: publishedCaseResult.caseStatus,
+			caseDescription: publishedCaseResult.caseDescription,
+			caseQuestions: publishedCaseResult.caseQuestions,
+			caseExplanation: publishedCaseResult.caseExplanation,
+			caseMaterials: publishedCaseResult.caseMaterials,
+		};
+
 		return {
 			statusCode: 200,
 			body: JSON.stringify({
-				message: "There is currently no published case.",
+				message: "Case details retrieved successfully!",
+				caseInfo,
+			}),
+		};
+	} catch (error) {
+		console.error("Error retrieving students responses:", error);
+		return {
+			statusCode: 500,
+			body: JSON.stringify({
+				error: `Error retrieving students responses: ${error.message}`,
+				message: "Error retrieving students responses.",
 			}),
 		};
 	}
-
-	const caseInfo = {
-		id: publishedCaseResult.id,
-		caseTopic: publishedCaseResult.caseTopic,
-		caseDeadline: publishedCaseResult.caseDeadline,
-		caseStatus: publishedCaseResult.caseStatus,
-		caseDescription: publishedCaseResult.caseDescription,
-		caseQuestions: publishedCaseResult.caseQuestions,
-		caseExplanation: publishedCaseResult.caseExplanation,
-		caseMaterials: publishedCaseResult.caseMaterials,
-	};
-
-	return {
-		statusCode: 200,
-		body: JSON.stringify({
-			message: "Case details retrieved successfully!",
-			caseInfo,
-		}),
-	};
 };
 
 export const duplicateCase = async (event) => {
@@ -121,7 +135,6 @@ export const duplicateCase = async (event) => {
 };
 
 export const addFeedback = async (event) => {
-	const userInfo = await getUserInfo(event);
 	const extrapolatedFormData = await extrapolateRequestBody(event);
 	const { caseID, feedback } = parseLogToObject(extrapolatedFormData);
 
@@ -135,7 +148,8 @@ export const addFeedback = async (event) => {
 	}
 
 	try {
-		const { id: studentID } = userInfo;
+		const username = verifiedUserTokenDetails.decoded.username;
+		const { id: studentID } = await getUserInfo(username);
 
 		const params = {
 			TableName: Resource.Feedback.name,
@@ -166,8 +180,6 @@ export const addFeedback = async (event) => {
 };
 
 export const getCaseFeedback = async (event) => {
-	await getUserInfo(event);
-
 	const caseID = event.pathParameters.caseID;
 
 	if (!caseID) {
@@ -243,8 +255,6 @@ export const getCaseFeedback = async (event) => {
 };
 
 export const getCaseAnswers = async (event) => {
-	await getUserInfo(event);
-
 	try {
 		const caseID = event.pathParameters.caseID;
 
@@ -305,11 +315,8 @@ export const getCaseAnswers = async (event) => {
 };
 
 export const getCaseData = async (event) => {
-	await getUserInfo(event);
-
 	try {
 		const caseID = event.pathParameters.caseID;
-
 		const getCaseParams = {
 			TableName: Resource.TeacherCaseStudies.name,
 			Key: { id: caseID },

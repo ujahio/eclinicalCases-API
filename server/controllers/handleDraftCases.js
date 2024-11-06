@@ -11,33 +11,44 @@ import { Resource } from "sst";
 import dbClient from "../services/dbClient.js";
 import { extrapolateRequestBody } from "../utils/api_utils.js";
 import getUserInfo from "../persistence.helpers/getUserInfo.js";
+import decodeToken from "../utils/decodeToken.js";
+
+const areArraysEqualRegardlessOfOrder = (array1, array2, key) => {
+	const sortedArray1 = sortBy(array1, [key]);
+	const sortedArray2 = sortBy(array2, [key]);
+	return isEqual(sortedArray1, sortedArray2);
+};
 
 export const addDraftCase = async (event) => {
-	const userInfo = await getUserInfo(event);
-	const draftCaseData = await extrapolateRequestBody(event);
-	// possible use coginito authorizer
-	if (!userInfo || !userInfo.id || userInfo.user_role !== "teacher") {
-		return {
-			statusCode: 400,
-			body: JSON.stringify({
-				error: "Not authorized to use this resource",
-				message: "Error adding a draft case.",
-			}),
-		};
-	}
-
-	// TODO: evaluate required fields for draft cases
-	if (!userInfo.id || !draftCaseData.caseClue) {
-		return {
-			statusCode: 400,
-			body: JSON.stringify({
-				error: "Invalid input: missing required fields",
-				message: "Error adding a draft case.",
-			}),
-		};
-	}
-
 	try {
+		const decodedToken = decodeToken(event);
+		const username = decodedToken.username;
+		const userInfo = await getUserInfo(username);
+
+		// possible use coginito authorizer
+		if (!userInfo || !userInfo.id || userInfo.user_role !== "teacher") {
+			return {
+				statusCode: 400,
+				body: JSON.stringify({
+					error: "Not authorized to use this resource",
+					message: "Error adding a draft case.",
+				}),
+			};
+		}
+
+		const draftCaseData = await extrapolateRequestBody(event);
+
+		// TODO: evaluate required fields for draft cases
+		if (!userInfo.id || !draftCaseData.caseClue) {
+			return {
+				statusCode: 400,
+				body: JSON.stringify({
+					error: "Invalid input: missing required fields",
+					message: "Error adding a draft case.",
+				}),
+			};
+		}
+
 		const teacherID = userInfo.id;
 
 		const caseItem = {
@@ -86,20 +97,22 @@ export const addDraftCase = async (event) => {
 };
 
 export const getDraftCases = async (event) => {
-	const userInfo = await getUserInfo(event);
-
-	if (!userInfo || userInfo.user_role !== "teacher") {
-		return {
-			statusCode: 400,
-			body: JSON.stringify({
-				error: "Not authorized to use this resource",
-				message: "Error retrieving draft cases.",
-			}),
-		};
-	}
-
 	try {
+		const decodedToken = decodeToken(event);
+		const username = decodedToken.username;
+		const userInfo = await getUserInfo(username);
 		let params;
+
+		if (!userInfo || userInfo.user_role !== "teacher") {
+			return {
+				statusCode: 400,
+				body: JSON.stringify({
+					error: "Not authorized to use this resource",
+					message: "Error retrieving draft cases.",
+				}),
+			};
+		}
+
 		const teacherID = userInfo.id;
 		const caseId = event.pathParameters?.caseId;
 
@@ -150,31 +163,33 @@ export const getDraftCases = async (event) => {
 };
 
 export const deleteDraftCase = async (event) => {
-	const userInfo = await getUserInfo(event);
-	const caseID = event.pathParameters.caseID;
-
-	// Validate caseID
-	if (!caseID) {
-		return {
-			statusCode: 400,
-			body: JSON.stringify({
-				error: "Missing case ID in the request URL.",
-				message: "Error deleting draft case.",
-			}),
-		};
-	}
-
-	if (!userInfo || userInfo.user_role !== "teacher") {
-		return {
-			statusCode: 400,
-			body: JSON.stringify({
-				message: "Not authorized to use this resource",
-				message: "Error deleting draft case.",
-			}),
-		};
-	}
-
 	try {
+		const decodedToken = decodeToken(event);
+		const username = decodedToken.username;
+		const userInfo = await getUserInfo(username);
+		const caseID = event.pathParameters.caseID;
+
+		// Validate caseID
+		if (!caseID) {
+			return {
+				statusCode: 400,
+				body: JSON.stringify({
+					error: "Missing case ID in the request URL.",
+					message: "Error deleting draft case.",
+				}),
+			};
+		}
+
+		if (!userInfo || userInfo.user_role !== "teacher") {
+			return {
+				statusCode: 400,
+				body: JSON.stringify({
+					message: "Not authorized to use this resource",
+					message: "Error deleting draft case.",
+				}),
+			};
+		}
+
 		const { id: teacherId } = userInfo;
 
 		// Query the case to check if it's a draft and belongs to the teacher
@@ -239,38 +254,34 @@ export const deleteDraftCase = async (event) => {
 	}
 };
 
-const areArraysEqualRegardlessOfOrder = (array1, array2, key) => {
-	const sortedArray1 = sortBy(array1, [key]);
-	const sortedArray2 = sortBy(array2, [key]);
-	return isEqual(sortedArray1, sortedArray2);
-};
-
 export const updateDraftCase = async (event) => {
-	const userInfo = await getUserInfo(event);
-	const caseID = event.pathParameters.caseID;
-
-	if (!userInfo || userInfo.user_role !== "teacher") {
-		return {
-			statusCode: 400,
-			body: JSON.stringify({
-				error: "Not authorized to use this resource",
-				message: "Error updating draft case.",
-			}),
-		};
-	}
-
-	// Validate that caseID is present
-	if (!caseID) {
-		return {
-			statusCode: 400,
-			body: JSON.stringify({
-				error: "Missing case ID in the request URL.",
-				message: "Error updating draft case.",
-			}),
-		};
-	}
-
 	try {
+		const decodedToken = decodeToken(event);
+		const username = decodedToken.username;
+		const userInfo = await getUserInfo(username);
+		const caseID = event.pathParameters.caseID;
+
+		if (!userInfo || userInfo.user_role !== "teacher") {
+			return {
+				statusCode: 400,
+				body: JSON.stringify({
+					error: "Not authorized to use this resource",
+					message: "Error updating draft case.",
+				}),
+			};
+		}
+
+		// Validate that caseID is present
+		if (!caseID) {
+			return {
+				statusCode: 400,
+				body: JSON.stringify({
+					error: "Missing case ID in the request URL.",
+					message: "Error updating draft case.",
+				}),
+			};
+		}
+
 		const caseData = await extrapolateRequestBody(event);
 		const { id: userId } = userInfo;
 
