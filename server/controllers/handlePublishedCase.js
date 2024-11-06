@@ -65,12 +65,13 @@ export const publishCase = async (event) => {
 	}
 
 	// TODO: Add validation for caseQuestions and caseMaterials
+	const decodedToken = decodeToken(event);
+	const username = decodedToken.username;
+	const userInfo = await getUserInfo(username);
+	const { id: teacherId } = userInfo;
 
 	try {
 		// Step 1: Check if the teacher already has an active published case
-		const decodedToken = decodeToken(event);
-		const username = decodedToken.username;
-		const userInfo = await getUserInfo(username);
 
 		// Possible use of Cognito authorizer
 		if (!userInfo || userInfo.user_role !== "teacher") {
@@ -82,7 +83,6 @@ export const publishCase = async (event) => {
 				}),
 			};
 		}
-		const { id: teacherId } = userInfo;
 
 		const activeCase = await dbClient.send(
 			new QueryCommand({
@@ -180,14 +180,11 @@ export const publishCase = async (event) => {
 		};
 	} catch (error) {
 		// Log error
-		console.error(
-			`Error publishing case ${newCaseId} for teacher ${teacherId}:`,
-			error
-		);
+		console.error("Error publishing case:", error);
 		return {
 			statusCode: 500,
 			body: JSON.stringify({
-				error: `Error publishing case ${newCaseId} for teacher ${teacherId}: ${error.message}`,
+				error: `Error publishing case: ${error.message}`,
 				message: `Error publishing new case`,
 			}),
 		};

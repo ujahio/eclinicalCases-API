@@ -41,7 +41,7 @@ const Nav: FunctionComponent<NavProps> = ({
 	};
 
 	const logoutUser = async () => {
-		await signOut({ redirect: false });
+		await signOut({ callbackUrl: "/login" });
 		router.push("/login");
 	};
 
