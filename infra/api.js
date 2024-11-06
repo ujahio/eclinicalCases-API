@@ -63,10 +63,20 @@ api.route("POST /api/auth/update-password", {
 });
 
 //Case;
-// api.route("GET /api/case/details/{caseID}", {
-// 	handler: "server/controllers/case.controller.getCaseForStudentsResponse",
-// 	link: links,
-// });
+// is this route used?
+api.route("GET /api/case/details/{caseID}", {
+	handler: "server/controllers/case.controller.getCaseForStudentsResponse",
+	link: [...links, userPool],
+	// link: links,
+	auth: {
+		jwt: {
+			audiences: [eccsWebClient.id],
+			issuer: $interpolate`https://cognito-idp.${
+				aws.getArnOutput(userPool).region
+			}.amazonaws.com/${userPool.id}`,
+		},
+	},
+});
 api.route("GET /api/case/archived/{caseFilter}", {
 	handler: "server/controllers/handleArchivedCases.getArchivedCases",
 	link: [...links, userPool],
