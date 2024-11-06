@@ -96,6 +96,15 @@ api.route("GET /api/case/publish", {
 api.route("POST /api/case/publish", {
 	handler: "server/controllers/handlePublishedCase.publishCase",
 	link: [...links, userPool],
+	// link: links,
+	auth: {
+		jwt: {
+			audiences: [eccsWebClient.id],
+			issuer: $interpolate`https://cognito-idp.${
+				aws.getArnOutput(userPool).region
+			}.amazonaws.com/${userPool.id}`,
+		},
+	},
 });
 api.route("GET /api/case/draft/{caseId}", {
 	handler: "server/controllers/handleDraftCases.getDraftCases",
@@ -113,15 +122,42 @@ api.route("GET /api/case/draft/{caseId}", {
 
 api.route("POST /api/case/draft", {
 	handler: "server/controllers/handleDraftCases.addDraftCase",
-	link: links,
+	link: [...links, userPool],
+	// link: links,
+	auth: {
+		jwt: {
+			audiences: [eccsWebClient.id],
+			issuer: $interpolate`https://cognito-idp.${
+				aws.getArnOutput(userPool).region
+			}.amazonaws.com/${userPool.id}`,
+		},
+	},
 });
 api.route("PUT /api/case/draft/{caseID}", {
 	handler: "server/controllers/handleDraftCases.updateDraftCase",
-	link: links,
+	link: [...links, userPool],
+	// link: links,
+	auth: {
+		jwt: {
+			audiences: [eccsWebClient.id],
+			issuer: $interpolate`https://cognito-idp.${
+				aws.getArnOutput(userPool).region
+			}.amazonaws.com/${userPool.id}`,
+		},
+	},
 });
 api.route("DELETE /api/case/delete-case/{caseID}", {
 	handler: "server/controllers/handleDraftCases.deleteDraftCase",
-	link: links,
+	link: [...links, userPool],
+	// link: links,
+	auth: {
+		jwt: {
+			audiences: [eccsWebClient.id],
+			issuer: $interpolate`https://cognito-idp.${
+				aws.getArnOutput(userPool).region
+			}.amazonaws.com/${userPool.id}`,
+		},
+	},
 });
 // api.route("GET /api/case/data/{caseID}", {
 // 	handler: "server/controllers/case.controller.getCaseData",
@@ -138,37 +174,100 @@ api.route("DELETE /api/case/delete-case/{caseID}", {
 api.route("GET /api/case/get-signed-url-for-pdf-upload", {
 	handler:
 		"server/controllers/handleCaseMaterials.getSignedUrlToUploadForCaseMaterials",
-	link: links,
+	link: [...links, userPool],
+	// link: links,
+	auth: {
+		jwt: {
+			audiences: [eccsWebClient.id],
+			issuer: $interpolate`https://cognito-idp.${
+				aws.getArnOutput(userPool).region
+			}.amazonaws.com/${userPool.id}`,
+		},
+	},
 });
 
 api.route("POST /api/case/get-signed-url-for-pdf-fetch", {
 	handler:
 		"server/controllers/handleCaseMaterials.getSignedUrlsToFetchForCaseMaterials",
-	link: links,
+	link: [...links, userPool],
+	// link: links,
+	auth: {
+		jwt: {
+			audiences: [eccsWebClient.id],
+			issuer: $interpolate`https://cognito-idp.${
+				aws.getArnOutput(userPool).region
+			}.amazonaws.com/${userPool.id}`,
+		},
+	},
 });
 
 api.route("DELETE /api/case/delete-case-material", {
 	handler: "server/controllers/handleCaseMaterials.deleteCaseMaterial",
-	link: links,
+	link: [...links, userPool],
+	// link: links,
+	auth: {
+		jwt: {
+			audiences: [eccsWebClient.id],
+			issuer: $interpolate`https://cognito-idp.${
+				aws.getArnOutput(userPool).region
+			}.amazonaws.com/${userPool.id}`,
+		},
+	},
 });
 
 // Student;
 api.route("POST /api/case/add/feedback", {
 	handler: "server/controllers/case.controller.addFeedback",
-	link: links,
+	link: [...links, userPool],
+	// link: links,
+	auth: {
+		jwt: {
+			audiences: [eccsWebClient.id],
+			issuer: $interpolate`https://cognito-idp.${
+				aws.getArnOutput(userPool).region
+			}.amazonaws.com/${userPool.id}`,
+		},
+	},
 });
 api.route("GET /api/case/feedbacks/{caseID}", {
 	handler: "server/controllers/case.controller.getCaseFeedback",
-	link: links,
+	link: [...links, userPool],
+	// link: links,
+	auth: {
+		jwt: {
+			audiences: [eccsWebClient.id],
+			issuer: $interpolate`https://cognito-idp.${
+				aws.getArnOutput(userPool).region
+			}.amazonaws.com/${userPool.id}`,
+		},
+	},
 });
 api.route("GET /api/case/responses/{caseID}", {
 	handler: "server/controllers/case.controller.getCaseAnswers",
-	link: links,
+	link: [...links, userPool],
+	// link: links,
+	auth: {
+		jwt: {
+			audiences: [eccsWebClient.id],
+			issuer: $interpolate`https://cognito-idp.${
+				aws.getArnOutput(userPool).region
+			}.amazonaws.com/${userPool.id}`,
+		},
+	},
 });
 api.route("GET /api/student/certificates", {
 	handler:
 		"server/controllers/handleStudentsCertificates.getStudentCertificates",
-	link: links,
+	link: [...links, userPool],
+	// link: links,
+	auth: {
+		jwt: {
+			audiences: [eccsWebClient.id],
+			issuer: $interpolate`https://cognito-idp.${
+				aws.getArnOutput(userPool).region
+			}.amazonaws.com/${userPool.id}`,
+		},
+	},
 });
 api.route("GET /api/student/responses/{caseFilter}", {
 	handler: "server/controllers/handleStudentsResponse.getStudentsResponses",
@@ -186,7 +285,6 @@ api.route("GET /api/student/responses/{caseFilter}", {
 
 api.route("POST /api/student/response", {
 	handler: "server/controllers/handleStudentsResponse.submitStudentResponse",
-	link: links,
 	runtime: "nodejs18.x",
 	copyFiles: [
 		{
@@ -194,4 +292,14 @@ api.route("POST /api/student/response", {
 			to: "assets/images/logo.png",
 		},
 	],
+	link: [...links, userPool],
+	// link: links,
+	auth: {
+		jwt: {
+			audiences: [eccsWebClient.id],
+			issuer: $interpolate`https://cognito-idp.${
+				aws.getArnOutput(userPool).region
+			}.amazonaws.com/${userPool.id}`,
+		},
+	},
 });
