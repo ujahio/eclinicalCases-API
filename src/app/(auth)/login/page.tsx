@@ -8,7 +8,7 @@ import { LoginFormValues } from "@/services/types/auth/login";
 import { saltAndHashPassword } from "@/utils/password";
 
 const Login = () => {
-	const { data: session, status } = useSession(); // Get session and status from NextAuth
+	const { data: session, status } = useSession();
 	const navigate = useRouter();
 
 	const handleSubmitLoginUser = useCallback(async (val: LoginFormValues) => {

@@ -7,9 +7,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { APP_CONTAINER, APP_SPACING } from "@/services/constants/styles";
-import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
-// import { logout } from "@/store/slices/auth/loginSlice";
-import { signOut } from "next-auth/react"; // Import NextAuth signOut
+import { useAppSelector } from "@/services/hooks/hooks";
+import { signOut } from "next-auth/react";
 
 interface NavProps {
 	navLinks?: { path: string; label: string }[];
@@ -113,13 +112,7 @@ const Nav: FunctionComponent<NavProps> = ({
 							>
 								Account Settings
 							</AppDropdownItem>
-							<AppDropdownItem
-								onClick={() => {
-									logoutUser();
-								}}
-							>
-								Sign Out
-							</AppDropdownItem>
+							<AppDropdownItem onClick={logoutUser}>Sign Out</AppDropdownItem>
 						</AppDropdown>
 					))}
 				</div>

@@ -7,10 +7,12 @@ import CaseCard from "@/components/cases/CaseCard";
 import { useAppSelector } from "@/services/hooks/hooks";
 import { formatDate } from "@/utils/formatDate";
 import ResponseCaseCard from "@/components/cases/ResponseCaseCard";
+import { useSession } from "next-auth/react";
 
 const StudentDashboard = () => {
+	const { data } = useSession();
+	const { firstName, lastName, user_role } = data!.user;
 	const [showWelcomeModal, setShowWelcomeModal] = useState(true);
-	// const { user } = useAppSelector((state) => state.login);
 	const publishedCaseInfo = useAppSelector((state) => state.activeCase.data);
 
 	const studentsResponsesToCases = useAppSelector(
@@ -42,9 +44,9 @@ const StudentDashboard = () => {
 						{/* <figure className="h-8 md:h-11.25 w-8 md:w-11.25 rounded-full overflow-hidden">
 							<img src={UserImg} alt="User image" className="h-full w-full" />
 						</figure> */}
-						{/* <h4 className="text-dark font-medium text-1sm sm:text-base inline-block ml-2.5">
-							{`Hi, ${user?.name} ${user.role} 👋`}
-						</h4> */}
+						<h4 className="text-dark font-medium text-1sm sm:text-base inline-block ml-2.5">
+							{`Hello, ${firstName} ${lastName} (${user_role})  👋`}
+						</h4>
 					</div>
 				</div>
 				<div>

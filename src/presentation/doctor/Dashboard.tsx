@@ -7,8 +7,11 @@ import Link from "next/link";
 import Button from "@/components/ui/Button";
 import { useAppSelector } from "@/services/hooks/hooks";
 import { formatDate } from "@/utils/formatDate";
+import { useSession } from "next-auth/react";
 
 const DoctorDashboard = () => {
+	const { data } = useSession();
+	const { firstName, lastName, user_role } = data!.user;
 	const archivedCasesState = useAppSelector(
 		(state) => state.getArchiveCases.cases
 	);
@@ -23,16 +26,16 @@ const DoctorDashboard = () => {
 
 	return (
 		<AdminLayout>
-			{/* <div className="flex items-center justify-between">
+			<div className="flex items-center justify-between">
 				<div className="inline-flex items-center">
-					<figure className="h-8 md:h-11.25 w-8 md:w-11.25 rounded-full overflow-hidden">
+					{/* <figure className="h-8 md:h-11.25 w-8 md:w-11.25 rounded-full overflow-hidden">
 						<Image src={UserImg} alt="User image" className="h-full w-full" />
-					</figure>
+					</figure> */}
 					<h4 className="text-dark font-medium text-1sm sm:text-base inline-block ml-2.5">
-						Good morning
+						{`Hello, ${firstName} ${lastName} (${user_role})  👋`}
 					</h4>
 				</div>
-			</div> */}
+			</div>
 			<div className="mt-14">
 				<div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 sm:mb-5">
 					{publishedCaseInfo ? (
