@@ -33,7 +33,6 @@ const Nav: FunctionComponent<NavProps> = ({
 	img,
 }) => {
 	const router = useRouter();
-	const dispatch = useAppDispatch();
 	const currentPath = usePathname();
 	const userInfo = useAppSelector((state) => state.login.user);
 

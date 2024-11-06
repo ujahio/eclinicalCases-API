@@ -121,7 +121,7 @@ export const addPdfToCaseMaterialsApi = async ({
 
 export const deletePdfFromCaseMaterialsApi = (
 	fileKey: string,
-	token: string
+	token?: string
 ) => {
 	return caseApi.delete("/delete-case-material", {
 		data: { fileKey },

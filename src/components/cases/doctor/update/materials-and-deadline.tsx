@@ -14,6 +14,7 @@ import {
 } from "@/services/apis/case";
 import { toast } from "react-toastify";
 import { getCaseMaterials } from "@/store/slices/case/getCaseMaterialsSlice";
+import { getTokenForRequest } from "@/utils/getTokenForRequest";
 
 interface DoctorMaterialsAndDeadlineProps {
 	goNext: () => void;
@@ -48,7 +49,6 @@ const DoctorMaterialsAndDeadline: FunctionComponent<
 	const addingDraftCaseStatus = useAppSelector(
 		(state) => state.getDraftCases.status
 	);
-	const userToken = useAppSelector((state) => state.login.user?.token);
 	const dispatch = useAppDispatch();
 
 	const fileInputRef = useRef<HTMLInputElement>(null);
@@ -60,6 +60,8 @@ const DoctorMaterialsAndDeadline: FunctionComponent<
 	};
 
 	const removeFile = async (documentKey: string | null = null) => {
+		const userToken = await getTokenForRequest();
+
 		if (!documentKey) return;
 
 		try {

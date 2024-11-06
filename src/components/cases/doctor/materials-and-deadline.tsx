@@ -9,6 +9,7 @@ import {
 	addPdfToCaseMaterialsApi,
 	deletePdfFromCaseMaterialsApi,
 } from "@/services/apis/case";
+import { getTokenForRequest } from "@/utils/getTokenForRequest";
 
 const DoctorMaterialsAndDeadline: FunctionComponent<
 	DoctorMaterialsAndDeadlineProps
@@ -18,7 +19,6 @@ const DoctorMaterialsAndDeadline: FunctionComponent<
 	const addingDraftCaseStatus = useAppSelector(
 		(state) => state.getDraftCases.status
 	);
-	const userToken = useAppSelector((state) => state.login.user?.token);
 
 	const [files, setFiles] = useState<
 		{
@@ -39,6 +39,7 @@ const DoctorMaterialsAndDeadline: FunctionComponent<
 		if (!documentKey) return;
 
 		try {
+			const userToken = await getTokenForRequest();
 			if (documentKey) {
 				setIsRemoving(documentKey);
 
