@@ -1,18 +1,17 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { addDraftCaseApi, publishCaseApi } from "@/services/apis/case";
-import { RootState } from "@/store/rootReducer/rootReducer";
+import { getTokenForRequest } from "@/utils/getTokenForRequest";
 
 export const addCase = createAsyncThunk(
 	"case/addCase",
 	async (caseData: any, thunkAPI) => {
 		try {
-			const state = thunkAPI.getState() as RootState;
-			const token = state?.login?.user?.token;
-			if (!caseData.shouldPublish) {
-				const { data } = await addDraftCaseApi(caseData, token);
+			const token = await getTokenForRequest();
+			if (caseData.shouldPublish) {
+				const { data } = await publishCaseApi(caseData, token);
 				return data;
 			} else {
-				const { data } = await publishCaseApi(caseData, token);
+				const { data } = await addDraftCaseApi(caseData, token);
 				return data;
 			}
 		} catch (error: any) {

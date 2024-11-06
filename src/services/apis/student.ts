@@ -10,8 +10,8 @@ const convertToFormData = (data: any) => {
 	return formData;
 };
 
-export const addFeedbackApi = (feedbackData: any, token: string) => {
-	const formData = convertToFormData(feedbackData);
+export const addFeedbackApi = (feedbackData: any, token?: string) => {
+	// const formData = convertToFormData(feedbackData);
 	return studentApi.post(
 		`/case/add/feedback`,
 		feedbackData,
@@ -26,7 +26,7 @@ export const getStudentsResponsesApi = (isRecent: any, token?: string) => {
 	return studentApi.get(url, configureRequestHeaders(token));
 };
 
-export const submitCaseResponseApi = (responsePayload: any, token: string) => {
+export const submitCaseResponseApi = (responsePayload: any, token?: string) => {
 	return studentApi.post(
 		"student/response",
 		responsePayload,
@@ -34,7 +34,7 @@ export const submitCaseResponseApi = (responsePayload: any, token: string) => {
 	);
 };
 
-export const getStudentsCertificatesApi = (token: string) => {
+export const getStudentsCertificatesApi = (token?: string) => {
 	const url = "/student/certificates";
 	return studentApi.get(url, configureRequestHeaders(token));
 };
