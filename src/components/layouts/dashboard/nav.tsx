@@ -30,7 +30,6 @@ const Nav: FunctionComponent<NavProps> = ({
 	],
 	img,
 }) => {
-	const router = useRouter();
 	const currentPath = usePathname();
 	const { data } = useSession();
 	const { user_role } = data!.user;
@@ -40,7 +39,6 @@ const Nav: FunctionComponent<NavProps> = ({
 
 	const logoutUser = async () => {
 		await signOut({ callbackUrl: "/login" });
-		router.push("/login");
 	};
 
 	return (
