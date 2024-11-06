@@ -292,29 +292,6 @@ export const getDetailsOfStudentsFeedbackAndResponses = async (
 	};
 };
 
-export const verifyToken = (token, secretKey) => {
-	try {
-		if (!token) {
-			return { statusCode: 403, error: "No token provided!" };
-		}
-		// Verify the token using the secret key
-		const decoded = jwt.verify(token, secretKey);
-		// Token is valid; return the decoded token data
-		return decoded;
-	} catch (err) {
-		// Handle different types of JWT errors
-		if (err.name === "TokenExpiredError") {
-			console.error("Token has expired");
-		} else if (err.name === "JsonWebTokenError") {
-			console.error("Invalid token");
-		} else {
-			console.error("Could not verify token", err.message);
-		}
-		// Return null or an appropriate error response
-		return null;
-	}
-};
-
 export {
 	updateUserPassword,
 	generateOtp,

@@ -3,8 +3,8 @@ import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { QueryCommand } from "@aws-sdk/lib-dynamodb";
 import { Resource } from "sst";
 import dbClient from "../services/dbClient.js";
-import { verifyToken } from "../utils/api_utils.js";
 import s3Client from "../services/s3Client.js";
+import getUserInfo from "../persistence.helpers/getUserInfo.js";
 
 // Helper function to convert a stream to base64
 const streamToBase64 = async (stream) => {
@@ -17,11 +17,9 @@ const streamToBase64 = async (stream) => {
 };
 
 export const getStudentCertificates = async (event) => {
-	const userToken = event.headers.authorization.split(" ")[1];
-	const userInfo = verifyToken(userToken, Resource.NEXT_JWT_SECRET.value);
-	const { id: studentID } = userInfo;
+	const userInfo = await getUserInfo(event);
 
-	if (!userInfo && !userInfo.id && userInfo.user_role !== "student") {
+	if (!userInfo || !userInfo.id || userInfo.user_role !== "student") {
 		return {
 			statusCode: 400,
 			body: JSON.stringify({
@@ -32,6 +30,8 @@ export const getStudentCertificates = async (event) => {
 	}
 
 	try {
+		const { id: studentID } = userInfo;
+
 		const params = {
 			TableName: Resource.StudentsResponses.name,
 			IndexName: "StudentIDIndex",

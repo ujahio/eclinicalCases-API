@@ -2,26 +2,12 @@ import { v4 as uuidv4 } from "uuid";
 import { UpdateCommand, QueryCommand } from "@aws-sdk/lib-dynamodb";
 import { Resource } from "sst";
 import dbClient from "../services/dbClient.js";
-import { extrapolateRequestBody, verifyToken } from "../utils/api_utils.js";
+import { extrapolateRequestBody } from "../utils/api_utils.js";
 import { getDetailsOfStudentsFeedbackAndResponses } from "../utils/api_utils.js";
 import getUserInfo from "../persistence.helpers/getUserInfo.js";
 
 export const publishCase = async (event) => {
-	const {
-		caseId,
-		caseClue,
-		caseDescription,
-		caseTopic,
-		caseExplanation,
-		caseDeadline,
-		caseQuestions,
-		caseMaterials,
-	} = await extrapolateRequestBody(event);
-
-	const userToken = event.headers.authorization.split(" ")[1];
-	const userInfo = verifyToken(userToken, Resource.NEXT_JWT_SECRET.value);
-
-	const { id: teacherId } = userInfo;
+	const userInfo = await getUserInfo(event);
 
 	// Possible use of Cognito authorizer
 	if (!userInfo || userInfo.user_role !== "teacher") {
@@ -33,6 +19,17 @@ export const publishCase = async (event) => {
 			}),
 		};
 	}
+
+	const {
+		caseId,
+		caseClue,
+		caseDescription,
+		caseTopic,
+		caseExplanation,
+		caseDeadline,
+		caseQuestions,
+		caseMaterials,
+	} = await extrapolateRequestBody(event);
 
 	if (!caseClue) {
 		return {
@@ -83,6 +80,8 @@ export const publishCase = async (event) => {
 
 	try {
 		// Step 1: Check if the teacher already has an active published case
+		const { id: teacherId } = userInfo;
+
 		const activeCase = await dbClient.send(
 			new QueryCommand({
 				TableName: Resource.TeacherCaseStudies.name,

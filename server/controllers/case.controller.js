@@ -6,12 +6,11 @@ import {
 	parseLogToObject,
 	extrapolateRequestBody,
 	getDetailsOfStudentsFeedbackAndResponses,
-	verifyToken,
 } from "../utils/api_utils.js";
+import getUserInfo from "../persistence.helpers/getUserInfo.js";
 
 export const getCaseForStudentsResponse = async (event) => {
-	const userToken = event.headers.authorization.split(" ")[1];
-	const userInfo = verifyToken(userToken, Resource.NEXT_JWT_SECRET.value);
+	const userInfo = await getUserInfo(event);
 
 	const params = {
 		TableName: Resource.TeacherCaseStudies.name,
@@ -122,13 +121,9 @@ export const duplicateCase = async (event) => {
 };
 
 export const addFeedback = async (event) => {
-	const userToken = event.headers.authorization.split(" ")[1];
+	const userInfo = await getUserInfo(event);
 	const extrapolatedFormData = await extrapolateRequestBody(event);
 	const { caseID, feedback } = parseLogToObject(extrapolatedFormData);
-	const { id: studentID } = verifyToken(
-		userToken,
-		Resource.NEXT_JWT_SECRET.value
-	);
 
 	if (!caseID || !feedback) {
 		return {
@@ -139,18 +134,19 @@ export const addFeedback = async (event) => {
 		};
 	}
 
-	const params = {
-		TableName: Resource.Feedback.name,
-		Item: {
-			feedbackID: uuidv4(),
-			caseID,
-			studentID,
-			feedback,
-			createdAt: Date.now(),
-		},
-	};
-
 	try {
+		const { id: studentID } = userInfo;
+
+		const params = {
+			TableName: Resource.Feedback.name,
+			Item: {
+				feedbackID: uuidv4(),
+				caseID,
+				studentID,
+				feedback,
+				createdAt: Date.now(),
+			},
+		};
 		const command = new PutCommand(params);
 		await dbClient.send(command);
 		return {
@@ -170,6 +166,8 @@ export const addFeedback = async (event) => {
 };
 
 export const getCaseFeedback = async (event) => {
+	await getUserInfo(event);
+
 	const caseID = event.pathParameters.caseID;
 
 	if (!caseID) {
@@ -182,16 +180,15 @@ export const getCaseFeedback = async (event) => {
 		};
 	}
 
-	const params = {
-		TableName: Resource.Feedback.name,
-		IndexName: "CaseIDIndex",
-		KeyConditionExpression: "caseID = :caseID",
-		ExpressionAttributeValues: {
-			":caseID": caseID,
-		},
-	};
-
 	try {
+		const params = {
+			TableName: Resource.Feedback.name,
+			IndexName: "CaseIDIndex",
+			KeyConditionExpression: "caseID = :caseID",
+			ExpressionAttributeValues: {
+				":caseID": caseID,
+			},
+		};
 		const command = new QueryCommand(params);
 		const feedbackResult = await dbClient.send(command);
 
@@ -244,19 +241,21 @@ export const getCaseFeedback = async (event) => {
 		};
 	}
 };
-export const getCaseAnswers = async (event) => {
-	const caseID = event.pathParameters.caseID;
 
-	const answersParams = {
-		TableName: Resource.StudentsResponses.name,
-		IndexName: "CaseIDIndex",
-		KeyConditionExpression: "caseID = :caseID",
-		ExpressionAttributeValues: {
-			":caseID": caseID,
-		},
-	};
+export const getCaseAnswers = async (event) => {
+	await getUserInfo(event);
 
 	try {
+		const caseID = event.pathParameters.caseID;
+
+		const answersParams = {
+			TableName: Resource.StudentsResponses.name,
+			IndexName: "CaseIDIndex",
+			KeyConditionExpression: "caseID = :caseID",
+			ExpressionAttributeValues: {
+				":caseID": caseID,
+			},
+		};
 		const answersCommand = new QueryCommand(answersParams);
 		const answersResult = await dbClient.send(answersCommand);
 
@@ -306,9 +305,11 @@ export const getCaseAnswers = async (event) => {
 };
 
 export const getCaseData = async (event) => {
-	const caseID = event.pathParameters.caseID;
+	await getUserInfo(event);
 
 	try {
+		const caseID = event.pathParameters.caseID;
+
 		const getCaseParams = {
 			TableName: Resource.TeacherCaseStudies.name,
 			Key: { id: caseID },

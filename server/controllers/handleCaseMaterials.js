@@ -4,11 +4,11 @@ import {
 	getSignedUrlForFetchingFromS3,
 	getSignedUrlToUploadToS3,
 } from "../services/bucket.js";
-import { extrapolateRequestBody, verifyToken } from "../utils/api_utils.js";
+import { extrapolateRequestBody } from "../utils/api_utils.js";
+import getUserInfo from "../persistence.helpers/getUserInfo.js";
 
 export const getSignedUrlsToFetchForCaseMaterials = async (event) => {
-	const userToken = event.headers.authorization.split(" ")[1];
-	const userInfo = verifyToken(userToken, Resource.NEXT_JWT_SECRET.value);
+	const userInfo = await getUserInfo(event);
 
 	if (!userInfo || !userInfo.id) {
 		return {
@@ -62,8 +62,7 @@ export const getSignedUrlsToFetchForCaseMaterials = async (event) => {
 };
 
 export const getSignedUrlToUploadForCaseMaterials = async (event) => {
-	const userToken = event.headers.authorization.split(" ")[1];
-	const userInfo = verifyToken(userToken, Resource.NEXT_JWT_SECRET.value);
+	const userInfo = await getUserInfo(event);
 	const { id: teacherID } = userInfo;
 
 	if (!userInfo || !teacherID) {
@@ -98,18 +97,19 @@ export const getSignedUrlToUploadForCaseMaterials = async (event) => {
 };
 
 export const deleteCaseMaterial = async (event) => {
-	const { fileKey } = await extrapolateRequestBody(event);
-	try {
-		if (!fileKey) {
-			return {
-				statusCode: 400,
-				body: JSON.stringify({
-					message: "Error deleting file.",
-					error: "Missing required parameters: fileKey",
-				}),
-			};
-		}
+	await getUserInfo(event);
 
+	const { fileKey } = await extrapolateRequestBody(event);
+	if (!fileKey) {
+		return {
+			statusCode: 400,
+			body: JSON.stringify({
+				message: "Error deleting file.",
+				error: "Missing required parameters: fileKey",
+			}),
+		};
+	}
+	try {
 		await deleteCaseMaterialFromS3(fileKey);
 
 		return {

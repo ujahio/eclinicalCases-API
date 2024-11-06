@@ -4,7 +4,7 @@ import dbClient from "../services/dbClient.js";
 import { Resource } from "sst";
 // import { uploadFileToBucket } from "../services/bucket.js";
 import { generateCertificate } from "../utils/certificate.js";
-import { extrapolateRequestBody, verifyToken } from "../utils/api_utils.js";
+import { extrapolateRequestBody } from "../utils/api_utils.js";
 import getUserInfo from "../persistence.helpers/getUserInfo.js";
 
 export const getStudentsResponses = async (event) => {
@@ -60,14 +60,12 @@ export const getStudentsResponses = async (event) => {
 };
 
 export const submitStudentResponse = async (event) => {
+	const userInfo = await getUserInfo(event);
 	const caseInfo = await extrapolateRequestBody(event);
-	const userToken = event.headers.authorization.split(" ")[1];
-	const userInfo = verifyToken(userToken, Resource.NEXT_JWT_SECRET.value);
-
-	const { firstName, lastName, id: studentID } = userInfo;
-	const fullName = `${firstName} ${lastName}`;
 
 	try {
+		const { firstName, lastName, id: studentID } = userInfo;
+		const fullName = `${firstName} ${lastName}`;
 		// 	Call grading function and get the result
 		const gradedQuizResult = await gradeQuiz({
 			caseID: caseInfo.id,
@@ -151,12 +149,11 @@ const extractAnswers = (caseInfo) => {
 };
 
 const gradeQuiz = async ({ caseID, studentAnswers }) => {
-	const caseParams = {
-		TableName: Resource.TeacherCaseStudies.name,
-		Key: { id: caseID },
-	};
-
 	try {
+		const caseParams = {
+			TableName: Resource.TeacherCaseStudies.name,
+			Key: { id: caseID },
+		};
 		const caseCommand = new GetCommand(caseParams);
 		const caseResult = await dbClient.send(caseCommand);
 		let teachersQuestions = caseResult?.Item?.caseQuestions;

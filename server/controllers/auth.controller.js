@@ -253,109 +253,6 @@ export const signin = async (event) => {
 	}
 };
 
-export const sendOTP = async (event) => {
-	try {
-		const { email } = JSON.parse(event.body);
-		const otp = generateOtp();
-
-		console.log("Your OTP is:", otp);
-
-		await storeOtpInDb(email, otp);
-		await sendEmail(
-			email,
-			"Your OTP for Password Reset",
-			`Your OTP is: ${otp}`
-		);
-
-		return {
-			statusCode: 200,
-			body: JSON.stringify({
-				message: "OTP sent to your email. Please verify and reset password.",
-			}),
-		};
-	} catch (error) {
-		console.error("Error sending OTP:", error);
-		return {
-			statusCode: 500,
-			body: JSON.stringify({
-				error: `Error sending OTP: ${error.message}`,
-				message: "Error sending one-time password.",
-			}),
-		};
-	}
-};
-
-export const verifyOtpAndResetPassword = async (event) => {
-	try {
-		const { email, otp, newPassword } = JSON.parse(event.body);
-		const originalPassword = decryptPassword(
-			newPassword,
-			Resource.NEXT_PUBLIC_PASS_SECRET_KEY.value
-		);
-		const storedOtp = await getOtpFromDb(email);
-		const hashedPassword = bcrypt.hashSync(originalPassword, 4);
-
-		if (otp !== storedOtp) {
-			return {
-				statusCode: 401,
-				body: JSON.stringify({
-					message: "Invalid OTP",
-					error: "Invalid OTP",
-				}),
-			};
-		}
-		await updateUserPassword(email, hashedPassword);
-
-		return {
-			statusCode: 200,
-			body: JSON.stringify({
-				message: "Password reset successfully!",
-			}),
-		};
-	} catch (error) {
-		console.error("Error resetting password:", error);
-		return {
-			statusCode: 500,
-			body: JSON.stringify({
-				error: `Error resetting password: ${error.message}`,
-				message: "Error resetting password.",
-			}),
-		};
-	}
-};
-
-// is this needed?
-export const getUsers = async () => {
-	try {
-		const params = {
-			TableName: Resource.ECCSUsers.name,
-		};
-
-		const command = new ScanCommand(params);
-		const result = await dbClient.send(command);
-
-		const users = result.Items;
-
-		return {
-			statusCode: 200,
-			body: JSON.stringify({
-				message: "Users retrieved successfully!",
-				data: users,
-			}),
-		};
-	} catch (error) {
-		console.error("Error retrieving users:", error);
-
-		return {
-			statusCode: 500,
-			body: JSON.stringify({
-				error: `Error retrieving users: ${error.message}`,
-				message: "Error retrieving users.",
-			}),
-		};
-	}
-};
-
 export const updatePassword = async (event) => {
 	try {
 		const body = JSON.parse(event.body);
@@ -407,3 +304,107 @@ export const updatePassword = async (event) => {
 		};
 	}
 };
+
+// IS THIS NEEDED?
+// export const sendOTP = async (event) => {
+// 	try {
+// 		const { email } = JSON.parse(event.body);
+// 		const otp = generateOtp();
+
+// 		console.log("Your OTP is:", otp);
+
+// 		await storeOtpInDb(email, otp);
+// 		await sendEmail(
+// 			email,
+// 			"Your OTP for Password Reset",
+// 			`Your OTP is: ${otp}`
+// 		);
+
+// 		return {
+// 			statusCode: 200,
+// 			body: JSON.stringify({
+// 				message: "OTP sent to your email. Please verify and reset password.",
+// 			}),
+// 		};
+// 	} catch (error) {
+// 		console.error("Error sending OTP:", error);
+// 		return {
+// 			statusCode: 500,
+// 			body: JSON.stringify({
+// 				error: `Error sending OTP: ${error.message}`,
+// 				message: "Error sending one-time password.",
+// 			}),
+// 		};
+// 	}
+// };
+
+// export const verifyOtpAndResetPassword = async (event) => {
+// 	try {
+// 		const { email, otp, newPassword } = JSON.parse(event.body);
+// 		const originalPassword = decryptPassword(
+// 			newPassword,
+// 			Resource.NEXT_PUBLIC_PASS_SECRET_KEY.value
+// 		);
+// 		const storedOtp = await getOtpFromDb(email);
+// 		const hashedPassword = bcrypt.hashSync(originalPassword, 4);
+
+// 		if (otp !== storedOtp) {
+// 			return {
+// 				statusCode: 401,
+// 				body: JSON.stringify({
+// 					message: "Invalid OTP",
+// 					error: "Invalid OTP",
+// 				}),
+// 			};
+// 		}
+// 		await updateUserPassword(email, hashedPassword);
+
+// 		return {
+// 			statusCode: 200,
+// 			body: JSON.stringify({
+// 				message: "Password reset successfully!",
+// 			}),
+// 		};
+// 	} catch (error) {
+// 		console.error("Error resetting password:", error);
+// 		return {
+// 			statusCode: 500,
+// 			body: JSON.stringify({
+// 				error: `Error resetting password: ${error.message}`,
+// 				message: "Error resetting password.",
+// 			}),
+// 		};
+// 	}
+// };
+
+// // is this needed?
+// export const getUsers = async () => {
+// 	try {
+// 		const params = {
+// 			TableName: Resource.ECCSUsers.name,
+// 		};
+
+// 		const command = new ScanCommand(params);
+// 		const result = await dbClient.send(command);
+
+// 		const users = result.Items;
+
+// 		return {
+// 			statusCode: 200,
+// 			body: JSON.stringify({
+// 				message: "Users retrieved successfully!",
+// 				data: users,
+// 			}),
+// 		};
+// 	} catch (error) {
+// 		console.error("Error retrieving users:", error);
+
+// 		return {
+// 			statusCode: 500,
+// 			body: JSON.stringify({
+// 				error: `Error retrieving users: ${error.message}`,
+// 				message: "Error retrieving users.",
+// 			}),
+// 		};
+// 	}
+// };
