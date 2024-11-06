@@ -1,23 +1,8 @@
 import { AdminGetUserCommand } from "@aws-sdk/client-cognito-identity-provider";
 import { Resource } from "sst";
-import { verifyTokenFromCognito } from "../utils/verifyToken.js";
 import cognitoClient from "../services/cognitoClient.js";
 
-const getUserInfo = async (event) => {
-	const userToken = event.headers.authorization.split(" ")[1];
-	const verifiedUserTokenDetails = await verifyTokenFromCognito(userToken);
-
-	if (!verifiedUserTokenDetails || !verifiedUserTokenDetails.decoded) {
-		return {
-			statusCode: 401,
-			body: JSON.stringify({
-				error: "Unauthorized",
-				message: "Invalid token",
-			}),
-		};
-	}
-
-	const username = verifiedUserTokenDetails.decoded.username;
+const getUserInfo = async (username) => {
 	try {
 		const command = new AdminGetUserCommand({
 			UserPoolId: Resource.eccslabs.id,
@@ -36,10 +21,13 @@ const getUserInfo = async (event) => {
 			...(userAttributes["custom:user_role"] === "student" && {
 				teacherId: userAttributes["custom:teacherId"],
 			}),
+			firstName: userAttributes["custom:firstName"],
+			lastName: userAttributes["custom:lastName"],
+			email: userAttributes["email"],
 		};
 	} catch (error) {
 		console.error("Error fetching user attributes from Cognito:", error);
-		return null;
+		throw new Error(error.message);
 	}
 };
 

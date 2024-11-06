@@ -3,9 +3,12 @@ import { Resource } from "sst";
 import dbClient from "../services/dbClient.js";
 import { getDetailsOfStudentsFeedbackAndResponses } from "../utils/api_utils.js";
 import getUserInfo from "../persistence.helpers/getUserInfo.js";
+import decodeToken from "../utils/decodeToken.js";
 
 export const getArchivedCases = async (event) => {
-	const userInfo = await getUserInfo(event);
+	const decodedToken = decodeToken(event);
+	const username = decodedToken.username;
+	const userInfo = await getUserInfo(username);
 
 	if (!userInfo || userInfo.user_role !== "teacher") {
 		return {

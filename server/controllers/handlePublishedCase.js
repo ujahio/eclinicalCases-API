@@ -5,21 +5,9 @@ import dbClient from "../services/dbClient.js";
 import { extrapolateRequestBody } from "../utils/api_utils.js";
 import { getDetailsOfStudentsFeedbackAndResponses } from "../utils/api_utils.js";
 import getUserInfo from "../persistence.helpers/getUserInfo.js";
+import decodeToken from "../utils/decodeToken.js";
 
 export const publishCase = async (event) => {
-	const userInfo = await getUserInfo(event);
-
-	// Possible use of Cognito authorizer
-	if (!userInfo || userInfo.user_role !== "teacher") {
-		return {
-			statusCode: 400,
-			body: JSON.stringify({
-				error: "Not authorized to use this resource",
-				message: "Error publishing case case.",
-			}),
-		};
-	}
-
 	const {
 		caseId,
 		caseClue,
@@ -80,6 +68,20 @@ export const publishCase = async (event) => {
 
 	try {
 		// Step 1: Check if the teacher already has an active published case
+		const decodedToken = decodeToken(event);
+		const username = decodedToken.username;
+		const userInfo = await getUserInfo(username);
+
+		// Possible use of Cognito authorizer
+		if (!userInfo || userInfo.user_role !== "teacher") {
+			return {
+				statusCode: 400,
+				body: JSON.stringify({
+					error: "Not authorized to use this resource",
+					message: "Error publishing case case.",
+				}),
+			};
+		}
 		const { id: teacherId } = userInfo;
 
 		const activeCase = await dbClient.send(
@@ -118,10 +120,9 @@ export const publishCase = async (event) => {
 		};
 	}
 
-	const newCaseId = caseId || uuidv4();
-	const todaysDate = new Date().toISOString();
-
 	try {
+		const newCaseId = caseId || uuidv4();
+		const todaysDate = new Date().toISOString();
 		let updateExpression = `
 		SET caseStatus = :caseStatus,
 		    caseDeadline = :caseDeadline,
@@ -194,32 +195,34 @@ export const publishCase = async (event) => {
 };
 
 export const getPublishedCase = async (event) => {
-	const userInfo = await getUserInfo(event);
-
-	if (
-		!userInfo ||
-		!(userInfo.user_role === "teacher" || userInfo.user_role === "student")
-	) {
-		return {
-			statusCode: 400,
-			body: JSON.stringify({
-				error: "Not authorized to view this resource",
-				message: "Error getting published case",
-			}),
-		};
-	}
-
-	if (!userInfo.id) {
-		return {
-			statusCode: 400,
-			body: JSON.stringify({
-				error: "Invalid input: missing required fields",
-				message: "Error getting published case",
-			}),
-		};
-	}
-
 	try {
+		const decodedToken = decodeToken(event);
+		const username = decodedToken.username;
+		const userInfo = await getUserInfo(username);
+
+		if (
+			!userInfo ||
+			!(userInfo.user_role === "teacher" || userInfo.user_role === "student")
+		) {
+			return {
+				statusCode: 400,
+				body: JSON.stringify({
+					error: "Not authorized to view this resource",
+					message: "Error getting published case",
+				}),
+			};
+		}
+
+		if (!userInfo.id) {
+			return {
+				statusCode: 400,
+				body: JSON.stringify({
+					error: "Invalid input: missing required fields",
+					message: "Error getting published case",
+				}),
+			};
+		}
+
 		const params = {
 			TableName: Resource.TeacherCaseStudies.name,
 			IndexName: "TeacherStatusIndex",
