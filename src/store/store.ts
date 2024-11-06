@@ -12,7 +12,6 @@ import {
 	REGISTER,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import { logout } from "./slices/auth/loginSlice";
 
 const loginFilter = createFilter("login", ["isLoggedIn", "user"]);
 const persistConfig = {
@@ -39,7 +38,7 @@ export const makeStore = () => {
 				serializableCheck: {
 					ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
 				},
-			}).concat(logoutMiddleware),
+			}),
 	});
 	store.__persistor = persistStore(store);
 	return store;
@@ -48,13 +47,3 @@ export const makeStore = () => {
 export type AppStore = ReturnType<typeof makeStore>;
 // export type RootState = ReturnType<AppStore["getState"]>;
 export type AppDispatch = AppStore["dispatch"];
-
-const logoutMiddleware = (store: any) => (next: any) => (action: any) => {
-	const { dispatch } = store;
-	if (action.error && action.payload.message && action.payload.status === 401) {
-		dispatch(logout());
-		window.location.href = "/login";
-	}
-
-	return next(action);
-};
