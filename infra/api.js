@@ -40,6 +40,15 @@ export const api = new sst.aws.ApiGatewayV2("eccs", {
 	cors: true,
 });
 
+const jwtAuthorizer = {
+	jwt: {
+		audiences: [eccsWebClient.id],
+		issuer: $interpolate`https://cognito-idp.${
+			aws.getArnOutput(userPool).region
+		}.amazonaws.com/${userPool.id}`,
+	},
+};
+
 // Auth
 api.route("POST /api/auth/signin", {
 	link: [...links, userPool, eccsWebClient],
@@ -67,99 +76,43 @@ api.route("POST /api/auth/update-password", {
 api.route("GET /api/case/details/{caseID}", {
 	handler: "server/controllers/case.controller.getCaseForStudentsResponse",
 	link: [...links, userPool],
-	auth: {
-		jwt: {
-			audiences: [eccsWebClient.id],
-			issuer: $interpolate`https://cognito-idp.${
-				aws.getArnOutput(userPool).region
-			}.amazonaws.com/${userPool.id}`,
-		},
-	},
+	auth: jwtAuthorizer,
 });
 api.route("GET /api/case/archived/{caseFilter}", {
 	handler: "server/controllers/handleArchivedCases.getArchivedCases",
 	link: [...links, userPool],
-	auth: {
-		jwt: {
-			audiences: [eccsWebClient.id],
-			issuer: $interpolate`https://cognito-idp.${
-				aws.getArnOutput(userPool).region
-			}.amazonaws.com/${userPool.id}`,
-		},
-	},
+	auth: jwtAuthorizer,
 });
 api.route("GET /api/case/publish", {
 	handler: "server/controllers/handlePublishedCase.getPublishedCase",
 	link: [...links, userPool],
-	auth: {
-		jwt: {
-			audiences: [eccsWebClient.id],
-			issuer: $interpolate`https://cognito-idp.${
-				aws.getArnOutput(userPool).region
-			}.amazonaws.com/${userPool.id}`,
-		},
-	},
+	auth: jwtAuthorizer,
 });
 api.route("POST /api/case/publish", {
 	handler: "server/controllers/handlePublishedCase.publishCase",
 	link: [...links, userPool],
-	auth: {
-		jwt: {
-			audiences: [eccsWebClient.id],
-			issuer: $interpolate`https://cognito-idp.${
-				aws.getArnOutput(userPool).region
-			}.amazonaws.com/${userPool.id}`,
-		},
-	},
+	auth: jwtAuthorizer,
 });
 api.route("GET /api/case/draft/{caseId}", {
 	handler: "server/controllers/handleDraftCases.getDraftCases",
 	link: [...links, userPool],
-	auth: {
-		jwt: {
-			audiences: [eccsWebClient.id],
-			issuer: $interpolate`https://cognito-idp.${
-				aws.getArnOutput(userPool).region
-			}.amazonaws.com/${userPool.id}`,
-		},
-	},
+	auth: jwtAuthorizer,
 });
 
 api.route("POST /api/case/draft", {
 	handler: "server/controllers/handleDraftCases.addDraftCase",
 	link: [...links, userPool],
-	auth: {
-		jwt: {
-			audiences: [eccsWebClient.id],
-			issuer: $interpolate`https://cognito-idp.${
-				aws.getArnOutput(userPool).region
-			}.amazonaws.com/${userPool.id}`,
-		},
-	},
+	auth: jwtAuthorizer,
 });
 api.route("PUT /api/case/draft/{caseID}", {
 	handler: "server/controllers/handleDraftCases.updateDraftCase",
 	link: [...links, userPool],
-	auth: {
-		jwt: {
-			audiences: [eccsWebClient.id],
-			issuer: $interpolate`https://cognito-idp.${
-				aws.getArnOutput(userPool).region
-			}.amazonaws.com/${userPool.id}`,
-		},
-	},
+	auth: jwtAuthorizer,
 });
 api.route("DELETE /api/case/delete-case/{caseID}", {
 	handler: "server/controllers/handleDraftCases.deleteDraftCase",
 	link: [...links, userPool],
-	auth: {
-		jwt: {
-			audiences: [eccsWebClient.id],
-			issuer: $interpolate`https://cognito-idp.${
-				aws.getArnOutput(userPool).region
-			}.amazonaws.com/${userPool.id}`,
-		},
-	},
+	auth: jwtAuthorizer,
 });
 
 // NOT CURRENTLY USED BUT MAYBE USED SO KEEP
@@ -173,104 +126,48 @@ api.route("GET /api/case/get-signed-url-for-pdf-upload", {
 	handler:
 		"server/controllers/handleCaseMaterials.getSignedUrlToUploadForCaseMaterials",
 	link: [...links, userPool],
-	auth: {
-		jwt: {
-			audiences: [eccsWebClient.id],
-			issuer: $interpolate`https://cognito-idp.${
-				aws.getArnOutput(userPool).region
-			}.amazonaws.com/${userPool.id}`,
-		},
-	},
+	auth: jwtAuthorizer,
 });
 
 api.route("POST /api/case/get-signed-url-for-pdf-fetch", {
 	handler:
 		"server/controllers/handleCaseMaterials.getSignedUrlsToFetchForCaseMaterials",
 	link: [...links, userPool],
-	auth: {
-		jwt: {
-			audiences: [eccsWebClient.id],
-			issuer: $interpolate`https://cognito-idp.${
-				aws.getArnOutput(userPool).region
-			}.amazonaws.com/${userPool.id}`,
-		},
-	},
+	auth: jwtAuthorizer,
 });
 
 api.route("DELETE /api/case/delete-case-material", {
 	handler: "server/controllers/handleCaseMaterials.deleteCaseMaterial",
 	link: [...links, userPool],
-	auth: {
-		jwt: {
-			audiences: [eccsWebClient.id],
-			issuer: $interpolate`https://cognito-idp.${
-				aws.getArnOutput(userPool).region
-			}.amazonaws.com/${userPool.id}`,
-		},
-	},
+	auth: jwtAuthorizer,
 });
 
 // Student;
 api.route("POST /api/case/add/feedback", {
 	handler: "server/controllers/case.controller.addFeedback",
 	link: [...links, userPool],
-	auth: {
-		jwt: {
-			audiences: [eccsWebClient.id],
-			issuer: $interpolate`https://cognito-idp.${
-				aws.getArnOutput(userPool).region
-			}.amazonaws.com/${userPool.id}`,
-		},
-	},
+	auth: jwtAuthorizer,
 });
 api.route("GET /api/case/feedbacks/{caseID}", {
 	handler: "server/controllers/case.controller.getCaseFeedback",
 	link: [...links, userPool],
-	auth: {
-		jwt: {
-			audiences: [eccsWebClient.id],
-			issuer: $interpolate`https://cognito-idp.${
-				aws.getArnOutput(userPool).region
-			}.amazonaws.com/${userPool.id}`,
-		},
-	},
+	auth: jwtAuthorizer,
 });
 api.route("GET /api/case/responses/{caseID}", {
 	handler: "server/controllers/case.controller.getCaseAnswers",
 	link: [...links, userPool],
-	auth: {
-		jwt: {
-			audiences: [eccsWebClient.id],
-			issuer: $interpolate`https://cognito-idp.${
-				aws.getArnOutput(userPool).region
-			}.amazonaws.com/${userPool.id}`,
-		},
-	},
+	auth: jwtAuthorizer,
 });
 api.route("GET /api/student/certificates", {
 	handler:
 		"server/controllers/handleStudentsCertificates.getStudentCertificates",
 	link: [...links, userPool],
-	auth: {
-		jwt: {
-			audiences: [eccsWebClient.id],
-			issuer: $interpolate`https://cognito-idp.${
-				aws.getArnOutput(userPool).region
-			}.amazonaws.com/${userPool.id}`,
-		},
-	},
+	auth: jwtAuthorizer,
 });
 api.route("GET /api/student/responses/{caseFilter}", {
 	handler: "server/controllers/handleStudentsResponse.getStudentsResponses",
 	link: [...links, userPool],
-	auth: {
-		jwt: {
-			audiences: [eccsWebClient.id],
-			issuer: $interpolate`https://cognito-idp.${
-				aws.getArnOutput(userPool).region
-			}.amazonaws.com/${userPool.id}`,
-		},
-	},
+	auth: jwtAuthorizer,
 });
 
 api.route("POST /api/student/response", {
@@ -283,12 +180,5 @@ api.route("POST /api/student/response", {
 		},
 	],
 	link: [...links, userPool],
-	auth: {
-		jwt: {
-			audiences: [eccsWebClient.id],
-			issuer: $interpolate`https://cognito-idp.${
-				aws.getArnOutput(userPool).region
-			}.amazonaws.com/${userPool.id}`,
-		},
-	},
+	auth: jwtAuthorizer,
 });
