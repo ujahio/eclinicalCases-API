@@ -45,7 +45,11 @@ export const updateDraftCaseApi = ({
 	_id: any;
 }) => {
 	const formData = convertToFormData(caseData);
-	return caseApi.put(`/draft/${_id}`, formData, configureRequestHeaders(token));
+	return caseApi.put(
+		`/draft/${_id}`,
+		formData,
+		configureRequestHeaders(token, formData)
+	);
 };
 
 export const getArchiveCasesApi = (token?: string, isRecent?: string) => {

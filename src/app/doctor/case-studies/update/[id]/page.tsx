@@ -63,7 +63,7 @@ const Update: FunctionComponent<any> = ({ params }) => {
 			shouldPublish: false,
 			_id: paramsToUse.id,
 		};
-		setCaseStudy(draftCaseInfo); // why set the case studies here?
+		setCaseStudy(draftCaseInfo);
 		dispatch(updateDraftCase(draftCaseInfo));
 	};
 

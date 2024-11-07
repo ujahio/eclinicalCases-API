@@ -5,10 +5,14 @@ import { getTokenForRequest } from "@/utils/getTokenForRequest";
 
 export const updateDraftCase = createAsyncThunk(
 	"case/updateDraftCase",
-	async ({ caseData, _id }: any, thunkAPI) => {
+	async (caseData: any, thunkAPI) => {
 		try {
 			const token = await getTokenForRequest();
-			const { data } = await updateDraftCaseApi({ caseData, token, _id });
+			const { data } = await updateDraftCaseApi({
+				caseData,
+				token,
+				_id: caseData._id,
+			});
 			toast.success("Draft case updated");
 
 			return data;
