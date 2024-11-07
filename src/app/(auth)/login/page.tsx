@@ -1,8 +1,9 @@
 "use client";
 
 import React, { useEffect, useCallback } from "react";
-import LoginComp from "@/presentation/auth/login";
+import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import LoginComp from "@/presentation/auth/login";
 import { signIn, useSession } from "next-auth/react";
 import { LoginFormValues } from "@/services/types/auth/login";
 import { saltAndHashPassword } from "@/utils/password";
@@ -22,8 +23,7 @@ const Login = () => {
 		});
 
 		if (result?.error) {
-			console.error("Sign-in error:", result.error);
-			// Display error to user if needed, e.g., set a state variable for error
+			toast.error("Error signing in. Please try again.");
 		}
 	}, []);
 
