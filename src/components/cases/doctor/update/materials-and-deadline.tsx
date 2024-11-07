@@ -21,7 +21,7 @@ interface DoctorMaterialsAndDeadlineProps {
 	goBack: () => void;
 	caseStudy: any;
 	setCaseStudy: React.Dispatch<React.SetStateAction<any>>;
-	handleAddCase: React.Dispatch<React.SetStateAction<any>>;
+	handleUpdateDraftCase: React.Dispatch<React.SetStateAction<any>>;
 	caseMaterials: { fileName: string; documentKey: string }[];
 	caseDeadline: string;
 }
@@ -33,7 +33,7 @@ const DoctorMaterialsAndDeadline: FunctionComponent<
 	goBack,
 	caseStudy,
 	setCaseStudy,
-	handleAddCase,
+	handleUpdateDraftCase,
 	caseMaterials,
 	caseDeadline,
 }) => {
@@ -241,7 +241,7 @@ const DoctorMaterialsAndDeadline: FunctionComponent<
 				btnStyle="outline"
 				size="lg"
 				centralize
-				onClick={handleAddCase}
+				onClick={handleUpdateDraftCase}
 				className="w-full mb-3"
 			>
 				{addingDraftCaseStatus === "loading"

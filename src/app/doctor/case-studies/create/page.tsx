@@ -57,14 +57,15 @@ const Create: FunctionComponent = () => {
 		setProgress(next);
 	};
 
-	const handleAddCase = () => {
-		setCaseStudy(caseStudy);
-		dispatch(addCase(caseStudy));
+	const handleUpdateDraftCase = () => {
+		const draftCaseInfo = { ...caseStudy, shouldPublish: false };
+		setCaseStudy(draftCaseInfo); // why set the case studies here?
+		dispatch(addCase(draftCaseInfo));
 	};
 
 	const handlePublishCase = () => {
 		const publishedCaseInfo = { ...caseStudy, shouldPublish: true };
-		setCaseStudy(publishedCaseInfo);
+		setCaseStudy(publishedCaseInfo); // why set the case studies here?
 		dispatch(addCase(publishedCaseInfo));
 	};
 	useEffect(() => {
@@ -104,7 +105,7 @@ const Create: FunctionComponent = () => {
 			isActive={isActive}
 			caseStudy={caseStudy}
 			setCaseStudy={setCaseStudy}
-			handleAddCase={handleAddCase}
+			handleUpdateDraftCase={handleUpdateDraftCase}
 			handlePublishCase={handlePublishCase}
 		/>
 	);

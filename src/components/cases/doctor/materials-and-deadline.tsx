@@ -13,7 +13,7 @@ import { getTokenForRequest } from "@/utils/getTokenForRequest";
 
 const DoctorMaterialsAndDeadline: FunctionComponent<
 	DoctorMaterialsAndDeadlineProps
-> = ({ goNext, goBack, caseStudy, setCaseStudy, handleAddCase }) => {
+> = ({ goNext, goBack, caseStudy, setCaseStudy, handleUpdateDraftCase }) => {
 	const dispatch = useAppDispatch();
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	const addingDraftCaseStatus = useAppSelector(
@@ -223,7 +223,7 @@ const DoctorMaterialsAndDeadline: FunctionComponent<
 				btnStyle="outline"
 				size="lg"
 				centralize
-				onClick={handleAddCase}
+				onClick={handleUpdateDraftCase}
 				className="w-full mb-3"
 			>
 				{addingDraftCaseStatus === "loading"

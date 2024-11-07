@@ -57,20 +57,29 @@ const Update: FunctionComponent<any> = ({ params }) => {
 		switchTab(next);
 		setProgress(next);
 	};
-
-	const handleUpdateCase = () => {
-		dispatch(updateDraftCase({ caseData: caseStudy, _id: paramsToUse.id }));
+	const handleUpdateDraftCase = () => {
+		const draftCaseInfo = {
+			...caseStudy,
+			shouldPublish: false,
+			_id: paramsToUse.id,
+		};
+		setCaseStudy(draftCaseInfo); // why set the case studies here?
+		dispatch(updateDraftCase(draftCaseInfo));
 	};
 
 	const handlePublishCase = () => {
-		setCaseStudy({ ...caseStudy, shouldPublish: true });
-		dispatch(addCase({ ...caseStudy, shouldPublish: true }));
+		setCaseStudy({ ...caseStudy, shouldPublish: true, caseId: paramsToUse.id }); // why set the case studies here?
+		dispatch(
+			addCase({ ...caseStudy, shouldPublish: true, caseId: paramsToUse.id })
+		);
 	};
 
 	useEffect(() => {
 		if (getDraftCasesState.status === "succeeded") {
 			dispatch(resetGetDraftCasesStatus());
 			const draftCaseDetails = getDraftCasesState.cases[0];
+
+			console.log("draftCaseDetails", draftCaseDetails);
 
 			const updatedCaseStudy = {
 				caseClue: draftCaseDetails.caseClue || "",
@@ -131,7 +140,7 @@ const Update: FunctionComponent<any> = ({ params }) => {
 			isActive={isActive}
 			caseStudy={caseStudy}
 			setCaseStudy={setCaseStudy}
-			handleUpdateCase={handleUpdateCase}
+			handleUpdateDraftCase={handleUpdateDraftCase}
 			handlePublishCase={handlePublishCase}
 		/>
 	);

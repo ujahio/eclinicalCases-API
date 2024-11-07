@@ -21,7 +21,7 @@ const UpdateCaseStudy: FunctionComponent<UpdateCaseStudyProps> = ({
 	isActive,
 	caseStudy,
 	setCaseStudy,
-	handleUpdateCase,
+	handleUpdateDraftCase,
 	handlePublishCase,
 }) => {
 	return (
@@ -47,7 +47,7 @@ const UpdateCaseStudy: FunctionComponent<UpdateCaseStudyProps> = ({
 						goNext={goNext}
 						caseStudy={caseStudy}
 						setCaseStudy={setCaseStudy}
-						handleAddCase={handleUpdateCase}
+						handleUpdateDraftCase={handleUpdateDraftCase}
 					/>
 				)}
 
@@ -57,7 +57,7 @@ const UpdateCaseStudy: FunctionComponent<UpdateCaseStudyProps> = ({
 						goBack={goBack}
 						caseStudy={caseStudy}
 						setCaseStudy={setCaseStudy}
-						handleAddCase={handleUpdateCase}
+						handleUpdateDraftCase={handleUpdateDraftCase}
 					/>
 				)}
 
@@ -69,7 +69,7 @@ const UpdateCaseStudy: FunctionComponent<UpdateCaseStudyProps> = ({
 						setCaseStudy={setCaseStudy}
 						caseMaterials={caseStudy.caseMaterials}
 						caseDeadline={caseStudy.caseDeadline}
-						handleAddCase={handleUpdateCase}
+						handleUpdateDraftCase={handleUpdateDraftCase}
 					/>
 				)}
 
@@ -79,13 +79,13 @@ const UpdateCaseStudy: FunctionComponent<UpdateCaseStudyProps> = ({
 						goBack={goBack}
 						caseStudy={caseStudy}
 						setCaseStudy={setCaseStudy}
-						handleAddCase={handleUpdateCase}
+						handleUpdateDraftCase={handleUpdateDraftCase}
 					/>
 				)}
 				{isActive("final_review") && (
 					<FinalReview
 						caseStudy={caseStudy}
-						handleAddCase={handleUpdateCase}
+						handleUpdateDraftCase={handleUpdateDraftCase}
 						handlePublishCase={handlePublishCase}
 					/>
 				)}

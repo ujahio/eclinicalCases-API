@@ -9,7 +9,7 @@ const DoctorCMEQuestions: FunctionComponent<DoctorCMEQuestionsProps> = ({
 	goBack,
 	caseStudy,
 	setCaseStudy,
-	handleAddCase,
+	handleUpdateDraftCase,
 }) => {
 	const addingDraftCaseStatus = useAppSelector(
 		(state) => state.getDraftCases.status
@@ -230,7 +230,7 @@ const DoctorCMEQuestions: FunctionComponent<DoctorCMEQuestionsProps> = ({
 				btnStyle="outline"
 				size="lg"
 				centralize
-				onClick={handleAddCase}
+				onClick={handleUpdateDraftCase}
 				className="w-full mb-3"
 			>
 				{addingDraftCaseStatus === "loading"
