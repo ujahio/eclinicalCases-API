@@ -64,7 +64,17 @@ export const publishCase = async (event) => {
 		};
 	}
 
+	if (caseMaterials && !Array.isArray(caseMaterials)) {
+		return {
+			statusCode: 400,
+			body: JSON.stringify({
+				message: "Invalid input: missing case materials",
+			}),
+		};
+	}
+
 	// TODO: Add validation for caseQuestions and caseMaterials
+
 	const decodedToken = decodeToken(event);
 	const username = decodedToken.username;
 	const userInfo = await getUserInfo(username);
