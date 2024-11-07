@@ -12,7 +12,7 @@ import {
 	// storeOtpInDb,
 	// getOtpFromDb,
 	decryptPassword,
-	getUserByEmail,
+	// getUserByEmail,
 } from "../utils/api_utils.js";
 // import { sendEmail } from "../services/emailSender.js";
 import cognitoClient from "../services/cognitoClient.js";

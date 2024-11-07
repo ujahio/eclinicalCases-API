@@ -66,7 +66,6 @@ api.route("POST /api/auth/update-password", {
 });
 
 //Case;
-// is this route used?
 api.route("GET /api/case/data/{caseID}", {
 	handler: "server/controllers/case.controller.getCaseData",
 	link: [...links, userPool],
