@@ -15,70 +15,70 @@ function generateOtp() {
 	return Math.floor(100000 + Math.random() * 900000);
 }
 
-async function storeOtpInDb(email, otp) {
-	const params = {
-		TableName: Resource.ECCSUsers.name,
-		Key: {
-			email: email,
-		},
-		UpdateExpression: "set otp = :otp",
-		ExpressionAttributeValues: {
-			":otp": otp,
-		},
-	};
+// async function storeOtpInDb(email, otp) {
+// 	const params = {
+// 		TableName: Resource.ECCSUsers.name,
+// 		Key: {
+// 			email: email,
+// 		},
+// 		UpdateExpression: "set otp = :otp",
+// 		ExpressionAttributeValues: {
+// 			":otp": otp,
+// 		},
+// 	};
 
-	const command = new UpdateCommand(params);
-	await dbClient.send(command);
-}
+// 	const command = new UpdateCommand(params);
+// 	await dbClient.send(command);
+// }
 
-async function getOtpFromDb(email) {
-	const params = {
-		TableName: Resource.ECCSUsers.name,
-		Key: {
-			email: email,
-		},
-		ProjectionExpression: "otp",
-	};
+// async function getOtpFromDb(email) {
+// 	const params = {
+// 		TableName: Resource.ECCSUsers.name,
+// 		Key: {
+// 			email: email,
+// 		},
+// 		ProjectionExpression: "otp",
+// 	};
 
-	const command = new GetCommand(params);
-	const result = await dbClient.send(command);
-	return result.Item.otp;
-}
+// 	const command = new GetCommand(params);
+// 	const result = await dbClient.send(command);
+// 	return result.Item.otp;
+// }
 
-async function updateUserPassword(email, newPassword) {
-	const params = {
-		TableName: Resource.ECCSUsers.name,
-		Key: {
-			email: email,
-		},
-		UpdateExpression: "set password = :newPassword",
-		ExpressionAttributeValues: {
-			":newPassword": newPassword,
-		},
-	};
-	const command = new UpdateCommand(params);
-	const result = await dbClient.send(command);
-	return result.Attributes;
-}
+// async function updateUserPassword(email, newPassword) {
+// 	const params = {
+// 		TableName: Resource.ECCSUsers.name,
+// 		Key: {
+// 			email: email,
+// 		},
+// 		UpdateExpression: "set password = :newPassword",
+// 		ExpressionAttributeValues: {
+// 			":newPassword": newPassword,
+// 		},
+// 	};
+// 	const command = new UpdateCommand(params);
+// 	const result = await dbClient.send(command);
+// 	return result.Attributes;
+// }
 
-async function getUserByEmail(email) {
-	try {
-		const params = {
-			TableName: Resource.ECCSUsers.name,
-			FilterExpression: "email = :email",
-			ExpressionAttributeValues: {
-				":email": email,
-			},
-		};
+// async function getUserByEmail(email) {
+// 	try {
+// 		const params = {
+// 			TableName: Resource.ECCSUsers.name,
+// 			FilterExpression: "email = :email",
+// 			ExpressionAttributeValues: {
+// 				":email": email,
+// 			},
+// 		};
 
-		const command = new ScanCommand(params);
-		const result = await dbClient.send(command);
-		return result.Items[0];
-	} catch (error) {
-		console.error(error);
-		throw error;
-	}
-}
+// 		const command = new ScanCommand(params);
+// 		const result = await dbClient.send(command);
+// 		return result.Items[0];
+// 	} catch (error) {
+// 		console.error(error);
+// 		throw error;
+// 	}
+// }
 
 function encryptPassword(password, NEXT_PUBLIC_PASS_SECRET_KEY) {
 	const iv = crypto.randomBytes(16);

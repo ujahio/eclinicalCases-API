@@ -8,15 +8,9 @@ import {
 } from "./secrets";
 import { userPool, eccsWebClient } from "./auth";
 
-import {
-	ECCSUsers,
-	Feedback,
-	StudentsResponses,
-	TeacherCaseStudies,
-} from "./dynamo";
+import { Feedback, StudentsResponses, TeacherCaseStudies } from "./dynamo";
 
 const links = [
-	ECCSUsers,
 	Feedback,
 	StudentsResponses,
 	TeacherCaseStudies,

@@ -376,35 +376,3 @@ export const updatePassword = async (event) => {
 // 		};
 // 	}
 // };
-
-// // is this needed?
-// export const getUsers = async () => {
-// 	try {
-// 		const params = {
-// 			TableName: Resource.ECCSUsers.name,
-// 		};
-
-// 		const command = new ScanCommand(params);
-// 		const result = await dbClient.send(command);
-
-// 		const users = result.Items;
-
-// 		return {
-// 			statusCode: 200,
-// 			body: JSON.stringify({
-// 				message: "Users retrieved successfully!",
-// 				data: users,
-// 			}),
-// 		};
-// 	} catch (error) {
-// 		console.error("Error retrieving users:", error);
-
-// 		return {
-// 			statusCode: 500,
-// 			body: JSON.stringify({
-// 				error: `Error retrieving users: ${error.message}`,
-// 				message: "Error retrieving users.",
-// 			}),
-// 		};
-// 	}
-// };
