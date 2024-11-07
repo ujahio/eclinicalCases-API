@@ -1,6 +1,4 @@
-import jwt from "jsonwebtoken";
 import { Resource } from "sst";
-import dbClient from "../services/dbClient.js";
 import bcrypt from "bcryptjs";
 import {
 	SignUpCommand,
@@ -8,16 +6,15 @@ import {
 	ListUsersCommand,
 	AdminInitiateAuthCommand,
 } from "@aws-sdk/client-cognito-identity-provider";
-import { ScanCommand } from "@aws-sdk/lib-dynamodb";
 import {
-	updateUserPassword,
-	generateOtp,
-	storeOtpInDb,
-	getOtpFromDb,
+	// updateUserPassword,
+	// generateOtp,
+	// storeOtpInDb,
+	// getOtpFromDb,
 	decryptPassword,
 	getUserByEmail,
 } from "../utils/api_utils.js";
-import { sendEmail } from "../services/emailSender.js";
+// import { sendEmail } from "../services/emailSender.js";
 import cognitoClient from "../services/cognitoClient.js";
 // import { checkDuplicateUsernameOrEmail } from "../middlewares/verifySignUp";
 

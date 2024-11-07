@@ -1,7 +1,7 @@
 import {
-	UpdateCommand,
-	GetCommand,
-	ScanCommand,
+	// UpdateCommand,
+	// GetCommand,
+	// ScanCommand,
 	QueryCommand,
 } from "@aws-sdk/lib-dynamodb";
 import { Resource } from "sst";
@@ -315,12 +315,12 @@ export const getDetailsOfStudentsFeedbackAndResponses = async (
 };
 
 export {
-	updateUserPassword,
-	generateOtp,
-	storeOtpInDb,
-	getOtpFromDb,
+	// updateUserPassword,
+	// generateOtp,
+	// storeOtpInDb,
+	// getOtpFromDb,
 	encryptPassword,
 	decryptPassword,
-	getUserByEmail,
+	// getUserByEmail,
 	parseLogToObject,
 };
