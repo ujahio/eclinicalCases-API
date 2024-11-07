@@ -153,16 +153,7 @@ api.route("POST /api/case/add/feedback", {
 	link: [...links, userPool],
 	auth: jwtAuthorizer,
 });
-api.route("GET /api/case/feedbacks/{caseID}", {
-	handler: "server/controllers/case.controller.getCaseFeedback",
-	link: [...links, userPool],
-	auth: jwtAuthorizer,
-});
-api.route("GET /api/case/responses/{caseID}", {
-	handler: "server/controllers/case.controller.getCaseAnswers",
-	link: [...links, userPool],
-	auth: jwtAuthorizer,
-});
+
 api.route("GET /api/student/certificates", {
 	handler:
 		"server/controllers/handleStudentsCertificates.getStudentCertificates",
