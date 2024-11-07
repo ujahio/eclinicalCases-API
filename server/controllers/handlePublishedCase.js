@@ -23,7 +23,7 @@ export const publishCase = async (event) => {
 		return {
 			statusCode: 400,
 			body: JSON.stringify({
-				message: "Invalid input: missing case topic clue",
+				message: "Missing case topic clue",
 			}),
 		};
 	}
@@ -32,7 +32,7 @@ export const publishCase = async (event) => {
 		return {
 			statusCode: 400,
 			body: JSON.stringify({
-				message: "Invalid input: missing case description",
+				message: "Missing case description",
 			}),
 		};
 	}
@@ -41,7 +41,7 @@ export const publishCase = async (event) => {
 		return {
 			statusCode: 400,
 			body: JSON.stringify({
-				message: "Invalid input: missing case topic",
+				message: "Missing case topic",
 			}),
 		};
 	}
@@ -50,7 +50,7 @@ export const publishCase = async (event) => {
 		return {
 			statusCode: 400,
 			body: JSON.stringify({
-				message: "Invalid input: missing case study explanation",
+				message: "Missing case study explanation",
 			}),
 		};
 	}
@@ -59,7 +59,7 @@ export const publishCase = async (event) => {
 		return {
 			statusCode: 400,
 			body: JSON.stringify({
-				message: "Invalid input: missing case deadline",
+				message: "Missing case deadline",
 			}),
 		};
 	}
@@ -68,7 +68,7 @@ export const publishCase = async (event) => {
 		return {
 			statusCode: 400,
 			body: JSON.stringify({
-				message: "Invalid input: missing case materials",
+				message: "Missing case materials",
 			}),
 		};
 	}
