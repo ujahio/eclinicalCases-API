@@ -73,6 +73,11 @@ api.route("POST /api/auth/update-password", {
 
 //Case;
 // is this route used?
+api.route("GET /api/case/data/{caseID}", {
+	handler: "server/controllers/case.controller.getCaseData",
+	link: [...links, userPool],
+	auth: jwtAuthorizer,
+});
 api.route("GET /api/case/details/{caseID}", {
 	handler: "server/controllers/case.controller.getCaseForStudentsResponse",
 	link: [...links, userPool],

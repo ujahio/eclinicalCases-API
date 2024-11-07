@@ -148,7 +148,8 @@ export const addFeedback = async (event) => {
 	}
 
 	try {
-		const username = verifiedUserTokenDetails.decoded.username;
+		const decodedToken = decodeToken(event);
+		const username = decodedToken.username;
 		const { id: studentID } = await getUserInfo(username);
 
 		const params = {
