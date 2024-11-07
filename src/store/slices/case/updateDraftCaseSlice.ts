@@ -9,7 +9,7 @@ export const updateDraftCase = createAsyncThunk(
 		try {
 			const token = await getTokenForRequest();
 			const { data } = await updateDraftCaseApi({ caseData, token, _id });
-			toast.success("Draft updated");
+			toast.success("Draft case updated");
 
 			return data;
 		} catch (error: any) {

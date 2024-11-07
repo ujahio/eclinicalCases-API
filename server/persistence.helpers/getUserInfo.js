@@ -27,7 +27,13 @@ const getUserInfo = async (username) => {
 		};
 	} catch (error) {
 		console.error("Error fetching user attributes from Cognito:", error);
-		throw new Error(error.message);
+		return {
+			statusCode: 500,
+			body: JSON.stringify({
+				error: `Error fetching user info: ${error.message}`,
+				message: "Error fetching user info.",
+			}),
+		};
 	}
 };
 
