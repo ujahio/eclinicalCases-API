@@ -1,7 +1,6 @@
 import { ECCSEmail } from "./email";
 import { CaseMaterials, ECCSUsersCertificates } from "./storage";
 import {
-	NEXT_JWT_SECRET,
 	NEXT_PUBLIC_PASS_SECRET_KEY,
 	NEXT_PUBLIC_BASE_URL,
 	NEXT_PUBLIC_NODE_ENV,
@@ -16,7 +15,6 @@ const links = [
 	TeacherCaseStudies,
 	CaseMaterials,
 	ECCSUsersCertificates,
-	NEXT_JWT_SECRET,
 	NEXT_PUBLIC_PASS_SECRET_KEY,
 	NEXT_PUBLIC_BASE_URL,
 	NEXT_PUBLIC_NODE_ENV,

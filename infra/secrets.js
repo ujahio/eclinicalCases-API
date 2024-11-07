@@ -1,7 +1,3 @@
-export const NEXT_JWT_SECRET = new sst.Secret(
-	"NEXT_JWT_SECRET",
-	process.env.NEXT_JWT_SECRET
-);
 export const NEXT_PUBLIC_PASS_SECRET_KEY = new sst.Secret(
 	"NEXT_PUBLIC_PASS_SECRET_KEY",
 	process.env.NEXT_PUBLIC_PASS_SECRET_KEY
