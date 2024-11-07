@@ -79,8 +79,6 @@ const Update: FunctionComponent<any> = ({ params }) => {
 			dispatch(resetGetDraftCasesStatus());
 			const draftCaseDetails = getDraftCasesState.cases[0];
 
-			console.log("draftCaseDetails", draftCaseDetails);
-
 			const updatedCaseStudy = {
 				caseClue: draftCaseDetails.caseClue || "",
 				caseDescription: draftCaseDetails.caseDescription,

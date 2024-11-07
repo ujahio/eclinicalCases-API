@@ -19,6 +19,37 @@ export const publishCase = async (event) => {
 		caseMaterials,
 	} = await extrapolateRequestBody(event);
 
+	const checkedCaseQuestions = JSON.parse(caseQuestions);
+	if (checkedCaseQuestions.length === 0) {
+		return {
+			statusCode: 400,
+			body: JSON.stringify({
+				message: "Missing case questions",
+			}),
+		};
+	}
+
+	for (let index = 0; index < checkedCaseQuestions.length; index++) {
+		const questionInfo = checkedCaseQuestions[index];
+
+		const questionNumber = index + 1;
+		if (questionInfo.options.length === 0) {
+			return {
+				statusCode: 400,
+				body: JSON.stringify({
+					message: `Please add options for question ${questionNumber}`,
+				}),
+			};
+		} else if (questionInfo.question === "") {
+			return {
+				statusCode: 400,
+				body: JSON.stringify({
+					message: `Please add a question statement for question ${questionNumber}`,
+				}),
+			};
+		}
+	}
+
 	if (!caseClue) {
 		return {
 			statusCode: 400,
@@ -64,17 +95,6 @@ export const publishCase = async (event) => {
 		};
 	}
 
-	if (caseMaterials && !Array.isArray(caseMaterials)) {
-		return {
-			statusCode: 400,
-			body: JSON.stringify({
-				message: "Missing case materials",
-			}),
-		};
-	}
-
-	// TODO: Add validation for caseQuestions and caseMaterials
-
 	const decodedToken = decodeToken(event);
 	const username = decodedToken.username;
 	const userInfo = await getUserInfo(username);
@@ -82,8 +102,6 @@ export const publishCase = async (event) => {
 
 	try {
 		// Step 1: Check if the teacher already has an active published case
-
-		// Possible use of Cognito authorizer
 		if (!userInfo || userInfo.user_role !== "teacher") {
 			return {
 				statusCode: 400,
@@ -141,9 +159,9 @@ export const publishCase = async (event) => {
 		    caseTopic = :caseTopic,
 		    caseExplanation = :caseExplanation,
 		    caseQuestions = :caseQuestions,
-            publishedDate = :publishedDate,
-            createdAt = :createdAt,
-            teacherId = :teacherId
+        publishedDate = :publishedDate,
+        createdAt = :createdAt,
+        teacherId = :teacherId
     `;
 
 		const expressionAttributeValues = {
@@ -158,6 +176,7 @@ export const publishCase = async (event) => {
 			":createdAt": todaysDate,
 			":teacherId": teacherId,
 		};
+
 		// Conditionally add the caseMaterials field if it exists
 		if (caseMaterials) {
 			updateExpression += ", caseMaterials = :caseMaterials";
