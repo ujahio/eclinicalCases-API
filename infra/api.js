@@ -67,7 +67,6 @@ api.route("POST /api/auth/update-password", {
 api.route("GET /api/case/details/{caseID}", {
 	handler: "server/controllers/case.controller.getCaseForStudentsResponse",
 	link: [...links, userPool],
-	// link: links,
 	auth: {
 		jwt: {
 			audiences: [eccsWebClient.id],
@@ -80,7 +79,6 @@ api.route("GET /api/case/details/{caseID}", {
 api.route("GET /api/case/archived/{caseFilter}", {
 	handler: "server/controllers/handleArchivedCases.getArchivedCases",
 	link: [...links, userPool],
-	// link: links,
 	auth: {
 		jwt: {
 			audiences: [eccsWebClient.id],
@@ -93,7 +91,6 @@ api.route("GET /api/case/archived/{caseFilter}", {
 api.route("GET /api/case/publish", {
 	handler: "server/controllers/handlePublishedCase.getPublishedCase",
 	link: [...links, userPool],
-	// link: links,
 	auth: {
 		jwt: {
 			audiences: [eccsWebClient.id],
@@ -106,7 +103,6 @@ api.route("GET /api/case/publish", {
 api.route("POST /api/case/publish", {
 	handler: "server/controllers/handlePublishedCase.publishCase",
 	link: [...links, userPool],
-	// link: links,
 	auth: {
 		jwt: {
 			audiences: [eccsWebClient.id],
@@ -119,7 +115,6 @@ api.route("POST /api/case/publish", {
 api.route("GET /api/case/draft/{caseId}", {
 	handler: "server/controllers/handleDraftCases.getDraftCases",
 	link: [...links, userPool],
-	// link: links,
 	auth: {
 		jwt: {
 			audiences: [eccsWebClient.id],
@@ -133,7 +128,6 @@ api.route("GET /api/case/draft/{caseId}", {
 api.route("POST /api/case/draft", {
 	handler: "server/controllers/handleDraftCases.addDraftCase",
 	link: [...links, userPool],
-	// link: links,
 	auth: {
 		jwt: {
 			audiences: [eccsWebClient.id],
@@ -146,7 +140,6 @@ api.route("POST /api/case/draft", {
 api.route("PUT /api/case/draft/{caseID}", {
 	handler: "server/controllers/handleDraftCases.updateDraftCase",
 	link: [...links, userPool],
-	// link: links,
 	auth: {
 		jwt: {
 			audiences: [eccsWebClient.id],
@@ -159,7 +152,6 @@ api.route("PUT /api/case/draft/{caseID}", {
 api.route("DELETE /api/case/delete-case/{caseID}", {
 	handler: "server/controllers/handleDraftCases.deleteDraftCase",
 	link: [...links, userPool],
-	// link: links,
 	auth: {
 		jwt: {
 			audiences: [eccsWebClient.id],
@@ -169,10 +161,6 @@ api.route("DELETE /api/case/delete-case/{caseID}", {
 		},
 	},
 });
-// api.route("GET /api/case/data/{caseID}", {
-// 	handler: "server/controllers/case.controller.getCaseData",
-// 	link: links,
-// });
 
 // NOT CURRENTLY USED BUT MAYBE USED SO KEEP
 // api.route("POST /api/case/duplicate", {
@@ -185,7 +173,6 @@ api.route("GET /api/case/get-signed-url-for-pdf-upload", {
 	handler:
 		"server/controllers/handleCaseMaterials.getSignedUrlToUploadForCaseMaterials",
 	link: [...links, userPool],
-	// link: links,
 	auth: {
 		jwt: {
 			audiences: [eccsWebClient.id],
@@ -200,7 +187,6 @@ api.route("POST /api/case/get-signed-url-for-pdf-fetch", {
 	handler:
 		"server/controllers/handleCaseMaterials.getSignedUrlsToFetchForCaseMaterials",
 	link: [...links, userPool],
-	// link: links,
 	auth: {
 		jwt: {
 			audiences: [eccsWebClient.id],
@@ -214,7 +200,6 @@ api.route("POST /api/case/get-signed-url-for-pdf-fetch", {
 api.route("DELETE /api/case/delete-case-material", {
 	handler: "server/controllers/handleCaseMaterials.deleteCaseMaterial",
 	link: [...links, userPool],
-	// link: links,
 	auth: {
 		jwt: {
 			audiences: [eccsWebClient.id],
@@ -229,7 +214,6 @@ api.route("DELETE /api/case/delete-case-material", {
 api.route("POST /api/case/add/feedback", {
 	handler: "server/controllers/case.controller.addFeedback",
 	link: [...links, userPool],
-	// link: links,
 	auth: {
 		jwt: {
 			audiences: [eccsWebClient.id],
@@ -242,7 +226,6 @@ api.route("POST /api/case/add/feedback", {
 api.route("GET /api/case/feedbacks/{caseID}", {
 	handler: "server/controllers/case.controller.getCaseFeedback",
 	link: [...links, userPool],
-	// link: links,
 	auth: {
 		jwt: {
 			audiences: [eccsWebClient.id],
@@ -255,7 +238,6 @@ api.route("GET /api/case/feedbacks/{caseID}", {
 api.route("GET /api/case/responses/{caseID}", {
 	handler: "server/controllers/case.controller.getCaseAnswers",
 	link: [...links, userPool],
-	// link: links,
 	auth: {
 		jwt: {
 			audiences: [eccsWebClient.id],
@@ -269,7 +251,6 @@ api.route("GET /api/student/certificates", {
 	handler:
 		"server/controllers/handleStudentsCertificates.getStudentCertificates",
 	link: [...links, userPool],
-	// link: links,
 	auth: {
 		jwt: {
 			audiences: [eccsWebClient.id],
@@ -282,7 +263,6 @@ api.route("GET /api/student/certificates", {
 api.route("GET /api/student/responses/{caseFilter}", {
 	handler: "server/controllers/handleStudentsResponse.getStudentsResponses",
 	link: [...links, userPool],
-	// link: links,
 	auth: {
 		jwt: {
 			audiences: [eccsWebClient.id],
@@ -303,7 +283,6 @@ api.route("POST /api/student/response", {
 		},
 	],
 	link: [...links, userPool],
-	// link: links,
 	auth: {
 		jwt: {
 			audiences: [eccsWebClient.id],
