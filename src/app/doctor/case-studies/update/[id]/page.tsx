@@ -43,7 +43,6 @@ const Update: FunctionComponent<any> = ({ params }) => {
 		id: string;
 	} = use(params);
 
-	// get draft case for the case
 	useGetDraftCase(paramsToUse.id);
 
 	const goNext = () => {
@@ -68,7 +67,7 @@ const Update: FunctionComponent<any> = ({ params }) => {
 	};
 
 	const handlePublishCase = () => {
-		setCaseStudy({ ...caseStudy, shouldPublish: true, caseId: paramsToUse.id }); // why set the case studies here?
+		setCaseStudy({ ...caseStudy, shouldPublish: true, caseId: paramsToUse.id });
 		dispatch(
 			addCase({ ...caseStudy, shouldPublish: true, caseId: paramsToUse.id })
 		);

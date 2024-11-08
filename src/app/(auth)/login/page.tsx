@@ -15,9 +15,8 @@ const Login = () => {
 	const handleSubmitLoginUser = useCallback(async (val: LoginFormValues) => {
 		const hashedPassword = saltAndHashPassword(val.password);
 
-		// Use NextAuth signIn method with custom credentials
 		const result = await signIn("credentials", {
-			redirect: false, // prevent NextAuth from handling redirects
+			redirect: false,
 			email: val.email,
 			password: hashedPassword,
 		});

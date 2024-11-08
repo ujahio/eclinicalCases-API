@@ -59,13 +59,13 @@ const Create: FunctionComponent = () => {
 
 	const handleUpdateDraftCase = () => {
 		const draftCaseInfo = { ...caseStudy, shouldPublish: false };
-		setCaseStudy(draftCaseInfo); // why set the case studies here?
+		setCaseStudy(draftCaseInfo);
 		dispatch(addCase(draftCaseInfo));
 	};
 
 	const handlePublishCase = () => {
 		const publishedCaseInfo = { ...caseStudy, shouldPublish: true };
-		setCaseStudy(publishedCaseInfo); // why set the case studies here?
+		setCaseStudy(publishedCaseInfo);
 		dispatch(addCase(publishedCaseInfo));
 	};
 	useEffect(() => {
