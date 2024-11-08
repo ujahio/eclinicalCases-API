@@ -36,6 +36,7 @@ declare module "next-auth" {
 }
 
 const authOptions: NextAuthConfig = {
+	trustHost: true,
 	session: {
 		strategy: "jwt",
 	},
