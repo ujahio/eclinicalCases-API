@@ -6,16 +6,19 @@ export const signupUser = createAsyncThunk(
 	async (signupData: any, thunkAPI) => {
 		try {
 			const filteredSignupData = {
-				firstname: signupData.personalDetails.firstName,
-				lastname: signupData.personalDetails.lastName,
-				email: signupData.personalDetails.email,
-				password: signupData.personalDetails.password,
+				firstName: signupData.firstName,
+				lastName: signupData.lastName,
+				email: signupData.email,
+				password: signupData.password,
 				user_role: signupData.user_role,
 			};
 			const { data } = await signup(filteredSignupData);
 			return data;
 		} catch (error: any) {
-			return thunkAPI.rejectWithValue(error.response.data);
+			return thunkAPI.rejectWithValue({
+				status: error.response?.status || error.status, // temp fix to set status manually
+				message: error.response?.data || error.message, // temp fix to set status manually
+			});
 		}
 	}
 );

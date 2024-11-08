@@ -1,13 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { deleteCaseApi } from "@/services/apis/case";
-import { RootState } from "@/store/rootReducer/rootReducer";
+import { getTokenForRequest } from "@/utils/getTokenForRequest";
 
 export const deleteCase = createAsyncThunk(
 	"cases/deleteCase",
 	async (caseId: string, thunkAPI) => {
 		try {
-			const state = thunkAPI.getState() as RootState;
-			const token = state?.login?.user?.token;
+			const token = await getTokenForRequest();
+
 			const { data } = await deleteCaseApi(caseId, token);
 			return data;
 		} catch (error: any) {

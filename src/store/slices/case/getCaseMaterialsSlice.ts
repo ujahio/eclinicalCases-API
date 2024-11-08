@@ -3,7 +3,7 @@ import {
 	getPresignedUrlForDocumentUploadApi,
 	getPresignedUrlForFetchingDocumentsApi,
 } from "@/services/apis/case";
-import { RootState } from "@/store/rootReducer/rootReducer";
+import { getTokenForRequest } from "@/utils/getTokenForRequest";
 
 export const getCaseMaterials = createAsyncThunk(
 	"case/get-case-materials",
@@ -18,8 +18,7 @@ export const getCaseMaterials = createAsyncThunk(
 		thunkAPI
 	) => {
 		try {
-			const state = thunkAPI.getState() as RootState;
-			const token = state?.login?.user?.token;
+			const token = await getTokenForRequest();
 
 			if (fileProcess === "upload") {
 				const { data } = await getPresignedUrlForDocumentUploadApi(token);

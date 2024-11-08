@@ -10,7 +10,7 @@ const DoctorCaseQuestion: FunctionComponent<DoctorCaseQuestionProps> = ({
 	goNext,
 	caseStudy,
 	setCaseStudy,
-	handleAddCase,
+	handleUpdateDraftCase,
 }) => {
 	const [isEditorMounted, setIsEditorMounted] = useState(false);
 
@@ -87,7 +87,7 @@ const DoctorCaseQuestion: FunctionComponent<DoctorCaseQuestionProps> = ({
 					btnStyle="outline"
 					size="lg"
 					centralize
-					onClick={handleAddCase}
+					onClick={handleUpdateDraftCase}
 					className="w-full mb-3"
 				>
 					{addingDraftCaseStatus === "loading"

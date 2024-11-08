@@ -1,4 +1,4 @@
-export type handleAddCaseType = React.Dispatch<React.SetStateAction<any>>;
+export type handleUpdateDraftCase = React.Dispatch<React.SetStateAction<any>>;
 export interface CaseQuestion {
 	question: string;
 	options: string[];
@@ -29,7 +29,7 @@ export interface CreateCaseStudyProps {
 	isActive: (key: string) => boolean;
 	caseStudy: CaseStudy;
 	setCaseStudy: React.Dispatch<React.SetStateAction<CaseStudy>>;
-	handleAddCase: handleAddCaseType;
+	handleUpdateDraftCase: handleUpdateDraftCase;
 	handlePublishCase: React.Dispatch<React.SetStateAction<any>>;
 }
 
@@ -37,7 +37,7 @@ export interface DoctorCaseQuestionProps {
 	goNext: () => void;
 	caseStudy: CaseStudy;
 	setCaseStudy: React.Dispatch<React.SetStateAction<CaseStudy>>;
-	handleAddCase: handleAddCaseType;
+	handleUpdateDraftCase: handleUpdateDraftCase;
 }
 export interface DoctorCaseAnswerProps extends DoctorCaseQuestionProps {
 	goBack: () => void;
@@ -51,7 +51,7 @@ export interface DoctorCMEQuestionsProps extends DoctorCaseQuestionProps {
 }
 export interface FinalReviewProps {
 	caseStudy: CaseStudy;
-	handleAddCase: handleAddCaseType;
+	handleUpdateDraftCase: handleUpdateDraftCase;
 	handlePublishCase: React.Dispatch<React.SetStateAction<any>>;
 }
 
@@ -64,6 +64,6 @@ export interface UpdateCaseStudyProps {
 	isActive: (key: string) => boolean;
 	caseStudy: CaseStudy;
 	setCaseStudy: React.Dispatch<React.SetStateAction<CaseStudy>>;
-	handleUpdateCase: () => void;
+	handleUpdateDraftCase: () => void;
 	handlePublishCase: () => void;
 }

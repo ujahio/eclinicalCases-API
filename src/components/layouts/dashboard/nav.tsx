@@ -7,8 +7,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { APP_CONTAINER, APP_SPACING } from "@/services/constants/styles";
-import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
-import { logout } from "@/store/slices/auth/loginSlice";
+import { signOut, useSession } from "next-auth/react";
 
 interface NavProps {
 	navLinks?: { path: string; label: string }[];
@@ -31,18 +30,15 @@ const Nav: FunctionComponent<NavProps> = ({
 	],
 	img,
 }) => {
-	const router = useRouter();
-	const dispatch = useAppDispatch();
 	const currentPath = usePathname();
-	const userInfo = useAppSelector((state) => state.login.user);
-
+	const { data } = useSession();
+	const { user_role } = data!.user;
 	const pathMatches = (path: string) => {
 		return currentPath === path;
 	};
 
 	const logoutUser = async () => {
-		dispatch(logout());
-		router.push("/login");
+		await signOut({ callbackUrl: "/login" });
 	};
 
 	return (
@@ -73,14 +69,9 @@ const Nav: FunctionComponent<NavProps> = ({
 				</ul>
 
 				<div className="flex items-center cursor-pointer" role="button">
-					<figure className=" h-6.25 w-6.25 sm:h-8.75 sm:w-8.75 rounded-full">
+					<figure className=" h-6.25 w-6.25 sm:h-8.75 sm:w-8.75 rounded-full mr-3">
 						<Image src={UserImg} alt="" className="h-full w-full" />
 					</figure>
-					<span className="text-dark text-sm inline-block mx-2.5 font-medium">
-						{userInfo?.user?.user_role === "teacher"
-							? userInfo?.user?.email
-							: userInfo?.user?.email}
-					</span>
 					<svg
 						width="10.591"
 						height="6"
@@ -106,20 +97,14 @@ const Nav: FunctionComponent<NavProps> = ({
 							)}
 							<AppDropdownItem
 								href={
-									userInfo?.user?.user_role === "teacher"
+									user_role === "teacher"
 										? "/doctor/settings"
 										: "/student/settings"
 								}
 							>
 								Account Settings
 							</AppDropdownItem>
-							<AppDropdownItem
-								onClick={() => {
-									logoutUser();
-								}}
-							>
-								Sign Out
-							</AppDropdownItem>
+							<AppDropdownItem onClick={logoutUser}>Sign Out</AppDropdownItem>
 						</AppDropdown>
 					))}
 				</div>

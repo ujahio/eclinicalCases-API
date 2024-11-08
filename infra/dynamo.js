@@ -1,16 +1,3 @@
-export const ECCSUsers = new sst.aws.Dynamo("ECCSUsers", {
-	fields: {
-		email: "string", // User's email
-		id: "string", // User's unique ID
-		user_role: "string", // User's role: 'student', 'teacher', etc.
-	},
-	primaryIndex: { hashKey: "email" }, // Primary index based on email
-	globalIndexes: {
-		IDIndex: { hashKey: "id" }, // Index based on user ID
-		RoleIndex: { hashKey: "user_role" }, // New index to query by role (e.g., 'teacher')
-	},
-});
-
 export const TeacherCaseStudies = new sst.aws.Dynamo("TeacherCaseStudies", {
 	fields: {
 		id: "string", // case_id

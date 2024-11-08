@@ -8,62 +8,72 @@ import {
 } from "@aws-sdk/lib-dynamodb";
 import { sortBy, isEqual } from "lodash";
 import { Resource } from "sst";
-// import uploadFileToBucket from "../services/bucket.js";
 import dbClient from "../services/dbClient.js";
-import { extrapolateRequestBody, verifyToken } from "../utils/api_utils.js";
+import { extrapolateRequestBody } from "../utils/api_utils.js";
+import getUserInfo from "../persistence.helpers/getUserInfo.js";
+import decodeToken from "../utils/decodeToken.js";
+
+const areArraysEqualRegardlessOfOrder = (array1, array2, key) => {
+	const sortedArray1 = sortBy(array1, [key]);
+	const sortedArray2 = sortBy(array2, [key]);
+	return isEqual(sortedArray1, sortedArray2);
+};
 
 export const addDraftCase = async (event) => {
-	const draftCaseData = await extrapolateRequestBody(event);
-	const userToken = event.headers.authorization.split(" ")[1];
-	const userInfo = verifyToken(userToken, Resource.NEXT_JWT_SECRET.value);
-	const teacherID = userInfo.id;
-
-	// possible use coginito authorizer
-	if (!userInfo || !userInfo.id || userInfo.user_role !== "teacher") {
-		return {
-			statusCode: 400,
-			body: JSON.stringify({
-				error: "Not authorized to use this resource",
-				message: "Error adding a draft case.",
-			}),
-		};
-	}
-
-	// TODO: evaluate required fields for draft cases
-	if (!teacherID || !draftCaseData.caseClue) {
-		return {
-			statusCode: 400,
-			body: JSON.stringify({
-				error: "Invalid input: missing required fields",
-				message: "Error adding a draft case.",
-			}),
-		};
-	}
-
-	const caseItem = {
-		id: uuidv4(),
-		teacherId: teacherID,
-		createdAt: Date.now(),
-		caseStatus: "draft",
-		caseClue: draftCaseData.caseClue || undefined,
-		caseDescription: draftCaseData.caseDescription || undefined,
-		caseTopic: draftCaseData.caseTopic || undefined,
-		caseExplanation: draftCaseData.caseExplanation || undefined,
-		caseDeadline: draftCaseData.caseDeadline
-			? new Date(draftCaseData.caseDeadline).toISOString()
-			: undefined,
-		caseQuestions: draftCaseData.caseQuestions
-			? JSON.parse(draftCaseData.caseQuestions)
-			: undefined,
-		caseMaterials: draftCaseData.caseMaterials || undefined,
-	};
-
-	const params = {
-		TableName: Resource.TeacherCaseStudies.name,
-		Item: caseItem,
-	};
-
 	try {
+		const decodedToken = decodeToken(event);
+		const username = decodedToken.username;
+		const userInfo = await getUserInfo(username);
+
+		// possible use coginito authorizer
+		if (!userInfo || !userInfo.id || userInfo.user_role !== "teacher") {
+			return {
+				statusCode: 400,
+				body: JSON.stringify({
+					error: "Not authorized to use this resource",
+					message: "Error adding a draft case.",
+				}),
+			};
+		}
+
+		const draftCaseData = await extrapolateRequestBody(event);
+
+		// TODO: evaluate required fields for draft cases
+		if (!userInfo.id || !draftCaseData.caseClue) {
+			return {
+				statusCode: 400,
+				body: JSON.stringify({
+					error: "Invalid input: missing required fields",
+					message: "Error adding a draft case.",
+				}),
+			};
+		}
+
+		const teacherID = userInfo.id;
+
+		const caseItem = {
+			id: uuidv4(),
+			teacherId: teacherID,
+			createdAt: Date.now(),
+			caseStatus: "draft",
+			caseClue: draftCaseData.caseClue || undefined,
+			caseDescription: draftCaseData.caseDescription || undefined,
+			caseTopic: draftCaseData.caseTopic || undefined,
+			caseExplanation: draftCaseData.caseExplanation || undefined,
+			caseDeadline: draftCaseData.caseDeadline
+				? new Date(draftCaseData.caseDeadline).toISOString()
+				: undefined,
+			caseQuestions: draftCaseData.caseQuestions
+				? JSON.parse(draftCaseData.caseQuestions)
+				: undefined,
+			caseMaterials: draftCaseData.caseMaterials || undefined,
+		};
+
+		const params = {
+			TableName: Resource.TeacherCaseStudies.name,
+			Item: caseItem,
+		};
+
 		const command = new PutCommand(params);
 		const result = await dbClient.send(command);
 		console.log("Draft Case added successfully", result);
@@ -87,36 +97,34 @@ export const addDraftCase = async (event) => {
 };
 
 export const getDraftCases = async (event) => {
-	const caseId = event.pathParameters?.caseId;
-	const userToken = event.headers.authorization.split(" ")[1];
-	const userInfo = verifyToken(userToken, Resource.NEXT_JWT_SECRET.value);
-	const teacherID = userInfo.id;
-
-	if (!userInfo && !(roles === "teacher")) {
-		return {
-			statusCode: 400,
-			body: JSON.stringify({
-				error: "Not authorized to use this resource",
-				message: "Error retrieving draft cases.",
-			}),
-		};
-	}
-
 	try {
+		const decodedToken = decodeToken(event);
+		const username = decodedToken.username;
+		const userInfo = await getUserInfo(username);
 		let params;
 
-		if (caseId) {
-			// Query for a single draft case by caseId
+		if (!userInfo || userInfo.user_role !== "teacher") {
+			return {
+				statusCode: 400,
+				body: JSON.stringify({
+					error: "Not authorized to use this resource",
+					message: "Error retrieving draft cases.",
+				}),
+			};
+		}
 
+		const teacherID = userInfo.id;
+		const caseId = event.pathParameters?.caseId;
+
+		if (caseId) {
 			params = {
 				TableName: Resource.TeacherCaseStudies.name,
-				KeyConditionExpression: "id = :caseId", // Primary key query
+				KeyConditionExpression: "id = :caseId",
 				ExpressionAttributeValues: {
 					":caseId": caseId,
 				},
 			};
 		} else {
-			// Query for all draft cases for the teacher
 			params = {
 				TableName: Resource.TeacherCaseStudies.name,
 				IndexName: "TeacherStatusIndex",
@@ -156,20 +164,10 @@ export const getDraftCases = async (event) => {
 
 export const deleteDraftCase = async (event) => {
 	try {
+		const decodedToken = decodeToken(event);
+		const username = decodedToken.username;
+		const userInfo = await getUserInfo(username);
 		const caseID = event.pathParameters.caseID;
-		const userToken = event.headers.authorization.split(" ")[1];
-		const userInfo = verifyToken(userToken, Resource.NEXT_JWT_SECRET.value);
-		const { id: teacherId } = userInfo;
-
-		if (!userInfo && !(roles === "teacher")) {
-			return {
-				statusCode: 400,
-				body: JSON.stringify({
-					message: "Not authorized to use this resource",
-					message: "Error deleting draft case.",
-				}),
-			};
-		}
 
 		// Validate caseID
 		if (!caseID) {
@@ -181,6 +179,18 @@ export const deleteDraftCase = async (event) => {
 				}),
 			};
 		}
+
+		if (!userInfo || userInfo.user_role !== "teacher") {
+			return {
+				statusCode: 400,
+				body: JSON.stringify({
+					message: "Not authorized to use this resource",
+					message: "Error deleting draft case.",
+				}),
+			};
+		}
+
+		const { id: teacherId } = userInfo;
 
 		// Query the case to check if it's a draft and belongs to the teacher
 		const caseSearchParams = {
@@ -213,7 +223,6 @@ export const deleteDraftCase = async (event) => {
 			};
 		}
 
-		// Delete the case if it meets the criteria
 		const deleteParams = {
 			TableName: Resource.TeacherCaseStudies.name,
 			Key: {
@@ -245,42 +254,37 @@ export const deleteDraftCase = async (event) => {
 	}
 };
 
-const areArraysEqualRegardlessOfOrder = (array1, array2, key) => {
-	const sortedArray1 = sortBy(array1, [key]);
-	const sortedArray2 = sortBy(array2, [key]);
-	return isEqual(sortedArray1, sortedArray2);
-};
-
 export const updateDraftCase = async (event) => {
-	const caseData = await extrapolateRequestBody(event);
-	const caseID = event.pathParameters.caseID;
-	const userToken = event.headers.authorization.split(" ")[1];
-	const userInfo = verifyToken(userToken, Resource.NEXT_JWT_SECRET.value);
-	const { id: userId, roles } = userInfo;
-
-	// Possible use of Cognito authorizer
-	if (!userInfo && !(roles === "teacher")) {
-		return {
-			statusCode: 400,
-			body: JSON.stringify({
-				error: "Not authorized to use this resource",
-				message: "Error updating draft case.",
-			}),
-		};
-	}
-
-	// Validate that caseID is present
-	if (!caseID) {
-		return {
-			statusCode: 400,
-			body: JSON.stringify({
-				error: "Missing case ID in the request URL.",
-				message: "Error updating draft case.",
-			}),
-		};
-	}
-
 	try {
+		const decodedToken = decodeToken(event);
+		const username = decodedToken.username;
+		const userInfo = await getUserInfo(username);
+		const caseID = event.pathParameters.caseID;
+
+		if (!userInfo || userInfo.user_role !== "teacher") {
+			return {
+				statusCode: 400,
+				body: JSON.stringify({
+					error: "Not authorized to use this resource",
+					message: "Error updating draft case.",
+				}),
+			};
+		}
+
+		// Validate that caseID is present
+		if (!caseID) {
+			return {
+				statusCode: 400,
+				body: JSON.stringify({
+					error: "Missing case ID in the request URL.",
+					message: "Error updating draft case.",
+				}),
+			};
+		}
+
+		const caseData = await extrapolateRequestBody(event);
+		const { id: userId } = userInfo;
+
 		const getCaseParams = {
 			TableName: Resource.TeacherCaseStudies.name,
 			Key: { id: caseID },

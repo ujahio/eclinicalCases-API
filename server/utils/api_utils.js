@@ -1,83 +1,84 @@
 import {
-	UpdateCommand,
-	GetCommand,
-	ScanCommand,
+	// UpdateCommand,
+	// GetCommand,
+	// ScanCommand,
 	QueryCommand,
 } from "@aws-sdk/lib-dynamodb";
 import { Resource } from "sst";
 import crypto from "crypto";
 import busboy from "busboy";
-import jwt from "jsonwebtoken";
+import { AdminGetUserCommand } from "@aws-sdk/client-cognito-identity-provider";
 import dbClient from "../services/dbClient.js";
+import cognitoClient from "../services/cognitoClient.js";
 
 function generateOtp() {
 	return Math.floor(100000 + Math.random() * 900000);
 }
 
-async function storeOtpInDb(email, otp) {
-	const params = {
-		TableName: Resource.ECCSUsers.name,
-		Key: {
-			email: email,
-		},
-		UpdateExpression: "set otp = :otp",
-		ExpressionAttributeValues: {
-			":otp": otp,
-		},
-	};
+// async function storeOtpInDb(email, otp) {
+// 	const params = {
+// 		TableName: Resource.ECCSUsers.name,
+// 		Key: {
+// 			email: email,
+// 		},
+// 		UpdateExpression: "set otp = :otp",
+// 		ExpressionAttributeValues: {
+// 			":otp": otp,
+// 		},
+// 	};
 
-	const command = new UpdateCommand(params);
-	await dbClient.send(command);
-}
+// 	const command = new UpdateCommand(params);
+// 	await dbClient.send(command);
+// }
 
-async function getOtpFromDb(email) {
-	const params = {
-		TableName: Resource.ECCSUsers.name,
-		Key: {
-			email: email,
-		},
-		ProjectionExpression: "otp",
-	};
+// async function getOtpFromDb(email) {
+// 	const params = {
+// 		TableName: Resource.ECCSUsers.name,
+// 		Key: {
+// 			email: email,
+// 		},
+// 		ProjectionExpression: "otp",
+// 	};
 
-	const command = new GetCommand(params);
-	const result = await dbClient.send(command);
-	return result.Item.otp;
-}
+// 	const command = new GetCommand(params);
+// 	const result = await dbClient.send(command);
+// 	return result.Item.otp;
+// }
 
-async function updateUserPassword(email, newPassword) {
-	const params = {
-		TableName: Resource.ECCSUsers.name,
-		Key: {
-			email: email,
-		},
-		UpdateExpression: "set password = :newPassword",
-		ExpressionAttributeValues: {
-			":newPassword": newPassword,
-		},
-	};
-	const command = new UpdateCommand(params);
-	const result = await dbClient.send(command);
-	return result.Attributes;
-}
+// async function updateUserPassword(email, newPassword) {
+// 	const params = {
+// 		TableName: Resource.ECCSUsers.name,
+// 		Key: {
+// 			email: email,
+// 		},
+// 		UpdateExpression: "set password = :newPassword",
+// 		ExpressionAttributeValues: {
+// 			":newPassword": newPassword,
+// 		},
+// 	};
+// 	const command = new UpdateCommand(params);
+// 	const result = await dbClient.send(command);
+// 	return result.Attributes;
+// }
 
-async function getUserByEmail(email) {
-	try {
-		const params = {
-			TableName: Resource.ECCSUsers.name,
-			FilterExpression: "email = :email",
-			ExpressionAttributeValues: {
-				":email": email,
-			},
-		};
+// async function getUserByEmail(email) {
+// 	try {
+// 		const params = {
+// 			TableName: Resource.ECCSUsers.name,
+// 			FilterExpression: "email = :email",
+// 			ExpressionAttributeValues: {
+// 				":email": email,
+// 			},
+// 		};
 
-		const command = new ScanCommand(params);
-		const result = await dbClient.send(command);
-		return result.Items[0];
-	} catch (error) {
-		console.error(error);
-		throw error;
-	}
-}
+// 		const command = new ScanCommand(params);
+// 		const result = await dbClient.send(command);
+// 		return result.Items[0];
+// 	} catch (error) {
+// 		console.error(error);
+// 		throw error;
+// 	}
+// }
 
 function encryptPassword(password, NEXT_PUBLIC_PASS_SECRET_KEY) {
 	const iv = crypto.randomBytes(16);
@@ -206,7 +207,7 @@ export const getDetailsOfStudentsFeedbackAndResponses = async (
 		ExpressionAttributeValues: {
 			":caseID": caseID,
 		},
-		Select: selectOption, // Conditional selection based on details flag
+		Select: selectOption,
 	};
 
 	// Parameters for fetching responses
@@ -217,111 +218,109 @@ export const getDetailsOfStudentsFeedbackAndResponses = async (
 		ExpressionAttributeValues: {
 			":caseID": caseID,
 		},
-		Select: selectOption, // Conditional selection based on details flag
+		Select: selectOption,
 	};
 
 	const feedbackCommand = new QueryCommand(feedbackParams);
 	const feedbackResult = await dbClient.send(feedbackCommand);
-	const feedbackItems = feedbackResult.Items || []; // Full details if details flag is true
+	const feedbackItems = feedbackResult.Items || [];
 
 	const responsesCommand = new QueryCommand(responsesParams);
 	const totalResponsesResult = await dbClient.send(responsesCommand);
-	const responseItems = totalResponsesResult.Items || []; // Full details if details flag is true
+	const responseItems = totalResponsesResult.Items || [];
 
-	// Return only the counts if details are not requested
-	const feedbackCount = feedbackResult.Count || 0; // Count if details flag is false
-	const totalResponses = totalResponsesResult.Count || 0; // Count if details flag is false
+	const feedbackCount = feedbackResult.Count || 0;
+	const totalResponses = totalResponsesResult.Count || 0;
 
-	// If details are required, proceed to fetch user information for each response
+	// If details are required, fetch user information from Cognito
 	if (details) {
-		// Map studentID to their corresponding response and feedback
-		const studentIDs = responseItems.map((response) => response.studentID);
+		const studentIDs = Array.from(
+			new Set(responseItems.map((response) => response.studentID))
+		);
 
-		// Fetch user details from the USERS table
+		// Fetch user details from Cognito for each student
 		const userPromises = studentIDs.map(async (studentID) => {
-			const userParams = {
-				TableName: Resource.ECCSUsers.name,
-				IndexName: "IDIndex",
-				KeyConditionExpression: "id = :id",
-				ExpressionAttributeValues: {
-					":id": studentID,
-				},
-			};
+			try {
+				const userCommand = new AdminGetUserCommand({
+					UserPoolId: Resource.eccslabs.id,
+					Username: studentID,
+				});
+				const userResponse = await cognitoClient.send(userCommand);
 
-			const userCommand = new QueryCommand(userParams);
-			const userResult = await dbClient.send(userCommand);
-			return userResult.Items[0] || null; // Return null if user not found
+				// Extract required attributes from Cognito response
+				const firstName =
+					userResponse.UserAttributes.find(
+						(attr) => attr.Name === "custom:firstName"
+					)?.Value || "Unknown";
+				const lastName =
+					userResponse.UserAttributes.find(
+						(attr) => attr.Name === "custom:lastName"
+					)?.Value || "Unknown";
+
+				return {
+					id: studentID,
+					firstName,
+					lastName,
+				};
+			} catch (error) {
+				console.error(`Error fetching user ${studentID}:`, error);
+				return {
+					id: studentID,
+					firstName: "Unknown",
+					lastName: "Unknown",
+				};
+			}
 		});
 
-		// Wait for all user queries to complete
 		const users = await Promise.all(userPromises);
 
-		// Merge the user information with responses and feedback
+		// Create a map for quick lookup of user details by studentID
+		const userMap = users.reduce((acc, user) => {
+			acc[user.id] = user;
+			return acc;
+		}, {});
+
+		// Merge user details with responses and feedback
 		const responseWithUserDetails = responseItems.map((response) => {
-			const user = users.find((u) => u && u.id === response.studentID);
-			const feedbackMap = feedbackItems.filter(
-				(fb) => fb.studentID === response.studentID
-			);
+			const user = userMap[response.studentID] || {
+				firstName: "Unknown",
+				lastName: "Unknown",
+			};
+			const feedbackForStudent = feedbackItems
+				.filter((fb) => fb.studentID === response.studentID)
+				.flatMap((fb) => fb.feedback);
 
-			// Flatten the feedback array of objects for each student
-			const flattenedFeedback = feedbackMap.length
-				? feedbackMap.flatMap((fb) => fb.feedback) // Flattening the array of feedback objects
-				: [];
-
-			// Return only the necessary fields
 			return {
-				id: user ? user.id : "",
-				firstName: user ? user.firstname : "Unknown",
-				lastName: user ? user.lastname : "Unknown",
-				submittedAt: response.submittedAt || "N/A", // Assuming submittedAt exists in the response
-				caseExplanation: response.caseExplanation || "N/A", // Assuming caseExplanation exists in the response
-				feedback: flattenedFeedback, // Flattened array of feedback objects
+				id: response.studentID,
+				firstName: user.firstName,
+				lastName: user.lastName,
+				submittedAt: response.submittedAt || "N/A",
+				caseExplanation: response.caseExplanation || "N/A",
+				feedback: feedbackForStudent,
 			};
 		});
 
 		return {
-			responseItems: responseWithUserDetails, // Full response details with required fields
+			responseItems: responseWithUserDetails,
 			feedbackCount,
 			totalResponses,
 		};
 	}
 
+	// Return only counts if details are not requested
 	return {
 		feedbackCount,
 		totalResponses,
 	};
 };
 
-export const verifyToken = (token, secretKey) => {
-	try {
-		if (!token) {
-			return { statusCode: 403, error: "No token provided!" };
-		}
-		// Verify the token using the secret key
-		const decoded = jwt.verify(token, secretKey);
-		// Token is valid; return the decoded token data
-		return decoded;
-	} catch (err) {
-		// Handle different types of JWT errors
-		if (err.name === "TokenExpiredError") {
-			console.error("Token has expired");
-		} else if (err.name === "JsonWebTokenError") {
-			console.error("Invalid token");
-		} else {
-			console.error("Could not verify token", err.message);
-		}
-		// Return null or an appropriate error response
-		return null;
-	}
-};
-
 export {
-	updateUserPassword,
-	generateOtp,
-	storeOtpInDb,
-	getOtpFromDb,
+	// updateUserPassword,
+	// generateOtp,
+	// storeOtpInDb,
+	// getOtpFromDb,
 	encryptPassword,
 	decryptPassword,
-	getUserByEmail,
+	// getUserByEmail,
 	parseLogToObject,
 };

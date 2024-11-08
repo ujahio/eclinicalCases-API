@@ -1,16 +1,19 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { updateDraftCaseApi } from "@/services/apis/case";
-import { RootState } from "@/store/rootReducer/rootReducer";
 import { toast } from "react-toastify";
+import { getTokenForRequest } from "@/utils/getTokenForRequest";
 
 export const updateDraftCase = createAsyncThunk(
 	"case/updateDraftCase",
-	async ({ caseData, _id }: any, thunkAPI) => {
+	async (caseData: any, thunkAPI) => {
 		try {
-			const state = thunkAPI.getState() as RootState;
-			const token = state?.login?.user?.token;
-			const { data } = await updateDraftCaseApi(caseData, token, _id);
-			toast.success("Draft updated");
+			const token = await getTokenForRequest();
+			const { data } = await updateDraftCaseApi({
+				caseData,
+				token,
+				_id: caseData._id,
+			});
+			toast.success("Draft case updated");
 
 			return data;
 		} catch (error: any) {

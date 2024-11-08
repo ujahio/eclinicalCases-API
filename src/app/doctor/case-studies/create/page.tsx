@@ -57,9 +57,10 @@ const Create: FunctionComponent = () => {
 		setProgress(next);
 	};
 
-	const handleAddCase = () => {
-		setCaseStudy(caseStudy);
-		dispatch(addCase(caseStudy));
+	const handleUpdateDraftCase = () => {
+		const draftCaseInfo = { ...caseStudy, shouldPublish: false };
+		setCaseStudy(draftCaseInfo);
+		dispatch(addCase(draftCaseInfo));
 	};
 
 	const handlePublishCase = () => {
@@ -104,7 +105,7 @@ const Create: FunctionComponent = () => {
 			isActive={isActive}
 			caseStudy={caseStudy}
 			setCaseStudy={setCaseStudy}
-			handleAddCase={handleAddCase}
+			handleUpdateDraftCase={handleUpdateDraftCase}
 			handlePublishCase={handlePublishCase}
 		/>
 	);

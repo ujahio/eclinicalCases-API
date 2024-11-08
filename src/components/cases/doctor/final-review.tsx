@@ -7,7 +7,7 @@ import { FinalReviewProps } from "@/services/types/doctor/createCaseStudy";
 
 const FinalReview: FunctionComponent<FinalReviewProps> = ({
 	caseStudy,
-	handleAddCase,
+	handleUpdateDraftCase,
 	handlePublishCase,
 }) => {
 	const parseEditorState = (data: string) => {
@@ -91,7 +91,12 @@ const FinalReview: FunctionComponent<FinalReviewProps> = ({
 					!publishedCaseInfo ? "sm:grid-cols-2" : ""
 				} grid-cols-1 gap-4`}
 			>
-				<Button btnStyle="outline" size="lg" centralize onClick={handleAddCase}>
+				<Button
+					btnStyle="outline"
+					size="lg"
+					centralize
+					onClick={handleUpdateDraftCase}
+				>
 					{addingDraftCaseStatus === "loading"
 						? "Loading..."
 						: "Save As a Draft..."}

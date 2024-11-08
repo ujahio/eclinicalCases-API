@@ -1,56 +1,41 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import SignupComp from "@/presentation/auth/signup";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
 import { resetStatus, signupUser } from "@/store/slices/auth/signupSlice";
-import {
-	resetStatus as resetStatusLogin,
-	loginUser,
-} from "@/store/slices/auth/loginSlice";
 import { SignupValues } from "@/services/types/auth/signup";
+import { toast } from "react-toastify";
 
 const SignupTeacher = () => {
 	const navigate = useRouter();
 	const dispatch = useAppDispatch();
-	const [user, setUser] = useState({ email: "", password: "" });
-	const isLoading = useAppSelector((state) => state.signup.status);
-	const isLoadingLogin = useAppSelector((state) => state.login.status);
-	const userInfo = useAppSelector((state) => state.login.user);
+	const signUpState = useAppSelector((state) => state.signup);
 
 	const handleSubmitSignupUser = React.useCallback(
 		(val: SignupValues) => {
-			const { email, password } = val.personalDetails;
-			setUser({ email, password });
 			dispatch(signupUser({ ...val, user_role: "teacher" }));
 		},
 		[dispatch]
 	);
 
-	const handleSubmitLoginUser = React.useCallback(() => {
-		dispatch(loginUser(user));
-	}, [dispatch, user]);
-
 	useEffect(() => {
-		if (isLoading === "succeeded") {
-			handleSubmitLoginUser();
+		if (signUpState.status === "succeeded") {
+			toast.success("User registered successfully", {
+				position: "top-right",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "light",
+			});
 			navigate.push("/login");
 			dispatch(resetStatus());
 		}
-	}, [isLoading, dispatch, handleSubmitLoginUser, navigate]);
-
-	useEffect(() => {
-		if (isLoadingLogin === "succeeded") {
-			if (userInfo.user?.user_role === "teacher") {
-				navigate.push("/doctor/dashboard");
-			}
-			if (userInfo.user?.user_role === "student") {
-				navigate.push("/student/dashboard");
-			}
-			dispatch(resetStatusLogin());
-		}
-	}, [isLoadingLogin, dispatch, navigate, userInfo]);
+	}, [signUpState.status, dispatch, navigate]);
 
 	return <SignupComp handleSignUp={handleSubmitSignupUser} />;
 };

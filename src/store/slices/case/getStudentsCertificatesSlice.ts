@@ -1,13 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { getStudentsCertificatesApi } from "@/services/apis/student";
-import { RootState } from "@/store/rootReducer/rootReducer";
+import { getTokenForRequest } from "@/utils/getTokenForRequest";
 
 export const getStudentsCertificates = createAsyncThunk(
 	"student/getStudentsCertificates",
 	async (_, thunkAPI) => {
 		try {
-			const state = thunkAPI.getState() as RootState;
-			const token = state?.login?.user?.token;
+			const token = await getTokenForRequest();
 			const { data } = await getStudentsCertificatesApi(token);
 			return data;
 		} catch (error: any) {

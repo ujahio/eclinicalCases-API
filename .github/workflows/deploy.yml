@@ -10,12 +10,13 @@ permissions:
   contents: read # This is required for actions/checkout
 
 env:
-  AWS_REGION: me-south-1
+  NEXT_PUBLIC_REGION: me-south-1
   NEXT_PUBLIC_NODE_ENV: staging
   AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
-  NEXT_JWT_SECRET: ${{ secrets.NEXT_JWT_SECRET }}
   NEXT_PUBLIC_BASE_URL: ${{ secrets.NEXT_PUBLIC_BASE_URL }}
   NEXT_PUBLIC_PASS_SECRET_KEY: ${{ secrets.NEXT_PUBLIC_PASS_SECRET_KEY }}
+  NEXT_PUBLIC_REGION: ${{ secrets.NEXT_PUBLIC_REGION }}
+  AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
 
 jobs:
   deploy:
@@ -38,7 +39,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:role/gh-actions-staging
-          aws-region: ${{ env.AWS_REGION }}
+          aws-region: ${{ env.NEXT_PUBLIC_REGION }}
 
       - name: Deploy to Staging
         run: npx sst deploy --stage preproduction

@@ -17,7 +17,7 @@ const convertToFormData = (caseStudy: any) => {
 	return formData;
 };
 
-export const publishCaseApi = (caseData: any, token: string) => {
+export const publishCaseApi = (caseData: any, token?: string) => {
 	const formData = convertToFormData(caseData);
 	return caseApi.post(
 		"/publish",
@@ -26,50 +26,62 @@ export const publishCaseApi = (caseData: any, token: string) => {
 	);
 };
 
-export const addDraftCaseApi = (draftCaseData: any, token: string) => {
+export const addDraftCaseApi = (draftCaseData: any, token?: string) => {
 	const formData = convertToFormData(draftCaseData);
 	return caseApi.post(
-		`/draft`,
+		"/draft",
 		formData,
 		configureRequestHeaders(token, formData)
 	);
 };
 
-export const updateDraftCaseApi = (caseData: any, token: string, _id: any) => {
+export const updateDraftCaseApi = ({
+	caseData,
+	token,
+	_id,
+}: {
+	caseData: any;
+	token?: string;
+	_id: any;
+}) => {
 	const formData = convertToFormData(caseData);
-	return caseApi.put(`/draft/${_id}`, formData, configureRequestHeaders(token));
+	return caseApi.put(
+		`/draft/${_id}`,
+		formData,
+		configureRequestHeaders(token, formData)
+	);
 };
 
-export const getArchiveCasesApi = (token: string, isRecent?: string) => {
+export const getArchiveCasesApi = (token?: string, isRecent?: string) => {
 	const url = isRecent ? `/archived/?caseFilter=${isRecent}` : "/archived/";
 
 	return caseApi.get(url, configureRequestHeaders(token));
 };
 
-export const getDraftCasesApi = (caseId: string, token: string) => {
+export const getDraftCasesApi = (caseId: string, token?: string) => {
 	const url = caseId ? `/draft/${caseId}` : `/draft/`;
 	return caseApi.get(url, configureRequestHeaders(token));
 };
 
-export const fetchCaseDetailsApi = (caseId: any, token: string) => {
+export const fetchCaseDetailsApi = (caseId: any, token?: string) => {
 	return caseApi.get(`/details/${caseId}`, configureRequestHeaders(token));
 };
 
-export const fetchPublishedCaseApi = (token: string) => {
+export const fetchPublishedCaseApi = (token?: string) => {
 	return caseApi.get("/publish", configureRequestHeaders(token));
 };
-export const deleteCaseApi = (caseId: string, token: string) => {
+export const deleteCaseApi = (caseId: string, token?: string) => {
 	return caseApi.delete(
 		`/delete-case/${caseId}`,
 		configureRequestHeaders(token)
 	);
 };
 
-export const fetchCaseDataApi = (caseId: string, token: string) => {
+export const fetchCaseDataApi = (caseId: string, token?: string) => {
 	return caseApi.get(`/data/${caseId}`, configureRequestHeaders(token));
 };
 
-export const getPresignedUrlForDocumentUploadApi = (token: string) => {
+export const getPresignedUrlForDocumentUploadApi = (token?: string) => {
 	return caseApi.get(
 		"/get-signed-url-for-pdf-upload",
 		configureRequestHeaders(token)
@@ -81,7 +93,7 @@ export const getPresignedUrlForFetchingDocumentsApi = ({
 	token,
 }: {
 	documentKeys: string[];
-	token: string;
+	token?: string;
 }) => {
 	const formData = new FormData();
 
@@ -113,7 +125,7 @@ export const addPdfToCaseMaterialsApi = async ({
 
 export const deletePdfFromCaseMaterialsApi = (
 	fileKey: string,
-	token: string
+	token?: string
 ) => {
 	return caseApi.delete("/delete-case-material", {
 		data: { fileKey },

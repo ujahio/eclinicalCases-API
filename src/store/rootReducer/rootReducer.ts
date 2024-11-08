@@ -1,5 +1,4 @@
 import { combineReducers } from "@reduxjs/toolkit";
-import loginSlice from "../slices/auth/loginSlice";
 import signupSlice from "../slices/auth/signupSlice";
 import addCaseSlice from "../slices/case/addCaseSlice";
 import updateDraftCaseSlice from "../slices/case/updateDraftCaseSlice";
@@ -20,7 +19,6 @@ import studentsCertificatesSlice from "../slices/case/getStudentsCertificatesSli
 
 const rootReducer = combineReducers({
 	// Accounts
-	login: loginSlice,
 	signup: signupSlice,
 	sendOtp: sendOtpSlice,
 	resetPassword: resetPasswordSlice,

@@ -1,19 +1,16 @@
 import { QueryCommand } from "@aws-sdk/lib-dynamodb";
 import { Resource } from "sst";
-// import uploadFileToBucket from "../services/bucket.js";
 import dbClient from "../services/dbClient.js";
-import {
-	getDetailsOfStudentsFeedbackAndResponses,
-	verifyToken,
-} from "../utils/api_utils.js";
+import { getDetailsOfStudentsFeedbackAndResponses } from "../utils/api_utils.js";
+import getUserInfo from "../persistence.helpers/getUserInfo.js";
+import decodeToken from "../utils/decodeToken.js";
 
 export const getArchivedCases = async (event) => {
-	const userToken = event.headers.authorization.split(" ")[1];
-	const userInfo = verifyToken(userToken, Resource.NEXT_JWT_SECRET.value);
-	const teacherID = userInfo.id;
-	const caseFilter = event.queryStringParameters?.caseFilter;
+	const decodedToken = decodeToken(event);
+	const username = decodedToken.username;
+	const userInfo = await getUserInfo(username);
 
-	if (!userInfo && !userInfo.user_role === "teacher") {
+	if (!userInfo || userInfo.user_role !== "teacher") {
 		return {
 			statusCode: 400,
 			body: JSON.stringify({
@@ -23,7 +20,7 @@ export const getArchivedCases = async (event) => {
 		};
 	}
 
-	if (!teacherID) {
+	if (!userInfo.id) {
 		return {
 			statusCode: 400,
 			body: JSON.stringify({
@@ -34,13 +31,15 @@ export const getArchivedCases = async (event) => {
 	}
 
 	try {
+		const caseFilter = event.queryStringParameters?.caseFilter;
+
 		let params = {
 			TableName: Resource.TeacherCaseStudies.name,
 			IndexName: "TeacherPublishedDateIndex",
 			KeyConditionExpression: "teacherId = :teacherId",
 			FilterExpression: "caseStatus = :caseStatus",
 			ExpressionAttributeValues: {
-				":teacherId": teacherID,
+				":teacherId": userInfo.id,
 				":caseStatus": "archived",
 			},
 			ScanIndexForward: false, // Sort in descending order (latest first)

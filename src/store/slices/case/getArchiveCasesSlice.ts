@@ -1,13 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { getArchiveCasesApi } from "@/services/apis/case";
-import { RootState } from "@/store/rootReducer/rootReducer";
+import { getTokenForRequest } from "@/utils/getTokenForRequest";
 
 export const getArchiveCases = createAsyncThunk(
 	"case/getArchiveCases",
 	async (isRecent: any, thunkAPI) => {
 		try {
-			const state = thunkAPI.getState() as RootState;
-			const token = state?.login?.user?.token;
+			const token = await getTokenForRequest();
 			const { data } = await getArchiveCasesApi(token, isRecent);
 			return data;
 		} catch (error: any) {

@@ -22,5 +22,7 @@ export default $config({
 		await import("./infra/api");
 		// Tables
 		await import("./infra/dynamo");
+		// Auth
+		await import("./infra/auth");
 	},
 });

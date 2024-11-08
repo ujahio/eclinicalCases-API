@@ -3,8 +3,9 @@ import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { QueryCommand } from "@aws-sdk/lib-dynamodb";
 import { Resource } from "sst";
 import dbClient from "../services/dbClient.js";
-import { verifyToken } from "../utils/api_utils.js";
 import s3Client from "../services/s3Client.js";
+import getUserInfo from "../persistence.helpers/getUserInfo.js";
+import decodeToken from "../utils/decodeToken.js";
 
 // Helper function to convert a stream to base64
 const streamToBase64 = async (stream) => {
@@ -17,21 +18,23 @@ const streamToBase64 = async (stream) => {
 };
 
 export const getStudentCertificates = async (event) => {
-	const userToken = event.headers.authorization.split(" ")[1];
-	const userInfo = verifyToken(userToken, Resource.NEXT_JWT_SECRET.value);
-	const { id: studentID } = userInfo;
-
-	if (!userInfo && !userInfo.id && userInfo.user_role !== "student") {
-		return {
-			statusCode: 400,
-			body: JSON.stringify({
-				error: "Not authorized to use this resource",
-				message: "Error getting students certificates.",
-			}),
-		};
-	}
-
 	try {
+		const decodedToken = decodeToken(event);
+		const username = decodedToken.username;
+		const userInfo = await getUserInfo(username);
+
+		if (!userInfo || !userInfo.id || userInfo.user_role !== "student") {
+			return {
+				statusCode: 400,
+				body: JSON.stringify({
+					error: "Not authorized to use this resource",
+					message: "Error getting students certificates.",
+				}),
+			};
+		}
+
+		const { id: studentID } = userInfo;
+
 		const params = {
 			TableName: Resource.StudentsResponses.name,
 			IndexName: "StudentIDIndex",

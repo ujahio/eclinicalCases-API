@@ -14,13 +14,14 @@ import {
 } from "@/services/apis/case";
 import { toast } from "react-toastify";
 import { getCaseMaterials } from "@/store/slices/case/getCaseMaterialsSlice";
+import { getTokenForRequest } from "@/utils/getTokenForRequest";
 
 interface DoctorMaterialsAndDeadlineProps {
 	goNext: () => void;
 	goBack: () => void;
 	caseStudy: any;
 	setCaseStudy: React.Dispatch<React.SetStateAction<any>>;
-	handleAddCase: React.Dispatch<React.SetStateAction<any>>;
+	handleUpdateDraftCase: React.Dispatch<React.SetStateAction<any>>;
 	caseMaterials: { fileName: string; documentKey: string }[];
 	caseDeadline: string;
 }
@@ -32,7 +33,7 @@ const DoctorMaterialsAndDeadline: FunctionComponent<
 	goBack,
 	caseStudy,
 	setCaseStudy,
-	handleAddCase,
+	handleUpdateDraftCase,
 	caseMaterials,
 	caseDeadline,
 }) => {
@@ -48,7 +49,6 @@ const DoctorMaterialsAndDeadline: FunctionComponent<
 	const addingDraftCaseStatus = useAppSelector(
 		(state) => state.getDraftCases.status
 	);
-	const userToken = useAppSelector((state) => state.login.user?.token);
 	const dispatch = useAppDispatch();
 
 	const fileInputRef = useRef<HTMLInputElement>(null);
@@ -60,6 +60,8 @@ const DoctorMaterialsAndDeadline: FunctionComponent<
 	};
 
 	const removeFile = async (documentKey: string | null = null) => {
+		const userToken = await getTokenForRequest();
+
 		if (!documentKey) return;
 
 		try {
@@ -239,7 +241,7 @@ const DoctorMaterialsAndDeadline: FunctionComponent<
 				btnStyle="outline"
 				size="lg"
 				centralize
-				onClick={handleAddCase}
+				onClick={handleUpdateDraftCase}
 				className="w-full mb-3"
 			>
 				{addingDraftCaseStatus === "loading"

@@ -4,40 +4,42 @@ import dbClient from "../services/dbClient.js";
 import { Resource } from "sst";
 // import { uploadFileToBucket } from "../services/bucket.js";
 import { generateCertificate } from "../utils/certificate.js";
-import { extrapolateRequestBody, verifyToken } from "../utils/api_utils.js";
+import { extrapolateRequestBody } from "../utils/api_utils.js";
+import getUserInfo from "../persistence.helpers/getUserInfo.js";
+import decodeToken from "../utils/decodeToken.js";
 
 export const getStudentsResponses = async (event) => {
-	const userToken = event.headers.authorization.split(" ")[1];
-	const userInfo = verifyToken(userToken, Resource.NEXT_JWT_SECRET.value);
-	const caseFilter = event.pathParameters?.caseFilter;
-
-	if (!userInfo || userInfo.user_role !== "student") {
-		return {
-			statusCode: 400,
-			body: JSON.stringify({
-				error: "Not authorized to view this resource",
-				message: "Error getting students responses.",
-			}),
-		};
-	}
-
-	const { id: studentID } = userInfo;
-
-	const params = {
-		TableName: Resource.StudentsResponses.name,
-		IndexName: "StudentIDIndex",
-		KeyConditionExpression: "studentID = :studentID",
-		ExpressionAttributeValues: {
-			":studentID": studentID,
-		},
-		ScanIndexForward: false, // Sort in descending order (latest first)
-	};
-
-	if (caseFilter && caseFilter === "recent") {
-		params.Limit = 3;
-	}
-
 	try {
+		const decodedToken = decodeToken(event);
+		const username = decodedToken.username;
+		const userInfo = await getUserInfo(username);
+
+		if (!userInfo || userInfo.user_role !== "student") {
+			return {
+				statusCode: 400,
+				body: JSON.stringify({
+					error: "Not authorized to view this resource",
+					message: "Error getting students responses.",
+				}),
+			};
+		}
+
+		const caseFilter = event.pathParameters?.caseFilter;
+		const { id: studentID } = userInfo;
+
+		const params = {
+			TableName: Resource.StudentsResponses.name,
+			IndexName: "StudentIDIndex",
+			KeyConditionExpression: "studentID = :studentID",
+			ExpressionAttributeValues: {
+				":studentID": studentID,
+			},
+			ScanIndexForward: false, // Sort in descending order (latest first)
+		};
+
+		if (caseFilter && caseFilter === "recent") {
+			params.Limit = 3;
+		}
 		const command = new QueryCommand(params);
 		const result = await dbClient.send(command);
 
@@ -61,14 +63,14 @@ export const getStudentsResponses = async (event) => {
 };
 
 export const submitStudentResponse = async (event) => {
-	const caseInfo = await extrapolateRequestBody(event);
-	const userToken = event.headers.authorization.split(" ")[1];
-	const userInfo = verifyToken(userToken, Resource.NEXT_JWT_SECRET.value);
-
-	const { firstname, lastname, id: studentID } = userInfo;
-	const fullName = `${firstname} ${lastname}`;
-
 	try {
+		const decodedToken = decodeToken(event);
+		const username = decodedToken.username;
+		const userInfo = await getUserInfo(username);
+		const caseInfo = await extrapolateRequestBody(event);
+
+		const { firstName, lastName, id: studentID } = userInfo;
+		const fullName = `${firstName} ${lastName}`;
 		// 	Call grading function and get the result
 		const gradedQuizResult = await gradeQuiz({
 			caseID: caseInfo.id,
@@ -152,12 +154,11 @@ const extractAnswers = (caseInfo) => {
 };
 
 const gradeQuiz = async ({ caseID, studentAnswers }) => {
-	const caseParams = {
-		TableName: Resource.TeacherCaseStudies.name,
-		Key: { id: caseID },
-	};
-
 	try {
+		const caseParams = {
+			TableName: Resource.TeacherCaseStudies.name,
+			Key: { id: caseID },
+		};
 		const caseCommand = new GetCommand(caseParams);
 		const caseResult = await dbClient.send(caseCommand);
 		let teachersQuestions = caseResult?.Item?.caseQuestions;

@@ -6,55 +6,68 @@ import {
 	parseLogToObject,
 	extrapolateRequestBody,
 	getDetailsOfStudentsFeedbackAndResponses,
-	verifyToken,
 } from "../utils/api_utils.js";
+import getUserInfo from "../persistence.helpers/getUserInfo.js";
+import decodeToken from "../utils/decodeToken.js";
 
 export const getCaseForStudentsResponse = async (event) => {
-	const userToken = event.headers.authorization.split(" ")[1];
-	const userInfo = verifyToken(userToken, Resource.NEXT_JWT_SECRET.value);
+	try {
+		const decodedToken = decodeToken(event);
+		const username = decodedToken.username;
+		const userInfo = await getUserInfo(username);
 
-	const params = {
-		TableName: Resource.TeacherCaseStudies.name,
-		IndexName: "TeacherStatusIndex",
-		KeyConditionExpression:
-			"teacherId = :teacherId AND caseStatus = :caseStatus",
-		ExpressionAttributeValues: {
-			":teacherId": userInfo.teacherId,
-			":caseStatus": "published",
-		},
-	};
+		const params = {
+			TableName: Resource.TeacherCaseStudies.name,
+			IndexName: "TeacherStatusIndex",
+			KeyConditionExpression:
+				"teacherId = :teacherId AND caseStatus = :caseStatus",
+			ExpressionAttributeValues: {
+				":teacherId": userInfo.teacherId,
+				":caseStatus": "published",
+			},
+		};
 
-	const command = new QueryCommand(params);
-	const result = await dbClient.send(command);
-	const publishedCaseResult = result.Items[0];
+		const command = new QueryCommand(params);
+		const result = await dbClient.send(command);
+		const publishedCaseResult = result.Items[0];
 
-	if (!publishedCaseResult) {
+		if (!publishedCaseResult) {
+			return {
+				statusCode: 200,
+				body: JSON.stringify({
+					message: "There is currently no published case.",
+				}),
+			};
+		}
+
+		const caseInfo = {
+			id: publishedCaseResult.id,
+			caseTopic: publishedCaseResult.caseTopic,
+			caseDeadline: publishedCaseResult.caseDeadline,
+			caseStatus: publishedCaseResult.caseStatus,
+			caseDescription: publishedCaseResult.caseDescription,
+			caseQuestions: publishedCaseResult.caseQuestions,
+			caseExplanation: publishedCaseResult.caseExplanation,
+			caseMaterials: publishedCaseResult.caseMaterials,
+		};
+
 		return {
 			statusCode: 200,
 			body: JSON.stringify({
-				message: "There is currently no published case.",
+				message: "Case details retrieved successfully!",
+				caseInfo,
+			}),
+		};
+	} catch (error) {
+		console.error("Error retrieving students responses:", error);
+		return {
+			statusCode: 500,
+			body: JSON.stringify({
+				error: `Error retrieving students responses: ${error.message}`,
+				message: "Error retrieving students responses.",
 			}),
 		};
 	}
-
-	const caseInfo = {
-		id: publishedCaseResult.id,
-		caseTopic: publishedCaseResult.caseTopic,
-		caseDeadline: publishedCaseResult.caseDeadline,
-		caseStatus: publishedCaseResult.caseStatus,
-		caseDescription: publishedCaseResult.caseDescription,
-		caseQuestions: publishedCaseResult.caseQuestions,
-		caseExplanation: publishedCaseResult.caseExplanation,
-		caseMaterials: publishedCaseResult.caseMaterials,
-	};
-
-	return {
-		statusCode: 200,
-		body: JSON.stringify({
-			message: "Case details retrieved successfully!",
-			caseInfo,
-		}),
-	};
 };
 
 export const duplicateCase = async (event) => {
@@ -122,13 +135,8 @@ export const duplicateCase = async (event) => {
 };
 
 export const addFeedback = async (event) => {
-	const userToken = event.headers.authorization.split(" ")[1];
 	const extrapolatedFormData = await extrapolateRequestBody(event);
 	const { caseID, feedback } = parseLogToObject(extrapolatedFormData);
-	const { id: studentID } = verifyToken(
-		userToken,
-		Resource.NEXT_JWT_SECRET.value
-	);
 
 	if (!caseID || !feedback) {
 		return {
@@ -139,18 +147,21 @@ export const addFeedback = async (event) => {
 		};
 	}
 
-	const params = {
-		TableName: Resource.Feedback.name,
-		Item: {
-			feedbackID: uuidv4(),
-			caseID,
-			studentID,
-			feedback,
-			createdAt: Date.now(),
-		},
-	};
-
 	try {
+		const decodedToken = decodeToken(event);
+		const username = decodedToken.username;
+		const { id: studentID } = await getUserInfo(username);
+
+		const params = {
+			TableName: Resource.Feedback.name,
+			Item: {
+				feedbackID: uuidv4(),
+				caseID,
+				studentID,
+				feedback,
+				createdAt: Date.now(),
+			},
+		};
 		const command = new PutCommand(params);
 		await dbClient.send(command);
 		return {
@@ -169,146 +180,9 @@ export const addFeedback = async (event) => {
 	}
 };
 
-export const getCaseFeedback = async (event) => {
-	const caseID = event.pathParameters.caseID;
-
-	if (!caseID) {
-		return {
-			statusCode: 400,
-			body: JSON.stringify({
-				error: "Missing case ID in the request.",
-				message: "Error getting feedback.",
-			}),
-		};
-	}
-
-	const params = {
-		TableName: Resource.Feedback.name,
-		IndexName: "CaseIDIndex",
-		KeyConditionExpression: "caseID = :caseID",
-		ExpressionAttributeValues: {
-			":caseID": caseID,
-		},
-	};
-
-	try {
-		const command = new QueryCommand(params);
-		const feedbackResult = await dbClient.send(command);
-
-		// Fetch details of each student
-		const studentDetailsPromises = feedbackResult.Items.map(
-			async (feedback) => {
-				const userParams = {
-					TableName: Resource.ECCSUsers.name,
-					IndexName: "IDIndex",
-					KeyConditionExpression: "id = :id",
-					ExpressionAttributeValues: {
-						":id": feedback.studentID,
-					},
-				};
-
-				const userCommand = new QueryCommand(userParams);
-				const userResult = await dbClient.send(userCommand);
-				if (userResult.Items.length > 0) {
-					const user = userResult.Items[0];
-					return {
-						student: {
-							firstName: user.firstname,
-							lastName: user.lastname,
-						},
-						...feedback,
-					};
-				} else {
-					throw new Error(`User with ID ${feedback.studentID} not found`);
-				}
-			}
-		);
-
-		const detailedFeedbacks = await Promise.all(studentDetailsPromises);
-
-		return {
-			statusCode: 200,
-			body: JSON.stringify({
-				message: "Feedback retrieved successfully.",
-				data: detailedFeedbacks,
-			}),
-		};
-	} catch (error) {
-		console.error("Error fetching feedback: ", error);
-		return {
-			statusCode: 500,
-			body: JSON.stringify({
-				error: `Error fetching feedback: ${error.message}`,
-				message: "Error fetching feedback.",
-			}),
-		};
-	}
-};
-export const getCaseAnswers = async (event) => {
-	const caseID = event.pathParameters.caseID;
-
-	const answersParams = {
-		TableName: Resource.StudentsResponses.name,
-		IndexName: "CaseIDIndex",
-		KeyConditionExpression: "caseID = :caseID",
-		ExpressionAttributeValues: {
-			":caseID": caseID,
-		},
-	};
-
-	try {
-		const answersCommand = new QueryCommand(answersParams);
-		const answersResult = await dbClient.send(answersCommand);
-
-		// Fetch details of each student
-		const studentDetailsPromises = answersResult.Items.map(async (answer) => {
-			const userParams = {
-				TableName: Resource.ECCSUsers.name,
-				IndexName: "IDIndex",
-				KeyConditionExpression: "id = :id",
-				ExpressionAttributeValues: {
-					":id": answer.studentID,
-				},
-			};
-
-			const userCommand = new QueryCommand(userParams);
-			const userResult = await dbClient.send(userCommand);
-			if (userResult.Items.length > 0) {
-				const user = userResult.Items[0];
-				return {
-					student: {
-						firstName: user.firstname,
-						lastName: user.lastname,
-					},
-					...answer,
-				};
-			} else {
-				throw new Error(`User with id ${answer.studentID} not found`);
-			}
-		});
-
-		const detailedAnswers = await Promise.all(studentDetailsPromises);
-
-		return {
-			statusCode: 200,
-			body: JSON.stringify({ answers: detailedAnswers }),
-		};
-	} catch (error) {
-		console.error("Error fetching responses", error);
-		return {
-			statusCode: 500,
-			body: JSON.stringify({
-				error: `Error fetching responses: ${error.message}`,
-				message: "Error fetching responses.",
-			}),
-		};
-	}
-};
-
 export const getCaseData = async (event) => {
-	const caseID = event.pathParameters.caseID;
-
 	try {
+		const caseID = event.pathParameters.caseID;
 		const getCaseParams = {
 			TableName: Resource.TeacherCaseStudies.name,
 			Key: { id: caseID },
