@@ -20,8 +20,9 @@ export interface PersonalDetailsProps {
 }
 
 type SignUpFormProps = {
-	switchByKey: (key: string) => void;
-	caputurePersonalDetails: (personalDetails: PersonalDetailsProps) => void;
+	// switchByKey: (key: string) => void;
+	// caputurePersonalDetails: (personalDetails: PersonalDetailsProps) => void;
+	handleSignUp: (val: PersonalDetailsProps) => void;
 };
 
 export const SignUpForm: FunctionComponent<SignUpFormProps> = ({

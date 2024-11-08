@@ -59,7 +59,7 @@ const Signup = ({ handleSignUp }: SignupCompProps) => {
 						<SignUpForm
 							// switchByKey={switchByKey}
 							// caputurePersonalDetails={handleCapturePersonalDetails}
-							personalDetailsInfo={personalDetailsInfo}
+							// personalDetailsInfo={personalDetailsInfo}
 							handleSignUp={handleSignUp}
 						/>
 						{/* )} */}

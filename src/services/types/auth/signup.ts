@@ -1,10 +1,11 @@
 export interface SignupValues {
-  personalDetails: {
-    email: string;
-    password: string;
-  };
+	firstName: string;
+	lastName: string;
+	email: string;
+	password: string;
+	confirmPassword: string;
 }
 
 export interface SignupCompProps {
-  handleSignUp: (val: SignupValues) => void;
+	handleSignUp: (val: SignupValues) => void;
 }
