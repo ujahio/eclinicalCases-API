@@ -16,6 +16,7 @@ env:
   NEXT_PUBLIC_BASE_URL: ${{ secrets.NEXT_PUBLIC_BASE_URL }}
   NEXT_PUBLIC_PASS_SECRET_KEY: ${{ secrets.NEXT_PUBLIC_PASS_SECRET_KEY }}
   AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
+  NEXT_PUBLIC_DOMAIN: ${{ secrets.NEXT_PUBLIC_DOMAIN }}
 
 jobs:
   deploy:
