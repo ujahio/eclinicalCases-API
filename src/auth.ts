@@ -1,4 +1,4 @@
-import NextAuth, { DefaultSession } from "next-auth";
+import NextAuth, { DefaultSession, NextAuthConfig } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { JWT } from "next-auth/jwt";
 import { authApi } from "./services/config/axiosConfig";
@@ -21,6 +21,7 @@ declare module "next-auth" {
 		firstName?: string;
 		lastName?: string;
 		user_role?: string;
+		accessToken?: string;
 	}
 
 	interface Session extends DefaultSession {
@@ -34,7 +35,7 @@ declare module "next-auth" {
 	}
 }
 
-const authOptions = {
+const authOptions: NextAuthConfig = {
 	session: {
 		strategy: "jwt",
 	},
@@ -79,6 +80,7 @@ const authOptions = {
 				token.firstName = user.firstName;
 				token.lastName = user.lastName;
 				token.user_role = user.user_role;
+				token.email = user.email;
 			}
 
 			// Return the token, including tokens and user details
@@ -91,6 +93,8 @@ const authOptions = {
 				firstName: token.firstName!,
 				lastName: token.lastName!,
 				user_role: token.user_role!,
+				email: token.email!,
+				emailVerified: null,
 			};
 			return session;
 		},
