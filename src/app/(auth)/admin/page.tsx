@@ -22,7 +22,7 @@ const SignupTeacher = () => {
 
 	useEffect(() => {
 		if (signUpState.status === "succeeded") {
-			toast.success("User registered successfully", {
+			toast.success("Please check your email to finish registration.", {
 				position: "top-right",
 				autoClose: 5000,
 				hideProgressBar: false,
