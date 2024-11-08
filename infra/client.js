@@ -7,10 +7,9 @@ import {
 import { authUrl, userPool, eccsWebClient } from "./auth";
 
 const STAGE = $app.stage;
-const domainName =
-	STAGE === "production"
-		? NEXT_PUBLIC_DOMAIN
-		: `${STAGE}.${NEXT_PUBLIC_DOMAIN}`;
+const DOMAIN = process.env.NEXT_PUBLIC_DOMAIN;
+
+const domainName = STAGE === "production" ? DOMAIN : `${STAGE}.${DOMAIN}`;
 
 export const client = new sst.aws.Nextjs("eccslabsClient", {
 	link: [
