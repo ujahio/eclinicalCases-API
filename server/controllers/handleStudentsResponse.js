@@ -7,6 +7,7 @@ import { generateCertificate } from "../utils/certificate.js";
 import { extrapolateRequestBody } from "../utils/api_utils.js";
 import getUserInfo from "../persistence.helpers/getUserInfo.js";
 import decodeToken from "../utils/decodeToken.js";
+import { verifyTokenFromCognito } from "../persistence.helpers/verifyTokenFromCognito.js";
 
 export const getStudentsResponses = async (event) => {
 	try {
@@ -64,8 +65,8 @@ export const getStudentsResponses = async (event) => {
 
 export const submitStudentResponse = async (event) => {
 	try {
-		const decodedToken = decodeToken(event);
-		const username = decodedToken.username;
+		const tokenInfo = await verifyTokenFromCognito(event);
+		const username = tokenInfo.decoded.username;
 		const userInfo = await getUserInfo(username);
 		const caseInfo = await extrapolateRequestBody(event);
 
