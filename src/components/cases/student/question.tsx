@@ -106,7 +106,7 @@ const StudentCaseQuestion: FunctionComponent<StudentCaseQuestionProps> = ({
 					value={studentCaseTopicResponse}
 					onChange={handleStudentCaseTopicInput}
 					placeholder="Guess case model topic"
-					label="What is the topic for this case based on the topic clue given earlier?"
+					label="What is the topic for this case based on the case description given earlier?"
 					name="caseModelTopicGuess"
 					// error={inputsForValidation.topic.validationMessage}
 				/>

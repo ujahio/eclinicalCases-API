@@ -17,7 +17,6 @@ const CreateCaseStudy = dynamic(
 );
 
 const initialCaseStudy: CaseStudy = {
-	caseClue: "",
 	caseDescription: "",
 	caseTopic: "",
 	caseExplanation: "",

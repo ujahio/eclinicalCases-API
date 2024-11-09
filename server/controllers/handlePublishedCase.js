@@ -10,7 +10,6 @@ import decodeToken from "../utils/decodeToken.js";
 export const publishCase = async (event) => {
 	const {
 		caseId,
-		caseClue,
 		caseDescription,
 		caseTopic,
 		caseExplanation,
@@ -48,15 +47,6 @@ export const publishCase = async (event) => {
 				}),
 			};
 		}
-	}
-
-	if (!caseClue) {
-		return {
-			statusCode: 400,
-			body: JSON.stringify({
-				message: "Missing case topic clue",
-			}),
-		};
 	}
 
 	if (!caseDescription) {
@@ -154,7 +144,6 @@ export const publishCase = async (event) => {
 		let updateExpression = `
 		SET caseStatus = :caseStatus,
 		    caseDeadline = :caseDeadline,
-		    caseClue = :caseClue,
 		    caseDescription = :caseDescription,
 		    caseTopic = :caseTopic,
 		    caseExplanation = :caseExplanation,
@@ -168,7 +157,6 @@ export const publishCase = async (event) => {
 			":caseStatus": "published",
 			":publishedDate": todaysDate,
 			":caseDeadline": new Date(caseDeadline).toISOString(),
-			":caseClue": caseClue,
 			":caseDescription": caseDescription,
 			":caseTopic": caseTopic,
 			":caseExplanation": caseExplanation,
@@ -223,6 +211,7 @@ export const publishCase = async (event) => {
 export const getPublishedCase = async (event) => {
 	try {
 		const decodedToken = decodeToken(event);
+		console.log("decodedToken", decodedToken);
 		const username = decodedToken.username;
 		const userInfo = await getUserInfo(username);
 

@@ -33,10 +33,6 @@ const FinalReview: FunctionComponent<FinalReviewProps> = ({
 		<>
 			<div className=" border-b-0.375">
 				<h3 className="uppercase font-bold text-sm text-blue mb-2">
-					Case Model Topic Clue
-				</h3>
-				<p className="mb-9">{caseStudy.caseClue}</p>
-				<h3 className="uppercase font-bold text-sm text-blue mb-2">
 					Case Model Topic Description
 				</h3>
 				<div className="mb-9 bg-gray-200 p-2.5">

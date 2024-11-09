@@ -103,7 +103,6 @@ export const duplicateCase = async (event) => {
 		const duplicateCase = {
 			...originalCase.Item,
 			id: uuidv4(),
-			caseClue: originalCase.Item.caseClue + " duplicate",
 			createdAt: Date.now().toString(),
 		};
 		const putParams = {

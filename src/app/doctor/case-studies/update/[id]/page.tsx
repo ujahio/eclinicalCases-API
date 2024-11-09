@@ -79,7 +79,6 @@ const Update: FunctionComponent<any> = ({ params }) => {
 			const draftCaseDetails = getDraftCasesState.cases[0];
 
 			const updatedCaseStudy = {
-				caseClue: draftCaseDetails.caseClue || "",
 				caseDescription: draftCaseDetails.caseDescription,
 				caseTopic: draftCaseDetails.caseTopic || "",
 				caseExplanation: draftCaseDetails.caseExplanation,

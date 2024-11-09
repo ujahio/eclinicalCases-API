@@ -49,21 +49,6 @@ const DoctorCaseQuestion: FunctionComponent<DoctorCaseQuestionProps> = ({
 	return (
 		<>
 			<div className="mb-5 sm:mb-6">
-				<h6 className="text-1xs sm:text-sm font-bold text-blue uppercase mb-2.5">
-					Case Model Setup
-				</h6>
-				<InputField
-					placeholder="Case model clue"
-					label="Case model clue"
-					name="caseClue"
-					value={caseStudy?.caseClue}
-					onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-						e.preventDefault();
-						const { value } = e.target;
-						setCaseStudy({ ...caseStudy, caseClue: value });
-					}}
-				/>
-
 				<div className="mt-5">
 					<label className="text-grey-300 text-1sm capitalize font-normal">
 						Case Model Description
