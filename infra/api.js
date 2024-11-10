@@ -19,8 +19,6 @@ const links = [
 	NEXT_PUBLIC_BASE_URL,
 	NEXT_PUBLIC_NODE_ENV,
 	ECCSEmail,
-	userPool,
-	eccsWebClient,
 ];
 
 const DOMAIN = process.env.NEXT_PUBLIC_DOMAIN;
@@ -32,7 +30,6 @@ const domainName =
 export const api = new sst.aws.ApiGatewayV2("eccs", {
 	domain: domainName,
 	cors: true,
-	link: links,
 });
 
 const cognitoAuthorizer = api.addAuthorizer({
@@ -45,78 +42,108 @@ const cognitoAuthorizer = api.addAuthorizer({
 	},
 });
 
-const jwtAuthorizer = {
-	jwt: {
-		authorizer: cognitoAuthorizer.id,
+const routeArgs = {
+	auth: {
+		jwt: {
+			authorizer: cognitoAuthorizer.id,
+		},
 	},
 };
 
-const routeArgs = {
-	auth: jwtAuthorizer,
-};
-
 // Auth
-
-api.route("POST /api/auth/signup", "server/controllers/auth.controller.signup");
-api.route("POST /api/auth/signin", "server/controllers/auth.controller.signin");
+api.route("POST /api/auth/signin", {
+	link: [...links, userPool, eccsWebClient],
+	handler: "server/controllers/auth.controller.signin",
+});
+api.route("POST /api/auth/signup", {
+	link: [...links, userPool, eccsWebClient],
+	handler: "server/controllers/auth.controller.signup",
+});
 // api.route("POST /api/auth/send-otp", {
 // 	handler: "server/controllers/auth.controller.sendOTP",
 // 	link: links,
 // });
-api.route(
-	"POST /api/auth/reset-password",
-	"server/controllers/auth.controller.verifyOtpAndResetPassword"
-);
-api.route(
-	"POST /api/auth/update-password",
-	"server/controllers/auth.controller.updatePassword"
-);
+api.route("POST /api/auth/reset-password", {
+	handler: "server/controllers/auth.controller.verifyOtpAndResetPassword",
+	link: links,
+});
+api.route("POST /api/auth/update-password", {
+	handler: "server/controllers/auth.controller.updatePassword",
+	link: links,
+});
 
 //Case;
 api.route(
 	"GET /api/case/data/{caseID}",
-	"server/controllers/case.controller.getCaseData",
+	{
+		handler: "server/controllers/case.controller.getCaseData",
+		link: [...links, userPool],
+	},
 	routeArgs
 );
 api.route(
 	"GET /api/case/details/{caseID}",
-	"server/controllers/case.controller.getCaseForStudentsResponse",
+	{
+		handler: "server/controllers/case.controller.getCaseForStudentsResponse",
+		link: [...links, userPool],
+	},
 	routeArgs
 );
 api.route(
 	"GET /api/case/archived/{caseFilter}",
-	"server/controllers/handleArchivedCases.getArchivedCases",
+	{
+		handler: "server/controllers/handleArchivedCases.getArchivedCases",
+		link: [...links, userPool],
+	},
 	routeArgs
 );
 api.route(
 	"GET /api/case/publish",
-	"server/controllers/handlePublishedCase.getPublishedCase",
+	{
+		handler: "server/controllers/handlePublishedCase.getPublishedCase",
+		link: [...links, userPool],
+	},
 	routeArgs
 );
 api.route(
 	"POST /api/case/publish",
-	"server/controllers/handlePublishedCase.publishCase",
+	{
+		handler: "server/controllers/handlePublishedCase.publishCase",
+		link: [...links, userPool],
+	},
 	routeArgs
 );
 api.route(
 	"GET /api/case/draft/{caseId}",
-	"server/controllers/handleDraftCases.getDraftCases",
+	{
+		handler: "server/controllers/handleDraftCases.getDraftCases",
+		link: [...links, userPool],
+	},
 	routeArgs
 );
 
 api.route(
 	"POST /api/case/draft",
-	"server/controllers/handleDraftCases.addDraftCase",
+	{
+		handler: "server/controllers/handleDraftCases.addDraftCase",
+		link: [...links, userPool],
+	},
 	routeArgs
 );
 api.route(
 	"PUT /api/case/draft/{caseID}",
-	"server/controllers/handleDraftCases.updateDraftCase",
+	{
+		handler: "server/controllers/handleDraftCases.updateDraftCase",
+		link: [...links, userPool],
+	},
 	routeArgs
 );
 api.route(
 	"DELETE /api/case/delete-case/{caseID}",
-	"server/controllers/handleDraftCases.deleteDraftCase",
+	{
+		handler: "server/controllers/handleDraftCases.deleteDraftCase",
+		link: [...links, userPool],
+	},
 	routeArgs
 );
 
@@ -129,49 +156,72 @@ api.route(
 // Case Materials
 api.route(
 	"GET /api/case/get-signed-url-for-pdf-upload",
-	"server/controllers/handleCaseMaterials.getSignedUrlToUploadForCaseMaterials",
+	{
+		handler:
+			"server/controllers/handleCaseMaterials.getSignedUrlToUploadForCaseMaterials",
+		link: [...links, userPool],
+	},
 	routeArgs
 );
 
 api.route(
 	"POST /api/case/get-signed-url-for-pdf-fetch",
-	"server/controllers/handleCaseMaterials.getSignedUrlsToFetchForCaseMaterials",
+	{
+		handler:
+			"server/controllers/handleCaseMaterials.getSignedUrlsToFetchForCaseMaterials",
+		link: [...links, userPool],
+	},
 	routeArgs
 );
 
 api.route(
 	"DELETE /api/case/delete-case-material",
-	"server/controllers/handleCaseMaterials.deleteCaseMaterial",
+	{
+		handler: "server/controllers/handleCaseMaterials.deleteCaseMaterial",
+		link: [...links, userPool],
+	},
 	routeArgs
 );
 
 // Student;
 api.route(
 	"POST /api/case/add/feedback",
-	"server/controllers/case.controller.addFeedback",
+	{
+		handler: "server/controllers/case.controller.addFeedback",
+		link: [...links, userPool],
+	},
 	routeArgs
 );
 
 api.route(
 	"GET /api/student/certificates",
-	"server/controllers/handleStudentsCertificates.getStudentCertificates",
+	{
+		handler:
+			"server/controllers/handleStudentsCertificates.getStudentCertificates",
+		link: [...links, userPool],
+	},
 	routeArgs
 );
 api.route(
 	"GET /api/student/responses/{caseFilter}",
-	"server/controllers/handleStudentsResponse.getStudentsResponses",
+	{
+		handler: "server/controllers/handleStudentsResponse.getStudentsResponses",
+		link: [...links, userPool],
+	},
 	routeArgs
 );
-
-// AUTHORIZATION IS IN THE LAMBDA FUNCTION
-api.route("POST /api/student/response", {
-	handler: "server/controllers/handleStudentsResponse.submitStudentResponse",
-	runtime: "nodejs18.x",
-	copyFiles: [
-		{
-			from: "./server/assets/images/logo.png",
-			to: "assets/images/logo.png",
-		},
-	],
-	link: links,
-});
+api.route(
+	"POST /api/student/response",
+	{
+		handler: "server/controllers/handleStudentsResponse.submitStudentResponse",
+		runtime: "nodejs18.x",
+		copyFiles: [
+			{
+				from: "./server/assets/images/logo.png",
+				to: "assets/images/logo.png",
+			},
+		],
+		link: [...links, userPool],
+	},
+	routeArgs
+);
