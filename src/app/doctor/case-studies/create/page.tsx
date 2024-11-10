@@ -24,7 +24,7 @@ const initialCaseStudy: CaseStudy = {
 	caseQuestions: [
 		{
 			question: "",
-			options: [""],
+			options: [],
 			correctAnswer: 0,
 		},
 	],
