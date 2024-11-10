@@ -50,9 +50,12 @@ const DoctorCaseQuestion: FunctionComponent<DoctorCaseQuestionProps> = ({
 		<>
 			<div className="mb-5 sm:mb-6">
 				<div className="mt-5">
-					<label className="text-grey-300 text-1sm capitalize font-normal">
-						Case Model Description
-					</label>
+					<div className="mb-3">
+						<label className="text-grey-300 text-1sm capitalize font-normal">
+							Case Model Description
+						</label>
+					</div>
+
 					{isEditorMounted && (
 						<Editor
 							editorState={editorState}

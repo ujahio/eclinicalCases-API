@@ -7,7 +7,105 @@ import { getDetailsOfStudentsFeedbackAndResponses } from "../utils/api_utils.js"
 import getUserInfo from "../persistence.helpers/getUserInfo.js";
 import decodeToken from "../utils/decodeToken.js";
 
+const validateInputs = ({
+	caseDescription,
+	caseTopic,
+	caseExplanation,
+	caseDeadline,
+	caseQuestions,
+}) => {
+	const checkedCaseQuestions = JSON.parse(caseQuestions);
+
+	if (checkedCaseQuestions.length === 0) {
+		throw { message: "Missing CME Questions" };
+	}
+
+	checkedCaseQuestions.forEach((questionInfo, index) => {
+		const questionNumber = index + 1;
+		if (questionInfo.question === "") {
+			throw {
+				message: `Please add a question statement for CME Question ${questionNumber}`,
+			};
+		}
+		if (questionInfo.options.length === 0) {
+			throw {
+				message: `Please add options for CME Question ${questionNumber}`,
+			};
+		}
+	});
+
+	// Validate case study explanation
+	if (!caseDescription) {
+		throw { message: "Missing case study description." };
+	} else {
+		// Parse the caseExplanation to check for text in the blocks
+		let descriptionParsed;
+		try {
+			descriptionParsed = JSON.parse(caseDescription);
+		} catch (error) {
+			throw { message: "Missing case study description." };
+		}
+
+		const hasTextInBlocks = descriptionParsed.blocks.some(
+			(block) => block.text.trim().length > 0
+		);
+
+		if (!hasTextInBlocks) {
+			throw { message: "Missing case study description." };
+		}
+	}
+
+	if (!caseTopic) {
+		throw { message: "Missing case topic" };
+	}
+
+	// Validate case study explanation
+	if (!caseExplanation) {
+		throw {
+			message: "Missing case study explanations.",
+		};
+	} else {
+		// Parse the caseExplanation to check for text in the blocks
+		let explanationParsed;
+		try {
+			explanationParsed = JSON.parse(caseExplanation);
+		} catch (error) {
+			throw { message: "Missing case study explanations." };
+		}
+
+		// Adjusted logic to ensure accurate validation of non-empty text in blocks
+		const hasTextInExplanationBlocks = explanationParsed.blocks.some(
+			(block) => {
+				return block.text.trim().length > 0;
+			}
+		);
+
+		if (!hasTextInExplanationBlocks) {
+			throw { message: "Missing case study explanation" };
+		}
+	}
+
+	if (!caseDeadline) {
+		throw { message: "Missing case deadline" };
+	}
+};
+
 export const publishCase = async (event) => {
+	const decodedToken = decodeToken(event);
+	const username = decodedToken.username;
+	const userInfo = await getUserInfo(username);
+	const { id: teacherId } = userInfo;
+
+	if (!userInfo || userInfo.user_role !== "teacher") {
+		return {
+			statusCode: 400,
+			body: JSON.stringify({
+				error: "Not authorized to use this resource",
+				message: "Error publishing case case.",
+			}),
+		};
+	}
+
 	const {
 		caseId,
 		caseDescription,
@@ -18,90 +116,27 @@ export const publishCase = async (event) => {
 		caseMaterials,
 	} = await extrapolateRequestBody(event);
 
-	const checkedCaseQuestions = JSON.parse(caseQuestions);
-	if (checkedCaseQuestions.length === 0) {
+	try {
+		validateInputs({
+			caseDescription,
+			caseTopic,
+			caseExplanation,
+			caseDeadline,
+			caseQuestions,
+		});
+	} catch (error) {
+		console.error("Error publishing case:", error);
 		return {
-			statusCode: 400,
+			statusCode: 500,
 			body: JSON.stringify({
-				message: "Missing case questions",
+				error: `Error publishing case: ${error.message}`,
+				message: error.message,
 			}),
 		};
 	}
-
-	for (let index = 0; index < checkedCaseQuestions.length; index++) {
-		const questionInfo = checkedCaseQuestions[index];
-
-		const questionNumber = index + 1;
-		if (questionInfo.options.length === 0) {
-			return {
-				statusCode: 400,
-				body: JSON.stringify({
-					message: `Please add options for question ${questionNumber}`,
-				}),
-			};
-		} else if (questionInfo.question === "") {
-			return {
-				statusCode: 400,
-				body: JSON.stringify({
-					message: `Please add a question statement for question ${questionNumber}`,
-				}),
-			};
-		}
-	}
-
-	if (!caseDescription) {
-		return {
-			statusCode: 400,
-			body: JSON.stringify({
-				message: "Missing case description",
-			}),
-		};
-	}
-
-	if (!caseTopic) {
-		return {
-			statusCode: 400,
-			body: JSON.stringify({
-				message: "Missing case topic",
-			}),
-		};
-	}
-
-	if (!caseExplanation) {
-		return {
-			statusCode: 400,
-			body: JSON.stringify({
-				message: "Missing case study explanation",
-			}),
-		};
-	}
-
-	if (!caseDeadline) {
-		return {
-			statusCode: 400,
-			body: JSON.stringify({
-				message: "Missing case deadline",
-			}),
-		};
-	}
-
-	const decodedToken = decodeToken(event);
-	const username = decodedToken.username;
-	const userInfo = await getUserInfo(username);
-	const { id: teacherId } = userInfo;
 
 	try {
 		// Step 1: Check if the teacher already has an active published case
-		if (!userInfo || userInfo.user_role !== "teacher") {
-			return {
-				statusCode: 400,
-				body: JSON.stringify({
-					error: "Not authorized to use this resource",
-					message: "Error publishing case case.",
-				}),
-			};
-		}
-
 		const activeCase = await dbClient.send(
 			new QueryCommand({
 				TableName: Resource.TeacherCaseStudies.name,
@@ -211,7 +246,6 @@ export const publishCase = async (event) => {
 export const getPublishedCase = async (event) => {
 	try {
 		const decodedToken = decodeToken(event);
-		console.log("decodedToken", decodedToken);
 		const username = decodedToken.username;
 		const userInfo = await getUserInfo(username);
 
