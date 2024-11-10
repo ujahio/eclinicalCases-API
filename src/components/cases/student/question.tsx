@@ -72,11 +72,16 @@ const StudentCaseQuestion: FunctionComponent<StudentCaseQuestionProps> = ({
 	) => {
 		e.preventDefault();
 		const contentState = editorState.getCurrentContent().getPlainText().trim();
+		const wordsArray = contentState
+			.split(/\s+/)
+			.filter((word) => word.length > 0);
+
+		const editorTextContentCount = wordsArray.length;
 
 		const validateEditorTextContent: boolean = studentCaseQuestionValidation(
 			// questionDetails,
 			setErrorsForValidatedInputs,
-			contentState
+			editorTextContentCount
 		);
 
 		if (!validateEditorTextContent) {
@@ -157,15 +162,15 @@ export default StudentCaseQuestion;
 
 const topicMinLength = 5;
 const explanationMinLength = 10;
-const explanationMaxLength = 700;
+const explanationMaxWordCount = 700;
 
 const studentCaseQuestionValidation = (
 	setError: Dispatch<SetStateAction<QuestionErrorProps>>,
-	editorTextContent: string
+	editorTextContentCount: number
 ): boolean => {
 	let validated = true;
 
-	if (editorTextContent.length < explanationMinLength) {
+	if (editorTextContentCount < explanationMinLength) {
 		setError((prevState) => ({
 			...prevState,
 			explanation: {
@@ -174,12 +179,12 @@ const studentCaseQuestionValidation = (
 			},
 		}));
 		validated = false;
-	} else if (editorTextContent.length > explanationMaxLength) {
+	} else if (editorTextContentCount > explanationMaxWordCount) {
 		setError((prevState) => ({
 			...prevState,
 			explanation: {
 				status: "error",
-				validationMessage: `Explanation cannot be more ${explanationMaxLength} characters!`,
+				validationMessage: `Explanation cannot be more ${explanationMaxWordCount} characters!`,
 			},
 		}));
 		validated = false;
