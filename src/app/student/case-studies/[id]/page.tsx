@@ -18,8 +18,9 @@ const tabs = [
 	"Case Presentation",
 	"Case Response",
 	"Case Model Answers",
+	"Case Teaching",
 	"CME Questions",
-	"Feedbacks",
+	"Feedback",
 	"Certificate",
 ];
 

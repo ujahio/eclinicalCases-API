@@ -6,11 +6,11 @@ import {
 	StudentCertificate,
 	StudentCMEQuestions,
 	StudentFeedbacks,
+	StudentCaseTeaching,
 } from "@/components/cases";
 import DashboardLayout from "@/components/layouts/dashboard";
 import ProcessTabs from "@/components/ui/process-tabs";
 import { APP_CONTAINER, APP_SPACING } from "@/services/constants/styles";
-import { useAppSelector } from "@/services/hooks/hooks";
 import { convertFromRaw, EditorState } from "draft-js";
 import { StudentCaseStudyProps } from "@/services/types/student";
 
@@ -74,9 +74,18 @@ const StudentCaseStudy = ({
 					<StudentCaseAnswer
 						goNext={goNext}
 						goBack={goBack}
-						// caseTopic={caseDetails?.caseTopic}
 						studentCaseExplanation={caseDetails?.studentCaseExplanation}
 						caseExplanation={caseDetails?.caseExplanation}
+					/>
+				)}
+
+				{isActive("case_teaching") && (
+					<StudentCaseTeaching
+						goNext={goNext}
+						goBack={goBack}
+						// caseTopic={caseDetails?.caseTopic}
+						// studentCaseExplanation={caseDetails?.studentCaseExplanation}
+						// caseExplanation={caseDetails?.caseExplanation}
 						caseMaterialsMetaData={caseDetails?.caseMaterials}
 					/>
 				)}
