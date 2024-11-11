@@ -3,6 +3,7 @@ export interface CaseDetail {
 	caseTopic: string;
 	caseTopicAnswer: string;
 	caseExplanation: string;
+	caseTeaching: string;
 	answers: Answer[];
 	caseDescription: string;
 	caseDeadline: string;

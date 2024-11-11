@@ -84,8 +84,7 @@ const StudentCaseStudy = ({
 						goNext={goNext}
 						goBack={goBack}
 						// caseTopic={caseDetails?.caseTopic}
-						// studentCaseExplanation={caseDetails?.studentCaseExplanation}
-						// caseExplanation={caseDetails?.caseExplanation}
+						// caseTeaching={caseDetails?.caseTeaching}
 						caseMaterialsMetaData={caseDetails?.caseMaterials}
 					/>
 				)}
