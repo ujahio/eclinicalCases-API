@@ -49,7 +49,7 @@ export type CasePresentationErrorProps = {
 export interface DoctorCaseAnswerProps extends DoctorCaseQuestionProps {
 	goBack: () => void;
 }
-export interface CaseTeachingProps extends DoctorCaseQuestionProps {
+export interface TeacherCaseTeachingProps extends DoctorCaseQuestionProps {
 	goBack: () => void;
 }
 export interface DoctorCMEQuestionsProps extends DoctorCaseQuestionProps {

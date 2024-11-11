@@ -10,7 +10,7 @@ import StudentCaseTeaching from "./student/studentCaseTeaching";
 import DoctorCasePresentation from "./doctor/presentation";
 import DoctorCaseAnswer from "./doctor/answer";
 import DoctorCMEQuestions from "./doctor/cme-questions";
-import DoctorCaseTeaching from "./doctor/case-teaching";
+import TeacherCaseTeaching from "./doctor/case-teaching";
 import DoctorMaterialsAndDeadlineForUpdate from "./doctor/update/materials-and-deadline";
 
 export {
@@ -25,6 +25,6 @@ export {
 	DoctorCasePresentation,
 	DoctorCaseAnswer,
 	DoctorCMEQuestions,
-	DoctorCaseTeaching,
+	TeacherCaseTeaching,
 	DoctorMaterialsAndDeadlineForUpdate,
 };

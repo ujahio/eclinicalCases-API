@@ -2,7 +2,7 @@ import React, { FunctionComponent, useState, ChangeEvent, useRef } from "react";
 import { InputField } from "@/components/form-elements";
 import Button from "@/components/ui/Button";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
-import { CaseTeachingProps } from "@/services/types/doctor/createCaseStudy";
+import { TeacherCaseTeachingProps } from "@/services/types/doctor/createCaseStudy";
 import { getCaseMaterials } from "@/store/slices/case/getCaseMaterialsSlice";
 import { toast } from "react-toastify";
 import {
@@ -11,7 +11,7 @@ import {
 } from "@/services/apis/case";
 import { getTokenForRequest } from "@/utils/getTokenForRequest";
 
-const DoctorCaseTeaching: FunctionComponent<CaseTeachingProps> = ({
+const TeacherCaseTeaching: FunctionComponent<TeacherCaseTeachingProps> = ({
 	goNext,
 	goBack,
 	caseStudy,
@@ -251,4 +251,4 @@ const DoctorCaseTeaching: FunctionComponent<CaseTeachingProps> = ({
 	);
 };
 
-export default DoctorCaseTeaching;
+export default TeacherCaseTeaching;

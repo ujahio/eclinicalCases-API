@@ -4,7 +4,7 @@ import {
 	DoctorCMEQuestions,
 	DoctorCaseAnswer,
 	DoctorCasePresentation,
-	DoctorCaseTeaching,
+	TeacherCaseTeaching,
 } from "@/components/cases";
 import FinalReview from "@/components/cases/doctor/final-review";
 import AdminLayout from "@/components/layouts/dashboard/admin";
@@ -63,7 +63,7 @@ const CreateCaseStudy: FunctionComponent<CreateCaseStudyProps> = ({
 				)}
 
 				{isActive("case_teaching") && (
-					<DoctorCaseTeaching
+					<TeacherCaseTeaching
 						goNext={goNext}
 						goBack={goBack}
 						caseStudy={caseStudy}
