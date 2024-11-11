@@ -61,7 +61,7 @@ const StudentCaseStudy = ({
 					/>
 				)}
 
-				{isActive("case_model_question") && (
+				{isActive("case_response") && (
 					<StudentCaseQuestion
 						goNext={goNext}
 						goBack={goBack}
@@ -74,7 +74,7 @@ const StudentCaseStudy = ({
 					<StudentCaseAnswer
 						goNext={goNext}
 						goBack={goBack}
-						caseTopic={caseDetails?.caseTopic}
+						// caseTopic={caseDetails?.caseTopic}
 						studentCaseExplanation={caseDetails?.studentCaseExplanation}
 						caseExplanation={caseDetails?.caseExplanation}
 						caseMaterialsMetaData={caseDetails?.caseMaterials}

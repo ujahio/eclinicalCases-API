@@ -93,9 +93,9 @@ const StudentCaseQuestion: FunctionComponent<StudentCaseQuestionProps> = ({
 		<>
 			<div className="mb-5 sm:mb-6">
 				<div className="mt-5">
-					<div className="text-grey-300 text-1sm capitalize font-normal">
-						COMMENT ON CASE
-					</div>
+					<h6 className="text-1sm sm:text-sm capitalize  sm:mb-2 text-blue font-bold">
+						WHAT IS YOUR RESPONSE TO THE CASE PRESENTATION?
+					</h6>
 					{isEditorMounted && (
 						<Editor
 							editorState={editorState}

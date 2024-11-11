@@ -1,18 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { useSession } from "next-auth/react";
 import DashboardLayout from "@/components/layouts/dashboard";
 import Button from "@/components/ui/Button";
-import Link from "next/link";
-import WalkthroughModal from "@/components/modals/Walkthrough";
-import CaseCard from "@/components/cases/CaseCard";
 import { useAppSelector } from "@/services/hooks/hooks";
 import { formatDate } from "@/utils/formatDate";
 import ResponseCaseCard from "@/components/cases/ResponseCaseCard";
-import { useSession } from "next-auth/react";
 
 const StudentDashboard = () => {
 	const { data } = useSession();
 	const { firstName, lastName, user_role } = data!.user;
-	const [showWelcomeModal, setShowWelcomeModal] = useState(true);
 	const publishedCaseInfo = useAppSelector((state) => state.activeCase.data);
 
 	const studentsResponsesToCases = useAppSelector(
@@ -30,12 +26,6 @@ const StudentDashboard = () => {
 			caseTopic: caseItem.caseTopicAnswer,
 		})) || [];
 
-	// TODO: implementation of logic to show setShowWelcomeModal
-	// useEffect(() => {
-	// 	setTimeout(() => {
-	// 		setShowWelcomeModal(true);
-	// 	}, 500);
-	// }, []);
 	return (
 		<DashboardLayout>
 			<div className="grid gap-y-10 sm:gap-y-12.5">
@@ -80,21 +70,17 @@ const StudentDashboard = () => {
 										/>
 									</g>
 								</svg>
-								<h5 className="font-bold text-base mt-3.75 mb-2.5">
-									NEW CASE INFO
-								</h5>
-								<p className="text-1sm text-sm max-w-lg mb-5">
-									Learn how patients with a serious infection can be managed in
-									outpatient settings with the help of an OPAT service.
-								</p>
-								<div>
-									<span className="inline-block text-1xs">
+								<h5 className="font-bold text-base mt-3.75 mb-2.5">1 CME</h5>
+								<h5>Authors: Dr. Emmanuel Abu</h5>
+
+								<div className="sm:mt-3">
+									<div className="inline-block text-1xs text-base">
 										<b>Created:</b> {formatDate(publishedCaseInfo?.createdAt)}
-									</span>
-									<span className="block sm:inline-block text-1xs sm:ml-8">
+									</div>
+									<div className="block sm:inline-block text-1xs sm:ml-8 text-base">
 										<b>Deadline:</b>{" "}
 										{formatDate(publishedCaseInfo?.caseDeadline)}
-									</span>
+									</div>
 								</div>
 							</div>
 						) : (
@@ -125,7 +111,7 @@ const StudentDashboard = () => {
 					</div>
 					<ul className="grid grid-cols-items gap-5 md:gap-6.25">
 						{studentsResponses?.length === 0
-							? "No recent cases found!!!"
+							? "You have no recent case studies."
 							: studentsResponses.map(
 									(caseM: {
 										_id: string;
@@ -138,12 +124,6 @@ const StudentDashboard = () => {
 					</ul>
 				</div>
 			</div>
-			{/* TEMP COMMENT OUT UNTIL CONTENT AND FUNCTIONALITY IS FINALIZED */}
-			{/* <WalkthroughModal
-				show={showWelcomeModal}
-				toggle={setShowWelcomeModal}
-				size="lg"
-			/> */}
 		</DashboardLayout>
 	);
 };

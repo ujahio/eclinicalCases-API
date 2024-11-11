@@ -16,7 +16,7 @@ const StudentCasePresentation: FunctionComponent<
 		<>
 			<div className="mb-5 sm:mb-6">
 				<h6 className="text-1xs sm:text-sm font-bold text-blue uppercase mb-2.5">
-					Case Model Topic Description
+					Case Description
 				</h6>
 				<div className="mb-9 bg-gray-200 p-2.5">
 					<Editor
