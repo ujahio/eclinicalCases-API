@@ -1,13 +1,13 @@
 "use client";
 import React, { useEffect, useState, FunctionComponent } from "react";
+import dynamic from "next/dynamic";
+import { toast } from "react-toastify";
 import useProcessTabs from "@/services/hooks/useProcessTabs";
 import { createCaseStudyTabs } from "@/services/constants";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
 import { addCase, resetAddCaseStatus } from "@/store/slices/case/addCaseSlice";
 import { useRouter } from "next/navigation";
 import { CaseStudy } from "@/services/types/doctor/createCaseStudy";
-import dynamic from "next/dynamic";
-import { toast } from "react-toastify";
 
 const CreateCaseStudy = dynamic(
 	() => import("@/presentation/doctor/CreateCaseStudy"),
@@ -21,6 +21,7 @@ const initialCaseStudy: CaseStudy = {
 	caseTopic: "",
 	caseExplanation: "",
 	caseDeadline: "",
+	caseTeaching: "",
 	caseQuestions: [
 		{
 			question: "",

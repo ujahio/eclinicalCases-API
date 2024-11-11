@@ -7,10 +7,10 @@ import StudentCertificate from "./student/certificate";
 import StudentFeedbacks from "./student/feedbacks";
 import StudentCaseTeaching from "./student/studentCaseTeaching";
 
-import DoctorCaseQuestion from "./doctor/question";
+import DoctorCasePresentation from "./doctor/presentation";
 import DoctorCaseAnswer from "./doctor/answer";
 import DoctorCMEQuestions from "./doctor/cme-questions";
-import DoctorMaterialsAndDeadline from "./doctor/materials-and-deadline";
+import DoctorCaseTeaching from "./doctor/case-teaching";
 import DoctorMaterialsAndDeadlineForUpdate from "./doctor/update/materials-and-deadline";
 
 export {
@@ -22,9 +22,9 @@ export {
 	StudentCMEQuestions,
 	StudentCertificate,
 	StudentFeedbacks,
-	DoctorCaseQuestion,
+	DoctorCasePresentation,
 	DoctorCaseAnswer,
 	DoctorCMEQuestions,
-	DoctorMaterialsAndDeadline,
+	DoctorCaseTeaching,
 	DoctorMaterialsAndDeadlineForUpdate,
 };

@@ -42,7 +42,7 @@ const UpdateCaseStudy: FunctionComponent<UpdateCaseStudyProps> = ({
 			}
 		>
 			<div className="mx-auto w-full max-w-3xl bg-white py-10 px-6 sm:p-8.75 md:p-10 border border-grey-border rounded-sm">
-				{isActive("case_model_question_setup") && (
+				{isActive("case_model_question") && (
 					<DoctorCaseQuestion
 						goNext={goNext}
 						caseStudy={caseStudy}
@@ -51,7 +51,7 @@ const UpdateCaseStudy: FunctionComponent<UpdateCaseStudyProps> = ({
 					/>
 				)}
 
-				{isActive("case_model_answers_setup") && (
+				{isActive("case_model_answers") && (
 					<DoctorCaseAnswer
 						goNext={goNext}
 						goBack={goBack}

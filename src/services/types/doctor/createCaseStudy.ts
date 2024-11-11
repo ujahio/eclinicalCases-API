@@ -9,6 +9,7 @@ export interface CaseStudy {
 	caseDescription: string | null;
 	caseTopic: string;
 	caseExplanation: string | null;
+	caseTeaching: string | null;
 	caseDeadline: string;
 	caseQuestions: CaseQuestion[];
 	caseStatus: string;
@@ -38,11 +39,17 @@ export interface DoctorCaseQuestionProps {
 	setCaseStudy: React.Dispatch<React.SetStateAction<CaseStudy>>;
 	handleUpdateDraftCase: handleUpdateDraftCase;
 }
+
+export type CasePresentationErrorProps = {
+	explanation: {
+		status: "error" | "valid";
+		validationMessage?: string;
+	};
+};
 export interface DoctorCaseAnswerProps extends DoctorCaseQuestionProps {
 	goBack: () => void;
 }
-export interface DoctorMaterialsAndDeadlineProps
-	extends DoctorCaseQuestionProps {
+export interface CaseTeachingProps extends DoctorCaseQuestionProps {
 	goBack: () => void;
 }
 export interface DoctorCMEQuestionsProps extends DoctorCaseQuestionProps {

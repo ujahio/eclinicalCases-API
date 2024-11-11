@@ -1,12 +1,13 @@
+import React, { FunctionComponent, useEffect, useState } from "react";
 import { InputField } from "@/components/form-elements";
 import Button from "@/components/ui/Button";
-import React, { FunctionComponent, useEffect, useState } from "react";
+
 import { EditorState, convertFromRaw, convertToRaw } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
 import { useAppSelector } from "@/services/hooks/hooks";
 import { DoctorCaseQuestionProps } from "@/services/types/doctor/createCaseStudy";
 
-const DoctorCaseQuestion: FunctionComponent<DoctorCaseQuestionProps> = ({
+const DoctorCasePresentation: FunctionComponent<DoctorCaseQuestionProps> = ({
 	goNext,
 	caseStudy,
 	setCaseStudy,
@@ -51,8 +52,8 @@ const DoctorCaseQuestion: FunctionComponent<DoctorCaseQuestionProps> = ({
 			<div className="mb-5 sm:mb-6">
 				<div className="mt-5">
 					<div className="mb-3">
-						<label className="text-grey-300 text-1sm capitalize font-normal">
-							Case Model Description
+						<label className="text-blue font-bold text-1sm capitalize">
+							CASE MODEL PRESENTATION
 						</label>
 					</div>
 
@@ -87,13 +88,13 @@ const DoctorCaseQuestion: FunctionComponent<DoctorCaseQuestionProps> = ({
 					size="lg"
 					className="text-xs"
 					centralize
-					onClick={() => goNext()}
+					onClick={goNext}
 				>
-					PROCEED TO CASE MODEL ANSWER SETUP
+					PROCEED TO CASE MODEL ANSWER
 				</Button>
 			</div>
 		</>
 	);
 };
 
-export default DoctorCaseQuestion;
+export default DoctorCasePresentation;

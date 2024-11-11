@@ -3,8 +3,8 @@ import React, { FunctionComponent } from "react";
 import {
 	DoctorCMEQuestions,
 	DoctorCaseAnswer,
-	DoctorCaseQuestion,
-	DoctorMaterialsAndDeadline,
+	DoctorCasePresentation,
+	DoctorCaseTeaching,
 } from "@/components/cases";
 import FinalReview from "@/components/cases/doctor/final-review";
 import AdminLayout from "@/components/layouts/dashboard/admin";
@@ -43,8 +43,8 @@ const CreateCaseStudy: FunctionComponent<CreateCaseStudyProps> = ({
 			}
 		>
 			<div className="mx-auto w-full max-w-3xl bg-white py-10 px-6 sm:p-8.75 md:p-10 border border-grey-border rounded-sm">
-				{isActive("case_model_question_setup") && (
-					<DoctorCaseQuestion
+				{isActive("case_model_presentation") && (
+					<DoctorCasePresentation
 						goNext={goNext}
 						caseStudy={caseStudy}
 						setCaseStudy={setCaseStudy}
@@ -52,7 +52,7 @@ const CreateCaseStudy: FunctionComponent<CreateCaseStudyProps> = ({
 					/>
 				)}
 
-				{isActive("case_model_answers_setup") && (
+				{isActive("case_model_answer") && (
 					<DoctorCaseAnswer
 						goNext={goNext}
 						goBack={goBack}
@@ -62,8 +62,8 @@ const CreateCaseStudy: FunctionComponent<CreateCaseStudyProps> = ({
 					/>
 				)}
 
-				{isActive("materials_and_deadline") && (
-					<DoctorMaterialsAndDeadline
+				{isActive("case_teaching") && (
+					<DoctorCaseTeaching
 						goNext={goNext}
 						goBack={goBack}
 						caseStudy={caseStudy}

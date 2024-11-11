@@ -2,7 +2,7 @@ import React, { FunctionComponent, useState, ChangeEvent, useRef } from "react";
 import { InputField } from "@/components/form-elements";
 import Button from "@/components/ui/Button";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
-import { DoctorMaterialsAndDeadlineProps } from "@/services/types/doctor/createCaseStudy";
+import { CaseTeachingProps } from "@/services/types/doctor/createCaseStudy";
 import { getCaseMaterials } from "@/store/slices/case/getCaseMaterialsSlice";
 import { toast } from "react-toastify";
 import {
@@ -11,9 +11,13 @@ import {
 } from "@/services/apis/case";
 import { getTokenForRequest } from "@/utils/getTokenForRequest";
 
-const DoctorMaterialsAndDeadline: FunctionComponent<
-	DoctorMaterialsAndDeadlineProps
-> = ({ goNext, goBack, caseStudy, setCaseStudy, handleUpdateDraftCase }) => {
+const DoctorCaseTeaching: FunctionComponent<CaseTeachingProps> = ({
+	goNext,
+	goBack,
+	caseStudy,
+	setCaseStudy,
+	handleUpdateDraftCase,
+}) => {
 	const dispatch = useAppDispatch();
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	const addingDraftCaseStatus = useAppSelector(
@@ -126,8 +130,19 @@ const DoctorMaterialsAndDeadline: FunctionComponent<
 	return (
 		<>
 			<h6 className="text-1xs sm:text-sm font-bold text-blue uppercase mb-4">
-				Materials and deadline
+				CASE TEACHING
 			</h6>
+			<InputField
+				placeholder="ie. Malaria"
+				label="CASE SUBJECT"
+				name="caseTopic"
+				value={caseStudy.caseTopic}
+				onChange={(e) => {
+					e.preventDefault();
+					setCaseStudy({ ...caseStudy, caseTopic: e.target.value });
+				}}
+			/>
+
 			<div className="mb-5 sm:mb-6">
 				<label className="text-grey-300 text-1sm font-normal">
 					Materials for further readings
@@ -206,19 +221,7 @@ const DoctorMaterialsAndDeadline: FunctionComponent<
 					</Button>
 				)}
 			</div>
-			<div className="mb-5 sm:mb-6">
-				<InputField
-					placeholder=""
-					label="Select a deadline for this case study"
-					name="caseDeadline"
-					type="date"
-					value={caseStudy.caseDeadline}
-					onChange={(e) => {
-						const { value } = e.target;
-						setCaseStudy({ ...caseStudy, caseDeadline: value });
-					}}
-				/>
-			</div>
+
 			<Button
 				btnStyle="outline"
 				size="lg"
@@ -238,7 +241,7 @@ const DoctorMaterialsAndDeadline: FunctionComponent<
 					className="text-xs"
 					onClick={goBack}
 				>
-					GO BACK TO CASE MODEL ANSWER SETUP
+					GO BACK TO CASE MODEL ANSWER
 				</Button>
 				<Button btnStyle="basic" size="lg" centralize onClick={goNext}>
 					PROCEED TO CME QUESTIONS
@@ -248,4 +251,4 @@ const DoctorMaterialsAndDeadline: FunctionComponent<
 	);
 };
 
-export default DoctorMaterialsAndDeadline;
+export default DoctorCaseTeaching;

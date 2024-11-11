@@ -1,8 +1,12 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
-import { Dispatch, SetStateAction } from "react";
+import React, {
+	FunctionComponent,
+	useEffect,
+	useState,
+	Dispatch,
+	SetStateAction,
+} from "react";
 import { Editor } from "react-draft-wysiwyg";
 import { convertFromRaw, convertToRaw, EditorState } from "draft-js";
-import { InputField } from "@/components/form-elements";
 import Button from "@/components/ui/Button";
 
 interface StudentCaseQuestionProps {
@@ -93,7 +97,7 @@ const StudentCaseQuestion: FunctionComponent<StudentCaseQuestionProps> = ({
 		<>
 			<div className="mb-5 sm:mb-6">
 				<div className="mt-5">
-					<h6 className="text-1sm sm:text-sm capitalize  sm:mb-2 text-blue font-bold">
+					<h6 className="text-1sm sm:text-sm capitalize sm:mb-2 text-blue font-bold">
 						WHAT IS YOUR RESPONSE TO THE CASE PRESENTATION?
 					</h6>
 					{isEditorMounted && (
@@ -111,7 +115,7 @@ const StudentCaseQuestion: FunctionComponent<StudentCaseQuestionProps> = ({
 						/>
 					)}
 					{inputsForValidation.explanation.status === "error" && (
-						<p className="mt-0.625 font-light text-xxs text-red">
+						<p className="mt-0.625 font-light text-red">
 							{inputsForValidation.explanation.validationMessage}
 						</p>
 					)}

@@ -256,7 +256,7 @@ const DoctorMaterialsAndDeadline: FunctionComponent<
 					className="text-xs"
 					onClick={goBack}
 				>
-					GO BACK TO CASE MODEL ANSWER SETUP
+					GO BACK TO CASE MODEL ANSWER
 				</Button>
 				<Button btnStyle="basic" size="lg" centralize onClick={goNext}>
 					PROCEED TO CME QUESTIONS
