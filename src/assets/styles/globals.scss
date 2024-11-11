@@ -12,67 +12,67 @@
 @import url("https://fonts.googleapis.com/css2?family=Gideon+Roman&display=swap");
 
 body {
-  margin: 0;
-  padding: 0;
-  font-size: 0.875rem;
-  font-family: "Nunito", "Nunito Sans", "Roboto", "Gideon Roman", sans-serif;
-  width: 100%;
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+	margin: 0;
+	padding: 0;
+	font-size: 1.1rem;
+	font-family: "Nunito", "Nunito Sans", "Roboto", "Gideon Roman", sans-serif;
+	width: 100%;
+	overflow-x: hidden;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
 html {
-  font-family: "Nunito", "Roboto", sans-serif;
-  -webkit-font-smoothing: antialiased;
+	font-family: "Nunito", "Roboto", sans-serif;
+	-webkit-font-smoothing: antialiased;
 }
 
 .nav-active {
-  &::after {
-    content: "";
-    position: absolute;
-    height: 2px;
-    width: 100%;
-    background: $dark;
-    bottom: 0;
-    left: 0;
-    border-top-left-radius: 2px;
-    border-top-right-radius: 2px;
-  }
+	&::after {
+		content: "";
+		position: absolute;
+		height: 2px;
+		width: 100%;
+		background: $dark;
+		bottom: 0;
+		left: 0;
+		border-top-left-radius: 2px;
+		border-top-right-radius: 2px;
+	}
 }
 
 .process-tabs {
-  li > button {
-    outline: none;
+	li > button {
+		outline: none;
 
-    &:focus {
-      outline: none;
-    }
+		&:focus {
+			outline: none;
+		}
 
-    &:not(:disabled):hover {
-      color: $dark;
-    }
+		&:not(:disabled):hover {
+			color: $dark;
+		}
 
-    &:disabled {
-      cursor: not-allowed;
-    }
-  }
+		&:disabled {
+			cursor: not-allowed;
+		}
+	}
 
-  li.active {
-    button {
-      color: $dark;
+	li.active {
+		button {
+			color: $dark;
 
-      &::after {
-        content: "";
-        position: absolute;
-        height: 2px;
-        width: 100%;
-        background: $dark;
-        bottom: 0;
-        left: 0;
-      }
-    }
-  }
+			&::after {
+				content: "";
+				position: absolute;
+				height: 2px;
+				width: 100%;
+				background: $dark;
+				bottom: 0;
+				left: 0;
+			}
+		}
+	}
 }
 
 // .ongoing-case {
@@ -82,68 +82,68 @@ html {
 // }
 
 .navbar {
-  .active {
-    // position: relative;
-    &::before {
-      content: "";
-      position: absolute;
-      width: 100%;
-      height: 3px;
-      background: $dark;
-      bottom: 0;
-      border-top-left-radius: 3px;
-      border-top-right-radius: 3px;
-    }
-  }
+	.active {
+		// position: relative;
+		&::before {
+			content: "";
+			position: absolute;
+			width: 100%;
+			height: 3px;
+			background: $dark;
+			bottom: 0;
+			border-top-left-radius: 3px;
+			border-top-right-radius: 3px;
+		}
+	}
 }
 
 .header-images {
-  width: 100%;
-  display: grid;
-  grid-template-columns: minmax(180px, 1.8fr) minmax(100px, 1fr);
-  grid-gap: 25px;
-  grid-template-rows: auto;
-  min-width: 0;
+	width: 100%;
+	display: grid;
+	grid-template-columns: minmax(180px, 1.8fr) minmax(100px, 1fr);
+	grid-gap: 25px;
+	grid-template-rows: auto;
+	min-width: 0;
 
-  @media screen and (min-width: 640px) and (max-width: 900px) {
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  }
+	@media screen and (min-width: 640px) and (max-width: 900px) {
+		grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+	}
 
-  .header-img {
-    height: 100%;
-    min-width: 0;
-    border-radius: 10px;
-    overflow: hidden;
+	.header-img {
+		height: 100%;
+		min-width: 0;
+		border-radius: 10px;
+		overflow: hidden;
 
-    img {
-      height: 100%;
-      object-fit: cover;
-    }
+		img {
+			height: 100%;
+			object-fit: cover;
+		}
 
-    &-1 {
-      @media screen and (min-width: 640px) and (max-width: 900px) {
-        grid-column: 1 / 3;
-      }
-    }
+		&-1 {
+			@media screen and (min-width: 640px) and (max-width: 900px) {
+				grid-column: 1 / 3;
+			}
+		}
 
-    &-3 {
-      grid-column: 1 / -1;
-      width: 60%;
-      justify-self: end;
+		&-3 {
+			grid-column: 1 / -1;
+			width: 60%;
+			justify-self: end;
 
-      @media screen and (min-width: 640px) and (max-width: 900px) {
-        grid-column: 2;
-        width: 100%;
-        justify-self: auto;
-      }
-    }
-  }
+			@media screen and (min-width: 640px) and (max-width: 900px) {
+				grid-column: 2;
+				width: 100%;
+				justify-self: auto;
+			}
+		}
+	}
 }
 
 .no-outline {
-  outline: none;
+	outline: none;
 
-  &:focus {
-    outline: none;
-  }
+	&:focus {
+		outline: none;
+	}
 }
