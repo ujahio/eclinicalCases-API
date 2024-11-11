@@ -36,10 +36,7 @@ const StudentCasePresentation: FunctionComponent<
 					</p>
 				</div>
 			)}
-			<div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
-				<Button btnStyle="outline" size="lg" centralize href="/home">
-					Go Back Home
-				</Button>
+			<div className="grid grid-cols-1 gap-4">
 				<Button btnStyle="basic" size="lg" centralize onClick={() => goNext()}>
 					PROCEED TO THE CASE MODEL QUESTION
 				</Button>

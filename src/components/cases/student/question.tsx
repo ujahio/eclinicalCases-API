@@ -117,7 +117,7 @@ const StudentCaseQuestion: FunctionComponent<StudentCaseQuestionProps> = ({
 					)}
 				</div>
 			</div>
-			<div className="grid sm:grid-cols-1 grid-cols-1 gap-4">
+			<div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
 				<Button btnStyle="outline" size="lg" centralize onClick={goBack}>
 					Case Presentation
 				</Button>
