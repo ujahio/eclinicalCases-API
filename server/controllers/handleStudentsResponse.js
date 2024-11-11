@@ -91,7 +91,6 @@ export const submitStudentResponse = async (event) => {
 					studentID,
 					certificateID,
 					caseID: caseInfo.id,
-					caseTopicAnswer: caseInfo.studentCaseTopicResponse,
 					caseExplanation: caseInfo.studentCaseExplanation,
 					submittedAt,
 				},

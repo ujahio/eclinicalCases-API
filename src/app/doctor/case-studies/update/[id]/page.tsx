@@ -6,7 +6,6 @@ import { createCaseStudyTabs } from "@/services/constants";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
 import useGetDraftCase from "@/services/hooks/useGetDraftCase";
 import useProcessTabs from "@/services/hooks/useProcessTabs";
-import { CaseStudy } from "@/services/types/doctor/createCaseStudy";
 import {
 	resetGetDraftCasesStatus,
 	updateDraftCase,

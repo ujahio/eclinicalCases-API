@@ -8,7 +8,6 @@ import Button from "@/components/ui/Button";
 interface StudentCaseQuestionProps {
 	goNext: () => void;
 	goBack: () => void;
-	studentCaseTopicResponse: string;
 	studentCaseExplanation: string;
 	setCaseDetails: (details: any) => void;
 }
@@ -28,7 +27,6 @@ const StudentCaseQuestion: FunctionComponent<StudentCaseQuestionProps> = ({
 	goNext,
 	goBack,
 	setCaseDetails,
-	studentCaseTopicResponse,
 	studentCaseExplanation,
 }) => {
 	const [isEditorMounted, setIsEditorMounted] = useState(false);
@@ -91,34 +89,12 @@ const StudentCaseQuestion: FunctionComponent<StudentCaseQuestionProps> = ({
 		goNext();
 	};
 
-	const handleStudentCaseTopicInput = (
-		e: React.ChangeEvent<HTMLInputElement>
-	) => {
-		const { value } = e.target;
-		setCaseDetails((prevDetails: any) => ({
-			...prevDetails,
-			studentCaseTopicResponse: value,
-		}));
-	};
-
 	return (
 		<>
 			<div className="mb-5 sm:mb-6">
-				<h6 className="text-1xs sm:text-sm font-bold text-blue uppercase mb-2.5">
-					Case Model QUESTION
-				</h6>
-				<InputField
-					value={studentCaseTopicResponse}
-					onChange={handleStudentCaseTopicInput}
-					placeholder="Guess case model topic"
-					label="What is the topic for this case based on the case description given earlier?"
-					name="caseModelTopicGuess"
-					// error={inputsForValidation.topic.validationMessage}
-				/>
-
 				<div className="mt-5">
 					<div className="text-grey-300 text-1sm capitalize font-normal">
-						Give Further Explanation For Your Answer
+						COMMENT ON CASE
 					</div>
 					{isEditorMounted && (
 						<Editor

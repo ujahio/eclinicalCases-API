@@ -65,7 +65,6 @@ const StudentCaseStudy = ({
 					<StudentCaseQuestion
 						goNext={goNext}
 						goBack={goBack}
-						studentCaseTopicResponse={caseDetails?.studentCaseTopicResponse}
 						studentCaseExplanation={caseDetails?.studentCaseExplanation}
 						setCaseDetails={setCaseDetails}
 					/>
@@ -76,7 +75,6 @@ const StudentCaseStudy = ({
 						goNext={goNext}
 						goBack={goBack}
 						caseTopic={caseDetails?.caseTopic}
-						studentCaseTopicResponse={caseDetails?.studentCaseTopicResponse}
 						studentCaseExplanation={caseDetails?.studentCaseExplanation}
 						caseExplanation={caseDetails?.caseExplanation}
 						caseMaterialsMetaData={caseDetails?.caseMaterials}

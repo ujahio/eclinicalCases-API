@@ -6,7 +6,6 @@ export interface CaseDetail {
 	answers: Answer[];
 	caseDescription: string;
 	caseDeadline: string;
-	studentCaseTopicResponse: string;
 	studentCaseExplanation: string;
 	caseMaterials: { fileName: string; documentKey: string }[];
 }

@@ -11,7 +11,6 @@ interface StudentCaseAnswerProps {
 	caseTopic: string;
 	caseExplanation: any;
 	studentCaseExplanation: string;
-	studentCaseTopicResponse: string;
 	caseMaterialsMetaData: {
 		fileName: string;
 		documentKey: string;
@@ -24,11 +23,9 @@ const StudentCaseAnswer: FC<StudentCaseAnswerProps> = ({
 	caseTopic,
 	caseExplanation,
 	studentCaseExplanation,
-	studentCaseTopicResponse,
 	caseMaterialsMetaData,
 }) => {
 	const dispatch = useAppDispatch();
-	const currentTime = Date.now(); // Get the current timestamp
 
 	const [compareMode, setCompareMode] = useState<boolean>(false);
 	const [loading, setLoading] = useState<boolean>(false);
@@ -110,7 +107,7 @@ const StudentCaseAnswer: FC<StudentCaseAnswerProps> = ({
 			{!compareMode && (
 				<div className="mb-5 sm:mb-6">
 					<h6 className="text-1xs sm:text-sm font-bold text-blue uppercase mr-3.75 mb-2.5">
-						TEACHER’S MODEL ANSWER
+						CASE MODEL ANSWER
 					</h6>
 					<h6 className="text-1xs sm:text-sm font-medium text-grey-300 uppercase mb-2.5">
 						{caseTopic}
@@ -134,9 +131,6 @@ const StudentCaseAnswer: FC<StudentCaseAnswerProps> = ({
 							YOUR MODEL ANSWER
 						</h6>
 						<div className="mb-5 sm:mb-6">
-							<h6 className="text-1xs sm:text-sm font-medium text-grey-300 uppercase mb-2.5">
-								{studentCaseTopicResponse}
-							</h6>
 							<div className="text-dark sm:text-base text-1sm">
 								<div className="mb-9 bg-gray-200 p-2.5">
 									<Editor
@@ -152,7 +146,7 @@ const StudentCaseAnswer: FC<StudentCaseAnswerProps> = ({
 					{/* Teacher's model answer */}
 					<div className="md:w-45%">
 						<h6 className="text-1xs sm:text-sm font-bold text-blue uppercase mb-2.5">
-							TEACHER’S MODEL ANSWER
+							CASE MODEL ANSWER
 						</h6>
 						<div className="mb-5 sm:mb-6">
 							<h6 className="text-1xs sm:text-sm font-medium text-grey-300 uppercase mb-2.5">
