@@ -21,9 +21,9 @@ const StudentDashboard = () => {
 		caseTopic: string;
 	}[] =
 		studentsResponsesToCases.map((caseItem: any) => ({
-			_id: caseItem.caseID,
+			_id: caseItem.answerID,
 			submittedAt: formatDate(caseItem.submittedAt),
-			caseTopic: caseItem.caseTopicAnswer,
+			caseTopic: caseItem.caseTopic,
 		})) || [];
 
 	return (

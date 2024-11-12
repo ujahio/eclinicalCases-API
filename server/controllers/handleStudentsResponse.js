@@ -43,11 +43,20 @@ export const getStudentsResponses = async (event) => {
 		const command = new QueryCommand(params);
 		const result = await dbClient.send(command);
 
+		const responseItems = result.Items.map((item) => {
+			return {
+				answerID: item.answerID,
+				certificateID: item.certificateID,
+				submittedAt: item.submittedAt,
+				caseTopic: item.caseTopic,
+			};
+		});
+
 		return {
 			statusCode: 200,
 			body: JSON.stringify({
 				message: "Responses retrieved successfully.",
-				data: result.Items,
+				data: responseItems,
 			}),
 		};
 	} catch (error) {
