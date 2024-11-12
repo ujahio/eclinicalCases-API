@@ -93,7 +93,7 @@ const Nav: FunctionComponent<NavProps> = ({
 									Dashboard
 								</AppDropdownItem>
 							)}
-							<AppDropdownItem
+							{/* <AppDropdownItem
 								href={
 									user_role === "teacher"
 										? "/teacher/settings"
@@ -101,7 +101,7 @@ const Nav: FunctionComponent<NavProps> = ({
 								}
 							>
 								Account Settings
-							</AppDropdownItem>
+							</AppDropdownItem> */}
 							<AppDropdownItem onClick={logoutUser}>Sign Out</AppDropdownItem>
 						</AppDropdown>
 					))}
