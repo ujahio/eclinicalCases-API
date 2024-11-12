@@ -79,6 +79,7 @@ const Update: FunctionComponent<any> = ({ params }) => {
 
 			const updatedCaseStudy = {
 				caseDescription: draftCaseDetails.caseDescription,
+				caseTeaching: draftCaseDetails.caseTeaching,
 				caseTopic: draftCaseDetails.caseTopic || "",
 				caseExplanation: draftCaseDetails.caseExplanation,
 				caseDeadline: draftCaseDetails.caseDeadline
