@@ -13,6 +13,7 @@ const validateInputs = ({
 	caseExplanation,
 	caseDeadline,
 	caseQuestions,
+	caseTeaching,
 }) => {
 	const checkedCaseQuestions = JSON.parse(caseQuestions);
 

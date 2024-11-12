@@ -21,6 +21,7 @@ const FinalReview: FunctionComponent<FinalReviewProps> = ({
 
 	const caseDescription = parseEditorState(caseStudy.caseDescription || "{}");
 	const caseExplanation = parseEditorState(caseStudy.caseExplanation || "{}");
+	const caseTeaching = parseEditorState(caseStudy.caseTeaching || "{}");
 
 	const addingDraftCaseStatus = useAppSelector(
 		(state) => state.getDraftCases.status
@@ -45,15 +46,30 @@ const FinalReview: FunctionComponent<FinalReviewProps> = ({
 			</div>
 			<div className=" border-b-0.375">
 				<h3 className="uppercase font-bold text-sm text-blue mb-2 mt-10">
-					Case Model ANSWER
-				</h3>
-				<p className="mb-9">{caseStudy.caseTopic}</p>
-				<h3 className="uppercase font-bold text-sm text-blue mb-2">
 					CASE MODEL ANSWER
 				</h3>
 				<div className="mb-9 bg-gray-200 p-2.5">
 					<Editor
 						editorState={caseExplanation}
+						readOnly={true}
+						onChange={() => {}}
+					/>
+				</div>
+
+				<h3 className="uppercase font-bold text-sm text-blue mb-2">DEADLINE</h3>
+				<p className="mb-9">{caseStudy.caseDeadline}</p>
+			</div>
+			<div className="border-b-0.375">
+				<h3 className="uppercase font-bold text-sm text-blue mb-2 mt-10">
+					Case Subject
+				</h3>
+				<p className="mb-9">{caseStudy.caseTopic}</p>
+				<h3 className="uppercase font-bold text-sm text-blue mb-2 mt-10">
+					Case Teaching
+				</h3>
+				<div className="mb-9 bg-gray-200 p-2.5">
+					<Editor
+						editorState={caseTeaching}
 						readOnly={true}
 						onChange={() => {}}
 					/>
@@ -72,10 +88,8 @@ const FinalReview: FunctionComponent<FinalReviewProps> = ({
 						</li>
 					))}
 				</ul>
-
-				<h3 className="uppercase font-bold text-sm text-blue mb-2">DEADLINE</h3>
-				<p className="mb-9">{caseStudy.caseDeadline}</p>
 			</div>
+
 			<div>
 				<h3 className="uppercase font-bold text-sm text-blue mb-4 mt-10">
 					CME QUESTIONS
