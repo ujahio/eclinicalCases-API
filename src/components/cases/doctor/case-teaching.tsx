@@ -183,7 +183,7 @@ const TeacherCaseTeaching: FunctionComponent<TeacherCaseTeachingProps> = ({
 
 			<div className="mb-5 sm:mb-6">
 				<label className="text-grey-300 text-1sm font-normal">
-					Materials for further readings
+					Teaching Materials
 				</label>
 				<input
 					type="file"

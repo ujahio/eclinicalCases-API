@@ -75,7 +75,7 @@ const FinalReview: FunctionComponent<FinalReviewProps> = ({
 					/>
 				</div>
 				<h3 className="uppercase font-bold text-sm text-blue mb-4">
-					FURTHER LEARNING MATERIALS
+					TEACHING MATERIALS
 				</h3>
 				<ul className="flex flex-col w-full space-y-3 mb-9">
 					{caseStudy.caseMaterials?.map((material: any, index: number) => (

@@ -100,7 +100,7 @@ const StudentCaseTeaching: FunctionComponent<StudentCaseTeachingProps> = ({
 				{!loading && materials.length !== 0 && (
 					<div className="border-grey-border border rounded-sm p-3 sm:p-6 mb-5 sm:mb-6">
 						<h6 className="text-1xs sm:text-sm font-bold text-blue uppercase mb-2.5">
-							FURTHER LEARNING MATERIALS
+							TEACHING MATERIALS
 						</h6>
 						<ul className="flex flex-col w-full space-y-3">
 							{materials.map((material: any, index: number) => (
