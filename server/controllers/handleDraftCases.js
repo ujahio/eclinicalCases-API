@@ -335,6 +335,7 @@ export const updateDraftCase = async (event) => {
 			"caseTopic",
 			"caseExplanation",
 			"caseQuestions",
+			"caseTeaching",
 		];
 
 		updatableFields.forEach((field) => {
