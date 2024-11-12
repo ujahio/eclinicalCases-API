@@ -102,6 +102,7 @@ export const submitStudentResponse = async (event) => {
 					caseID: caseInfo.id,
 					caseExplanation: caseInfo.studentCaseExplanation,
 					submittedAt,
+					caseTopic: caseInfo.caseTopic,
 				},
 			};
 
