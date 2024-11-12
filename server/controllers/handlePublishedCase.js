@@ -85,6 +85,30 @@ const validateInputs = ({
 		}
 	}
 
+	// Validate case study teaching
+	if (!caseTeaching) {
+		throw {
+			message: "Missing case teaching.",
+		};
+	} else {
+		// Parse the caseExplanation to check for text in the blocks
+		let teachingParsed;
+		try {
+			teachingParsed = JSON.parse(caseExplanation);
+		} catch (error) {
+			throw { message: "Missing case study teaching." };
+		}
+
+		// Adjusted logic to ensure accurate validation of non-empty text in blocks
+		const hasTextInTeachingBlocks = teachingParsed.blocks.some((block) => {
+			return block.text.trim().length > 0;
+		});
+
+		if (!hasTextInTeachingBlocks) {
+			throw { message: "Missing case teaching" };
+		}
+	}
+
 	if (!caseDeadline) {
 		throw { message: "Missing case deadline" };
 	}
@@ -114,6 +138,7 @@ export const publishCase = async (event) => {
 		caseDeadline,
 		caseQuestions,
 		caseMaterials,
+		caseTeaching,
 	} = await extrapolateRequestBody(event);
 
 	try {
@@ -123,6 +148,7 @@ export const publishCase = async (event) => {
 			caseExplanation,
 			caseDeadline,
 			caseQuestions,
+			caseTeaching,
 		});
 	} catch (error) {
 		console.error("Error publishing case:", error);
@@ -182,6 +208,7 @@ export const publishCase = async (event) => {
 		    caseDescription = :caseDescription,
 		    caseTopic = :caseTopic,
 		    caseExplanation = :caseExplanation,
+        caseTeaching = :caseTeaching,
 		    caseQuestions = :caseQuestions,
         publishedDate = :publishedDate,
         createdAt = :createdAt,
@@ -195,6 +222,7 @@ export const publishCase = async (event) => {
 			":caseDescription": caseDescription,
 			":caseTopic": caseTopic,
 			":caseExplanation": caseExplanation,
+			":caseTeaching": caseTeaching,
 			":caseQuestions": caseQuestions,
 			":createdAt": todaysDate,
 			":teacherId": teacherId,
