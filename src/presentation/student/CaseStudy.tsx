@@ -98,7 +98,7 @@ const StudentCaseStudy = ({
 					/>
 				)}
 
-				{isActive("feedbacks") && <StudentFeedbacks goNext={goNext} />}
+				{isActive("feedback") && <StudentFeedbacks goNext={goNext} />}
 
 				{isActive("certificate") && <StudentCertificate />}
 			</div>

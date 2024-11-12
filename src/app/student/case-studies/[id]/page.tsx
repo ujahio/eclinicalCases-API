@@ -27,7 +27,7 @@ const tabs = [
 const CaseStudies = ({ params }: { params: any }) => {
 	const dispatch = useAppDispatch();
 	const { active: activeTab, switchTab, isActive } = useProcessTabs(tabs, 0);
-	const [progress, setProgress] = useState(5);
+	const [progress, setProgress] = useState(1);
 	const paramsToUse: {
 		id: string;
 	} = use(params);
@@ -42,6 +42,7 @@ const CaseStudies = ({ params }: { params: any }) => {
 	);
 
 	const handleSubmitResponse = () => {
+		console.log("caseDetails", caseDetails);
 		dispatch(submitCaseResponse(caseDetails));
 	};
 
@@ -106,8 +107,8 @@ const CaseStudies = ({ params }: { params: any }) => {
 					progress: undefined,
 					theme: "light",
 				});
-				switchTab(4);
-				setProgress(4);
+				switchTab(5);
+				setProgress(5);
 			}
 		}
 	}, [submitResponseState, dispatch, switchTab]);
