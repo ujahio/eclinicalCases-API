@@ -8,8 +8,8 @@ import Button from "@/components/ui/Button";
 interface StudentCaseTeachingProps {
 	goNext: () => void;
 	goBack: () => void;
-	// caseTeaching: string;
-	// caseTopic: string;
+	caseTeaching: string;
+	caseTopic: string;
 	caseMaterialsMetaData: {
 		fileName: string;
 		documentKey: string;
@@ -23,14 +23,14 @@ const fallbackContent = JSON.stringify({
 
 const StudentCaseTeaching: FunctionComponent<StudentCaseTeachingProps> = ({
 	caseMaterialsMetaData,
-	// caseTeaching,
-	// caseTopic,
+	caseTeaching,
+	caseTopic,
 	goNext,
 	goBack,
 }) => {
-	// const caseTeachingContent = EditorState.createWithContent(
-	// 	convertFromRaw(JSON.parse(caseTeaching || fallbackContent))
-	// );
+	const caseTeachingContent = EditorState.createWithContent(
+		convertFromRaw(JSON.parse(caseTeaching || fallbackContent))
+	);
 	const dispatch = useAppDispatch();
 
 	const [loading, setLoading] = useState<boolean>(false);
@@ -86,14 +86,14 @@ const StudentCaseTeaching: FunctionComponent<StudentCaseTeachingProps> = ({
 				<h6 className="text-1xs sm:text-sm font-bold text-blue uppercase mb-2.5">
 					CASE TOPIC
 				</h6>
-				{/* <h5 className="font-bold text-base mt-3.75 mb-2.5">{caseTopic}</h5> */}
+				<h5 className="font-bold text-base mt-3.75 mb-2.5">{caseTopic}</h5>
 
 				<div className="mb-9 bg-gray-200 p-2.5">
-					{/* <Editor
+					<Editor
 						editorState={caseTeachingContent}
 						readOnly={true}
 						onChange={() => {}}
-					/> */}
+					/>
 				</div>
 				{loading && <p>Loading...</p>}
 

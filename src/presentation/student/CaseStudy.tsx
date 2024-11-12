@@ -83,8 +83,8 @@ const StudentCaseStudy = ({
 					<StudentCaseTeaching
 						goNext={goNext}
 						goBack={goBack}
-						// caseTopic={caseDetails?.caseTopic}
-						// caseTeaching={caseDetails?.caseTeaching}
+						caseTopic={caseDetails?.caseTopic}
+						caseTeaching={caseDetails?.caseTeaching}
 						caseMaterialsMetaData={caseDetails?.caseMaterials}
 					/>
 				)}
