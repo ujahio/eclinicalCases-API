@@ -11,7 +11,6 @@ import DoctorCasePresentation from "./doctor/presentation";
 import DoctorCaseAnswer from "./doctor/answer";
 import DoctorCMEQuestions from "./doctor/cme-questions";
 import TeacherCaseTeaching from "./doctor/case-teaching";
-import DoctorMaterialsAndDeadlineForUpdate from "./doctor/update/materials-and-deadline";
 
 export {
 	CaseCard,
@@ -26,5 +25,4 @@ export {
 	DoctorCaseAnswer,
 	DoctorCMEQuestions,
 	TeacherCaseTeaching,
-	DoctorMaterialsAndDeadlineForUpdate,
 };
