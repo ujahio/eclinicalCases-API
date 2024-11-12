@@ -84,7 +84,7 @@ const StudentCaseTeaching: FunctionComponent<StudentCaseTeachingProps> = ({
 		<>
 			<div className="mb-5 sm:mb-6">
 				<h6 className="text-1xs sm:text-sm font-bold text-blue uppercase mb-2.5">
-					CASE TOPIC
+					CASE TEACHING
 				</h6>
 				<h5 className="font-bold text-base mt-3.75 mb-2.5">{caseTopic}</h5>
 
