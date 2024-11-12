@@ -1,10 +1,12 @@
 import React, { FunctionComponent, useState, ChangeEvent, useRef } from "react";
+import { EditorState, convertFromRaw, convertToRaw } from "draft-js";
+import { Editor } from "react-draft-wysiwyg";
+import { toast } from "react-toastify";
 import { InputField } from "@/components/form-elements";
 import Button from "@/components/ui/Button";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
 import { TeacherCaseTeachingProps } from "@/services/types/doctor/createCaseStudy";
 import { getCaseMaterials } from "@/store/slices/case/getCaseMaterialsSlice";
-import { toast } from "react-toastify";
 import {
 	addPdfToCaseMaterialsApi,
 	deletePdfFromCaseMaterialsApi,
@@ -32,7 +34,22 @@ const TeacherCaseTeaching: FunctionComponent<TeacherCaseTeachingProps> = ({
 	>([]);
 	const [isUploading, setIsUploading] = useState(false);
 	const [isRemoving, setIsRemoving] = useState<string | null>(null);
-
+	const [editorState, setEditorState] = useState(() => {
+		if (caseStudy?.caseTeaching) {
+			try {
+				// Try to parse the caseTeaching if it exists and is valid JSON
+				const parsedTeaching = JSON.parse(caseStudy.caseTeaching);
+				return EditorState.createWithContent(convertFromRaw(parsedTeaching));
+			} catch (error) {
+				console.error("Invalid caseTeaching JSON:", error);
+				// In case of an invalid JSON, initialize an empty editor state
+				return EditorState.createEmpty();
+			}
+		} else {
+			// If caseTeaching is not defined, initialize an empty editor state
+			return EditorState.createEmpty();
+		}
+	});
 	const addFile = () => {
 		if (fileInputRef.current) {
 			fileInputRef.current.click(); // Click the file input to open the dialog
@@ -127,21 +144,42 @@ const TeacherCaseTeaching: FunctionComponent<TeacherCaseTeachingProps> = ({
 		}
 	};
 
+	const onEditorStateChange = (newEditorState: EditorState) => {
+		setEditorState(newEditorState);
+		const contentState = newEditorState.getCurrentContent();
+		const contentStateJSON = convertToRaw(contentState);
+		setCaseStudy({
+			...caseStudy,
+			caseTeaching: JSON.stringify(contentStateJSON),
+		});
+	};
+
 	return (
 		<>
-			<h6 className="text-1xs sm:text-sm font-bold text-blue uppercase mb-4">
-				CASE TEACHING
-			</h6>
-			<InputField
-				placeholder="ie. Malaria"
-				label="CASE SUBJECT"
-				name="caseTopic"
-				value={caseStudy.caseTopic}
-				onChange={(e) => {
-					e.preventDefault();
-					setCaseStudy({ ...caseStudy, caseTopic: e.target.value });
-				}}
-			/>
+			<div className="mb-5 sm:mb-6">
+				<h6 className="text-1xs sm:text-sm font-bold text-blue uppercase mb-4">
+					CASE TEACHING
+				</h6>
+				<InputField
+					placeholder="e.g Malaria"
+					label="CASE SUBJECT"
+					name="caseTopic"
+					value={caseStudy.caseTopic}
+					onChange={(e) => {
+						e.preventDefault();
+						setCaseStudy({ ...caseStudy, caseTopic: e.target.value });
+					}}
+				/>
+				<Editor
+					editorState={editorState}
+					onEditorStateChange={onEditorStateChange}
+					editorStyle={{
+						height: "400px",
+						border: "solid 1px #E7EBEF",
+						padding: "0px 15px",
+					}}
+				/>
+			</div>
 
 			<div className="mb-5 sm:mb-6">
 				<label className="text-grey-300 text-1sm font-normal">

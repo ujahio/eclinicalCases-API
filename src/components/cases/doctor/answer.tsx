@@ -93,28 +93,26 @@ const DoctorCaseAnswer: FunctionComponent<DoctorCaseAnswerProps> = ({
 					Case Model Answer
 				</h6>
 
-				<div className="mt-5">
-					{isEditorMounted && (
-						<Editor
-							editorState={editorState}
-							onEditorStateChange={onEditorStateChange}
-							editorStyle={{
-								height: "400px",
-								border:
-									inputsForValidation.explanation.status === "error"
-										? "1px solid red"
-										: "solid 1px #E7EBEF",
-								padding: "0px 15px",
-								marginTop: "1rem",
-							}}
-						/>
-					)}
-					{inputsForValidation.explanation.status === "error" && (
-						<p className="mt-0.625 font-light text-red">
-							{inputsForValidation.explanation.validationMessage}
-						</p>
-					)}
-				</div>
+				{isEditorMounted && (
+					<Editor
+						editorState={editorState}
+						onEditorStateChange={onEditorStateChange}
+						editorStyle={{
+							height: "400px",
+							border:
+								inputsForValidation.explanation.status === "error"
+									? "1px solid red"
+									: "solid 1px #E7EBEF",
+							padding: "0px 15px",
+							marginTop: "1rem",
+						}}
+					/>
+				)}
+				{inputsForValidation.explanation.status === "error" && (
+					<p className="mt-0.625 font-light text-red">
+						{inputsForValidation.explanation.validationMessage}
+					</p>
+				)}
 			</div>
 			<div className="mb-5 sm:mb-6">
 				<InputField

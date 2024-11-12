@@ -50,12 +50,10 @@ const DoctorCasePresentation: FunctionComponent<DoctorCaseQuestionProps> = ({
 	return (
 		<>
 			<div className="mb-5 sm:mb-6">
-				<div className="mt-5">
-					<div className="mb-3">
-						<label className="text-blue font-bold text-1sm capitalize">
-							CASE MODEL PRESENTATION
-						</label>
-					</div>
+				<div className="">
+					<h6 className="text-blue font-bold text-1xs sm:text-sm capitalize mb-3">
+						CASE MODEL PRESENTATION
+					</h6>
 
 					{isEditorMounted && (
 						<Editor
