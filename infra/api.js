@@ -214,7 +214,6 @@ api.route(
 	"POST /api/student/response",
 	{
 		handler: "server/controllers/handleStudentsResponse.submitStudentResponse",
-		runtime: "nodejs18.x",
 		copyFiles: [
 			{
 				from: "./server/assets/images/logo.png",
