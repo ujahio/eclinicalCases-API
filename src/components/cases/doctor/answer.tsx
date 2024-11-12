@@ -158,25 +158,14 @@ const DoctorCaseAnswer: FunctionComponent<DoctorCaseAnswerProps> = ({
 
 export default DoctorCaseAnswer;
 
-const explanationMinLength = 10;
-const explanationMaxWordCount = 700;
-
 const teacherCasePrentationValidation = (
 	setError: Dispatch<SetStateAction<CasePresentationErrorProps>>,
 	editorTextContentCount: number
 ): boolean => {
+	const explanationMaxWordCount = 700;
 	let validated = true;
 
-	if (editorTextContentCount < explanationMinLength) {
-		setError((prevState) => ({
-			...prevState,
-			explanation: {
-				status: "error",
-				validationMessage: `Case Model Answer cannot be less than ${explanationMinLength} words.`,
-			},
-		}));
-		validated = false;
-	} else if (editorTextContentCount > explanationMaxWordCount) {
+	if (editorTextContentCount > explanationMaxWordCount) {
 		setError((prevState) => ({
 			...prevState,
 			explanation: {

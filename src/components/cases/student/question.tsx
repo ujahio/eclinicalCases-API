@@ -140,26 +140,14 @@ const StudentCaseQuestion: FunctionComponent<StudentCaseQuestionProps> = ({
 
 export default StudentCaseQuestion;
 
-const topicMinLength = 5;
-const explanationMinLength = 10;
-const explanationMaxWordCount = 700;
-
 const studentCaseQuestionValidation = (
 	setError: Dispatch<SetStateAction<QuestionErrorProps>>,
 	editorTextContentCount: number
 ): boolean => {
 	let validated = true;
 
-	if (editorTextContentCount < explanationMinLength) {
-		setError((prevState) => ({
-			...prevState,
-			explanation: {
-				status: "error",
-				validationMessage: `Explanation must be at least ${explanationMinLength} characters!`,
-			},
-		}));
-		validated = false;
-	} else if (editorTextContentCount > explanationMaxWordCount) {
+	const explanationMaxWordCount = 700;
+	if (editorTextContentCount > explanationMaxWordCount) {
 		setError((prevState) => ({
 			...prevState,
 			explanation: {
