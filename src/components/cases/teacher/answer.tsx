@@ -14,7 +14,7 @@ import { useAppSelector } from "@/services/hooks/hooks";
 import {
 	DoctorCaseAnswerProps,
 	CasePresentationErrorProps,
-} from "@/services/types/doctor/createCaseStudy";
+} from "@/services/types/teacher/createCaseStudy";
 
 const DoctorCaseAnswer: FunctionComponent<DoctorCaseAnswerProps> = ({
 	goNext,

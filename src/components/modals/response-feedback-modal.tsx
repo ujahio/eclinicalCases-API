@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useState } from "react";
-import ResponseModal from "../cases/doctor/response";
-import FeedbackModal from "../cases/doctor/feedback";
+import ResponseModal from "../cases/teacher/response";
+import FeedbackModal from "../cases/teacher/feedback";
 import student1 from "@/assets/images/student1.png";
 import student2 from "@/assets/images/student2.png";
 import student3 from "@/assets/images/student3.png";

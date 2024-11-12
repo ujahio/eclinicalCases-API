@@ -7,10 +7,10 @@ import StudentCertificate from "./student/certificate";
 import StudentFeedbacks from "./student/feedbacks";
 import StudentCaseTeaching from "./student/studentCaseTeaching";
 
-import DoctorCasePresentation from "./doctor/presentation";
-import DoctorCaseAnswer from "./doctor/answer";
-import DoctorCMEQuestions from "./doctor/cme-questions";
-import TeacherCaseTeaching from "./doctor/case-teaching";
+import DoctorCasePresentation from "./teacher/presentation";
+import DoctorCaseAnswer from "./teacher/answer";
+import DoctorCMEQuestions from "./teacher/cme-questions";
+import TeacherCaseTeaching from "./teacher/case-teaching";
 
 export {
 	CaseCard,

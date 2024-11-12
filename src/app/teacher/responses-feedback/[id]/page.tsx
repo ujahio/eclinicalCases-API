@@ -9,7 +9,7 @@ import {
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
 
 const ResponsesAndFeedbackPage = dynamic(
-	() => import("@/presentation/doctor/ResponsesAndFeedback"),
+	() => import("@/presentation/teacher/ResponsesAndFeedback"),
 	{
 		ssr: false,
 	}

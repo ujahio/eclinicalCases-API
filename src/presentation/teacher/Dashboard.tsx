@@ -47,7 +47,7 @@ const DoctorDashboard = () => {
 					)}
 					<div className="min-w-min inline-block">
 						<div className="flex">
-							<Link href="/doctor/case-studies/create">
+							<Link href="/teacher/case-studies/create">
 								<Button
 									btnStyle="basic"
 									type="button"
@@ -112,7 +112,7 @@ const DoctorDashboard = () => {
 						<div className="min-w-min inline-block">
 							<div className="flex">
 								<Link
-									href={`/doctor/responses-feedback/${publishedCaseInfo.id}`}
+									href={`/teacher/responses-feedback/${publishedCaseInfo.id}`}
 								>
 									<Button
 										type="button"
@@ -135,7 +135,7 @@ const DoctorDashboard = () => {
 					</h5>
 					{archivedCases?.length > 0 ? (
 						<Link
-							href="/doctor/cases"
+							href="/teacher/cases"
 							className="text-dark font-medium text-sm sm:text-1sm cursor-pointer transition-colors hover:text-primary-300"
 						>
 							View All
@@ -147,7 +147,7 @@ const DoctorDashboard = () => {
 						? "You have no recent case studies."
 						: archivedCases?.map((caseM: any, index: number) => (
 								<Link
-									href={`/doctor/responses-feedback/${caseM._id}`}
+									href={`/teacher/responses-feedback/${caseM._id}`}
 									key={index}
 								>
 									<CaseCard case={caseM} key={caseM._id} />

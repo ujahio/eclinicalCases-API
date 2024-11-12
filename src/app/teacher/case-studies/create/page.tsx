@@ -7,10 +7,10 @@ import { createCaseStudyTabs } from "@/services/constants";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
 import { addCase, resetAddCaseStatus } from "@/store/slices/case/addCaseSlice";
 import { useRouter } from "next/navigation";
-import { CaseStudy } from "@/services/types/doctor/createCaseStudy";
+import { CaseStudy } from "@/services/types/teacher/createCaseStudy";
 
 const CreateCaseStudy = dynamic(
-	() => import("@/presentation/doctor/CreateCaseStudy"),
+	() => import("@/presentation/teacher/CreateCaseStudy"),
 	{
 		ssr: false,
 	}
@@ -81,7 +81,7 @@ const Create: FunctionComponent = () => {
 				progress: undefined,
 				theme: "light",
 			});
-			navigate.push("/doctor/dashboard");
+			navigate.push("/teacher/dashboard");
 		} else if (addCaseState.status === "failed") {
 			toast.error(addCaseState.error.message.message, {
 				position: "top-right",

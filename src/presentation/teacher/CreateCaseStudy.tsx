@@ -1,3 +1,4 @@
+"use client";
 import React, { FunctionComponent } from "react";
 import {
 	DoctorCMEQuestions,
@@ -5,14 +6,14 @@ import {
 	DoctorCasePresentation,
 	TeacherCaseTeaching,
 } from "@/components/cases";
-import FinalReview from "@/components/cases/doctor/final-review";
+import FinalReview from "@/components/cases/teacher/final-review";
 import AdminLayout from "@/components/layouts/dashboard/admin";
 import ProcessTabs from "@/components/ui/process-tabs";
 import { createCaseStudyTabs } from "@/services/constants";
 import { APP_CONTAINER, APP_SPACING } from "@/services/constants/styles";
-import { UpdateCaseStudyProps } from "@/services/types/doctor/createCaseStudy";
+import { CreateCaseStudyProps } from "@/services/types/teacher/createCaseStudy";
 
-const UpdateCaseStudy: FunctionComponent<UpdateCaseStudyProps> = ({
+const CreateCaseStudy: FunctionComponent<CreateCaseStudyProps> = ({
 	activeTab,
 	switchTab,
 	goNext,
@@ -92,4 +93,4 @@ const UpdateCaseStudy: FunctionComponent<UpdateCaseStudyProps> = ({
 	);
 };
 
-export default UpdateCaseStudy;
+export default CreateCaseStudy;

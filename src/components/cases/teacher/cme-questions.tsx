@@ -1,7 +1,7 @@
 import { InputField } from "@/components/form-elements";
 import Button from "@/components/ui/Button";
 import { useAppSelector } from "@/services/hooks/hooks";
-import { DoctorCMEQuestionsProps } from "@/services/types/doctor/createCaseStudy";
+import { DoctorCMEQuestionsProps } from "@/services/types/teacher/createCaseStudy";
 import React, { FunctionComponent } from "react";
 
 const DoctorCMEQuestions: FunctionComponent<DoctorCMEQuestionsProps> = ({

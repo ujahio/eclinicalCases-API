@@ -3,7 +3,7 @@ import Cme from "./cme";
 import Button from "@/components/ui/Button";
 import { convertFromRaw, Editor, EditorState } from "draft-js";
 import { useAppSelector } from "@/services/hooks/hooks";
-import { FinalReviewProps } from "@/services/types/doctor/createCaseStudy";
+import { FinalReviewProps } from "@/services/types/teacher/createCaseStudy";
 
 const FinalReview: FunctionComponent<FinalReviewProps> = ({
 	caseStudy,

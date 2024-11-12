@@ -12,7 +12,7 @@ import useGetDraftCase from "@/services/hooks/useGetDraftCase";
 import { getDraftCases } from "@/store/slices/case/getDraftCasesSlice";
 
 const DoctorCaseStudies = dynamic(
-	() => import("@/presentation/doctor/CaseStudies"),
+	() => import("@/presentation/teacher/CaseStudies"),
 	{
 		ssr: false,
 	}

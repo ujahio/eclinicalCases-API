@@ -96,7 +96,7 @@ const Nav: FunctionComponent<NavProps> = ({
 							<AppDropdownItem
 								href={
 									user_role === "teacher"
-										? "/doctor/settings"
+										? "/teacher/settings"
 										: "/student/settings"
 								}
 							>

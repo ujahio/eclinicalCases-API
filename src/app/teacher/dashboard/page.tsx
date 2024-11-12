@@ -6,7 +6,7 @@ import useGetArchiveCases from "@/services/hooks/useGetArchiveCases";
 import useGetActiveCase from "@/services/hooks/useGetActiveCase";
 
 const DoctorDashboardPage = dynamic(
-	() => import("@/presentation/doctor/Dashboard"),
+	() => import("@/presentation/teacher/Dashboard"),
 	{
 		ssr: false,
 	}

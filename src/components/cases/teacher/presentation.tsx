@@ -1,11 +1,10 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
-import { InputField } from "@/components/form-elements";
 import Button from "@/components/ui/Button";
 
 import { EditorState, convertFromRaw, convertToRaw } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
 import { useAppSelector } from "@/services/hooks/hooks";
-import { DoctorCaseQuestionProps } from "@/services/types/doctor/createCaseStudy";
+import { DoctorCaseQuestionProps } from "@/services/types/teacher/createCaseStudy";
 
 const DoctorCasePresentation: FunctionComponent<DoctorCaseQuestionProps> = ({
 	goNext,

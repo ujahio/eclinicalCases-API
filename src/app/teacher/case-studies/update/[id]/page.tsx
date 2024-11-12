@@ -1,7 +1,7 @@
 "use client";
 
 import React, { FunctionComponent, useEffect, useState, use } from "react";
-import UpdateCaseStudy from "@/presentation/doctor/UpdateCaseStudy";
+import UpdateCaseStudy from "@/presentation/teacher/UpdateCaseStudy";
 import { createCaseStudyTabs } from "@/services/constants";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
 import useGetDraftCase from "@/services/hooks/useGetDraftCase";
@@ -111,7 +111,7 @@ const Update: FunctionComponent<any> = ({ params }) => {
 				progress: undefined,
 				theme: "light",
 			});
-			navigate.push("/doctor/dashboard");
+			navigate.push("/teacher/dashboard");
 		} else if (addCaseState.status === "failed") {
 			toast.error(addCaseState.error.message.message, {
 				position: "top-right",
