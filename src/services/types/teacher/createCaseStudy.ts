@@ -33,7 +33,7 @@ export interface CreateCaseStudyProps {
 	handlePublishCase: React.Dispatch<React.SetStateAction<any>>;
 }
 
-export interface DoctorCaseQuestionProps {
+export interface TeacherCaseQuestionProps {
 	goNext: () => void;
 	caseStudy: CaseStudy;
 	setCaseStudy: React.Dispatch<React.SetStateAction<CaseStudy>>;
@@ -46,13 +46,13 @@ export type CasePresentationErrorProps = {
 		validationMessage?: string;
 	};
 };
-export interface DoctorCaseAnswerProps extends DoctorCaseQuestionProps {
+export interface TeacherCaseAnswerProps extends TeacherCaseQuestionProps {
 	goBack: () => void;
 }
-export interface TeacherCaseTeachingProps extends DoctorCaseQuestionProps {
+export interface TeacherCaseTeachingProps extends TeacherCaseQuestionProps {
 	goBack: () => void;
 }
-export interface DoctorCMEQuestionsProps extends DoctorCaseQuestionProps {
+export interface TeacherCMEQuestionsProps extends TeacherCaseQuestionProps {
 	goBack: () => void;
 }
 export interface FinalReviewProps {

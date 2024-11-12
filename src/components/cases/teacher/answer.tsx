@@ -12,11 +12,11 @@ import { EditorState, convertFromRaw, convertToRaw } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
 import { useAppSelector } from "@/services/hooks/hooks";
 import {
-	DoctorCaseAnswerProps,
+	TeacherCaseAnswerProps,
 	CasePresentationErrorProps,
 } from "@/services/types/teacher/createCaseStudy";
 
-const DoctorCaseAnswer: FunctionComponent<DoctorCaseAnswerProps> = ({
+const TeacherCaseAnswer: FunctionComponent<TeacherCaseAnswerProps> = ({
 	goNext,
 	goBack,
 	caseStudy,
@@ -156,7 +156,7 @@ const DoctorCaseAnswer: FunctionComponent<DoctorCaseAnswerProps> = ({
 	);
 };
 
-export default DoctorCaseAnswer;
+export default TeacherCaseAnswer;
 
 const teacherCasePrentationValidation = (
 	setError: Dispatch<SetStateAction<CasePresentationErrorProps>>,

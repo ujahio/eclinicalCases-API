@@ -11,7 +11,7 @@ import {
 import useGetDraftCase from "@/services/hooks/useGetDraftCase";
 import { getDraftCases } from "@/store/slices/case/getDraftCasesSlice";
 
-const DoctorCaseStudies = dynamic(
+const TeacherCaseStudies = dynamic(
 	() => import("@/presentation/teacher/CaseStudies"),
 	{
 		ssr: false,
@@ -35,7 +35,7 @@ const Page = () => {
 			dispatch(getDraftCases("")); // ugly fix for type error
 		}
 	}, [deleteCaseState.status, dispatch]);
-	return <DoctorCaseStudies handleDeleteCase={handleDeleteCase} />;
+	return <TeacherCaseStudies handleDeleteCase={handleDeleteCase} />;
 };
 
 export default Page;

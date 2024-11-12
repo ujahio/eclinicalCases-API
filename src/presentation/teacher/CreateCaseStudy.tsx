@@ -1,9 +1,9 @@
 "use client";
 import React, { FunctionComponent } from "react";
 import {
-	DoctorCMEQuestions,
-	DoctorCaseAnswer,
-	DoctorCasePresentation,
+	TeacherCMEQuestions,
+	TeacherCaseAnswer,
+	TeacherCasePresentation,
 	TeacherCaseTeaching,
 } from "@/components/cases";
 import FinalReview from "@/components/cases/teacher/final-review";
@@ -44,7 +44,7 @@ const CreateCaseStudy: FunctionComponent<CreateCaseStudyProps> = ({
 		>
 			<div className="mx-auto w-full max-w-3xl bg-white py-10 px-6 sm:p-8.75 md:p-10 border border-grey-border rounded-sm">
 				{isActive("case_model_presentation") && (
-					<DoctorCasePresentation
+					<TeacherCasePresentation
 						goNext={goNext}
 						caseStudy={caseStudy}
 						setCaseStudy={setCaseStudy}
@@ -53,7 +53,7 @@ const CreateCaseStudy: FunctionComponent<CreateCaseStudyProps> = ({
 				)}
 
 				{isActive("case_model_answer") && (
-					<DoctorCaseAnswer
+					<TeacherCaseAnswer
 						goNext={goNext}
 						goBack={goBack}
 						caseStudy={caseStudy}
@@ -73,7 +73,7 @@ const CreateCaseStudy: FunctionComponent<CreateCaseStudyProps> = ({
 				)}
 
 				{isActive("cme_questions") && (
-					<DoctorCMEQuestions
+					<TeacherCMEQuestions
 						goNext={goNext}
 						goBack={goBack}
 						caseStudy={caseStudy}

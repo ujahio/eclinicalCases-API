@@ -1,10 +1,10 @@
 import { InputField } from "@/components/form-elements";
 import Button from "@/components/ui/Button";
 import { useAppSelector } from "@/services/hooks/hooks";
-import { DoctorCMEQuestionsProps } from "@/services/types/teacher/createCaseStudy";
+import { TeacherCMEQuestionsProps } from "@/services/types/teacher/createCaseStudy";
 import React, { FunctionComponent } from "react";
 
-const DoctorCMEQuestions: FunctionComponent<DoctorCMEQuestionsProps> = ({
+const TeacherCMEQuestions: FunctionComponent<TeacherCMEQuestionsProps> = ({
 	goNext,
 	goBack,
 	caseStudy,
@@ -255,4 +255,4 @@ const DoctorCMEQuestions: FunctionComponent<DoctorCMEQuestionsProps> = ({
 	);
 };
 
-export default DoctorCMEQuestions;
+export default TeacherCMEQuestions;

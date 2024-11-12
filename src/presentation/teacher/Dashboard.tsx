@@ -9,7 +9,7 @@ import { useAppSelector } from "@/services/hooks/hooks";
 import { formatDate } from "@/utils/formatDate";
 import { useSession } from "next-auth/react";
 
-const DoctorDashboard = () => {
+const TeacherDashboard = () => {
 	const { data } = useSession();
 	const { firstName, lastName, user_role } = data!.user;
 	const archivedCasesState = useAppSelector(
@@ -159,4 +159,4 @@ const DoctorDashboard = () => {
 	);
 };
 
-export default DoctorDashboard;
+export default TeacherDashboard;

@@ -4,9 +4,9 @@ import Button from "@/components/ui/Button";
 import { EditorState, convertFromRaw, convertToRaw } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
 import { useAppSelector } from "@/services/hooks/hooks";
-import { DoctorCaseQuestionProps } from "@/services/types/teacher/createCaseStudy";
+import { TeacherCaseQuestionProps } from "@/services/types/teacher/createCaseStudy";
 
-const DoctorCasePresentation: FunctionComponent<DoctorCaseQuestionProps> = ({
+const TeacherCasePresentation: FunctionComponent<TeacherCaseQuestionProps> = ({
 	goNext,
 	caseStudy,
 	setCaseStudy,
@@ -94,4 +94,4 @@ const DoctorCasePresentation: FunctionComponent<DoctorCaseQuestionProps> = ({
 	);
 };
 
-export default DoctorCasePresentation;
+export default TeacherCasePresentation;

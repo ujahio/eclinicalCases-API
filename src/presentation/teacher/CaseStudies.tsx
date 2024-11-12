@@ -8,7 +8,7 @@ interface IProps {
 	handleDeleteCase: (caseId: string) => void;
 }
 
-const DoctorCaseStudies = ({ handleDeleteCase }: IProps) => {
+const TeacherCaseStudies = ({ handleDeleteCase }: IProps) => {
 	const archivedCasesState = useAppSelector(
 		(state) => state.getArchiveCases.cases
 	);
@@ -116,4 +116,4 @@ const DoctorCaseStudies = ({ handleDeleteCase }: IProps) => {
 	);
 };
 
-export default DoctorCaseStudies;
+export default TeacherCaseStudies;

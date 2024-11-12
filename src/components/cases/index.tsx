@@ -7,9 +7,9 @@ import StudentCertificate from "./student/certificate";
 import StudentFeedbacks from "./student/feedbacks";
 import StudentCaseTeaching from "./student/studentCaseTeaching";
 
-import DoctorCasePresentation from "./teacher/presentation";
-import DoctorCaseAnswer from "./teacher/answer";
-import DoctorCMEQuestions from "./teacher/cme-questions";
+import TeacherCasePresentation from "./teacher/presentation";
+import TeacherCaseAnswer from "./teacher/answer";
+import TeacherCMEQuestions from "./teacher/cme-questions";
 import TeacherCaseTeaching from "./teacher/case-teaching";
 
 export {
@@ -21,8 +21,8 @@ export {
 	StudentCMEQuestions,
 	StudentCertificate,
 	StudentFeedbacks,
-	DoctorCasePresentation,
-	DoctorCaseAnswer,
-	DoctorCMEQuestions,
+	TeacherCasePresentation,
+	TeacherCaseAnswer,
+	TeacherCMEQuestions,
 	TeacherCaseTeaching,
 };
