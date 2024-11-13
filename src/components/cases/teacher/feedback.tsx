@@ -4,7 +4,7 @@ const FeedbackModal = ({ feedback }: any) => {
 	return (
 		<div className="pb-24">
 			<h6 className="text-1xs sm:text-sm font-bold text-blue uppercase mb-2.5 mt-10">
-				FEEDBACKS
+				FEEDBACK
 			</h6>
 			{feedback.map(
 				(

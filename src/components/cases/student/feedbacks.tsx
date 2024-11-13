@@ -92,7 +92,7 @@ const StudentFeedbacks: FunctionComponent<StudentFeedbacksProps> = ({
 	return (
 		<>
 			<h6 className="text-1xs sm:text-sm font-bold text-blue uppercase mb-2.5">
-				Feedbacks
+				Feedback
 			</h6>
 			<ul className="flex flex-col space-y-5 sm:space-y-6 mt-5 mb-5 sm:mb-6">
 				{questions.map(({ question, type, key: id }, index) => (

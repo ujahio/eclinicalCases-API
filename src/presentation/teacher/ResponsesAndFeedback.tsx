@@ -42,7 +42,7 @@ const ResponsesAndFeedback = ({
 				<div className=" bg-neutral-200  rounded-sm w-40 text-center py-2 text-xs">
 					{`${caseInformationForDisplay.totalResponses || 0} Responses & ${
 						caseInformationForDisplay.feedbackCount || 0
-					} Feedbacks`}
+					} Feedback`}
 				</div>
 			</article>
 			<div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-y-3 gap-x-2 w-full">

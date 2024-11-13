@@ -66,7 +66,7 @@ const StudentCaseAnswer: FC<StudentCaseAnswerProps> = ({
 				<div className="flex flex-col md:justify-between md:flex-row">
 					<div className="md:w-45%">
 						<h6 className="text-1xs sm:text-sm font-bold text-blue uppercase mb-2.5">
-							YOUR MODEL ANSWER
+							YOUR RESPONSE
 						</h6>
 						<div className="mb-5 sm:mb-6">
 							<div className="text-dark sm:text-base text-1sm">

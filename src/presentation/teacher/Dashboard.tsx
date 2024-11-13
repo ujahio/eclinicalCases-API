@@ -98,7 +98,7 @@ const TeacherDashboard = () => {
 							</div>
 							<div className="flex mt-6">
 								<div className=" bg-neutral-200 bg-opacity-20 rounded-sm w-24 text-center py-2 text-xs">
-									{publishedCaseInfo?.feedbackCount} Feedbacks
+									{publishedCaseInfo?.feedbackCount} Feedback
 								</div>
 								<div className=" bg-neutral-200 bg-opacity-20 rounded-sm w-24 text-center py-2 ml-3 text-xs">
 									{publishedCaseInfo?.totalResponses} Responses
