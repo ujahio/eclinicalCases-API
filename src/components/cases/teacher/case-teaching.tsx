@@ -1,10 +1,4 @@
-import React, {
-	FunctionComponent,
-	useState,
-	ChangeEvent,
-	useRef,
-	useEffect,
-} from "react";
+import React, { FunctionComponent, useState, ChangeEvent, useRef } from "react";
 import { EditorState, convertFromRaw, convertToRaw } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
 import { toast } from "react-toastify";
@@ -41,39 +35,21 @@ const TeacherCaseTeaching: FunctionComponent<TeacherCaseTeachingProps> = ({
 	const [isUploading, setIsUploading] = useState(false);
 	const [isRemoving, setIsRemoving] = useState<string | null>(null);
 	const [editorState, setEditorState] = useState(() => {
-		return EditorState.createEmpty();
-	});
-
-	useEffect(() => {
 		if (caseStudy?.caseTeaching) {
 			try {
-				const parsedCaseTeaching = JSON.parse(caseStudy.caseTeaching);
-				setEditorState(
-					EditorState.createWithContent(convertFromRaw(parsedCaseTeaching))
-				);
+				// Try to parse the caseTeaching if it exists and is valid JSON
+				const parsedTeaching = JSON.parse(caseStudy.caseTeaching);
+				return EditorState.createWithContent(convertFromRaw(parsedTeaching));
 			} catch (error) {
-				console.error("Invalid caseDescription JSON:", error);
-				setEditorState(EditorState.createEmpty());
+				console.error("Invalid caseTeaching JSON:", error);
+				// In case of an invalid JSON, initialize an empty editor state
+				return EditorState.createEmpty();
 			}
+		} else {
+			// If caseTeaching is not defined, initialize an empty editor state
+			return EditorState.createEmpty();
 		}
-	}, [caseStudy?.caseTeaching]);
-
-	// const [editorState, setEditorState] = useState(() => {
-	// 	if (caseStudy?.caseTeaching) {
-	// 		try {
-	// 			// Try to parse the caseTeaching if it exists and is valid JSON
-	// 			const parsedTeaching = JSON.parse(caseStudy.caseTeaching);
-	// 			return EditorState.createWithContent(convertFromRaw(parsedTeaching));
-	// 		} catch (error) {
-	// 			console.error("Invalid caseTeaching JSON:", error);
-	// 			// In case of an invalid JSON, initialize an empty editor state
-	// 			return EditorState.createEmpty();
-	// 		}
-	// 	} else {
-	// 		// If caseTeaching is not defined, initialize an empty editor state
-	// 		return EditorState.createEmpty();
-	// 	}
-	// });
+	});
 	const addFile = () => {
 		if (fileInputRef.current) {
 			fileInputRef.current.click(); // Click the file input to open the dialog

@@ -27,7 +27,7 @@ export type QuestionErrorProps = {
 	};
 };
 
-const StudentCaseResponse: FunctionComponent<StudentCaseQuestionProps> = ({
+const StudentCaseQuestion: FunctionComponent<StudentCaseQuestionProps> = ({
 	goNext,
 	goBack,
 	setCaseDetails,
@@ -35,33 +35,13 @@ const StudentCaseResponse: FunctionComponent<StudentCaseQuestionProps> = ({
 }) => {
 	const [isEditorMounted, setIsEditorMounted] = useState(false);
 
-	const [editorState, setEditorState] = useState(() => {
-		return EditorState.createEmpty();
-	});
-
-	useEffect(() => {
-		if (studentCaseExplanation) {
-			try {
-				const parsedstudentCaseExplanation = JSON.parse(studentCaseExplanation);
-				setEditorState(
-					EditorState.createWithContent(
-						convertFromRaw(parsedstudentCaseExplanation)
-					)
-				);
-			} catch (error) {
-				console.error("Invalid caseDescription JSON:", error);
-				setEditorState(EditorState.createEmpty());
-			}
-		}
-	}, [studentCaseExplanation]);
-
-	// const [editorState, setEditorState] = useState(() =>
-	// 	studentCaseExplanation
-	// 		? EditorState.createWithContent(
-	// 				convertFromRaw(JSON.parse(studentCaseExplanation))
-	// 		  )
-	// 		: EditorState.createEmpty()
-	// );
+	const [editorState, setEditorState] = useState(() =>
+		studentCaseExplanation
+			? EditorState.createWithContent(
+					convertFromRaw(JSON.parse(studentCaseExplanation))
+			  )
+			: EditorState.createEmpty()
+	);
 
 	const [inputsForValidation, setErrorsForValidatedInputs] =
 		useState<QuestionErrorProps>({
@@ -158,7 +138,7 @@ const StudentCaseResponse: FunctionComponent<StudentCaseQuestionProps> = ({
 	);
 };
 
-export default StudentCaseResponse;
+export default StudentCaseQuestion;
 
 const studentCaseQuestionValidation = (
 	setError: Dispatch<SetStateAction<QuestionErrorProps>>,
