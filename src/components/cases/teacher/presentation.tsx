@@ -15,18 +15,36 @@ const TeacherCasePresentation: FunctionComponent<TeacherCaseQuestionProps> = ({
 	const [isEditorMounted, setIsEditorMounted] = useState(false);
 
 	const [editorState, setEditorState] = useState(() => {
+		return EditorState.createEmpty();
+	});
+
+	useEffect(() => {
 		if (caseStudy?.caseDescription) {
 			try {
 				const parsedDescription = JSON.parse(caseStudy.caseDescription);
-				return EditorState.createWithContent(convertFromRaw(parsedDescription));
+				setEditorState(
+					EditorState.createWithContent(convertFromRaw(parsedDescription))
+				);
 			} catch (error) {
 				console.error("Invalid caseDescription JSON:", error);
-				return EditorState.createEmpty();
+				setEditorState(EditorState.createEmpty());
 			}
-		} else {
-			return EditorState.createEmpty();
 		}
-	});
+	}, [caseStudy?.caseDescription]);
+
+	// const [editorState, setEditorState] = useState(() => {
+	// 	if (caseStudy?.caseDescription) {
+	// 		try {
+	// 			const parsedDescription = JSON.parse(caseStudy.caseDescription);
+	// 			return EditorState.createWithContent(convertFromRaw(parsedDescription));
+	// 		} catch (error) {
+	// 			console.error("Invalid caseDescription JSON:", error);
+	// 			return EditorState.createEmpty();
+	// 		}
+	// 	} else {
+	// 		return EditorState.createEmpty();
+	// 	}
+	// });
 
 	useEffect(() => {
 		setIsEditorMounted(true);

@@ -32,22 +32,39 @@ const TeacherCaseAnswer: FunctionComponent<TeacherCaseAnswerProps> = ({
 			},
 		});
 
-	const [editorState, setEditorState] = useState(() => {
+	const [editorState, setEditorState] = useState(EditorState.createEmpty());
+
+	useEffect(() => {
 		if (caseStudy?.caseExplanation) {
 			try {
-				// Try to parse the caseExplanation if it exists and is valid JSON
-				const parsedExplanation = JSON.parse(caseStudy.caseExplanation);
-				return EditorState.createWithContent(convertFromRaw(parsedExplanation));
+				const parsedCaseExplanation = JSON.parse(caseStudy.caseExplanation);
+				setEditorState(
+					EditorState.createWithContent(convertFromRaw(parsedCaseExplanation))
+				);
 			} catch (error) {
-				console.error("Invalid caseExplanation JSON:", error);
-				// In case of an invalid JSON, initialize an empty editor state
-				return EditorState.createEmpty();
+				console.error("Invalid caseDescription JSON:", error);
+				setEditorState(EditorState.createEmpty());
 			}
-		} else {
-			// If caseExplanation is not defined, initialize an empty editor state
-			return EditorState.createEmpty();
 		}
-	});
+	}, [caseStudy?.caseExplanation]);
+
+	// const [editorState, setEditorState] = useState(() => {
+	// 	if (caseStudy?.caseExplanation) {
+	// 		try {
+	// 			// Try to parse the caseExplanation if it exists and is valid JSON
+	// 			const parsedExplanation = JSON.parse(caseStudy.caseExplanation);
+	// 			return EditorState.createWithContent(convertFromRaw(parsedExplanation));
+	// 		} catch (error) {
+	// 			console.error("Invalid caseExplanation JSON:", error);
+	// 			// In case of an invalid JSON, initialize an empty editor state
+	// 			return EditorState.createEmpty();
+	// 		}
+	// 	} else {
+	// 		// If caseExplanation is not defined, initialize an empty editor state
+	// 		return EditorState.createEmpty();
+	// 	}
+	// });
+
 	const addingDraftCaseStatus = useAppSelector(
 		(state) => state.getDraftCases.status
 	);
