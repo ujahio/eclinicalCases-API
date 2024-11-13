@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import {
 	StudentCaseAnswer,
 	StudentCasePresentation,
-	StudentCaseQuestion,
+	StudentCaseResponse,
 	StudentCertificate,
 	StudentCMEQuestions,
 	StudentFeedbacks,
@@ -62,7 +62,7 @@ const StudentCaseStudy = ({
 				)}
 
 				{isActive("case_response") && (
-					<StudentCaseQuestion
+					<StudentCaseResponse
 						goNext={goNext}
 						goBack={goBack}
 						studentCaseExplanation={caseDetails?.studentCaseExplanation}
