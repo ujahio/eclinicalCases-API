@@ -46,9 +46,7 @@ const Nav: FunctionComponent<NavProps> = ({
 			<div
 				className={`max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl 2xl:max-w-xxl 3xl:max-w-3xl flex items-center justify-between h-17.5 ${APP_SPACING} ${APP_CONTAINER}`}
 			>
-				<Link href="/home">
-					<Image src={Logo} alt="E Clinic Logo" className="h-5 sm:h-6 w-auto" />
-				</Link>
+				<Image src={Logo} alt="E Clinic Logo" className="h-5 sm:h-6 w-auto" />
 
 				<ul className="h-full hidden sm:flex items-center space-x-6.25 md:space-x-8">
 					{navLinks.map(({ label, path }, index) => (
@@ -95,15 +93,15 @@ const Nav: FunctionComponent<NavProps> = ({
 									Dashboard
 								</AppDropdownItem>
 							)}
-							<AppDropdownItem
+							{/* <AppDropdownItem
 								href={
 									user_role === "teacher"
-										? "/doctor/settings"
+										? "/teacher/settings"
 										: "/student/settings"
 								}
 							>
 								Account Settings
-							</AppDropdownItem>
+							</AppDropdownItem> */}
 							<AppDropdownItem onClick={logoutUser}>Sign Out</AppDropdownItem>
 						</AppDropdown>
 					))}

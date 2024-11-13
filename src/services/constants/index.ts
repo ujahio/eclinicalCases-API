@@ -1,7 +1,7 @@
 export const createCaseStudyTabs = [
-  "Case Model Question SetUp",
-  "Case Model Answers SetUp",
-  "Materials And Deadline",
-  "CME Questions",
-  "Final Review",
+	"Case Model Presentation",
+	"Case Model Answer",
+	"Case Teaching",
+	"CME Questions",
+	"Final Review",
 ];

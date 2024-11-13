@@ -3,10 +3,10 @@ export interface CaseDetail {
 	caseTopic: string;
 	caseTopicAnswer: string;
 	caseExplanation: string;
+	caseTeaching: string;
 	answers: Answer[];
 	caseDescription: string;
 	caseDeadline: string;
-	studentCaseTopicResponse: string;
 	studentCaseExplanation: string;
 	caseMaterials: { fileName: string; documentKey: string }[];
 }

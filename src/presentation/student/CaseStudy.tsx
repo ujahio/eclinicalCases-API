@@ -6,11 +6,11 @@ import {
 	StudentCertificate,
 	StudentCMEQuestions,
 	StudentFeedbacks,
+	StudentCaseTeaching,
 } from "@/components/cases";
 import DashboardLayout from "@/components/layouts/dashboard";
 import ProcessTabs from "@/components/ui/process-tabs";
 import { APP_CONTAINER, APP_SPACING } from "@/services/constants/styles";
-import { useAppSelector } from "@/services/hooks/hooks";
 import { convertFromRaw, EditorState } from "draft-js";
 import { StudentCaseStudyProps } from "@/services/types/student";
 
@@ -61,11 +61,10 @@ const StudentCaseStudy = ({
 					/>
 				)}
 
-				{isActive("case_model_question") && (
+				{isActive("case_response") && (
 					<StudentCaseQuestion
 						goNext={goNext}
 						goBack={goBack}
-						studentCaseTopicResponse={caseDetails?.studentCaseTopicResponse}
 						studentCaseExplanation={caseDetails?.studentCaseExplanation}
 						setCaseDetails={setCaseDetails}
 					/>
@@ -75,10 +74,17 @@ const StudentCaseStudy = ({
 					<StudentCaseAnswer
 						goNext={goNext}
 						goBack={goBack}
-						caseTopic={caseDetails?.caseTopic}
-						studentCaseTopicResponse={caseDetails?.studentCaseTopicResponse}
 						studentCaseExplanation={caseDetails?.studentCaseExplanation}
 						caseExplanation={caseDetails?.caseExplanation}
+					/>
+				)}
+
+				{isActive("case_teaching") && (
+					<StudentCaseTeaching
+						goNext={goNext}
+						goBack={goBack}
+						caseTopic={caseDetails?.caseTopic}
+						caseTeaching={caseDetails?.caseTeaching}
 						caseMaterialsMetaData={caseDetails?.caseMaterials}
 					/>
 				)}
@@ -92,7 +98,7 @@ const StudentCaseStudy = ({
 					/>
 				)}
 
-				{isActive("feedbacks") && <StudentFeedbacks goNext={goNext} />}
+				{isActive("feedback") && <StudentFeedbacks goNext={goNext} />}
 
 				{isActive("certificate") && <StudentCertificate />}
 			</div>

@@ -5,24 +5,24 @@ import StudentCaseAnswer from "./student/answer";
 import StudentCMEQuestions from "./student/cme-questions";
 import StudentCertificate from "./student/certificate";
 import StudentFeedbacks from "./student/feedbacks";
+import StudentCaseTeaching from "./student/studentCaseTeaching";
 
-import DoctorCaseQuestion from "./doctor/question";
-import DoctorCaseAnswer from "./doctor/answer";
-import DoctorCMEQuestions from "./doctor/cme-questions";
-import DoctorMaterialsAndDeadline from "./doctor/materials-and-deadline";
-import DoctorMaterialsAndDeadlineForUpdate from "./doctor/update/materials-and-deadline";
+import TeacherCasePresentation from "./teacher/presentation";
+import TeacherCaseAnswer from "./teacher/answer";
+import TeacherCMEQuestions from "./teacher/cme-questions";
+import TeacherCaseTeaching from "./teacher/case-teaching";
 
 export {
-  CaseCard,
-  StudentCasePresentation,
-  StudentCaseQuestion,
-  StudentCaseAnswer,
-  StudentCMEQuestions,
-  StudentCertificate,
-  StudentFeedbacks,
-  DoctorCaseQuestion,
-  DoctorCaseAnswer,
-  DoctorCMEQuestions,
-  DoctorMaterialsAndDeadline,
-  DoctorMaterialsAndDeadlineForUpdate,
+	CaseCard,
+	StudentCasePresentation,
+	StudentCaseTeaching,
+	StudentCaseQuestion,
+	StudentCaseAnswer,
+	StudentCMEQuestions,
+	StudentCertificate,
+	StudentFeedbacks,
+	TeacherCasePresentation,
+	TeacherCaseAnswer,
+	TeacherCMEQuestions,
+	TeacherCaseTeaching,
 };

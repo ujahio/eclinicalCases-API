@@ -49,6 +49,7 @@ export const getCaseForStudentsResponse = async (event) => {
 			caseQuestions: publishedCaseResult.caseQuestions,
 			caseExplanation: publishedCaseResult.caseExplanation,
 			caseMaterials: publishedCaseResult.caseMaterials,
+			caseTeaching: publishedCaseResult.caseTeaching,
 		};
 
 		return {
@@ -103,7 +104,6 @@ export const duplicateCase = async (event) => {
 		const duplicateCase = {
 			...originalCase.Item,
 			id: uuidv4(),
-			caseClue: originalCase.Item.caseClue + " duplicate",
 			createdAt: Date.now().toString(),
 		};
 		const putParams = {

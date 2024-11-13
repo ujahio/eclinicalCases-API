@@ -16,7 +16,7 @@ const StudentCasePresentation: FunctionComponent<
 		<>
 			<div className="mb-5 sm:mb-6">
 				<h6 className="text-1xs sm:text-sm font-bold text-blue uppercase mb-2.5">
-					Case Model Topic Description
+					Case Description
 				</h6>
 				<div className="mb-9 bg-gray-200 p-2.5">
 					<Editor
@@ -36,10 +36,7 @@ const StudentCasePresentation: FunctionComponent<
 					</p>
 				</div>
 			)}
-			<div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
-				<Button btnStyle="outline" size="lg" centralize href="/home">
-					Go Back Home
-				</Button>
+			<div className="grid grid-cols-1 gap-4">
 				<Button btnStyle="basic" size="lg" centralize onClick={() => goNext()}>
 					PROCEED TO THE CASE MODEL QUESTION
 				</Button>

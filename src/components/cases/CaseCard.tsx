@@ -86,7 +86,7 @@ const CaseCard: FunctionComponent<CaseCardProps> = ({
 						centralize
 						onClick={(e) => {
 							e.stopPropagation();
-							navigate.push(`/doctor/case-studies/update/${_id}`);
+							navigate.push(`/teacher/case-studies/update/${_id}`);
 						}}
 					>
 						Update
@@ -114,7 +114,7 @@ const CaseCard: FunctionComponent<CaseCardProps> = ({
 						centralize
 						onClick={(e) => {
 							e.stopPropagation();
-							// navigate.push(`/doctor/case-studies/update/${_id}`);
+							// navigate.push(`/teacher/case-studies/update/${_id}`);
 						}}
 					>
 						DUPLICATE

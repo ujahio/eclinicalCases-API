@@ -16,17 +16,18 @@ import { CaseDetail } from "@/services/types/student";
 
 const tabs = [
 	"Case Presentation",
-	"Case Model Question",
+	"Case Response",
 	"Case Model Answers",
+	"Case Teaching",
 	"CME Questions",
-	"Feedbacks",
+	"Feedback",
 	"Certificate",
 ];
 
 const CaseStudies = ({ params }: { params: any }) => {
 	const dispatch = useAppDispatch();
 	const { active: activeTab, switchTab, isActive } = useProcessTabs(tabs, 0);
-	const [progress, setProgress] = useState(5);
+	const [progress, setProgress] = useState(1);
 	const paramsToUse: {
 		id: string;
 	} = use(params);
@@ -73,7 +74,6 @@ const CaseStudies = ({ params }: { params: any }) => {
 					question: question.question,
 					options: question.options,
 				})),
-				studentCaseTopicResponse: "",
 				studentCaseExplanation: "",
 				caseMaterials: JSON.parse(caseDetailsState?.data.caseMaterials),
 			};
@@ -106,8 +106,8 @@ const CaseStudies = ({ params }: { params: any }) => {
 					progress: undefined,
 					theme: "light",
 				});
-				switchTab(4);
-				setProgress(4);
+				switchTab(5);
+				setProgress(5);
 			}
 		}
 	}, [submitResponseState, dispatch, switchTab]);

@@ -39,7 +39,7 @@ export const addDraftCase = async (event) => {
 		const draftCaseData = await extrapolateRequestBody(event);
 
 		// TODO: evaluate required fields for draft cases
-		if (!userInfo.id || !draftCaseData.caseClue) {
+		if (!userInfo.id) {
 			return {
 				statusCode: 400,
 				body: JSON.stringify({
@@ -56,7 +56,6 @@ export const addDraftCase = async (event) => {
 			teacherId: teacherID,
 			createdAt: Date.now(),
 			caseStatus: "draft",
-			caseClue: draftCaseData.caseClue || undefined,
 			caseDescription: draftCaseData.caseDescription || undefined,
 			caseTopic: draftCaseData.caseTopic || undefined,
 			caseExplanation: draftCaseData.caseExplanation || undefined,
@@ -332,11 +331,11 @@ export const updateDraftCase = async (event) => {
 
 		// List of fields that can be updated
 		const updatableFields = [
-			"caseClue",
 			"caseDescription",
 			"caseTopic",
 			"caseExplanation",
 			"caseQuestions",
+			"caseTeaching",
 		];
 
 		updatableFields.forEach((field) => {

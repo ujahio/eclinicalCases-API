@@ -30,7 +30,7 @@ const Login = () => {
 		if (status === "authenticated" && session?.user) {
 			// Use the user's role to handle navigation
 			if (session.user.user_role === "teacher") {
-				navigate.push("/doctor/dashboard");
+				navigate.push("/teacher/dashboard");
 			} else if (session.user.user_role === "student") {
 				navigate.push("/student/dashboard");
 			}
