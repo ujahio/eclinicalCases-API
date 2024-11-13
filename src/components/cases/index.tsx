@@ -4,7 +4,7 @@ import StudentCaseResponse from "./student/response";
 import StudentCaseAnswer from "./student/answer";
 import StudentCMEQuestions from "./student/cme-questions";
 import StudentCertificate from "./student/certificate";
-import StudentFeedbacks from "./student/feedbacks";
+import StudentFeedback from "./student/feedback";
 import StudentCaseTeaching from "./student/studentCaseTeaching";
 
 import TeacherCasePresentation from "./teacher/presentation";
@@ -20,7 +20,7 @@ export {
 	StudentCaseAnswer,
 	StudentCMEQuestions,
 	StudentCertificate,
-	StudentFeedbacks,
+	StudentFeedback,
 	TeacherCasePresentation,
 	TeacherCaseAnswer,
 	TeacherCMEQuestions,

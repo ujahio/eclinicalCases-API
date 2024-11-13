@@ -5,7 +5,7 @@ import {
 	StudentCaseResponse,
 	StudentCertificate,
 	StudentCMEQuestions,
-	StudentFeedbacks,
+	StudentFeedback,
 	StudentCaseTeaching,
 } from "@/components/cases";
 import DashboardLayout from "@/components/layouts/dashboard";
@@ -98,7 +98,7 @@ const StudentCaseStudy = ({
 					/>
 				)}
 
-				{isActive("feedback") && <StudentFeedbacks goNext={goNext} />}
+				{isActive("feedback") && <StudentFeedback goNext={goNext} />}
 
 				{isActive("certificate") && <StudentCertificate />}
 			</div>
