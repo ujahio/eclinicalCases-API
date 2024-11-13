@@ -36,7 +36,9 @@ const validateInputs = ({
 	});
 
 	// Validate case study explanation
-	if (!caseDescription) {
+	// check for caseDescription is a hack check for when editor is empty due to user deleting the items
+	// structure needs to be fixed!!
+	if (!caseDescription || caseDescription === "undefined") {
 		throw { message: "Missing case study description." };
 	} else {
 		// Parse the caseExplanation to check for text in the blocks
@@ -61,7 +63,9 @@ const validateInputs = ({
 	}
 
 	// Validate case study explanation
-	if (!caseExplanation) {
+	// check for caseExplanation is a hack check for when editor is empty due to user deleting the items
+	// structure needs to be fixed!!
+	if (!caseExplanation || caseExplanation === "undefined") {
 		throw {
 			message: "Missing case study explanations.",
 		};
@@ -87,7 +91,9 @@ const validateInputs = ({
 	}
 
 	// Validate case study teaching
-	if (!caseTeaching) {
+	// check for caseTeaching is a hack check for when editor is empty due to user deleting the items
+	// structure needs to be fixed!!
+	if (!caseTeaching || caseTeaching === "undefined") {
 		throw {
 			message: "Missing case teaching.",
 		};

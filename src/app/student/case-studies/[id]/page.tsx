@@ -42,7 +42,6 @@ const CaseStudies = ({ params }: { params: any }) => {
 	);
 
 	const handleSubmitResponse = () => {
-		console.log("caseDetails", caseDetails);
 		dispatch(submitCaseResponse(caseDetails));
 	};
 
