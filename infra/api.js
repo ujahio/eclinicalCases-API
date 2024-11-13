@@ -63,14 +63,14 @@ api.route("POST /api/auth/signup", {
 // 	handler: "server/controllers/auth.controller.sendOTP",
 // 	link: links,
 // });
-api.route("POST /api/auth/reset-password", {
-	handler: "server/controllers/auth.controller.verifyOtpAndResetPassword",
-	link: links,
-});
-api.route("POST /api/auth/update-password", {
-	handler: "server/controllers/auth.controller.updatePassword",
-	link: links,
-});
+// api.route("POST /api/auth/reset-password", {
+// 	handler: "server/controllers/auth.controller.verifyOtpAndResetPassword",
+// 	link: links,
+// });
+// api.route("POST /api/auth/update-password", {
+// 	handler: "server/controllers/auth.controller.updatePassword",
+// 	link: links,
+// });
 
 //Case;
 api.route(
