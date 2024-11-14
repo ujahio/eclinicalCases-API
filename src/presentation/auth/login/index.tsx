@@ -83,12 +83,12 @@ const Login = ({ handleSubmit }: LoginCompProps) => {
 								}}
 							</ErrorMessage>
 						</div>
-						<Link
+						{/* <Link
 							href="/forgot-password"
 							className="text-dark text-xs uppercase font-medium mt-2 inline-block border-b border-dark hover:text-primary-300 hover:border-primary-300 transition-colors duration-100"
 						>
 							Forgot your password ?
-						</Link>
+						</Link> */}
 
 						<div className="mt-8">
 							<Button block disabled={isSubmitting}>
@@ -106,14 +106,14 @@ const Login = ({ handleSubmit }: LoginCompProps) => {
 									/>
 								</svg>
 							</Button>
-							<div className="mt-1.5">
+							{/* <div className="mt-1.5">
 								<CheckBox onChange={() => {}} isChecked={false} name="remember">
 									<span className="text-sm text-grey-300 font-medium inline-block ml-1.25">
 										Keep me logged in
 									</span>
 								</CheckBox>
-							</div>
-							<hr className="border-grey-border h-px bg-none my-6.25" />
+							</div> */}
+							{/* <hr className="border-grey-border h-px bg-none my-6.25" />
 							<div className="inline-flex items-center text-dark">
 								New User?
 								<Link
@@ -122,7 +122,7 @@ const Login = ({ handleSubmit }: LoginCompProps) => {
 								>
 									Create Account
 								</Link>
-							</div>
+							</div> */}
 						</div>
 					</Form>
 				)}
