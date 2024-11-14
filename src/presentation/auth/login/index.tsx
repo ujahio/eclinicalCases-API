@@ -1,13 +1,13 @@
-import CheckBox from "@/components/form-elements/checkbox";
+// import CheckBox from "@/components/form-elements/checkbox";
 import AuthLayout from "@/components/layouts/AuthLayout";
 import Button from "@/components/ui/Button";
-import Link from "next/link";
+// import Link from "next/link";
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { loginSchema } from "@/lib/schema";
 import Image from "next/image";
 import ExclamationMark from "@/assets/icons/exclamationMark.png";
-import { useAppSelector } from "@/services/hooks/hooks";
+// import { useAppSelector } from "@/services/hooks/hooks";
 import { LoginCompProps } from "@/services/types/auth/login";
 
 const Login = ({ handleSubmit }: LoginCompProps) => {

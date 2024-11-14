@@ -7,7 +7,11 @@ import Button from "./ui/Button";
 import AppDropdown, { AppDropdownItem } from "./ui/Dropdown";
 
 // const Navbar = ({ setShowWelcomeModal }) => {
-const Navbar = () => {
+const Navbar = ({ activeTab }: { activeTab: string }) => {
+	const homePageActiveIndicator = activeTab === "home" ? "active" : "";
+	const instructorPageActiveIndicator =
+		activeTab === "instructor" ? "active" : "";
+
 	return (
 		<div
 			className={`flex items-center justify-between bg-white shadow-sm navbar h-17.5 ${LANDING_X_PADDING}`}
@@ -18,15 +22,18 @@ const Navbar = () => {
 				<Image src={Logo} alt="" className="w-auto h-5 sm:h-6" />
 				<ul className="text-dark md:flex hidden h-full items-center space-x-5 md:space-x-8">
 					<li className="h-full relative inline-flex items-center">
-						<Link href="/" className="active uppercase">
+						<Link href="/" className={`${homePageActiveIndicator} uppercase`}>
 							Home
 						</Link>
 					</li>
-					{/* <li className="h-full relative inline-flex items-center">
-						<Link href="/instructors" className="uppercase">
+					<li className="h-full relative inline-flex items-center">
+						<Link
+							href="/instructors"
+							className={`${instructorPageActiveIndicator} uppercase`}
+						>
 							Instructors
 						</Link>
-					</li> */}
+					</li>
 					{/* <li
 						className="h-full relative inline-flex items-center uppercase cursor-pointer"
 						onClick={() => setShowWelcomeModal(true)}

@@ -12,7 +12,7 @@ export default function Home() {
 	return (
 		<>
 			{/* <Navbar setShowWelcomeModal={setShowWelcomeModal} /> */}
-			<Navbar />
+			<Navbar activeTab="home" />
 
 			<HomeComp />
 			<Footer />

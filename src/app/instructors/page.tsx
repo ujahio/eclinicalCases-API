@@ -3,12 +3,14 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import maskedTeacher from "@/assets/images/masked-doctor.png";
 import { APP_CONTAINER, LANDING_X_PADDING } from "@/services/constants/styles";
+import Navbar from "@/components/Navbar";
 
 const Page = () => {
 	return (
-		<div className="bg-primary-100">
+		<>
+			<Navbar activeTab="instructor" />
 			<div
-				className={`sm:mt-32 mt-24 py-15 sm:py-32 sm:grid grid-cols-2 ${LANDING_X_PADDING} ${APP_CONTAINER}`}
+				className={`bg-primary-100 py-15 sm:py-32 sm:grid grid-cols-2 ${LANDING_X_PADDING} ${APP_CONTAINER}`}
 			>
 				<div>
 					<Image src={maskedTeacher} alt="" className=" w-full" />
@@ -18,7 +20,7 @@ const Page = () => {
 					<h3>Dr Emmanuel earned his degree from ...</h3>
 				</div>
 			</div>
-		</div>
+		</>
 	);
 };
 
