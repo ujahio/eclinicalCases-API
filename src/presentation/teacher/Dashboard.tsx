@@ -7,11 +7,10 @@ import Link from "next/link";
 import Button from "@/components/ui/Button";
 import { useAppSelector } from "@/services/hooks/hooks";
 import { formatDate } from "@/utils/formatDate";
-import { useSession } from "next-auth/react";
+import { useAuthRedirect } from "@/services/hooks/useAuthRedirect";
 
 const TeacherDashboard = () => {
-	const { data } = useSession();
-	const { firstName, lastName, user_role } = data!.user;
+	const { user } = useAuthRedirect();
 	const archivedCasesState = useAppSelector(
 		(state) => state.getArchiveCases.cases
 	);
@@ -31,9 +30,11 @@ const TeacherDashboard = () => {
 					{/* <figure className="h-8 md:h-11.25 w-8 md:w-11.25 rounded-full overflow-hidden">
 						<Image src={UserImg} alt="User image" className="h-full w-full" />
 					</figure> */}
-					<h4 className="text-dark font-medium text-1sm sm:text-base inline-block ml-2.5">
-						{`Hello, ${firstName} ${lastName} (${user_role})  👋`}
-					</h4>
+					{user && (
+						<h4 className="text-dark font-medium text-1sm sm:text-base inline-block ml-2.5">
+							{`Hello, ${user.firstName} ${user.lastName} (${user.user_role})  👋`}
+						</h4>
+					)}
 				</div>
 			</div>
 			<div className="mt-14">
