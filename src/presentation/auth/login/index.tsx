@@ -1,7 +1,7 @@
 // import CheckBox from "@/components/form-elements/checkbox";
 import AuthLayout from "@/components/layouts/AuthLayout";
 import Button from "@/components/ui/Button";
-// import Link from "next/link";
+import Link from "next/link";
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { loginSchema } from "@/lib/schema";
@@ -113,7 +113,7 @@ const Login = ({ handleSubmit }: LoginCompProps) => {
 									</span>
 								</CheckBox>
 							</div> */}
-							{/* <hr className="border-grey-border h-px bg-none my-6.25" />
+							<hr className="border-grey-border h-px bg-none my-6.25" />
 							<div className="inline-flex items-center text-dark">
 								New User?
 								<Link
@@ -122,7 +122,7 @@ const Login = ({ handleSubmit }: LoginCompProps) => {
 								>
 									Create Account
 								</Link>
-							</div> */}
+							</div>
 						</div>
 					</Form>
 				)}
