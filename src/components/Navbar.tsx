@@ -7,7 +7,13 @@ import Button from "./ui/Button";
 import AppDropdown, { AppDropdownItem } from "./ui/Dropdown";
 
 // const Navbar = ({ setShowWelcomeModal }) => {
-const Navbar = ({ activeTab }: { activeTab: string }) => {
+const Navbar = ({
+	activeTab,
+	setShowWelcomeModal,
+}: {
+	activeTab: string;
+	setShowWelcomeModal: (bool: boolean) => void;
+}) => {
 	const homePageActiveIndicator = activeTab === "home" ? "active" : "";
 	const instructorPageActiveIndicator =
 		activeTab === "instructor" ? "active" : "";
@@ -34,12 +40,12 @@ const Navbar = ({ activeTab }: { activeTab: string }) => {
 							Instructors
 						</Link>
 					</li>
-					{/* <li
+					<li
 						className="h-full relative inline-flex items-center uppercase cursor-pointer"
 						onClick={() => setShowWelcomeModal(true)}
 					>
 						How it works
-					</li> */}
+					</li>
 				</ul>
 				<div className="hidden md:flex">
 					<Button href="/login" className="mr-3 " btnStyle="outline" size="md">

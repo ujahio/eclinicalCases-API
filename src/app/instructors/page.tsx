@@ -1,14 +1,21 @@
 "use client";
-import React, { useEffect, useState } from "react";
+
+import React, { useState } from "react";
 import Image from "next/image";
 import maskedTeacher from "@/assets/images/masked-doctor.png";
 import { APP_CONTAINER, LANDING_X_PADDING } from "@/services/constants/styles";
 import Navbar from "@/components/Navbar";
+import WalkthroughModal from "@/components/modals/Walkthrough";
 
 const Page = () => {
+	const [showWelcomeModal, setShowWelcomeModal] = useState(false);
+
 	return (
 		<>
-			<Navbar activeTab="instructor" />
+			<Navbar
+				activeTab="instructor"
+				setShowWelcomeModal={setShowWelcomeModal}
+			/>
 			<div
 				className={`bg-primary-100 py-15 sm:py-32 sm:grid grid-cols-2 ${LANDING_X_PADDING} ${APP_CONTAINER}`}
 			>
@@ -20,6 +27,11 @@ const Page = () => {
 					<h3>Dr Emmanuel earned his degree from ...</h3>
 				</div>
 			</div>
+			<WalkthroughModal
+				show={showWelcomeModal}
+				toggle={setShowWelcomeModal}
+				size="md"
+			/>
 		</>
 	);
 };
