@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - staging
-      - production
 
 permissions:
   id-token: write # This is required for requesting the JWT
@@ -12,7 +11,7 @@ permissions:
 
 env:
   NEXT_PUBLIC_REGION: me-south-1
-  NEXT_PUBLIC_NODE_ENV: staging
+  NEXT_PUBLIC_NODE_ENV: ${{ secrets.NEXT_PUBLIC_NODE_ENV }}
   AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
   NEXT_PUBLIC_BASE_URL: ${{ secrets.NEXT_PUBLIC_BASE_URL }}
   NEXT_PUBLIC_PASS_SECRET_KEY: ${{ secrets.NEXT_PUBLIC_PASS_SECRET_KEY }}
