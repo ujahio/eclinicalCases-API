@@ -20,7 +20,7 @@ env:
 
 jobs:
   deploy:
-    environment: staging
+    environment: production
     runs-on: ubuntu-latest
 
     steps:
@@ -41,7 +41,7 @@ jobs:
           role-to-assume: arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:role/gh-actions-staging
           aws-region: ${{ env.NEXT_PUBLIC_REGION }}
 
-      - name: Deploy to Staging
+      - name: Deploy to Production
         run: npx sst deploy --stage production
 
       - name: Cache Next Build
