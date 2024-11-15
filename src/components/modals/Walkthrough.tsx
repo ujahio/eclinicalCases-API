@@ -71,7 +71,7 @@ const WalkthroughModal: FunctionComponent<ModalProps> = ({ show, toggle }) => {
 				}}
 				ref={sliderList}
 			>
-				<li className="flex flex-col items-center py-16 sm:py-24 md:py-30">
+				<li className="flex flex-col items-center py-16 sm:py-24 md:py-30 mt-20">
 					<figure className="h-6">
 						<Image src={LogoImg} alt="" className="h-full w-auto" />
 					</figure>
@@ -246,7 +246,7 @@ const WalkthroughModal: FunctionComponent<ModalProps> = ({ show, toggle }) => {
 						Step 9.
 					</h2>
 					<p className="text-md sm:text-lg text-dark mt-3 max-w-lg tracking-wider sm:leading-7 leading-6">
-						Give feedback on the course and download the certificate.
+						Give your feedback on the case study.
 					</p>
 					<div className="mt-4">
 						<figure className="md:h-auto sm:h-64 h-48">
