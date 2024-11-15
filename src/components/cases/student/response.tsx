@@ -145,9 +145,17 @@ const studentCaseQuestionValidation = (
 	editorTextContentCount: number
 ): boolean => {
 	let validated = true;
-
 	const explanationMaxWordCount = 700;
-	if (editorTextContentCount > explanationMaxWordCount) {
+	if (editorTextContentCount === 0) {
+		setError((prevState) => ({
+			...prevState,
+			explanation: {
+				status: "error",
+				validationMessage: "Explanation cannot be empty!",
+			},
+		}));
+		validated = false;
+	} else if (editorTextContentCount > explanationMaxWordCount) {
 		setError((prevState) => ({
 			...prevState,
 			explanation: {
