@@ -126,8 +126,8 @@ const WalkthroughModal: FunctionComponent<ModalProps> = ({ show, toggle }) => {
 						Step 3.
 					</h2>
 					<p className="text-md sm:text-lg text-dark mt-3 max-w-lg tracking-wider sm:leading-7 leading-6">
-						The most recent ongoing case study will be displayed on your
-						dashboard. Click on the "View Case" button to view the details.
+						The most recent case study will be displayed on your dashboard.
+						Click on the &quot;View Case&quot; button to view the details.
 					</p>
 					<div className="mt-4">
 						<figure className="md:h-auto sm:h-64 h-48">
@@ -145,9 +145,9 @@ const WalkthroughModal: FunctionComponent<ModalProps> = ({ show, toggle }) => {
 						Step 4.
 					</h2>
 					<p className="text-md sm:text-lg text-dark mt-3 max-w-lg tracking-wider sm:leading-7 leading-6">
-						Review the case presentation for the ongoing case study. After
-						careful evaluation, click on "Proceed to the Case Model Question" to
-						respond to the case presentation.
+						Review the case presentation for the current case. After careful
+						evaluation, click on &quot;Proceed to the Case Model Question&quot;
+						to respond to the case presentation.
 					</p>
 					<div className="mt-4">
 						<figure className="md:h-auto sm:h-64 h-48">
