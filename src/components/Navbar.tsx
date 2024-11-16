@@ -34,10 +34,10 @@ const Navbar = ({
 					</li>
 					<li className="h-full relative inline-flex items-center">
 						<Link
-							href="/instructors"
+							href="/instructor"
 							className={`${instructorPageActiveIndicator} uppercase`}
 						>
-							Instructors
+							Instructor
 						</Link>
 					</li>
 					<li
