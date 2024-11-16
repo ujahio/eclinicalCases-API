@@ -10,11 +10,12 @@ import register from "@/assets/images/register.png";
 import signin from "@/assets/images/signin.png";
 import dashboard from "@/assets/images/dashboard.png";
 import casepresentation from "@/assets/images/casepresentation.png";
-import caseresponse from "@/assets/images/caseresponse.png";
+import casecomments from "@/assets/images/casecomments.png";
 import casemodelanswer from "@/assets/images/casemodelanswer.png";
 import caseteaching from "@/assets/images/caseteaching.png";
 import cmequestions from "@/assets/images/cmequestionspage.png";
 import feedback from "@/assets/images/feedback.png";
+
 const WalkthroughModal: FunctionComponent<ModalProps> = ({ show, toggle }) => {
 	const [progress, setProgress] = useState(0);
 	const sliderList = useRef<HTMLUListElement>(null);
@@ -94,7 +95,7 @@ const WalkthroughModal: FunctionComponent<ModalProps> = ({ show, toggle }) => {
 						<figure className="md:h-auto sm:h-64 h-48">
 							<Image
 								src={register}
-								alt=""
+								alt="registration image"
 								className="h-full mx-auto"
 								width={700}
 							/>
@@ -113,7 +114,7 @@ const WalkthroughModal: FunctionComponent<ModalProps> = ({ show, toggle }) => {
 						<figure className="md:h-auto sm:h-64 h-48">
 							<Image
 								src={signin}
-								alt=""
+								alt="sign in image"
 								className="h-full mx-auto"
 								width={700}
 							/>
@@ -133,7 +134,7 @@ const WalkthroughModal: FunctionComponent<ModalProps> = ({ show, toggle }) => {
 						<figure className="md:h-auto sm:h-64 h-48">
 							<Image
 								src={dashboard}
-								alt=""
+								alt="student dashboard image"
 								className="h-full mx-auto"
 								width={700}
 							/>
@@ -146,14 +147,13 @@ const WalkthroughModal: FunctionComponent<ModalProps> = ({ show, toggle }) => {
 					</h2>
 					<p className="text-md sm:text-lg text-dark mt-3 max-w-lg tracking-wider sm:leading-7 leading-6">
 						Review the case presentation for the current case. After careful
-						evaluation, click on &quot;Proceed to the Case Model Question&quot;
-						to respond to the case presentation.
+						evaluation, proceed to comment on the case presentation.
 					</p>
 					<div className="mt-4">
 						<figure className="md:h-auto sm:h-64 h-48">
 							<Image
 								src={casepresentation}
-								alt=""
+								alt="case presentation image"
 								className="h-full mx-auto"
 								width={700}
 							/>
@@ -166,14 +166,14 @@ const WalkthroughModal: FunctionComponent<ModalProps> = ({ show, toggle }) => {
 						Step 5.
 					</h2>
 					<p className="text-md sm:text-lg text-dark mt-3 max-w-lg tracking-wider sm:leading-7 leading-6">
-						Give a response to the case study based on the case presentation.
-						The max count is 700 words.
+						Comment on the case study based on the case presentation. The
+						maximum word count is 700 words.
 					</p>
 					<div className="mt-4">
 						<figure className="md:h-auto sm:h-64 h-48">
 							<Image
-								src={caseresponse}
-								alt=""
+								src={casecomments}
+								alt="case comments image"
 								className="h-full mx-auto"
 								width={700}
 							/>
@@ -186,13 +186,13 @@ const WalkthroughModal: FunctionComponent<ModalProps> = ({ show, toggle }) => {
 						Step 6.
 					</h2>
 					<p className="text-md sm:text-lg text-dark mt-3 max-w-lg tracking-wider sm:leading-7 leading-6">
-						Compare your response to the teacher's case model answer.
+						Compare your response to the teacher&apos;s case model answer.
 					</p>
 					<div className="mt-4">
 						<figure className="md:h-auto sm:h-64 h-48">
 							<Image
 								src={casemodelanswer}
-								alt=""
+								alt="case model answer image"
 								className="h-full mx-auto"
 								width={700}
 							/>
@@ -213,7 +213,7 @@ const WalkthroughModal: FunctionComponent<ModalProps> = ({ show, toggle }) => {
 						<figure className="md:h-auto sm:h-64 h-48">
 							<Image
 								src={caseteaching}
-								alt=""
+								alt="case teaching image"
 								className="h-full mx-auto"
 								width={700}
 							/>
@@ -233,7 +233,7 @@ const WalkthroughModal: FunctionComponent<ModalProps> = ({ show, toggle }) => {
 						<figure className="md:h-auto sm:h-64 h-48">
 							<Image
 								src={cmequestions}
-								alt=""
+								alt="cme questions image"
 								className="h-full mx-auto"
 								width={700}
 							/>
@@ -252,7 +252,7 @@ const WalkthroughModal: FunctionComponent<ModalProps> = ({ show, toggle }) => {
 						<figure className="md:h-auto sm:h-64 h-48">
 							<Image
 								src={feedback}
-								alt=""
+								alt="feedback image"
 								className="h-full mx-auto"
 								width={700}
 							/>
@@ -271,7 +271,7 @@ const WalkthroughModal: FunctionComponent<ModalProps> = ({ show, toggle }) => {
 						<figure className="md:h-auto sm:h-64 h-48">
 							<Image
 								src={certificate}
-								alt=""
+								alt="download certificate image"
 								className="h-full mx-auto"
 								width={700}
 							/>
