@@ -21,7 +21,7 @@ const TeacherCaseAnswer: FunctionComponent<TeacherCaseAnswerProps> = ({
 	goBack,
 	caseStudy,
 	setCaseStudy,
-	handleUpdateDraftCase,
+	// handleUpdateDraftCase,
 }) => {
 	const [isEditorMounted, setIsEditorMounted] = useState(false);
 	const [inputsForValidation, setErrorsForValidatedInputs] =
@@ -127,7 +127,7 @@ const TeacherCaseAnswer: FunctionComponent<TeacherCaseAnswerProps> = ({
 					}}
 				/>
 			</div>
-			<Button
+			{/* <Button
 				btnStyle="outline"
 				size="lg"
 				centralize
@@ -137,7 +137,7 @@ const TeacherCaseAnswer: FunctionComponent<TeacherCaseAnswerProps> = ({
 				{addingDraftCaseStatus === "loading"
 					? "Loading..."
 					: "Save As a Draft..."}
-			</Button>
+			</Button> */}
 
 			<div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
 				<Button btnStyle="outline" size="lg" centralize onClick={goBack}>
