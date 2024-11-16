@@ -16,7 +16,7 @@ const FeedbackModal = ({ feedback }: any) => {
 							<h5 className="mt-4 text-dark">
 								{index + 1}. &nbsp;&nbsp; {questionInfo.question}
 							</h5>
-							<p className="text-grey-300 text-sm ml-6.25 mt-1">
+							<p className="text-grey-300 text-sm ml-7.5 mt-1">
 								{questionInfo.response}
 							</p>
 						</div>

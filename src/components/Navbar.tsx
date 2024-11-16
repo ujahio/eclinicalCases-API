@@ -7,7 +7,17 @@ import Button from "./ui/Button";
 import AppDropdown, { AppDropdownItem } from "./ui/Dropdown";
 
 // const Navbar = ({ setShowWelcomeModal }) => {
-const Navbar = () => {
+const Navbar = ({
+	activeTab,
+	setShowWelcomeModal,
+}: {
+	activeTab: string;
+	setShowWelcomeModal: (bool: boolean) => void;
+}) => {
+	const homePageActiveIndicator = activeTab === "home" ? "active" : "";
+	const instructorPageActiveIndicator =
+		activeTab === "instructor" ? "active" : "";
+
 	return (
 		<div
 			className={`flex items-center justify-between bg-white shadow-sm navbar h-17.5 ${LANDING_X_PADDING}`}
@@ -18,21 +28,24 @@ const Navbar = () => {
 				<Image src={Logo} alt="" className="w-auto h-5 sm:h-6" />
 				<ul className="text-dark md:flex hidden h-full items-center space-x-5 md:space-x-8">
 					<li className="h-full relative inline-flex items-center">
-						<Link href="/" className="active uppercase">
+						<Link href="/" className={`${homePageActiveIndicator} uppercase`}>
 							Home
 						</Link>
 					</li>
-					{/* <li className="h-full relative inline-flex items-center">
-						<Link href="/instructors" className="uppercase">
-							Instructors
+					<li className="h-full relative inline-flex items-center">
+						<Link
+							href="/instructor"
+							className={`${instructorPageActiveIndicator} uppercase`}
+						>
+							Instructor
 						</Link>
-					</li> */}
-					{/* <li
+					</li>
+					<li
 						className="h-full relative inline-flex items-center uppercase cursor-pointer"
 						onClick={() => setShowWelcomeModal(true)}
 					>
 						How it works
-					</li> */}
+					</li>
 				</ul>
 				<div className="hidden md:flex">
 					<Button href="/login" className="mr-3 " btnStyle="outline" size="md">

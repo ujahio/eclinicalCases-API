@@ -30,6 +30,14 @@ const domainName =
 export const api = new sst.aws.ApiGatewayV2("eccs", {
 	domain: domainName,
 	cors: true,
+	transform: {
+		stage: (args) => {
+			args.defaultRouteSettings = {
+				throttlingBurstLimit: 100,
+				throttlingRateLimit: 50,
+			};
+		},
+	},
 });
 
 const cognitoAuthorizer = api.addAuthorizer({

@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import {
 	StudentCaseAnswer,
 	StudentCasePresentation,
-	StudentCaseQuestion,
+	StudentCaseComments,
 	StudentCertificate,
 	StudentCMEQuestions,
-	StudentFeedbacks,
+	StudentFeedback,
 	StudentCaseTeaching,
 } from "@/components/cases";
 import DashboardLayout from "@/components/layouts/dashboard";
@@ -61,8 +61,8 @@ const StudentCaseStudy = ({
 					/>
 				)}
 
-				{isActive("case_response") && (
-					<StudentCaseQuestion
+				{isActive("case_comments") && (
+					<StudentCaseComments
 						goNext={goNext}
 						goBack={goBack}
 						studentCaseExplanation={caseDetails?.studentCaseExplanation}
@@ -98,7 +98,7 @@ const StudentCaseStudy = ({
 					/>
 				)}
 
-				{isActive("feedback") && <StudentFeedbacks goNext={goNext} />}
+				{isActive("feedback") && <StudentFeedback goNext={goNext} />}
 
 				{isActive("certificate") && <StudentCertificate />}
 			</div>

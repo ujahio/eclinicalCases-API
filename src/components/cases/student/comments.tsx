@@ -9,7 +9,7 @@ import { Editor } from "react-draft-wysiwyg";
 import { convertFromRaw, convertToRaw, EditorState } from "draft-js";
 import Button from "@/components/ui/Button";
 
-interface StudentCaseQuestionProps {
+interface StudentCaseCommentsProps {
 	goNext: () => void;
 	goBack: () => void;
 	studentCaseExplanation: string;
@@ -27,7 +27,7 @@ export type QuestionErrorProps = {
 	};
 };
 
-const StudentCaseQuestion: FunctionComponent<StudentCaseQuestionProps> = ({
+const StudentCaseComments: FunctionComponent<StudentCaseCommentsProps> = ({
 	goNext,
 	goBack,
 	setCaseDetails,
@@ -98,8 +98,9 @@ const StudentCaseQuestion: FunctionComponent<StudentCaseQuestionProps> = ({
 			<div className="mb-5 sm:mb-6">
 				<div className="mt-5">
 					<h6 className="text-1sm sm:text-sm capitalize sm:mb-2 text-blue font-bold">
-						WHAT IS YOUR RESPONSE TO THE CASE PRESENTATION?
+						COMMENT ON THE CASE. NO MORE THAN 700 CHARACTERS
 					</h6>
+
 					{isEditorMounted && (
 						<Editor
 							editorState={editorState}
@@ -138,16 +139,24 @@ const StudentCaseQuestion: FunctionComponent<StudentCaseQuestionProps> = ({
 	);
 };
 
-export default StudentCaseQuestion;
+export default StudentCaseComments;
 
 const studentCaseQuestionValidation = (
 	setError: Dispatch<SetStateAction<QuestionErrorProps>>,
 	editorTextContentCount: number
 ): boolean => {
 	let validated = true;
-
 	const explanationMaxWordCount = 700;
-	if (editorTextContentCount > explanationMaxWordCount) {
+	if (editorTextContentCount === 0) {
+		setError((prevState) => ({
+			...prevState,
+			explanation: {
+				status: "error",
+				validationMessage: "Explanation cannot be empty!",
+			},
+		}));
+		validated = false;
+	} else if (editorTextContentCount > explanationMaxWordCount) {
 		setError((prevState) => ({
 			...prevState,
 			explanation: {

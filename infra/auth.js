@@ -2,6 +2,10 @@
 
 import { client } from "./client";
 
+const STAGE = $app.stage;
+const DOMAIN = process.env.NEXT_PUBLIC_DOMAIN;
+const domainName = STAGE === "production" ? DOMAIN : `${STAGE}.${DOMAIN}`;
+
 export const userPool = new sst.aws.CognitoUserPool(
 	"eccslabs",
 	{
@@ -55,10 +59,9 @@ export const userPool = new sst.aws.CognitoUserPool(
 				],
 				verificationMessageTemplate: {
 					defaultEmailOption: "CONFIRM_WITH_LINK",
-					emailMessageByLink:
-						"Thank you for registering with eccs-online.com. Please {##click this link##} to complete your registration and access the latest course contents.",
+					emailMessageByLink: `Thank you for registering with https://${domainName}. Please {##click this link##} to complete your registration and access the latest course contents.`,
 				},
-				emailVerificationSubject: "eccs-online.com - Verify your email",
+				emailVerificationSubject: `${domainName} - Verify your email`,
 			},
 		},
 	},
