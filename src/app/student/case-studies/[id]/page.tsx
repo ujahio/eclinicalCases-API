@@ -16,7 +16,7 @@ import { CaseDetail } from "@/services/types/student";
 
 const tabs = [
 	"Case Presentation",
-	"Case Response",
+	"Case Comments",
 	"Case Model Answers",
 	"Case Teaching",
 	"CME Questions",

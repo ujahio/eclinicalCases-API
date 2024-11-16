@@ -38,61 +38,84 @@ const TeacherCaseStudies = ({ handleDeleteCase }: IProps) => {
 			caseStatus: caseItem.caseStatus,
 		})) || null;
 
-	const renderContent = () => {
-		switch (activeTab) {
-			case "drafts":
-				return (
-					<div className="tab-content">
-						<ul className="grid grid-cols-items gap-5 md:gap-6.25">
-							{draftCases?.length > 0 ? (
-								<>
-									{draftCases.map((caseS: any) => (
-										<CaseCard
-											case={caseS}
-											key={caseS._id}
-											handleDeleteCase={handleDeleteCase}
-										/>
-									))}
-								</>
-							) : (
-								<p className="text-black">
-									No cases found matching your search query.
-								</p>
-							)}
-						</ul>
-					</div>
-				);
-			case "archived":
-				return (
-					<div className="tab-content">
-						<ul className="grid grid-cols-items gap-5 md:gap-6.25">
-							{archivedCases?.length > 0 ? (
-								<>
-									{archivedCases.map((caseS: any) => (
-										<CaseCard
-											case={caseS}
-											key={caseS._id}
-											handleDeleteCase={handleDeleteCase}
-										/>
-									))}
-								</>
-							) : (
-								<p className="text-black">
-									No cases found matching your search query.
-								</p>
-							)}
-						</ul>
-					</div>
-				);
-			default:
-				return null;
-		}
-	};
+	// const renderContent = () => {
+	// 	switch (activeTab) {
+	// 		case "drafts":
+	// 			return (
+	// 				<div className="tab-content">
+	// 					<ul className="grid grid-cols-items gap-5 md:gap-6.25">
+	// 						{draftCases?.length > 0 ? (
+	// 							<>
+	// 								{draftCases.map((caseS: any) => (
+	// 									<CaseCard
+	// 										case={caseS}
+	// 										key={caseS._id}
+	// 										handleDeleteCase={handleDeleteCase}
+	// 									/>
+	// 								))}
+	// 							</>
+	// 						) : (
+	// 							<p className="text-black">
+	// 								No cases found matching your search query.
+	// 							</p>
+	// 						)}
+	// 					</ul>
+	// 				</div>
+	// 			);
+	// 		case "archived":
+	// 			return (
+	// 				<div className="tab-content">
+	// 					<ul className="grid grid-cols-items gap-5 md:gap-6.25">
+	// 						{archivedCases?.length > 0 ? (
+	// 							<>
+	// 								{archivedCases.map((caseS: any) => (
+	// 									<CaseCard
+	// 										case={caseS}
+	// 										key={caseS._id}
+	// 										handleDeleteCase={handleDeleteCase}
+	// 									/>
+	// 								))}
+	// 							</>
+	// 						) : (
+	// 							<p className="text-black">
+	// 								No cases found matching your search query.
+	// 							</p>
+	// 						)}
+	// 					</ul>
+	// 				</div>
+	// 			);
+	// 		default:
+	// 			return null;
+	// 	}
+	// };
 
+	const renderContent = () => {
+		return (
+			<div className="tab-content">
+				<ul className="grid grid-cols-items gap-5 md:gap-6.25">
+					{archivedCases?.length > 0 ? (
+						<>
+							{archivedCases.map((caseS: any) => (
+								<CaseCard
+									case={caseS}
+									key={caseS._id}
+									handleDeleteCase={handleDeleteCase}
+								/>
+							))}
+						</>
+					) : (
+						<p className="text-black">
+							No cases found matching your search query.
+						</p>
+					)}
+				</ul>
+			</div>
+		);
+	};
 	return (
 		<AdminLayout>
 			<div className="mt-7.5">
-				<div className="flex justify-around border-b border-gray-200 mb-5">
+				{/* <div className="flex justify-around border-b border-gray-200 mb-5">
 					<button
 						className={`flex-1 py-2 text-center text-gray-500 hover:text-black focus:outline-none focus:border-b-2 focus:border-black ${
 							activeTab === "drafts"
@@ -109,7 +132,7 @@ const TeacherCaseStudies = ({ handleDeleteCase }: IProps) => {
 					>
 						<h3 className="text-1sm">ARCHIVED</h3>
 					</button>
-				</div>
+				</div> */}
 				{renderContent()}
 			</div>
 		</AdminLayout>

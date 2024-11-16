@@ -1,5 +1,4 @@
 import React, { FunctionComponent } from "react";
-import { useRouter } from "next/navigation";
 import AppDropdown, { AppDropdownItem } from "../../ui/Dropdown";
 import Logo from "@/assets/images/logo.png";
 import UserImg from "@/assets/images/user.png";
@@ -7,7 +6,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { APP_CONTAINER, APP_SPACING } from "@/services/constants/styles";
-import { signOut, useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
+// import { useAuthRedirect } from "@/services/hooks/useAuthRedirect";
 
 interface NavProps {
 	navLinks?: { path: string; label: string }[];
@@ -31,8 +31,8 @@ const Nav: FunctionComponent<NavProps> = ({
 	img,
 }) => {
 	const currentPath = usePathname();
-	const { data } = useSession();
-	const { user_role } = data!.user;
+	// const { user } = useAuthRedirect();
+
 	const pathMatches = (path: string) => {
 		return currentPath === path;
 	};
@@ -93,15 +93,17 @@ const Nav: FunctionComponent<NavProps> = ({
 									Dashboard
 								</AppDropdownItem>
 							)}
-							{/* <AppDropdownItem
-								href={
-									user_role === "teacher"
-										? "/teacher/settings"
-										: "/student/settings"
-								}
-							>
-								Account Settings
-							</AppDropdownItem> */}
+							{/* {user && (
+								<AppDropdownItem
+									href={
+										user.user_role === "teacher"
+											? "/teacher/settings"
+											: "/student/settings"
+									}
+								>
+									Account Settings
+								</AppDropdownItem>
+							)} */}
 							<AppDropdownItem onClick={logoutUser}>Sign Out</AppDropdownItem>
 						</AppDropdown>
 					))}

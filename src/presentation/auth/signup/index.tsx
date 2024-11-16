@@ -47,7 +47,8 @@ const Signup = ({ handleSignUp }: SignupCompProps) => {
 				/>
 			</nav> */}
 
-			<div className="mt-7 w-full">
+			{/* <div className="mt-7 w-full"> */}
+			<div className="mt-20 w-full">
 				<div className="w-11/12 max-w-200 bg-white py-10 px-6 sm:p-10 md:p-12.5 border border-grey-border rounded-sm mx-auto">
 					<figure className="h-5 sm:h-6">
 						<Image src={Logo} alt="E Clinic logo" className="h-full w-auto" />
