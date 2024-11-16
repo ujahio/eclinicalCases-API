@@ -1,6 +1,6 @@
 import CaseCard from "./CaseCard";
 import StudentCasePresentation from "./student/presentation";
-import StudentCaseResponse from "./student/response";
+import StudentCaseComments from "./student/comments";
 import StudentCaseAnswer from "./student/answer";
 import StudentCMEQuestions from "./student/cme-questions";
 import StudentCertificate from "./student/certificate";
@@ -16,7 +16,7 @@ export {
 	CaseCard,
 	StudentCasePresentation,
 	StudentCaseTeaching,
-	StudentCaseResponse,
+	StudentCaseComments,
 	StudentCaseAnswer,
 	StudentCMEQuestions,
 	StudentCertificate,
