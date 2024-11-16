@@ -3,6 +3,7 @@ import maskedTeacher from "@/assets/images/masked-doctor.png";
 import Button from "@/components/ui/Button";
 import Image from "next/image";
 import { APP_CONTAINER, LANDING_X_PADDING } from "@/services/constants/styles";
+import Link from "next/link";
 
 const Objective = () => {
 	return (
@@ -43,9 +44,11 @@ const Objective = () => {
 						))}
 					</ul>
 
-					<Button className="mt-12" size="lg">
-						Get started
-					</Button>
+					<Link href="/signup">
+						<Button className="mt-12" size="lg">
+							Get started
+						</Button>
+					</Link>
 				</div>
 			</div>
 		</div>
@@ -53,9 +56,9 @@ const Objective = () => {
 };
 
 const objectives = [
-	"Proin ac quam et lectus vestibulum blandit. Nunc maximus nibh at placerat tincidunt. Nam sem lacus,",
-	"Proin ac quam et lectus vestibulum blandit. Nunc maximus nibh at placerat tincidunt. Nam sem lacus,",
-	"Proin ac quam et lectus vestibulum blandit. Nunc maximus nibh at placerat tincidunt. Nam sem lacus,",
+	"To provide category 1 CMEs in clinical laboratory medicine.",
+	"To support users of the clinical laboratory better interpret their patients’ test reports.",
+	"To provide users with CMEs for accreditation and re-licensing.",
 ];
 
 export default Objective;
