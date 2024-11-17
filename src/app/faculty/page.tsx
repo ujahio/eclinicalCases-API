@@ -12,10 +12,7 @@ const Page = () => {
 
 	return (
 		<>
-			<Navbar
-				activeTab="instructor"
-				setShowWelcomeModal={setShowWelcomeModal}
-			/>
+			<Navbar activeTab="faculty" setShowWelcomeModal={setShowWelcomeModal} />
 			<div
 				className={`bg-primary-100 py-15 sm:py-32 sm:grid grid-cols-2 ${LANDING_X_PADDING} ${APP_CONTAINER}`}
 			>
