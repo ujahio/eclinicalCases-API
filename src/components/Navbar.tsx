@@ -15,8 +15,7 @@ const Navbar = ({
 	setShowWelcomeModal: (bool: boolean) => void;
 }) => {
 	const homePageActiveIndicator = activeTab === "home" ? "active" : "";
-	const instructorPageActiveIndicator =
-		activeTab === "instructor" ? "active" : "";
+	const facultyPageActiveIndicator = activeTab === "faculty" ? "active" : "";
 
 	return (
 		<div
@@ -34,10 +33,10 @@ const Navbar = ({
 					</li>
 					<li className="h-full relative inline-flex items-center">
 						<Link
-							href="/instructor"
-							className={`${instructorPageActiveIndicator} uppercase`}
+							href="/faculty"
+							className={`${facultyPageActiveIndicator} uppercase`}
 						>
-							Instructor
+							FACULTY
 						</Link>
 					</li>
 					<li

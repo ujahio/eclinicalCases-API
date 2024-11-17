@@ -5,6 +5,7 @@ import {
 	AdminGetUserCommand,
 	ListUsersCommand,
 	AdminInitiateAuthCommand,
+	InitiateAuthCommand,
 } from "@aws-sdk/client-cognito-identity-provider";
 import {
 	// updateUserPassword,
@@ -250,57 +251,99 @@ export const signin = async (event) => {
 	}
 };
 
-export const updatePassword = async (event) => {
-	try {
-		const body = JSON.parse(event.body);
-		const email = body.validatedUser.email;
-		const { currentPassword, newPassword } = body;
-
-		let originalCurrentPassword = decryptPassword(
-			currentPassword,
-			Resource.NEXT_PUBLIC_PASS_SECRET_KEY.value
-		);
-
-		const user = await getUserByEmail(email);
-		const isPasswordCorrect = bcrypt.compareSync(
-			originalCurrentPassword,
-			user.password
-		);
-		if (!isPasswordCorrect) {
-			return {
-				statusCode: 401,
-				body: JSON.stringify({ message: "Password is incorrect" }),
-			};
-		}
-
-		// Hash and update new password
-		let originalNewPassword = decryptPassword(
-			newPassword,
-			Resource.NEXT_PUBLIC_PASS_SECRET_KEY.value
-		);
-		const hashedPassword = bcrypt.hashSync(originalNewPassword, 4);
-
-		const updatedUser = await updateUserPassword(email, hashedPassword);
-
+export const refreshToken = async (event) => {
+	const { refreshToken } = JSON.parse(event.body);
+	if (!refreshToken) {
 		return {
-			statusCode: 200,
-			body: JSON.stringify({
-				message: "Password updated successfully!",
-				data: updatedUser,
-			}),
+			statusCode: 400,
+			body: JSON.stringify({ error: "Missing refresh token" }),
 		};
+	}
+
+	try {
+		const refreshParams = {
+			AuthFlow: "REFRESH_TOKEN_AUTH",
+			ClientId: Resource[cognitoWebClient].id,
+			AuthParameters: {
+				REFRESH_TOKEN: refreshToken,
+			},
+		};
+
+		const refreshCommand = new InitiateAuthCommand(refreshParams);
+		const response = await cognitoClient.send(refreshCommand);
+		if (response.AuthenticationResult) {
+			return {
+				statusCode: 200,
+				body: JSON.stringify({
+					accessToken: response.AuthenticationResult.AccessToken,
+					expiresIn: response.AuthenticationResult.ExpiresIn,
+					refreshToken: refreshToken, // Optionally return the same refresh token
+				}),
+			};
+		} else {
+			throw new Error("Missing AuthenticationResult in Cognito response");
+		}
 	} catch (error) {
-		console.error("Error updating password:", error);
+		console.error("Error refreshing token:", error);
 
 		return {
 			statusCode: 500,
-			body: JSON.stringify({
-				error: `Error updating password: ${error.message}`,
-				message: "Error updating password.",
-			}),
+			body: JSON.stringify({ error: "Failed to refresh token" }),
 		};
 	}
 };
+
+// export const updatePassword = async (event) => {
+// 	try {
+// 		const body = JSON.parse(event.body);
+// 		const email = body.validatedUser.email;
+// 		const { currentPassword, newPassword } = body;
+
+// 		let originalCurrentPassword = decryptPassword(
+// 			currentPassword,
+// 			Resource.NEXT_PUBLIC_PASS_SECRET_KEY.value
+// 		);
+
+// 		const user = await getUserByEmail(email);
+// 		const isPasswordCorrect = bcrypt.compareSync(
+// 			originalCurrentPassword,
+// 			user.password
+// 		);
+// 		if (!isPasswordCorrect) {
+// 			return {
+// 				statusCode: 401,
+// 				body: JSON.stringify({ message: "Password is incorrect" }),
+// 			};
+// 		}
+
+// 		// Hash and update new password
+// 		let originalNewPassword = decryptPassword(
+// 			newPassword,
+// 			Resource.NEXT_PUBLIC_PASS_SECRET_KEY.value
+// 		);
+// 		const hashedPassword = bcrypt.hashSync(originalNewPassword, 4);
+
+// 		const updatedUser = await updateUserPassword(email, hashedPassword);
+
+// 		return {
+// 			statusCode: 200,
+// 			body: JSON.stringify({
+// 				message: "Password updated successfully!",
+// 				data: updatedUser,
+// 			}),
+// 		};
+// 	} catch (error) {
+// 		console.error("Error updating password:", error);
+
+// 		return {
+// 			statusCode: 500,
+// 			body: JSON.stringify({
+// 				error: `Error updating password: ${error.message}`,
+// 				message: "Error updating password.",
+// 			}),
+// 		};
+// 	}
+// };
 
 // IS THIS NEEDED?
 // export const sendOTP = async (event) => {

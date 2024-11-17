@@ -22,6 +22,7 @@ declare module "next-auth" {
 		lastName?: string;
 		user_role?: string;
 		accessToken?: string;
+		refreshToken?: string;
 	}
 
 	interface Session extends DefaultSession {
@@ -32,6 +33,7 @@ declare module "next-auth" {
 			lastName: string;
 			user_role: string;
 		};
+		error: any;
 	}
 }
 
@@ -75,8 +77,11 @@ const authOptions: NextAuthConfig = {
 	],
 	callbacks: {
 		async jwt({ token, user }) {
+			// Handle initial sign-in
 			if (user) {
 				token.accessToken = user.accessToken;
+				token.refreshToken = user.refreshToken;
+				token.accessTokenExpires = Date.now() + 3600 * 1000; // Token valid for 1 hour
 				token.id = user.id;
 				token.firstName = user.firstName;
 				token.lastName = user.lastName;
@@ -84,9 +89,40 @@ const authOptions: NextAuthConfig = {
 				token.email = user.email;
 			}
 
-			// Return the token, including tokens and user details
+			// If the token is still valid, return it
+			if (token.accessTokenExpires && Date.now() < token.accessTokenExpires) {
+				return token;
+			}
+
+			if (!token.accessTokenExpires || Date.now() >= token.accessTokenExpires) {
+				console.log("Access token has expired, refreshing...");
+			}
+
+			// If the token has expired, refresh it
+			try {
+				const response = await authApi.post("/refresh-token", {
+					refreshToken: token.refreshToken,
+				});
+
+				const refreshedData = response.data;
+
+				// Update token with refreshed details
+				token.accessToken = refreshedData.accessToken;
+				token.accessTokenExpires = Date.now() + refreshedData.expiresIn * 1000; // New expiration time
+				token.refreshToken = refreshedData.refreshToken || token.refreshToken; // Retain same refresh token if not updated
+			} catch (error) {
+				console.error("Failed to refresh token:", error);
+
+				// Optionally handle token refresh failure
+				return {
+					...token,
+					error: "RefreshAccessTokenError",
+				};
+			}
+
 			return token;
 		},
+
 		async session({ session, token }) {
 			session.accessToken = token.accessToken;
 			session.user = {
@@ -97,6 +133,12 @@ const authOptions: NextAuthConfig = {
 				email: token.email!,
 				emailVerified: null,
 			};
+
+			// Pass any token error to the session
+			if (token.error) {
+				session.error = token.error;
+			}
+
 			return session;
 		},
 		async authorized({ auth }) {
