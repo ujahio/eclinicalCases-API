@@ -59,6 +59,11 @@ const routeArgs = {
 };
 
 // Auth
+
+api.route("POST /api/auth/refresh-token", {
+	link: [...links, userPool, eccsWebClient],
+	handler: "server/controllers/auth.controller.refreshToken",
+});
 api.route("POST /api/auth/signin", {
 	link: [...links, userPool, eccsWebClient],
 	handler: "server/controllers/auth.controller.signin",
