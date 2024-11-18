@@ -32,6 +32,7 @@ const Header = () => {
 						<br />
 						<br />A total of 20 category 1 CMEs are offered in one year.
 						<br />
+						<br />
 						NMC Healthcare is accredited by the Abu Dhabi Department of Health
 						to provide CME/CPD for healthcare providers. This activity is
 						designated for XXXX CME/CPD credits.
