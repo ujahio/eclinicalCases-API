@@ -47,7 +47,7 @@ const WalkthroughModal: FunctionComponent<ModalProps> = ({ show, toggle }) => {
 					aria-label={`${step}`}
 					onClick={() => setProgress(step)}
 					className={`no-outline h-1.5 w-1.5 rounded-full ${
-						step === progress ? "bg-dark" : "bg-grey-400"
+						step === progress ? "" : "bg-grey-400"
 					}`}
 				/>
 			</li>
