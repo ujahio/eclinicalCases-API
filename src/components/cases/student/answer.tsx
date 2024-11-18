@@ -108,7 +108,7 @@ const StudentCaseAnswer: FC<StudentCaseAnswerProps> = ({
 					centralize
 					onClick={() => goBack()}
 				>
-					BACK TO CASE MODEL QUESTIONS
+					BACK TO COMMENTS
 				</Button>
 				<Button btnStyle="basic" size="lg" centralize onClick={() => goNext()}>
 					PROCEED TO CASE TEACHING
