@@ -30,7 +30,8 @@ const Header = () => {
 						answer by the tutor. This is accompanied by teaching on the subject
 						and a test of learning by multiple choice questions (MCQs).
 						<br />
-						<br />A total of 20 category 1 CMEs are offered in one year.
+						<br />
+						A total of 20 category 1 CMEs are offered in one year.
 						<br />
 						<br />
 						NMC Healthcare is accredited by the Abu Dhabi Department of Health
