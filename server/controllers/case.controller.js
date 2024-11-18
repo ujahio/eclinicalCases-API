@@ -40,13 +40,22 @@ export const getCaseForStudentsResponse = async (event) => {
 			};
 		}
 
+		const caseQuestions = JSON.parse(publishedCaseResult.caseQuestions).map(
+			(questionInfo) => ({
+				question: questionInfo.question,
+				options: questionInfo.options,
+			})
+		);
+
+		const caseQuestionsWithoutAnswer = JSON.stringify(caseQuestions);
+
 		const caseInfo = {
 			id: publishedCaseResult.id,
 			caseTopic: publishedCaseResult.caseTopic,
 			caseDeadline: publishedCaseResult.caseDeadline,
 			caseStatus: publishedCaseResult.caseStatus,
 			caseDescription: publishedCaseResult.caseDescription,
-			caseQuestions: publishedCaseResult.caseQuestions,
+			caseQuestions: caseQuestionsWithoutAnswer,
 			caseExplanation: publishedCaseResult.caseExplanation,
 			caseMaterials: publishedCaseResult.caseMaterials,
 			caseTeaching: publishedCaseResult.caseTeaching,
