@@ -206,8 +206,8 @@ const WalkthroughModal: FunctionComponent<ModalProps> = ({ show, toggle }) => {
 						Step 7.
 					</h2>
 					<p className="text-md sm:text-lg text-dark mt-3 max-w-lg tracking-wider sm:leading-7 leading-6">
-						Read through the teacher's detailed case teaching on the subject.
-						The teaching also contains additional resources for further
+						Read through the teacher&apos;s detailed case teaching on the
+						subject. The teaching also contains additional resources for further
 						learning.
 					</p>
 					<div className="mt-4">
