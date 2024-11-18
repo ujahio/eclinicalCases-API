@@ -31,6 +31,10 @@ const Header = () => {
 						and a test of learning by multiple choice questions (MCQs).
 						<br />
 						<br />A total of 20 category 1 CMEs are offered in one year.
+						<br />
+						NMC Healthcare is accredited by the Abu Dhabi Department of Health
+						to provide CME/CPD for healthcare providers. This activity is
+						designated for XXXX CME/CPD credits.
 					</p>
 					<Link href="/signup">
 						<Button className="sm:mt-16 mt-8" size="lg">
