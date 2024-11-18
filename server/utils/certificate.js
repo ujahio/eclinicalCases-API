@@ -141,7 +141,7 @@ export const generateCertificate = async (
 		const uploadPdfToS3 = async (buffer) => {
 			const params = {
 				Bucket: Resource.Certificates.name,
-				Key: key, // will save the certificate key to another item in the database for future reference
+				Key: key,
 				Body: buffer,
 				ContentType: "application/pdf",
 			};
