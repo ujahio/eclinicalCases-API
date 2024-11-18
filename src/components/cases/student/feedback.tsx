@@ -52,7 +52,7 @@ const StudentFeedback: FunctionComponent<StudentFeedbackProps> = ({
 				autoClose: 5000,
 			});
 		}
-	}, [feedbackState.status, dispatch]);
+	}, [feedbackState, dispatch]);
 
 	return (
 		<>

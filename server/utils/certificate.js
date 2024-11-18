@@ -44,50 +44,93 @@ export const generateCertificate = async (
 		// Center-align image
 		page.drawImage(logo, {
 			x: (width - logoDims.width) / 2,
-			y: height - logoDims.height - 50,
+			y: height - logoDims.height - 90,
 			width: logoDims.width,
 			height: logoDims.height,
 		});
 
-		// Function to draw centered text
 		const drawCenteredText = (
 			text,
 			size,
 			font,
 			yOffset,
-			color = rgb(0, 0, 0)
+			color = rgb(0, 0, 0),
+			maxWidth = null
 		) => {
-			const textWidth = font.widthOfTextAtSize(text, size);
-			page.drawText(text, {
-				x: (width - textWidth) / 2,
-				y: yOffset,
-				size,
-				font,
-				color,
+			const words = text.split(" ");
+			const lines = [];
+			let currentLine = "";
+
+			const pageWidth = page.getWidth(); // Full page width
+			const widthLimit = maxWidth || pageWidth;
+
+			// Break text into lines that fit within the width limit
+			words.forEach((word) => {
+				const testLine = currentLine ? `${currentLine} ${word}` : word;
+				const testWidth = font.widthOfTextAtSize(testLine, size);
+
+				if (testWidth <= widthLimit) {
+					currentLine = testLine;
+				} else {
+					lines.push(currentLine);
+					currentLine = word;
+				}
+			});
+
+			// Push the last line if there is any
+			if (currentLine) {
+				lines.push(currentLine);
+			}
+
+			// Calculate the starting Y position for multi-line text
+			const lineHeight = size * 1.2; // Adjust line spacing as needed
+			const startY = yOffset - ((lines.length - 1) * lineHeight) / 2;
+
+			// Draw each line of text
+			lines.forEach((line, index) => {
+				const textWidth = font.widthOfTextAtSize(line, size);
+				const x = (pageWidth - textWidth) / 2; // Center line on the page width
+				const y = startY - index * lineHeight;
+
+				page.drawText(line, {
+					x,
+					y,
+					size,
+					font,
+					color,
+				});
 			});
 		};
 
 		// Draw certificate text
 		drawCenteredText(
 			"Certificate Of Completion",
-			25,
+			22,
 			fontRegular,
-			height - 200
+			height - 180
 		);
-		drawCenteredText("AWARDED TO", 16, fontRegular, height - 300);
-		drawCenteredText(studentName.toUpperCase(), 30, fontBold, height - 350);
+		drawCenteredText("AWARDED TO", 14, fontRegular, height - 220);
+		drawCenteredText(studentName.toUpperCase(), 25, fontBold, height - 270);
 		drawCenteredText(
 			"WHO SUCCESSFULLY COMPLETED",
-			16,
+			14,
 			fontRegular,
-			height - 400
+			height - 330
 		);
-		drawCenteredText(caseName, 25, fontBold, height - 450);
+		drawCenteredText(
+			caseName,
+			22,
+			fontBold,
+			height - 360,
+			rgb(0, 0, 0),
+			650 // Restrict width for this text
+		);
+		drawCenteredText("1 CME Credit", 14, fontRegular, height - 440);
 		drawCenteredText(
 			`Date: ${submissionDate.toLocaleDateString("en-US")}`,
 			15,
 			fontRegular,
-			height - 500
+			height - 480
 		);
 
 		const pdfBytes = await pdfDoc.save();
@@ -98,7 +141,7 @@ export const generateCertificate = async (
 		const uploadPdfToS3 = async (buffer) => {
 			const params = {
 				Bucket: Resource.Certificates.name,
-				Key: key, // will save the certificate key to another item in the database for future reference
+				Key: key,
 				Body: buffer,
 				ContentType: "application/pdf",
 			};

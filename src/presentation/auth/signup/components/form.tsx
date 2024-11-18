@@ -39,7 +39,6 @@ export const SignUpForm: FunctionComponent<SignUpFormProps> = ({
 	});
 	const submitForm = (e: FormEvent) => {
 		e.preventDefault();
-		console.log("personalDetails", personalDetails);
 
 		if (personalDetails.password === personalDetails.confirmPassword) {
 			const hashedPassword = saltAndHashPassword(personalDetails.password);
