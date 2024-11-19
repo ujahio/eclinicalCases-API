@@ -27,7 +27,7 @@ const CaseEditor: FunctionComponent<EditorConvertToJSONProps> = ({
 				const parsedContent = JSON.parse(content);
 				return EditorState.createWithContent(convertFromRaw(parsedContent));
 			} catch (error) {
-				console.error("Invalid content JSON:", error);
+				return EditorState.createWithContent(ContentState.createFromText(""));
 			}
 		}
 		return EditorState.createWithContent(ContentState.createFromText(""));
