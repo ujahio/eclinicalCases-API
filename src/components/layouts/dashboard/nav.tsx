@@ -46,7 +46,11 @@ const Nav: FunctionComponent<NavProps> = ({
 			<div
 				className={`max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl 2xl:max-w-xxl 3xl:max-w-3xl flex items-center justify-between h-17.5 ${APP_SPACING} ${APP_CONTAINER}`}
 			>
-				<Image src={Logo} alt="E Clinic Logo" className="h-5 sm:h-6 w-auto" />
+				<Image
+					src={Logo}
+					alt="e clinical cases solutions logo"
+					className="h-5 sm:h-6 w-auto"
+				/>
 
 				<ul className="h-full hidden sm:flex items-center space-x-6.25 md:space-x-8">
 					{navLinks.map(({ label, path }, index) => (
@@ -68,7 +72,7 @@ const Nav: FunctionComponent<NavProps> = ({
 
 				<div className="flex items-center cursor-pointer" role="button">
 					<figure className=" h-6.25 w-6.25 sm:h-8.75 sm:w-8.75 rounded-full mr-3">
-						<Image src={UserImg} alt="" className="h-full w-full" />
+						<Image src={UserImg} alt="user image" className="h-full w-full" />
 					</figure>
 					<svg
 						width="10.591"

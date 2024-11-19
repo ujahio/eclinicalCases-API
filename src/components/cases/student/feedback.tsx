@@ -66,7 +66,7 @@ const StudentFeedback: FunctionComponent<StudentFeedbackProps> = ({
 							{index + 1}. {question}
 						</h5>
 						<div className="flex items-center flex-wrap">
-							{type === "usefulness" &&
+							{type === "responses" &&
 								responses.map((response, responseIndex) => (
 									<label
 										key={responseIndex}
@@ -87,31 +87,6 @@ const StudentFeedback: FunctionComponent<StudentFeedbackProps> = ({
 										/>
 										<span className="ml-2 mr-2 text-xs sm:text-1xs text-dark">
 											{response}
-										</span>
-									</label>
-								))}
-
-							{type === "yesno" &&
-								yesNoOptions.map((option, optionIndex) => (
-									<label
-										key={optionIndex}
-										htmlFor={`feedback-${id}-${optionIndex}`}
-										className={`mr-3 my-1.25 inline-flex items-center p-1.25 sm:p-1.5 transition-all border cursor-pointer ${
-											isChecked(id, option)
-												? "bg-primary-50 border-primary-300"
-												: "bg-neutral-200"
-										}`}
-									>
-										<input
-											type="radio"
-											name={`feedback-${id}`}
-											id={`feedback-${id}-${optionIndex}`}
-											className="hidden"
-											checked={isChecked(id, option)}
-											onChange={() => updateFeedback(id, option)}
-										/>
-										<span className="ml-2 mr-2 text-xs sm:text-1xs text-dark">
-											{option}
 										</span>
 									</label>
 								))}
@@ -148,34 +123,40 @@ const StudentFeedback: FunctionComponent<StudentFeedbackProps> = ({
 };
 
 const responses = [
-	"Extremely useful",
-	"Very useful",
-	"Moderately useful",
-	"Slightly useful",
-	"Not useful",
+	"Strongly disagree",
+	"Disagree",
+	"No comment",
+	"Agree",
+	"Strongly disagree",
 ];
-const yesNoOptions = ["Yes", "No"];
 
 const questions = [
 	{
-		question: "How useful did you find the case study?",
+		question:
+			"The case subject represents new knowledge or strengthens existing knowledge.",
 		key: "questionOne",
-		type: "usefulness",
+		type: "responses",
 	},
 	{
 		question:
-			"Will this case study have any impact on your professional practice?",
+			"The case subject would better help or strengthen my interpretation of clinical laboratory results",
 		key: "questionTwo",
-		type: "yesno",
+		type: "responses",
 	},
 	{
 		question:
-			"If you are involved in teaching or training, will this case study influence your teaching?",
+			"The case would help impact or strengthen my care of patients in the subject area",
 		key: "questionThree",
-		type: "yesno",
+		type: "responses",
 	},
 	{
-		question: "Are there any additional comments you want to share?",
+		question: "My user experience of the app was good",
+		key: "questionFour",
+		type: "responses",
+	},
+	{
+		question:
+			"Are there any suggestions of future case subject areas, and or improvement for the app?",
 		key: "questionFive",
 		type: "textarea",
 	},
