@@ -40,10 +40,6 @@ const TeacherCaseAnswer: FunctionComponent<TeacherCaseAnswerProps> = ({
 					<CaseEditor
 						content={caseStudy?.caseExplanation}
 						onContentChange={handleEditorChange}
-						// status={inputsForValidation.explanation.status}
-						// validationMessage={
-						// 	inputsForValidation.explanation.validationMessage
-						// }
 					/>
 				)}
 			</div>
