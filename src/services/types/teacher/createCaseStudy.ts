@@ -37,7 +37,7 @@ export interface TeacherCaseQuestionProps {
 	goNext: () => void;
 	caseStudy: CaseStudy;
 	setCaseStudy: React.Dispatch<React.SetStateAction<CaseStudy>>;
-	// handleUpdateDraftCase: handleUpdateDraftCase;
+	handleUpdateDraftCase: handleUpdateDraftCase;
 }
 
 export type CasePresentationErrorProps = {

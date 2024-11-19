@@ -18,7 +18,7 @@ const TeacherCaseTeaching: FunctionComponent<TeacherCaseTeachingProps> = ({
 	goBack,
 	caseStudy,
 	setCaseStudy,
-	// handleUpdateDraftCase,
+	handleUpdateDraftCase,
 }) => {
 	const dispatch = useAppDispatch();
 	const fileInputRef = useRef<HTMLInputElement>(null);
@@ -260,7 +260,7 @@ const TeacherCaseTeaching: FunctionComponent<TeacherCaseTeachingProps> = ({
 				)}
 			</div>
 
-			{/* <Button
+			<Button
 				btnStyle="outline"
 				size="lg"
 				centralize
@@ -270,7 +270,7 @@ const TeacherCaseTeaching: FunctionComponent<TeacherCaseTeachingProps> = ({
 				{addingDraftCaseStatus === "loading"
 					? "Loading..."
 					: "Save As a Draft..."}{" "}
-			</Button> */}
+			</Button>
 			<div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
 				<Button
 					btnStyle="outline"

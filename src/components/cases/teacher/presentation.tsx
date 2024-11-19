@@ -10,7 +10,7 @@ const TeacherCasePresentation: FunctionComponent<TeacherCaseQuestionProps> = ({
 	goNext,
 	caseStudy,
 	setCaseStudy,
-	// handleUpdateDraftCase,
+	handleUpdateDraftCase,
 }) => {
 	const [isEditorMounted, setIsEditorMounted] = useState(false);
 
@@ -67,7 +67,7 @@ const TeacherCasePresentation: FunctionComponent<TeacherCaseQuestionProps> = ({
 					)}
 				</div>
 			</div>
-			{/* 
+
 			<div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
 				<Button
 					btnStyle="outline"
@@ -89,9 +89,9 @@ const TeacherCasePresentation: FunctionComponent<TeacherCaseQuestionProps> = ({
 				>
 					PROCEED TO CASE MODEL ANSWER
 				</Button>
-			</div> */}
+			</div>
 
-			<div className="grid grid-cols-1 gap-4">
+			{/* <div className="grid grid-cols-1 gap-4">
 				<Button
 					btnStyle="basic"
 					size="lg"
@@ -101,7 +101,7 @@ const TeacherCasePresentation: FunctionComponent<TeacherCaseQuestionProps> = ({
 				>
 					PROCEED TO CASE MODEL ANSWER
 				</Button>
-			</div>
+			</div> */}
 		</>
 	);
 };
