@@ -46,15 +46,19 @@ const Header = () => {
 				</div>
 				<div className="mt-6 md:mt-0 w-auto header-images grid grid-cols-1 sm:grid-cols-2 gap-4">
 					<figure className="header-img header-img-1">
-						<Image src={FemaleDoctorImg} alt="" className="w-full" />
+						<Image
+							src={FemaleDoctorImg}
+							alt="female doctor"
+							className="w-full"
+						/>
 					</figure>
 					<figure className="header-img header-img-2">
-						<Image src={MaleDoctorImg} alt="" className="w-full" />
+						<Image src={MaleDoctorImg} alt="male doctor" className="w-full" />
 					</figure>
 					<figure className="header-img header-img-3">
 						<Image
 							src={FemaleAssistantImg}
-							alt="female assistant"
+							alt="female lab assistant"
 							className="w-full"
 						/>
 					</figure>

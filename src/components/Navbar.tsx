@@ -24,7 +24,11 @@ const Navbar = ({
 			<div
 				className={`w-full flex items-center justify-between bg-white shadow-sm navbar h-17.5 ${LANDING_X_PADDING} ${APP_CONTAINER}`}
 			>
-				<Image src={Logo} alt="" className="w-auto h-5 sm:h-6" />
+				<Image
+					src={Logo}
+					alt="e clinical cases solutions logo"
+					className="w-auto h-5 sm:h-6"
+				/>
 				<ul className="text-dark md:flex hidden h-full items-center space-x-5 md:space-x-8">
 					<li className="h-full relative inline-flex items-center">
 						<Link href="/" className={`${homePageActiveIndicator} uppercase`}>

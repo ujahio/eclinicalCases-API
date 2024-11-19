@@ -74,7 +74,11 @@ const WalkthroughModal: FunctionComponent<ModalProps> = ({ show, toggle }) => {
 			>
 				<li className="flex flex-col items-center py-16 sm:py-24 md:py-30 mt-20">
 					<figure className="h-6">
-						<Image src={LogoImg} alt="" className="h-full w-auto" />
+						<Image
+							src={LogoImg}
+							alt="e clinical cases solutions logo"
+							className="h-full w-auto"
+						/>
 					</figure>
 					<h2 className="text-lg font-medium mt-5 text-dark text-center">
 						Welcome to e-Clinical Cases Solutions
