@@ -72,7 +72,7 @@ const StudentDashboard = () => {
 									</g>
 								</svg>
 								<h5 className="font-bold text-base mt-3.75 mb-2.5">1 CME</h5>
-								<h5>Authors: Dr. Emmanuel Abu</h5>
+								<h5>Faculty: Dr. Emmanuel Abu</h5>
 
 								<div className="sm:mt-3">
 									<div className="inline-block text-1xs text-base">
