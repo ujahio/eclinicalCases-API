@@ -12,7 +12,7 @@ const Objective = () => {
 				className={`sm:mt-32 mt-24 py-15 sm:py-32 sm:grid grid-cols-2 ${LANDING_X_PADDING} ${APP_CONTAINER}`}
 			>
 				<div>
-					<Image src={maskedTeacher} alt="" className=" w-full" />
+					<Image src={maskedTeacher} alt="male lab tech" className=" w-full" />
 				</div>
 				<div className="mt-12 sm:mt-0 md:ml-10 sm:ml-10 lg:ml-28 max-w-sm">
 					<p className="text-darker font-bold text-3xl">Objectives</p>

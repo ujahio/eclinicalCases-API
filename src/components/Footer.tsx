@@ -9,11 +9,26 @@ const Footer = () => {
 			<div className="py-20 text-grey-300 sm:grid grid-cols-6 sm:text-xs lg:text-sm px-6.25 sm:px-10 md:px-15 lg:px-25 max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl 2xl:max-w-xxl 3xl:max-w-3xl mx-auto">
 				<div className="sm:grid grid-cols-3 col-span-4">
 					<div>
-						<Image src={Logo} alt="" className="sh-5 sm:h-6" />
+						<Image
+							src={Logo}
+							alt="e clinical cases solutions logo"
+							className="sh-5 sm:h-6"
+						/>
 						<p className="mt-6">e-clinical cases solution © 2024</p>
+						<p>
+							Images were designed by{" "}
+							<a
+								href="https://www.freepik.com"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								<strong>Freepik</strong>
+							</a>
+						</p>{" "}
 					</div>
-					{/* <ul className="sm:ml-8 mt-10 sm:mt-0 space-y-4">
-						<li>
+
+					{/* <ul className="sm:ml-8 mt-10 sm:mt-0 space-y-4"> 
+					 <li>
 							<Link href="">Disclaimer</Link>
 						</li>
 						<li>
@@ -29,8 +44,8 @@ const Footer = () => {
 						</li>
 						<li>
 							<Link href="">Notice of nondiscrimination</Link>
-						</li>
-						<p>Need help?</p>
+						</li> 
+						{/* <p>Need help?</p>
 					</ul> */}
 				</div>
 				{/* <div className="sm:ml-20 lg:ml-48 col-span-2 mt-10 sm:mt-0">

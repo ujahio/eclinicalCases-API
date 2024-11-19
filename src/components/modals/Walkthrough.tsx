@@ -47,7 +47,7 @@ const WalkthroughModal: FunctionComponent<ModalProps> = ({ show, toggle }) => {
 					aria-label={`${step}`}
 					onClick={() => setProgress(step)}
 					className={`no-outline h-1.5 w-1.5 rounded-full ${
-						step === progress ? "bg-dark" : "bg-grey-400"
+						step === progress ? "" : "bg-grey-400"
 					}`}
 				/>
 			</li>
@@ -74,7 +74,11 @@ const WalkthroughModal: FunctionComponent<ModalProps> = ({ show, toggle }) => {
 			>
 				<li className="flex flex-col items-center py-16 sm:py-24 md:py-30 mt-20">
 					<figure className="h-6">
-						<Image src={LogoImg} alt="" className="h-full w-auto" />
+						<Image
+							src={LogoImg}
+							alt="e clinical cases solutions logo"
+							className="h-full w-auto"
+						/>
 					</figure>
 					<h2 className="text-lg font-medium mt-5 text-dark text-center">
 						Welcome to e-Clinical Cases Solutions
@@ -88,8 +92,9 @@ const WalkthroughModal: FunctionComponent<ModalProps> = ({ show, toggle }) => {
 						Step 1.
 					</h2>
 					<p className="text-md sm:text-lg text-dark mt-3 max-w-lg tracking-wider sm:leading-7 leading-6">
-						Enter the basic information to start registration. You will recieve
-						a verification email to activate your account.
+						Enter the basic information to start the registration of your new
+						account. You will receive a verification email to complete the
+						registration.
 					</p>
 					<div className="mt-4">
 						<figure className="md:h-auto sm:h-64 h-48">
@@ -127,8 +132,8 @@ const WalkthroughModal: FunctionComponent<ModalProps> = ({ show, toggle }) => {
 						Step 3.
 					</h2>
 					<p className="text-md sm:text-lg text-dark mt-3 max-w-lg tracking-wider sm:leading-7 leading-6">
-						The most recent case study will be displayed on your dashboard.
-						Click on the &quot;View Case&quot; button to view the details.
+						Click on the &quot;View Case&quot; button to review the details of
+						the recently published case.
 					</p>
 					<div className="mt-4">
 						<figure className="md:h-auto sm:h-64 h-48">
@@ -146,8 +151,8 @@ const WalkthroughModal: FunctionComponent<ModalProps> = ({ show, toggle }) => {
 						Step 4.
 					</h2>
 					<p className="text-md sm:text-lg text-dark mt-3 max-w-lg tracking-wider sm:leading-7 leading-6">
-						Review the case presentation for the current case. After careful
-						evaluation, proceed to comment on the case presentation.
+						Review the presentation of the current case study. After careful
+						evaluation, proceed to comment on the presentation.
 					</p>
 					<div className="mt-4">
 						<figure className="md:h-auto sm:h-64 h-48">
@@ -166,8 +171,8 @@ const WalkthroughModal: FunctionComponent<ModalProps> = ({ show, toggle }) => {
 						Step 5.
 					</h2>
 					<p className="text-md sm:text-lg text-dark mt-3 max-w-lg tracking-wider sm:leading-7 leading-6">
-						Comment on the case study based on the case presentation. The
-						maximum word count is 700 words.
+						Comment on the case study based on the case presentation. Comments
+						must be between 150 and 700 characters.
 					</p>
 					<div className="mt-4">
 						<figure className="md:h-auto sm:h-64 h-48">
@@ -205,8 +210,8 @@ const WalkthroughModal: FunctionComponent<ModalProps> = ({ show, toggle }) => {
 						Step 7.
 					</h2>
 					<p className="text-md sm:text-lg text-dark mt-3 max-w-lg tracking-wider sm:leading-7 leading-6">
-						Read through the teachers case teaching on the subject in details.
-						The teaching also contains additional resources for further
+						Read through the teacher&apos;s detailed case teaching on the
+						subject. The teaching also contains additional resources for further
 						learning.
 					</p>
 					<div className="mt-4">
