@@ -98,8 +98,11 @@ const StudentCaseComments: FunctionComponent<StudentCaseCommentsProps> = ({
 			<div className="mb-5 sm:mb-6">
 				<div className="mt-5">
 					<h6 className="text-1sm sm:text-sm capitalize sm:mb-2 text-blue font-bold">
-						COMMENT ON THE CASE. NO MORE THAN 700 CHARACTERS
+						COMMENT ON THE CASE
 					</h6>
+					<p className="text-1xs">
+						{"Note: Comments must be between 150 and 700 characters."}
+					</p>
 
 					{isEditorMounted && (
 						<Editor
@@ -124,7 +127,7 @@ const StudentCaseComments: FunctionComponent<StudentCaseCommentsProps> = ({
 			</div>
 			<div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
 				<Button btnStyle="outline" size="lg" centralize onClick={goBack}>
-					Case Presentation
+					Back to Case Presentation
 				</Button>
 				<Button
 					btnStyle="basic"
@@ -147,12 +150,13 @@ const studentCaseQuestionValidation = (
 ): boolean => {
 	let validated = true;
 	const explanationMaxWordCount = 700;
-	if (editorTextContentCount === 0) {
+	const explanationMinWordCount = 150;
+	if (editorTextContentCount < explanationMinWordCount) {
 		setError((prevState) => ({
 			...prevState,
 			explanation: {
 				status: "error",
-				validationMessage: "Explanation cannot be empty!",
+				validationMessage: `Comments must be at least ${explanationMinWordCount} characters!`,
 			},
 		}));
 		validated = false;
@@ -161,7 +165,7 @@ const studentCaseQuestionValidation = (
 			...prevState,
 			explanation: {
 				status: "error",
-				validationMessage: `Explanation cannot be more ${explanationMaxWordCount} characters!`,
+				validationMessage: `Comments must be no more than ${explanationMaxWordCount} characters!`,
 			},
 		}));
 		validated = false;

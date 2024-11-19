@@ -35,7 +35,7 @@ const StudentDashboard = () => {
 						</figure> */}
 						{user && (
 							<h4 className="text-dark font-medium text-1sm sm:text-base inline-block ml-2.5">
-								{`Hello, ${user.firstName} ${user.lastName} (${user.user_role})  👋`}
+								{`Hello, ${user.firstName} ${user.lastName} 👋`}
 							</h4>
 						)}
 					</div>
@@ -72,7 +72,10 @@ const StudentDashboard = () => {
 									</g>
 								</svg>
 								<h5 className="font-bold text-base mt-3.75 mb-2.5">1 CME</h5>
-								<h5>Authors: Dr. Emmanuel Abu</h5>
+								<h5>
+									Faculty: Dr. Emmanuel Abu (MBBS, MSc, PhD, PGCert(Mgt),
+									PGCert(MedEd), Dp FMs, FRCP, FRCPath)
+								</h5>
 
 								<div className="sm:mt-3">
 									<div className="inline-block text-1xs text-base">
