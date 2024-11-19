@@ -35,7 +35,7 @@ const StudentDashboard = () => {
 						</figure> */}
 						{user && (
 							<h4 className="text-dark font-medium text-1sm sm:text-base inline-block ml-2.5">
-								{`Hello, ${user.firstName} ${user.lastName} (${user.user_role})  👋`}
+								{`Hello, ${user.firstName} ${user.lastName} 👋`}
 							</h4>
 						)}
 					</div>
