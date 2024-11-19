@@ -1,6 +1,10 @@
-import React, { FunctionComponent, useState, ChangeEvent, useRef } from "react";
-import { EditorState, convertFromRaw, convertToRaw } from "draft-js";
-import { Editor } from "react-draft-wysiwyg";
+import React, {
+	FunctionComponent,
+	useState,
+	ChangeEvent,
+	useRef,
+	useEffect,
+} from "react";
 import { toast } from "react-toastify";
 import { InputField } from "@/components/form-elements";
 import Button from "@/components/ui/Button";
@@ -12,6 +16,7 @@ import {
 	deletePdfFromCaseMaterialsApi,
 } from "@/services/apis/case";
 import { getTokenForRequest } from "@/utils/getTokenForRequest";
+import CaseEditor from "@/lib/Editor";
 
 const TeacherCaseTeaching: FunctionComponent<TeacherCaseTeachingProps> = ({
 	goNext,
@@ -20,6 +25,8 @@ const TeacherCaseTeaching: FunctionComponent<TeacherCaseTeachingProps> = ({
 	setCaseStudy,
 	handleUpdateDraftCase,
 }) => {
+	const [isEditorMounted, setIsEditorMounted] = useState(false);
+
 	const dispatch = useAppDispatch();
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	const addingDraftCaseStatus = useAppSelector(
@@ -34,22 +41,7 @@ const TeacherCaseTeaching: FunctionComponent<TeacherCaseTeachingProps> = ({
 	>([]);
 	const [isUploading, setIsUploading] = useState(false);
 	const [isRemoving, setIsRemoving] = useState<string | null>(null);
-	const [editorState, setEditorState] = useState(() => {
-		if (caseStudy?.caseTeaching) {
-			try {
-				// Try to parse the caseTeaching if it exists and is valid JSON
-				const parsedTeaching = JSON.parse(caseStudy.caseTeaching);
-				return EditorState.createWithContent(convertFromRaw(parsedTeaching));
-			} catch (error) {
-				console.error("Invalid caseTeaching JSON:", error);
-				// In case of an invalid JSON, initialize an empty editor state
-				return EditorState.createEmpty();
-			}
-		} else {
-			// If caseTeaching is not defined, initialize an empty editor state
-			return EditorState.createEmpty();
-		}
-	});
+
 	const addFile = () => {
 		if (fileInputRef.current) {
 			fileInputRef.current.click(); // Click the file input to open the dialog
@@ -144,13 +136,14 @@ const TeacherCaseTeaching: FunctionComponent<TeacherCaseTeachingProps> = ({
 		}
 	};
 
-	const onEditorStateChange = (newEditorState: EditorState) => {
-		setEditorState(newEditorState);
-		const contentState = newEditorState.getCurrentContent();
-		const contentStateJSON = convertToRaw(contentState);
+	useEffect(() => {
+		setIsEditorMounted(true);
+	}, []);
+
+	const handleEditorChange = (updatedContent: string) => {
 		setCaseStudy({
 			...caseStudy,
-			caseTeaching: JSON.stringify(contentStateJSON),
+			caseTeaching: updatedContent,
 		});
 	};
 
@@ -170,15 +163,12 @@ const TeacherCaseTeaching: FunctionComponent<TeacherCaseTeachingProps> = ({
 						setCaseStudy({ ...caseStudy, caseTopic: e.target.value });
 					}}
 				/>
-				<Editor
-					editorState={editorState}
-					onEditorStateChange={onEditorStateChange}
-					editorStyle={{
-						height: "400px",
-						border: "solid 1px #E7EBEF",
-						padding: "0px 15px",
-					}}
-				/>
+				{isEditorMounted && (
+					<CaseEditor
+						content={caseStudy?.caseTeaching}
+						onContentChange={handleEditorChange}
+					/>
+				)}
 			</div>
 
 			<div className="mb-5 sm:mb-6">
