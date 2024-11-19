@@ -20,10 +20,10 @@ const Page = () => {
 					<Image src={medStaff} alt="faculty-profile-pic" className=" w-full" />
 				</div>
 				<div className="mt-12 sm:mt-0 md:ml-10 sm:ml-10 lg:ml-28 max-w-sm">
-					<p className="text-darker font-bold text-3xl sm:mb-4">
+					<p className="text-darker font-bold text-3xl sm:mb-4 leading-snug">
 						Faculty Profile
 					</p>
-					<h3>
+					<h3 className="text-dark">
 						Dr Emmanuel Abu has vast amounts of local and international
 						experience in clinical laboratory medicine spanning over 20 years in
 						large tertiary hospitals and in modest medical centres. Whilst in
