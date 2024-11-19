@@ -6,10 +6,10 @@ export interface CaseQuestion {
 }
 
 export interface CaseStudy {
-	caseDescription: string | null;
+	caseDescription: string | undefined;
 	caseTopic: string;
-	caseExplanation: string | null;
-	caseTeaching: string | null;
+	caseExplanation: string | undefined;
+	caseTeaching: string | undefined;
 	caseDeadline: string;
 	caseQuestions: CaseQuestion[];
 	caseStatus: string;
