@@ -1,6 +1,11 @@
 import { Dispatch, SetStateAction } from "react";
-import { CasePresentationErrorProps } from "@/services/types/teacher/createCaseStudy";
 
+export type ValidationErrorProps = {
+	explanation: {
+		status: "error" | "valid";
+		validationMessage?: string;
+	};
+};
 /**
  * Validates the editor content for the case explanation.
  * Ensures the word count does not exceed the maximum allowed value.
@@ -10,7 +15,7 @@ import { CasePresentationErrorProps } from "@/services/types/teacher/createCaseS
  * @returns boolean - True if the validation passes, false otherwise.
  */
 export const validateEditorInputs = (
-	setError: Dispatch<SetStateAction<CasePresentationErrorProps>>,
+	setError: Dispatch<SetStateAction<ValidationErrorProps>>,
 	content: string | undefined,
 	minWordCount = 150,
 	maxWordCount = 700
@@ -29,7 +34,7 @@ export const validateEditorInputs = (
 			...prevState,
 			explanation: {
 				status: "error",
-				validationMessage: `Contents cannot be more than ${maxWordCount} characters!`,
+				validationMessage: `Contents cannot be less than ${minWordCount} characters!`,
 			},
 		}));
 		return false;

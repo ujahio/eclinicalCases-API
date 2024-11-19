@@ -40,12 +40,6 @@ export interface TeacherCaseQuestionProps {
 	handleUpdateDraftCase: handleUpdateDraftCase;
 }
 
-export type CasePresentationErrorProps = {
-	explanation: {
-		status: "error" | "valid";
-		validationMessage?: string;
-	};
-};
 export interface TeacherCaseAnswerProps extends TeacherCaseQuestionProps {
 	goBack: () => void;
 }
