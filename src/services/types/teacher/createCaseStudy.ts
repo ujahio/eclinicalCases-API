@@ -6,10 +6,10 @@ export interface CaseQuestion {
 }
 
 export interface CaseStudy {
-	caseDescription: string | null;
+	caseDescription: string | undefined;
 	caseTopic: string;
-	caseExplanation: string | null;
-	caseTeaching: string | null;
+	caseExplanation: string | undefined;
+	caseTeaching: string | undefined;
 	caseDeadline: string;
 	caseQuestions: CaseQuestion[];
 	caseStatus: string;
@@ -37,15 +37,9 @@ export interface TeacherCaseQuestionProps {
 	goNext: () => void;
 	caseStudy: CaseStudy;
 	setCaseStudy: React.Dispatch<React.SetStateAction<CaseStudy>>;
-	// handleUpdateDraftCase: handleUpdateDraftCase;
+	handleUpdateDraftCase: handleUpdateDraftCase;
 }
 
-export type CasePresentationErrorProps = {
-	explanation: {
-		status: "error" | "valid";
-		validationMessage?: string;
-	};
-};
 export interface TeacherCaseAnswerProps extends TeacherCaseQuestionProps {
 	goBack: () => void;
 }
