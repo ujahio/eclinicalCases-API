@@ -48,7 +48,7 @@ const CreateCaseStudy: FunctionComponent<CreateCaseStudyProps> = ({
 						goNext={goNext}
 						caseStudy={caseStudy}
 						setCaseStudy={setCaseStudy}
-						// handleUpdateDraftCase={handleUpdateDraftCase}
+						handleUpdateDraftCase={handleUpdateDraftCase}
 					/>
 				)}
 
@@ -58,7 +58,7 @@ const CreateCaseStudy: FunctionComponent<CreateCaseStudyProps> = ({
 						goBack={goBack}
 						caseStudy={caseStudy}
 						setCaseStudy={setCaseStudy}
-						// handleUpdateDraftCase={handleUpdateDraftCase}
+						handleUpdateDraftCase={handleUpdateDraftCase}
 					/>
 				)}
 
@@ -68,7 +68,7 @@ const CreateCaseStudy: FunctionComponent<CreateCaseStudyProps> = ({
 						goBack={goBack}
 						caseStudy={caseStudy}
 						setCaseStudy={setCaseStudy}
-						// handleUpdateDraftCase={handleUpdateDraftCase}
+						handleUpdateDraftCase={handleUpdateDraftCase}
 					/>
 				)}
 
@@ -78,7 +78,7 @@ const CreateCaseStudy: FunctionComponent<CreateCaseStudyProps> = ({
 						goBack={goBack}
 						caseStudy={caseStudy}
 						setCaseStudy={setCaseStudy}
-						// handleUpdateDraftCase={handleUpdateDraftCase}
+						handleUpdateDraftCase={handleUpdateDraftCase}
 					/>
 				)}
 				{isActive("final_review") && (
