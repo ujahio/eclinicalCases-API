@@ -21,13 +21,36 @@ export interface PersonalDetailsProps {
 
 type SignUpFormProps = {
 	// switchByKey: (key: string) => void;
-	// caputurePersonalDetails: (personalDetails: PersonalDetailsProps) => void;
+	// capturePersonalDetails: (personalDetails: PersonalDetailsProps) => void;
 	handleSignUp: (val: PersonalDetailsProps) => void;
 };
 
+const passwordRequirements = [
+	{
+		label: "At least 8 characters",
+		validator: (password: string) => password.length >= 8,
+	},
+	{
+		label: "At least one uppercase letter",
+		validator: (password: string) => /[A-Z]/.test(password),
+	},
+	{
+		label: "At least one lowercase letter",
+		validator: (password: string) => /[a-z]/.test(password),
+	},
+	{
+		label: "At least one number",
+		validator: (password: string) => /\d/.test(password),
+	},
+	{
+		label: "At least one special character (!@#$%^&*)",
+		validator: (password: string) => /[!@#$%^&*]/.test(password),
+	},
+];
+
 export const SignUpForm: FunctionComponent<SignUpFormProps> = ({
 	// switchByKey,
-	// caputurePersonalDetails,
+	// capturePersonalDetails,
 	handleSignUp,
 }) => {
 	const [personalDetails, setPersonalDetails] = useState<PersonalDetailsProps>({
@@ -37,6 +60,11 @@ export const SignUpForm: FunctionComponent<SignUpFormProps> = ({
 		password: "",
 		confirmPassword: "",
 	});
+	const [validationResults, setValidationResults] = useState<boolean[]>(
+		new Array(passwordRequirements.length).fill(false)
+	);
+	const [isPasswordTyping, setIsPasswordTyping] = useState(false);
+
 	const submitForm = (e: FormEvent) => {
 		e.preventDefault();
 
@@ -48,43 +76,43 @@ export const SignUpForm: FunctionComponent<SignUpFormProps> = ({
 				confirmPassword: hashedPassword,
 			};
 			handleSignUp(updatedDetails);
-			// caputurePersonalDetails(updatedDetails);
+			// capturePersonalDetails(updatedDetails);
 			// switchByKey("professional_details");
 		} else {
 			toast.error("Passwords do not match");
 		}
 	};
 
-	const captureFirstName = (e: ChangeEvent<HTMLInputElement>) => {
-		e.preventDefault();
+	const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
+		const password = e.target.value;
+
+		if (!isPasswordTyping && password.length > 0) {
+			setIsPasswordTyping(true);
+		} else if (password.length === 0) {
+			setIsPasswordTyping(false);
+		}
+
+		setPersonalDetails({ ...personalDetails, password });
+
+		// Update validation results
+		const results = passwordRequirements.map((requirement) =>
+			requirement.validator(password)
+		);
+		setValidationResults(results);
+	};
+
+	const handleConfirmPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
+		const confirmPassword = e.target.value;
 		setPersonalDetails({
 			...personalDetails,
-			firstName: e.currentTarget.value,
+			confirmPassword: confirmPassword,
 		});
 	};
 
-	const captureLastName = (e: ChangeEvent<HTMLInputElement>) => {
-		e.preventDefault();
-		setPersonalDetails({ ...personalDetails, lastName: e.currentTarget.value });
-	};
-
-	const captureEmail = (e: ChangeEvent<HTMLInputElement>) => {
-		e.preventDefault();
-		setPersonalDetails({ ...personalDetails, email: e.currentTarget.value });
-	};
-
-	const capturePassword = (e: ChangeEvent<HTMLInputElement>) => {
-		e.preventDefault();
-		setPersonalDetails({ ...personalDetails, password: e.currentTarget.value });
-	};
-
-	const captureConfirmPassword = (e: ChangeEvent<HTMLInputElement>) => {
-		e.preventDefault();
-		setPersonalDetails({
-			...personalDetails,
-			confirmPassword: e.currentTarget.value,
-		});
-	};
+	// Check if all validations pass
+	const isFormValid =
+		validationResults.every((result) => result) &&
+		personalDetails.password === personalDetails.confirmPassword;
 
 	return (
 		<form onSubmit={submitForm} className="mt-5">
@@ -93,7 +121,12 @@ export const SignUpForm: FunctionComponent<SignUpFormProps> = ({
 					label="First Name"
 					name="firstName"
 					placeholder="Enter first name"
-					onChange={captureFirstName}
+					onChange={(e) =>
+						setPersonalDetails({
+							...personalDetails,
+							firstName: e.target.value,
+						})
+					}
 					required
 				/>
 				<div>
@@ -101,7 +134,12 @@ export const SignUpForm: FunctionComponent<SignUpFormProps> = ({
 						label="Last Name"
 						name="lastName"
 						placeholder="Enter last name"
-						onChange={captureLastName}
+						onChange={(e) =>
+							setPersonalDetails({
+								...personalDetails,
+								lastName: e.target.value,
+							})
+						}
 						required
 					/>
 				</div>
@@ -111,26 +149,42 @@ export const SignUpForm: FunctionComponent<SignUpFormProps> = ({
 				placeholder="Enter your email"
 				name="email"
 				type="email"
-				onChange={captureEmail}
+				onChange={(e) =>
+					setPersonalDetails({ ...personalDetails, email: e.target.value })
+				}
 				required
 			/>
 			<PasswordField
 				label="Password"
 				placeholder="Enter your password"
 				name="password"
-				onChange={capturePassword}
+				onChange={handlePasswordChange}
 				required
 			/>
+			{/* Password Validation Guide */}
+			{isPasswordTyping && (
+				<ul className="mb-4">
+					{passwordRequirements.map((requirement, index) => (
+						<li
+							key={index}
+							className={`text-sm ${
+								validationResults[index] ? "text-green-600" : "text-red-600"
+							}`}
+						>
+							{requirement.label}
+						</li>
+					))}
+				</ul>
+			)}
 			<PasswordField
 				label="Confirm Password"
-				placeholder="Enter your password"
+				placeholder="Enter your password again"
 				name="confirmPassword"
-				onChange={captureConfirmPassword}
+				onChange={handleConfirmPasswordChange}
 				required
 			/>
-
 			<div className="mt-8">
-				<Button block>
+				<Button block disabled={!isFormValid}>
 					SIGN UP
 					<svg
 						width="12"
