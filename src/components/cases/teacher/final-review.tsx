@@ -7,7 +7,7 @@ import { FinalReviewProps } from "@/services/types/teacher/createCaseStudy";
 
 const FinalReview: FunctionComponent<FinalReviewProps> = ({
 	caseStudy,
-	// handleUpdateDraftCase,
+	handleUpdateDraftCase,
 	handlePublishCase,
 }) => {
 	const parseEditorState = (data: string) => {
@@ -96,7 +96,7 @@ const FinalReview: FunctionComponent<FinalReviewProps> = ({
 				</h3>
 				<Cme questions={caseStudy.caseQuestions} />
 			</div>
-			{/* <div
+			<div
 				className={`grid ${
 					!publishedCaseInfo ? "sm:grid-cols-2" : ""
 				} grid-cols-1 gap-4`}
@@ -116,20 +116,6 @@ const FinalReview: FunctionComponent<FinalReviewProps> = ({
 						size="lg"
 						onClick={handlePublishCase}
 						disabled={!!publishedCaseInfo}
-					>
-						{addCaseStatus === "loading"
-							? "Loading..."
-							: "POST TO ALL STUDENTS"}
-					</Button>
-				)}
-			</div> */}
-			<div className={`grid grid-cols-1 gap-4`}>
-				{!publishedCaseInfo && (
-					<Button
-						size="lg"
-						onClick={handlePublishCase}
-						disabled={!!publishedCaseInfo}
-						centralize
 					>
 						{addCaseStatus === "loading"
 							? "Loading..."

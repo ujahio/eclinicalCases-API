@@ -9,7 +9,7 @@ const TeacherCMEQuestions: FunctionComponent<TeacherCMEQuestionsProps> = ({
 	goBack,
 	caseStudy,
 	setCaseStudy,
-	// handleUpdateDraftCase,
+	handleUpdateDraftCase,
 }) => {
 	const addingDraftCaseStatus = useAppSelector(
 		(state) => state.getDraftCases.status
@@ -226,7 +226,7 @@ const TeacherCMEQuestions: FunctionComponent<TeacherCMEQuestionsProps> = ({
 					Add Question
 				</Button>
 			</div>
-			{/* <Button
+			<Button
 				btnStyle="outline"
 				size="lg"
 				centralize
@@ -236,7 +236,7 @@ const TeacherCMEQuestions: FunctionComponent<TeacherCMEQuestionsProps> = ({
 				{addingDraftCaseStatus === "loading"
 					? "Loading..."
 					: "Save As a Draft..."}
-			</Button> */}
+			</Button>
 			<div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
 				<Button
 					btnStyle="outline"

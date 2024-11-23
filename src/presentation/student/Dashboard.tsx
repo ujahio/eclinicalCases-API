@@ -72,6 +72,7 @@ const StudentDashboard = () => {
 									</g>
 								</svg>
 								<h5 className="font-bold text-base mt-3.75 mb-2.5">1 CME</h5>
+								{/* Ideally this should be saved and retrieved from user details in cognito */}
 								<h5>
 									Faculty: Dr. Emmanuel Abu (MBBS, MSc, PhD, PGCert(Mgt),
 									PGCert(MedEd), Dp FMs, FRCP, FRCPath)
