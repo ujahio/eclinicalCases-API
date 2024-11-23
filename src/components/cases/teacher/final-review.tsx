@@ -123,20 +123,6 @@ const FinalReview: FunctionComponent<FinalReviewProps> = ({
 					</Button>
 				)}
 			</div>
-			{/* <div className={`grid grid-cols-1 gap-4`}>
-				{!publishedCaseInfo && (
-					<Button
-						size="lg"
-						onClick={handlePublishCase}
-						disabled={!!publishedCaseInfo}
-						centralize
-					>
-						{addCaseStatus === "loading"
-							? "Loading..."
-							: "POST TO ALL STUDENTS"}
-					</Button>
-				)}
-			</div> */}
 		</>
 	);
 };
