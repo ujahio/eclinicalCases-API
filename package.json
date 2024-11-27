@@ -28,6 +28,7 @@
 		"formik": "^2.4.6",
 		"html2pdf.js": "^0.10.2",
 		"jsonwebtoken": "^9.0.2",
+		"jsx-email": "^2.3.5",
 		"next": "15.0.3",
 		"next-auth": "^5.0.0-beta.20",
 		"pdf-lib": "^1.17.1",
