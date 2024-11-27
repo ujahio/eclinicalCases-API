@@ -4,8 +4,9 @@ import { Resource } from "sst";
 import dbClient from "../services/dbClient.js";
 import { extrapolateRequestBody } from "../utils/api_utils.js";
 import { getDetailsOfStudentsFeedbackAndResponses } from "../utils/api_utils.js";
-import getUserInfo from "../persistence.helpers/getUserInfo.js";
+import getUserInfo from "../persistence/getUserInfo.js";
 import decodeToken from "../utils/decodeToken.js";
+import applicationContext from "../../applicationContext";
 
 const validateInputs = ({
 	caseDescription,
@@ -253,11 +254,9 @@ export const publishCase = async (event) => {
 		console.log(
 			`Case ${newCaseId} successfully published for teacher ${teacherId}`
 		);
-		// await sendEmail(
-		// 	ADDRESSES GOES HERE,
-		// 	"Case Published",
-		// 	"Your case has been published"
-		// );
+		await applicationContext
+			.getUseCaseHelpers()
+			.sendNewCaseNotificationEmailToRegisteredStudents();
 		return {
 			statusCode: 200,
 			body: JSON.stringify({
