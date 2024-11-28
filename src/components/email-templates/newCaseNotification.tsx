@@ -12,6 +12,8 @@ import {
 	Text,
 } from "jsx-email";
 
+import applicationContext from "../../../appContext/applicationContext";
+
 const main = {
 	backgroundColor: "#f6f9fc",
 	fontFamily:
@@ -90,7 +92,7 @@ export const NewCaseNotificationTemplate = (studentName: string) => {
 						</Text>
 						<Button
 							style={button}
-							href="https://eccs-online.com" // import from constants or process.env or resource or some standard
+							href={applicationContext.getDomainAddress()} // import from constants or process.env or resource or some standard
 							width={460}
 							height={20}
 						>

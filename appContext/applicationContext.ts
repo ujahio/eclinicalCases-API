@@ -7,6 +7,7 @@ import gatewayMethods from "./gatewayMethods";
 const region = "me-south-1";
 
 const createApplicationContext = () => ({
+	getDomainAddress: () => "https://eccs-online.com",
 	getMessageGateway: () => gatewayMethods,
 	getMessagingClient: () => new SESv2Client({ region }),
 	getUserManagementClient: () =>
