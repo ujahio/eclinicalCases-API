@@ -36,8 +36,6 @@ export const sendEmails = async (studentDetails: StudentDetails[]) => {
 
 const sendNewCaseNotificationEmailToRegisteredStudents = async () => {
 	try {
-		// fetch registered students from the database
-
 		const studentDetails = await applicationContext
 			.getPersistenceGateway()
 			.getRegisteredStudents();

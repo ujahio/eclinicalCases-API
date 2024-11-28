@@ -19,7 +19,6 @@ const getStudentDetails = async (
 
 	try {
 		do {
-			// Fetch a batch of users
 			const response: ListUsersCommandOutput = await cognitoClient.send(
 				new ListUsersCommand({
 					UserPoolId: userPoolId,
@@ -29,14 +28,12 @@ const getStudentDetails = async (
 
 			const users: UserType[] = response.Users || [];
 
-			// Filter users by custom:user_role = "student"
 			const registeredStudents = users.filter((user: UserType) =>
 				user.Attributes?.some(
 					(attr) => attr.Name === "custom:user_role" && attr.Value === "student"
 				)
 			);
 
-			// Extract email, firstName, and lastName for each student
 			const details = registeredStudents.map((user) => {
 				const email =
 					user.Attributes?.find((attr) => attr.Name === "email")?.Value || "";
@@ -50,12 +47,10 @@ const getStudentDetails = async (
 				return { email, firstName, lastName };
 			});
 
-			// Add to the overall result
 			studentDetails.push(...details);
 
-			// Update pagination token
 			paginationToken = response.PaginationToken;
-		} while (paginationToken); // Continue while there are more pages of users
+		} while (paginationToken);
 
 		return studentDetails;
 	} catch (error) {
