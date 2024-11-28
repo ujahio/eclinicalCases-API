@@ -6,7 +6,7 @@ import gatewayMethods from "./gatewayMethods";
 
 const region = "me-south-1";
 
-const applicationContext = {
+const createApplicationContext = () => ({
 	getMessageGateway: () => gatewayMethods,
 	getMessagingClient: () => new SESv2Client({ region }),
 	getUserManagementClient: () =>
@@ -15,6 +15,9 @@ const applicationContext = {
 		}),
 	getUseCaseHelpers: () => useCaseHelpers,
 	getPersistenceGateway: () => persistenceMethods,
-};
+});
+
+const applicationContext = createApplicationContext();
 
 export default applicationContext;
+export type ApplicationContext = ReturnType<typeof createApplicationContext>;

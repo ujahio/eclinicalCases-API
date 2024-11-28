@@ -4,11 +4,13 @@ import {
 	UserType,
 } from "@aws-sdk/client-cognito-identity-provider";
 import { Resource } from "sst";
-import applicationContext from "../../appContext/applicationContext";
+import applicationContext, {
+	ApplicationContext,
+} from "../../appContext/applicationContext";
 import { StudentDetails } from "../useCaseHelpers/sendNewCaseNotificationEmail";
 
 const getStudentDetails = async (
-	applicationContext: any,
+	applicationContext: ApplicationContext,
 	userPoolId: string
 ): Promise<StudentDetails[]> => {
 	const cognitoClient = applicationContext.getUserManagementClient();
