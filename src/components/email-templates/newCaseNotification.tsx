@@ -5,14 +5,24 @@ import {
 	Container,
 	Head,
 	Html,
-	// Img,
-	// Link,
 	Preview,
 	Section,
 	Text,
 } from "jsx-email";
-
 import applicationContext from "../../../appContext/applicationContext";
+
+/************************************************************************** */
+// NOTES
+// 1. JSX requires images to be hosted to use in production. Add this code snippet
+// when images are hosted for production use.
+//		<Img
+//					src={"../../assets/images/logo.png"}
+//					alt="Company Logo"
+//					style={logo}
+//					width={300}
+//					height={100}
+//				/>
+/****************************************************************************/
 
 const main = {
 	backgroundColor: "#f6f9fc",
@@ -75,14 +85,6 @@ export const NewCaseNotificationTemplate = (studentName: string) => {
 			<Preview>New Case Published! Log in to view and participate.</Preview>
 			<Body style={main}>
 				<Container style={container}>
-					{/* JSX requires images to be hosted to use in production */}
-					{/* <Img
-					src={"../../assets/images/logo.png"}
-					alt="Company Logo"
-					style={logo}
-					width={300}
-					height={100}
-				/> */}
 					<Section style={box}>
 						<Text style={paragraph}>Dear {studentName},</Text>
 						<Text style={paragraph}>
@@ -92,7 +94,7 @@ export const NewCaseNotificationTemplate = (studentName: string) => {
 						</Text>
 						<Button
 							style={button}
-							href={applicationContext.getDomainAddress()} // import from constants or process.env or resource or some standard
+							href={applicationContext.getDomainAddress()}
 							width={460}
 							height={20}
 						>
