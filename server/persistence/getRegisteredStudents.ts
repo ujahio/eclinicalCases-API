@@ -59,7 +59,6 @@ const getStudentDetails = async (
 
 		return studentDetails;
 	} catch (error) {
-		console.error("Error fetching student details:", error);
 		throw error;
 	}
 };
@@ -71,7 +70,7 @@ const getRegisteredStudents = async (): Promise<StudentDetails[]> => {
 		);
 		return studentDetails;
 	} catch (error) {
-		console.error("Error fetching student emails:", error);
+		console.error("Error fetching student details:", error);
 		throw error;
 	}
 };
