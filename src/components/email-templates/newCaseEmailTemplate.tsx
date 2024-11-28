@@ -94,7 +94,7 @@ export const NewCaseEmailTemplate = (studentName: string) => {
 						</Text>
 						<Button
 							style={button}
-							href={applicationContext.getDomainAddress()}
+							href={applicationContext.getLoginAddress()}
 							width={460}
 							height={20}
 						>
