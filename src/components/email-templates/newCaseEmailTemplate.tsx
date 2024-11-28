@@ -78,7 +78,7 @@ const footer = {
 	marginTop: "32px",
 };
 
-export const NewCaseNotificationTemplate = (studentName: string) => {
+export const NewCaseEmailTemplate = (studentName: string) => {
 	return (
 		<Html>
 			<Head />

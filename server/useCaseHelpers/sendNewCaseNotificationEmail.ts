@@ -1,7 +1,7 @@
 import { Resource } from "sst";
 import { render } from "jsx-email";
 import applicationContext from "../../appContext/applicationContext";
-import { NewCaseNotificationTemplate } from "../../src/components/email-templates/newCaseNotification.jsx";
+import { NewCaseEmailTemplate } from "../../src/components/email-templates/newCaseEmailTemplate.jsx";
 export type StudentDetails = {
 	email: string;
 	firstName: string;
@@ -16,7 +16,7 @@ export const sendEmails = async (studentDetails: StudentDetails[]) => {
 
 				const emailBody = {
 					Html: {
-						Data: await render(NewCaseNotificationTemplate(studentName)),
+						Data: await render(NewCaseEmailTemplate(studentName)),
 					},
 				};
 
