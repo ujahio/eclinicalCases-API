@@ -10,8 +10,8 @@ export type StudentDetails = {
 
 export const sendEmails = async (studentDetails: StudentDetails[]) => {
 	try {
-		const promises = studentDetails.map(
-			async ({ email, firstName, lastName }) => {
+		await Promise.all(
+			studentDetails.map(async ({ email, firstName, lastName }) => {
 				const studentName = `${firstName} ${lastName}`;
 
 				const emailBody = {
@@ -26,11 +26,8 @@ export const sendEmails = async (studentDetails: StudentDetails[]) => {
 					body: emailBody,
 					sender: `new-case-alert@${Resource.ECCSEMAIL.sender}`,
 				});
-			}
+			})
 		);
-
-		const results = await Promise.all(promises);
-		console.log("Emails sent successfully:", results);
 	} catch (error) {
 		console.error("Error sending emails:", error);
 		throw error;
