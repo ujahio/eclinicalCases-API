@@ -1,71 +1,73 @@
-import { ListUsersCommand } from "@aws-sdk/client-cognito-identity-provider";
+import {
+	ListUsersCommand,
+	ListUsersCommandOutput,
+	UserType,
+} from "@aws-sdk/client-cognito-identity-provider";
 import { Resource } from "sst";
-import applicationContext, {
-	ApplicationContext,
-} from "../../applicationContext";
+import applicationContext from "../../appContext/applicationContext";
+import { StudentDetails } from "../useCaseHelpers/sendNewCaseNotificationEmail";
 
-type CognitoUser = {
-	Attributes: { Name: string; Value: string }[];
-	Username: string;
-	[key: string]: any; // Include any additional properties from the AWS response
-};
-
-const getStudentEmails = async (
-	applicationContext: ApplicationContext,
+const getStudentDetails = async (
+	applicationContext: any,
 	userPoolId: string
-) => {
+): Promise<StudentDetails[]> => {
 	const cognitoClient = applicationContext.getUserManagementClient();
 	let paginationToken: string | undefined = undefined;
-	let studentEmails: string[] = [];
+	const studentDetails: StudentDetails[] = [];
 
 	try {
 		do {
-			const response: any = await cognitoClient.send(
+			// Fetch a batch of users
+			const response: ListUsersCommandOutput = await cognitoClient.send(
 				new ListUsersCommand({
 					UserPoolId: userPoolId,
 					PaginationToken: paginationToken,
 				})
 			);
 
-			const users: CognitoUser[] = response.Users || [];
+			const users: UserType[] = response.Users || [];
 
 			// Filter users by custom:user_role = "student"
-			const registeredUsers: CognitoUser[] = users.filter((user) =>
-				user.Attributes.some(
+			const registeredStudents = users.filter((user: UserType) =>
+				user.Attributes?.some(
 					(attr) => attr.Name === "custom:user_role" && attr.Value === "student"
 				)
 			);
 
-			// Extract emails from filtered users
-			const emails = registeredUsers.map(
-				(user) =>
-					user.Attributes.find((attr) => attr.Name === "email")?.Value || ""
-			);
+			// Extract email, firstName, and lastName for each student
+			const details = registeredStudents.map((user) => {
+				const email =
+					user.Attributes?.find((attr) => attr.Name === "email")?.Value || "";
+				const firstName =
+					user.Attributes?.find((attr) => attr.Name === "custom:firstName")
+						?.Value || "";
+				const lastName =
+					user.Attributes?.find((attr) => attr.Name === "custom:lastName")
+						?.Value || "";
 
-			studentEmails = studentEmails.concat(emails);
+				return { email, firstName, lastName };
+			});
 
-			// Update the pagination token
+			// Add to the overall result
+			studentDetails.push(...details);
+
+			// Update pagination token
 			paginationToken = response.PaginationToken;
 		} while (paginationToken); // Continue while there are more pages of users
 
-		console.log("Student Emails:", studentEmails);
-		return studentEmails;
+		return studentDetails;
 	} catch (error) {
-		console.error("Error fetching student emails:", error);
-		throw error; // Re-throw the error for upstream handling
+		console.error("Error fetching student details:", error);
+		throw error;
 	}
 };
-
-const getRegisteredStudents = async (): Promise<string[]> => {
+const getRegisteredStudents = async (): Promise<StudentDetails[]> => {
 	try {
-		// Extract emails from the filtered users
-		const studentEmails = getStudentEmails(
+		const studentDetails = await getStudentDetails(
 			applicationContext,
 			Resource.eccslabs.id
 		);
-		console.log("studentEmails", studentEmails);
-
-		return studentEmails;
+		return studentDetails;
 	} catch (error) {
 		console.error("Error fetching student emails:", error);
 		throw error;

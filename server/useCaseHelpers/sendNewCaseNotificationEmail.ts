@@ -1,28 +1,51 @@
 import { Resource } from "sst";
 import { render } from "jsx-email";
-import applicationContext from "../../applicationContext";
+import applicationContext from "../../appContext/applicationContext";
 import { NewCaseNotificationTemplate } from "../../src/components/email-templates/newCaseNotification.jsx";
+export type StudentDetails = {
+	email: string;
+	firstName: string;
+	lastName: string;
+};
+
+export const sendEmails = async (studentDetails: StudentDetails[]) => {
+	try {
+		const promises = studentDetails.map(
+			async ({ email, firstName, lastName }) => {
+				const studentName = `${firstName} ${lastName}`;
+
+				const emailBody = {
+					Html: {
+						Data: await render(NewCaseNotificationTemplate(studentName)),
+					},
+				};
+
+				await applicationContext.getMessageGateway().sendEmail({
+					recipients: [email],
+					subject: "New Case Notification",
+					body: emailBody,
+					sender: `new-case-alert@${Resource.ECCSEMAIL.sender}`,
+				});
+			}
+		);
+
+		const results = await Promise.all(promises);
+		console.log("Emails sent successfully:", results);
+	} catch (error) {
+		console.error("Error sending emails:", error);
+		throw error;
+	}
+};
 
 const sendNewCaseNotificationEmailToRegisteredStudents = async () => {
 	try {
-		const emailBody = {
-			Html: {
-				Data: await render(NewCaseNotificationTemplate()),
-			},
-		};
-
 		// fetch registered students from the database
 
-		const emailsOfRegisteredStudents = await applicationContext
+		const studentDetails = await applicationContext
 			.getPersistenceGateway()
 			.getRegisteredStudents();
 
-		await applicationContext.getMessageGateway().sendEmail({
-			recipients: emailsOfRegisteredStudents,
-			subject: "New Case Notification",
-			body: emailBody,
-			sender: `new-case-alert@${Resource.ECCSEMAIL.sender}`,
-		});
+		await sendEmails(studentDetails);
 	} catch (error) {
 		console.error(error);
 		throw error;

@@ -1,5 +1,5 @@
 import { SendEmailCommand } from "@aws-sdk/client-sesv2";
-import applicationContext from "../../applicationContext";
+import applicationContext from "../../appContext/applicationContext";
 
 type EmailHtmlProps = {
 	Html: {

@@ -6,7 +6,7 @@ import { extrapolateRequestBody } from "../utils/api_utils.js";
 import { getDetailsOfStudentsFeedbackAndResponses } from "../utils/api_utils.js";
 import getUserInfo from "../persistence/getUserInfo.js";
 import decodeToken from "../utils/decodeToken.js";
-import applicationContext from "../../applicationContext";
+import applicationContext from "../../appContext/applicationContext.js";
 
 const validateInputs = ({
 	caseDescription,

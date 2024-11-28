@@ -1,13 +1,12 @@
 import React from "react";
-
 import {
 	Body,
 	Button,
 	Container,
 	Head,
-	Hr,
 	Html,
-	Link,
+	// Img,
+	// Link,
 	Preview,
 	Section,
 	Text,
@@ -23,65 +22,87 @@ const container = {
 	backgroundColor: "#ffffff",
 	margin: "0 auto",
 	marginBottom: "64px",
-	padding: "20px 0 48px",
+	padding: "20px",
+	borderRadius: "8px",
+	boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
 };
+
+// const logo = {
+// 	display: "block",
+// 	margin: "0 auto",
+// 	maxWidth: "150px",
+// };
 
 const box = {
-	padding: "0 48px",
-};
-
-const hr = {
-	borderColor: "#e6ebf1",
-	margin: "20px 0",
+	padding: "20px",
+	textAlign: "center" as const,
 };
 
 const paragraph = {
-	color: "#777",
+	color: "#555",
 	fontSize: "16px",
 	lineHeight: "24px",
 	textAlign: "left" as const,
-};
-
-const anchor = {
-	color: "#777",
+	marginBottom: "16px",
 };
 
 const button = {
-	backgroundColor: "coral",
+	backgroundColor: "#32deb5",
 	borderRadius: "5px",
 	color: "#fff",
-	display: "block",
+	display: "inline-block",
 	fontSize: "16px",
 	fontWeight: "bold",
 	textAlign: "center" as const,
 	textDecoration: "none",
-	width: "100%",
-	padding: "10px",
+	padding: "12px 24px",
+	marginTop: "16px",
 };
 
-export const templateName = "aws-jsx-email";
+const footer = {
+	color: "#777",
+	fontSize: "12px",
+	textAlign: "center" as const,
+	marginTop: "32px",
+};
 
-export const NewCaseNotificationTemplate = () => (
-	<Html>
-		<Head />
-		<Preview>This is our email preview text;</Preview>
-		<Body style={main}>
-			<Container style={container}>
-				<Section style={box}>
-					<Text style={paragraph}>This is our email body text</Text>
-					<Button style={button} href="https://example.com">
-						Hi User
-					</Button>
-					<Hr style={hr} />
-					<Text style={paragraph}>
-						This is text content with a{" "}
-						<Link style={anchor} href="mailto:{email}">
-							link
-						</Link>
-						.
+export const NewCaseNotificationTemplate = (studentName: string) => {
+	return (
+		<Html>
+			<Head />
+			<Preview>New Case Published! Log in to view and participate.</Preview>
+			<Body style={main}>
+				<Container style={container}>
+					{/* JSX requires images to be hosted to use in production */}
+					{/* <Img
+					src={"../../assets/images/logo.png"}
+					alt="Company Logo"
+					style={logo}
+					width={300}
+					height={100}
+				/> */}
+					<Section style={box}>
+						<Text style={paragraph}>Dear {studentName},</Text>
+						<Text style={paragraph}>
+							We are excited to announce that a new case study has been
+							published on your dashboard. Log in now to explore the case, share
+							your responses, and leave a feedback.
+						</Text>
+						<Button
+							style={button}
+							href="https://eccs-online.com" // import from constants or process.env or resource or some standard
+							width={460}
+							height={20}
+						>
+							Log in to View the Case
+						</Button>
+					</Section>
+					<Text style={footer}>
+						© {new Date().getFullYear()} e-Clinical Cases Solutions. All rights
+						reserved.
 					</Text>
-				</Section>
-			</Container>
-		</Body>
-	</Html>
-);
+				</Container>
+			</Body>
+		</Html>
+	);
+};
