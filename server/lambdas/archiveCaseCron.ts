@@ -12,10 +12,10 @@ export const handler = async (): Promise<void> => {
 	const dbClient = applicationContext.getDBClient();
 	const params: QueryCommandInput = {
 		TableName: Resource.TeacherCaseStudies.name,
-		IndexName: "CaseDeadlineIndex", // Using the correct index
-		KeyConditionExpression: "caseStatus = :status", // Query for cases with 'published' status
+		IndexName: "CaseDeadlineIndex",
+		KeyConditionExpression: "caseStatus = :status",
 		ExpressionAttributeValues: {
-			":status": "published", // Filter by 'published' case status
+			":status": "published",
 		},
 	};
 
@@ -28,7 +28,7 @@ export const handler = async (): Promise<void> => {
 		}
 
 		const caseItem = data.Items[0];
-		const caseDeadline = new Date(caseItem.caseDeadline); // caseDeadline is already a string, no need for caseItem.caseDeadline.S
+		const caseDeadline = new Date(caseItem.caseDeadline);
 		const now = new Date();
 
 		// Compare the current date with the case deadline
@@ -36,7 +36,7 @@ export const handler = async (): Promise<void> => {
 			const updateParams: UpdateCommandInput = {
 				TableName: Resource.TeacherCaseStudies.name,
 				Key: {
-					id: caseItem.id, // Use 'id' directly since it's already the primary key
+					id: caseItem.id,
 				},
 				UpdateExpression: "set caseStatus = :newStatus",
 				ExpressionAttributeValues: {
