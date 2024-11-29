@@ -6,13 +6,16 @@ import useCaseHelpers from "./useCaseHelpers";
 import persistenceMethods from "./persistenceMethods";
 import gatewayMethods from "./gatewayMethods";
 
-const region = "me-south-1"; // need to find a better place to save this constant
+// TODO: need to find a better place to save this constants
+// NOTE: process.env is not working
+const region = "me-south-1";
+const loginAddress = "https://eccs-online.com/login";
 
 const client = new DynamoDBClient({ region });
 const dbClient = DynamoDBDocumentClient.from(client);
 
 const createApplicationContext = () => ({
-	getLoginAddress: () => "https://eccs-online.com/login",
+	getLoginAddress: () => loginAddress,
 	getMessageGateway: () => gatewayMethods,
 	getMessagingClient: () => new SESv2Client({ region }),
 	getUserManagementClient: () =>
