@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 import { UpdateCommand, QueryCommand } from "@aws-sdk/lib-dynamodb";
 import { Resource } from "sst";
-import dbClient from "../services/dbClient.js";
+import dbClient from "../persistence/dbClient.js";
 import { extrapolateRequestBody } from "../utils/api_utils.js";
 import { getDetailsOfStudentsFeedbackAndResponses } from "../utils/api_utils.js";
 import getUserInfo from "../persistence/getUserInfo.js";

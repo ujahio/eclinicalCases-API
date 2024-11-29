@@ -8,7 +8,7 @@ import {
 } from "@aws-sdk/lib-dynamodb";
 import { sortBy, isEqual } from "lodash";
 import { Resource } from "sst";
-import dbClient from "../services/dbClient.js";
+import dbClient from "../persistence/dbClient.js";
 import { extrapolateRequestBody } from "../utils/api_utils.js";
 import getUserInfo from "../persistence/getUserInfo.js";
 import decodeToken from "../utils/decodeToken.js";
