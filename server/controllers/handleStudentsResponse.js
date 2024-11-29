@@ -5,7 +5,7 @@ import { Resource } from "sst";
 // import { uploadFileToBucket } from "../services/bucket.js";
 import { generateCertificate } from "../utils/certificate.js";
 import { extrapolateRequestBody } from "../utils/api_utils.js";
-import getUserInfo from "../persistence.helpers/getUserInfo.js";
+import getUserInfo from "../persistence/getUserInfo.js";
 import decodeToken from "../utils/decodeToken.js";
 
 export const getStudentsResponses = async (event) => {

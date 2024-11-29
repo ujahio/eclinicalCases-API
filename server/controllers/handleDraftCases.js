@@ -10,7 +10,7 @@ import { sortBy, isEqual } from "lodash";
 import { Resource } from "sst";
 import dbClient from "../services/dbClient.js";
 import { extrapolateRequestBody } from "../utils/api_utils.js";
-import getUserInfo from "../persistence.helpers/getUserInfo.js";
+import getUserInfo from "../persistence/getUserInfo.js";
 import decodeToken from "../utils/decodeToken.js";
 
 const areArraysEqualRegardlessOfOrder = (array1, array2, key) => {

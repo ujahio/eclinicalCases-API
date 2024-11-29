@@ -7,8 +7,8 @@ import {
 	extrapolateRequestBody,
 	getDetailsOfStudentsFeedbackAndResponses,
 } from "../utils/api_utils.js";
-import getUserInfo from "../persistence.helpers/getUserInfo.js";
 import decodeToken from "../utils/decodeToken.js";
+import getUserInfo from "../persistence/getUserInfo.js";
 
 export const getCaseForStudentsResponse = async (event) => {
 	try {

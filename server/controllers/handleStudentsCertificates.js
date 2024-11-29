@@ -4,7 +4,7 @@ import { QueryCommand } from "@aws-sdk/lib-dynamodb";
 import { Resource } from "sst";
 import dbClient from "../services/dbClient.js";
 import s3Client from "../services/s3Client.js";
-import getUserInfo from "../persistence.helpers/getUserInfo.js";
+import getUserInfo from "../persistence/getUserInfo.js";
 import decodeToken from "../utils/decodeToken.js";
 
 // Helper function to convert a stream to base64
