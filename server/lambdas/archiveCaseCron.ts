@@ -10,7 +10,6 @@ import applicationContext from "../../appContext/applicationContext";
 
 export const handler = async (): Promise<void> => {
 	const dbClient = applicationContext.getDBClient();
-	console.log("Resource.TeacherCaseStudies", Resource.TeacherCaseStudies);
 	const params: QueryCommandInput = {
 		TableName: Resource.TeacherCaseStudies.name,
 		IndexName: "CaseDeadlineIndex", // Using the correct index
