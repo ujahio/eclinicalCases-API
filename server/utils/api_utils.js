@@ -8,9 +8,11 @@ import { Resource } from "sst";
 import crypto from "crypto";
 import busboy from "busboy";
 import { AdminGetUserCommand } from "@aws-sdk/client-cognito-identity-provider";
-import dbClient from "../persistence/dbClient.js";
 import applicationContext from "../../appContext/applicationContext.js";
 const cognitoClient = applicationContext.getUserManagementClient();
+import applicationContext from "../../appContext/applicationContext.js";
+
+const dbClient = applicationContext.getDBClient();
 
 function generateOtp() {
 	return Math.floor(100000 + Math.random() * 900000);

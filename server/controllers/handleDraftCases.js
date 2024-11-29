@@ -8,10 +8,12 @@ import {
 } from "@aws-sdk/lib-dynamodb";
 import { sortBy, isEqual } from "lodash";
 import { Resource } from "sst";
-import dbClient from "../persistence/dbClient.js";
 import { extrapolateRequestBody } from "../utils/api_utils.js";
 import getUserInfo from "../persistence/getUserInfo.js";
 import decodeToken from "../utils/decodeToken.js";
+import applicationContext from "../../appContext/applicationContext.js";
+
+const dbClient = applicationContext.getDBClient();
 
 const areArraysEqualRegardlessOfOrder = (array1, array2, key) => {
 	const sortedArray1 = sortBy(array1, [key]);
