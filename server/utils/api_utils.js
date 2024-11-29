@@ -10,7 +10,6 @@ import busboy from "busboy";
 import { AdminGetUserCommand } from "@aws-sdk/client-cognito-identity-provider";
 import applicationContext from "../../appContext/applicationContext.js";
 const cognitoClient = applicationContext.getUserManagementClient();
-import applicationContext from "../../appContext/applicationContext.js";
 
 const dbClient = applicationContext.getDBClient();
 
