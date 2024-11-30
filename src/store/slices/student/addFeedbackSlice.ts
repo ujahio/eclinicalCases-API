@@ -18,7 +18,7 @@ export const addFeedback = createAsyncThunk(
 	}
 );
 
-interface AddFeedbackState {
+export interface AddFeedbackState {
 	status: "idle" | "loading" | "succeeded" | "failed";
 	error: any;
 	feedback: any;

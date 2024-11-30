@@ -15,7 +15,7 @@ export const getStudentsResponsesToCases = createAsyncThunk(
 	}
 );
 
-interface studentsResponsesToCasesState {
+export interface studentsResponsesToCasesState {
 	status: "idle" | "loading" | "succeeded" | "failed";
 	error: any;
 	responses: any;

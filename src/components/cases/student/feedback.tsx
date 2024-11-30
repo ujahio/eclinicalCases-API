@@ -139,18 +139,18 @@ const questions = [
 	},
 	{
 		question:
-			"The case subject would better help or strengthen my interpretation of clinical laboratory results",
+			"The case subject would better help or strengthen my interpretation of clinical laboratory results.",
 		key: "questionTwo",
 		type: "responses",
 	},
 	{
 		question:
-			"The case would help impact or strengthen my care of patients in the subject area",
+			"The case would help impact or strengthen my care of patients in the subject area.",
 		key: "questionThree",
 		type: "responses",
 	},
 	{
-		question: "My user experience of the app was good",
+		question: "My user experience of the app was good.",
 		key: "questionFour",
 		type: "responses",
 	},

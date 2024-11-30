@@ -16,7 +16,7 @@ export const deleteCase = createAsyncThunk(
 	}
 );
 
-interface DeleteCaseState {
+export interface DeleteCaseState {
 	status: "idle" | "loading" | "succeeded" | "failed";
 	error: any;
 	deletedCaseId: string | null;

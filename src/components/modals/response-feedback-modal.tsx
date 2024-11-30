@@ -1,10 +1,7 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent } from "react";
 import ResponseModal from "../cases/teacher/response";
 import FeedbackModal from "../cases/teacher/feedback";
 import student1 from "@/assets/images/student1.png";
-import student2 from "@/assets/images/student2.png";
-import student3 from "@/assets/images/student3.png";
-import student4 from "@/assets/images/student4.png";
 import Modal, { ModalProps } from "../ui/Modal";
 import useProcessTabs from "@/services/hooks/useProcessTabs";
 import Image from "next/image";
