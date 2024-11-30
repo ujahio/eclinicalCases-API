@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useState } from "react";
 import Button from "@/components/ui/Button";
 import { convertFromRaw, Editor, EditorState } from "draft-js";
 

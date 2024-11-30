@@ -23,7 +23,7 @@ export const signupUser = createAsyncThunk(
 	}
 );
 
-interface signupState {
+export interface signupState {
 	status: "idle" | "loading" | "succeeded" | "failed";
 	error: any;
 	user: any;

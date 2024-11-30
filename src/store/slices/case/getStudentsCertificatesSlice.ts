@@ -18,7 +18,7 @@ export const getStudentsCertificates = createAsyncThunk(
 	}
 );
 
-interface StudentsCertificatesState {
+export interface StudentsCertificatesState {
 	status: "idle" | "loading" | "succeeded" | "failed";
 	error: any;
 	data: any;

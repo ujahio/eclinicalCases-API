@@ -1,8 +1,6 @@
 import React from "react";
-import UserImg from "@/assets/images/admin.png";
 import { CaseCard } from "@/components/cases";
 import AdminLayout from "@/components/layouts/dashboard/admin";
-import Image from "next/image";
 import Link from "next/link";
 import Button from "@/components/ui/Button";
 import { useAppSelector } from "@/services/hooks/hooks";
@@ -27,9 +25,6 @@ const TeacherDashboard = () => {
 		<AdminLayout>
 			<div className="flex items-center justify-between">
 				<div className="inline-flex items-center">
-					{/* <figure className="h-8 md:h-11.25 w-8 md:w-11.25 rounded-full overflow-hidden">
-						<Image src={UserImg} alt="User image" className="h-full w-full" />
-					</figure> */}
 					{user && (
 						<h4 className="text-dark font-medium text-1sm sm:text-base inline-block ml-2.5">
 							{`Hello, ${user.firstName} ${user.lastName} 👋`}
@@ -85,10 +80,6 @@ const TeacherDashboard = () => {
 							<h5 className="font-bold text-base mt-3.75 mb-3.5">
 								{publishedCaseInfo?.caseTopic}
 							</h5>
-							{/* <p className="text-1sm text-sm max-w-lg mb-5">
-								Learn how patients with a serious infection can be managed in
-								outpatient settings with the help of an OPAT service.
-							</p> */}
 							<div>
 								<span className="inline-block text-1xs">
 									<b>Created:</b> {formatDate(publishedCaseInfo?.createdAt)}

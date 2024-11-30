@@ -1,17 +1,6 @@
 import { configureRequestHeaders, studentApi } from "../config/axiosConfig";
 
-const convertToFormData = (data: any) => {
-	const formData = new FormData();
-	for (const key in data) {
-		if (data.hasOwnProperty(key)) {
-			formData.append(key, JSON.stringify(data[key]));
-		}
-	}
-	return formData;
-};
-
 export const addFeedbackApi = (feedbackData: any, token?: string) => {
-	// const formData = convertToFormData(feedbackData);
 	return studentApi.post(
 		`/case/add/feedback`,
 		feedbackData,

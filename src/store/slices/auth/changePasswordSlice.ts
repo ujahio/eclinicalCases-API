@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { changePasswordApi } from "@/services/apis/auth";
-import { RootState } from "@/store/rootReducer/rootReducer";
 import { getTokenForRequest } from "@/utils/getTokenForRequest";
 
 export const changePassword = createAsyncThunk(
@@ -16,7 +15,7 @@ export const changePassword = createAsyncThunk(
 	}
 );
 
-interface ChangePasswordState {
+export interface ChangePasswordState {
 	status: "idle" | "loading" | "succeeded" | "failed";
 	error: any;
 	passwordResponse: any;
