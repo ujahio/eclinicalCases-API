@@ -1,9 +1,9 @@
 import { TeacherCaseStudies } from "./dynamo";
 
-export const caseStatusCron = new sst.aws.Cron("ArchiveCaseCron", {
+export const archiveCaseStatusCron = new sst.aws.Cron("ArchiveCaseStatusCron", {
 	job: {
-		handler: "server/lambdas/archiveCaseCron.handler",
+		handler: "server/lambdas/archiveCaseStatusCron.handler",
 		link: [TeacherCaseStudies],
 	},
-	schedule: "rate(1 minute)",
+	schedule: "cron(0 0 * * ? *)", // run at midnight every day
 });
