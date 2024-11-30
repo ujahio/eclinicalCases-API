@@ -2,7 +2,6 @@ import React, { FunctionComponent, useEffect, useState } from "react";
 import { Editor, convertFromRaw, EditorState } from "draft-js";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
 import { getCaseMaterials } from "@/store/slices/case/getCaseMaterialsSlice";
-import { RootState } from "@/store/rootReducer/rootReducer";
 import Button from "@/components/ui/Button";
 
 interface StudentCaseTeachingProps {
@@ -66,7 +65,7 @@ const StudentCaseTeaching: FunctionComponent<StudentCaseTeachingProps> = ({
 
 	// Select cached materials from Redux store
 	const cachedMaterials = useAppSelector(
-		(state: RootState) => state.caseMaterials.pdfMaterials
+		(state) => state.caseMaterials.pdfMaterials
 	);
 
 	useEffect(() => {
