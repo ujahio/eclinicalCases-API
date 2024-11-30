@@ -28,7 +28,7 @@ export const submitCaseResponse = createAsyncThunk(
 	}
 );
 
-interface SubmitCaseResponseState {
+export interface SubmitCaseResponseState {
 	status: "idle" | "loading" | "succeeded" | "failed";
 	error: any;
 	response: any;

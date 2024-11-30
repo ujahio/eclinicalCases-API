@@ -16,7 +16,7 @@ export const changePassword = createAsyncThunk(
 	}
 );
 
-interface ChangePasswordState {
+export interface ChangePasswordState {
 	status: "idle" | "loading" | "succeeded" | "failed";
 	error: any;
 	passwordResponse: any;

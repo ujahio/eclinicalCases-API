@@ -23,7 +23,7 @@ export const addCase = createAsyncThunk(
 	}
 );
 
-interface AddCaseState {
+export interface AddCaseState {
 	status: "idle" | "loading" | "succeeded" | "failed";
 	error: any;
 	newCase: any;
