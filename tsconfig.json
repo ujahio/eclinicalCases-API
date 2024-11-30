@@ -1,54 +1,44 @@
 {
-  "$schema": "https://json.schemastore.org/tsconfig",
-  "compilerOptions": {
-    "declaration": true,
-    "declarationMap": true,
-    "esModuleInterop": true,
-    "jsx": "preserve",
-    "lib": [
-      "ES2023",
-      "dom",
-      "dom.iterable"
-    ],
-    "module": "ESNext",
-    "moduleResolution": "node",
-    "noEmitOnError": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "preserveSymlinks": true,
-    "preserveWatchOutput": true,
-    "resolveJsonModule": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "strictNullChecks": true,
-    "target": "ESNext",
-    "allowJs": true,
-    "isolatedModules": true,
-    "incremental": true,
-    "paths": {
-      "@/*": [
-        "./src/*"
-      ]
-    },
-    "noEmit": true,
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ]
-  },
-  "exclude": [
-    "**/dist",
-    "**/node_modules",
-    "sst.config.ts"
-  ],
-  "include": [
-    "templates",
-    "index.ts",
-    "sst-env.d.ts",
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts"
-  ]
+	"$schema": "https://json.schemastore.org/tsconfig",
+	"compilerOptions": {
+		"declaration": true,
+		"declarationMap": true,
+		"esModuleInterop": true,
+		"jsx": "preserve",
+		"lib": ["ES2023", "dom", "dom.iterable"],
+		"module": "ESNext",
+		"moduleResolution": "node",
+		"noEmitOnError": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"preserveSymlinks": true,
+		"preserveWatchOutput": true,
+		"resolveJsonModule": true,
+		"skipLibCheck": true,
+		"strict": true,
+		"strictNullChecks": true,
+		"target": "ESNext",
+		"allowJs": true,
+		"isolatedModules": true,
+		"incremental": true,
+		"paths": {
+			"@/*": ["./src/*"]
+		},
+		"noEmit": true,
+		"plugins": [
+			{
+				"name": "next"
+			}
+		]
+	},
+	"exclude": ["**/dist", "**/node_modules", "sst.config.ts"],
+	"include": [
+		"templates",
+		"index.ts",
+		"sst-env.d.ts",
+		"next-env.d.ts",
+		"**/*.ts",
+		"**/*.tsx",
+		".next/types/**/*.ts"
+	]
 }
