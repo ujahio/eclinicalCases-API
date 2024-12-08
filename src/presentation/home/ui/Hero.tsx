@@ -11,9 +11,13 @@ const Header = () => {
 		<div className="max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl 2xl:max-w-xxl 3xl:max-w-3xl mx-auto">
 			<div className="mt-16 md:mt-28 grid grid-cols-1 sm:grid-cols-2 gap-8 header px-6.25 sm:px-10 md:px-15 lg:px-25">
 				<div className="lg:w-10/12 tracking-wider">
-					<p className="text-darker font-bold text-3xl leading-snug">
+					<h1
+						aria-level={1}
+						role="heading"
+						className="text-darker font-bold text-3xl leading-snug"
+					>
 						Welcome to e-Clinical Cases Solutions
-					</p>
+					</h1>
 					<p className="mt-8 text-dark leading-5">
 						e-Clinical Cases Solutions aim to provide category 1 CME in
 						laboratory medicine as interactive clinical cases online. It is
@@ -48,7 +52,7 @@ const Header = () => {
 					<figure className="header-img header-img-1">
 						<Image
 							src={FemaleDoctorImg}
-							alt="female doctor"
+							alt="woman doctor"
 							className="w-full"
 						/>
 					</figure>
