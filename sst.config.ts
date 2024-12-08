@@ -24,5 +24,7 @@ export default $config({
 		await import("./infra/dynamo");
 		// Auth
 		await import("./infra/auth");
+		// Archived Cases Cron
+		await import("./infra/archive-case-status");
 	},
 });

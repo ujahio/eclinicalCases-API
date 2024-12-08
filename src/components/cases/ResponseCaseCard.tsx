@@ -1,6 +1,4 @@
 import React, { FunctionComponent } from "react";
-import Button from "../ui/Button";
-import { useAppSelector } from "@/services/hooks/hooks";
 
 export interface ResponseCaseCardProps {
 	case: {
@@ -13,7 +11,7 @@ export interface ResponseCaseCardProps {
 }
 
 const ResponseCaseCard: FunctionComponent<ResponseCaseCardProps> = ({
-	case: { _id, caseTopic, submittedAt, caseDeadline, description },
+	case: { caseTopic, submittedAt, caseDeadline, description },
 }) => {
 	return (
 		<article

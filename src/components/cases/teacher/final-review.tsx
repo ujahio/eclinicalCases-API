@@ -1,4 +1,4 @@
-import React, { FunctionComponent, Fragment } from "react";
+import React, { FunctionComponent } from "react";
 import Cme from "./cme";
 import Button from "@/components/ui/Button";
 import { convertFromRaw, Editor, EditorState } from "draft-js";
@@ -78,7 +78,7 @@ const FinalReview: FunctionComponent<FinalReviewProps> = ({
 					TEACHING MATERIALS
 				</h3>
 				<ul className="flex flex-col w-full space-y-3 mb-9">
-					{caseStudy.caseMaterials?.map((material: any, index: number) => (
+					{caseStudy.caseMaterials?.map((material) => (
 						<li key={material.documentKey}>
 							<div className="flex items-center p-2 border-grey-400 border rounded-sm">
 								<span className="text-1sm sm:text-sm text-dark inline-block ml-2 sm:ml-2.5">

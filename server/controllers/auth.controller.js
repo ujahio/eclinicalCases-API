@@ -15,10 +15,9 @@ import {
 	decryptPassword,
 	// getUserByEmail,
 } from "../utils/api_utils.js";
-// import { sendEmail } from "../services/emailSender.js";
-import cognitoClient from "../services/cognitoClient.js";
-// import { checkDuplicateUsernameOrEmail } from "../middlewares/verifySignUp";
+import applicationContext from "../../appContext/applicationContext.js";
 
+const cognitoClient = applicationContext.getUserManagementClient();
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
 const stagePrefix =

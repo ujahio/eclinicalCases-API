@@ -15,7 +15,7 @@ export const fetchCaseData = createAsyncThunk(
 	}
 );
 
-interface GetCaseDataState {
+export interface GetCaseDataState {
 	status: "idle" | "loading" | "succeeded" | "failed";
 	error: any;
 	caseData: any;

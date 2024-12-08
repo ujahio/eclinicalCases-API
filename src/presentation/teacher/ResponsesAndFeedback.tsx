@@ -1,10 +1,5 @@
 import React, { useState } from "react";
-import student1 from "@/assets/images/student1.png";
-import student2 from "@/assets/images/student2.png";
-import student3 from "@/assets/images/student3.png";
-import student4 from "@/assets/images/student4.png";
 import AdminLayout from "@/components/layouts/dashboard/admin";
-import Image from "next/image";
 import ResponseFeedbackModal from "@/components/modals/response-feedback-modal";
 import { formatDate } from "@/utils/formatDate";
 
@@ -46,14 +41,15 @@ const ResponsesAndFeedback = ({
 				</div>
 			</article>
 			<div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-y-3 gap-x-2 w-full">
-				{caseFeedbackAndResponsesInfo.map((st: any) => {
-					const { img, firstName, lastName, id, submittedAt } = st;
+				{caseFeedbackAndResponsesInfo.map((studentFeedbackAndResponse: any) => {
+					const { firstName, lastName, id, submittedAt } =
+						studentFeedbackAndResponse;
 					return (
 						<div
 							className="bg-white border-grey-border border-0.375 rounded-sm sm:w-64 md:w-80 lg:w-64 xl:w-88 sm:px-4 md:px-7 px-7 py-5 cursor-pointer"
 							id="firsStudent"
 							onClick={() => {
-								setStudent(st);
+								setStudent(studentFeedbackAndResponse);
 								setShowResponseAndFeedbackModal(true);
 							}}
 							key={id}

@@ -18,7 +18,7 @@ export const getDraftCases = createAsyncThunk(
 	}
 );
 
-interface GetDraftCasesState {
+export interface GetDraftCasesState {
 	status: "idle" | "loading" | "succeeded" | "failed";
 	error: any;
 	cases: any;

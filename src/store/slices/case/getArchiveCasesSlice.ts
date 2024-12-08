@@ -18,7 +18,7 @@ export const getArchiveCases = createAsyncThunk(
 	}
 );
 
-interface GetArchiveCasesState {
+export interface GetArchiveCasesState {
 	status: "idle" | "loading" | "succeeded" | "failed";
 	error: any;
 	cases: any;

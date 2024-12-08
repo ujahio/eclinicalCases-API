@@ -15,7 +15,7 @@ export const getPublishedCase = createAsyncThunk(
 	}
 );
 
-interface PublishedCaseState {
+export interface PublishedCaseState {
 	status: "idle" | "loading" | "succeeded" | "failed";
 	error: any;
 	data: any;

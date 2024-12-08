@@ -28,7 +28,6 @@ const Nav: FunctionComponent<NavProps> = ({
 			path: "/student/certificates",
 		},
 	],
-	img,
 }) => {
 	const currentPath = usePathname();
 	// const { user } = useAuthRedirect();

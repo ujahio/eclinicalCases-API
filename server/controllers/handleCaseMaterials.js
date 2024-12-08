@@ -5,7 +5,7 @@ import {
 	getSignedUrlToUploadToS3,
 } from "../services/bucket.js";
 import { extrapolateRequestBody } from "../utils/api_utils.js";
-import getUserInfo from "../persistence.helpers/getUserInfo.js";
+import getUserInfo from "../persistence/getUserInfo.js";
 import decodeToken from "../utils/decodeToken.js";
 
 export const getSignedUrlsToFetchForCaseMaterials = async (event) => {

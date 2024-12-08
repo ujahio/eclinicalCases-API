@@ -1,39 +1,39 @@
-import useProcessTabs from "@/services/hooks/useProcessTabs";
-import React, { useState } from "react";
+// import useProcessTabs from "@/services/hooks/useProcessTabs";
+import React from "react";
 import { SignUpForm } from "./components/form";
 import Image from "next/image";
 import Logo from "@/assets/images/logo.png";
-import ProcessTabs from "@/components/ui/process-tabs";
-import ProfessionalDetailsForm from "./components/professional-details-form";
-import ReviewAndConfirm from "./components/ReviewAndConfirm";
+// import ProcessTabs from "@/components/ui/process-tabs";
+// import ProfessionalDetailsForm from "./components/professional-details-form";
+// import ReviewAndConfirm from "./components/ReviewAndConfirm";
 import { SignupCompProps } from "@/services/types/auth/signup";
 
-const tabs = ["Personal Details", "Professional Details", "Review and Confirm"];
+// const tabs = ["Personal Details", "Professional Details", "Review and Confirm"];
 
-type ProfessionalDetailsProps = {};
+// type ProfessionalDetailsProps = {};
 
 const Signup = ({ handleSignUp }: SignupCompProps) => {
-	const {
-		active: activeTab,
-		isActive,
-		switchTab,
-		switchByKey,
-	} = useProcessTabs(tabs, 0);
+	// const {
+	// 	active: activeTab,
+	// 	isActive,
+	// 	switchTab,
+	// 	switchByKey,
+	// } = useProcessTabs(tabs, 0);
 
-	const [personalDetailsInfo, savePersonalDetails] = useState({
-		personalDetails: {},
-		professionalDetails: {},
-	});
+	// const [personalDetailsInfo, savePersonalDetails] = useState({
+	// 	personalDetails: {},
+	// 	professionalDetails: {},
+	// });
 
-	const handleCapturePersonalDetails = (personalDetails: {}) => {
-		savePersonalDetails({ ...personalDetailsInfo, personalDetails });
-	};
+	// const handleCapturePersonalDetails = (personalDetails: {}) => {
+	// 	savePersonalDetails({ ...personalDetailsInfo, personalDetails });
+	// };
 
-	const handleCaptureProfessionalDetails = (
-		professionalDetails: ProfessionalDetailsProps
-	) => {
-		savePersonalDetails({ ...personalDetailsInfo, professionalDetails });
-	};
+	// const handleCaptureProfessionalDetails = (
+	// 	professionalDetails: ProfessionalDetailsProps
+	// ) => {
+	// 	savePersonalDetails({ ...personalDetailsInfo, professionalDetails });
+	// };
 
 	return (
 		<div className="flex flex-col items-center min-h-screen">

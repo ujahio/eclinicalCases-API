@@ -1,6 +1,8 @@
 import { AdminGetUserCommand } from "@aws-sdk/client-cognito-identity-provider";
 import { Resource } from "sst";
-import cognitoClient from "../services/cognitoClient.js";
+import applicationContext from "../../appContext/applicationContext";
+
+const cognitoClient = applicationContext.getUserManagementClient();
 
 const getUserInfo = async (username) => {
 	try {

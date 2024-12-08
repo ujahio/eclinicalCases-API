@@ -1,9 +1,11 @@
 import { QueryCommand } from "@aws-sdk/lib-dynamodb";
 import { Resource } from "sst";
-import dbClient from "../services/dbClient.js";
 import { getDetailsOfStudentsFeedbackAndResponses } from "../utils/api_utils.js";
-import getUserInfo from "../persistence.helpers/getUserInfo.js";
+import getUserInfo from "../persistence/getUserInfo.js";
 import decodeToken from "../utils/decodeToken.js";
+import applicationContext from "../../appContext/applicationContext.js";
+
+const dbClient = applicationContext.getDBClient();
 
 export const getArchivedCases = async (event) => {
 	const decodedToken = decodeToken(event);

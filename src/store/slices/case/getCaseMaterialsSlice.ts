@@ -42,7 +42,7 @@ export const getCaseMaterials = createAsyncThunk(
 	}
 );
 
-interface CaseMaterialsState {
+export interface CaseMaterialsState {
 	status: "idle" | "loading" | "succeeded" | "failed";
 	error: any;
 	pdfMaterials: Record<

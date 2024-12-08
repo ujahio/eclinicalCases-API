@@ -1,12 +1,13 @@
 import { v4 as uuidv4 } from "uuid";
 import { QueryCommand, GetCommand, PutCommand } from "@aws-sdk/lib-dynamodb";
-import dbClient from "../services/dbClient.js";
 import { Resource } from "sst";
-// import { uploadFileToBucket } from "../services/bucket.js";
 import { generateCertificate } from "../utils/certificate.js";
 import { extrapolateRequestBody } from "../utils/api_utils.js";
-import getUserInfo from "../persistence.helpers/getUserInfo.js";
+import getUserInfo from "../persistence/getUserInfo.js";
 import decodeToken from "../utils/decodeToken.js";
+import applicationContext from "../../appContext/applicationContext.js";
+
+const dbClient = applicationContext.getDBClient();
 
 export const getStudentsResponses = async (event) => {
 	try {
