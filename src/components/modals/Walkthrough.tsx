@@ -80,7 +80,10 @@ const WalkthroughModal: FunctionComponent<ModalProps> = ({ show, toggle }) => {
 							className="h-full w-auto"
 						/>
 					</figure>
-					<h2 className="text-lg font-medium mt-5 text-dark text-center">
+					<h2
+						className="text-lg font-medium mt-5 text-dark text-center"
+						role="heading"
+					>
 						Welcome to e-Clinical Cases Solutions
 					</h2>
 					<p className="text-sm text-dark mt-6 max-w-lg text-center">

@@ -61,7 +61,7 @@ const Button: React.FC<ButtonInterface> = ({
 					{children}
 				</Link>
 			) : (
-				<button {...props} className={classes}>
+				<button {...props} className={classes} role="button">
 					{children}
 				</button>
 			)}

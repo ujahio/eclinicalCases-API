@@ -32,11 +32,16 @@ const Modal: FC<ModalProps> = ({ show, toggle, size = "md", children }) => {
 					: "pointer-events-none opacity-0 scale-95"
 			}`}
 			style={{ backdropFilter: "blur(3px)" }}
+			role="dialog"
+			aria-modal="true"
+			aria-labelledby="dialog-base"
 		>
 			<div
 				className={`bg-white w-11/12 rounded-sm p-6 sm:p-7 md:p-8 relative ${addedClasses}`}
 			>
 				<button
+					role="button"
+					aria-label="Close modal"
 					onClick={() => toggle(false)}
 					className="no-outline h-3.5 w-3.5 absolute top-4 right-5 md:top-5 transition-all text-dark hover:text-primary-300"
 				>
