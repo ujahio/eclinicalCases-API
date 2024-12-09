@@ -162,7 +162,7 @@ test.describe("Walkthrough Modal Navigation", () => {
 				content: "Download your certificate.",
 				image: "download certificate image",
 			},
-		];
+		] as const;
 
 		for (const step of steps) {
 			await verifyStep(step.num, step.content);
