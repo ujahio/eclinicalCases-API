@@ -16,6 +16,17 @@ for (const route of protectedRoutes) {
 	}) => {
 		await page.goto(route);
 
+		// Assert that we're redirected to the login page
 		await expect(page).toHaveURL(/login/);
+
+		// Additional assertions to verify login state
+		await expect(page.getByRole("heading", { name: /sign in/i })).toBeVisible();
+
+		// Verify the original URL is preserved in the callback
+		await expect(page).toHaveURL(
+			new RegExp(
+				`callbackUrl=${encodeURIComponent(`http://localhost:3000${route}`)}`
+			)
+		);
 	});
 }
