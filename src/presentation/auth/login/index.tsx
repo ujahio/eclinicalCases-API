@@ -35,6 +35,7 @@ const Login = ({ handleSubmit }: LoginCompProps) => {
 								id="email"
 								name="email"
 								placeholder="example@example.com"
+								role="email"
 							/>
 
 							<ErrorMessage name="email">
