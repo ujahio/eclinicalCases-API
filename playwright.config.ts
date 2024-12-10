@@ -1,5 +1,13 @@
 import { defineConfig, devices } from "@playwright/test";
+import dotenv from "dotenv";
+import { dirname } from "path";
+import { fileURLToPath } from "url";
+import path from "path";
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+dotenv.config({ path: path.resolve(__dirname, ".env") });
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
@@ -76,7 +84,7 @@ export default defineConfig({
 
 	/* Run your local dev server before starting the tests */
 	// webServer: {
-	// 	command: "npm run start:sst",
+	// 	command: "yarn start:sst:local",
 	// 	url: "http://127.0.0.1:3000",
 	// 	reuseExistingServer: !process.env.CI,
 	// },
