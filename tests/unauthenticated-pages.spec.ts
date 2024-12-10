@@ -10,6 +10,12 @@ const protectedRoutes = [
 	"/student/case-studies",
 ];
 
+// Create a beforeEach hook to handle cleanup
+test.beforeEach(async ({ context }) => {
+	// Clear all cookies including Auth.js session cookie
+	await context.clearCookies();
+});
+
 for (const route of protectedRoutes) {
 	test(`ensure an unauthenticated user is redirected to the login page when accessing ${route}`, async ({
 		page,
