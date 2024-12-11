@@ -1,7 +1,10 @@
 import { test, expect } from "@playwright/test";
 import { MailSlurp } from "mailslurp-client";
 import { parse } from "node-html-parser";
-import AWS from "aws-sdk";
+// import { AdminDeleteUserCommand } from "@aws-sdk/client-cognito-identity-provider";
+// import applicationContext, {
+// 	ApplicationContext,
+// } from "../../appContext/applicationContext";
 
 class MailSlurpHelper {
 	private client: MailSlurp;
@@ -31,24 +34,25 @@ class MailSlurpHelper {
 	}
 }
 
-class CognitoHelper {
-	private cognito: AWS.CognitoIdentityServiceProvider;
+// class CognitoHelper {
+// 	private cognitoClient: ReturnType<
+// 		ApplicationContext["getUserManagementClient"]
+// 	>;
+// 	public userPoolId: string;
 
-	constructor() {
-		this.cognito = new AWS.CognitoIdentityServiceProvider({
-			region: process.env.NEXT_PUBLIC_REGION,
-		});
-	}
+// 	constructor({ userPoolId }: { userPoolId: string }) {
+// 		this.userPoolId = userPoolId;
+// 		this.cognitoClient = applicationContext.getUserManagementClient();
+// 	}
 
-	async deleteUser(username: string) {
-		await this.cognito
-			.adminDeleteUser({
-				UserPoolId: process.env.COGNITO_USER_POOL_ID!,
-				Username: username,
-			})
-			.promise();
-	}
-}
+// 	async deleteUser(userEmail: string) {
+// 		const deleteUserCommand = new AdminDeleteUserCommand({
+// 			UserPoolId: this.userPoolId,
+// 			Username: userEmail,
+// 		});
+// 		await this.cognitoClient.send(deleteUserCommand);
+// 	}
+// }
 
 test.describe("Registration Flow", () => {
 	let mailslurp: MailSlurpHelper;
@@ -57,7 +61,9 @@ test.describe("Registration Flow", () => {
 
 	test.beforeAll(async () => {
 		mailslurp = new MailSlurpHelper(process.env.MAILSLURP_API_KEY!);
-		// cognitoHelper = new CognitoHelper();
+		// cognitoHelper = new CognitoHelper({
+		// 	userPoolId: process.env.userPoolId!,
+		// });
 	});
 
 	test.beforeEach(async () => {
@@ -82,7 +88,7 @@ test.describe("Registration Flow", () => {
 			lastName: "User",
 		};
 
-		// Step 1: Register new user
+		//Step 1: Register new user
 		await test.step("Register new user", async () => {
 			await page.goto("/signup");
 
