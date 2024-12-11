@@ -1,4 +1,4 @@
-name: Deploy SST App to Staging
+name: Deploy SST App to Preproduction
 
 on:
   push:
@@ -41,7 +41,7 @@ jobs:
           role-to-assume: arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:role/gh-actions-staging
           aws-region: ${{ env.NEXT_PUBLIC_REGION }}
 
-      - name: Deploy to Staging
+      - name: Deploy to Preproduction
         run: npx sst deploy --stage preproduction
 
       - name: Cache Next Build
@@ -56,3 +56,16 @@ jobs:
           # If source files changed but packages didn't, rebuild from a prior cache.
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
+      # Add E2E test steps after deployment
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      - name: Run Integration tests
+        run: npm run e2e:tests --stage=preproduction
+
+      - name: Upload test results
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
