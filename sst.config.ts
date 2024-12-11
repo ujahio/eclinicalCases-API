@@ -23,8 +23,14 @@ export default $config({
 		// Tables
 		await import("./infra/dynamo");
 		// Auth
-		await import("./infra/auth");
+		const auth = await import("./infra/auth");
 		// Archived Cases Cron
 		await import("./infra/archive-case-status");
+
+		new sst.x.DevCommand("setVars", {
+			environment: {
+				userPoolId: auth.userPool.id,
+			},
+		});
 	},
 });
