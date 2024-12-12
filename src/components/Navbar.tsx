@@ -51,12 +51,15 @@ const Navbar = ({
 					</li>
 				</ul>
 				<div className="hidden md:flex">
-					<Button href="/login" className="mr-3 " btnStyle="outline" size="md">
-						Log in
-					</Button>
-					<Button href="/signup" size="md">
-						get started
-					</Button>
+					<Link href="/login">
+						<Button className="mr-3 " btnStyle="outline" size="md">
+							LOG IN
+						</Button>
+					</Link>
+
+					<Link href="/signup">
+						<Button size="md">GET STARTED</Button>
+					</Link>
 				</div>
 				<div className="md:hidden">
 					<button className="outline-none focus:outline-none">
