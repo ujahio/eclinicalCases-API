@@ -1,10 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { MailSlurp } from "mailslurp-client";
 import { parse } from "node-html-parser";
-// import { AdminDeleteUserCommand } from "@aws-sdk/client-cognito-identity-provider";
-// import applicationContext, {
-// 	ApplicationContext,
-// } from "../../appContext/applicationContext";
+import applicationContext from "../../appContext/applicationContext";
 
 class MailSlurpHelper {
 	private client: MailSlurp;
@@ -34,36 +31,12 @@ class MailSlurpHelper {
 	}
 }
 
-// class CognitoHelper {
-// 	private cognitoClient: ReturnType<
-// 		ApplicationContext["getUserManagementClient"]
-// 	>;
-// 	public userPoolId: string;
-
-// 	constructor({ userPoolId }: { userPoolId: string }) {
-// 		this.userPoolId = userPoolId;
-// 		this.cognitoClient = applicationContext.getUserManagementClient();
-// 	}
-
-// 	async deleteUser(userEmail: string) {
-// 		const deleteUserCommand = new AdminDeleteUserCommand({
-// 			UserPoolId: this.userPoolId,
-// 			Username: userEmail,
-// 		});
-// 		await this.cognitoClient.send(deleteUserCommand);
-// 	}
-// }
-
 test.describe("Registration Flow", () => {
 	let mailslurp: MailSlurpHelper;
-	// let cognitoHelper: CognitoHelper;
 	let inbox: any;
 
 	test.beforeAll(async () => {
 		mailslurp = new MailSlurpHelper(process.env.MAILSLURP_API_KEY!);
-		// cognitoHelper = new CognitoHelper({
-		// 	userPoolId: process.env.userPoolId!,
-		// });
 	});
 
 	test.beforeEach(async () => {
@@ -163,8 +136,10 @@ test.describe("Registration Flow", () => {
 		});
 
 		// Step 3: Cleanup
-		// await test.step("Cleanup test user", async () => {
-		// 	await cognitoHelper.deleteUser(testEmail);
-		// });
+		await test.step("Cleanup test user", async () => {
+			await applicationContext
+				.getUseCaseHelpers()
+				.deleteUser({ userEmail: testEmail });
+		});
 	});
 });
