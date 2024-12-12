@@ -55,13 +55,6 @@ jobs:
       - name: Run Integration tests
         run: npm run e2e:tests --stage=preproduction
 
-      - name: Upload test results
-        if: always()
-        with:
-          name: playwright-report
-          path: playwright-report/
-          retention-days: 30
-
       - name: Cache Next Build
         uses: actions/cache@v4
         with:
