@@ -33,15 +33,23 @@ test.describe("Home Page", () => {
 		).toBeVisible();
 	});
 
-	test("should have working CTA button", async ({ page }) => {
-		const ctaButton = page.getByRole("button", {
-			name: "GET STARTED",
-			exact: true,
-		});
-		await expect(ctaButton).toBeVisible();
+	test("should have working CTA buttons", async ({ page }) => {
+		// Get all "GET STARTED" buttons
+		const getStartedButtons = page
+			.getByRole("button", {
+				name: "GET STARTED",
+			})
+			.all();
 
-		await ctaButton.click();
-		await expect(page).toHaveURL("/signup");
+		// Verify each button is visible and routes correctly
+		const buttons = await getStartedButtons;
+		for (const button of buttons) {
+			await expect(button).toBeVisible();
+			await button.click();
+			await expect(page).toHaveURL("/signup");
+			// Navigate back to test the next button
+			await page.goto("/");
+		}
 	});
 
 	test("should display all required images", async ({ page }) => {
