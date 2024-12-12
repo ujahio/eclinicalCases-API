@@ -55,7 +55,10 @@ test.describe("Registration Flow", () => {
 	}) => {
 		// Test data
 		const testEmail = inbox.emailAddress;
-		const testPassword = "TestPassword123!";
+		const testPassword = applicationContext
+			.getUtilityMethods()
+			.generatePassword();
+
 		const testUser = {
 			firstName: "Test",
 			lastName: "User",
@@ -79,6 +82,7 @@ test.describe("Registration Flow", () => {
 			});
 			await passwordInput.fill(testPassword);
 
+			// TODO: CREATE NEW TEST FOR VALIDATION OF PASSWORD
 			// Verify password requirements
 			await expect(page.getByText(/At least 8 characters/)).toHaveClass(
 				/text-green-600/

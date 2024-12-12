@@ -5,6 +5,7 @@ import { DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
 import useCaseHelpers from "./useCaseHelpers";
 import persistenceMethods from "./persistenceMethods";
 import gatewayMethods from "./gatewayMethods";
+import utilityMethods from "./utilityMethods";
 
 // TODO: need to find a better place to save this constants
 // NOTE: process.env is not working
@@ -25,6 +26,7 @@ const createApplicationContext = () => ({
 	getDBClient: () => dbClient,
 	getUseCaseHelpers: () => useCaseHelpers,
 	getPersistenceGateway: () => persistenceMethods,
+	getUtilityMethods: () => utilityMethods,
 });
 
 const applicationContext = createApplicationContext();
