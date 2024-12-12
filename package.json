@@ -10,7 +10,7 @@
 		"lint": "next lint",
 		"start": "next start",
 		"start:sst:local": "npx sst dev --stage localdev",
-		"e2e:tests": "npx sst shell --stage ${npm_config_stage:-localdev} -- npx playwright test"
+		"e2e:tests": "sh scripts/run-tests.sh"
 	},
 	"dependencies": {
 		"@aws-sdk/client-cognito-identity-provider": "^3.699.0",
