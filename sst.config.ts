@@ -26,11 +26,5 @@ export default $config({
 		const auth = await import("./infra/auth");
 		// Archived Cases Cron
 		await import("./infra/archive-case-status");
-
-		new sst.x.DevCommand("setVars", {
-			environment: {
-				userPoolId: auth.userPool.id,
-			},
-		});
 	},
 });
