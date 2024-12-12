@@ -4,17 +4,12 @@ import { dirname } from "path";
 import { fileURLToPath } from "url";
 import path from "path";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-dotenv.config({ path: path.resolve(__dirname, ".env") });
 /**
  * Read environment variables from file.
- * https://github.com/motdotla/dotenv
  */
-// import dotenv from 'dotenv';
-// import path from 'path';
-// dotenv.config({ path: path.resolve(__dirname, '.env') });
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+dotenv.config({ path: path.resolve(__dirname, ".env") });
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -42,21 +37,21 @@ export default defineConfig({
 
 	/* Configure projects for major browsers */
 	projects: [
-		// {
-		// 	name: "chromium",
-		// 	use: { ...devices["Desktop Chrome"] },
-		// },
-
+		{
+			name: "chromium",
+			use: {
+				...devices["Desktop Chrome"],
+				viewport: { width: 1600, height: 988 },
+			},
+		},
 		// {
 		// 	name: "firefox",
 		// 	use: { ...devices["Desktop Firefox"] },
 		// },
-
 		// {
 		// 	name: "webkit",
 		// 	use: { ...devices["Desktop Safari"] },
 		// },
-
 		/* Test against mobile viewports. */
 		// {
 		//   name: 'Mobile Chrome',
@@ -66,20 +61,19 @@ export default defineConfig({
 		//   name: 'Mobile Safari',
 		//   use: { ...devices['iPhone 12'] },
 		// },
-
 		/* Test against branded browsers. */
 		// {
 		//   name: 'Microsoft Edge',
 		//   use: { ...devices['Desktop Edge'], channel: 'msedge' },
 		// },
-		{
-			name: "Google Chrome",
-			use: {
-				...devices["Desktop Chrome"],
-				channel: "chrome",
-				viewport: { width: 1600, height: 988 },
-			},
-		},
+		// {
+		// 	name: "Google Chrome",
+		// 	use: {
+		// 		...devices["Desktop Chrome"],
+		// 		channel: "chrome",
+		// 		viewport: { width: 1600, height: 988 },
+		// 	},
+		// },
 	],
 
 	/* Run your local dev server before starting the tests */
