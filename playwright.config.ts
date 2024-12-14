@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import path from "path";
-// import { Resource } from "sst";
+import { Resource } from "sst";
 
 /**
  * Read environment variables from file.
@@ -11,7 +11,7 @@ import path from "path";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 dotenv.config({ path: path.resolve(__dirname, ".env") });
-const STAGE = process.env.NEXT_PUBLIC_STAGE;
+const STAGE = Resource.NEXT_PUBLIC_STAGE.value;
 
 /**
  * See https://playwright.dev/docs/test-configuration.
