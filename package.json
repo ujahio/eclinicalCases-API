@@ -9,7 +9,7 @@
 		"dev": "next dev",
 		"lint": "next lint",
 		"start": "next start",
-		"start:sst:local": "npx sst dev --stage localdev",
+		"start:sst": "sh scripts/start-sst.sh",
 		"e2e:tests": "sh scripts/run-tests.sh"
 	},
 	"dependencies": {
