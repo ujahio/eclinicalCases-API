@@ -22,3 +22,7 @@ export const NEXT_PUBLIC_STAGE = new sst.Secret(
 	"NEXT_PUBLIC_STAGE",
 	process.env.NEXT_PUBLIC_STAGE
 );
+export const MAILSLURP_API_KEY = new sst.Secret(
+	"MAILSLURP_API_KEY",
+	process.env.MAILSLURP_API_KEY
+);

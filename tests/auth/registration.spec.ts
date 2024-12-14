@@ -2,6 +2,7 @@ import { test, expect } from "@playwright/test";
 import { MailSlurp } from "mailslurp-client";
 import { parse } from "node-html-parser";
 import applicationContext from "../../appContext/applicationContext";
+import { Resource } from "sst";
 
 class MailSlurpHelper {
 	private client: MailSlurp;
@@ -36,7 +37,7 @@ test.describe("Registration Flow", () => {
 	let inbox: any;
 
 	test.beforeAll(async () => {
-		mailslurp = new MailSlurpHelper(process.env.MAILSLURP_API_KEY!);
+		mailslurp = new MailSlurpHelper(Resource.MAILSLURP_API_KEY.value);
 	});
 
 	test.beforeEach(async () => {

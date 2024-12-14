@@ -27,6 +27,10 @@ declare module "sst" {
       "name": string
       "type": "sst.aws.Dynamo"
     }
+    "MAILSLURP_API_KEY": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
     "NEXT_PUBLIC_BASE_URL": {
       "type": "sst.sst.Secret"
       "value": string
