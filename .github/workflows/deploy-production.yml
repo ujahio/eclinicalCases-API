@@ -17,6 +17,8 @@ env:
   NEXT_PUBLIC_PASS_SECRET_KEY: ${{ secrets.NEXT_PUBLIC_PASS_SECRET_KEY }}
   AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
   NEXT_PUBLIC_DOMAIN: ${{ secrets.NEXT_PUBLIC_DOMAIN }}
+  NEXT_PUBLIC_STAGE: ${{ secrets.NEXT_PUBLIC_STAGE }}
+  MAILSLURP_API_KEY: ${{ secrets.MAILSLURP_API_KEY }}
 
 jobs:
   deploy:
@@ -42,7 +44,15 @@ jobs:
           aws-region: ${{ env.NEXT_PUBLIC_REGION }}
 
       - name: Deploy to Production
-        run: npx sst deploy --stage production
+        run:
+          npx sst deploy --stage production
+
+          # Add E2E test steps after deployment
+      - name: Install Chromium browser
+        run: npx playwright install chromium
+
+      - name: Run Integration tests
+        run: npm run e2e:tests --stage=production
 
       - name: Cache Next Build
         uses: actions/cache@v4
