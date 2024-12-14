@@ -18,3 +18,7 @@ export const AUTH_SECRET = new sst.Secret(
 	"AUTH_SECRET",
 	process.env.AUTH_SECRET
 );
+export const NEXT_PUBLIC_STAGE = new sst.Secret(
+	"NEXT_PUBLIC_STAGE",
+	process.env.NEXT_PUBLIC_STAGE
+);

@@ -43,6 +43,10 @@ declare module "sst" {
       "type": "sst.sst.Secret"
       "value": string
     }
+    "NEXT_PUBLIC_STAGE": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
     "StudentsResponses": {
       "name": string
       "type": "sst.aws.Dynamo"

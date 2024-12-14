@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import path from "path";
+import { Resource } from "sst";
 
 /**
  * Read environment variables from file.
@@ -10,6 +11,7 @@ import path from "path";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 dotenv.config({ path: path.resolve(__dirname, ".env") });
+const STAGE = Resource.NEXT_PUBLIC_STAGE.value;
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -30,7 +32,9 @@ export default defineConfig({
 	use: {
 		/* Base URL to use in actions like `await page.goto('/')`. */
 		baseURL:
-			`https://${process.env.NEXT_PUBLIC_DOMAIN}` || "http://127.0.0.1:3000",
+			STAGE === "preproduction" || STAGE === "production"
+				? `https://${STAGE}${process.env.NEXT_PUBLIC_DOMAIN}`
+				: "http://127.0.0.1:3000",
 
 		/* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
 		trace: "on-first-retry",
