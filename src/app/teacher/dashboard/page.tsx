@@ -1,15 +1,21 @@
 "use client";
 
-import React from "react";
 import useGetArchiveCases from "@/services/hooks/useGetArchiveCases";
 import useGetActiveCase from "@/services/hooks/useGetActiveCase";
-import TeacherDashboardPage from "@/presentation/teacher/Dashboard";
+import dynamic from "next/dynamic";
 
-const Page = () => {
+const TeacherDashboardComp = dynamic(
+	() => import("@/presentation/teacher/Dashboard"),
+	{
+		ssr: false,
+	}
+);
+
+const TeacherDashboard = () => {
 	useGetActiveCase();
 	useGetArchiveCases("recent");
 
-	return <TeacherDashboardPage />;
+	return <TeacherDashboardComp />;
 };
 
-export default Page;
+export default TeacherDashboard;
