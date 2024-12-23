@@ -14,10 +14,16 @@ dotenv.config({ path: path.resolve(__dirname, ".env") });
 const STAGE = Resource.NEXT_PUBLIC_STAGE.value;
 console.log("STAGE", STAGE);
 
-const BASE_URL =
-	STAGE === "preproduction" || STAGE === "production"
-		? `https://${STAGE}.${process.env.NEXT_PUBLIC_DOMAIN}`
-		: "http://127.0.0.1:3000";
+const getClientDomain = (): string => {
+	if (STAGE === "preproduction") {
+		return `https://${STAGE}.${process.env.NEXT_PUBLIC_DOMAIN}`;
+	} else if (STAGE === "production") {
+		return `https://${process.env.NEXT_PUBLIC_DOMAIN}`;
+	}
+	return "http://127.0.0.1:3000";
+};
++
+const BASE_URL = getClientDomain();
 
 console.log("BASE_URL", BASE_URL);
 
