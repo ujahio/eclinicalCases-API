@@ -3326,16 +3326,7 @@ cross-fetch@^3.0.4:
   dependencies:
     node-fetch "^2.6.12"
 
-cross-spawn@^7.0.0:
-  version "7.0.3"
-  resolved "https://registry.npmjs.org/cross-spawn/-/cross-spawn-7.0.3.tgz"
-  integrity sha512-iRDPJKUPVEND7dHPO8rkbOnPpyDygcDFtWjpeWNCgy8WP2rXcxXL8TskReQl6OrB2G7+UJrags1q15Fudc7G6w==
-  dependencies:
-    path-key "^3.1.0"
-    shebang-command "^2.0.0"
-    which "^2.0.1"
-
-cross-spawn@^7.0.5:
+cross-spawn@^7.0.0, cross-spawn@^7.0.5:
   version "7.0.6"
   resolved "https://registry.npmjs.org/cross-spawn/-/cross-spawn-7.0.6.tgz"
   integrity sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==
@@ -5495,9 +5486,9 @@ mz@^2.7.0:
     thenify-all "^1.0.0"
 
 nanoid@^3.3.6, nanoid@^3.3.7:
-  version "3.3.7"
-  resolved "https://registry.npmjs.org/nanoid/-/nanoid-3.3.7.tgz"
-  integrity sha512-eSRppjcPIatRIMC1U6UngP8XFcz8MQWGQdt1MTBQ7NaAmvXDfvNxbvWV3x2y6CdEUciCSsDHDQZbhYaB8QEo2g==
+  version "3.3.8"
+  resolved "https://registry.npmjs.org/nanoid/-/nanoid-3.3.8.tgz"
+  integrity sha512-WNLf5Sd8oZxOm+TzppcYk8gVOgP+l58xNy58D0nbUnOxOWRWvlcCV4kUF7ltmI6PsrLl/BgKEyS4mqsGChFN0w==
 
 natural-compare@^1.4.0:
   version "1.4.0"
@@ -6710,25 +6701,25 @@ space-separated-tokens@^2.0.0:
   resolved "https://registry.npmjs.org/space-separated-tokens/-/space-separated-tokens-2.0.2.tgz"
   integrity sha512-PEGlAwrG8yXGXRjW32fGbg66JAlOAwbObuqVoJpv/mRgoWDQfgH1wDPvtzWyUSNAXBGSk8h755YDbbcEy3SH2Q==
 
-sst-darwin-x64@3.2.73:
-  version "3.2.73"
-  resolved "https://registry.npmjs.org/sst-darwin-x64/-/sst-darwin-x64-3.2.73.tgz"
-  integrity sha512-9KHuOGY5QsG+ZR4vcp1on/E6pHbZhUtu0HCgswMOv3MqUflJCtUQzD6/MVAPj8WKjVrrpeDsuxF7IX6UE65/Vw==
+sst-darwin-x64@3.4.54:
+  version "3.4.54"
+  resolved "https://registry.npmjs.org/sst-darwin-x64/-/sst-darwin-x64-3.4.54.tgz"
+  integrity sha512-8VxkrdfOrWPE6CQSWe4ZSDCcsxOZSj+SfPLo0xgVsZ/fxCOPVEctYDVBPh7jc3sx54etsfQvcLECr2czHPJ9Rg==
 
-sst@3.2.73:
-  version "3.2.73"
-  resolved "https://registry.npmjs.org/sst/-/sst-3.2.73.tgz"
-  integrity sha512-PfC1kxCeLujG4iPRtzmbD+b5qkgZ34KQkbIzp/91jzx7YHH4Tmp0HEw2b6XmINb0VhaN1oxjOa0fSX+XMv5KYA==
+sst@3.4.54:
+  version "3.4.54"
+  resolved "https://registry.npmjs.org/sst/-/sst-3.4.54.tgz"
+  integrity sha512-h/78StjjDyoTg7ikQW4Kqljcx6utaHgMl2Is6ZEWpNYo1iZmSUxEZ/vQGQrYVZmAbm/CjeQlSv0yqqD6MHDDMw==
   dependencies:
     aws4fetch "^1.0.18"
     jose "5.2.3"
     openid-client "5.6.4"
   optionalDependencies:
-    sst-darwin-arm64 "3.2.73"
-    sst-darwin-x64 "3.2.73"
-    sst-linux-arm64 "3.2.73"
-    sst-linux-x64 "3.2.73"
-    sst-linux-x86 "3.2.73"
+    sst-darwin-arm64 "3.4.54"
+    sst-darwin-x64 "3.4.54"
+    sst-linux-arm64 "3.4.54"
+    sst-linux-x64 "3.4.54"
+    sst-linux-x86 "3.4.54"
 
 stackblur-canvas@^2.0.0:
   version "2.7.0"
