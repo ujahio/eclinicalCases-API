@@ -56,9 +56,10 @@ const Objective = () => {
 };
 
 const objectives = [
-	"To provide category 1 CMEs in clinical laboratory medicine.",
-	"To support users of the clinical laboratory better interpret their patients’ test reports.",
-	"To provide users with CMEs for accreditation and re-licensing.",
+	"To support laboratorians better provide interpretative comments for lab tests to assist clinicians manage their patients.",
+	"To support clinicians, nurses and other users of the clinical laboratory better interpret their patients’ test reports.",
+	"To guide clinicians in ordering right test for the right patient at the right time.",
+	"To provide users with needed CMEs for accreditation and re-licensing.",
 ];
 
 export default Objective;

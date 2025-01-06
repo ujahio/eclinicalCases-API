@@ -1,20 +1,21 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import useGetArchiveCases from "@/services/hooks/useGetArchiveCases";
 import useGetActiveCase from "@/services/hooks/useGetActiveCase";
+import dynamic from "next/dynamic";
 
-const TeacherDashboardPage = dynamic(
+const TeacherDashboardComp = dynamic(
 	() => import("@/presentation/teacher/Dashboard"),
 	{
 		ssr: false,
 	}
 );
-const Page = () => {
+
+const TeacherDashboard = () => {
 	useGetActiveCase();
 	useGetArchiveCases("recent");
 
-	return <TeacherDashboardPage />;
+	return <TeacherDashboardComp />;
 };
 
-export default Page;
+export default TeacherDashboard;
