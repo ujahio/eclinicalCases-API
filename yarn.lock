@@ -7319,10 +7319,10 @@ utrie@^1.0.2:
   dependencies:
     base64-arraybuffer "^1.0.2"
 
-uuid@^11.0.3:
-  version "11.0.3"
-  resolved "https://registry.npmjs.org/uuid/-/uuid-11.0.3.tgz"
-  integrity sha512-d0z310fCWv5dJwnX1Y/MncBAqGMKEzlBb1AOf7z9K8ALnd0utBX/msg/fA0+sbyN1ihbMsLhrBlnl1ak7Wa0rg==
+uuid@^11.0.4:
+  version "11.0.4"
+  resolved "https://registry.npmjs.org/uuid/-/uuid-11.0.4.tgz"
+  integrity sha512-IzL6VtTTYcAhA/oghbFJ1Dkmqev+FpQWnCBaKq/gUluLxliWvO8DPFWfIviRmYbtaavtSQe4WBL++rFjdcGWEg==
 
 uuid@^9.0.1:
   version "9.0.1"
