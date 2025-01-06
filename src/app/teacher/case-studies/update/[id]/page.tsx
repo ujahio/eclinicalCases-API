@@ -77,6 +77,20 @@ const Update: FunctionComponent<any> = ({ params }) => {
 			dispatch(resetGetDraftCasesStatus());
 			const draftCaseDetails = getDraftCasesState.cases[0];
 
+			let caseQuestions: {
+				question: string;
+				options: any[];
+				correctAnswer: number;
+			}[] = draftCaseDetails.caseQuestions;
+			if (
+				draftCaseDetails.caseQuestions &&
+				typeof draftCaseDetails.caseQuestions === "string"
+			) {
+				caseQuestions =
+					draftCaseDetails.caseQuestions !== ""
+						? JSON.parse(draftCaseDetails.caseQuestions)
+						: [];
+			}
 			const updatedCaseStudy = {
 				caseDescription: draftCaseDetails.caseDescription,
 				caseTeaching: draftCaseDetails.caseTeaching,
@@ -85,9 +99,7 @@ const Update: FunctionComponent<any> = ({ params }) => {
 				caseDeadline: draftCaseDetails.caseDeadline
 					? formatDateToYYYYMMDD(draftCaseDetails.caseDeadline)
 					: "",
-				caseQuestions: draftCaseDetails.caseQuestions
-					? draftCaseDetails.caseQuestions
-					: [],
+				caseQuestions: caseQuestions,
 				caseStatus: draftCaseDetails.caseStatus,
 				caseMaterials: draftCaseDetails.caseMaterials
 					? JSON.parse(draftCaseDetails?.caseMaterials)
