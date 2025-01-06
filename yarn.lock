@@ -6701,25 +6701,25 @@ space-separated-tokens@^2.0.0:
   resolved "https://registry.npmjs.org/space-separated-tokens/-/space-separated-tokens-2.0.2.tgz"
   integrity sha512-PEGlAwrG8yXGXRjW32fGbg66JAlOAwbObuqVoJpv/mRgoWDQfgH1wDPvtzWyUSNAXBGSk8h755YDbbcEy3SH2Q==
 
-sst-darwin-x64@3.4.54:
-  version "3.4.54"
-  resolved "https://registry.npmjs.org/sst-darwin-x64/-/sst-darwin-x64-3.4.54.tgz"
-  integrity sha512-8VxkrdfOrWPE6CQSWe4ZSDCcsxOZSj+SfPLo0xgVsZ/fxCOPVEctYDVBPh7jc3sx54etsfQvcLECr2czHPJ9Rg==
+sst-darwin-x64@3.2.73:
+  version "3.2.73"
+  resolved "https://registry.npmjs.org/sst-darwin-x64/-/sst-darwin-x64-3.2.73.tgz"
+  integrity sha512-9KHuOGY5QsG+ZR4vcp1on/E6pHbZhUtu0HCgswMOv3MqUflJCtUQzD6/MVAPj8WKjVrrpeDsuxF7IX6UE65/Vw==
 
-sst@3.4.54:
-  version "3.4.54"
-  resolved "https://registry.npmjs.org/sst/-/sst-3.4.54.tgz"
-  integrity sha512-h/78StjjDyoTg7ikQW4Kqljcx6utaHgMl2Is6ZEWpNYo1iZmSUxEZ/vQGQrYVZmAbm/CjeQlSv0yqqD6MHDDMw==
+sst@3.2.73:
+  version "3.2.73"
+  resolved "https://registry.npmjs.org/sst/-/sst-3.2.73.tgz"
+  integrity sha512-PfC1kxCeLujG4iPRtzmbD+b5qkgZ34KQkbIzp/91jzx7YHH4Tmp0HEw2b6XmINb0VhaN1oxjOa0fSX+XMv5KYA==
   dependencies:
     aws4fetch "^1.0.18"
     jose "5.2.3"
     openid-client "5.6.4"
   optionalDependencies:
-    sst-darwin-arm64 "3.4.54"
-    sst-darwin-x64 "3.4.54"
-    sst-linux-arm64 "3.4.54"
-    sst-linux-x64 "3.4.54"
-    sst-linux-x86 "3.4.54"
+    sst-darwin-arm64 "3.2.73"
+    sst-darwin-x64 "3.2.73"
+    sst-linux-arm64 "3.2.73"
+    sst-linux-x64 "3.2.73"
+    sst-linux-x86 "3.2.73"
 
 stackblur-canvas@^2.0.0:
   version "2.7.0"
