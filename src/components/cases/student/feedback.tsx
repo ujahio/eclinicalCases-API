@@ -123,7 +123,7 @@ const StudentFeedback: FunctionComponent<StudentFeedbackProps> = ({
 };
 
 const responses = [
-	"Strongly disagree",
+	"Strongly agree",
 	"Disagree",
 	"No comment",
 	"Agree",
