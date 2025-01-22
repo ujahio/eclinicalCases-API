@@ -24,7 +24,7 @@ const Nav: FunctionComponent<NavProps> = ({
 			path: "/student/dashboard",
 		},
 		{
-			label: "Certifications",
+			label: "Certificates",
 			path: "/student/certificates",
 		},
 	],
