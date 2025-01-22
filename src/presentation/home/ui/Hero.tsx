@@ -16,27 +16,28 @@ const Header = () => {
 					</p>
 					<p className="mt-8 text-dark leading-5">
 						e-Clinical Cases Solutions aims to provide category 1 CME in
-						laboratory medicine as interactive clinical cases online. It is
-						suitable for learning for all laboratorians, endocrinologists,
-						rheumatologists, nurses, family and internal medicine physicians,
-						and all users of the clinical laboratory. The cases are authentic,
-						acquired over 20 years of clinical practice. Cases can be accessed
-						online anywhere, and at any time.
+						laboratory medicine in the format of interactive clinical cases
+						online. It is suitable for learning for all laboratorians,
+						endocrinologists, rheumatologists, nurses, family and internal
+						medicine physicians, and all users of the clinical laboratory. The
+						cases are authentic, acquired over 20 years of clinical practice.
+						Cases can be accessed online anywhere, and at any time.
 						<br />
 						<br />
 						Cases will be posted fortnightly. Registered participants earn 1
 						category 1 CME point per case. Learning is active as participants
 						consider and comment on the case and compare answers to a model
-						answer by the tutor. This is accompanied by teaching on the subject
-						and a test of learning by multiple choice questions (MCQs).
+						answer by the tutor. This is accompanied by a comprehensive teaching
+						on the subject and a test of learning by multiple choice questions
+						(MCQs).
 						<br />
 						<br />
-						A total of 20 category 1 CMEs are offered in one year.
+						A total of 20 category 1 CME points are offered in one year.
 						<br />
 						<br />
 						NMC Healthcare is accredited by the Abu Dhabi Department of Health
 						to provide CME/CPD for healthcare providers. This activity is
-						designated for XXXX CME/CPD credits.
+						designated for 1 CME/CPD credit per case.
 					</p>
 					<Link href="/signup">
 						<Button className="sm:mt-16 mt-8" size="lg">
