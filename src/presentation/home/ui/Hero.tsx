@@ -15,7 +15,7 @@ const Header = () => {
 						Welcome to e-Clinical Cases Solutions
 					</p>
 					<p className="mt-8 text-dark leading-5">
-						e-Clinical Cases Solutions aim to provide category 1 CME in
+						e-Clinical Cases Solutions aims to provide category 1 CME in
 						laboratory medicine as interactive clinical cases online. It is
 						suitable for learning for all laboratorians, endocrinologists,
 						rheumatologists, nurses, family and internal medicine physicians,
