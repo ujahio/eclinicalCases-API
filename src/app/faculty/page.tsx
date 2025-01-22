@@ -34,8 +34,8 @@ const Page = () => {
 						of Cambridge, UK. He is a Fellow of the Royal College of Physicians
 						and Pathologists, UK. He also holds a PGCert in Medical Education
 						from the University of Warrick, UK, PGCert in Hospital and Social
-						care management, Henley Business school, University f Reading UK and
-						an advanced diploma in forensic medical sciences awarded by the
+						care management, Henley Business school, University of Reading UK
+						and an advanced diploma in forensic medical sciences awarded by the
 						Society of Apothecaries of London, UK. He has been involved in
 						teaching and training of biomedical and clinical scientists and
 						postgraduate medical doctors. He is passionate about impacting

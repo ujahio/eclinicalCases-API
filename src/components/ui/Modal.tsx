@@ -1,10 +1,10 @@
-import React, { FC } from "react";
+import React, { FC, ReactNode } from "react";
 
 export interface ModalProps {
 	show: boolean;
 	toggle: (state: boolean) => void;
 	size?: "sm" | "md" | "lg";
-	children?: any;
+	children?: ReactNode;
 	caseId?: any;
 	studentInfo?: any;
 }
@@ -14,31 +14,32 @@ const Modal: FC<ModalProps> = ({ show, toggle, size = "md", children }) => {
 
 	switch (size) {
 		case "sm":
-			addedClasses += " top-1/6 max-w-120";
+			addedClasses += " max-w-lg";
 			break;
 		case "md":
-			addedClasses += " top-1/2 transform -translate-y-1/2 max-w-150";
+			addedClasses += " max-w-2xl";
 			break;
 		default:
-			addedClasses += " top-1/2 transform -translate-y-1/2 max-w-225";
+			addedClasses += " max-w-4xl";
 			break;
 	}
 
 	return (
 		<div
-			className={`bg-dark bg-opacity-70 fixed top-0 left-0 right-0 bottom-0 z-50 transform duration-200 ease-in-out flex justify-center items-start ${
+			className={`bg-dark bg-opacity-70 fixed top-0 left-0 right-0 bottom-0 z-50 flex justify-center items-center transition-opacity duration-200 ease-in-out ${
 				show
-					? "opacity-1 pointer-events-auto scale-100"
-					: "pointer-events-none opacity-0 scale-95"
+					? "opacity-100 pointer-events-auto"
+					: "opacity-0 pointer-events-none"
 			}`}
 			style={{ backdropFilter: "blur(3px)" }}
 		>
 			<div
-				className={`bg-white w-11/12 rounded-sm p-6 sm:p-7 md:p-8 relative ${addedClasses}`}
+				className={`bg-white w-11/12 rounded-sm p-6 sm:p-7 md:p-8 relative ${addedClasses} flex flex-col overflow-y-auto max-h-screen`}
 			>
 				<button
 					onClick={() => toggle(false)}
-					className="no-outline h-3.5 w-3.5 absolute top-4 right-5 md:top-5 transition-all text-dark hover:text-primary-300"
+					className="no-outline h-6 w-6 absolute top-4 right-5 md:top-5 md:right-6 transition-all text-dark hover:text-primary-300 focus:outline-none"
+					aria-label="Close Modal"
 				>
 					<svg width="100%" viewBox="0 0 19.528 19.529">
 						<g transform="translate(-314.611 -73.746)">
@@ -59,10 +60,9 @@ const Modal: FC<ModalProps> = ({ show, toggle, size = "md", children }) => {
 						</g>
 					</svg>
 				</button>
-				{children}
+				<div className="flex-1">{children}</div>
 			</div>
 		</div>
 	);
 };
-
 export default Modal;

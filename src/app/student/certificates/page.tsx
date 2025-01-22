@@ -25,7 +25,7 @@ const Certificates = () => {
 
 	useEffect(() => {
 		dispatch(getStudentsCertificates());
-	}, [dispatch]);
+	}, []);
 
 	useEffect(() => {
 		if (studentsCertificatesState.status === "failed") {

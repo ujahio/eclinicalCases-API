@@ -12,7 +12,7 @@ const Footer = () => {
 						<Image
 							src={Logo}
 							alt="e clinical cases solutions logo"
-							className="sh-5 sm:h-6"
+							className="h-8 sm:h-6 w-auto"
 						/>
 						<p className="mt-6">e-clinical cases solution © 2024</p>
 						<p>
