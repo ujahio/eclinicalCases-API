@@ -54,7 +54,7 @@ const Signup = ({ handleSignUp }: SignupCompProps) => {
 						<Image
 							src={Logo}
 							alt="e clinical cases solutions logo"
-							className="h-full w-auto"
+							className="h-8 w-auto"
 						/>
 					</figure>
 
