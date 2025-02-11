@@ -1,13 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { addFeedbackApi } from "@/services/apis/student";
-import { getTokenForRequest } from "@/utils/getTokenForRequest";
 
 export const addFeedback = createAsyncThunk(
 	"feedback/addFeedback",
 	async (feedbackData: any, thunkAPI) => {
 		try {
-			const token = await getTokenForRequest();
-			const { data } = await addFeedbackApi(feedbackData, token);
+			const { data } = await addFeedbackApi(feedbackData);
 			return data;
 		} catch (error: any) {
 			return thunkAPI.rejectWithValue({
