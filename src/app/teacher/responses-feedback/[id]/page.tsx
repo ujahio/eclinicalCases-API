@@ -7,6 +7,7 @@ import {
 	resetCaseDataStatus,
 } from "@/store/slices/case/getCaseDataSlice";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
+import { useAuthRedirect } from "@/services/hooks/useAuthRedirect";
 
 const ResponsesAndFeedbackPage = dynamic(
 	() => import("@/presentation/teacher/ResponsesAndFeedback"),
@@ -16,6 +17,10 @@ const ResponsesAndFeedbackPage = dynamic(
 );
 
 const Page = ({ params }: any) => {
+	const { session } = useAuthRedirect();
+	if (!session) {
+		return null;
+	}
 	const [studentInfo, setStudent] = useState({});
 	const dispatch = useAppDispatch();
 	const caseDataState = useAppSelector((state) => state.getCaseData);

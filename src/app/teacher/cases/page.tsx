@@ -10,6 +10,7 @@ import {
 } from "@/store/slices/case/deleteCaseSlice";
 import useGetDraftCase from "@/services/hooks/useGetDraftCase";
 import { getDraftCases } from "@/store/slices/case/getDraftCasesSlice";
+import { useAuthRedirect } from "@/services/hooks/useAuthRedirect";
 
 const TeacherCaseStudies = dynamic(
 	() => import("@/presentation/teacher/CaseStudies"),
@@ -19,6 +20,10 @@ const TeacherCaseStudies = dynamic(
 );
 
 const Page = () => {
+	const { session } = useAuthRedirect();
+	if (!session) {
+		return null;
+	}
 	const deleteCaseState = useAppSelector((state) => state.deleteCase);
 	const dispatch = useAppDispatch();
 

@@ -13,6 +13,7 @@ import {
 import useProcessTabs from "@/services/hooks/useProcessTabs";
 import { toast } from "react-toastify";
 import { CaseDetail } from "@/services/types/student";
+import { useAuthRedirect } from "@/services/hooks/useAuthRedirect";
 
 const tabs = [
 	"Case Presentation",
@@ -25,6 +26,10 @@ const tabs = [
 ];
 
 const CaseStudies = ({ params }: { params: any }) => {
+	const { session } = useAuthRedirect();
+	if (!session) {
+		return null;
+	}
 	const dispatch = useAppDispatch();
 	const { active: activeTab, switchTab, isActive } = useProcessTabs(tabs, 0);
 	const [progress, setProgress] = useState(1);

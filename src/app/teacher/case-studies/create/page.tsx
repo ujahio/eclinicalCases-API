@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
 import { addCase, resetAddCaseStatus } from "@/store/slices/case/addCaseSlice";
 import { useRouter } from "next/navigation";
 import { CaseStudy } from "@/services/types/teacher/createCaseStudy";
+import { useAuthRedirect } from "@/services/hooks/useAuthRedirect";
 
 const CreateCaseStudy = dynamic(
 	() => import("@/presentation/teacher/CreateCaseStudy"),
@@ -35,6 +36,10 @@ const initialCaseStudy: CaseStudy = {
 };
 
 const Create: FunctionComponent = () => {
+	const { session } = useAuthRedirect();
+	if (!session) {
+		return null;
+	}
 	const navigate = useRouter();
 	const dispatch = useAppDispatch();
 	const addCaseState = useAppSelector((state) => state.addCase);

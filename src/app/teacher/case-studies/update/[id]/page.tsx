@@ -13,6 +13,7 @@ import {
 import { addCase, resetAddCaseStatus } from "@/store/slices/case/addCaseSlice";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import { useAuthRedirect } from "@/services/hooks/useAuthRedirect";
 
 // TODO: move to a utility file/folder
 const formatDateToYYYYMMDD = (dateString: any) => {
@@ -24,6 +25,10 @@ const formatDateToYYYYMMDD = (dateString: any) => {
 };
 
 const Update: FunctionComponent<any> = ({ params }) => {
+	const { session } = useAuthRedirect();
+	if (!session) {
+		return null;
+	}
 	const navigate = useRouter();
 
 	const dispatch = useAppDispatch();
