@@ -158,6 +158,7 @@ const stagePrefix =
 export const eccsWebClient = userPool.addClient(`${stagePrefix}eccswebclient`, {
 	transform: {
 		client: {
+			accessTokenValidity: 3600, // Access token validity in seconds (e.g., 1 hour)
 			explicitAuthFlows: ["ADMIN_NO_SRP_AUTH", "USER_PASSWORD_AUTH"],
 			refreshTokenValidity: 1, // Refresh token validity in days
 			generateSecret: false, // No client secret needed for programmatic JWT flow
