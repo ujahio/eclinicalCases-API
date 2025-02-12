@@ -77,11 +77,15 @@ const authOptions: NextAuthConfig = {
 	],
 	callbacks: {
 		async jwt({ token, user }) {
-			// Handle initial sign-in
+			const ACCESS_TOKEN_EXPIRES_IN: number = process.env
+				.NEXT_PUBLIC_ACCESS_TOKEN_EXPIRES_IN
+				? parseInt(process.env.NEXT_PUBLIC_ACCESS_TOKEN_EXPIRES_IN, 10) * 1000
+				: 3600 * 1000;
+
 			if (user) {
 				token.accessToken = user.accessToken;
 				token.refreshToken = user.refreshToken;
-				token.accessTokenExpires = Date.now() + 3600 * 1000; // Token valid for 1 hour
+				token.accessTokenExpires = Date.now() + ACCESS_TOKEN_EXPIRES_IN;
 				token.id = user.id;
 				token.firstName = user.firstName;
 				token.lastName = user.lastName;
@@ -94,30 +98,27 @@ const authOptions: NextAuthConfig = {
 				return token;
 			}
 
+			// If the token has expired, refresh it
 			if (!token.accessTokenExpires || Date.now() >= token.accessTokenExpires) {
 				console.log("Access token has expired, refreshing...");
-			}
 
-			// If the token has expired, refresh it
-			try {
-				const response = await authApi.post("/refresh-token", {
-					refreshToken: token.refreshToken,
-				});
-
-				const refreshedData = response.data;
-
-				// Update token with refreshed details
-				token.accessToken = refreshedData.accessToken;
-				token.accessTokenExpires = Date.now() + refreshedData.expiresIn * 1000; // New expiration time
-				token.refreshToken = refreshedData.refreshToken || token.refreshToken; // Retain same refresh token if not updated
-			} catch (error) {
-				console.error("Failed to refresh token:", error);
-
-				// Optionally handle token refresh failure
-				return {
-					...token,
-					error: "RefreshAccessTokenError",
-				};
+				try {
+					const response = await authApi.post("/refresh-token", {
+						refreshToken: token.refreshToken,
+					});
+					const refreshedData = response.data;
+					// Update token with refreshed details
+					token.accessToken = refreshedData.accessToken;
+					token.accessTokenExpires =
+						Date.now() + refreshedData.expiresIn * 1000; // New expiration time
+					token.refreshToken = refreshedData.refreshToken || token.refreshToken; // Retain same refresh token if not updated
+				} catch (error) {
+					console.error("Failed to refresh token:", error);
+					return {
+						...token,
+						error: "RefreshAccessTokenError",
+					};
+				}
 			}
 
 			return token;
