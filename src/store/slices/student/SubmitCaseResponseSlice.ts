@@ -1,15 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { submitCaseResponseApi } from "@/services/apis/student";
-import { getTokenForRequest } from "@/utils/getTokenForRequest";
 
 export const submitCaseResponse = createAsyncThunk(
 	"case/submitCaseResponse",
 	async (requestPayload: any, thunkAPI) => {
 		try {
-			const token = await getTokenForRequest();
 			const { data: studentPassingInfo } = await submitCaseResponseApi(
-				requestPayload,
-				token
+				requestPayload
 			);
 
 			return {

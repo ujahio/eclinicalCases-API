@@ -7,7 +7,8 @@ import ResponseCaseCard from "@/components/cases/ResponseCaseCard";
 import { useAuthRedirect } from "@/services/hooks/useAuthRedirect";
 
 const StudentDashboard = () => {
-	const { user } = useAuthRedirect();
+	const { session } = useAuthRedirect();
+
 	const publishedCaseInfo = useAppSelector((state) => state.activeCase.data);
 
 	const studentsResponsesToCases = useAppSelector(
@@ -33,9 +34,9 @@ const StudentDashboard = () => {
 						{/* <figure className="h-8 md:h-11.25 w-8 md:w-11.25 rounded-full overflow-hidden">
 							<img src={UserImg} alt="User image" className="h-full w-full" />
 						</figure> */}
-						{user && (
+						{session?.user && (
 							<h4 className="text-dark font-medium text-1sm sm:text-base inline-block ml-2.5">
-								{`Hello, ${user.firstName} ${user.lastName} 👋`}
+								{`Hello, ${session.user.firstName} ${session.user.lastName} 👋`}
 							</h4>
 						)}
 					</div>

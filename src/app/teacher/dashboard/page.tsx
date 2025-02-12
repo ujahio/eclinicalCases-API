@@ -1,21 +1,47 @@
 "use client";
-
+import { useEffect } from "react";
+import dynamic from "next/dynamic";
+import { useAppDispatch } from "@/services/hooks/hooks";
 import useGetArchiveCases from "@/services/hooks/useGetArchiveCases";
 import useGetActiveCase from "@/services/hooks/useGetActiveCase";
-import dynamic from "next/dynamic";
+import { useAuthRedirect } from "@/services/hooks/useAuthRedirect";
+import { resetOngoingCaseStatus } from "@/store/slices/case/getPublishedCaseSlice";
+import { resetGetArchiveCasesStatus } from "@/store/slices/case/getArchiveCasesSlice";
 
-const TeacherDashboardComp = dynamic(
+const TeacherDashboard = dynamic(
 	() => import("@/presentation/teacher/Dashboard"),
 	{
 		ssr: false,
 	}
 );
 
-const TeacherDashboard = () => {
+const TeacherDashboardContent = () => {
+	const { session } = useAuthRedirect();
+	const dispatch = useAppDispatch();
+
 	useGetActiveCase();
 	useGetArchiveCases("recent");
 
-	return <TeacherDashboardComp />;
+	useEffect(() => {
+		return () => {
+			dispatch(resetOngoingCaseStatus());
+			dispatch(resetGetArchiveCasesStatus());
+		};
+	}, [dispatch]);
+
+	if (!session) {
+		return null;
+	}
+
+	return <TeacherDashboard />;
 };
 
-export default TeacherDashboard;
+const Page = () => {
+	const { session } = useAuthRedirect();
+	if (!session) {
+		return null;
+	}
+	return <TeacherDashboardContent />;
+};
+
+export default Page;

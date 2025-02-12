@@ -1,3 +1,4 @@
+import { signOut } from "next-auth/react";
 import { toast } from "react-toastify";
 
 export const handleApiError = (error: any): Promise<never> => {
@@ -5,6 +6,10 @@ export const handleApiError = (error: any): Promise<never> => {
 	let errorMessage = defaultErrorMessage;
 	if (error.response && error.response.data) {
 		errorMessage = error.response.data?.message || errorMessage;
+	}
+	if (error.response && error.response.status === 401) {
+		errorMessage = error.response.data?.message || errorMessage;
+		signOut({ callbackUrl: "/login" });
 	}
 
 	toast.error(errorMessage, {

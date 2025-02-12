@@ -15,7 +15,6 @@ import {
 	addPdfToCaseMaterialsApi,
 	deletePdfFromCaseMaterialsApi,
 } from "@/services/apis/case";
-import { getTokenForRequest } from "@/utils/getTokenForRequest";
 import CaseEditor from "@/lib/Editor";
 
 const TeacherCaseTeaching: FunctionComponent<TeacherCaseTeachingProps> = ({
@@ -52,11 +51,10 @@ const TeacherCaseTeaching: FunctionComponent<TeacherCaseTeachingProps> = ({
 		if (!documentKey) return;
 
 		try {
-			const userToken = await getTokenForRequest();
 			if (documentKey) {
 				setIsRemoving(documentKey);
 
-				await deletePdfFromCaseMaterialsApi(documentKey, userToken);
+				await deletePdfFromCaseMaterialsApi(documentKey);
 			}
 			const updatedFiles = files.filter(
 				(file) => file.documentKey !== documentKey

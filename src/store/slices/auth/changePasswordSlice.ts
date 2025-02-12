@@ -1,13 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { changePasswordApi } from "@/services/apis/auth";
-import { getTokenForRequest } from "@/utils/getTokenForRequest";
 
 export const changePassword = createAsyncThunk(
 	"auth/changePassword",
 	async (passwordData: any, thunkAPI) => {
 		try {
-			const token = await getTokenForRequest();
-			const { data } = await changePasswordApi(passwordData, token);
+			const { data } = await changePasswordApi(passwordData);
 			return data;
 		} catch (error: any) {
 			return thunkAPI.rejectWithValue(error.response.data);

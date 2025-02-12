@@ -15,10 +15,10 @@ export const sendOtpApi = (otpData: any) => {
 	return authApi.post(`/send-otp`, otpData);
 };
 
-export const changePasswordApi = (passwordData: any, token?: string) => {
+export const changePasswordApi = (passwordData: any) => {
 	return authApi.post(
 		`/update-password`,
 		passwordData,
-		configureRequestHeaders(token)
+		configureRequestHeaders()
 	);
 };

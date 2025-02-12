@@ -1,13 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchPublishedCaseApi } from "@/services/apis/case";
-import { getTokenForRequest } from "@/utils/getTokenForRequest";
 
 export const getPublishedCase = createAsyncThunk(
 	"cases/getPublishedCase",
 	async (_, thunkAPI) => {
 		try {
-			const token = await getTokenForRequest();
-			const { data: pubishedCase } = await fetchPublishedCaseApi(token);
+			const { data: pubishedCase } = await fetchPublishedCaseApi();
 			return pubishedCase;
 		} catch (error: any) {
 			return thunkAPI.rejectWithValue(error.response.data);
@@ -34,6 +32,7 @@ const publishedCaseSlice = createSlice({
 		resetOngoingCaseStatus: (state) => {
 			state.status = "idle";
 			state.error = null;
+			state.data = null;
 		},
 	},
 	extraReducers: (builder) => {

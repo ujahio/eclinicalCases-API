@@ -276,7 +276,8 @@ export const refreshToken = async (event) => {
 				body: JSON.stringify({
 					accessToken: response.AuthenticationResult.AccessToken,
 					expiresIn: response.AuthenticationResult.ExpiresIn,
-					refreshToken: refreshToken, // Optionally return the same refresh token
+					refreshToken:
+						response.AuthenticationResult.RefreshToken || refreshToken, // Update if new refresh token is provided
 				}),
 			};
 		} else {
