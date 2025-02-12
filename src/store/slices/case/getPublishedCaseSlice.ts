@@ -32,6 +32,7 @@ const publishedCaseSlice = createSlice({
 		resetOngoingCaseStatus: (state) => {
 			state.status = "idle";
 			state.error = null;
+			state.data = null;
 		},
 	},
 	extraReducers: (builder) => {

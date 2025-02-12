@@ -31,6 +31,7 @@ const getStudentsResponsesToCasesSlice = createSlice({
 		resetGetStudentsResponsesToCasesStatus: (state) => {
 			state.status = "idle";
 			state.error = null;
+			state.responses = [];
 		},
 	},
 	extraReducers: (builder) => {

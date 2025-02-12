@@ -35,6 +35,7 @@ const getArchiveCasesSlice = createSlice({
 		resetGetArchiveCasesStatus: (state) => {
 			state.status = "idle";
 			state.error = null;
+			state.cases = [];
 		},
 	},
 	extraReducers: (builder) => {
