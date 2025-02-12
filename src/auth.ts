@@ -110,8 +110,8 @@ const authOptions: NextAuthConfig = {
 					// Update token with refreshed details
 					token.accessToken = refreshedData.accessToken;
 					token.accessTokenExpires =
-						Date.now() + refreshedData.expiresIn * 1000; // New expiration time
-					token.refreshToken = refreshedData.refreshToken || token.refreshToken; // Retain same refresh token if not updated
+						Date.now() + refreshedData.expiresIn * 1000;
+					token.refreshToken = refreshedData.refreshToken || token.refreshToken;
 				} catch (error) {
 					console.error("Failed to refresh token:", error);
 					return {
@@ -135,7 +135,6 @@ const authOptions: NextAuthConfig = {
 				emailVerified: null,
 			};
 
-			// Pass any token error to the session
 			if (token.error) {
 				session.error = token.error;
 			}
@@ -147,7 +146,7 @@ const authOptions: NextAuthConfig = {
 		},
 	},
 	pages: {
-		signIn: "/login", // This sets the custom path for the login page
+		signIn: "/login",
 	},
 };
 
