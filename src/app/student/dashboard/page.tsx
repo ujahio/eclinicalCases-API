@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect } from "react";
-import StudentDashboardComp from "@/presentation/student/Dashboard";
+import StudentDashboard from "@/presentation/student/Dashboard";
 import useGetStudentsResponsesToCases from "@/services/hooks/useGetStudentsResponsesToCases";
 import useGetActiveCase from "@/services/hooks/useGetActiveCase";
 import { useAuthRedirect } from "@/services/hooks/useAuthRedirect";
@@ -9,7 +9,7 @@ import { resetOngoingCaseStatus } from "@/store/slices/case/getPublishedCaseSlic
 import { resetGetStudentsResponsesToCasesStatus } from "@/store/slices/student/getStudentsResponsesToCasesSlice";
 import { useAppDispatch } from "@/services/hooks/hooks";
 
-const StudentDashboard = () => {
+const Page = () => {
 	const { session } = useAuthRedirect();
 	const dispatch = useAppDispatch();
 
@@ -26,7 +26,7 @@ const StudentDashboard = () => {
 	if (!session) {
 		return null;
 	}
-	return <StudentDashboardComp />;
+	return <StudentDashboard />;
 };
 
-export default StudentDashboard;
+export default Page;

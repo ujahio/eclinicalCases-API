@@ -4,7 +4,7 @@ import AccountSettings from "@/presentation/student/Settings";
 import { useAuthRedirect } from "@/services/hooks/useAuthRedirect";
 import React from "react";
 
-const Settings = () => {
+const Page = () => {
 	const { session } = useAuthRedirect();
 	if (!session) {
 		return null;
@@ -12,4 +12,4 @@ const Settings = () => {
 	return <AccountSettings />;
 };
 
-export default Settings;
+export default Page;

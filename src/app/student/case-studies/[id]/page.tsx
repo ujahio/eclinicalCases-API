@@ -130,7 +130,7 @@ const StudentCaseStudiesContent = ({ params }: { params: any }) => {
 	);
 };
 
-const CaseStudies = ({ params }: { params: any }) => {
+const Page = ({ params }: { params: any }) => {
 	const { session } = useAuthRedirect();
 
 	if (!session) {
@@ -140,4 +140,4 @@ const CaseStudies = ({ params }: { params: any }) => {
 	return <StudentCaseStudiesContent params={params} />;
 };
 
-export default CaseStudies;
+export default Page;

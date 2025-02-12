@@ -154,7 +154,7 @@ const UpdateCaseStudyContent: FunctionComponent<any> = ({ params }) => {
 	);
 };
 
-const UpdateCaseStudy: FunctionComponent = () => {
+const Page: FunctionComponent = () => {
 	const { session } = useAuthRedirect();
 	if (!session) {
 		return null;
@@ -163,4 +163,4 @@ const UpdateCaseStudy: FunctionComponent = () => {
 	return <UpdateCaseStudyContent />;
 };
 
-export default UpdateCaseStudy;
+export default Page;
