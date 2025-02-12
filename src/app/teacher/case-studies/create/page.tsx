@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState, FunctionComponent } from "react";
+import dynamic from "next/dynamic";
 import { toast } from "react-toastify";
 import useProcessTabs from "@/services/hooks/useProcessTabs";
 import { createCaseStudyTabs } from "@/services/constants";
@@ -9,7 +10,13 @@ import { addCase, resetAddCaseStatus } from "@/store/slices/case/addCaseSlice";
 import { useRouter } from "next/navigation";
 import { CaseStudy } from "@/services/types/teacher/createCaseStudy";
 import { useAuthRedirect } from "@/services/hooks/useAuthRedirect";
-import CreateCaseStudy from "@/presentation/teacher/CreateCaseStudy";
+
+const CreateCaseStudy = dynamic(
+	() => import("@/presentation/teacher/CreateCaseStudy"),
+	{
+		ssr: false,
+	}
+);
 
 const initialCaseStudy: CaseStudy = {
 	caseDescription: "",

@@ -1,13 +1,20 @@
 "use client";
 
 import React, { use, useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import {
 	fetchCaseData,
 	resetCaseDataStatus,
 } from "@/store/slices/case/getCaseDataSlice";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
 import { useAuthRedirect } from "@/services/hooks/useAuthRedirect";
-import ResponsesAndFeedbackPage from "@/presentation/teacher/ResponsesAndFeedback";
+
+const ResponsesAndFeedbackPage = dynamic(
+	() => import("@/presentation/teacher/ResponsesAndFeedback"),
+	{
+		ssr: false,
+	}
+);
 
 const ResponsesAndFeedbackContent = ({ params }: { params: any }) => {
 	const [studentInfo, setStudent] = useState({});

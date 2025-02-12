@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect } from "react";
+import dynamic from "next/dynamic";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
 import useGetArchiveCases from "@/services/hooks/useGetArchiveCases";
 import {
@@ -14,16 +15,13 @@ import {
 } from "@/store/slices/case/getDraftCasesSlice";
 import { useAuthRedirect } from "@/services/hooks/useAuthRedirect";
 import { resetGetArchiveCasesStatus } from "@/store/slices/case/getArchiveCasesSlice";
-import TeacherCaseStudies from "@/presentation/teacher/CaseStudies";
 
-const Page = () => {
-	const { session } = useAuthRedirect();
-	if (!session) {
-		return null;
+const TeacherCaseStudies = dynamic(
+	() => import("@/presentation/teacher/CaseStudies"),
+	{
+		ssr: false,
 	}
-	return <TeacherCaseStudiesContent />;
-};
-
+);
 const TeacherCaseStudiesContent = () => {
 	const deleteCaseState = useAppSelector((state) => state.deleteCase);
 	const dispatch = useAppDispatch();
@@ -49,6 +47,14 @@ const TeacherCaseStudiesContent = () => {
 		};
 	}, [dispatch]);
 	return <TeacherCaseStudies handleDeleteCase={handleDeleteCase} />;
+};
+
+const Page = () => {
+	const { session } = useAuthRedirect();
+	if (!session) {
+		return null;
+	}
+	return <TeacherCaseStudiesContent />;
 };
 
 export default Page;
