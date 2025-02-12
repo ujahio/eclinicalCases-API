@@ -1,23 +1,18 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "./hooks";
-import {
-	getPublishedCase,
-	resetOngoingCaseStatus,
-} from "@/store/slices/case/getPublishedCaseSlice";
+import { getPublishedCase } from "@/store/slices/case/getPublishedCaseSlice";
+import { useAuthRedirect } from "@/services/hooks/useAuthRedirect";
 
 const useGetActiveCase = () => {
+	const { session } = useAuthRedirect();
 	const activeCaseState = useAppSelector((state) => state.activeCase);
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
-		dispatch(getPublishedCase());
-	}, [dispatch]);
-
-	useEffect(() => {
-		if (activeCaseState.status === "succeeded") {
-			dispatch(resetOngoingCaseStatus());
+		if (session?.accessToken && activeCaseState.status === "idle") {
+			dispatch(getPublishedCase());
 		}
-	}, [activeCaseState.status, dispatch]);
+	}, [session, activeCaseState.status, dispatch]);
 
 	return null;
 };
