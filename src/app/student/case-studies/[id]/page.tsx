@@ -25,11 +25,7 @@ const tabs = [
 	"Certificate",
 ];
 
-const CaseStudies = ({ params }: { params: any }) => {
-	const { session } = useAuthRedirect();
-	if (!session) {
-		return null;
-	}
+const StudentCaseStudiesContent = ({ params }: { params: any }) => {
 	const dispatch = useAppDispatch();
 	const { active: activeTab, switchTab, isActive } = useProcessTabs(tabs, 0);
 	const [progress, setProgress] = useState(1);
@@ -132,6 +128,16 @@ const CaseStudies = ({ params }: { params: any }) => {
 			/>
 		</div>
 	);
+};
+
+const CaseStudies = ({ params }: { params: any }) => {
+	const { session } = useAuthRedirect();
+
+	if (!session) {
+		return null;
+	}
+
+	return <StudentCaseStudiesContent params={params} />;
 };
 
 export default CaseStudies;

@@ -24,13 +24,8 @@ const formatDateToYYYYMMDD = (dateString: any) => {
 	return `${year}-${month}-${day}`;
 };
 
-const Update: FunctionComponent<any> = ({ params }) => {
-	const { session } = useAuthRedirect();
-	if (!session) {
-		return null;
-	}
+const UpdateCaseStudyContent: FunctionComponent<any> = ({ params }) => {
 	const navigate = useRouter();
-
 	const dispatch = useAppDispatch();
 	const getDraftCasesState = useAppSelector((state) => state.getDraftCases);
 	const addCaseState = useAppSelector((state) => state.addCase);
@@ -159,4 +154,13 @@ const Update: FunctionComponent<any> = ({ params }) => {
 	);
 };
 
-export default Update;
+const UpdateCaseStudy: FunctionComponent = () => {
+	const { session } = useAuthRedirect();
+	if (!session) {
+		return null;
+	}
+
+	return <UpdateCaseStudyContent />;
+};
+
+export default UpdateCaseStudy;

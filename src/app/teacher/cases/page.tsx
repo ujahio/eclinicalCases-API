@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect } from "react";
-import dynamic from "next/dynamic";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
 import useGetArchiveCases from "@/services/hooks/useGetArchiveCases";
 import {
@@ -9,21 +8,23 @@ import {
 	resetDeleteCaseStatus,
 } from "@/store/slices/case/deleteCaseSlice";
 import useGetDraftCase from "@/services/hooks/useGetDraftCase";
-import { getDraftCases } from "@/store/slices/case/getDraftCasesSlice";
+import {
+	getDraftCases,
+	resetGetDraftCasesStatus,
+} from "@/store/slices/case/getDraftCasesSlice";
 import { useAuthRedirect } from "@/services/hooks/useAuthRedirect";
-
-const TeacherCaseStudies = dynamic(
-	() => import("@/presentation/teacher/CaseStudies"),
-	{
-		ssr: false,
-	}
-);
+import { resetGetArchiveCasesStatus } from "@/store/slices/case/getArchiveCasesSlice";
+import TeacherCaseStudies from "@/presentation/teacher/CaseStudies";
 
 const Page = () => {
 	const { session } = useAuthRedirect();
 	if (!session) {
 		return null;
 	}
+	return <TeacherCaseStudiesContent />;
+};
+
+const TeacherCaseStudiesContent = () => {
 	const deleteCaseState = useAppSelector((state) => state.deleteCase);
 	const dispatch = useAppDispatch();
 
@@ -40,6 +41,13 @@ const Page = () => {
 			dispatch(getDraftCases("")); // ugly fix for type error
 		}
 	}, [deleteCaseState.status, dispatch]);
+
+	useEffect(() => {
+		return () => {
+			dispatch(resetGetDraftCasesStatus());
+			dispatch(resetGetArchiveCasesStatus());
+		};
+	}, [dispatch]);
 	return <TeacherCaseStudies handleDeleteCase={handleDeleteCase} />;
 };
 

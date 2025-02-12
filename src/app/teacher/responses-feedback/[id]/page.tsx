@@ -1,26 +1,15 @@
 "use client";
 
 import React, { use, useEffect, useState } from "react";
-import dynamic from "next/dynamic";
 import {
 	fetchCaseData,
 	resetCaseDataStatus,
 } from "@/store/slices/case/getCaseDataSlice";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
 import { useAuthRedirect } from "@/services/hooks/useAuthRedirect";
+import ResponsesAndFeedbackPage from "@/presentation/teacher/ResponsesAndFeedback";
 
-const ResponsesAndFeedbackPage = dynamic(
-	() => import("@/presentation/teacher/ResponsesAndFeedback"),
-	{
-		ssr: false,
-	}
-);
-
-const Page = ({ params }: any) => {
-	const { session } = useAuthRedirect();
-	if (!session) {
-		return null;
-	}
+const ResponsesAndFeedbackContent = ({ params }: { params: any }) => {
 	const [studentInfo, setStudent] = useState({});
 	const dispatch = useAppDispatch();
 	const caseDataState = useAppSelector((state) => state.getCaseData);
@@ -54,6 +43,15 @@ const Page = ({ params }: any) => {
 			caseInformationForDisplay={caseInformationForDisplay}
 		/>
 	);
+};
+
+const Page = ({ params }: any) => {
+	const { session } = useAuthRedirect();
+	if (!session) {
+		return null;
+	}
+
+	return <ResponsesAndFeedbackContent params={params} />;
 };
 
 export default Page;

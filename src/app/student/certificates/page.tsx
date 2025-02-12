@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect } from "react";
-import dynamic from "next/dynamic";
 import { toast } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
 import {
@@ -9,15 +8,9 @@ import {
 	resetStudentsCertificatesStatus,
 } from "@/store/slices/case/getStudentsCertificatesSlice";
 import { useAuthRedirect } from "@/services/hooks/useAuthRedirect";
+import Certificates from "@/presentation/student/Certificates";
 
-const CertificatesComp = dynamic(
-	() => import("@/presentation/student/Certificates"),
-	{
-		ssr: false,
-	}
-);
-
-const Certificates = () => {
+const Page = () => {
 	const { session } = useAuthRedirect();
 	if (!session) {
 		return null;
@@ -40,9 +33,7 @@ const Certificates = () => {
 		}
 	}, [studentsCertificatesState, dispatch]);
 
-	return (
-		<CertificatesComp studentsCertificatesInfo={studentsCertificatesInfo} />
-	);
+	return <Certificates studentsCertificatesInfo={studentsCertificatesInfo} />;
 };
 
-export default Certificates;
+export default Page;

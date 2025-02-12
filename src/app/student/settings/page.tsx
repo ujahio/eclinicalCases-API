@@ -9,11 +9,7 @@ const Settings = () => {
 	if (!session) {
 		return null;
 	}
-	return (
-		<div>
-			<AccountSettings />
-		</div>
-	);
+	return <AccountSettings />;
 };
 
 export default Settings;

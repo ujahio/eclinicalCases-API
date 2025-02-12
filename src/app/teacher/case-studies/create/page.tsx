@@ -1,6 +1,6 @@
 "use client";
+
 import React, { useEffect, useState, FunctionComponent } from "react";
-import dynamic from "next/dynamic";
 import { toast } from "react-toastify";
 import useProcessTabs from "@/services/hooks/useProcessTabs";
 import { createCaseStudyTabs } from "@/services/constants";
@@ -9,13 +9,7 @@ import { addCase, resetAddCaseStatus } from "@/store/slices/case/addCaseSlice";
 import { useRouter } from "next/navigation";
 import { CaseStudy } from "@/services/types/teacher/createCaseStudy";
 import { useAuthRedirect } from "@/services/hooks/useAuthRedirect";
-
-const CreateCaseStudy = dynamic(
-	() => import("@/presentation/teacher/CreateCaseStudy"),
-	{
-		ssr: false,
-	}
-);
+import CreateCaseStudy from "@/presentation/teacher/CreateCaseStudy";
 
 const initialCaseStudy: CaseStudy = {
 	caseDescription: "",
@@ -35,11 +29,7 @@ const initialCaseStudy: CaseStudy = {
 	shouldPublish: false,
 };
 
-const Create: FunctionComponent = () => {
-	const { session } = useAuthRedirect();
-	if (!session) {
-		return null;
-	}
+const CreateCaseStudyContent: FunctionComponent = () => {
 	const navigate = useRouter();
 	const dispatch = useAppDispatch();
 	const addCaseState = useAppSelector((state) => state.addCase);
@@ -116,4 +106,14 @@ const Create: FunctionComponent = () => {
 	);
 };
 
-export default Create;
+const Page: FunctionComponent = () => {
+	const { session } = useAuthRedirect();
+
+	if (!session) {
+		return null;
+	}
+
+	return <CreateCaseStudyContent />;
+};
+
+export default Page;
