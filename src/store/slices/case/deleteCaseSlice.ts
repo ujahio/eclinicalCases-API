@@ -1,14 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { deleteCaseApi } from "@/services/apis/case";
-import { getTokenForRequest } from "@/utils/getTokenForRequest";
 
 export const deleteCase = createAsyncThunk(
 	"cases/deleteCase",
 	async (caseId: string, thunkAPI) => {
 		try {
-			const token = await getTokenForRequest();
-
-			const { data } = await deleteCaseApi(caseId, token);
+			const { data } = await deleteCaseApi(caseId);
 			return data;
 		} catch (error: any) {
 			return thunkAPI.rejectWithValue(error.response.data);

@@ -8,15 +8,16 @@ import {
 	getStudentsCertificates,
 	resetStudentsCertificatesStatus,
 } from "@/store/slices/case/getStudentsCertificatesSlice";
+import { useAuthRedirect } from "@/services/hooks/useAuthRedirect";
 
-const CertificatesComp = dynamic(
+const Certificates = dynamic(
 	() => import("@/presentation/student/Certificates"),
 	{
 		ssr: false,
 	}
 );
 
-const Certificates = () => {
+const CertificatesContent = () => {
 	const dispatch = useAppDispatch();
 	const studentsCertificatesState = useAppSelector(
 		(state) => state.studentsCertificates
@@ -35,9 +36,16 @@ const Certificates = () => {
 		}
 	}, [studentsCertificatesState, dispatch]);
 
-	return (
-		<CertificatesComp studentsCertificatesInfo={studentsCertificatesInfo} />
-	);
+	return <Certificates studentsCertificatesInfo={studentsCertificatesInfo} />;
 };
 
-export default Certificates;
+const Page = () => {
+	const { session } = useAuthRedirect();
+	if (!session) {
+		return null;
+	}
+
+	return <CertificatesContent />;
+};
+
+export default Page;

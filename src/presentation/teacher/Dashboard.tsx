@@ -8,7 +8,8 @@ import { formatDate } from "@/utils/formatDate";
 import { useAuthRedirect } from "@/services/hooks/useAuthRedirect";
 
 const TeacherDashboard = () => {
-	const { user } = useAuthRedirect();
+	const { session } = useAuthRedirect();
+
 	const archivedCasesState = useAppSelector(
 		(state) => state.getArchiveCases.cases
 	);
@@ -25,9 +26,9 @@ const TeacherDashboard = () => {
 		<AdminLayout>
 			<div className="flex items-center justify-between">
 				<div className="inline-flex items-center">
-					{user && (
+					{session?.user && (
 						<h4 className="text-dark font-medium text-1sm sm:text-base inline-block ml-2.5">
-							{`Hello, ${user.firstName} ${user.lastName} 👋`}
+							{`Hello, ${session?.user.firstName} ${session?.user.lastName} 👋`}
 						</h4>
 					)}
 				</div>

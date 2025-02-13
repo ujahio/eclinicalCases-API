@@ -3,7 +3,6 @@ import {
 	getPresignedUrlForDocumentUploadApi,
 	getPresignedUrlForFetchingDocumentsApi,
 } from "@/services/apis/case";
-import { getTokenForRequest } from "@/utils/getTokenForRequest";
 
 export const getCaseMaterials = createAsyncThunk(
 	"case/get-case-materials",
@@ -18,17 +17,14 @@ export const getCaseMaterials = createAsyncThunk(
 		thunkAPI
 	) => {
 		try {
-			const token = await getTokenForRequest();
-
 			if (fileProcess === "upload") {
-				const { data } = await getPresignedUrlForDocumentUploadApi(token);
+				const { data } = await getPresignedUrlForDocumentUploadApi();
 				return data; // Contains { pdfUrl, documentKey }
 			}
 
 			if (fileProcess === "download") {
 				const { data } = await getPresignedUrlForFetchingDocumentsApi({
 					documentKeys,
-					token,
 				});
 
 				return { signedUrls: data.signedUrls }; // Return fresh URLs

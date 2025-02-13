@@ -13,6 +13,7 @@ import {
 import { addCase, resetAddCaseStatus } from "@/store/slices/case/addCaseSlice";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import { useAuthRedirect } from "@/services/hooks/useAuthRedirect";
 
 // TODO: move to a utility file/folder
 const formatDateToYYYYMMDD = (dateString: any) => {
@@ -23,9 +24,8 @@ const formatDateToYYYYMMDD = (dateString: any) => {
 	return `${year}-${month}-${day}`;
 };
 
-const Update: FunctionComponent<any> = ({ params }) => {
+const UpdateCaseStudyContent: FunctionComponent<any> = ({ params }) => {
 	const navigate = useRouter();
-
 	const dispatch = useAppDispatch();
 	const getDraftCasesState = useAppSelector((state) => state.getDraftCases);
 	const addCaseState = useAppSelector((state) => state.addCase);
@@ -154,4 +154,13 @@ const Update: FunctionComponent<any> = ({ params }) => {
 	);
 };
 
-export default Update;
+const Page: FunctionComponent = () => {
+	const { session } = useAuthRedirect();
+	if (!session) {
+		return null;
+	}
+
+	return <UpdateCaseStudyContent />;
+};
+
+export default Page;
