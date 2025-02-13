@@ -36,6 +36,11 @@ const caseDetailsSlice = createSlice({
 			state.status = "idle";
 			state.error = null;
 		},
+		resetCaseDetailsState: (state) => {
+			state.status = "idle";
+			state.error = null;
+			data: null;
+		},
 	},
 	extraReducers: (builder) => {
 		builder
@@ -53,5 +58,6 @@ const caseDetailsSlice = createSlice({
 	},
 });
 
-export const { resetCaseDetailsStatus } = caseDetailsSlice.actions;
+export const { resetCaseDetailsStatus, resetCaseDetailsState } =
+	caseDetailsSlice.actions;
 export default caseDetailsSlice.reducer;

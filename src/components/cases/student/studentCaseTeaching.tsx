@@ -6,7 +6,7 @@ import Button from "@/components/ui/Button";
 
 interface StudentCaseTeachingProps {
 	goNext: () => void;
-	goBack: () => void;
+	goBack: (() => void) | undefined;
 	caseTeaching: string;
 	caseTopic: string;
 	caseMaterialsMetaData: {
@@ -129,12 +129,7 @@ const StudentCaseTeaching: FunctionComponent<StudentCaseTeachingProps> = ({
 				)}
 
 				<div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
-					<Button
-						btnStyle="outline"
-						size="lg"
-						centralize
-						onClick={() => goBack()}
-					>
+					<Button btnStyle="outline" size="lg" centralize onClick={goBack}>
 						BACK TO CASE MODEL ANSWERS
 					</Button>
 					<Button
@@ -142,7 +137,7 @@ const StudentCaseTeaching: FunctionComponent<StudentCaseTeachingProps> = ({
 						btnStyle="basic"
 						size="lg"
 						centralize
-						onClick={() => goNext()}
+						onClick={goNext}
 					>
 						PROCEED TO CME QUESTIONS
 					</Button>
