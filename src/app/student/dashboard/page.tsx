@@ -9,8 +9,7 @@ import { resetOngoingCaseStatus } from "@/store/slices/case/getPublishedCaseSlic
 import { resetGetStudentsResponsesToCasesStatus } from "@/store/slices/student/getStudentsResponsesToCasesSlice";
 import { useAppDispatch } from "@/services/hooks/hooks";
 
-const Page = () => {
-	const { session } = useAuthRedirect();
+const StudentDashboardContent = () => {
 	const dispatch = useAppDispatch();
 
 	useGetActiveCase();
@@ -23,10 +22,17 @@ const Page = () => {
 		};
 	}, [dispatch]);
 
+	return <StudentDashboard />;
+};
+
+const Page = () => {
+	const { session } = useAuthRedirect();
+
 	if (!session) {
 		return null;
 	}
-	return <StudentDashboard />;
+
+	return <StudentDashboardContent />;
 };
 
 export default Page;

@@ -63,6 +63,11 @@ const caseMaterialsSlice = createSlice({
 			state.status = "idle";
 			state.error = null;
 		},
+		resetCaseMaterialState: (state) => {
+			state.status = "idle";
+			state.error = null;
+			state.pdfMaterials = {};
+		},
 	},
 	extraReducers: (builder) => {
 		builder
@@ -96,5 +101,6 @@ const caseMaterialsSlice = createSlice({
 	},
 });
 
-export const { resetUploadPdfStatus } = caseMaterialsSlice.actions;
+export const { resetUploadPdfStatus, resetCaseMaterialState } =
+	caseMaterialsSlice.actions;
 export default caseMaterialsSlice.reducer;

@@ -10,7 +10,7 @@ type Answer = {
 };
 
 interface StudentCMEQuestionsProps {
-	goBack: () => void;
+	goBack: (() => void) | undefined;
 	caseDetails: {
 		answers: Answer[];
 	};

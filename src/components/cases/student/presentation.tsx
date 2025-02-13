@@ -37,7 +37,7 @@ const StudentCasePresentation: FunctionComponent<
 				</div>
 			)}
 			<div className="grid grid-cols-1 gap-4">
-				<Button btnStyle="basic" size="lg" centralize onClick={() => goNext()}>
+				<Button btnStyle="basic" size="lg" centralize onClick={goNext}>
 					PROCEED TO COMMENT ON THE CASE
 				</Button>
 			</div>

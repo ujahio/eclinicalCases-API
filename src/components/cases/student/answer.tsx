@@ -4,7 +4,7 @@ import { convertFromRaw, Editor, EditorState } from "draft-js";
 
 interface StudentCaseAnswerProps {
 	goNext: () => void;
-	goBack: () => void;
+	goBack: (() => void) | undefined;
 	caseExplanation: any;
 	studentCaseExplanation: string;
 }
@@ -102,15 +102,10 @@ const StudentCaseAnswer: FC<StudentCaseAnswerProps> = ({
 			)}
 
 			<div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
-				<Button
-					btnStyle="outline"
-					size="lg"
-					centralize
-					onClick={() => goBack()}
-				>
+				<Button btnStyle="outline" size="lg" centralize onClick={goBack}>
 					BACK TO COMMENTS
 				</Button>
-				<Button btnStyle="basic" size="lg" centralize onClick={() => goNext()}>
+				<Button btnStyle="basic" size="lg" centralize onClick={goNext}>
 					PROCEED TO CASE TEACHING
 				</Button>
 			</div>

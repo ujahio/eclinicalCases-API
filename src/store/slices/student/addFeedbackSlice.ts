@@ -20,12 +20,14 @@ export interface AddFeedbackState {
 	status: "idle" | "loading" | "succeeded" | "failed";
 	error: any;
 	feedback: any;
+	hasSubmittedFeedback: boolean;
 }
 
 const initialState: AddFeedbackState = {
 	status: "idle",
 	error: null,
 	feedback: null,
+	hasSubmittedFeedback: false,
 };
 
 const addFeedbackSlice = createSlice({
@@ -36,6 +38,12 @@ const addFeedbackSlice = createSlice({
 			state.status = "idle";
 			state.error = null;
 		},
+		resetAddFeedbackState: (state) => {
+			state.status = "idle";
+			state.error = null;
+			state.feedback = null;
+			state.hasSubmittedFeedback = false;
+		},
 	},
 	extraReducers: (builder) => {
 		builder
@@ -45,6 +53,7 @@ const addFeedbackSlice = createSlice({
 			.addCase(addFeedback.fulfilled, (state, action) => {
 				state.status = "succeeded";
 				state.feedback = action.payload;
+				state.hasSubmittedFeedback = true;
 			})
 			.addCase(addFeedback.rejected, (state, action: any) => {
 				state.status = "failed";
@@ -53,5 +62,6 @@ const addFeedbackSlice = createSlice({
 	},
 });
 
-export const { resetAddFeedbackStatus } = addFeedbackSlice.actions;
+export const { resetAddFeedbackStatus, resetAddFeedbackState } =
+	addFeedbackSlice.actions;
 export default addFeedbackSlice.reducer;
