@@ -1,23 +1,18 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
-import {
-	getArchiveCases,
-	resetGetArchiveCasesStatus,
-} from "@/store/slices/case/getArchiveCasesSlice";
+import { getArchiveCases } from "@/store/slices/case/getArchiveCasesSlice";
+import { useAuthRedirect } from "./useAuthRedirect";
 
 const useGetArchiveCases = (filterParam?: string) => {
+	const { session } = useAuthRedirect();
 	const dispatch = useAppDispatch();
+
 	const archivedCasesState = useAppSelector((state) => state.getArchiveCases);
-
 	useEffect(() => {
-		dispatch(getArchiveCases(filterParam));
-	}, [dispatch, filterParam]);
-
-	useEffect(() => {
-		if (archivedCasesState.status === "succeeded") {
-			dispatch(resetGetArchiveCasesStatus());
+		if (session?.accessToken && archivedCasesState.status === "idle") {
+			dispatch(getArchiveCases(filterParam));
 		}
-	}, [archivedCasesState.status, dispatch]);
+	}, [session, dispatch, archivedCasesState.status, filterParam]);
 };
 
 export default useGetArchiveCases;

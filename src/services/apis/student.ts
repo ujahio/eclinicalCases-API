@@ -1,29 +1,29 @@
 import { configureRequestHeaders, studentApi } from "../config/axiosConfig";
 
-export const addFeedbackApi = (feedbackData: any, token?: string) => {
+export const addFeedbackApi = (feedbackData: any) => {
 	return studentApi.post(
 		`/case/add/feedback`,
 		feedbackData,
-		configureRequestHeaders(token)
+		configureRequestHeaders()
 	);
 };
 
-export const getStudentsResponsesApi = (isRecent: any, token?: string) => {
+export const getStudentsResponsesApi = (isRecent: any) => {
 	const url = isRecent
 		? `/student/responses/?caseFilter=${isRecent}`
 		: "/student/responses/";
-	return studentApi.get(url, configureRequestHeaders(token));
+	return studentApi.get(url, configureRequestHeaders());
 };
 
-export const submitCaseResponseApi = (responsePayload: any, token?: string) => {
+export const submitCaseResponseApi = (responsePayload: any) => {
 	return studentApi.post(
 		"student/response",
 		responsePayload,
-		configureRequestHeaders(token)
+		configureRequestHeaders()
 	);
 };
 
-export const getStudentsCertificatesApi = (token?: string) => {
+export const getStudentsCertificatesApi = () => {
 	const url = "/student/certificates";
-	return studentApi.get(url, configureRequestHeaders(token));
+	return studentApi.get(url, configureRequestHeaders());
 };

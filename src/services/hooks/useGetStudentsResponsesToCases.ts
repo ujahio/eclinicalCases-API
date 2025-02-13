@@ -1,25 +1,23 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
-import {
-	getStudentsResponsesToCases,
-	resetGetStudentsResponsesToCasesStatus,
-} from "@/store/slices/student/getStudentsResponsesToCasesSlice";
+import { getStudentsResponsesToCases } from "@/store/slices/student/getStudentsResponsesToCasesSlice";
+import { useAuthRedirect } from "@/services/hooks/useAuthRedirect";
 
 const useGetStudentsResponsesToCases = (filterParam?: string) => {
+	const { session } = useAuthRedirect();
 	const dispatch = useAppDispatch();
 	const studentsResponsesToCasesState = useAppSelector(
 		(state) => state.studentsResponsesToCases
 	);
 
 	useEffect(() => {
-		dispatch(getStudentsResponsesToCases(filterParam));
-	}, [dispatch, filterParam]);
-
-	useEffect(() => {
-		if (studentsResponsesToCasesState.status === "succeeded") {
-			dispatch(resetGetStudentsResponsesToCasesStatus());
+		if (
+			session?.accessToken &&
+			studentsResponsesToCasesState.status === "idle"
+		) {
+			dispatch(getStudentsResponsesToCases(filterParam));
 		}
-	}, [studentsResponsesToCasesState.status, dispatch]);
+	}, [session, studentsResponsesToCasesState.status, dispatch, filterParam]);
 };
 
 export default useGetStudentsResponsesToCases;

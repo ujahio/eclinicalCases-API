@@ -1,23 +1,19 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "./hooks";
-import {
-	getDraftCases,
-	resetGetDraftCasesStatus,
-} from "@/store/slices/case/getDraftCasesSlice";
+import { getDraftCases } from "@/store/slices/case/getDraftCasesSlice";
+import { useAuthRedirect } from "./useAuthRedirect";
 
 const useGetDraftCases = (caseId?: string) => {
+	const { session } = useAuthRedirect();
+
 	const getDraftCasesState = useAppSelector((state) => state.getDraftCases);
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
-		dispatch(getDraftCases(caseId));
-	}, [caseId, dispatch]);
-
-	useEffect(() => {
-		if (getDraftCasesState.status === "succeeded") {
-			dispatch(resetGetDraftCasesStatus());
+		if (session?.accessToken && getDraftCasesState.status === "idle") {
+			dispatch(getDraftCases(caseId));
 		}
-	}, [getDraftCasesState.status, dispatch]);
+	}, [session, caseId, getDraftCasesState.status, dispatch]);
 
 	return null;
 };
