@@ -42,6 +42,8 @@ const StudentCaseStudiesContent = ({ params }: { params: any }) => {
 		(state) => state.submitCaseResponse
 	);
 
+	const [hasPassedCME, setHasPassedCME] = useState(false);
+
 	const handleSubmitResponse = () => {
 		dispatch(submitCaseResponse(caseDetails));
 	};
@@ -107,6 +109,7 @@ const StudentCaseStudiesContent = ({ params }: { params: any }) => {
 					progress: undefined,
 					theme: "light",
 				});
+				setHasPassedCME(true);
 				switchTab(5);
 				setProgress(5);
 			}
@@ -124,7 +127,8 @@ const StudentCaseStudiesContent = ({ params }: { params: any }) => {
 				progress={progress}
 				isActive={isActive}
 				goNext={goNext}
-				goBack={goBack}
+				goBack={hasPassedCME && activeTab >= 5 ? undefined : goBack}
+				hasPassedCME={hasPassedCME}
 			/>
 		</div>
 	);
