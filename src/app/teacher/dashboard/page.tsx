@@ -16,7 +16,6 @@ const TeacherDashboard = dynamic(
 );
 
 const TeacherDashboardContent = () => {
-	const { session } = useAuthRedirect();
 	const dispatch = useAppDispatch();
 
 	useGetActiveCase();
@@ -28,10 +27,6 @@ const TeacherDashboardContent = () => {
 			dispatch(resetGetArchiveCasesStatus());
 		};
 	}, [dispatch]);
-
-	if (!session) {
-		return null;
-	}
 
 	return <TeacherDashboard />;
 };
