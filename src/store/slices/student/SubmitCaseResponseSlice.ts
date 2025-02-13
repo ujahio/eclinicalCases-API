@@ -45,6 +45,11 @@ const submitCaseResponseSlice = createSlice({
 			state.status = "idle";
 			state.error = null;
 		},
+		resetSubmitCaseResponseState: (state) => {
+			state.status = "idle";
+			state.error = null;
+			state.response = null;
+		},
 	},
 	extraReducers: (builder) => {
 		builder
@@ -62,7 +67,7 @@ const submitCaseResponseSlice = createSlice({
 	},
 });
 
-export const { resetSubmitCaseResponseStatus } =
+export const { resetSubmitCaseResponseStatus, resetSubmitCaseResponseState } =
 	submitCaseResponseSlice.actions;
 
 export default submitCaseResponseSlice.reducer;

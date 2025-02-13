@@ -30,6 +30,7 @@ const StudentCaseStudy = ({
 	isActive,
 	goNext,
 	goBack,
+	hasPassedCME,
 }: StudentCaseStudyProps) => {
 	const caseDescription = EditorState.createWithContent(
 		convertFromRaw(JSON.parse(caseDetails?.caseDescription || fallbackContent))
@@ -48,6 +49,7 @@ const StudentCaseStudy = ({
 						canClickBackward
 						canClickForward={false}
 						progress={progress}
+						hasPassedCME={hasPassedCME}
 					/>
 				</nav>
 			}

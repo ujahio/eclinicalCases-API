@@ -8,7 +8,7 @@ import {
 
 interface StudentCaseCommentsProps {
 	goNext: () => void;
-	goBack: () => void;
+	goBack: (() => void) | undefined;
 	studentCaseExplanation: string;
 	setCaseDetails: (details: any) => void;
 }

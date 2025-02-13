@@ -1,19 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
 import DashboardLayout from "@/components/layouts/dashboard";
 import Button from "@/components/ui/Button";
-import { useAppSelector } from "@/services/hooks/hooks";
+import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
 import { formatDate } from "@/utils/formatDate";
 import ResponseCaseCard from "@/components/cases/ResponseCaseCard";
 import { useAuthRedirect } from "@/services/hooks/useAuthRedirect";
+import { resetCaseDetailsState } from "@/store/slices/case/caseDetailsSlice";
+import { resetSubmitCaseResponseState } from "@/store/slices/student/SubmitCaseResponseSlice";
+import { resetAddFeedbackState } from "@/store/slices/student/addFeedbackSlice";
+import { resetCaseMaterialState } from "@/store/slices/case/getCaseMaterialsSlice";
 
 const StudentDashboard = () => {
 	const { session } = useAuthRedirect();
+	const dispatch = useAppDispatch();
 
 	const publishedCaseInfo = useAppSelector((state) => state.activeCase.data);
 
 	const studentsResponsesToCases = useAppSelector(
 		(state) => state.studentsResponsesToCases.responses
 	);
+
+	useEffect(() => {
+		dispatch(resetCaseDetailsState());
+		dispatch(resetSubmitCaseResponseState());
+		dispatch(resetAddFeedbackState());
+		dispatch(resetCaseMaterialState());
+	}, [dispatch]);
 
 	const studentsResponses: {
 		_id: string;
