@@ -109,6 +109,7 @@ const StudentFeedback: FunctionComponent<StudentFeedbackProps> = ({
 					size="lg"
 					centralize
 					onClick={handleAddFeedback}
+					disabled={!!(feedbackState && feedbackState.hasSubmittedFeedback)}
 				>
 					{feedbackState.status === "loading"
 						? "Loading..."
