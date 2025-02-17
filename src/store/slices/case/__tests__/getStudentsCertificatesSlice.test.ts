@@ -5,7 +5,6 @@ import {
 } from "../getStudentsCertificatesSlice";
 import { getStudentsCertificatesApi } from "@/services/apis/student";
 
-// Mock the API
 jest.mock("@/services/apis/student", () => ({
 	getStudentsCertificatesApi: jest.fn(),
 }));
@@ -15,6 +14,9 @@ describe("getStudentsCertificatesSlice", () => {
 
 	beforeEach(() => {
 		store = makeStore();
+	});
+
+	afterAll(() => {
 		jest.clearAllMocks();
 	});
 
