@@ -1,4 +1,4 @@
-import { makeStore } from "@/store";
+import { makeStore } from "@/store/store";
 import { fetchCaseDetailsApi } from "@/services/apis/case";
 import {
 	fetchCaseDetails,
@@ -26,32 +26,32 @@ describe("caseDetailsSlice", () => {
 	});
 
 	it("should handle resetCaseDetailsStatus", () => {
-		// Set some initial state
 		store.dispatch(resetCaseDetailsStatus());
 		expect(store.getState().caseDetails.status).toBe("idle");
 		expect(store.getState().caseDetails.error).toBe(null);
 	});
 
 	it("should handle resetCaseDetailsState", () => {
-		// Set some initial state
 		store.dispatch(resetCaseDetailsState());
 		expect(store.getState().caseDetails.status).toBe("idle");
 		expect(store.getState().caseDetails.error).toBe(null);
 		expect(store.getState().caseDetails.data).toBe(null);
 	});
 
-	it("should handle successful fetchCaseDetails", async () => {
-		const mockData = {
+	it("should handle successful fetching of case details", async () => {
+		const caseDetailsResponse = {
 			caseInfo: { id: 1, title: "Test Case" },
 		};
 		(fetchCaseDetailsApi as jest.Mock).mockResolvedValueOnce({
-			data: mockData,
+			data: caseDetailsResponse,
 		});
 
 		await store.dispatch(fetchCaseDetails(1));
 
 		expect(store.getState().caseDetails.status).toBe("succeeded");
-		expect(store.getState().caseDetails.data).toEqual(mockData.caseInfo);
+		expect(store.getState().caseDetails.data).toEqual(
+			caseDetailsResponse.caseInfo
+		);
 		expect(store.getState().caseDetails.error).toBe(null);
 	});
 
