@@ -83,6 +83,7 @@ const authOptions: NextAuthConfig = {
 				: 3600 * 1000;
 
 			if (user) {
+				// Initial sign in
 				token.accessToken = user.accessToken;
 				token.refreshToken = user.refreshToken;
 				token.accessTokenExpires = Date.now() + ACCESS_TOKEN_EXPIRES_IN;
@@ -91,37 +92,35 @@ const authOptions: NextAuthConfig = {
 				token.lastName = user.lastName;
 				token.user_role = user.user_role;
 				token.email = user.email;
+				return token;
 			}
 
-			// If the token is still valid, return it
+			// Return previous token if the access token has not expired yet
 			if (token.accessTokenExpires && Date.now() < token.accessTokenExpires) {
 				return token;
 			}
 
-			// If the token has expired, refresh it
-			if (!token.accessTokenExpires || Date.now() >= token.accessTokenExpires) {
-				console.log("Access token has expired, refreshing...");
+			// Access token has expired, try to refresh it
+			try {
+				console.log("Token has expired, refreshing token...");
+				const response = await authApi.post("/refresh-token", {
+					refreshToken: token.refreshToken,
+				});
+				const refreshedData = response.data;
 
-				try {
-					const response = await authApi.post("/refresh-token", {
-						refreshToken: token.refreshToken,
-					});
-					const refreshedData = response.data;
-					// Update token with refreshed details
-					token.accessToken = refreshedData.accessToken;
-					token.accessTokenExpires =
-						Date.now() + refreshedData.expiresIn * 1000;
-					token.refreshToken = refreshedData.refreshToken || token.refreshToken;
-				} catch (error) {
-					console.error("Failed to refresh token:", error);
-					return {
-						...token,
-						error: "RefreshAccessTokenError",
-					};
-				}
+				return {
+					...token,
+					accessToken: refreshedData.accessToken,
+					accessTokenExpires: Date.now() + refreshedData.expiresIn * 1000,
+					refreshToken: refreshedData.refreshToken ?? token.refreshToken,
+				};
+			} catch (error) {
+				console.error("Error refreshing token:", error);
+				return {
+					...token,
+					error: "RefreshAccessTokenError",
+				};
 			}
-
-			return token;
 		},
 
 		async session({ session, token }) {
