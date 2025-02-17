@@ -100,9 +100,8 @@ const authOptions: NextAuthConfig = {
 				return token;
 			}
 
-			// Access token has expired, try to refresh it
 			try {
-				console.log("Token has expired, refreshing token...");
+				console.log("Access token has expired, refreshing token...");
 				const response = await authApi.post("/refresh-token", {
 					refreshToken: token.refreshToken,
 				});
