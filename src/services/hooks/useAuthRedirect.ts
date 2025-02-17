@@ -10,9 +10,13 @@ export const useAuthRedirect = () => {
 			// Do nothing while loading
 			return;
 		}
-		if (!session?.accessToken || session?.error === "RefreshAccessTokenError") {
-			// If there is no access token, sign out and redirect to login
-			signOut({ callbackUrl: "/login" });
+		// Only sign out if there's no access token AND we're not in the process of refreshing
+		if (!session?.accessToken && session?.error === "RefreshAccessTokenError") {
+			// Add a small delay to prevent immediate signout during token refresh
+			const timeoutId = setTimeout(() => {
+				signOut({ callbackUrl: "/login" });
+			}, 100);
+			return () => clearTimeout(timeoutId);
 		}
 	}, [session, status, router]);
 	return { session, status };
