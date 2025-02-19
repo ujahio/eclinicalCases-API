@@ -5,19 +5,29 @@ import { useRouter } from "next/navigation";
 export const useAuthRedirect = () => {
 	const { data: session, status } = useSession();
 	const router = useRouter();
+
 	useEffect(() => {
 		if (status === "loading") {
 			// Do nothing while loading
+		}
+		// If there's no session (user not authenticated) then redirect to /login.
+		if (status === "unauthenticated" || !session) {
+			router.replace("/login");
 			return;
 		}
-		// Only sign out if there's no access token AND we're not in the process of refreshing
-		if (!session?.accessToken && session?.error === "RefreshAccessTokenError") {
-			// Add a small delay to prevent immediate signout during token refresh
+		// If a session exists but there's an error indicating a refresh token issue,
+		// trigger a sign out to clear any stale tokens.
+		if (
+			session &&
+			!session.accessToken &&
+			session.error === "RefreshAccessTokenError"
+		) {
 			const timeoutId = setTimeout(() => {
 				signOut({ callbackUrl: "/login" });
 			}, 100);
 			return () => clearTimeout(timeoutId);
 		}
 	}, [session, status, router]);
+
 	return { session, status };
 };
