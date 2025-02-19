@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import SignupComp from "@/presentation/auth/signup";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
-import { resetStatus, signupUser } from "@/store/slices/auth/signupSlice";
+import { resetSignupState, signupUser } from "@/store/slices/auth/signupSlice";
 import { SignupValues } from "@/services/types/auth/signup";
 import { toast } from "react-toastify";
 
@@ -33,7 +33,7 @@ const Signup = () => {
 				theme: "light",
 			});
 			navigate.push("/login");
-			dispatch(resetStatus());
+			dispatch(resetSignupState());
 		}
 	}, [signUpState, dispatch, navigate]);
 

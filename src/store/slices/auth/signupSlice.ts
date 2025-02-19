@@ -40,12 +40,9 @@ const signupSlice = createSlice({
 	name: "signup",
 	initialState,
 	reducers: {
-		resetStatus: (state) => {
+		resetSignupState: (state) => {
 			state.status = "idle";
 			state.error = null;
-		},
-		resetUserStatus: (state) => {
-			state.user = null;
 		},
 	},
 	extraReducers: (builder) => {
@@ -65,5 +62,5 @@ const signupSlice = createSlice({
 	},
 });
 
-export const { resetStatus, resetUserStatus } = signupSlice.actions;
+export const { resetSignupState } = signupSlice.actions;
 export default signupSlice.reducer;
