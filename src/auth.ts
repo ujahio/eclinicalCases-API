@@ -1,17 +1,21 @@
 import NextAuth, { DefaultSession, NextAuthConfig } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import "next-auth/jwt";
 import { authApi } from "./services/config/axiosConfig";
+import "next-auth/jwt";
+import { JWT } from "next-auth/jwt";
 
 declare module "next-auth/jwt" {
 	interface JWT {
-		accessToken?: string;
+		[key: string]: unknown;
+		accessToken?: string | null;
 		id?: string;
 		firstName?: string;
 		lastName?: string;
 		user_role?: string;
+		email?: string;
 		accessTokenExpires?: number;
-		refreshToken?: string;
+		refreshToken?: string | null;
+		error?: string;
 	}
 }
 
@@ -21,19 +25,22 @@ declare module "next-auth" {
 		firstName?: string;
 		lastName?: string;
 		user_role?: string;
+		email?: string | null;
 		accessToken?: string;
 		refreshToken?: string;
 	}
 
 	interface Session extends DefaultSession {
-		accessToken?: string;
+		accessToken?: string | null;
 		user: {
 			id: string;
 			firstName: string;
 			lastName: string;
 			user_role: string;
+			email: string;
+			emailVerified: any;
 		};
-		error: any;
+		error?: string;
 	}
 }
 
@@ -63,6 +70,7 @@ const authOptions: NextAuthConfig = {
 							firstName: data.firstName,
 							lastName: data.lastName,
 							user_role: data.user_role,
+							email: data.email,
 							accessToken: data.accessToken,
 							refreshToken: data.refreshToken,
 						};
@@ -76,71 +84,90 @@ const authOptions: NextAuthConfig = {
 		}),
 	],
 	callbacks: {
-		async jwt({ token, user }) {
-			const ACCESS_TOKEN_EXPIRES_IN: number = process.env
+		async jwt({ token, user }): Promise<ReturnType<typeof jwtReturn>> {
+			// Helper to satisfy the return type
+			function jwtReturn(obj: JWT): JWT {
+				return obj;
+			}
+
+			const ACCESS_TOKEN_EXPIRES_IN = process.env
 				.NEXT_PUBLIC_ACCESS_TOKEN_EXPIRES_IN
 				? parseInt(process.env.NEXT_PUBLIC_ACCESS_TOKEN_EXPIRES_IN, 10) * 1000
 				: 3600 * 1000;
 
+			// Initial sign in
 			if (user) {
-				// Initial sign in
-				token.accessToken = user.accessToken;
-				token.refreshToken = user.refreshToken;
-				token.accessTokenExpires = Date.now() + ACCESS_TOKEN_EXPIRES_IN;
-				token.id = user.id;
-				token.firstName = user.firstName;
-				token.lastName = user.lastName;
-				token.user_role = user.user_role;
-				token.email = user.email;
-				return token;
+				return jwtReturn({
+					accessToken: user.accessToken,
+					refreshToken: user.refreshToken,
+					accessTokenExpires: Date.now() + ACCESS_TOKEN_EXPIRES_IN,
+					id: user.id,
+					firstName: user.firstName,
+					lastName: user.lastName,
+					user_role: user.user_role,
+					email: user.email ?? undefined,
+				});
 			}
 
-			// Return previous token if the access token has not expired yet
-			if (token.accessTokenExpires && Date.now() < token.accessTokenExpires) {
-				return token;
+			// Return previous token if the access token has not expired.
+			if (
+				token.accessToken &&
+				token.accessTokenExpires &&
+				Date.now() < token.accessTokenExpires
+			) {
+				return jwtReturn(token);
 			}
 
+			// Access token has expired; attempt to refresh it.
 			try {
-				console.log("Access token has expired, refreshing token...");
+				console.log("Access token expired. Attempting to refresh...");
 				const response = await authApi.post("/refresh-token", {
 					refreshToken: token.refreshToken,
 				});
 				const refreshedData = response.data;
 
-				return {
+				return jwtReturn({
 					...token,
 					accessToken: refreshedData.accessToken,
 					accessTokenExpires: Date.now() + refreshedData.expiresIn * 1000,
 					refreshToken: refreshedData.refreshToken ?? token.refreshToken,
-				};
+					error: undefined,
+				});
 			} catch (error) {
 				console.error("Error refreshing token:", error);
-				return {
+				// Clear sensitive values and set an error flag.
+				return jwtReturn({
 					...token,
+					accessToken: null,
+					refreshToken: null,
+					accessTokenExpires: 0,
 					error: "RefreshAccessTokenError",
-				};
+				});
 			}
 		},
 
-		async session({ session, token }) {
-			session.accessToken = token.accessToken;
-			session.user = {
-				id: token.id!,
-				firstName: token.firstName!,
-				lastName: token.lastName!,
-				user_role: token.user_role!,
-				email: token.email!,
-				emailVerified: null,
-			};
+		async session({
+			session,
+			token,
+		}): Promise<ReturnType<typeof sessionReturn>> {
+			// Helper to satisfy the return type
+			function sessionReturn(obj: any): any {
+				return obj;
+			}
 
 			if (token.error) {
 				session.error = token.error;
 			}
-
-			return session;
-		},
-		async authorized({ auth }) {
-			return !!auth;
+			session.accessToken = token.accessToken;
+			session.user = {
+				id: token.id as string,
+				firstName: token.firstName as string,
+				lastName: token.lastName as string,
+				user_role: token.user_role as string,
+				email: token.email as string,
+				emailVerified: null,
+			};
+			return sessionReturn(session);
 		},
 	},
 	pages: {
