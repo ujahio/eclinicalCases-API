@@ -85,7 +85,6 @@ const authOptions: NextAuthConfig = {
 	],
 	callbacks: {
 		async jwt({ token, user }): Promise<ReturnType<typeof jwtReturn>> {
-			// Helper to satisfy the return type
 			function jwtReturn(obj: JWT): JWT {
 				return obj;
 			}
@@ -135,7 +134,6 @@ const authOptions: NextAuthConfig = {
 				});
 			} catch (error) {
 				console.error("Error refreshing token:", error);
-				// Clear sensitive values and set an error flag.
 				return jwtReturn({
 					...token,
 					accessToken: null,
@@ -150,7 +148,6 @@ const authOptions: NextAuthConfig = {
 			session,
 			token,
 		}): Promise<ReturnType<typeof sessionReturn>> {
-			// Helper to satisfy the return type
 			function sessionReturn(obj: any): any {
 				return obj;
 			}
