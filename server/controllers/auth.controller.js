@@ -224,6 +224,8 @@ export const signin = async (event) => {
 			(attr) => attr.Name === "custom:user_role"
 		)?.Value;
 
+		console.log("LOGIN AUTH RESPONSE", authResponse);
+
 		// Return authentication tokens along with additional user details
 		return {
 			statusCode: 200,
