@@ -224,11 +224,16 @@ export const signin = async (event) => {
 			(attr) => attr.Name === "custom:user_role"
 		)?.Value;
 
-		console.log("LOGIN AUTH RESPONSE", authResponse);
-
 		// Return authentication tokens along with additional user details
 		return {
 			statusCode: 200,
+			headers: {
+				"Content-Type": "application/json",
+				"Cache-Control":
+					"no-store, no-cache, must-revalidate, proxy-revalidate",
+				Pragma: "no-cache",
+				Expires: "0",
+			},
 			body: JSON.stringify({
 				message: "Login successful!",
 				accessToken: authResponse.AuthenticationResult.AccessToken,
@@ -275,6 +280,13 @@ export const refreshToken = async (event) => {
 		if (response.AuthenticationResult) {
 			return {
 				statusCode: 200,
+				headers: {
+					"Content-Type": "application/json",
+					"Cache-Control":
+						"no-store, no-cache, must-revalidate, proxy-revalidate",
+					Pragma: "no-cache",
+					Expires: "0",
+				},
 				body: JSON.stringify({
 					accessToken: response.AuthenticationResult.AccessToken,
 					expiresIn: response.AuthenticationResult.ExpiresIn,
