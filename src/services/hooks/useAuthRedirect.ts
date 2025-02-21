@@ -7,9 +7,7 @@ export const useAuthRedirect = () => {
 	const router = useRouter();
 
 	useEffect(() => {
-		if (status === "loading") {
-			// Do nothing while loading
-		}
+		if (status === "loading") return;
 		// If there's no session (user not authenticated) then redirect to /login.
 		if (status === "unauthenticated" || !session) {
 			router.replace("/login");
