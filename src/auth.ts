@@ -63,8 +63,6 @@ const authOptions: NextAuthConfig = {
 						password: credentials.password,
 					});
 
-					console.log("DATA FROM INITIAL LOG IN", data);
-
 					// Return user and tokens on successful login
 					if (data.accessToken) {
 						return {
@@ -96,8 +94,6 @@ const authOptions: NextAuthConfig = {
 				? parseInt(process.env.NEXT_PUBLIC_ACCESS_TOKEN_EXPIRES_IN, 10) * 1000
 				: 3600 * 1000;
 
-			console.log("user in jwt callback", user);
-
 			// Initial sign in
 			if (user) {
 				return jwtReturn({
@@ -124,9 +120,6 @@ const authOptions: NextAuthConfig = {
 			) {
 				return jwtReturn(token);
 			}
-
-			console.log("TOKEN used to refresh", token);
-
 			// Access token has expired; attempt to refresh it.
 			try {
 				console.log("Access token expired. Attempting to refresh...");
@@ -175,7 +168,6 @@ const authOptions: NextAuthConfig = {
 				emailVerified: null,
 			};
 
-			console.log("session IN USEAUTH", session);
 			return sessionReturn(session);
 		},
 	},
