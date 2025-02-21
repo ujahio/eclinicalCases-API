@@ -174,6 +174,8 @@ const authOptions: NextAuthConfig = {
 				email: token.email as string,
 				emailVerified: null,
 			};
+
+			console.log("session IN USEAUTH", session);
 			return sessionReturn(session);
 		},
 	},
