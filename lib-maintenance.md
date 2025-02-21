@@ -5,4 +5,3 @@
 3. @types/react: As of Jan, 5th, 2025, version is locked to v18 as react, react-dom cannot be upgraded to v19.
 4. @types/react-dom: As of Jan, 5th, 2025, version is locked to v18 as react, react-dom cannot be upgraded to v19.
 5. sass: locked to v1.77.3 as v1.88+ introduces new breaking changes with new apis.
-6. sst: locked to 3.2.73 as v3.2.73+ does not deploy the app correctly. It works locally, but not to a deployed stage (ie preproduction)
