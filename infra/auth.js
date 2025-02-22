@@ -164,7 +164,7 @@ export const eccsWebClient = userPool.addClient(`${stagePrefix}eccswebclient`, {
 			tokenValidityUnits: {
 				accessToken: "minutes",
 				idToken: "minutes",
-				refreshToken: "hours",
+				refreshToken: "days",
 			},
 			explicitAuthFlows: ["ADMIN_NO_SRP_AUTH", "USER_PASSWORD_AUTH"],
 			generateSecret: false,
