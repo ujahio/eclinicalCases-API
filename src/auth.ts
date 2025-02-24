@@ -108,10 +108,6 @@ const authOptions: NextAuthConfig = {
 				});
 			}
 
-			if (token.error) {
-				return token;
-			}
-
 			// Return previous token if the access token has not expired.
 			if (
 				token.accessToken &&
