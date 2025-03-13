@@ -127,7 +127,7 @@ api.route(
 	routeArgs
 );
 api.route(
-	"GET /api/case/draft/{caseId}",
+	"GET /api/case/draft",
 	{
 		handler: "server/controllers/handleDraftCases.getDraftCases",
 		link: [...links, userPool],

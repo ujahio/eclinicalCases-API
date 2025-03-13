@@ -36,7 +36,7 @@ const TeacherCaseStudiesContent = () => {
 	useEffect(() => {
 		if (deleteCaseState.status === "succeeded") {
 			dispatch(resetDeleteCaseStatus());
-			dispatch(getDraftCases("")); // ugly fix for type error
+			dispatch(getDraftCases());
 		}
 	}, [deleteCaseState.status, dispatch]);
 

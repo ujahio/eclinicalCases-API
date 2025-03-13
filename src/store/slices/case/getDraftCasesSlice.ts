@@ -4,9 +4,9 @@ import { CaseStudy } from "@/services/types/teacher/createCaseStudy";
 
 export const getDraftCases = createAsyncThunk(
 	"case/getDraftCases",
-	async (caseId: any, thunkAPI) => {
+	async (_, thunkAPI) => {
 		try {
-			const { data } = await getDraftCasesApi(caseId);
+			const { data } = await getDraftCasesApi();
 			return data;
 		} catch (error: any) {
 			return thunkAPI.rejectWithValue({
