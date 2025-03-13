@@ -5,7 +5,7 @@ export const addCase = createAsyncThunk(
 	"case/addCase",
 	async (caseData: any, thunkAPI) => {
 		try {
-			if (caseData.shouldPublish) {
+			if (!!caseData.shouldPublish) {
 				const { data } = await publishCaseApi(caseData);
 				return data;
 			} else {
