@@ -27,16 +27,10 @@ export const addDraftCaseApi = (draftCaseData: any) => {
 	return caseApi.post("/draft", formData, configureRequestHeaders(formData));
 };
 
-export const updateDraftCaseApi = ({
-	caseData,
-	_id,
-}: {
-	caseData: any;
-	_id: any;
-}) => {
+export const updateDraftCaseApi = (caseData: any) => {
 	const formData = convertToFormData(caseData);
 	return caseApi.put(
-		`/draft/${_id}`,
+		`/draft/${caseData.id}`,
 		formData,
 		configureRequestHeaders(formData)
 	);
@@ -47,9 +41,8 @@ export const getArchiveCasesApi = (isRecent?: string) => {
 	return caseApi.get(url, configureRequestHeaders());
 };
 
-export const getDraftCasesApi = (caseId?: string) => {
-	const url = caseId ? `/draft/${caseId}` : `/draft/`;
-	return caseApi.get(url, configureRequestHeaders());
+export const getDraftCasesApi = () => {
+	return caseApi.get("/draft", configureRequestHeaders());
 };
 
 export const fetchCaseDetailsApi = (caseId: any) => {
