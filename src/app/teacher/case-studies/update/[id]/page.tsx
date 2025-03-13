@@ -11,23 +11,38 @@ import {
 	updateDraftCase,
 } from "@/store/slices/case/updateDraftCaseSlice";
 import { addCase, resetAddCaseStatus } from "@/store/slices/case/addCaseSlice";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import { toast } from "react-toastify";
 import { useAuthRedirect } from "@/services/hooks/useAuthRedirect";
+import { CaseStudy } from "@/services/types/teacher/createCaseStudy";
 
-// TODO: move to a utility file/folder
-const formatDateToYYYYMMDD = (dateString: any) => {
-	const date = new Date(dateString);
-	const year = date.getFullYear();
-	const month = String(date.getMonth() + 1).padStart(2, "0");
-	const day = String(date.getDate()).padStart(2, "0");
-	return `${year}-${month}-${day}`;
+const getDraftCaseById = (caseId: string) => {
+	const draftCases = useAppSelector((state) => state.getDraftCases.cases);
+	const selectedDraftCase = draftCases.filter(
+		(draftCase) => draftCase.id === caseId
+	)[0];
+
+	let caseQuestions = selectedDraftCase?.caseQuestions;
+	if (
+		selectedDraftCase?.caseQuestions &&
+		typeof selectedDraftCase.caseQuestions === "string"
+	) {
+		caseQuestions = JSON.parse(selectedDraftCase.caseQuestions);
+	}
+	const updatedCaseStudy = {
+		...selectedDraftCase,
+		caseQuestions,
+		shouldPublish: false,
+	};
+
+	return updatedCaseStudy;
 };
 
-const UpdateCaseStudyContent: FunctionComponent<any> = ({ params }) => {
+const UpdateCaseStudyContent: FunctionComponent = () => {
 	const navigate = useRouter();
+	let { id: caseId }: { id: string } = useParams();
+
 	const dispatch = useAppDispatch();
-	const getDraftCasesState = useAppSelector((state) => state.getDraftCases);
 	const addCaseState = useAppSelector((state) => state.addCase);
 
 	const {
@@ -36,13 +51,9 @@ const UpdateCaseStudyContent: FunctionComponent<any> = ({ params }) => {
 		isActive,
 	} = useProcessTabs(createCaseStudyTabs, 0);
 	const [progress, setProgress] = useState(1);
-	const [caseStudy, setCaseStudy] = useState(getDraftCasesState.cases[0]);
-
-	const paramsToUse: {
-		id: string;
-	} = use(params);
-
-	useGetDraftCase(paramsToUse.id);
+	const [caseStudy, setCaseStudy] = useState<
+		CaseStudy & { shouldPublish?: boolean; caseId?: string }
+	>(getDraftCaseById(caseId));
 
 	const goNext = () => {
 		const next = activeTab + 1;
@@ -56,59 +67,14 @@ const UpdateCaseStudyContent: FunctionComponent<any> = ({ params }) => {
 		setProgress(next);
 	};
 	const handleUpdateDraftCase = () => {
-		const draftCaseInfo = {
-			...caseStudy,
-			shouldPublish: false,
-			_id: paramsToUse.id,
-		};
-		setCaseStudy(draftCaseInfo);
-		dispatch(updateDraftCase(draftCaseInfo));
+		setCaseStudy(caseStudy);
+		dispatch(updateDraftCase(caseStudy));
 	};
 
 	const handlePublishCase = () => {
-		setCaseStudy({ ...caseStudy, shouldPublish: true, caseId: paramsToUse.id });
-		dispatch(
-			addCase({ ...caseStudy, shouldPublish: true, caseId: paramsToUse.id })
-		);
+		setCaseStudy({ ...caseStudy, shouldPublish: true, caseId });
+		dispatch(addCase({ ...caseStudy, shouldPublish: true, caseId }));
 	};
-
-	useEffect(() => {
-		if (getDraftCasesState.status === "succeeded") {
-			dispatch(resetGetDraftCasesStatus());
-			const draftCaseDetails = getDraftCasesState.cases[0];
-
-			let caseQuestions: {
-				question: string;
-				options: any[];
-				correctAnswer: number;
-			}[] = draftCaseDetails.caseQuestions;
-			if (
-				draftCaseDetails.caseQuestions &&
-				typeof draftCaseDetails.caseQuestions === "string"
-			) {
-				caseQuestions =
-					draftCaseDetails.caseQuestions !== ""
-						? JSON.parse(draftCaseDetails.caseQuestions)
-						: [];
-			}
-			const updatedCaseStudy = {
-				caseDescription: draftCaseDetails.caseDescription,
-				caseTeaching: draftCaseDetails.caseTeaching,
-				caseTopic: draftCaseDetails.caseTopic || "",
-				caseExplanation: draftCaseDetails.caseExplanation,
-				caseDeadline: draftCaseDetails.caseDeadline
-					? formatDateToYYYYMMDD(draftCaseDetails.caseDeadline)
-					: "",
-				caseQuestions: caseQuestions,
-				caseStatus: draftCaseDetails.caseStatus,
-				caseMaterials: draftCaseDetails.caseMaterials
-					? JSON.parse(draftCaseDetails?.caseMaterials)
-					: [],
-			};
-
-			setCaseStudy(updatedCaseStudy);
-		}
-	}, [getDraftCasesState, dispatch]);
 
 	useEffect(() => {
 		if (addCaseState.status === "succeeded") {

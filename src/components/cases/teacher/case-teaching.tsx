@@ -155,7 +155,7 @@ const TeacherCaseTeaching: FunctionComponent<TeacherCaseTeachingProps> = ({
 					placeholder="e.g Malaria"
 					label="CASE SUBJECT"
 					name="caseTopic"
-					value={caseStudy.caseTopic}
+					value={caseStudy.caseTopic || ""}
 					onChange={(e) => {
 						e.preventDefault();
 						setCaseStudy({ ...caseStudy, caseTopic: e.target.value });
@@ -163,7 +163,7 @@ const TeacherCaseTeaching: FunctionComponent<TeacherCaseTeachingProps> = ({
 				/>
 				{isEditorMounted && (
 					<CaseEditor
-						content={caseStudy?.caseTeaching}
+						content={caseStudy.caseTeaching || ""}
 						onContentChange={handleEditorChange}
 					/>
 				)}
@@ -181,7 +181,7 @@ const TeacherCaseTeaching: FunctionComponent<TeacherCaseTeachingProps> = ({
 					onChange={handleFileChange}
 				/>
 				<ul className="mt-3 space-y-2">
-					{caseStudy.caseMaterials?.map((file) =>
+					{(caseStudy.caseMaterials || []).map((file) =>
 						isRemoving === file.documentKey ? (
 							<li
 								key={file.documentKey}

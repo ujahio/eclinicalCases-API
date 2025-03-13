@@ -5,6 +5,14 @@ import { useAppSelector } from "@/services/hooks/hooks";
 import { TeacherCaseAnswerProps } from "@/services/types/teacher/createCaseStudy";
 import CaseEditor from "@/lib/Editor";
 
+const formatDateToYYYYMMDD = (dateString: any) => {
+	const date = new Date(dateString);
+	const year = date.getFullYear();
+	const month = String(date.getMonth() + 1).padStart(2, "0");
+	const day = String(date.getDate()).padStart(2, "0");
+	return `${year}-${month}-${day}`;
+};
+
 const TeacherCaseAnswer: FunctionComponent<TeacherCaseAnswerProps> = ({
 	goNext,
 	goBack,
@@ -25,6 +33,10 @@ const TeacherCaseAnswer: FunctionComponent<TeacherCaseAnswerProps> = ({
 		});
 	};
 
+	const caseDeadline = caseStudy?.caseDeadline
+		? formatDateToYYYYMMDD(caseStudy.caseDeadline)
+		: "";
+
 	const addingDraftCaseStatus = useAppSelector(
 		(state) => state.getDraftCases.status
 	);
@@ -38,7 +50,7 @@ const TeacherCaseAnswer: FunctionComponent<TeacherCaseAnswerProps> = ({
 
 				{isEditorMounted && (
 					<CaseEditor
-						content={caseStudy?.caseExplanation}
+						content={caseStudy.caseExplanation || ""}
 						onContentChange={handleEditorChange}
 					/>
 				)}
@@ -49,7 +61,7 @@ const TeacherCaseAnswer: FunctionComponent<TeacherCaseAnswerProps> = ({
 					label="Select a deadline for this case study"
 					name="caseDeadline"
 					type="date"
-					value={caseStudy.caseDeadline}
+					value={caseDeadline}
 					onChange={(e) => {
 						const { value } = e.target;
 						setCaseStudy({ ...caseStudy, caseDeadline: value });
