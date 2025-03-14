@@ -4,12 +4,8 @@ import React, { FunctionComponent, useEffect, useState, use } from "react";
 import UpdateCaseStudy from "@/presentation/teacher/UpdateCaseStudy";
 import { createCaseStudyTabs } from "@/services/constants";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
-import useGetDraftCase from "@/services/hooks/useGetDraftCase";
 import useProcessTabs from "@/services/hooks/useProcessTabs";
-import {
-	resetGetDraftCasesStatus,
-	updateDraftCase,
-} from "@/store/slices/case/updateDraftCaseSlice";
+import { updateDraftCase } from "@/store/slices/case/updateDraftCaseSlice";
 import { addCase, resetAddCaseStatus } from "@/store/slices/case/addCaseSlice";
 import { useRouter, useParams } from "next/navigation";
 import { toast } from "react-toastify";
@@ -17,10 +13,16 @@ import { useAuthRedirect } from "@/services/hooks/useAuthRedirect";
 import { CaseStudy } from "@/services/types/teacher/createCaseStudy";
 
 const getDraftCaseById = (caseId: string) => {
+	const navigate = useRouter();
+
 	const draftCases = useAppSelector((state) => state.getDraftCases.cases);
 	const selectedDraftCase = draftCases.filter(
-		(draftCase) => draftCase.id === caseId
+		(draftCase: CaseStudy) => draftCase.id === caseId
 	)[0];
+
+	if (!selectedDraftCase) {
+		navigate.push("/teacher/cases");
+	}
 
 	let caseQuestions = selectedDraftCase?.caseQuestions;
 	if (
