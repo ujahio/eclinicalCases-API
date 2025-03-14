@@ -229,8 +229,8 @@ api.route(
 		handler: "server/controllers/handleStudentsResponse.submitStudentResponse",
 		copyFiles: [
 			{
-				from: "./server/assets/images/logo.png",
-				to: "assets/images/logo.png",
+				from: "src/assets/images/logo.png",
+				to: "core/src/assets/images/logo.png",
 			},
 		],
 		link: [...links, userPool],
