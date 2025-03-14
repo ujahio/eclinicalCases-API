@@ -1,6 +1,6 @@
 "use client";
 
-import React, { FunctionComponent, useEffect, useState, use } from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
 import UpdateCaseStudy from "@/presentation/teacher/UpdateCaseStudy";
 import { createCaseStudyTabs } from "@/services/constants";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
@@ -81,8 +81,8 @@ const UpdateCaseStudyContent: FunctionComponent = () => {
 	};
 
 	const handlePublishCase = () => {
-		setCaseStudy({ ...caseStudy, shouldPublish: true, caseId });
-		dispatch(addCase({ ...caseStudy, shouldPublish: true, caseId }));
+		setCaseStudy({ ...caseStudy, shouldPublish: true });
+		dispatch(addCase({ ...caseStudy, shouldPublish: true }));
 	};
 
 	useEffect(() => {
