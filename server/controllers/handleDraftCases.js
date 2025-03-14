@@ -102,7 +102,6 @@ export const getDraftCases = async (event) => {
 		const decodedToken = decodeToken(event);
 		const username = decodedToken.username;
 		const userInfo = await getUserInfo(username);
-		let params;
 
 		if (!userInfo || userInfo.user_role !== "teacher") {
 			return {
@@ -115,40 +114,26 @@ export const getDraftCases = async (event) => {
 		}
 
 		const teacherID = userInfo.id;
-		const caseId = event.pathParameters?.caseId;
 
-		if (caseId) {
-			params = {
-				TableName: Resource.TeacherCaseStudies.name,
-				KeyConditionExpression: "id = :caseId",
-				ExpressionAttributeValues: {
-					":caseId": caseId,
-				},
-			};
-		} else {
-			params = {
-				TableName: Resource.TeacherCaseStudies.name,
-				IndexName: "TeacherStatusIndex",
-				KeyConditionExpression:
-					"teacherId = :teacherId AND caseStatus = :caseStatus",
-				ExpressionAttributeValues: {
-					":teacherId": teacherID,
-					":caseStatus": "draft",
-				},
-			};
-		}
+		const params = {
+			TableName: Resource.TeacherCaseStudies.name,
+			IndexName: "TeacherStatusIndex",
+			KeyConditionExpression:
+				"teacherId = :teacherId AND caseStatus = :caseStatus",
+			ExpressionAttributeValues: {
+				":teacherId": teacherID,
+				":caseStatus": "draft",
+			},
+		};
 
 		const command = new QueryCommand(params);
 		const result = await dbClient.send(command);
-
-		const draftCasesResult = result.Items;
-		console.log("Draft Cases retrieved successfully", draftCasesResult);
 
 		return {
 			statusCode: 200,
 			body: JSON.stringify({
 				message: "Draft case(s) retrieved successfully!",
-				draftCasesInfo: draftCasesResult,
+				draftCasesInfo: result.Items,
 			}),
 		};
 	} catch (error) {
