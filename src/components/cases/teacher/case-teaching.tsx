@@ -159,7 +159,7 @@ const TeacherCaseTeaching: FunctionComponent<TeacherCaseTeachingProps> = ({
 					placeholder="e.g Malaria"
 					label="CASE SUBJECT"
 					name="caseTopic"
-					value={caseStudy.caseTopic || ""}
+					value={caseStudy.caseTopic}
 					onChange={(e) => {
 						e.preventDefault();
 						setCaseStudy({ ...caseStudy, caseTopic: e.target.value });
