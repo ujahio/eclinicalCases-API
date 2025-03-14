@@ -4,6 +4,9 @@ export const formatDate = (timestamp: number | string) => {
 };
 
 export const formatDateToYYYYMMDD = (dateString: string) => {
+	if (!dateString || isNaN(Date.parse(dateString))) {
+		return "";
+	}
 	const date = new Date(dateString);
 
 	if (date.toISOString() === dateString) {

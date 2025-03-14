@@ -6,7 +6,7 @@ export interface CaseQuestion {
 }
 
 export type CaseStudy = {
-	id: string;
+	id?: string;
 	caseDescription: string;
 	caseTopic: string;
 	caseExplanation?: string;
