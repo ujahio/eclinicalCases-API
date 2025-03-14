@@ -167,7 +167,7 @@ const TeacherCaseTeaching: FunctionComponent<TeacherCaseTeachingProps> = ({
 				/>
 				{isEditorMounted && (
 					<CaseEditor
-						content={caseStudy.caseTeaching || ""}
+						content={caseStudy.caseTeaching}
 						onContentChange={handleEditorChange}
 					/>
 				)}

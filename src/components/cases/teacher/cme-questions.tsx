@@ -95,7 +95,7 @@ const TeacherCMEQuestions: FunctionComponent<TeacherCMEQuestionsProps> = ({
 	return (
 		<>
 			<ul className="mb-5 sm:mb-6 divide-y divide-grey-border divide-opacity-50">
-				{(caseStudy.caseQuestions || []).map((question: any, index: number) => (
+				{caseStudy.caseQuestions.map((question: any, index: number) => (
 					<li className="py-6 first:pt-0 last:pb-0" key={index}>
 						<div className="flex items-center justify-between">
 							<div className="text-blue text-1sm sm:text-base capitalize font-bold">

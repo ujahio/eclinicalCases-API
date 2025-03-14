@@ -43,7 +43,7 @@ const TeacherCaseAnswer: FunctionComponent<TeacherCaseAnswerProps> = ({
 
 				{isEditorMounted && (
 					<CaseEditor
-						content={caseStudy.caseExplanation || ""}
+						content={caseStudy.caseExplanation}
 						onContentChange={handleEditorChange}
 					/>
 				)}
