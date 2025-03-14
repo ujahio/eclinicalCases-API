@@ -4,6 +4,7 @@ import Button from "@/components/ui/Button";
 import { convertFromRaw, Editor, EditorState } from "draft-js";
 import { useAppSelector } from "@/services/hooks/hooks";
 import { FinalReviewProps } from "@/services/types/teacher/createCaseStudy";
+import { formatDateToYYYYMMDD } from "@/utils/formatDate";
 
 const FinalReview: FunctionComponent<FinalReviewProps> = ({
 	caseStudy,
@@ -29,7 +30,9 @@ const FinalReview: FunctionComponent<FinalReviewProps> = ({
 
 	const addCaseStatus = useAppSelector((state) => state.addCase.status);
 	const publishedCaseInfo = useAppSelector((state) => state.activeCase.data);
-
+	const materials = Array.isArray(caseStudy?.caseMaterials)
+		? caseStudy.caseMaterials
+		: [];
 	return (
 		<>
 			<div className=" border-b-0.375">
@@ -55,9 +58,8 @@ const FinalReview: FunctionComponent<FinalReviewProps> = ({
 						onChange={() => {}}
 					/>
 				</div>
-
 				<h3 className="uppercase font-bold text-sm text-blue mb-2">DEADLINE</h3>
-				<p className="mb-9">{caseStudy.caseDeadline}</p>
+				<p className="mb-9">{formatDateToYYYYMMDD(caseStudy.caseDeadline)}</p>
 			</div>
 			<div className="border-b-0.375">
 				<h3 className="uppercase font-bold text-sm text-blue mb-2 mt-10">
@@ -78,7 +80,7 @@ const FinalReview: FunctionComponent<FinalReviewProps> = ({
 					TEACHING MATERIALS
 				</h3>
 				<ul className="flex flex-col w-full space-y-3 mb-9">
-					{caseStudy.caseMaterials?.map((material) => (
+					{materials.map((material) => (
 						<li key={material.documentKey}>
 							<div className="flex items-center p-2 border-grey-400 border rounded-sm">
 								<span className="text-1sm sm:text-sm text-dark inline-block ml-2 sm:ml-2.5">

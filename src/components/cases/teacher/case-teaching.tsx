@@ -138,6 +138,10 @@ const TeacherCaseTeaching: FunctionComponent<TeacherCaseTeachingProps> = ({
 		setIsEditorMounted(true);
 	}, []);
 
+	const materials = Array.isArray(caseStudy?.caseMaterials)
+		? caseStudy.caseMaterials
+		: [];
+
 	const handleEditorChange = (updatedContent: string) => {
 		setCaseStudy({
 			...caseStudy,
@@ -181,7 +185,7 @@ const TeacherCaseTeaching: FunctionComponent<TeacherCaseTeachingProps> = ({
 					onChange={handleFileChange}
 				/>
 				<ul className="mt-3 space-y-2">
-					{(caseStudy.caseMaterials || []).map((file) =>
+					{materials.map((file) =>
 						isRemoving === file.documentKey ? (
 							<li
 								key={file.documentKey}
