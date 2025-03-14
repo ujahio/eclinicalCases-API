@@ -12,40 +12,13 @@ import { toast } from "react-toastify";
 import { useAuthRedirect } from "@/services/hooks/useAuthRedirect";
 import { CaseStudy } from "@/services/types/teacher/createCaseStudy";
 
-const getDraftCaseById = (caseId: string) => {
-	const navigate = useRouter();
-
-	const draftCases = useAppSelector((state) => state.getDraftCases.cases);
-	const selectedDraftCase = draftCases.filter(
-		(draftCase: CaseStudy) => draftCase.id === caseId
-	)[0];
-
-	if (!selectedDraftCase) {
-		navigate.push("/teacher/cases");
-	}
-
-	let caseQuestions = selectedDraftCase?.caseQuestions;
-	if (
-		selectedDraftCase?.caseQuestions &&
-		typeof selectedDraftCase.caseQuestions === "string"
-	) {
-		caseQuestions = JSON.parse(selectedDraftCase.caseQuestions);
-	}
-	const updatedCaseStudy = {
-		...selectedDraftCase,
-		caseQuestions,
-		shouldPublish: false,
-	};
-
-	return updatedCaseStudy;
-};
-
 const UpdateCaseStudyContent: FunctionComponent = () => {
 	const navigate = useRouter();
 	let { id: caseId }: { id: string } = useParams();
 
 	const dispatch = useAppDispatch();
 	const addCaseState = useAppSelector((state) => state.addCase);
+	const draftCases = useAppSelector((state) => state.getDraftCases.cases);
 
 	const {
 		active: activeTab,
@@ -55,7 +28,41 @@ const UpdateCaseStudyContent: FunctionComponent = () => {
 	const [progress, setProgress] = useState(1);
 	const [caseStudy, setCaseStudy] = useState<
 		CaseStudy & { shouldPublish?: boolean; caseId?: string }
-	>(getDraftCaseById(caseId));
+	>({
+		caseMaterials: [],
+		caseTeaching: "",
+		caseTopic: "",
+		id: "",
+		caseQuestions: [],
+		caseDescription: "",
+		caseDeadline: "",
+		caseStatus: "",
+	} as CaseStudy);
+
+	useEffect(() => {
+		const selectedDraftCase = draftCases.find(
+			(draftCase: CaseStudy) => draftCase.id === caseId
+		);
+
+		if (!selectedDraftCase) {
+			navigate.push("/teacher/cases");
+			return;
+		}
+
+		let caseQuestions = selectedDraftCase.caseQuestions;
+		if (
+			selectedDraftCase.caseQuestions &&
+			typeof selectedDraftCase.caseQuestions === "string"
+		) {
+			caseQuestions = JSON.parse(selectedDraftCase.caseQuestions);
+		}
+
+		setCaseStudy({
+			...selectedDraftCase,
+			caseQuestions,
+			shouldPublish: false,
+		});
+	}, [caseId, draftCases, navigate]);
 
 	const goNext = () => {
 		const next = activeTab + 1;
