@@ -4,6 +4,7 @@ import Button from "@/components/ui/Button";
 import { useAppSelector } from "@/services/hooks/hooks";
 import { TeacherCaseAnswerProps } from "@/services/types/teacher/createCaseStudy";
 import CaseEditor from "@/lib/Editor";
+import { formatDateToYYYYMMDD } from "@/utils/formatDate";
 
 const TeacherCaseAnswer: FunctionComponent<TeacherCaseAnswerProps> = ({
 	goNext,
@@ -25,6 +26,10 @@ const TeacherCaseAnswer: FunctionComponent<TeacherCaseAnswerProps> = ({
 		});
 	};
 
+	const caseDeadline = caseStudy?.caseDeadline
+		? formatDateToYYYYMMDD(caseStudy.caseDeadline)
+		: "";
+
 	const addingDraftCaseStatus = useAppSelector(
 		(state) => state.getDraftCases.status
 	);
@@ -38,7 +43,7 @@ const TeacherCaseAnswer: FunctionComponent<TeacherCaseAnswerProps> = ({
 
 				{isEditorMounted && (
 					<CaseEditor
-						content={caseStudy?.caseExplanation}
+						content={caseStudy.caseExplanation}
 						onContentChange={handleEditorChange}
 					/>
 				)}
@@ -49,7 +54,7 @@ const TeacherCaseAnswer: FunctionComponent<TeacherCaseAnswerProps> = ({
 					label="Select a deadline for this case study"
 					name="caseDeadline"
 					type="date"
-					value={caseStudy.caseDeadline}
+					value={caseDeadline}
 					onChange={(e) => {
 						const { value } = e.target;
 						setCaseStudy({ ...caseStudy, caseDeadline: value });

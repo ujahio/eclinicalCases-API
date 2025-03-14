@@ -8,7 +8,7 @@ import {
 	deleteCase,
 	resetDeleteCaseStatus,
 } from "@/store/slices/case/deleteCaseSlice";
-import useGetDraftCase from "@/services/hooks/useGetDraftCase";
+import useGetDraftCases from "@/services/hooks/useGetDraftCase";
 import {
 	getDraftCases,
 	resetGetDraftCasesStatus,
@@ -26,7 +26,7 @@ const TeacherCaseStudiesContent = () => {
 	const deleteCaseState = useAppSelector((state) => state.deleteCase);
 	const dispatch = useAppDispatch();
 
-	useGetDraftCase();
+	useGetDraftCases();
 	useGetArchiveCases();
 
 	const handleDeleteCase = (caseId: string) => {
@@ -36,7 +36,7 @@ const TeacherCaseStudiesContent = () => {
 	useEffect(() => {
 		if (deleteCaseState.status === "succeeded") {
 			dispatch(resetDeleteCaseStatus());
-			dispatch(getDraftCases("")); // ugly fix for type error
+			dispatch(getDraftCases());
 		}
 	}, [deleteCaseState.status, dispatch]);
 

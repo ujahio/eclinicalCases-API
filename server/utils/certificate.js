@@ -24,7 +24,7 @@ export const generateCertificate = async (
 		const fontBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
 
 		// Embed logo using buffer
-		const logoPath = path.join(__dirname, "../../assets/images/logo.png");
+		const logoPath = path.join(__dirname, "core/src/assets/images/logo.png");
 		const logoBuffer = await fs.promises.readFile(logoPath);
 		const logo = await pdfDoc.embedPng(logoBuffer);
 		const logoDims = logo.scale(0.7);

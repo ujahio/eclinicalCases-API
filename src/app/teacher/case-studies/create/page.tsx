@@ -33,7 +33,6 @@ const initialCaseStudy: CaseStudy = {
 	],
 	caseStatus: "draft",
 	caseMaterials: [],
-	shouldPublish: false,
 };
 
 const CreateCaseStudyContent: FunctionComponent = () => {
@@ -60,13 +59,19 @@ const CreateCaseStudyContent: FunctionComponent = () => {
 	};
 
 	const handleUpdateDraftCase = () => {
-		const draftCaseInfo = { ...caseStudy, shouldPublish: false };
+		const draftCaseInfo: CaseStudy & { shouldPublish: boolean } = {
+			...caseStudy,
+			shouldPublish: false,
+		};
 		setCaseStudy(draftCaseInfo);
 		dispatch(addCase(draftCaseInfo));
 	};
 
 	const handlePublishCase = () => {
-		const publishedCaseInfo = { ...caseStudy, shouldPublish: true };
+		const publishedCaseInfo: CaseStudy & { shouldPublish: boolean } = {
+			...caseStudy,
+			shouldPublish: true,
+		};
 		setCaseStudy(publishedCaseInfo);
 		dispatch(addCase(publishedCaseInfo));
 	};
