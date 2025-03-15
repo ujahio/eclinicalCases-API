@@ -5292,7 +5292,7 @@ jspdf@^3.0.0:
     object.assign "^4.1.4"
     object.values "^1.1.6"
 
-jsx-email@^2.0.0, jsx-email@^2.5.4, jsx-email@^2.6.1:
+jsx-email@^2.0.0, jsx-email@^2.6.1, jsx-email@^2.7.1:
   version "2.7.1"
   resolved "https://registry.npmjs.org/jsx-email/-/jsx-email-2.7.1.tgz"
   integrity sha512-N958st14J3W5HrfO5/DKawdgTnCZTdl0xewCcjOnYudv81VI2iAO7BGK7nbDSBnFD7T2+Fzo4RwQWuZzSAZSyA==

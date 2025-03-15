@@ -19,4 +19,6 @@ xmldom allows multiple root nodes in a DOM - https://github.com/advisories/GHSA-
 Misinterpretation of malicious XML input - https://github.com/advisories/GHSA-5fg8-2547-mr8q
 ```
 
+The solution is to find a replacement for html2pdf.js.
+
 2.
