@@ -127,7 +127,7 @@ api.route(
 	routeArgs
 );
 api.route(
-	"GET /api/case/draft/{caseId}",
+	"GET /api/case/draft",
 	{
 		handler: "server/controllers/handleDraftCases.getDraftCases",
 		link: [...links, userPool],
@@ -229,8 +229,8 @@ api.route(
 		handler: "server/controllers/handleStudentsResponse.submitStudentResponse",
 		copyFiles: [
 			{
-				from: "./server/assets/images/logo.png",
-				to: "assets/images/logo.png",
+				from: "src/assets/images/logo.png",
+				to: "core/src/assets/images/logo.png",
 			},
 		],
 		link: [...links, userPool],

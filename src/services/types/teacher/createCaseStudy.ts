@@ -5,11 +5,12 @@ export interface CaseQuestion {
 	correctAnswer: number;
 }
 
-export interface CaseStudy {
-	caseDescription: string | undefined;
+export type CaseStudy = {
+	id?: string;
+	caseDescription: string;
 	caseTopic: string;
-	caseExplanation: string | undefined;
-	caseTeaching: string | undefined;
+	caseExplanation?: string;
+	caseTeaching: string;
 	caseDeadline: string;
 	caseQuestions: CaseQuestion[];
 	caseStatus: string;
@@ -17,8 +18,7 @@ export interface CaseStudy {
 		fileName: string;
 		documentKey: string;
 	}[];
-	shouldPublish?: boolean;
-}
+};
 
 export interface CreateCaseStudyProps {
 	activeTab: number;

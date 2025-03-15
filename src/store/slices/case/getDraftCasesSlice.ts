@@ -1,11 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { getDraftCasesApi } from "@/services/apis/case";
+import { CaseStudy } from "@/services/types/teacher/createCaseStudy";
 
 export const getDraftCases = createAsyncThunk(
 	"case/getDraftCases",
-	async (caseId: any, thunkAPI) => {
+	async (_, thunkAPI) => {
 		try {
-			const { data } = await getDraftCasesApi(caseId);
+			const { data } = await getDraftCasesApi();
 			return data;
 		} catch (error: any) {
 			return thunkAPI.rejectWithValue({
@@ -19,7 +20,7 @@ export const getDraftCases = createAsyncThunk(
 export interface GetDraftCasesState {
 	status: "idle" | "loading" | "succeeded" | "failed";
 	error: any;
-	cases: any;
+	cases: CaseStudy[];
 }
 
 const initialState: GetDraftCasesState = {

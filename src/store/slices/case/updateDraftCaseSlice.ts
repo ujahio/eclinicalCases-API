@@ -6,10 +6,7 @@ export const updateDraftCase = createAsyncThunk(
 	"case/updateDraftCase",
 	async (caseData: any, thunkAPI) => {
 		try {
-			const { data } = await updateDraftCaseApi({
-				caseData,
-				_id: caseData._id,
-			});
+			const { data } = await updateDraftCaseApi(caseData);
 			toast.success("Draft case updated");
 
 			return data;

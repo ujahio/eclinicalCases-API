@@ -140,7 +140,7 @@ export const publishCase = async (event) => {
 	}
 
 	const {
-		caseId,
+		id,
 		caseDescription,
 		caseTopic,
 		caseExplanation,
@@ -209,7 +209,7 @@ export const publishCase = async (event) => {
 	}
 
 	try {
-		const newCaseId = caseId || uuidv4();
+		const newCaseId = id || uuidv4();
 		const todaysDate = new Date().toISOString();
 		let updateExpression = `
 		SET caseStatus = :caseStatus,

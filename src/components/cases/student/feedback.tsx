@@ -39,7 +39,6 @@ const StudentFeedback: FunctionComponent<StudentFeedbackProps> = ({
 	};
 
 	useEffect(() => {
-		console.log(feedbackState);
 		if (feedbackState.status === "succeeded") {
 			dispatch(resetAddFeedbackStatus());
 			toast.success(feedbackState.feedback.message, {
