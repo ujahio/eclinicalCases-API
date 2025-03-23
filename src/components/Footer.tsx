@@ -1,7 +1,7 @@
 import Image from "next/image";
 // import Link from "next/link";
 import React from "react";
-import Logo from "/images/logo.png";
+import Logo from "@/assets/images/logo.png";
 
 const Footer = () => {
 	return (
@@ -11,8 +11,6 @@ const Footer = () => {
 					<div>
 						<Image
 							src={Logo}
-							width={100}
-							height={100}
 							alt="e clinical cases solutions logo"
 							className="h-8 sm:h-6 w-auto"
 						/>
