@@ -1,7 +1,7 @@
 import Image from "next/image";
 // import Link from "next/link";
 import React from "react";
-import Logo from "@/assets/images/logo.png";
+// import Logo from "/images/logo.png";
 
 const Footer = () => {
 	return (
@@ -10,7 +10,9 @@ const Footer = () => {
 				<div className="sm:grid grid-cols-3 col-span-4">
 					<div>
 						<Image
-							src={Logo}
+							src="/assets/images/logo.png"
+							width={100}
+							height={100}
 							alt="e clinical cases solutions logo"
 							className="h-8 sm:h-6 w-auto"
 						/>
