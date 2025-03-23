@@ -6,19 +6,16 @@
 4. @types/react-dom: As of Mar, 15th, 2025 version is locked to v18 as react, react-dom cannot be upgraded to v19.
 5. sass: locked to v1.77.3 as v1.88+ introduces new breaking changes with new apis.
 6. tailwind: locked to v3.4.17 as upgrade to v4.0.0 is not feasible due to breaking changes. Upgrade is now a devex task.
+7. pdfjs-dist: locked to v4.10.38 as v5.0.375 introduces bug with a package dependency of 'qcms_bg.wasm'. 'qcms_bg.wasm' is not an npm package but used with the package.
+
+```
+ if (typeof module_or_path === 'undefined') {
+> 1859 |     module_or_path = new URL('qcms_bg.wasm', import.meta.url);
+     | ^
+1860 |   }
+1861 |   const imports = __wbg_get_imports();
+1862 |   if (typeof module_or_path === 'string' || typeof Request === 'function' && module_or_path instanceof Request || typeof URL =
+== 'function' && module_or_path instanceof URL) {
+```
 
 # Audit Report
-
-1. As of Mar, 15th, 2025, canvg a dependency of html2pdf.js has a high severity vulnerability (See: https://github.com/advisories/GHSA-v2mw-5mch-w8c5). Recommendation is to downgrade html2pdf.js to 0.9.0 to fix this. The issue is html2pdf.js@0.9.0 has issues marked as "critical" in the audit report
-
-```
-xmldom  *
-Severity: critical
-Misinterpretation of malicious XML input - https://github.com/advisories/GHSA-h6q6-9hqw-rwfv
-xmldom allows multiple root nodes in a DOM - https://github.com/advisories/GHSA-crh6-fp67-6883
-Misinterpretation of malicious XML input - https://github.com/advisories/GHSA-5fg8-2547-mr8q
-```
-
-The solution is to find a replacement for html2pdf.js.
-
-2.
