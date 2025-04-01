@@ -1,6 +1,5 @@
 import React from "react";
 import Image from "next/image";
-import ExclamationMark from "/icons/exclamationMark.png";
 import Button from "@/components/ui/Button";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useAppSelector } from "@/services/hooks/hooks";
@@ -45,7 +44,7 @@ const Step2 = ({ handleSubmit }: Step2Props) => {
 									return (
 										<div className="flex justify-start items-center gap-2 mt-2 pl-[18px]">
 											<Image
-												src={ExclamationMark}
+												src="/icons/exclamationMark.png"
 												alt="Error Icon"
 												className="h-6 w-6"
 											/>
@@ -74,7 +73,7 @@ const Step2 = ({ handleSubmit }: Step2Props) => {
 									return (
 										<div className="flex justify-start items-center gap-2 mt-2 pl-[18px]">
 											<Image
-												src={ExclamationMark}
+												src="/icons/exclamationMark.png"
 												alt="Error Icon"
 												className="h-6 w-6"
 											/>
@@ -103,7 +102,7 @@ const Step2 = ({ handleSubmit }: Step2Props) => {
 									return (
 										<div className="flex justify-start items-center gap-2 mt-2 pl-[18px]">
 											<Image
-												src={ExclamationMark}
+												src="/icons/exclamationMark.png"
 												alt="Error Icon"
 												className="h-6 w-6"
 											/>

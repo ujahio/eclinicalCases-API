@@ -1,6 +1,5 @@
 import React from "react";
 import Image from "next/image";
-import ExclamationMark from "/icons/exclamationMark.png";
 import Button from "@/components/ui/Button";
 import { forgetPassStep1Schema } from "@/lib/schema";
 import { ErrorMessage, Field, Form, Formik } from "formik";
@@ -41,7 +40,7 @@ const Step1 = ({ handleSubmit }: Step1Props) => {
 									return (
 										<div className="flex justify-start items-center gap-2 mt-2 pl-[18px]">
 											<Image
-												src={ExclamationMark}
+												src="/icons/exclamationMark.png"
 												alt="Error Icon"
 												className="h-6 w-6"
 											/>
