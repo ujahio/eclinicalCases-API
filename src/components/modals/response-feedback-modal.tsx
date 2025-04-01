@@ -1,7 +1,6 @@
 import React, { FunctionComponent } from "react";
 import ResponseModal from "../cases/teacher/response";
 import FeedbackModal from "../cases/teacher/feedback";
-import student1 from "@/assets/images/student1.png";
 import Modal, { ModalProps } from "../ui/Modal";
 import useProcessTabs from "@/services/hooks/useProcessTabs";
 import Image from "next/image";
@@ -20,7 +19,11 @@ const ResponseFeedbackModal: FunctionComponent<ModalProps> = ({
 	return (
 		<Modal {...{ show, toggle, size: "lg" }}>
 			<div className="flex mb-4">
-				<Image src={student1} alt="user image" className="h-12 w-auto" />{" "}
+				<Image
+					src="/assets/images/student1.png"
+					alt="user image"
+					className="h-12 w-auto"
+				/>{" "}
 				<div className="ml-3">
 					<h2 className="text-lg text-dark font-medium">
 						{studentInfo?.firstName} {studentInfo?.lastName}

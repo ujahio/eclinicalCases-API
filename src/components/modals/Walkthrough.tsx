@@ -4,18 +4,6 @@ import Image from "next/image";
 import Modal, { ModalProps } from "../ui/Modal";
 import Button from "../ui/Button";
 
-// import LogoImg from "@/assets/images/logo.png";
-// import CertificateImg from "@/assets/images/certicate.png";
-// import RegisterImg from "@/assets/images/register.png";
-// import SigninImg from "@/assets/images/signin.png";
-// import DashboardImg from "@/assets/images/dashboard.png";
-// import CasepresentationImg from "@/assets/images/casepresentation.png";
-// import CasecommentsImg from "@/assets/images/casecomments.png";
-// import CaseModalAnswerImg from "@/assets/images/casemodelanswer.png";
-// import CaseTeachingImg from "@/assets/images/caseteaching.png";
-// import CmeQuestionsImg from "@/assets/images/cmequestionspage.png";
-// import FeedbackImg from "@/assets/images/feedback.png";
-
 interface Step {
 	step: number;
 	title: string;

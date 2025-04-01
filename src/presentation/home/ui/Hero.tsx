@@ -1,10 +1,7 @@
 import React from "react";
-import Button from "@/components/ui/Button";
-import FemaleAssistantImg from "@/assets/images/femaleassistant.png";
-import MaleDoctorImg from "@/assets/images/maledoctor4.jpg";
-import FemaleDoctorImg from "@/assets/images/femaledoctor.png";
 import Image from "next/image";
 import Link from "next/link";
+import Button from "@/components/ui/Button";
 
 const Header = () => {
 	return (
@@ -48,17 +45,21 @@ const Header = () => {
 				<div className="mt-6 md:mt-0 w-auto header-images grid grid-cols-1 sm:grid-cols-2 gap-4">
 					<figure className="header-img header-img-1">
 						<Image
-							src={FemaleDoctorImg}
+							src="/assets/images/femaledoctor.png"
 							alt="female doctor"
 							className="w-full"
 						/>
 					</figure>
 					<figure className="header-img header-img-2">
-						<Image src={MaleDoctorImg} alt="male doctor" className="w-full" />
+						<Image
+							src="/assets/images/maledoctor4.jpg"
+							alt="male doctor"
+							className="w-full"
+						/>
 					</figure>
 					<figure className="header-img header-img-3">
 						<Image
-							src={FemaleAssistantImg}
+							src="/assets/images/femaleassistant.png"
 							alt="female lab assistant"
 							className="w-full"
 						/>
