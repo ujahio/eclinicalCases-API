@@ -9,9 +9,11 @@ const Footer = () => {
 				<div className="sm:grid grid-cols-3 col-span-4">
 					<div>
 						<Image
-							src="/assets/images/logo.png"
+							src="/images/logo.png"
 							alt="e clinical cases solutions logo"
 							className="h-8 sm:h-6 w-auto"
+							width={500}
+							height={500}
 						/>
 						<p className="mt-6">e-clinical cases solution © 2024</p>
 						<p>

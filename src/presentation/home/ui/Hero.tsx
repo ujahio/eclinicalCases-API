@@ -45,23 +45,29 @@ const Header = () => {
 				<div className="mt-6 md:mt-0 w-auto header-images grid grid-cols-1 sm:grid-cols-2 gap-4">
 					<figure className="header-img header-img-1">
 						<Image
-							src="/assets/images/femaledoctor.png"
+							src="/images/femaledoctor.png"
 							alt="female doctor"
 							className="w-full"
+							width={386}
+							height={384}
 						/>
 					</figure>
 					<figure className="header-img header-img-2">
 						<Image
-							src="/assets/images/maledoctor4.jpg"
+							src="/images/maledoctor4.jpg"
 							alt="male doctor"
 							className="w-full"
+							width={664}
+							height={1000}
 						/>
 					</figure>
 					<figure className="header-img header-img-3">
 						<Image
-							src="/assets/images/femaleassistant.png"
+							src="/images/femaleassistant.png"
 							alt="female lab assistant"
 							className="w-full"
+							width={525}
+							height={261}
 						/>
 					</figure>
 				</div>

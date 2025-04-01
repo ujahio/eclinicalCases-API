@@ -16,7 +16,7 @@ import applicationContext from "../../../appContext/applicationContext";
 // 1. JSX requires images to be hosted to use in production. Add this code snippet
 // when images are hosted for production use.
 //		<Img
-//					src={"../../assets/images/logo.png"}
+//					src={"../../images/logo.png"}
 //					alt="Company Logo"
 //					style={logo}
 //					width={300}

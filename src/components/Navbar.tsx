@@ -24,7 +24,9 @@ const Navbar = ({
 				className={`w-full flex items-center justify-between bg-white shadow-sm navbar h-17.5 ${LANDING_X_PADDING} ${APP_CONTAINER}`}
 			>
 				<Image
-					src="/assets/images/logo.png"
+					src="/images/logo.png"
+					width={150}
+					height={35}
 					alt="e clinical cases solutions logo"
 					className="w-auto h-5 sm:h-6"
 				/>

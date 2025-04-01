@@ -12,9 +12,11 @@ const Objective = () => {
 			>
 				<div>
 					<Image
-						src="/assets/images/masked-doctor.png"
+						src="/images/masked-doctor.png"
 						alt="male lab tech"
 						className=" w-full"
+						width={812}
+						height={643}
 					/>
 				</div>
 				<div className="mt-12 sm:mt-0 md:ml-10 sm:ml-10 lg:ml-28 max-w-sm">

@@ -18,9 +18,11 @@ const AccountSettings = () => {
 			<div className="flex items-center">
 				<figure className="h-15 sm:h-20 md:h-25 w-15 sm:w-20 md:w-25 rounded-full overflow-hidden">
 					<Image
-						src="/assets/images/user.png"
+						src="/images/user.png"
 						alt="Profile image"
 						className="h-full w-full"
+						width={130}
+						height={130}
 					/>
 				</figure>
 				<Button btnStyle="outline" size="sm" className="ml-3.75">

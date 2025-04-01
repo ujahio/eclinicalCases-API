@@ -14,7 +14,7 @@ const AdminLayout: FunctionComponent<AdminLayoutProps> = ({
 		<DashboardLayout
 			extraNav={extraNav}
 			navLinks={navLinks}
-			img="/assets/images/admin.png"
+			img="/images/admin.png"
 			name="George Smith"
 		>
 			{children}

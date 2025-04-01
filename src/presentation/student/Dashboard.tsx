@@ -61,7 +61,7 @@ const StudentDashboard = () => {
 					) : (
 						<div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 sm:mb-5" />
 					)}
-					<div className="w-full px-6 py-8 sm:px-8 sm:py-10 md:px-10 md:py-12 ongoing-case bg-[url('/assets/images/ongoing-case-bg.png')] flex flex-col sm:flex-row sm:items-center justify-between flex-wrap text-white rounded-sm relative">
+					<div className="w-full px-6 py-8 sm:px-8 sm:py-10 md:px-10 md:py-12 ongoing-case bg-[url('/images/ongoing-case-bg.png')] flex flex-col sm:flex-row sm:items-center justify-between flex-wrap text-white rounded-sm relative">
 						{publishedCaseInfo ? (
 							<div className="flex flex-col md:mr-4 mb-4">
 								<svg

@@ -20,7 +20,7 @@ const ResponseFeedbackModal: FunctionComponent<ModalProps> = ({
 		<Modal {...{ show, toggle, size: "lg" }}>
 			<div className="flex mb-4">
 				<Image
-					src="/assets/images/student1.png"
+					src="/images/student1.png"
 					alt="user image"
 					className="h-12 w-auto"
 				/>{" "}
