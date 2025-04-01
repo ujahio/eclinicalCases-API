@@ -1,6 +1,5 @@
 import React, { FunctionComponent, ReactNode } from "react";
 import DashboardLayout from ".";
-import UserImg from "@/assets/images/admin.png";
 
 interface AdminLayoutProps {
 	extraNav?: ReactNode;
@@ -15,7 +14,7 @@ const AdminLayout: FunctionComponent<AdminLayoutProps> = ({
 		<DashboardLayout
 			extraNav={extraNav}
 			navLinks={navLinks}
-			img={UserImg}
+			img="/images/admin.png"
 			name="George Smith"
 		>
 			{children}

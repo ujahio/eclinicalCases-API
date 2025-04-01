@@ -2,7 +2,6 @@
 import React from "react";
 import { SignUpForm } from "./components/form";
 import Image from "next/image";
-import Logo from "@/assets/images/logo.png";
 // import ProcessTabs from "@/components/ui/process-tabs";
 // import ProfessionalDetailsForm from "./components/professional-details-form";
 // import ReviewAndConfirm from "./components/ReviewAndConfirm";
@@ -52,9 +51,11 @@ const Signup = ({ handleSignUp }: SignupCompProps) => {
 				<div className="w-11/12 max-w-200 bg-white py-10 px-6 sm:p-10 md:p-12.5 border border-grey-border rounded-sm mx-auto">
 					<figure className="h-5 sm:h-6">
 						<Image
-							src={Logo}
+							src="/images/logo.png"
 							alt="e clinical cases solutions logo"
 							className="h-8 w-auto"
+							width={150}
+							height={35}
 						/>
 					</figure>
 
