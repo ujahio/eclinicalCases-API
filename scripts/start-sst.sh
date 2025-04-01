@@ -8,6 +8,7 @@ if [ -z "$ENVIRONMENT" ]; then
   echo "No environment provided."
   exit 1
 else
-  echo Environment provided: $ENVIRONMENT. Running SST remove with stage."
+  echo "Environment provided: $ENVIRONMENT."
   sst dev --stage $ENVIRONMENT
 fi
+
