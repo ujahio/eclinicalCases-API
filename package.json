@@ -8,7 +8,8 @@
 		"build": "next build",
 		"dev": "next dev",
 		"lint": "next lint",
-		"start": "next start"
+		"start": "next start",
+		"start:dev": "./scripts/start-sst.sh"
 	},
 	"dependencies": {
 		"@aws-sdk/client-cognito-identity-provider": "^3.772.0",
@@ -41,7 +42,7 @@
 		"react-toastify": "^11.0.5",
 		"sass": "1.77.3",
 		"sharp": "^0.33.5",
-		"sst": "3.9.44",
+		"sst": "3.11.21",
 		"uuid": "^11.1.0",
 		"yup": "^1.6.1"
 	},

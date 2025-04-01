@@ -6,7 +6,7 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { loginSchema } from "@/lib/schema";
 import Image from "next/image";
-import ExclamationMark from "@/assets/icons/exclamationMark.png";
+import ExclamationMark from "/icons/exclamationMark.png";
 // import { useAppSelector } from "@/services/hooks/hooks";
 import { LoginCompProps } from "@/services/types/auth/login";
 
