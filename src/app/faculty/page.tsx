@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import medStaff from "@/assets/images/medstaff.jpg";
 import { APP_CONTAINER, LANDING_X_PADDING } from "@/services/constants/styles";
 import Navbar from "@/components/Navbar";
 import WalkthroughModal from "@/components/modals/Walkthrough";
@@ -17,7 +16,13 @@ const Page = () => {
 				className={`bg-primary-100 py-15 sm:py-32 sm:grid grid-cols-2 ${LANDING_X_PADDING} ${APP_CONTAINER}`}
 			>
 				<div>
-					<Image src={medStaff} alt="faculty-profile-pic" className=" w-full" />
+					<Image
+						src="/images/medstaff.jpg"
+						alt="faculty-profile-pic"
+						className=" w-full"
+						width={1300}
+						height={1300}
+					/>
 				</div>
 				<div className="mt-12 sm:mt-0 md:ml-10 sm:ml-10 lg:ml-28 max-w-sm">
 					<p className="text-darker font-bold text-3xl sm:mb-4 leading-snug">
