@@ -75,6 +75,8 @@ const Nav: FunctionComponent<NavProps> = ({
 							src="/images/user.png"
 							alt="user image"
 							className="h-full w-full"
+							width={130}
+							height={130}
 						/>
 					</figure>
 					<svg
