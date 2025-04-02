@@ -6,7 +6,6 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { loginSchema } from "@/lib/schema";
 import Image from "next/image";
-import ExclamationMark from "@/assets/icons/exclamationMark.png";
 // import { useAppSelector } from "@/services/hooks/hooks";
 import { LoginCompProps } from "@/services/types/auth/login";
 
@@ -42,9 +41,11 @@ const Login = ({ handleSubmit }: LoginCompProps) => {
 									return (
 										<div className="flex justify-start items-center gap-2 mt-2 pl-[18px]">
 											<Image
-												src={ExclamationMark}
+												src="/icons/exclamationMark.png"
 												alt="Error Icon"
 												className="h-6 w-6"
+												width={144}
+												height={144}
 											/>
 											<p className="text-[#F13030] font-montserrat font-normal text-sm">
 												{msg}
@@ -71,9 +72,11 @@ const Login = ({ handleSubmit }: LoginCompProps) => {
 									return (
 										<div className="flex justify-start items-center gap-2 mt-2 pl-[18px]">
 											<Image
-												src={ExclamationMark}
+												src="/icons/exclamationMark.png"
 												alt="Error Icon"
 												className="h-6 w-6"
+												width={144}
+												height={144}
 											/>
 											<p className="text-[#F13030] font-montserrat font-normal text-sm">
 												{msg}

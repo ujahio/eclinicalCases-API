@@ -1,6 +1,5 @@
 import Image from "next/image";
 import React from "react";
-import Logo from "@/assets/images/logo.png";
 import Link from "next/link";
 import { APP_CONTAINER, LANDING_X_PADDING } from "@/services/constants/styles";
 import Button from "./ui/Button";
@@ -25,7 +24,9 @@ const Navbar = ({
 				className={`w-full flex items-center justify-between bg-white shadow-sm navbar h-17.5 ${LANDING_X_PADDING} ${APP_CONTAINER}`}
 			>
 				<Image
-					src={Logo}
+					src="/images/logo.png"
+					width={150}
+					height={35}
 					alt="e clinical cases solutions logo"
 					className="w-auto h-5 sm:h-6"
 				/>
