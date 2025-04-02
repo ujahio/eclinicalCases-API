@@ -23,6 +23,8 @@ const ResponseFeedbackModal: FunctionComponent<ModalProps> = ({
 					src="/images/student1.png"
 					alt="user image"
 					className="h-12 w-auto"
+					width={120}
+					height={120}
 				/>{" "}
 				<div className="ml-3">
 					<h2 className="text-lg text-dark font-medium">
