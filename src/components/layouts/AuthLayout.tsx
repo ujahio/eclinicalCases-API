@@ -17,6 +17,8 @@ const AuthLayout = ({
 							src="/images/logo.png"
 							alt="e clinical cases solutions logo"
 							className="h-full w-auto"
+							width={150}
+							height={35}
 						/>
 					</figure>
 

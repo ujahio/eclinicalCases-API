@@ -44,6 +44,8 @@ const Login = ({ handleSubmit }: LoginCompProps) => {
 												src="/icons/exclamationMark.png"
 												alt="Error Icon"
 												className="h-6 w-6"
+												width={144}
+												height={144}
 											/>
 											<p className="text-[#F13030] font-montserrat font-normal text-sm">
 												{msg}
@@ -73,6 +75,8 @@ const Login = ({ handleSubmit }: LoginCompProps) => {
 												src="/icons/exclamationMark.png"
 												alt="Error Icon"
 												className="h-6 w-6"
+												width={144}
+												height={144}
 											/>
 											<p className="text-[#F13030] font-montserrat font-normal text-sm">
 												{msg}
