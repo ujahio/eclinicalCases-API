@@ -50,7 +50,7 @@ jobs:
           aws-region: ${{ env.NEXT_PUBLIC_REGION }}
 
       - name: Deploy to Staging
-        run: bunx sst deploy --stage staging
+        run: bunx sst deploy --stage preproduction
 
       - name: Save Bun & Next.js cache
         uses: actions/cache@v4
