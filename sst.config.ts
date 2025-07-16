@@ -9,7 +9,7 @@ export default $config({
 			providers: {
 				aws: {
 					region: "me-south-1",
-					version: "6.74.0",
+					version: "6.83.0",
 				},
 			},
 		};
