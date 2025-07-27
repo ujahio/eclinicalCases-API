@@ -1,10 +1,4 @@
-import React, {
-	FunctionComponent,
-	useState,
-	ChangeEvent,
-	useRef,
-	useEffect,
-} from "react";
+import React, { FunctionComponent, useState, ChangeEvent, useRef } from "react";
 import { toast } from "react-toastify";
 import { InputField } from "@/components/form-elements";
 import Button from "@/components/ui/Button";
@@ -15,7 +9,7 @@ import {
 	addPdfToCaseMaterialsApi,
 	deletePdfFromCaseMaterialsApi,
 } from "@/services/apis/case";
-import CaseEditor from "@/lib/Editor";
+import { PlateEditor } from "@/components/editor/plate-editor";
 
 const TeacherCaseTeaching: FunctionComponent<TeacherCaseTeachingProps> = ({
 	goNext,
@@ -24,8 +18,6 @@ const TeacherCaseTeaching: FunctionComponent<TeacherCaseTeachingProps> = ({
 	setCaseStudy,
 	handleUpdateDraftCase,
 }) => {
-	const [isEditorMounted, setIsEditorMounted] = useState(false);
-
 	const dispatch = useAppDispatch();
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	const addingDraftCaseStatus = useAppSelector(
@@ -43,7 +35,7 @@ const TeacherCaseTeaching: FunctionComponent<TeacherCaseTeachingProps> = ({
 
 	const addFile = () => {
 		if (fileInputRef.current) {
-			fileInputRef.current.click(); // Click the file input to open the dialog
+			fileInputRef.current.click();
 		}
 	};
 
@@ -121,7 +113,7 @@ const TeacherCaseTeaching: FunctionComponent<TeacherCaseTeachingProps> = ({
 					theme: "light",
 				});
 			} finally {
-				setIsUploading(false); // Set uploading flag to false after upload completes
+				setIsUploading(false);
 			}
 
 			setCaseStudy({
@@ -133,10 +125,6 @@ const TeacherCaseTeaching: FunctionComponent<TeacherCaseTeachingProps> = ({
 			});
 		}
 	};
-
-	useEffect(() => {
-		setIsEditorMounted(true);
-	}, []);
 
 	const materials = Array.isArray(caseStudy?.caseMaterials)
 		? caseStudy.caseMaterials
@@ -165,12 +153,11 @@ const TeacherCaseTeaching: FunctionComponent<TeacherCaseTeachingProps> = ({
 						setCaseStudy({ ...caseStudy, caseTopic: e.target.value });
 					}}
 				/>
-				{isEditorMounted && (
-					<CaseEditor
-						content={caseStudy.caseTeaching}
-						onContentChange={handleEditorChange}
-					/>
-				)}
+
+				<PlateEditor
+					content={caseStudy.caseTeaching}
+					onContentChange={handleEditorChange}
+				/>
 			</div>
 
 			<div className="mb-5 sm:mb-6">

@@ -1,10 +1,10 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
+import React, { FunctionComponent } from "react";
 import { InputField } from "@/components/form-elements";
 import Button from "@/components/ui/Button";
 import { useAppSelector } from "@/services/hooks/hooks";
 import { TeacherCaseAnswerProps } from "@/services/types/teacher/createCaseStudy";
-import CaseEditor from "@/lib/Editor";
 import { formatDateToYYYYMMDD } from "@/utils/formatDate";
+import { PlateEditor } from "@/components/editor/plate-editor";
 
 const TeacherCaseAnswer: FunctionComponent<TeacherCaseAnswerProps> = ({
 	goNext,
@@ -13,12 +13,6 @@ const TeacherCaseAnswer: FunctionComponent<TeacherCaseAnswerProps> = ({
 	setCaseStudy,
 	handleUpdateDraftCase,
 }) => {
-	const [isEditorMounted, setIsEditorMounted] = useState(false);
-
-	useEffect(() => {
-		setIsEditorMounted(true);
-	}, []);
-
 	const handleEditorChange = (updatedContent: string) => {
 		setCaseStudy({
 			...caseStudy,
@@ -41,12 +35,10 @@ const TeacherCaseAnswer: FunctionComponent<TeacherCaseAnswerProps> = ({
 					Case Model Answer
 				</h6>
 
-				{isEditorMounted && (
-					<CaseEditor
-						content={caseStudy.caseExplanation}
-						onContentChange={handleEditorChange}
-					/>
-				)}
+				<PlateEditor
+					content={caseStudy.caseExplanation}
+					onContentChange={handleEditorChange}
+				/>
 			</div>
 			<div className="mb-5 sm:mb-6">
 				<InputField

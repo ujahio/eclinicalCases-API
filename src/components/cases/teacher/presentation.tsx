@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
+import React, { FunctionComponent } from "react";
 import Button from "@/components/ui/Button";
 import { useAppSelector } from "@/services/hooks/hooks";
 import { TeacherCaseQuestionProps } from "@/services/types/teacher/createCaseStudy";
