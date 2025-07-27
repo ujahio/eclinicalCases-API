@@ -2,7 +2,7 @@ import React, { FunctionComponent, useEffect, useState } from "react";
 import Button from "@/components/ui/Button";
 import { useAppSelector } from "@/services/hooks/hooks";
 import { TeacherCaseQuestionProps } from "@/services/types/teacher/createCaseStudy";
-import CaseEditor from "@/lib/Editor";
+import { PlateEditor } from "@/components/editor/plate-editor";
 
 const TeacherCasePresentation: FunctionComponent<TeacherCaseQuestionProps> = ({
 	goNext,
@@ -10,12 +10,6 @@ const TeacherCasePresentation: FunctionComponent<TeacherCaseQuestionProps> = ({
 	setCaseStudy,
 	handleUpdateDraftCase,
 }) => {
-	const [isEditorMounted, setIsEditorMounted] = useState(false);
-
-	useEffect(() => {
-		setIsEditorMounted(true);
-	}, []);
-
 	const addingDraftCaseStatus = useAppSelector(
 		(state) => state.getDraftCases.status
 	);
@@ -34,13 +28,10 @@ const TeacherCasePresentation: FunctionComponent<TeacherCaseQuestionProps> = ({
 					<h6 className="text-blue font-bold text-1xs sm:text-sm capitalize mb-3">
 						CASE MODEL PRESENTATION
 					</h6>
-
-					{isEditorMounted && (
-						<CaseEditor
-							content={caseStudy.caseDescription}
-							onContentChange={handleEditorChange}
-						/>
-					)}
+					<PlateEditor
+						content={caseStudy.caseDescription}
+						onContentChange={handleEditorChange}
+					/>
 				</div>
 			</div>
 			<div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
