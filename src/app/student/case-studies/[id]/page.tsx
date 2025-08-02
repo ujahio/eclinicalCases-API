@@ -77,7 +77,6 @@ const StudentCaseStudiesContent = ({ params }: { params: any }) => {
 					question: question.question,
 					options: question.options,
 				})),
-				studentCaseExplanation: "",
 				caseMaterials: JSON.parse(caseDetailsState?.data.caseMaterials),
 			};
 			setCaseDetails(updatedCaseDetails);

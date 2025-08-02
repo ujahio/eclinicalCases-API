@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react";
 import Button from "@/components/ui/Button";
-import { convertFromRaw, Editor, EditorState } from "draft-js";
+import { ReadOnlyEditor } from "@/components/editor/read-only-editor";
 
 interface StudentCaseAnswerProps {
 	goNext: () => void;
@@ -16,20 +16,6 @@ const StudentCaseAnswer: FC<StudentCaseAnswerProps> = ({
 	studentCaseExplanation,
 }) => {
 	const [compareMode, setCompareMode] = useState<boolean>(false);
-
-	const teacherCaseStudyExplanationRawContent = caseExplanation
-		? JSON.parse(caseExplanation)
-		: { blocks: [], entityMap: {} };
-	const studentCaseResponseRawContent = studentCaseExplanation
-		? JSON.parse(studentCaseExplanation)
-		: { blocks: [], entityMap: {} };
-
-	const teacherCaseDescription = EditorState.createWithContent(
-		convertFromRaw(teacherCaseStudyExplanationRawContent)
-	);
-	const studentCaseExplanationContent = EditorState.createWithContent(
-		convertFromRaw(studentCaseResponseRawContent)
-	);
 
 	return (
 		<>
@@ -52,11 +38,7 @@ const StudentCaseAnswer: FC<StudentCaseAnswerProps> = ({
 					</h6>
 					<div className="text-dark sm:text-base text-1sm">
 						<div className="mb-9 bg-gray-200 p-2.5">
-							<Editor
-								editorState={teacherCaseDescription}
-								readOnly={true}
-								onChange={() => {}}
-							/>
+							<ReadOnlyEditor content={caseExplanation} />
 						</div>
 					</div>
 				</div>
@@ -71,17 +53,12 @@ const StudentCaseAnswer: FC<StudentCaseAnswerProps> = ({
 						<div className="mb-5 sm:mb-6">
 							<div className="text-dark sm:text-base text-1sm">
 								<div className="mb-9 bg-gray-200 p-2.5">
-									<Editor
-										editorState={studentCaseExplanationContent}
-										readOnly={true}
-										onChange={() => {}}
-									/>
+									<ReadOnlyEditor content={studentCaseExplanation} />
 								</div>
 							</div>
 						</div>
 					</div>
 
-					{/* Teacher's model answer */}
 					<div className="md:w-45%">
 						<h6 className="text-1xs sm:text-sm font-bold text-blue uppercase mb-2.5">
 							CASE MODEL ANSWER
@@ -89,11 +66,7 @@ const StudentCaseAnswer: FC<StudentCaseAnswerProps> = ({
 						<div className="mb-5 sm:mb-6">
 							<div className="text-dark sm:text-base text-1sm">
 								<div className="mb-9 bg-gray-200 p-2.5">
-									<Editor
-										editorState={teacherCaseDescription}
-										readOnly={true}
-										onChange={() => {}}
-									/>
+									<ReadOnlyEditor content={caseExplanation} />
 								</div>
 							</div>
 						</div>

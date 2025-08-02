@@ -1,8 +1,8 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
-import { Editor, convertFromRaw, EditorState } from "draft-js";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
 import { getCaseMaterials } from "@/store/slices/case/getCaseMaterialsSlice";
 import Button from "@/components/ui/Button";
+import { ReadOnlyEditor } from "@/components/editor/read-only-editor";
 
 interface StudentCaseTeachingProps {
 	goNext: () => void;
@@ -15,11 +15,6 @@ interface StudentCaseTeachingProps {
 	}[];
 }
 
-const fallbackContent = JSON.stringify({
-	blocks: [],
-	entityMap: {},
-});
-
 const StudentCaseTeaching: FunctionComponent<StudentCaseTeachingProps> = ({
 	caseMaterialsMetaData,
 	caseTeaching,
@@ -27,15 +22,11 @@ const StudentCaseTeaching: FunctionComponent<StudentCaseTeachingProps> = ({
 	goNext,
 	goBack,
 }) => {
-	const caseTeachingContent = EditorState.createWithContent(
-		convertFromRaw(JSON.parse(caseTeaching || fallbackContent))
-	);
 	const dispatch = useAppDispatch();
 
 	const [loading, setLoading] = useState<boolean>(false);
 	const [materials, setMaterials] = useState<any[]>([]); // State for combined materials
 
-	// Fetching the materials
 	useEffect(() => {
 		const documentKeys = caseMaterialsMetaData?.map(
 			(material: any) => material.documentKey
@@ -88,11 +79,7 @@ const StudentCaseTeaching: FunctionComponent<StudentCaseTeachingProps> = ({
 				<h5 className="font-bold text-base mt-3.75 mb-2.5">{caseTopic}</h5>
 
 				<div className="mb-9 bg-gray-200 p-2.5">
-					<Editor
-						editorState={caseTeachingContent}
-						readOnly={true}
-						onChange={() => {}}
-					/>
+					<ReadOnlyEditor content={caseTeaching} />
 				</div>
 				{loading && <p>Loading...</p>}
 

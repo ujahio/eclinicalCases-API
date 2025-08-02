@@ -1,7 +1,7 @@
+import React, { FunctionComponent } from "react";
 import Button from "@/components/ui/Button";
 import { formatDate } from "@/utils/formatDate";
-import { Editor } from "draft-js";
-import React, { FunctionComponent } from "react";
+import { ReadOnlyEditor } from "@/components/editor/read-only-editor";
 
 interface StudentCasePresentationProps {
 	goNext: () => void;
@@ -19,11 +19,7 @@ const StudentCasePresentation: FunctionComponent<
 					Case Description
 				</h6>
 				<div className="mb-9 bg-gray-200 p-2.5">
-					<Editor
-						editorState={caseDescription}
-						readOnly={true}
-						onChange={() => {}}
-					/>
+					<ReadOnlyEditor content={caseDescription} />
 				</div>
 			</div>
 			{caseDeadline && (

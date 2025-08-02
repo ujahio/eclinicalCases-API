@@ -14,47 +14,42 @@ export type ValidationErrorProps = {
  * @param content - The serialized JSON string of the case explanation.
  * @returns boolean - True if the validation passes, false otherwise.
  */
-export const validateEditorInputs = (
+export const validateEditorContent = (
 	setError: Dispatch<SetStateAction<ValidationErrorProps>>,
-	content: string | undefined,
+	content?: string,
 	minWordCount = 150,
 	maxWordCount = 700
 ): boolean => {
-	// Parse the content and count words
-	const contentState = content ? JSON.parse(content) : { blocks: [] };
-	const plainText = contentState.blocks
-		.map((block: { text: string }) => block.text)
-		.join(" ");
-	const wordCount = plainText
+	if (!content) return true;
+
+	// Count words
+	const wordCount = content
 		.split(/\s+/)
-		.filter((word: string[]) => word.length > 0).length;
+		.filter((word) => word.length > 0).length;
 
 	if (wordCount < minWordCount) {
-		setError((prevState) => ({
-			...prevState,
+		setError({
 			explanation: {
 				status: "error",
-				validationMessage: `Contents cannot be less than ${minWordCount} characters!`,
+				validationMessage: `Comments must be at least 150 words (currently ${wordCount}).`,
 			},
-		}));
+		});
 		return false;
 	} else if (wordCount > maxWordCount) {
-		setError((prevState) => ({
-			...prevState,
+		setError({
 			explanation: {
 				status: "error",
-				validationMessage: `Contents cannot be more than ${maxWordCount} characters!`,
+				validationMessage: `Comments cannot exceed 700 words (currently ${wordCount}).`,
 			},
-		}));
+		});
 		return false;
 	} else {
-		setError((prevState) => ({
-			...prevState,
+		setError({
 			explanation: {
 				status: "valid",
 				validationMessage: "",
 			},
-		}));
+		});
 		return true;
 	}
 };
