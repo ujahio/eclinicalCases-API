@@ -51,11 +51,7 @@ const validateInputs = ({
 			throw { message: "Missing case study description." };
 		}
 
-		const hasTextInBlocks = descriptionParsed.blocks.some(
-			(block) => block.text.trim().length > 0
-		);
-
-		if (!hasTextInBlocks) {
+		if (!descriptionParsed.length > 0) {
 			throw { message: "Missing case study description." };
 		}
 	}
@@ -69,7 +65,7 @@ const validateInputs = ({
 	// structure needs to be fixed!!
 	if (!caseExplanation || caseExplanation === "undefined") {
 		throw {
-			message: "Missing case study explanations.",
+			message: "Missing case study explanation.",
 		};
 	} else {
 		// Parse the caseExplanation to check for text in the blocks
@@ -77,18 +73,11 @@ const validateInputs = ({
 		try {
 			explanationParsed = JSON.parse(caseExplanation);
 		} catch (error) {
-			throw { message: "Missing case study explanations." };
+			throw { message: "Missing case study explanation." };
 		}
 
-		// Adjusted logic to ensure accurate validation of non-empty text in blocks
-		const hasTextInExplanationBlocks = explanationParsed.blocks.some(
-			(block) => {
-				return block.text.trim().length > 0;
-			}
-		);
-
-		if (!hasTextInExplanationBlocks) {
-			throw { message: "Missing case study explanation" };
+		if (!explanationParsed.length > 0) {
+			throw { message: "Missing case study explanation." };
 		}
 	}
 
@@ -108,13 +97,8 @@ const validateInputs = ({
 			throw { message: "Missing case study teaching." };
 		}
 
-		// Adjusted logic to ensure accurate validation of non-empty text in blocks
-		const hasTextInTeachingBlocks = teachingParsed.blocks.some((block) => {
-			return block.text.trim().length > 0;
-		});
-
-		if (!hasTextInTeachingBlocks) {
-			throw { message: "Missing case teaching" };
+		if (!teachingParsed.length > 0) {
+			throw { message: "Missing case teaching." };
 		}
 	}
 
