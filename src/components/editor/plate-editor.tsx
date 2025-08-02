@@ -1,11 +1,11 @@
 "use client";
 
-import { Plate, usePlateEditor, createPlateEditor } from "platejs/react";
-
+import { useEffect } from "react";
+import { Plate, usePlateEditor } from "platejs/react";
+import { cn } from "@/lib/utils";
 import { BasicNodesKit } from "@/components/editor/plugins/basic-nodes-kit";
 import { Editor, EditorContainer } from "@/components/ui/editor";
 import { Value } from "platejs";
-import { useEffect } from "react";
 import { FixedToolbar } from "@/components/ui/fixed-toolbar";
 import { MarkToolbarButton } from "@/components/ui/mark-toolbar-button";
 import { ToolbarButton } from "@/components/ui/toolbar"; // Generic toolbar button
@@ -15,16 +15,26 @@ interface EditorConvertToJSONProps {
 	onContentChange: (updatedContent: string) => void; // Callback for content updates
 	status?: "valid" | "error"; // Validation status of the editor content
 	validationMessage?: string; // Validation message for the editor content
+	onEditorReady?: (editor: any) => void; // Add this prop to expose the editor
 }
 
 export function PlateEditor({
 	content,
 	onContentChange,
+	status = "valid",
+	validationMessage = "",
+	onEditorReady,
 }: EditorConvertToJSONProps) {
 	const editor = usePlateEditor({
 		plugins: BasicNodesKit,
 		id: "rich-text-editor",
 	});
+
+	useEffect(() => {
+		if (editor && onEditorReady) {
+			onEditorReady(editor);
+		}
+	}, [editor, onEditorReady]);
 
 	// Update editor's value when content prop changes
 	useEffect(() => {
@@ -46,34 +56,47 @@ export function PlateEditor({
 	}, [content, editor]);
 
 	return (
-		<Plate
-			editor={editor}
-			initialValue={content ? JSON.parse(content) : []}
-			onValueChange={({ value }: { value: Value }) => {
-				onContentChange(JSON.stringify(value));
-			}}
-		>
-			<FixedToolbar className="justify-start rounded-t-lg">
-				{/* Element Toolbar Buttons */}
-				<ToolbarButton onClick={() => editor.tf.h1.toggle()}>H1</ToolbarButton>
-				<ToolbarButton onClick={() => editor.tf.h2.toggle()}>H2</ToolbarButton>
-				<ToolbarButton onClick={() => editor.tf.h3.toggle()}>H3</ToolbarButton>
-				<ToolbarButton onClick={() => editor.tf.blockquote.toggle()}>
-					Quote
-				</ToolbarButton>
-				<MarkToolbarButton nodeType="bold" tooltip="Bold (⌘+B)">
-					B
-				</MarkToolbarButton>
-				<MarkToolbarButton nodeType="italic" tooltip="Italic (⌘+I)">
-					I
-				</MarkToolbarButton>
-				<MarkToolbarButton nodeType="underline" tooltip="Underline (⌘+U)">
-					U
-				</MarkToolbarButton>
-			</FixedToolbar>
-			<EditorContainer>
-				<Editor variant="demo" placeholder="Type..." />
-			</EditorContainer>
-		</Plate>
+		<>
+			<div className={cn(status === "error" && "border-red-500")}>
+				<Plate
+					editor={editor}
+					onValueChange={({ value }: { value: Value }) => {
+						onContentChange(JSON.stringify(value));
+					}}
+				>
+					<FixedToolbar className="justify-start rounded-t-lg">
+						{/* Element Toolbar Buttons */}
+						<ToolbarButton onClick={() => editor.tf.h1.toggle()}>
+							H1
+						</ToolbarButton>
+						<ToolbarButton onClick={() => editor.tf.h2.toggle()}>
+							H2
+						</ToolbarButton>
+						<ToolbarButton onClick={() => editor.tf.h3.toggle()}>
+							H3
+						</ToolbarButton>
+						<ToolbarButton onClick={() => editor.tf.blockquote.toggle()}>
+							Quote
+						</ToolbarButton>
+						<MarkToolbarButton nodeType="bold" tooltip="Bold (⌘+B)">
+							B
+						</MarkToolbarButton>
+						<MarkToolbarButton nodeType="italic" tooltip="Italic (⌘+I)">
+							I
+						</MarkToolbarButton>
+						<MarkToolbarButton nodeType="underline" tooltip="Underline (⌘+U)">
+							U
+						</MarkToolbarButton>
+					</FixedToolbar>
+
+					<EditorContainer>
+						<Editor variant="demo" placeholder="Type..." />
+					</EditorContainer>
+				</Plate>
+				{status === "error" && (
+					<p className="mt-0.625 font-light text-red">{validationMessage}</p>
+				)}
+			</div>
+		</>
 	);
 }
