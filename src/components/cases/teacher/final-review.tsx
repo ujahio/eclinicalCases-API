@@ -1,29 +1,16 @@
 import React, { FunctionComponent } from "react";
 import Cme from "./cme";
 import Button from "@/components/ui/Button";
-import { convertFromRaw, Editor, EditorState } from "draft-js";
 import { useAppSelector } from "@/services/hooks/hooks";
 import { FinalReviewProps } from "@/services/types/teacher/createCaseStudy";
 import { formatDateToYYYYMMDD } from "@/utils/formatDate";
+import { ReadOnlyEditor } from "@/components/editor/read-only-editor";
 
 const FinalReview: FunctionComponent<FinalReviewProps> = ({
 	caseStudy,
 	handleUpdateDraftCase,
 	handlePublishCase,
 }) => {
-	const parseEditorState = (data: string) => {
-		try {
-			return EditorState.createWithContent(convertFromRaw(JSON.parse(data)));
-		} catch (error) {
-			console.error("Error parsing editor state:", error);
-			return EditorState.createEmpty();
-		}
-	};
-
-	const caseDescription = parseEditorState(caseStudy.caseDescription || "{}");
-	const caseExplanation = parseEditorState(caseStudy.caseExplanation || "{}");
-	const caseTeaching = parseEditorState(caseStudy.caseTeaching || "{}");
-
 	const addingDraftCaseStatus = useAppSelector(
 		(state) => state.getDraftCases.status
 	);
@@ -40,11 +27,7 @@ const FinalReview: FunctionComponent<FinalReviewProps> = ({
 					Case Model Topic Description
 				</h3>
 				<div className="mb-9 bg-gray-200 p-2.5">
-					<Editor
-						editorState={caseDescription}
-						readOnly={true}
-						onChange={() => {}}
-					/>
+					<ReadOnlyEditor content={caseStudy.caseDescription} />
 				</div>
 			</div>
 			<div className=" border-b-0.375">
@@ -52,11 +35,7 @@ const FinalReview: FunctionComponent<FinalReviewProps> = ({
 					CASE MODEL ANSWER
 				</h3>
 				<div className="mb-9 bg-gray-200 p-2.5">
-					<Editor
-						editorState={caseExplanation}
-						readOnly={true}
-						onChange={() => {}}
-					/>
+					<ReadOnlyEditor content={caseStudy.caseExplanation} />
 				</div>
 				<h3 className="uppercase font-bold text-sm text-blue mb-2">DEADLINE</h3>
 				<p className="mb-9">{formatDateToYYYYMMDD(caseStudy.caseDeadline)}</p>
@@ -70,11 +49,7 @@ const FinalReview: FunctionComponent<FinalReviewProps> = ({
 					Case Teaching
 				</h3>
 				<div className="mb-9 bg-gray-200 p-2.5">
-					<Editor
-						editorState={caseTeaching}
-						readOnly={true}
-						onChange={() => {}}
-					/>
+					<ReadOnlyEditor content={caseStudy.caseTeaching} />
 				</div>
 				<h3 className="uppercase font-bold text-sm text-blue mb-4">
 					TEACHING MATERIALS
