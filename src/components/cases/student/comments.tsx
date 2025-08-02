@@ -1,10 +1,11 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
+import React, { FunctionComponent, useRef, useState } from "react";
 import Button from "@/components/ui/Button";
-import CaseEditor from "@/lib/Editor";
 import {
-	validateEditorInputs,
+	validateEditorContent,
 	ValidationErrorProps,
-} from "@/services/helper/validateEditorInputs";
+} from "@/services/helper/validateEditorContent";
+import { PlateEditor } from "@/components/editor/plate-editor";
+import { TPlateEditor, useEditorString } from "platejs/react";
 
 interface StudentCaseCommentsProps {
 	goNext: () => void;
@@ -19,8 +20,8 @@ const StudentCaseComments: FunctionComponent<StudentCaseCommentsProps> = ({
 	setCaseDetails,
 	studentCaseExplanation,
 }) => {
-	const [isEditorMounted, setIsEditorMounted] = useState(false);
-
+	const editorRef = useRef<any>(null);
+	const editorContent = useEditorString();
 	const [inputsForValidation, setErrorsForValidatedInputs] =
 		useState<ValidationErrorProps>({
 			explanation: {
@@ -29,17 +30,17 @@ const StudentCaseComments: FunctionComponent<StudentCaseCommentsProps> = ({
 			},
 		});
 
-	useEffect(() => {
-		setIsEditorMounted(true);
-	}, []);
+	const handleEditorReady = (editor: TPlateEditor) => {
+		editorRef.current = editor;
+	};
 
 	const handleSubmitStudentResponse = (
 		e: React.MouseEvent<HTMLButtonElement>
 	) => {
 		e.preventDefault();
-		const isValid = validateEditorInputs(
+		const isValid = validateEditorContent(
 			setErrorsForValidatedInputs,
-			studentCaseExplanation
+			editorContent
 		);
 
 		if (!isValid) return;
@@ -65,16 +66,15 @@ const StudentCaseComments: FunctionComponent<StudentCaseCommentsProps> = ({
 						{"Note: Comments must be between 150 and 700 characters."}
 					</p>
 
-					{isEditorMounted && (
-						<CaseEditor
-							content={studentCaseExplanation}
-							onContentChange={handleEditorChange}
-							status={inputsForValidation.explanation.status}
-							validationMessage={
-								inputsForValidation.explanation.validationMessage
-							}
-						/>
-					)}
+					<PlateEditor
+						content={studentCaseExplanation}
+						onContentChange={handleEditorChange}
+						validationMessage={
+							inputsForValidation.explanation.validationMessage
+						}
+						status={inputsForValidation.explanation.status}
+						onEditorReady={handleEditorReady}
+					/>
 				</div>
 			</div>
 			<div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
