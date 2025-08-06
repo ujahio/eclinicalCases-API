@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import useRenderPdf from "@/services/hooks/useRenderPdf";
-import Modal from "@/components/ui/Modal";
+import Modal from "@/components/ui-custom/modal";
 import DashboardLayout from "@/components/layouts/dashboard";
 import Button from "../../components/ui-custom/button";
 

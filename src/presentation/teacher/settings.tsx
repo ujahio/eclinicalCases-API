@@ -6,7 +6,7 @@ import {
 } from "@/components/account-settings";
 import AdminLayout from "@/components/layouts/dashboard/admin";
 import Button from "@/components/ui-custom/button";
-import Tabs from "@/components/ui/Tabs";
+import Tabs from "@/components/ui-custom/tabs";
 import useProcessTabs from "@/services/hooks/useProcessTabs";
 
 const tabs = ["Personal Details", "Password"];

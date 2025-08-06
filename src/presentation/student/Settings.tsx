@@ -7,7 +7,7 @@ import {
 	PasswordSettings,
 	PersonalDetailsSettings,
 } from "@/components/account-settings";
-import Tabs from "@/components/ui/Tabs";
+import Tabs from "@/components/ui-custom/tabs";
 
 const tabs = ["Personal Details", "Password", "Payment"];
 const AccountSettings = () => {

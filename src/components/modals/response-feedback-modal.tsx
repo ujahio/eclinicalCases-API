@@ -1,10 +1,10 @@
 import React, { FunctionComponent } from "react";
 import ResponseModal from "../cases/teacher/response";
 import FeedbackModal from "../cases/teacher/feedback";
-import Modal, { ModalProps } from "../ui/Modal";
+import Modal, { ModalProps } from "../ui-custom/modal";
 import useProcessTabs from "@/services/hooks/useProcessTabs";
 import Image from "next/image";
-import Tabs from "../ui/Tabs";
+import Tabs from "../ui-custom/tabs";
 
 import { formatDate } from "@/utils/formatDate";
 

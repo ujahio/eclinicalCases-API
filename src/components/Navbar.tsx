@@ -3,7 +3,7 @@ import React from "react";
 import Link from "next/link";
 import { APP_CONTAINER, LANDING_X_PADDING } from "@/services/constants/styles";
 import Button from "./ui-custom/button";
-import AppDropdown, { AppDropdownItem } from "./ui/Dropdown";
+import AppDropdown, { AppDropdownItem } from "./ui-custom/dropdown";
 
 // const Navbar = ({ setShowWelcomeModal }) => {
 const Navbar = ({

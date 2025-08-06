@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from "react";
-import AppDropdown, { AppDropdownItem } from "../../ui/Dropdown";
+import AppDropdown, { AppDropdownItem } from "../../ui-custom/dropdown";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
