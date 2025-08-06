@@ -9,7 +9,7 @@ import {
 	StudentCaseTeaching,
 } from "@/components/cases";
 import DashboardLayout from "@/components/layouts/dashboard";
-import ProcessTabs from "@/components/ui/process-tabs";
+import ProcessTabs from "@/components/ui-custom/process-tabs";
 import { APP_CONTAINER, APP_SPACING } from "@/services/constants/styles";
 import { StudentCaseStudyProps } from "@/services/types/student";
 

@@ -1,7 +1,6 @@
 import React, { FunctionComponent, useState } from "react";
 import Image from "next/image";
-
-import Modal, { ModalProps } from "../ui/Modal";
+import Modal, { ModalProps } from "../ui-custom/modal";
 import Button from "../ui-custom/button";
 
 interface Step {

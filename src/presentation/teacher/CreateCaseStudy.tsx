@@ -8,7 +8,7 @@ import {
 } from "@/components/cases";
 import FinalReview from "@/components/cases/teacher/final-review";
 import AdminLayout from "@/components/layouts/dashboard/admin";
-import ProcessTabs from "@/components/ui/process-tabs";
+import ProcessTabs from "@/components/ui-custom/process-tabs";
 import { createCaseStudyTabs } from "@/services/constants";
 import { APP_CONTAINER, APP_SPACING } from "@/services/constants/styles";
 import { CreateCaseStudyProps } from "@/services/types/teacher/createCaseStudy";

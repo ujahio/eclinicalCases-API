@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useState } from "react";
 import Button from "@/components/ui-custom/button";
-import CmeModal from "@/components/ui/cme-modal";
+import CmeModal from "@/components/ui-custom/cme-modal";
 import { useAppSelector } from "@/services/hooks/hooks";
 
 type Answer = {
