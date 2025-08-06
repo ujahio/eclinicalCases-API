@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 import Cme from "./cme";
-import Button from "@/components/ui/Button";
+import Button from "@/components/ui-custom/button";
 import { useAppSelector } from "@/services/hooks/hooks";
 import { FinalReviewProps } from "@/services/types/teacher/createCaseStudy";
 import { formatDateToYYYYMMDD } from "@/utils/formatDate";

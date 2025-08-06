@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useRef, useState } from "react";
-import Button from "@/components/ui/Button";
+import Button from "@/components/ui-custom/button";
 import {
 	validateEditorContent,
 	ValidationErrorProps,

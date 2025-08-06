@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from "react";
-import Button from "@/components/ui/Button";
+import Button from "@/components/ui-custom/button";
 import { useAppSelector } from "@/services/hooks/hooks";
 import { TeacherCaseQuestionProps } from "@/services/types/teacher/createCaseStudy";
 import { PlateEditor } from "@/components/editor/plate-editor";

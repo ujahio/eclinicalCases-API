@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import Button from "@/components/ui/Button";
+import Button from "@/components/ui-custom/button";
 import { ReadOnlyEditor } from "@/components/editor/read-only-editor";
 
 interface StudentCaseAnswerProps {

@@ -2,7 +2,7 @@ import React, { FunctionComponent, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useParams } from "next/navigation";
 import { TextArea } from "@/components/form-elements";
-import Button from "@/components/ui/Button";
+import Button from "@/components/ui-custom/button";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
 import {
 	addFeedback,

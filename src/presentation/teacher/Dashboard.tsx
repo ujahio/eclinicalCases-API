@@ -2,7 +2,7 @@ import React from "react";
 import { CaseCard } from "@/components/cases";
 import AdminLayout from "@/components/layouts/dashboard/admin";
 import Link from "next/link";
-import Button from "@/components/ui/Button";
+import Button from "@/components/ui-custom/button";
 import { useAppSelector } from "@/services/hooks/hooks";
 import { formatDate } from "@/utils/formatDate";
 import { useAuthRedirect } from "@/services/hooks/useAuthRedirect";

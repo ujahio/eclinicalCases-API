@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
 import { getCaseMaterials } from "@/store/slices/case/getCaseMaterialsSlice";
-import Button from "@/components/ui/Button";
+import Button from "@/components/ui-custom/button";
 import { ReadOnlyEditor } from "@/components/editor/read-only-editor";
 
 interface StudentCaseTeachingProps {

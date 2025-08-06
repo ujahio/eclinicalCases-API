@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from "react";
-import Button from "@/components/ui/Button";
+import Button from "@/components/ui-custom/button";
 import { formatDate } from "@/utils/formatDate";
 import { ReadOnlyEditor } from "@/components/editor/read-only-editor";
 

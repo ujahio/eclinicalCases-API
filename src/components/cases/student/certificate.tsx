@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import { FunctionComponent } from "react";
 import { useAppSelector } from "@/services/hooks/hooks";
 import useRenderPdf from "@/services/hooks/useRenderPdf";
-import Button from "@/components/ui/Button";
+import Button from "@/components/ui-custom/button";
 import { useRouter } from "next/navigation";
 
 const StudentCertificate: FunctionComponent = () => {

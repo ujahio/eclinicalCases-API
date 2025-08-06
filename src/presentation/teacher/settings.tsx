@@ -5,7 +5,7 @@ import {
 	PersonalDetailsSettings,
 } from "@/components/account-settings";
 import AdminLayout from "@/components/layouts/dashboard/admin";
-import Button from "@/components/ui/Button";
+import Button from "@/components/ui-custom/button";
 import Tabs from "@/components/ui/Tabs";
 import useProcessTabs from "@/services/hooks/useProcessTabs";
 

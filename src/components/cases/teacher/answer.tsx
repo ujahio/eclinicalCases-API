@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 import { InputField } from "@/components/form-elements";
-import Button from "@/components/ui/Button";
+import Button from "@/components/ui-custom/button";
 import { useAppSelector } from "@/services/hooks/hooks";
 import { TeacherCaseAnswerProps } from "@/services/types/teacher/createCaseStudy";
 import { formatDateToYYYYMMDD } from "@/utils/formatDate";

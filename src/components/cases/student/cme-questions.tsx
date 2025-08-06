@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from "react";
-import Button from "@/components/ui/Button";
+import Button from "@/components/ui-custom/button";
 import CmeModal from "@/components/ui/cme-modal";
 import { useAppSelector } from "@/services/hooks/hooks";
 

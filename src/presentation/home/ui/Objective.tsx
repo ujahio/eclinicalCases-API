@@ -1,5 +1,5 @@
 import React from "react";
-import Button from "@/components/ui/Button";
+import Button from "@/components/ui-custom/button";
 import Image from "next/image";
 import { APP_CONTAINER, LANDING_X_PADDING } from "@/services/constants/styles";
 import Link from "next/link";

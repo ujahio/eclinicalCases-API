@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { PasswordField } from "../form-elements";
-import Button from "../ui/Button";
+import Button from "../ui-custom/button";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
 import {
 	changePassword,

@@ -1,5 +1,5 @@
 import { InputField } from "@/components/form-elements";
-import Button from "@/components/ui/Button";
+import Button from "@/components/ui-custom/button";
 import { useAppSelector } from "@/services/hooks/hooks";
 import { TeacherCMEQuestionsProps } from "@/services/types/teacher/createCaseStudy";
 import React, { FunctionComponent } from "react";

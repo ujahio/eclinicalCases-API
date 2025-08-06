@@ -1,6 +1,6 @@
 // import CheckBox from "@/components/form-elements/checkbox";
 import AuthLayout from "@/components/layouts/AuthLayout";
-import Button from "@/components/ui/Button";
+import Button from "@/components/ui-custom/button";
 import Link from "next/link";
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";

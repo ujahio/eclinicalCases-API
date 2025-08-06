@@ -4,7 +4,7 @@ import React, {
 	useState,
 	ChangeEvent,
 } from "react";
-import Button from "@/components/ui/Button";
+import Button from "@/components/ui-custom/button";
 import { InputField, PasswordField } from "@/components/form-elements";
 import { saltAndHashPassword } from "@/utils/password";
 import { toast } from "react-toastify";
