@@ -1,15 +1,17 @@
 /// <reference path="./.sst/platform/config.d.ts" />
-
 export default $config({
 	app(input) {
+		const REGION = (process.env.NEXT_PUBLIC_REGION ||
+			"us-east-1") as aws.Region;
+		const VERSION = process.env.NEXT_SST_VERSION || "6.83.0";
 		return {
 			name: "eccs-labs",
 			removal: input?.stage === "production" ? "retain" : "remove",
 			home: "aws",
 			providers: {
 				aws: {
-					region: "me-south-1",
-					version: "6.83.0",
+					region: REGION,
+					version: VERSION,
 				},
 			},
 		};
