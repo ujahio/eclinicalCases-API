@@ -1,6 +1,7 @@
 import crypto from "crypto";
 
 export function saltAndHashPassword(password: string) {
+	if (!password) throw new Error("Password is required for hashing.");
 	const iv = crypto.randomBytes(16);
 	const cipher = crypto.createCipheriv(
 		"aes-256-cbc",

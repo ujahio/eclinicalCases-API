@@ -11,10 +11,7 @@ const useGetStudentsResponsesToCases = (filterParam?: string) => {
 	);
 
 	useEffect(() => {
-		if (
-			session?.accessToken &&
-			studentsResponsesToCasesState.status === "idle"
-		) {
+		if (session?.token && studentsResponsesToCasesState.status === "idle") {
 			dispatch(getStudentsResponsesToCases(filterParam));
 		}
 	}, [session, studentsResponsesToCasesState.status, dispatch, filterParam]);

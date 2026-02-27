@@ -9,7 +9,7 @@ const useGetArchiveCases = (filterParam?: string) => {
 
 	const archivedCasesState = useAppSelector((state) => state.getArchiveCases);
 	useEffect(() => {
-		if (session?.accessToken && archivedCasesState.status === "idle") {
+		if (session?.token && archivedCasesState.status === "idle") {
 			dispatch(getArchiveCases(filterParam));
 		}
 	}, [session, dispatch, archivedCasesState.status, filterParam]);

@@ -3,7 +3,7 @@ import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
 import path from "path";
 import fs from "fs";
 import { GetObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
-import s3Client from "../services/s3Client";
+import s3Client from "../../infra/s3Client.js";
 import crypto from "crypto";
 import { Resource } from "sst";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";

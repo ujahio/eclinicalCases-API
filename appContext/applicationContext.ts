@@ -8,19 +8,21 @@ import gatewayMethods from "./gatewayMethods";
 
 // TODO: need to find a better place to save this constants
 // NOTE: process.env is not working
-const region = "me-south-1";
-const loginAddress = "https://eccs-online.com/login";
+const REGION = process.env.NEXT_PUBLIC_REGION || "us-east-1";
+const DOMAIN = process.env.NEXT_PUBLIC_DOMAIN;
+// const loginAddress_ORIGINAL = "https://eccs-online.com/login";
+const loginAddress = `https://${DOMAIN}/login`;
 
-const client = new DynamoDBClient({ region });
+const client = new DynamoDBClient({ region: REGION });
 const dbClient = DynamoDBDocumentClient.from(client);
 
 const createApplicationContext = () => ({
 	getLoginAddress: () => loginAddress,
 	getMessageGateway: () => gatewayMethods,
-	getMessagingClient: () => new SESv2Client({ region }),
+	getMessagingClient: () => new SESv2Client({ region: REGION }),
 	getUserManagementClient: () =>
 		new CognitoIdentityProviderClient({
-			region,
+			region: REGION,
 		}),
 	getDBClient: () => dbClient,
 	getUseCaseHelpers: () => useCaseHelpers,

@@ -1,10 +1,10 @@
 import React, { FunctionComponent } from "react";
-import AppDropdown, { AppDropdownItem } from "../../ui/Dropdown";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import AppDropdown, { AppDropdownItem } from "../../ui/Dropdown";
 import { APP_CONTAINER, APP_SPACING } from "@/services/constants/styles";
-import { signOut } from "next-auth/react";
 // import { useAuthRedirect } from "@/services/hooks/useAuthRedirect";
 
 interface NavProps {
@@ -28,6 +28,8 @@ const Nav: FunctionComponent<NavProps> = ({
 	],
 }) => {
 	const currentPath = usePathname();
+	// const router = useRouter();
+
 	// const { user } = useAuthRedirect();
 
 	const pathMatches = (path: string) => {
@@ -35,7 +37,7 @@ const Nav: FunctionComponent<NavProps> = ({
 	};
 
 	const logoutUser = async () => {
-		await signOut({ callbackUrl: "/login" });
+		// use clerk logout
 	};
 
 	return (

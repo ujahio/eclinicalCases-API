@@ -5,7 +5,7 @@
 
 declare module "sst" {
   export interface Resource {
-    "AUTH_SECRET": {
+    "BETTER_AUTH_SECRET": {
       "type": "sst.sst.Secret"
       "value": string
     }

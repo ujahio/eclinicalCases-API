@@ -1,6 +1,12 @@
 import axios from "axios";
 import { handleApiError } from "../../utils/errorHandler";
-import { getSession } from "next-auth/react";
+
+const authClient = {
+	data: { session: {} },
+	getSession: () => {
+		return this.data;
+	},
+}; // use clerk auth client here
 
 export const authApi = axios.create({
 	baseURL: `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth`,
@@ -14,9 +20,10 @@ export const studentApi = axios.create({
 
 caseApi.interceptors.request.use(
 	async (config) => {
-		const session = await getSession();
-		if (session?.accessToken) {
-			config.headers.Authorization = `Bearer ${session.accessToken}`;
+		const session = await authClient.getSession();
+
+		if (session?.data?.session.token) {
+			config.headers.Authorization = `Bearer ${session?.data?.session.token}`;
 		}
 		return config;
 	},
@@ -27,9 +34,10 @@ caseApi.interceptors.request.use(
 
 studentApi.interceptors.request.use(
 	async (config) => {
-		const session = await getSession();
-		if (session?.accessToken) {
-			config.headers.Authorization = `Bearer ${session.accessToken}`;
+		const session = await authClient.getSession();
+
+		if (session?.data?.session.token) {
+			config.headers.Authorization = `Bearer ${session?.data?.session.token}`;
 		}
 		return config;
 	},

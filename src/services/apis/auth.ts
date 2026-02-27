@@ -1,5 +1,4 @@
 import { authApi, configureRequestHeaders } from "../config/axiosConfig";
-
 export const signup = (formData: any) => authApi.post("/signup", formData);
 
 export const login = (formData: any) => {

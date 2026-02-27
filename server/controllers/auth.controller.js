@@ -204,7 +204,7 @@ export const signin = async (event) => {
 		});
 
 		const authResponse = await cognitoClient.send(authCommand);
-
+		console.log("Auth BACKEND Response:", authResponse);
 		// Retrieve additional user attributes
 		const userCommand = new AdminGetUserCommand({
 			UserPoolId: Resource.eccslabs.id,
@@ -236,7 +236,7 @@ export const signin = async (event) => {
 			},
 			body: JSON.stringify({
 				message: "Login successful!",
-				accessToken: authResponse.AuthenticationResult.AccessToken,
+				token: authResponse.AuthenticationResult.AccessToken,
 				idToken: authResponse.AuthenticationResult.IdToken,
 				refreshToken: authResponse.AuthenticationResult.RefreshToken,
 				firstName,
@@ -288,7 +288,7 @@ export const refreshToken = async (event) => {
 					Expires: "0",
 				},
 				body: JSON.stringify({
-					accessToken: response.AuthenticationResult.AccessToken,
+					token: response.AuthenticationResult.AccessToken,
 					expiresIn: response.AuthenticationResult.ExpiresIn,
 					refreshToken:
 						response.AuthenticationResult.RefreshToken || refreshToken, // Update if new refresh token is provided

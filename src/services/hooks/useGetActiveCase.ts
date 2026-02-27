@@ -9,7 +9,7 @@ const useGetActiveCase = () => {
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
-		if (session?.accessToken && activeCaseState.status === "idle") {
+		if (session?.token && activeCaseState.status === "idle") {
 			dispatch(getPublishedCase());
 		}
 	}, [session, activeCaseState.status, dispatch]);

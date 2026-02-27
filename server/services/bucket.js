@@ -6,7 +6,7 @@ import {
 } from "@aws-sdk/client-s3";
 import crypto from "crypto";
 import { Resource } from "sst";
-import s3Client from "./s3Client";
+import s3Client from "../../infra/s3Client";
 
 export const getSignedUrlForFetchingFromS3 = async (documentKey) => {
 	const expiresIn = 3600; // URL valid for 1 hour (3600 seconds)

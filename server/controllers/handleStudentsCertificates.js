@@ -2,7 +2,7 @@ import { GetObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { QueryCommand } from "@aws-sdk/lib-dynamodb";
 import { Resource } from "sst";
-import s3Client from "../services/s3Client.js";
+import s3Client from "../../infra/s3Client.js";
 import getUserInfo from "../persistence/getUserInfo.js";
 import decodeToken from "../utils/decodeToken.js";
 import applicationContext from "../../appContext/applicationContext.js";

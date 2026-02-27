@@ -10,7 +10,7 @@ const useGetDraftCases = (caseId?: string) => {
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
-		if (session?.accessToken && getDraftCasesState.status === "idle") {
+		if (session?.token && getDraftCasesState.status === "idle") {
 			dispatch(getDraftCases());
 		}
 	}, [session, caseId, getDraftCasesState.status, dispatch]);
