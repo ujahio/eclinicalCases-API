@@ -62,26 +62,26 @@ const routeArgs = {
 
 api.route("POST /api/auth/refresh-token", {
 	link: [...links, userPool, eccsWebClient],
-	handler: "server/controllers/auth.controller.refreshToken",
+	handler: "server/controllers/auth.refreshToken",
 });
 api.route("POST /api/auth/signin", {
 	link: [...links, userPool, eccsWebClient],
-	handler: "server/controllers/auth.controller.signin",
+	handler: "server/controllers/auth.signin",
 });
 api.route("POST /api/auth/signup", {
 	link: [...links, userPool, eccsWebClient],
-	handler: "server/controllers/auth.controller.signup",
+	handler: "server/controllers/auth.signup",
 });
 // api.route("POST /api/auth/send-otp", {
-// 	handler: "server/controllers/auth.controller.sendOTP",
+// 	handler: "server/controllers/auth.sendOTP",
 // 	link: links,
 // });
 // api.route("POST /api/auth/reset-password", {
-// 	handler: "server/controllers/auth.controller.verifyOtpAndResetPassword",
+// 	handler: "server/controllers/auth.verifyOtpAndResetPassword",
 // 	link: links,
 // });
 // api.route("POST /api/auth/update-password", {
-// 	handler: "server/controllers/auth.controller.updatePassword",
+// 	handler: "server/controllers/auth.updatePassword",
 // 	link: links,
 // });
 
@@ -89,18 +89,18 @@ api.route("POST /api/auth/signup", {
 api.route(
 	"GET /api/case/data/{caseID}",
 	{
-		handler: "server/controllers/case.controller.getCaseData",
+		handler: "server/controllers/case.getCaseData",
 		link: [...links, userPool],
 	},
-	routeArgs
+	routeArgs,
 );
 api.route(
 	"GET /api/case/details/{caseID}",
 	{
-		handler: "server/controllers/case.controller.getCaseForStudentsResponse",
+		handler: "server/controllers/case.getCaseForStudentsResponse",
 		link: [...links, userPool],
 	},
-	routeArgs
+	routeArgs,
 );
 api.route(
 	"GET /api/case/archived/{caseFilter}",
@@ -108,7 +108,7 @@ api.route(
 		handler: "server/controllers/handleArchivedCases.getArchivedCases",
 		link: [...links, userPool],
 	},
-	routeArgs
+	routeArgs,
 );
 api.route(
 	"GET /api/case/publish",
@@ -116,7 +116,7 @@ api.route(
 		handler: "server/controllers/handlePublishedCase.getPublishedCase",
 		link: [...links, userPool],
 	},
-	routeArgs
+	routeArgs,
 );
 api.route(
 	"POST /api/case/publish",
@@ -124,7 +124,7 @@ api.route(
 		handler: "server/controllers/handlePublishedCase.publishCase",
 		link: [...links, userPool],
 	},
-	routeArgs
+	routeArgs,
 );
 api.route(
 	"GET /api/case/draft",
@@ -132,7 +132,7 @@ api.route(
 		handler: "server/controllers/handleDraftCases.getDraftCases",
 		link: [...links, userPool],
 	},
-	routeArgs
+	routeArgs,
 );
 
 api.route(
@@ -141,7 +141,7 @@ api.route(
 		handler: "server/controllers/handleDraftCases.addDraftCase",
 		link: [...links, userPool],
 	},
-	routeArgs
+	routeArgs,
 );
 api.route(
 	"PUT /api/case/draft/{caseID}",
@@ -149,7 +149,7 @@ api.route(
 		handler: "server/controllers/handleDraftCases.updateDraftCase",
 		link: [...links, userPool],
 	},
-	routeArgs
+	routeArgs,
 );
 api.route(
 	"DELETE /api/case/delete-case/{caseID}",
@@ -157,12 +157,12 @@ api.route(
 		handler: "server/controllers/handleDraftCases.deleteDraftCase",
 		link: [...links, userPool],
 	},
-	routeArgs
+	routeArgs,
 );
 
 // NOT CURRENTLY USED BUT MAYBE USED SO KEEP
 // api.route("POST /api/case/duplicate", {
-// 	handler: "server/controllers/case.controller.duplicateCase",
+// 	handler: "server/controllers/case.duplicateCase",
 // 	link: links,
 // });
 
@@ -174,7 +174,7 @@ api.route(
 			"server/controllers/handleCaseMaterials.getSignedUrlToUploadForCaseMaterials",
 		link: [...links, userPool],
 	},
-	routeArgs
+	routeArgs,
 );
 
 api.route(
@@ -184,7 +184,7 @@ api.route(
 			"server/controllers/handleCaseMaterials.getSignedUrlsToFetchForCaseMaterials",
 		link: [...links, userPool],
 	},
-	routeArgs
+	routeArgs,
 );
 
 api.route(
@@ -193,17 +193,17 @@ api.route(
 		handler: "server/controllers/handleCaseMaterials.deleteCaseMaterial",
 		link: [...links, userPool],
 	},
-	routeArgs
+	routeArgs,
 );
 
 // Student;
 api.route(
 	"POST /api/case/add/feedback",
 	{
-		handler: "server/controllers/case.controller.addFeedback",
+		handler: "server/controllers/case.addFeedback",
 		link: [...links, userPool],
 	},
-	routeArgs
+	routeArgs,
 );
 
 api.route(
@@ -213,7 +213,7 @@ api.route(
 			"server/controllers/handleStudentsCertificates.getStudentCertificates",
 		link: [...links, userPool],
 	},
-	routeArgs
+	routeArgs,
 );
 api.route(
 	"GET /api/student/responses/{caseFilter}",
@@ -221,7 +221,7 @@ api.route(
 		handler: "server/controllers/handleStudentsResponse.getStudentsResponses",
 		link: [...links, userPool],
 	},
-	routeArgs
+	routeArgs,
 );
 api.route(
 	"POST /api/student/response",
@@ -235,5 +235,5 @@ api.route(
 		],
 		link: [...links, userPool],
 	},
-	routeArgs
+	routeArgs,
 );
