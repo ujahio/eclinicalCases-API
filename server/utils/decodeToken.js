@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 const decodeToken = (event) => {
 	try {
 		const authHeader =
-			event.headers.authorization || event.headers.Authorization;
+			event?.headers?.authorization || event?.headers?.Authorization;
 
 		if (!authHeader) {
 			return {
