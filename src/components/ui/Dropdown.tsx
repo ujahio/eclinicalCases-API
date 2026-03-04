@@ -1,7 +1,7 @@
 "use client";
 import useClickOutside from "@/services/hooks/useClickOutside";
 import Link from "next/link";
-import React, { FC, useEffect, useRef, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 
 type DropdownPosition = "left" | "right";
 

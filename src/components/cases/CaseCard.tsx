@@ -1,5 +1,5 @@
 import { useRouter } from "next/navigation";
-import React, { FunctionComponent } from "react";
+import { FC } from "react";
 import Button from "../ui/Button";
 import { useAppSelector } from "@/services/hooks/hooks";
 
@@ -16,7 +16,7 @@ export interface CaseCardProps {
 	handleDeleteCase?: any;
 }
 
-const CaseCard: FunctionComponent<CaseCardProps> = ({
+const CaseCard: FC<CaseCardProps> = ({
 	case: {
 		_id,
 		caseTopic,

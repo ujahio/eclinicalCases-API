@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import { FC } from "react";
 
 export interface ResponseCaseCardProps {
 	case: {
@@ -10,7 +10,7 @@ export interface ResponseCaseCardProps {
 	};
 }
 
-const ResponseCaseCard: FunctionComponent<ResponseCaseCardProps> = ({
+const ResponseCaseCard: FC<ResponseCaseCardProps> = ({
 	case: { caseTopic, submittedAt, caseDeadline, description },
 }) => {
 	return (

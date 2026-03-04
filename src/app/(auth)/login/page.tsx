@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useCallback } from "react";
+import { useEffect, useCallback } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import LoginComp from "@/presentation/auth/login";

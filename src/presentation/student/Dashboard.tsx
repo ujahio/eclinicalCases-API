@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import DashboardLayout from "@/components/layouts/dashboard";
 import Button from "@/components/ui/Button";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
@@ -17,7 +17,7 @@ const StudentDashboard = () => {
 	const publishedCaseInfo = useAppSelector((state) => state.activeCase.data);
 
 	const studentsResponsesToCases = useAppSelector(
-		(state) => state.studentsResponsesToCases.responses
+		(state) => state.studentsResponsesToCases.responses,
 	);
 
 	useEffect(() => {
@@ -134,8 +134,8 @@ const StudentDashboard = () => {
 										caseTopic: string;
 									}) => {
 										return <ResponseCaseCard case={caseM} key={caseM._id} />;
-									}
-							  )}
+									},
+								)}
 					</ul>
 				</div>
 			</div>

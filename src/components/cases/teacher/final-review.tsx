@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import { FC } from "react";
 import Cme from "./cme";
 import Button from "@/components/ui/Button";
 import { convertFromRaw, Editor, EditorState } from "draft-js";
@@ -6,7 +6,7 @@ import { useAppSelector } from "@/services/hooks/hooks";
 import { FinalReviewProps } from "@/services/types/teacher/createCaseStudy";
 import { formatDateToYYYYMMDD } from "@/utils/formatDate";
 
-const FinalReview: FunctionComponent<FinalReviewProps> = ({
+const FinalReview: FC<FinalReviewProps> = ({
 	caseStudy,
 	handleUpdateDraftCase,
 	handlePublishCase,
@@ -25,7 +25,7 @@ const FinalReview: FunctionComponent<FinalReviewProps> = ({
 	const caseTeaching = parseEditorState(caseStudy.caseTeaching || "{}");
 
 	const addingDraftCaseStatus = useAppSelector(
-		(state) => state.getDraftCases.status
+		(state) => state.getDraftCases.status,
 	);
 
 	const addCaseStatus = useAppSelector((state) => state.addCase.status);

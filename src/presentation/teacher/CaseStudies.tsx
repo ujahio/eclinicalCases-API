@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import AdminLayout from "@/components/layouts/dashboard/admin";
 import { CaseCard } from "@/components/cases";
 import { useAppSelector } from "@/services/hooks/hooks";
@@ -10,7 +10,7 @@ interface IProps {
 
 const TeacherCaseStudies = ({ handleDeleteCase }: IProps) => {
 	const archivedCasesState = useAppSelector(
-		(state) => state.getArchiveCases.cases
+		(state) => state.getArchiveCases.cases,
 	);
 	const draftCasesState = useAppSelector((state) => state.getDraftCases.cases);
 	const [activeTab, setActiveTab] = useState("drafts");

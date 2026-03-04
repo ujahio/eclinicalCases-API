@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import SignupComp from "@/presentation/auth/signup";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
@@ -17,7 +17,7 @@ const Signup = () => {
 		(val: SignupValues) => {
 			dispatch(signupUser({ ...val, user_role: "student" }));
 		},
-		[dispatch]
+		[dispatch],
 	);
 
 	useEffect(() => {

@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import { FC } from "react";
 import AppDropdown, { AppDropdownItem } from "../../ui/Dropdown";
 import Link from "next/link";
 import Image from "next/image";
@@ -14,7 +14,7 @@ interface NavProps {
 	children?: any;
 }
 
-const Nav: FunctionComponent<NavProps> = ({
+const Nav: FC<NavProps> = ({
 	children,
 	navLinks = [
 		{

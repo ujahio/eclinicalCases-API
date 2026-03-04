@@ -1,5 +1,5 @@
 "use client";
-import React, { FunctionComponent } from "react";
+import { FC } from "react";
 import {
 	TeacherCMEQuestions,
 	TeacherCaseAnswer,
@@ -13,7 +13,7 @@ import { createCaseStudyTabs } from "@/services/constants";
 import { APP_CONTAINER, APP_SPACING } from "@/services/constants/styles";
 import { CreateCaseStudyProps } from "@/services/types/teacher/createCaseStudy";
 
-const CreateCaseStudy: FunctionComponent<CreateCaseStudyProps> = ({
+const CreateCaseStudy: FC<CreateCaseStudyProps> = ({
 	activeTab,
 	switchTab,
 	goNext,

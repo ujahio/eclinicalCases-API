@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import Button from "@/components/ui/Button";
 import CaseEditor from "@/lib/Editor";
 import {
@@ -13,7 +13,7 @@ interface StudentCaseCommentsProps {
 	setCaseDetails: (details: any) => void;
 }
 
-const StudentCaseComments: FunctionComponent<StudentCaseCommentsProps> = ({
+const StudentCaseComments: FC<StudentCaseCommentsProps> = ({
 	goNext,
 	goBack,
 	setCaseDetails,
@@ -34,12 +34,12 @@ const StudentCaseComments: FunctionComponent<StudentCaseCommentsProps> = ({
 	}, []);
 
 	const handleSubmitStudentResponse = (
-		e: React.MouseEvent<HTMLButtonElement>
+		e: React.MouseEvent<HTMLButtonElement>,
 	) => {
 		e.preventDefault();
 		const isValid = validateEditorInputs(
 			setErrorsForValidatedInputs,
-			studentCaseExplanation
+			studentCaseExplanation,
 		);
 
 		if (!isValid) return;

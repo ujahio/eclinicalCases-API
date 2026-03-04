@@ -2,9 +2,9 @@ import { InputField } from "@/components/form-elements";
 import Button from "@/components/ui/Button";
 import { useAppSelector } from "@/services/hooks/hooks";
 import { TeacherCMEQuestionsProps } from "@/services/types/teacher/createCaseStudy";
-import React, { FunctionComponent } from "react";
+import { FC } from "react";
 
-const TeacherCMEQuestions: FunctionComponent<TeacherCMEQuestionsProps> = ({
+const TeacherCMEQuestions: FC<TeacherCMEQuestionsProps> = ({
 	goNext,
 	goBack,
 	caseStudy,
@@ -12,21 +12,21 @@ const TeacherCMEQuestions: FunctionComponent<TeacherCMEQuestionsProps> = ({
 	handleUpdateDraftCase,
 }) => {
 	const addingDraftCaseStatus = useAppSelector(
-		(state) => state.getDraftCases.status
+		(state) => state.getDraftCases.status,
 	);
 	const updateQuestionText = (
 		e: React.ChangeEvent<HTMLInputElement>,
-		index: number
+		index: number,
 	) => {
 		const updatedQuestions = caseStudy.caseQuestions.map((q, i) =>
-			i === index ? { ...q, question: e.target.value } : q
+			i === index ? { ...q, question: e.target.value } : q,
 		);
 		setCaseStudy({ ...caseStudy, caseQuestions: updatedQuestions });
 	};
 
 	const addEmptyOption = (questionIndex: number) => {
 		const updatedQuestions = caseStudy.caseQuestions.map((q: any, i: any) =>
-			i === questionIndex ? { ...q, options: [...q.options, ""] } : q
+			i === questionIndex ? { ...q, options: [...q.options, ""] } : q,
 		);
 		setCaseStudy({ ...caseStudy, caseQuestions: updatedQuestions });
 	};
@@ -34,17 +34,17 @@ const TeacherCMEQuestions: FunctionComponent<TeacherCMEQuestionsProps> = ({
 	const updateOptionText = (
 		e: React.ChangeEvent<HTMLInputElement>,
 		questionIndex: number,
-		optionIndex: number
+		optionIndex: number,
 	) => {
 		const updatedQuestions = caseStudy.caseQuestions.map((q: any, i: any) =>
 			i === questionIndex
 				? {
 						...q,
 						options: q.options.map((option: any, idx: any) =>
-							idx === optionIndex ? e.target.value : option
+							idx === optionIndex ? e.target.value : option,
 						),
-				  }
-				: q
+					}
+				: q,
 		);
 		setCaseStudy({ ...caseStudy, caseQuestions: updatedQuestions });
 	};
@@ -55,10 +55,10 @@ const TeacherCMEQuestions: FunctionComponent<TeacherCMEQuestionsProps> = ({
 				? {
 						...q,
 						options: q.options.filter(
-							(_: any, idx: any) => idx !== optionIndex
+							(_: any, idx: any) => idx !== optionIndex,
 						),
-				  }
-				: q
+					}
+				: q,
 		);
 		setCaseStudy({ ...caseStudy, caseQuestions: updatedQuestions });
 	};
@@ -77,14 +77,14 @@ const TeacherCMEQuestions: FunctionComponent<TeacherCMEQuestionsProps> = ({
 
 	const deleteQuestion = (index: number) => {
 		const updatedQuestions = caseStudy.caseQuestions.filter(
-			(_: any, i: any) => i !== index
+			(_: any, i: any) => i !== index,
 		);
 		setCaseStudy({ ...caseStudy, caseQuestions: updatedQuestions });
 	};
 
 	const updateAnswer = (questionIndex: number, optionIndex: number) => {
 		const updatedQuestions = caseStudy.caseQuestions.map((q: any, i: any) =>
-			i === questionIndex ? { ...q, correctAnswer: optionIndex } : q
+			i === questionIndex ? { ...q, correctAnswer: optionIndex } : q,
 		);
 		setCaseStudy({ ...caseStudy, caseQuestions: updatedQuestions });
 	};
