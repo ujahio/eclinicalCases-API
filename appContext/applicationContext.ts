@@ -8,8 +8,8 @@ import gatewayMethods from "./gatewayMethods";
 
 // TODO: need to find a better place to save this constants
 // NOTE: process.env is not working
-const region = "me-south-1";
-const loginAddress = "https://eccs-online.com/login";
+const region = "us-east-1";
+const loginAddress = "https://eccs-online.xyz/login";
 
 const client = new DynamoDBClient({ region });
 const dbClient = DynamoDBDocumentClient.from(client);
