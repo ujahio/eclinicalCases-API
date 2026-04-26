@@ -1,8 +1,6 @@
 @import "tailwindcss";
 
 @theme {
-	--font-body: "Nunito", "Roboto", "sans-serif";
-
 	--color-dark: #394a5d;
 	--color-darker: #0a131d;
 	--color-red: #de3253;
@@ -99,7 +97,6 @@
 		margin: 0;
 		padding: 0;
 		font-size: 1.1rem;
-		font-family: "Nunito", "Nunito Sans", "Roboto", "Gideon Roman", sans-serif;
 		width: 100%;
 		overflow-x: hidden;
 		-webkit-font-smoothing: antialiased;
@@ -107,7 +104,6 @@
 	}
 
 	html {
-		font-family: "Nunito", "Roboto", sans-serif;
 		-webkit-font-smoothing: antialiased;
 	}
 
