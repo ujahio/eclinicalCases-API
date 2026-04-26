@@ -18,6 +18,11 @@ declare module "sst" {
       "name": string
       "type": "sst.aws.Bucket"
     }
+    "ECCSEMAIL": {
+      "configSet": string
+      "sender": string
+      "type": "sst.aws.Email"
+    }
     "Feedback": {
       "name": string
       "type": "sst.aws.Dynamo"
