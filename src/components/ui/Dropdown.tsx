@@ -75,7 +75,7 @@ const AppDropdown = ({
 
 	const stateClasses = () => {
 		return show
-			? "opacity-1 translate-y-1"
+			? "opacity-100 translate-y-1"
 			: "opacity-0 translate-y-3 pointer-events-none";
 	};
 

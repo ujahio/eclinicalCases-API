@@ -51,7 +51,7 @@ const Nav: FC<NavProps> = ({
 					height={35}
 				/>
 
-				<ul className="h-full hidden sm:flex items-center space-x-6.25 md:space-x-8">
+				<ul className="h-full hidden sm:flex items-center space-x-6-25 md:space-x-8">
 					{navLinks.map(({ label, path }, index) => (
 						<li
 							className="h-full relative items-center inline-flex"
@@ -70,7 +70,7 @@ const Nav: FC<NavProps> = ({
 				</ul>
 
 				<div className="flex items-center cursor-pointer" role="button">
-					<figure className=" h-6.25 w-6.25 sm:h-8.75 sm:w-8.75 rounded-full mr-3">
+					<figure className=" h-6-2525 w-6-2525 sm:h-8.-75 sm:w-8-75 rounded-full mr-3">
 						<Image
 							src="/images/user.png"
 							alt="user image"
