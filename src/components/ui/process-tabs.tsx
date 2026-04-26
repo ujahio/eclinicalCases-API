@@ -54,7 +54,7 @@ const ProcessTabs: FC<ProcessTabsProps> = ({
 		<ul className="flex items-center flex-nowrap overflow-x-auto process-tabs h-full">
 			{tabs.map((tab, index) => (
 				<li
-					className={`inline-flex items-center h-full flex-shrink-0 ${
+					className={`inline-flex items-center h-full shrink-0 ${
 						active === index ? "active" : ""
 					}`}
 					key={index}

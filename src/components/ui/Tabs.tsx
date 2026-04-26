@@ -11,7 +11,7 @@ const Tabs: FC<TabsProps> = ({ tabs, active, changeTab }) => {
 		<ul className="flex items-center flex-nowrap overflow-x-auto px-5 process-tabs h-full space-x-5">
 			{tabs.map((tab, index) => (
 				<li
-					className={`inline-flex items-center flex-shrink-0 h-full ${active === index ? "active" : ""}`}
+					className={`inline-flex items-center shrink-0 h-full ${active === index ? "active" : ""}`}
 					key={index}
 				>
 					<button

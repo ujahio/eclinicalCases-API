@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import "@/assets/styles/globals.scss";
-import "@/assets/styles/backgrounds.css";
+import "./global.css";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
