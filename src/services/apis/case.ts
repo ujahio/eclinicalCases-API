@@ -32,7 +32,7 @@ export const updateDraftCaseApi = (caseData: any) => {
 	return caseApi.put(
 		`/draft/${caseData.id}`,
 		formData,
-		configureRequestHeaders(formData)
+		configureRequestHeaders(formData),
 	);
 };
 
@@ -60,11 +60,11 @@ export const fetchCaseDataApi = (caseId: string) => {
 	return caseApi.get(`/data/${caseId}`, configureRequestHeaders());
 };
 
-export const getPresignedUrlForDocumentUploadApi = () => {
-	return caseApi.get(
-		"/get-signed-url-for-pdf-upload",
-		configureRequestHeaders()
-	);
+export const getPresignedUrlForDocumentUploadApi = (contentType?: string) => {
+	const url = contentType
+		? `/get-signed-url-for-pdf-upload?contentType=${encodeURIComponent(contentType)}`
+		: "/get-signed-url-for-pdf-upload";
+	return caseApi.get(url, configureRequestHeaders());
 };
 
 export const getPresignedUrlForFetchingDocumentsApi = ({
@@ -82,7 +82,7 @@ export const getPresignedUrlForFetchingDocumentsApi = ({
 	return caseApi.post(
 		"/get-signed-url-for-pdf-fetch",
 		formData,
-		configureRequestHeaders(formData)
+		configureRequestHeaders(formData),
 	);
 };
 
@@ -93,11 +93,16 @@ export const addPdfToCaseMaterialsApi = async ({
 	pdfUrl: string;
 	selectedFile: File;
 }) => {
-	await axios.put(pdfUrl, selectedFile, {
-		headers: {
-			"Content-Type": selectedFile.type || "application/octet-stream",
-		},
-	});
+	try {
+		await axios.put(pdfUrl, selectedFile, {
+			headers: {
+				"Content-Type": selectedFile.type || "application/octet-stream",
+			},
+		});
+	} catch (error) {
+		console.error("Error uploading PDF to presigned url:", error);
+		throw error; // Rethrow the error to be handled by the caller
+	}
 };
 
 export const deletePdfFromCaseMaterialsApi = (fileKey: string) => {

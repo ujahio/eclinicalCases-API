@@ -78,31 +78,48 @@ const TeacherCaseTeaching: FC<TeacherCaseTeachingProps> = ({
 
 		if (selectedFile) {
 			setIsUploading(true);
-			const response = await dispatch(
-				getCaseMaterials({
-					fileProcess: "upload",
-				}),
-			);
-			const { pdfUrl, documentKey } = response.payload;
-
-			const updatedFiles = [
-				...files,
-				{
-					fileName: selectedFile.name,
-					documentKey,
-				},
-			];
-
-			setFiles(updatedFiles);
+			let docKey: string | null = null;
 
 			try {
+				const contentType = selectedFile.type || "application/octet-stream";
+
+				const response = await dispatch(
+					getCaseMaterials({
+						fileProcess: "upload",
+						contentType,
+					}),
+				);
+
+				if (response.meta.requestStatus !== "fulfilled") {
+					throw new Error("Failed to get pre-signed URL");
+				}
+
+				const { pdfUrl, documentKey: key } = response.payload;
+				docKey = key;
+
 				await addPdfToCaseMaterialsApi({
 					pdfUrl,
 					selectedFile,
 				});
-			} catch (error) {
-				removeFile(documentKey);
 
+				const updatedFiles = [
+					...files,
+					{
+						fileName: selectedFile.name,
+						documentKey: key,
+					},
+				];
+
+				setFiles(updatedFiles);
+
+				setCaseStudy({
+					...caseStudy,
+					caseMaterials: updatedFiles.map((fileInfo) => ({
+						fileName: fileInfo.fileName,
+						documentKey: fileInfo.documentKey,
+					})),
+				});
+			} catch (error) {
 				console.error("Error uploading case materials", error);
 				toast.error("Error uploading case materials", {
 					position: "top-right",
@@ -115,16 +132,11 @@ const TeacherCaseTeaching: FC<TeacherCaseTeachingProps> = ({
 					theme: "light",
 				});
 			} finally {
-				setIsUploading(false); // Set uploading flag to false after upload completes
+				setIsUploading(false);
+				if (e.target) {
+					e.target.value = "";
+				}
 			}
-
-			setCaseStudy({
-				...caseStudy,
-				caseMaterials: updatedFiles.map((fileInfo) => ({
-					fileName: fileInfo.fileName,
-					documentKey: fileInfo.documentKey,
-				})),
-			});
 		}
 	};
 

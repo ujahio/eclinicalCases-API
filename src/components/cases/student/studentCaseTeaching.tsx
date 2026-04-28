@@ -85,7 +85,7 @@ const StudentCaseTeaching: FC<StudentCaseTeachingProps> = ({
 				<h6 className="text-1xs sm:text-sm font-bold text-blue uppercase mb-2.5">
 					CASE TEACHING
 				</h6>
-				<h5 className="font-bold text-base mt-3.75 mb-2.5">{caseTopic}</h5>
+				<h5 className="font-bold text-base mt-3-75 mb-2.5">{caseTopic}</h5>
 
 				<div className="mb-9 bg-gray-200 p-2.5">
 					<Editor
