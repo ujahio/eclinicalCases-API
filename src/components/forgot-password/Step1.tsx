@@ -28,7 +28,7 @@ const Step1 = ({ handleSubmit }: Step1Props) => {
 							</label>
 							<Field
 								type="text"
-								className={`rounded-md h-full w-full border border-grey-border outline-none focus:outline-none placeholder-grey-200 text-1sm text-dark focus:placeholder-opacity-70 transition-all duration-100 px-3.75 sm:px-4 py-5`}
+								className="rounded-md h-full w-full border border-grey-border outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 placeholder-grey-200 text-1sm text-dark focus:placeholder-opacity-70 transition-all duration-100 px-3-75 sm:px-4 py-5"
 								id="email"
 								name="email"
 								placeholder="Enter your Email"

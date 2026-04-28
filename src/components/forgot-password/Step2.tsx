@@ -33,7 +33,7 @@ const Step2 = ({ handleSubmit }: Step2Props) => {
 							</label>
 							<Field
 								type="text"
-								className={`rounded-md h-full w-full border border-grey-border outline-none focus:outline-none placeholder-grey-200 text-1sm text-dark focus:placeholder-opacity-70 transition-all duration-100 px-3.75 sm:px-4 py-5`}
+								className="rounded-md h-full w-full border border-grey-border outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 placeholder-grey-200 text-1sm text-dark focus:placeholder-opacity-70 transition-all duration-100 px-3-75 sm:px-4 py-5"
 								id="email"
 								name="email"
 								placeholder="Enter your Email"
@@ -42,7 +42,7 @@ const Step2 = ({ handleSubmit }: Step2Props) => {
 							<ErrorMessage name="email">
 								{(msg) => {
 									return (
-										<div className="flex justify-start items-center gap-2 mt-2 pl-[18px]">
+										<div className="flex justify-start items-center gap-2 mt-2 pl-4.5">
 											<Image
 												src="/icons/exclamationMark.png"
 												alt="Error Icon"
@@ -62,7 +62,7 @@ const Step2 = ({ handleSubmit }: Step2Props) => {
 							</label>
 							<Field
 								type="number"
-								className={`rounded-md h-full w-full border border-grey-border outline-none focus:outline-none placeholder-grey-200 text-1sm text-dark focus:placeholder-opacity-70 transition-all duration-100 px-3.75 sm:px-4 py-5`}
+								className={`rounded-md h-full w-full border border-grey-border outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 placeholder-grey-200 text-1sm text-dark focus:placeholder-opacity-70 transition-all duration-100 px-3.75 sm:px-4 py-5`}
 								id="otp"
 								name="otp"
 								placeholder="Enter your OTP"
@@ -89,7 +89,7 @@ const Step2 = ({ handleSubmit }: Step2Props) => {
 							</label>
 							<Field
 								type="password"
-								className={`rounded-md h-full w-full border border-grey-border outline-none focus:outline-none placeholder-grey-200 text-1sm text-dark focus:placeholder-opacity-70 transition-all duration-100 px-3.75 sm:px-4 py-5`}
+								className={`rounded-md h-full w-full border border-grey-border outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 placeholder-grey-200 text-1sm text-dark focus:placeholder-opacity-70 transition-all duration-100 px-3.75 sm:px-4 py-5`}
 								id="newPassword"
 								name="newPassword"
 								placeholder="Enter your Password"
