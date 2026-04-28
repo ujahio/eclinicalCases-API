@@ -87,7 +87,7 @@
 	}
 
 	body {
-		color: black;
+		color: var(--color-dark);
 		background: linear-gradient(
 				to bottom,
 				transparent,
