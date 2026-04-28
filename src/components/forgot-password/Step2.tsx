@@ -33,7 +33,7 @@ const Step2 = ({ handleSubmit }: Step2Props) => {
 							</label>
 							<Field
 								type="text"
-								className={`rounded-sm h-full w-full border outline-none focus:outline-none placeholder-grey-200 text-1sm text-dark focus:placeholder-opacity-70 transition-all duration-100 px-3.75 sm:px-4 py-5`}
+								className={`rounded-md h-full w-full border border-grey-border outline-none focus:outline-none placeholder-grey-200 text-1sm text-dark focus:placeholder-opacity-70 transition-all duration-100 px-3.75 sm:px-4 py-5`}
 								id="email"
 								name="email"
 								placeholder="Enter your Email"
@@ -48,7 +48,7 @@ const Step2 = ({ handleSubmit }: Step2Props) => {
 												alt="Error Icon"
 												className="h-6 w-6"
 											/>
-											<p className="text-[#F13030] font-montserrat font-normal text-sm">
+											<p className="text-[#F13030] font-normal text-sm">
 												{msg}
 											</p>
 										</div>
@@ -62,7 +62,7 @@ const Step2 = ({ handleSubmit }: Step2Props) => {
 							</label>
 							<Field
 								type="number"
-								className={`rounded-sm h-full w-full border outline-none focus:outline-none placeholder-grey-200 text-1sm text-dark focus:placeholder-opacity-70 transition-all duration-100 px-3.75 sm:px-4 py-5`}
+								className={`rounded-md h-full w-full border border-grey-border outline-none focus:outline-none placeholder-grey-200 text-1sm text-dark focus:placeholder-opacity-70 transition-all duration-100 px-3.75 sm:px-4 py-5`}
 								id="otp"
 								name="otp"
 								placeholder="Enter your OTP"
@@ -77,9 +77,7 @@ const Step2 = ({ handleSubmit }: Step2Props) => {
 												alt="Error Icon"
 												className="h-6 w-6"
 											/>
-											<p className="text-[#F13030] font-montserrat font-normal text-sm">
-												{msg}
-											</p>
+											<p className="text-[#F13030]font-normal text-sm">{msg}</p>
 										</div>
 									);
 								}}
@@ -91,7 +89,7 @@ const Step2 = ({ handleSubmit }: Step2Props) => {
 							</label>
 							<Field
 								type="password"
-								className={`rounded-sm h-full w-full border outline-none focus:outline-none placeholder-grey-200 text-1sm text-dark focus:placeholder-opacity-70 transition-all duration-100 px-3.75 sm:px-4 py-5`}
+								className={`rounded-md h-full w-full border border-grey-border outline-none focus:outline-none placeholder-grey-200 text-1sm text-dark focus:placeholder-opacity-70 transition-all duration-100 px-3.75 sm:px-4 py-5`}
 								id="newPassword"
 								name="newPassword"
 								placeholder="Enter your Password"
@@ -106,7 +104,7 @@ const Step2 = ({ handleSubmit }: Step2Props) => {
 												alt="Error Icon"
 												className="h-6 w-6"
 											/>
-											<p className="text-[#F13030] font-montserrat font-normal text-sm">
+											<p className="text-[#F13030] font-normal text-sm">
 												{msg}
 											</p>
 										</div>
