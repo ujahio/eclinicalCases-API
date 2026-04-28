@@ -11,7 +11,7 @@ const TeacherDashboard = () => {
 	const { session } = useAuthRedirect();
 
 	const archivedCasesState = useAppSelector(
-		(state) => state.getArchiveCases.cases
+		(state) => state.getArchiveCases.cases,
 	);
 	const publishedCaseInfo = useAppSelector((state) => state.activeCase.data);
 
@@ -78,7 +78,7 @@ const TeacherDashboard = () => {
 									/>
 								</g>
 							</svg>
-							<h5 className="font-bold text-base mt-3.75 mb-3.5">
+							<h5 className="font-bold text-base mt-3-75 mb-3.5">
 								{publishedCaseInfo?.caseTopic}
 							</h5>
 							<div>
@@ -145,7 +145,7 @@ const TeacherDashboard = () => {
 								>
 									<CaseCard case={caseM} key={caseM._id} />
 								</Link>
-						  ))}
+							))}
 				</ul>
 			</div>
 		</AdminLayout>
