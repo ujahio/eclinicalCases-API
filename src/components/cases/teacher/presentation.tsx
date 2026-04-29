@@ -30,39 +30,32 @@ const TeacherCasePresentation: FC<TeacherCaseQuestionProps> = ({
 	return (
 		<>
 			<div className="mb-5 sm:mb-6">
-				<div className="">
-					<h6 className="text-blue font-bold text-1xs sm:text-sm capitalize mb-3">
-						CASE MODEL PRESENTATION
-					</h6>
-
-					{isEditorMounted && (
-						<CaseEditor
-							content={caseStudy.caseDescription}
-							onContentChange={handleEditorChange}
-						/>
-					)}
-				</div>
+				<h6 className="text-blue font-bold text-1xs sm:text-sm capitalize mb-3 create-case-heading">
+					CASE MODEL PRESENTATION
+				</h6>
+				{isEditorMounted && (
+					<CaseEditor
+						content={caseStudy.caseDescription}
+						onContentChange={handleEditorChange}
+					/>
+				)}
 			</div>
-			<div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
+			<div className="create-case-actions">
 				<Button
 					btnStyle="outline"
-					size="lg"
 					centralize
 					onClick={handleUpdateDraftCase}
-					className="w-full mb-3"
+					className="w-full mb-3 sm:text-sm cursor-pointer"
 				>
-					{addingDraftCaseStatus === "loading"
-						? "Loading..."
-						: "Save As a Draft..."}
+					{addingDraftCaseStatus === "loading" ? "Loading..." : "SAVE DRAFT"}
 				</Button>
 				<Button
 					btnStyle="basic"
-					size="lg"
-					className="text-xs"
+					className="sm:text-sm cursor-pointer"
 					centralize
 					onClick={goNext}
 				>
-					PROCEED TO CASE MODEL ANSWER
+					PROCEED
 				</Button>
 			</div>
 		</>
