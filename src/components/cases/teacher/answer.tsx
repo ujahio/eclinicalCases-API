@@ -37,7 +37,7 @@ const TeacherCaseAnswer: FC<TeacherCaseAnswerProps> = ({
 	return (
 		<>
 			<div className="mb-5 sm:mb-6">
-				<h6 className="text-1xs sm:text-sm font-bold text-blue uppercase mb-2.5">
+				<h6 className="text-1xs sm:text-sm font-bold text-blue uppercase mb-2.5 create-case-heading">
 					Case Model Answer
 				</h6>
 
@@ -68,17 +68,15 @@ const TeacherCaseAnswer: FC<TeacherCaseAnswerProps> = ({
 				onClick={handleUpdateDraftCase}
 				className="w-full mb-3"
 			>
-				{addingDraftCaseStatus === "loading"
-					? "Loading..."
-					: "Save As a Draft..."}
+				{addingDraftCaseStatus === "loading" ? "Loading..." : "SAVE DRAFT"}
 			</Button>
 
-			<div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
+			<div className="create-case-actions">
 				<Button btnStyle="outline" size="lg" centralize onClick={goBack}>
-					GO BACK TO CASE MODEL
+					GO BACK
 				</Button>
 				<Button btnStyle="basic" size="lg" centralize onClick={goNext}>
-					PROCEED TO CASE TEACHING
+					PROCEED
 				</Button>
 			</div>
 		</>
