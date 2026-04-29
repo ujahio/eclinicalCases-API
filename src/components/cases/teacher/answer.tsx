@@ -66,16 +66,26 @@ const TeacherCaseAnswer: FC<TeacherCaseAnswerProps> = ({
 				size="lg"
 				centralize
 				onClick={handleUpdateDraftCase}
-				className="w-full mb-3"
+				className="w-full mb-3 sm:text-sm cursor-pointer"
 			>
 				{addingDraftCaseStatus === "loading" ? "Loading..." : "SAVE DRAFT"}
 			</Button>
 
 			<div className="create-case-actions">
-				<Button btnStyle="outline" size="lg" centralize onClick={goBack}>
+				<Button
+					btnStyle="outline"
+					className="sm:text-sm cursor-pointer"
+					centralize
+					onClick={goBack}
+				>
 					GO BACK
 				</Button>
-				<Button btnStyle="basic" size="lg" centralize onClick={goNext}>
+				<Button
+					btnStyle="basic"
+					className="sm:text-sm cursor-pointer"
+					centralize
+					onClick={goNext}
+				>
 					PROCEED
 				</Button>
 			</div>
