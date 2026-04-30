@@ -63,7 +63,6 @@ const TeacherCaseAnswer: FC<TeacherCaseAnswerProps> = ({
 			</div>
 			<Button
 				btnStyle="outline"
-				size="lg"
 				centralize
 				onClick={handleUpdateDraftCase}
 				className="w-full mb-3 sm:text-sm cursor-pointer"
