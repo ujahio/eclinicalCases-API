@@ -100,35 +100,40 @@ const TeacherCMEQuestions: FC<TeacherCMEQuestionsProps> = ({
 					<ul className="mb-0 sm:mb-0 divide-y divide-grey-border divide-opacity-50">
 						{caseStudy.caseQuestions.map((question: any, index: number) => (
 							<li className="py-6 first:pt-0 last:pb-0" key={index}>
-								<div className="flex items-center justify-between">
-									<div className="text-blue text-1sm sm:text-base capitalize font-bold">
-										Question {index + 1}
-									</div>
-									<div className="flex items-center gap-2">
-										{/* Move Add Option next to delete (left of delete) */}
-										<Button
-											size="sm"
-											btnStyle="outline"
-											onClick={() => addEmptyOption(index)}
-										>
-											ADD A NEW OPTION
-										</Button>
+								<div className="flex flex-row sm:flex-row sm:items-center sm:justify-between">
+									{/* Buttons appear on top (right) for mobile, and to the right on desktop */}
+									<div className="w-full flex justify-end order-1 sm:order-2 mb-8 sm:mb-0">
+										<div className="flex items-center gap-2">
+											<Button
+												size="sm"
+												btnStyle="outline"
+												onClick={() => addEmptyOption(index)}
+												className="text-xs px-2"
+											>
+												ADD A NEW OPTION
+											</Button>
 
-										<Button
-											size="sm"
-											btnStyle="outline"
-											aria-label="delete question"
-											onClick={() => deleteQuestion(index)}
-											className="hover:text-red"
-										>
-											<svg width="11.5" viewBox="0 0 12.833 16.5">
-												<path
-													d="M10.917,20.667A1.833,1.833,0,0,0,12.75,22.5h7.333a1.833,1.833,0,0,0,1.833-1.833v-11h-11ZM22.833,6.917H19.625L18.708,6H14.125l-.917.917H10V8.75H22.833Z"
-													transform="translate(-10 -6)"
-													fill="currentColor"
-												/>
-											</svg>
-										</Button>
+											<Button
+												size="sm"
+												btnStyle="outline"
+												aria-label="delete question"
+												onClick={() => deleteQuestion(index)}
+												className="hover:text-red"
+											>
+												<svg width="11.5" viewBox="0 0 12.833 16.5">
+													<path
+														d="M10.917,20.667A1.833,1.833,0,0,0,12.75,22.5h7.333a1.833,1.833,0,0,0,1.833-1.833v-11h-11ZM22.833,6.917H19.625L18.708,6H14.125l-.917.917H10V8.75H22.833Z"
+														transform="translate(-10 -6)"
+														fill="currentColor"
+													/>
+												</svg>
+											</Button>
+										</div>
+									</div>
+									<div
+										className={`order-2 sm:order-1 text-blue text-1sm sm:text-base capitalize font-bold text-left mb-1`}
+									>
+										{`Question ${index + 1} `}
 									</div>
 								</div>
 
@@ -234,7 +239,6 @@ const TeacherCMEQuestions: FC<TeacherCMEQuestionsProps> = ({
 						))}
 					</ul>
 				</div>
-
 				{/* Full width Add Question button (design) - use native button so we can enforce a light-gray background */}
 				<div className="mb-6 mt-6">
 					<button
@@ -248,7 +252,6 @@ const TeacherCMEQuestions: FC<TeacherCMEQuestionsProps> = ({
 						<span className="text-2xl leading-none">+</span>
 					</button>
 				</div>
-
 				{/* Action buttons in two columns on desktop */}
 				<div className="create-case-actions grid md:grid-cols-2 gap-4 items-center">
 					<Button
