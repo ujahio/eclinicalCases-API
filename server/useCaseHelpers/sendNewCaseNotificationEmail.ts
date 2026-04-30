@@ -1,4 +1,4 @@
-// import { Resource } from "sst";
+import { Resource } from "sst";
 import { render } from "jsx-email";
 import applicationContext from "../../appContext/applicationContext";
 import { NewCaseEmailTemplate } from "../../src/components/email-templates/newCaseEmailTemplate.jsx";
@@ -24,8 +24,7 @@ export const sendEmails = async (studentDetails: StudentDetails[]) => {
 					recipients: [email],
 					subject: "New Case Notification",
 					body: emailBody,
-					// sender: `new-case-alert@${Resource.ECCSEMAIL.sender}`,
-					sender: "someone",
+					sender: `new-case-alert@${Resource.ECCSEMAIL.sender}`,
 				});
 			}),
 		);
