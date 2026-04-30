@@ -221,6 +221,84 @@
 		}
 	}
 
+	/* Mobile-friendly adjustments for Create Case flow */
+
+	.create-case-heading {
+		font-size: 0.95rem; /* slightly larger for clarity */
+		font-weight: 700;
+		letter-spacing: 0.2px;
+		margin-bottom: 0.75rem;
+	}
+
+	.create-case-subheading {
+		font-size: 0.9rem;
+		font-weight: 500;
+		color: var(--color-grey-300);
+		margin-bottom: 0.5rem;
+	}
+
+	/* Make list items (materials) more touch friendly */
+	.create-case-material-item {
+		padding: 0.75rem 1rem;
+		border-radius: 0.5rem;
+		transition:
+			background-color 180ms ease,
+			transform 180ms ease,
+			box-shadow 180ms ease;
+	}
+
+	.create-case-material-item:active {
+		transform: translateY(1px);
+	}
+
+	.create-case-add-button {
+		transition:
+			background-color 200ms ease,
+			color 200ms ease,
+			box-shadow 200ms ease;
+	}
+
+	/* Button adjustments to match design spacing on mobile */
+	.create-case-actions {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 0.75rem;
+		margin-top: 1rem;
+	}
+
+	/* Responsive text scaling for small viewports */
+	@media (max-width: 420px) {
+		.create-case-heading {
+			font-size: 0.9rem;
+		}
+		.create-case-subheading {
+			font-size: 0.85rem;
+		}
+		.create-case-material-item {
+			padding: 0.6rem 0.875rem;
+		}
+		.create-case-actions {
+			gap: 0.5rem;
+		}
+	}
+
+	/* Ensure inputs and editor fit nicely and animate focus */
+	.create-case-input,
+	.create-case-datepicker,
+	.create-case-file-input {
+		transition:
+			box-shadow 160ms ease,
+			transform 120ms ease;
+	}
+
+	.create-case-input:focus,
+	.create-case-datepicker:focus,
+	.create-case-file-input:focus {
+		transform: translateY(-1px);
+		box-shadow: 0 6px 18px rgba(50, 122, 222, 0.06);
+		outline: none;
+	}
+
 	.slide-one-margin-top {
 		margin-top: 18rem;
 	}
