@@ -29,7 +29,9 @@ const FinalReview: FC<FinalReviewProps> = ({
 	);
 
 	const addCaseStatus = useAppSelector((state) => state.addCase.status);
-	const publishedCaseInfo = useAppSelector((state) => state.activeCase.data);
+	const { data: publishedCaseInfo, status: activeCaseStatus } = useAppSelector(
+		(state) => state.activeCase,
+	);
 	const materials = Array.isArray(caseStudy?.caseMaterials)
 		? caseStudy.caseMaterials
 		: [];
@@ -100,20 +102,24 @@ const FinalReview: FC<FinalReviewProps> = ({
 				</h3>
 				<Cme questions={caseStudy.caseQuestions} />
 			</div>
-			<div className="create-case-actions">
+
+			<div
+				className={`create-case-actions grid ${publishedCaseInfo ? "grid-cols-1 md:grid-cols-2" : "grid-cols-1"} gap-4 items-center`}
+			>
 				<Button
 					btnStyle="outline"
 					centralize
 					onClick={handleUpdateDraftCase}
-					className="sm:text-sm cursor-pointer"
+					className="w-full sm:text-sm cursor-pointer"
 				>
 					{addingDraftCaseStatus === "loading" ? "Loading..." : "SAVE DRAFT"}
 				</Button>
-				{!publishedCaseInfo && (
+				{publishedCaseInfo && (
 					<Button
+						btnStyle="basic"
 						onClick={handlePublishCase}
-						disabled={!!publishedCaseInfo}
-						className="sm:text-sm cursor-pointer"
+						disabled={activeCaseStatus === "loading"}
+						className="w-full flex items-center justify-center gap-2 sm:text-sm cursor-pointer"
 						centralize
 					>
 						{addCaseStatus === "loading"

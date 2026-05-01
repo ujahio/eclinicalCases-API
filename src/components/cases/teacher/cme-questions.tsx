@@ -3,6 +3,7 @@ import Button from "@/components/ui/Button";
 import { useAppSelector } from "@/services/hooks/hooks";
 import { TeacherCMEQuestionsProps } from "@/services/types/teacher/createCaseStudy";
 import { FC } from "react";
+import ActionButtons from "./actionButtons";
 
 const TeacherCMEQuestions: FC<TeacherCMEQuestionsProps> = ({
 	goNext,
@@ -242,54 +243,7 @@ const TeacherCMEQuestions: FC<TeacherCMEQuestionsProps> = ({
 				</button>
 			</div>
 			{/* Action buttons in two columns on desktop */}
-			<div className="create-case-actions grid md:grid-cols-2 gap-4 items-center">
-				<Button
-					btnStyle="outline"
-					centralize
-					className="w-full flex items-center justify-center gap-2 sm:text-sm cursor-pointer"
-					onClick={goBack}
-				>
-					<svg
-						width="14"
-						height="14"
-						viewBox="0 0 24 24"
-						fill="none"
-						xmlns="http://www.w3.org/2000/svg"
-					>
-						<path
-							d="M15 18l-6-6 6-6"
-							stroke="currentColor"
-							strokeWidth="2"
-							strokeLinecap="round"
-							strokeLinejoin="round"
-						/>
-					</svg>
-					<span>GO BACK</span>
-				</Button>
-				<Button
-					btnStyle="basic"
-					centralize
-					className="w-full flex items-center justify-center gap-2 sm:text-sm cursor-pointer"
-					onClick={goNext}
-				>
-					<span>PROCEED</span>
-					<svg
-						width="14"
-						height="14"
-						viewBox="0 0 24 24"
-						fill="none"
-						xmlns="http://www.w3.org/2000/svg"
-					>
-						<path
-							d="M9 6l6 6-6 6"
-							stroke="currentColor"
-							strokeWidth="2"
-							strokeLinecap="round"
-							strokeLinejoin="round"
-						/>
-					</svg>
-				</Button>
-			</div>
+			<ActionButtons goNext={goNext} goBack={goBack} />
 		</>
 	);
 };

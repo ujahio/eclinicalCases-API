@@ -40,22 +40,37 @@ const TeacherCasePresentation: FC<TeacherCaseQuestionProps> = ({
 					/>
 				)}
 			</div>
-			<div className="create-case-actions">
+			<div className="create-case-actions grid md:grid-cols-2 gap-4 items-center">
 				<Button
 					btnStyle="outline"
 					centralize
 					onClick={handleUpdateDraftCase}
-					className="w-full mb-3 sm:text-sm cursor-pointer"
+					className="w-full flex items-center justify-center gap-2 sm:text-sm cursor-pointer"
 				>
 					{addingDraftCaseStatus === "loading" ? "Loading..." : "SAVE DRAFT"}
 				</Button>
 				<Button
 					btnStyle="basic"
-					className="sm:text-sm cursor-pointer"
+					className="w-full flex items-center justify-center gap-2 sm:text-sm cursor-pointer"
 					centralize
 					onClick={goNext}
 				>
-					PROCEED
+					<span>PROCEED</span>
+					<svg
+						width="14"
+						height="14"
+						viewBox="0 0 24 24"
+						fill="none"
+						xmlns="http://www.w3.org/2000/svg"
+					>
+						<path
+							d="M9 6l6 6-6 6"
+							stroke="currentColor"
+							strokeWidth="2"
+							strokeLinecap="round"
+							strokeLinejoin="round"
+						/>
+					</svg>
 				</Button>
 			</div>
 		</>

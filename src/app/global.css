@@ -258,11 +258,8 @@
 			box-shadow 200ms ease;
 	}
 
-	/* Button adjustments to match design spacing on mobile */
 	.create-case-actions {
 		display: grid;
-		grid-template-columns: 1fr;
-		gap: 0.75rem;
 		margin-top: 1rem;
 	}
 

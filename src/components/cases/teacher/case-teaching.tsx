@@ -10,6 +10,7 @@ import {
 	deletePdfFromCaseMaterialsApi,
 } from "@/services/apis/case";
 import CaseEditor from "@/lib/Editor";
+import ActionButtons from "./actionButtons";
 
 const TeacherCaseTeaching: FC<TeacherCaseTeachingProps> = ({
 	goNext,
@@ -176,7 +177,6 @@ const TeacherCaseTeaching: FC<TeacherCaseTeachingProps> = ({
 					/>
 				)}
 			</div>
-
 			<div className="mb-5 sm:mb-6">
 				<label className="text-grey-300 text-1sm font-normal create-case-subheading">
 					Teaching Materials
@@ -255,7 +255,6 @@ const TeacherCaseTeaching: FC<TeacherCaseTeachingProps> = ({
 					</Button>
 				)}
 			</div>
-
 			<Button
 				btnStyle="outline"
 				centralize
@@ -264,24 +263,7 @@ const TeacherCaseTeaching: FC<TeacherCaseTeachingProps> = ({
 			>
 				{addingDraftCaseStatus === "loading" ? "Loading..." : "SAVE DRAFT"}{" "}
 			</Button>
-			<div className="create-case-actions">
-				<Button
-					btnStyle="outline"
-					centralize
-					className="sm:text-sm cursor-pointer"
-					onClick={goBack}
-				>
-					go back
-				</Button>
-				<Button
-					btnStyle="basic"
-					centralize
-					onClick={goNext}
-					className="cursor-pointer sm:text-sm"
-				>
-					PROCEED
-				</Button>
-			</div>
+			<ActionButtons goNext={goNext} goBack={goBack} />
 		</>
 	);
 };

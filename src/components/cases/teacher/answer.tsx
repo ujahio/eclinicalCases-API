@@ -5,6 +5,7 @@ import { useAppSelector } from "@/services/hooks/hooks";
 import { TeacherCaseAnswerProps } from "@/services/types/teacher/createCaseStudy";
 import CaseEditor from "@/lib/Editor";
 import { formatDateToYYYYMMDD } from "@/utils/formatDate";
+import ActionButtons from "./actionButtons";
 
 const TeacherCaseAnswer: FC<TeacherCaseAnswerProps> = ({
 	goNext,
@@ -70,24 +71,7 @@ const TeacherCaseAnswer: FC<TeacherCaseAnswerProps> = ({
 				{addingDraftCaseStatus === "loading" ? "Loading..." : "SAVE DRAFT"}
 			</Button>
 
-			<div className="create-case-actions">
-				<Button
-					btnStyle="outline"
-					className="sm:text-sm cursor-pointer"
-					centralize
-					onClick={goBack}
-				>
-					GO BACK
-				</Button>
-				<Button
-					btnStyle="basic"
-					className="sm:text-sm cursor-pointer"
-					centralize
-					onClick={goNext}
-				>
-					PROCEED
-				</Button>
-			</div>
+			<ActionButtons goNext={goNext} goBack={goBack} />
 		</>
 	);
 };
