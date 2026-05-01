@@ -10,15 +10,17 @@ export const getCaseMaterials = createAsyncThunk(
 		{
 			fileProcess,
 			documentKeys = [],
+			contentType = "application/octet-stream",
 		}: {
 			fileProcess: "upload" | "download";
 			documentKeys?: string[];
+			contentType?: string;
 		},
-		thunkAPI
+		thunkAPI,
 	) => {
 		try {
 			if (fileProcess === "upload") {
-				const { data } = await getPresignedUrlForDocumentUploadApi();
+				const { data } = await getPresignedUrlForDocumentUploadApi(contentType);
 				return data; // Contains { pdfUrl, documentKey }
 			}
 
@@ -35,7 +37,7 @@ export const getCaseMaterials = createAsyncThunk(
 				message: error.response?.data || "An error occurred",
 			});
 		}
-	}
+	},
 );
 
 export interface CaseMaterialsState {
@@ -90,7 +92,7 @@ const caseMaterialsSlice = createSlice({
 							state.pdfMaterials[documentKey] = {
 								pdfUrl,
 							};
-						}
+						},
 					);
 				}
 			})

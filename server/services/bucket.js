@@ -28,14 +28,16 @@ export const getSignedUrlForFetchingFromS3 = async (documentKey) => {
 	}
 };
 
-export const getSignedUrlToUploadToS3 = async () => {
+export const getSignedUrlToUploadToS3 = async (
+	contentType = "application/octet-stream",
+) => {
 	try {
 		const key = crypto.randomUUID();
 
 		const params = {
 			Bucket: Resource.CaseMaterials.name,
 			Key: key,
-			ContentType: "application/pdf",
+			ContentType: contentType,
 		};
 
 		const command = new PutObjectCommand(params);
