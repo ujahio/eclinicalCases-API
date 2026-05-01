@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import dynamic from "next/dynamic";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
 import useGetArchiveCases from "@/services/hooks/useGetArchiveCases";
@@ -20,7 +20,7 @@ const TeacherCaseStudies = dynamic(
 	() => import("@/presentation/teacher/CaseStudies"),
 	{
 		ssr: false,
-	}
+	},
 );
 const TeacherCaseStudiesContent = () => {
 	const deleteCaseState = useAppSelector((state) => state.deleteCase);

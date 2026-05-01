@@ -1,11 +1,16 @@
 import type { Metadata } from "next";
-import "@/assets/styles/globals.scss";
-import "@/assets/styles/backgrounds.css";
+import "./global.css";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import StoreProvider from "./StoreProvider";
 import { SessionProvider } from "next-auth/react";
+import { Nunito } from "next/font/google";
+
+const nunitoFont = Nunito({
+	fallback: ["nunito sans", "Roboto", "Gideon Roman", "sans-serif"],
+	display: "swap",
+});
 
 export const metadata: Metadata = {
 	title: "e-Clinical Cases Solutions",
@@ -17,7 +22,7 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en">
+		<html lang="en" className={nunitoFont.className}>
 			<body>
 				<main className="bg-grey-bg">
 					<SessionProvider>

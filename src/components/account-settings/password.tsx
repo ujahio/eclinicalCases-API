@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { PasswordField } from "../form-elements";
 import Button from "../ui/Button";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
@@ -32,11 +32,11 @@ const PasswordSettings = () => {
 
 		// Hash the passwords
 		const hashedCurrentPassword = saltAndHashPassword(
-			passwordData.currentPassword
+			passwordData.currentPassword,
 		);
 		const hashedNewPassword = saltAndHashPassword(passwordData.newPassword);
 		const hashedConfirmNewPassword = saltAndHashPassword(
-			passwordData.confirmNewPassword
+			passwordData.confirmNewPassword,
 		);
 
 		// Update password data with hashed passwords

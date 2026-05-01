@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import { FC, useState } from "react";
 import Button from "@/components/ui/Button";
 import { convertFromRaw, Editor, EditorState } from "draft-js";
 
@@ -25,10 +25,10 @@ const StudentCaseAnswer: FC<StudentCaseAnswerProps> = ({
 		: { blocks: [], entityMap: {} };
 
 	const teacherCaseDescription = EditorState.createWithContent(
-		convertFromRaw(teacherCaseStudyExplanationRawContent)
+		convertFromRaw(teacherCaseStudyExplanationRawContent),
 	);
 	const studentCaseExplanationContent = EditorState.createWithContent(
-		convertFromRaw(studentCaseResponseRawContent)
+		convertFromRaw(studentCaseResponseRawContent),
 	);
 
 	return (

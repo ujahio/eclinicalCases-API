@@ -1,10 +1,10 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import Button from "@/components/ui/Button";
 import { useAppSelector } from "@/services/hooks/hooks";
 import { TeacherCaseQuestionProps } from "@/services/types/teacher/createCaseStudy";
 import CaseEditor from "@/lib/Editor";
 
-const TeacherCasePresentation: FunctionComponent<TeacherCaseQuestionProps> = ({
+const TeacherCasePresentation: FC<TeacherCaseQuestionProps> = ({
 	goNext,
 	caseStudy,
 	setCaseStudy,
@@ -17,7 +17,7 @@ const TeacherCasePresentation: FunctionComponent<TeacherCaseQuestionProps> = ({
 	}, []);
 
 	const addingDraftCaseStatus = useAppSelector(
-		(state) => state.getDraftCases.status
+		(state) => state.getDraftCases.status,
 	);
 
 	const handleEditorChange = (updatedContent: string) => {

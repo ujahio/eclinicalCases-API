@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import { FC } from "react";
 import ResponseModal from "../cases/teacher/response";
 import FeedbackModal from "../cases/teacher/feedback";
 import Modal, { ModalProps } from "../ui/Modal";
@@ -10,7 +10,7 @@ import { formatDate } from "@/utils/formatDate";
 
 const tabs = ["Response", "Feedback"];
 
-const ResponseFeedbackModal: FunctionComponent<ModalProps> = ({
+const ResponseFeedbackModal: FC<ModalProps> = ({
 	show,
 	toggle,
 	studentInfo,

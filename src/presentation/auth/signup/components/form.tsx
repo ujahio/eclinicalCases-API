@@ -1,9 +1,4 @@
-import React, {
-	FunctionComponent,
-	FormEvent,
-	useState,
-	ChangeEvent,
-} from "react";
+import { FC, FormEvent, useState, ChangeEvent } from "react";
 import Button from "@/components/ui/Button";
 import { InputField, PasswordField } from "@/components/form-elements";
 import { saltAndHashPassword } from "@/utils/password";
@@ -48,7 +43,7 @@ const passwordRequirements = [
 	},
 ];
 
-export const SignUpForm: FunctionComponent<SignUpFormProps> = ({
+export const SignUpForm: FC<SignUpFormProps> = ({
 	// switchByKey,
 	// capturePersonalDetails,
 	handleSignUp,
@@ -61,7 +56,7 @@ export const SignUpForm: FunctionComponent<SignUpFormProps> = ({
 		confirmPassword: "",
 	});
 	const [validationResults, setValidationResults] = useState<boolean[]>(
-		new Array(passwordRequirements.length).fill(false)
+		new Array(passwordRequirements.length).fill(false),
 	);
 	const [isPasswordTyping, setIsPasswordTyping] = useState(false);
 
@@ -96,7 +91,7 @@ export const SignUpForm: FunctionComponent<SignUpFormProps> = ({
 
 		// Update validation results
 		const results = passwordRequirements.map((requirement) =>
-			requirement.validator(password)
+			requirement.validator(password),
 		);
 		setValidationResults(results);
 	};

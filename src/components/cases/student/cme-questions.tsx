@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from "react";
+import { FC, useState } from "react";
 import Button from "@/components/ui/Button";
 import CmeModal from "@/components/ui/cme-modal";
 import { useAppSelector } from "@/services/hooks/hooks";
@@ -18,7 +18,7 @@ interface StudentCMEQuestionsProps {
 	handleSubmitResponse: any;
 }
 
-const StudentCMEQuestions: FunctionComponent<StudentCMEQuestionsProps> = ({
+const StudentCMEQuestions: FC<StudentCMEQuestionsProps> = ({
 	goBack,
 	caseDetails,
 	setCaseDetails,
@@ -26,7 +26,7 @@ const StudentCMEQuestions: FunctionComponent<StudentCMEQuestionsProps> = ({
 }) => {
 	const [showCmeModal, setShowCmeModal] = useState(false);
 	const submitResponseState = useAppSelector(
-		(state) => state.submitCaseResponse.status
+		(state) => state.submitCaseResponse.status,
 	);
 
 	const setAnswer = (index: number, value: number | null) => {
@@ -67,14 +67,14 @@ const StudentCMEQuestions: FunctionComponent<StudentCMEQuestionsProps> = ({
 											onChange={() => setAnswer(index, optionIndex)}
 											checked={isChecked(
 												caseDetails.answers[index].studentAnswer,
-												optionIndex
+												optionIndex,
 											)}
 										/>
 										<div
 											className={`h-4 w-4 rounded-full border inline-flex items-center justify-center transition-colors ${
 												isChecked(
 													caseDetails.answers[index].studentAnswer,
-													optionIndex
+													optionIndex,
 												)
 													? "bg-dark"
 													: "border-grey-400"
@@ -82,7 +82,7 @@ const StudentCMEQuestions: FunctionComponent<StudentCMEQuestionsProps> = ({
 										>
 											{isChecked(
 												caseDetails.answers[index].studentAnswer,
-												optionIndex
+												optionIndex,
 											) && (
 												<svg
 													width="8"

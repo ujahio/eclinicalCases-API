@@ -1,10 +1,4 @@
-import React, {
-	FunctionComponent,
-	useState,
-	ChangeEvent,
-	useRef,
-	useEffect,
-} from "react";
+import { FC, useState, ChangeEvent, useRef, useEffect } from "react";
 import { toast } from "react-toastify";
 import { InputField } from "@/components/form-elements";
 import Button from "@/components/ui/Button";
@@ -17,7 +11,7 @@ import {
 } from "@/services/apis/case";
 import CaseEditor from "@/lib/Editor";
 
-const TeacherCaseTeaching: FunctionComponent<TeacherCaseTeachingProps> = ({
+const TeacherCaseTeaching: FC<TeacherCaseTeachingProps> = ({
 	goNext,
 	goBack,
 	caseStudy,
@@ -29,7 +23,7 @@ const TeacherCaseTeaching: FunctionComponent<TeacherCaseTeachingProps> = ({
 	const dispatch = useAppDispatch();
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	const addingDraftCaseStatus = useAppSelector(
-		(state) => state.getDraftCases.status
+		(state) => state.getDraftCases.status,
 	);
 
 	const [files, setFiles] = useState<
@@ -57,7 +51,7 @@ const TeacherCaseTeaching: FunctionComponent<TeacherCaseTeachingProps> = ({
 				await deletePdfFromCaseMaterialsApi(documentKey);
 			}
 			const updatedFiles = files.filter(
-				(file) => file.documentKey !== documentKey
+				(file) => file.documentKey !== documentKey,
 			);
 			setFiles(updatedFiles);
 			setCaseStudy({ ...caseStudy, caseMaterials: updatedFiles });
@@ -84,31 +78,45 @@ const TeacherCaseTeaching: FunctionComponent<TeacherCaseTeachingProps> = ({
 
 		if (selectedFile) {
 			setIsUploading(true);
-			const response = await dispatch(
-				getCaseMaterials({
-					fileProcess: "upload",
-				})
-			);
-			const { pdfUrl, documentKey } = response.payload;
-
-			const updatedFiles = [
-				...files,
-				{
-					fileName: selectedFile.name,
-					documentKey,
-				},
-			];
-
-			setFiles(updatedFiles);
-
 			try {
+				const contentType = selectedFile.type || "application/octet-stream";
+
+				const response = await dispatch(
+					getCaseMaterials({
+						fileProcess: "upload",
+						contentType,
+					}),
+				);
+
+				if (response.meta.requestStatus !== "fulfilled") {
+					throw new Error("Failed to get pre-signed URL");
+				}
+
+				const { pdfUrl, documentKey: key } = response.payload;
+
 				await addPdfToCaseMaterialsApi({
 					pdfUrl,
 					selectedFile,
 				});
-			} catch (error) {
-				removeFile(documentKey);
 
+				const updatedFiles = [
+					...files,
+					{
+						fileName: selectedFile.name,
+						documentKey: key,
+					},
+				];
+
+				setFiles(updatedFiles);
+
+				setCaseStudy({
+					...caseStudy,
+					caseMaterials: updatedFiles.map((fileInfo) => ({
+						fileName: fileInfo.fileName,
+						documentKey: fileInfo.documentKey,
+					})),
+				});
+			} catch (error) {
 				console.error("Error uploading case materials", error);
 				toast.error("Error uploading case materials", {
 					position: "top-right",
@@ -121,16 +129,11 @@ const TeacherCaseTeaching: FunctionComponent<TeacherCaseTeachingProps> = ({
 					theme: "light",
 				});
 			} finally {
-				setIsUploading(false); // Set uploading flag to false after upload completes
+				setIsUploading(false);
+				if (e.target) {
+					e.target.value = "";
+				}
 			}
-
-			setCaseStudy({
-				...caseStudy,
-				caseMaterials: updatedFiles.map((fileInfo) => ({
-					fileName: fileInfo.fileName,
-					documentKey: fileInfo.documentKey,
-				})),
-			});
 		}
 	};
 
@@ -225,7 +228,7 @@ const TeacherCaseTeaching: FunctionComponent<TeacherCaseTeachingProps> = ({
 									</svg>
 								</button>
 							</li>
-						)
+						),
 					)}
 				</ul>
 

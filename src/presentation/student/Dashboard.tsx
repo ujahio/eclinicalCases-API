@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import DashboardLayout from "@/components/layouts/dashboard";
 import Button from "@/components/ui/Button";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
@@ -17,7 +17,7 @@ const StudentDashboard = () => {
 	const publishedCaseInfo = useAppSelector((state) => state.activeCase.data);
 
 	const studentsResponsesToCases = useAppSelector(
-		(state) => state.studentsResponsesToCases.responses
+		(state) => state.studentsResponsesToCases.responses,
 	);
 
 	useEffect(() => {
@@ -40,7 +40,7 @@ const StudentDashboard = () => {
 
 	return (
 		<DashboardLayout>
-			<div className="grid gap-y-10 sm:gap-y-12.5">
+			<div className="grid gap-y-10 sm:gap-y-12-5">
 				<div className="flex items-center justify-between">
 					<div className="inline-flex items-center">
 						{/* <figure className="h-8 md:h-11.25 w-8 md:w-11.25 rounded-full overflow-hidden">
@@ -65,7 +65,7 @@ const StudentDashboard = () => {
 						{publishedCaseInfo ? (
 							<div className="flex flex-col md:mr-4 mb-4">
 								<svg
-									className="w-6.25 sm:w-8 md:w-10"
+									className="w-6-25 sm:w-8 md:w-10"
 									viewBox="0 0 44.604 51.855"
 								>
 									<g transform="translate(16661.051 -9005.123)">
@@ -134,8 +134,8 @@ const StudentDashboard = () => {
 										caseTopic: string;
 									}) => {
 										return <ResponseCaseCard case={caseM} key={caseM._id} />;
-									}
-							  )}
+									},
+								)}
 					</ul>
 				</div>
 			</div>

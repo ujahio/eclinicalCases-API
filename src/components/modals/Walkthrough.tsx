@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from "react";
+import { FC, useState } from "react";
 import Image from "next/image";
 
 import Modal, { ModalProps } from "../ui/Modal";
@@ -99,7 +99,7 @@ const stepsData: Step[] = [
 	},
 ];
 
-const WalkthroughModal: FunctionComponent<ModalProps> = ({ show, toggle }) => {
+const WalkthroughModal: FC<ModalProps> = ({ show, toggle }) => {
 	const [progress, setProgress] = useState(0);
 	const totalSteps = stepsData.length - 1;
 

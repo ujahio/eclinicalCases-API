@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { InputField } from "@/components/form-elements";
 import Button from "@/components/ui/Button";
 import { useAppSelector } from "@/services/hooks/hooks";
@@ -6,7 +6,7 @@ import { TeacherCaseAnswerProps } from "@/services/types/teacher/createCaseStudy
 import CaseEditor from "@/lib/Editor";
 import { formatDateToYYYYMMDD } from "@/utils/formatDate";
 
-const TeacherCaseAnswer: FunctionComponent<TeacherCaseAnswerProps> = ({
+const TeacherCaseAnswer: FC<TeacherCaseAnswerProps> = ({
 	goNext,
 	goBack,
 	caseStudy,
@@ -31,7 +31,7 @@ const TeacherCaseAnswer: FunctionComponent<TeacherCaseAnswerProps> = ({
 		: "";
 
 	const addingDraftCaseStatus = useAppSelector(
-		(state) => state.getDraftCases.status
+		(state) => state.getDraftCases.status,
 	);
 
 	return (

@@ -24,7 +24,6 @@ export const client = new sst.aws.Nextjs("eccslabsClient", {
 	},
 	environment: {
 		AUTH_SECRET: process.env.AUTH_SECRET,
-		NEXT_PUBLIC_REGION: aws.getRegionOutput().name,
 		NEXT_PUBLIC_USER_POOL_DOMAIN: authUrl,
 	},
 });

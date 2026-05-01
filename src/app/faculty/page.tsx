@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { APP_CONTAINER, LANDING_X_PADDING } from "@/services/constants/styles";
 import Navbar from "@/components/Navbar";

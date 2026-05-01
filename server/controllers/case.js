@@ -45,7 +45,7 @@ export const getCaseForStudentsResponse = async (event) => {
 			(questionInfo) => ({
 				question: questionInfo.question,
 				options: questionInfo.options,
-			})
+			}),
 		);
 
 		const caseQuestionsWithoutAnswer = JSON.stringify(caseQuestions);

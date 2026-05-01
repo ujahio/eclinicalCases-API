@@ -1,6 +1,6 @@
 "use client";
 
-import React, { FunctionComponent, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import UpdateCaseStudy from "@/presentation/teacher/UpdateCaseStudy";
 import { createCaseStudyTabs } from "@/services/constants";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 import { useAuthRedirect } from "@/services/hooks/useAuthRedirect";
 import { CaseStudy } from "@/services/types/teacher/createCaseStudy";
 
-const UpdateCaseStudyContent: FunctionComponent = () => {
+const UpdateCaseStudyContent: FC = () => {
 	const navigate = useRouter();
 	let { id: caseId }: { id: string } = useParams();
 
@@ -41,7 +41,7 @@ const UpdateCaseStudyContent: FunctionComponent = () => {
 
 	useEffect(() => {
 		const selectedDraftCase = draftCases.find(
-			(draftCase: CaseStudy) => draftCase.id === caseId
+			(draftCase: CaseStudy) => draftCase.id === caseId,
 		);
 
 		if (!selectedDraftCase) {
@@ -129,7 +129,7 @@ const UpdateCaseStudyContent: FunctionComponent = () => {
 	);
 };
 
-const Page: FunctionComponent = () => {
+const Page: FC = () => {
 	const { session } = useAuthRedirect();
 	if (!session) {
 		return null;

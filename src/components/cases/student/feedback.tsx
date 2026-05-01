@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useParams } from "next/navigation";
 import { TextArea } from "@/components/form-elements";
@@ -13,9 +13,7 @@ interface StudentFeedbackProps {
 	goNext: () => void;
 }
 
-const StudentFeedback: FunctionComponent<StudentFeedbackProps> = ({
-	goNext,
-}) => {
+const StudentFeedback: FC<StudentFeedbackProps> = ({ goNext }) => {
 	const params = useParams<{ id: string }>();
 	const feedbackState = useAppSelector((state) => state.addFeedback);
 	const dispatch = useAppDispatch();
@@ -23,7 +21,7 @@ const StudentFeedback: FunctionComponent<StudentFeedbackProps> = ({
 
 	const updateFeedback = (option: string, value: string) => {
 		const feedbackCopy = feedback.map((item) =>
-			item.key === option ? { ...item, response: value } : item
+			item.key === option ? { ...item, response: value } : item,
 		);
 
 		setFeedback(feedbackCopy);

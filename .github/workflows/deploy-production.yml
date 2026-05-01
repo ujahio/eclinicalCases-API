@@ -10,7 +10,7 @@ permissions:
   contents: read # needed for checkout
 
 env:
-  NEXT_PUBLIC_REGION: me-south-1
+  NEXT_PUBLIC_REGION: us-east-2
   NEXT_PUBLIC_NODE_ENV: ${{ secrets.NEXT_PUBLIC_NODE_ENV }}
   AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
   NEXT_PUBLIC_BASE_URL: ${{ secrets.NEXT_PUBLIC_BASE_URL }}

@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { Editor, convertFromRaw, EditorState } from "draft-js";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
 import { getCaseMaterials } from "@/store/slices/case/getCaseMaterialsSlice";
@@ -20,7 +20,7 @@ const fallbackContent = JSON.stringify({
 	entityMap: {},
 });
 
-const StudentCaseTeaching: FunctionComponent<StudentCaseTeachingProps> = ({
+const StudentCaseTeaching: FC<StudentCaseTeachingProps> = ({
 	caseMaterialsMetaData,
 	caseTeaching,
 	caseTopic,
@@ -28,7 +28,7 @@ const StudentCaseTeaching: FunctionComponent<StudentCaseTeachingProps> = ({
 	goBack,
 }) => {
 	const caseTeachingContent = EditorState.createWithContent(
-		convertFromRaw(JSON.parse(caseTeaching || fallbackContent))
+		convertFromRaw(JSON.parse(caseTeaching || fallbackContent)),
 	);
 	const dispatch = useAppDispatch();
 
@@ -38,7 +38,7 @@ const StudentCaseTeaching: FunctionComponent<StudentCaseTeachingProps> = ({
 	// Fetching the materials
 	useEffect(() => {
 		const documentKeys = caseMaterialsMetaData?.map(
-			(material: any) => material.documentKey
+			(material: any) => material.documentKey,
 		);
 
 		const getCaseMaterialsCall = async () => {
@@ -49,7 +49,7 @@ const StudentCaseTeaching: FunctionComponent<StudentCaseTeachingProps> = ({
 					getCaseMaterials({
 						fileProcess: "download",
 						documentKeys,
-					})
+					}),
 				);
 			} catch (error) {
 				console.error("Error fetching case materials", error);
@@ -65,7 +65,7 @@ const StudentCaseTeaching: FunctionComponent<StudentCaseTeachingProps> = ({
 
 	// Select cached materials from Redux store
 	const cachedMaterials = useAppSelector(
-		(state) => state.caseMaterials.pdfMaterials
+		(state) => state.caseMaterials.pdfMaterials,
 	);
 
 	useEffect(() => {
@@ -85,7 +85,7 @@ const StudentCaseTeaching: FunctionComponent<StudentCaseTeachingProps> = ({
 				<h6 className="text-1xs sm:text-sm font-bold text-blue uppercase mb-2.5">
 					CASE TEACHING
 				</h6>
-				<h5 className="font-bold text-base mt-3.75 mb-2.5">{caseTopic}</h5>
+				<h5 className="font-bold text-base mt-3-75 mb-2.5">{caseTopic}</h5>
 
 				<div className="mb-9 bg-gray-200 p-2.5">
 					<Editor

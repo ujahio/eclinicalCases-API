@@ -1,16 +1,16 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { FunctionComponent } from "react";
+import { FC } from "react";
 import { useAppSelector } from "@/services/hooks/hooks";
 import useRenderPdf from "@/services/hooks/useRenderPdf";
 import Button from "@/components/ui/Button";
 import { useRouter } from "next/navigation";
 
-const StudentCertificate: FunctionComponent = () => {
+const StudentCertificate: FC = () => {
 	const navigate = useRouter();
 	const submitResponseState = useAppSelector(
-		(state) => state.submitCaseResponse
+		(state) => state.submitCaseResponse,
 	);
 	const canvasRef = useRef<HTMLCanvasElement | null>(null);
 	const { renderPdf } = useRenderPdf();

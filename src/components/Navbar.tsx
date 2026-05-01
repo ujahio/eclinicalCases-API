@@ -1,5 +1,4 @@
 import Image from "next/image";
-import React from "react";
 import Link from "next/link";
 import { APP_CONTAINER, LANDING_X_PADDING } from "@/services/constants/styles";
 import Button from "./ui/Button";
