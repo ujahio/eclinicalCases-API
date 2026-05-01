@@ -78,8 +78,6 @@ const TeacherCaseTeaching: FC<TeacherCaseTeachingProps> = ({
 
 		if (selectedFile) {
 			setIsUploading(true);
-			let docKey: string | null = null;
-
 			try {
 				const contentType = selectedFile.type || "application/octet-stream";
 
@@ -95,7 +93,6 @@ const TeacherCaseTeaching: FC<TeacherCaseTeachingProps> = ({
 				}
 
 				const { pdfUrl, documentKey: key } = response.payload;
-				docKey = key;
 
 				await addPdfToCaseMaterialsApi({
 					pdfUrl,
