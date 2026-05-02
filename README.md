@@ -3,9 +3,6 @@ things to work on:
 #### DEPLOYMENT TODOS
 
 - [ ] Clean up UI to match screenshots + mobile friendly
-  - [x] action buttons (Go Back and Proceed) to be side by side on desktop, but stacked and centered on mobile
-  - [ ] BUG - active case is resetting after routing to a new page from dashboard. the active case is also not been fetched when routed to the dashboard page from another page
-  - [ ] Review Student View and Teacher update case view
 
 #### POST DEPLOYMENT TODOS 1
 
