@@ -103,7 +103,11 @@ const TeacherDashboard = () => {
 								<Link
 									href={`/teacher/responses-feedback/${publishedCaseInfo.id}`}
 								>
-									<Button type="button" btnStyle="white" className="mr-0">
+									<Button
+										type="button"
+										btnStyle="white"
+										className="mr-1 text-1xs sm:text-sm"
+									>
 										INFO
 									</Button>
 								</Link>
