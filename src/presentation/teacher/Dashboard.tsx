@@ -32,7 +32,9 @@ const TeacherDashboard = () => {
 							className="mr-1 text-1xs sm:text-sm"
 							centralize
 						>
-							Create New Case
+							<span>
+								{publishedCaseInfo ? "Draft New Case" : "Create New Case"}
+							</span>
 						</Button>
 					</div>
 
@@ -51,7 +53,9 @@ const TeacherDashboard = () => {
 								className="mr-1 text-1xs sm:text-sm"
 								centralize
 							>
-								Create New Case
+								<span>
+									{publishedCaseInfo ? "Draft a Case" : "Create New Case"}
+								</span>
 							</Button>
 						</div>
 					</div>
@@ -99,12 +103,7 @@ const TeacherDashboard = () => {
 								<Link
 									href={`/teacher/responses-feedback/${publishedCaseInfo.id}`}
 								>
-									<Button
-										type="button"
-										size="md"
-										btnStyle="white"
-										className="mr-0"
-									>
+									<Button type="button" btnStyle="white" className="mr-0">
 										INFO
 									</Button>
 								</Link>
