@@ -12,7 +12,7 @@ const useGetActiveCase = () => {
 		if (session?.accessToken && activeCaseState.status === "idle") {
 			dispatch(getPublishedCase());
 		}
-	}, [session, activeCaseState.status, dispatch]);
+	}, [session?.accessToken, activeCaseState.status, dispatch]);
 
 	return null;
 };
