@@ -1,19 +1,23 @@
-import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "./hooks";
+import { useEffect, useRef } from "react";
+import { useAppDispatch } from "./hooks";
 import { getPublishedCase } from "@/store/slices/case/getPublishedCaseSlice";
 import { useAuthRedirect } from "@/services/hooks/useAuthRedirect";
 
 const useGetActiveCase = () => {
 	const { session } = useAuthRedirect();
-	const activeCaseState = useAppSelector((state) => state.activeCase);
 	const dispatch = useAppDispatch();
-
+	const hasFetchedRef = useRef(false);
 	useEffect(() => {
-		if (session?.accessToken && activeCaseState.status === "idle") {
+		if (session?.accessToken && !hasFetchedRef.current) {
+			hasFetchedRef.current = true;
 			dispatch(getPublishedCase());
 		}
-	}, [session?.accessToken, activeCaseState.status, dispatch]);
-
+	}, [dispatch, session?.accessToken]);
+	useEffect(() => {
+		return () => {
+			hasFetchedRef.current = false;
+		};
+	}, []);
 	return null;
 };
 
