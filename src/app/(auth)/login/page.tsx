@@ -40,7 +40,7 @@ const Login = () => {
 				navigate.push("/student/dashboard");
 			}
 		}
-	}, [status, session, navigate]);
+	}, [status, session?.user, navigate]);
 
 	return (
 		<AuthLayout title="Sign in to Your Account">
