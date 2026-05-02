@@ -3,7 +3,7 @@ import Button from "@/components/ui/Button";
 import { useAppSelector } from "@/services/hooks/hooks";
 import { TeacherCMEQuestionsProps } from "@/services/types/teacher/createCaseStudy";
 import { FC } from "react";
-import ActionButtons from "./actionButtons";
+import ActionButtons from "@/components/ActionButtons";
 
 const TeacherCMEQuestions: FC<TeacherCMEQuestionsProps> = ({
 	goNext,
@@ -242,7 +242,14 @@ const TeacherCMEQuestions: FC<TeacherCMEQuestionsProps> = ({
 					<span className="text-2xl leading-none">+</span>
 				</button>
 			</div>
-			{/* Action buttons in two columns on desktop */}
+			<Button
+				btnStyle="outline"
+				centralize
+				onClick={handleUpdateDraftCase}
+				className="w-full mb-3 sm:text-sm cursor-pointer"
+			>
+				{addingDraftCaseStatus === "loading" ? "Loading..." : "SAVE DRAFT"}
+			</Button>
 			<ActionButtons goNext={goNext} goBack={goBack} />
 		</>
 	);

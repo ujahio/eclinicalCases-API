@@ -5,7 +5,7 @@ import { useAppSelector } from "@/services/hooks/hooks";
 import { TeacherCaseAnswerProps } from "@/services/types/teacher/createCaseStudy";
 import CaseEditor from "@/lib/Editor";
 import { formatDateToYYYYMMDD } from "@/utils/formatDate";
-import ActionButtons from "./actionButtons";
+import ActionButtons from "@/components/ActionButtons";
 
 const TeacherCaseAnswer: FC<TeacherCaseAnswerProps> = ({
 	goNext,

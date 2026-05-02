@@ -10,7 +10,7 @@ import {
 	deletePdfFromCaseMaterialsApi,
 } from "@/services/apis/case";
 import CaseEditor from "@/lib/Editor";
-import ActionButtons from "./actionButtons";
+import ActionButtons from "@/components/ActionButtons";
 
 const TeacherCaseTeaching: FC<TeacherCaseTeachingProps> = ({
 	goNext,
