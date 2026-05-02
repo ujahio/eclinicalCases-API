@@ -4,14 +4,12 @@ import Button from "@/components/ui/Button";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
 import { formatDate } from "@/utils/formatDate";
 import ResponseCaseCard from "@/components/cases/ResponseCaseCard";
-import { useAuthRedirect } from "@/services/hooks/useAuthRedirect";
 import { resetCaseDetailsState } from "@/store/slices/case/caseDetailsSlice";
 import { resetSubmitCaseResponseState } from "@/store/slices/student/SubmitCaseResponseSlice";
 import { resetAddFeedbackState } from "@/store/slices/student/addFeedbackSlice";
 import { resetCaseMaterialState } from "@/store/slices/case/getCaseMaterialsSlice";
 
 const StudentDashboard = () => {
-	const { session } = useAuthRedirect();
 	const dispatch = useAppDispatch();
 
 	const publishedCaseInfo = useAppSelector((state) => state.activeCase.data);
@@ -69,7 +67,7 @@ const StudentDashboard = () => {
 										/>
 									</g>
 								</svg>
-								<h5 className="font-bold text-base mt-3.75 mb-2.5">1 CME</h5>
+								<h5 className="font-bold text-base mt-3-75 mb-2.5">1 CME</h5>
 								{/* Ideally this should be saved and retrieved from user details in cognito */}
 								<h5>
 									Faculty: Dr. Emmanuel Abu (MBBS, MSc, PhD, PGCert(Mgt),
