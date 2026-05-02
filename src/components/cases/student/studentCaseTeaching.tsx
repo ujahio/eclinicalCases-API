@@ -2,11 +2,11 @@ import { FC, useEffect, useState } from "react";
 import { Editor, convertFromRaw, EditorState } from "draft-js";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
 import { getCaseMaterials } from "@/store/slices/case/getCaseMaterialsSlice";
-import Button from "@/components/ui/Button";
+import ActionButtons from "@/components/ActionButtons";
 
 interface StudentCaseTeachingProps {
 	goNext: () => void;
-	goBack: (() => void) | undefined;
+	goBack: () => void | undefined;
 	caseTeaching: string;
 	caseTopic: string;
 	caseMaterialsMetaData: {
@@ -128,20 +128,7 @@ const StudentCaseTeaching: FC<StudentCaseTeachingProps> = ({
 					</div>
 				)}
 
-				<div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
-					<Button btnStyle="outline" size="lg" centralize onClick={goBack}>
-						BACK TO CASE MODEL ANSWERS
-					</Button>
-					<Button
-						disabled={loading}
-						btnStyle="basic"
-						size="lg"
-						centralize
-						onClick={goNext}
-					>
-						PROCEED TO CME QUESTIONS
-					</Button>
-				</div>
+				<ActionButtons goNext={goNext} goBack={goBack} />
 			</div>
 		</>
 	);
