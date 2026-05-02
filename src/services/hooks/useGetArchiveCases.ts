@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
+import { useEffect, useRef } from "react";
+import { useAppDispatch } from "@/services/hooks/hooks";
 import { getArchiveCases } from "@/store/slices/case/getArchiveCasesSlice";
 import { Session } from "next-auth";
 
@@ -11,13 +11,19 @@ const useGetArchiveCases = ({
 	filterParam: string;
 }) => {
 	const dispatch = useAppDispatch();
-
-	const archivedCasesState = useAppSelector((state) => state.getArchiveCases);
+	const hasFetchedRef = useRef(false);
 	useEffect(() => {
-		if (session?.accessToken && archivedCasesState.status === "idle") {
+		if (session?.accessToken && !hasFetchedRef.current) {
+			hasFetchedRef.current = true;
 			dispatch(getArchiveCases(filterParam));
 		}
-	}, [session, dispatch, archivedCasesState.status, filterParam]);
+	}, [dispatch, session?.accessToken]);
+	useEffect(() => {
+		return () => {
+			hasFetchedRef.current = false;
+		};
+	}, []);
+	return null;
 };
 
 export default useGetArchiveCases;

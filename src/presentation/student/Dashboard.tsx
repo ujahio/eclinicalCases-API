@@ -8,6 +8,7 @@ import { resetCaseDetailsState } from "@/store/slices/case/caseDetailsSlice";
 import { resetSubmitCaseResponseState } from "@/store/slices/student/SubmitCaseResponseSlice";
 import { resetAddFeedbackState } from "@/store/slices/student/addFeedbackSlice";
 import { resetCaseMaterialState } from "@/store/slices/case/getCaseMaterialsSlice";
+import { resetGetStudentsResponsesToCasesStatus } from "@/store/slices/student/getStudentsResponsesToCasesSlice";
 
 const StudentDashboard = () => {
 	const dispatch = useAppDispatch();
@@ -23,6 +24,7 @@ const StudentDashboard = () => {
 		dispatch(resetSubmitCaseResponseState());
 		dispatch(resetAddFeedbackState());
 		dispatch(resetCaseMaterialState());
+		dispatch(resetGetStudentsResponsesToCasesStatus());
 	}, [dispatch]);
 
 	const studentsResponses: {
