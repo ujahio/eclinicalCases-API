@@ -5,10 +5,11 @@ import {
 	validateEditorInputs,
 	ValidationErrorProps,
 } from "@/services/helper/validateEditorInputs";
+import ActionButtons from "@/components/ActionButtons";
 
 interface StudentCaseCommentsProps {
 	goNext: () => void;
-	goBack: (() => void) | undefined;
+	goBack: () => void | undefined;
 	studentCaseExplanation: string;
 	setCaseDetails: (details: any) => void;
 }
@@ -33,10 +34,7 @@ const StudentCaseComments: FC<StudentCaseCommentsProps> = ({
 		setIsEditorMounted(true);
 	}, []);
 
-	const handleSubmitStudentResponse = (
-		e: React.MouseEvent<HTMLButtonElement>,
-	) => {
-		e.preventDefault();
+	const handleSubmitStudentResponse = () => {
 		const isValid = validateEditorInputs(
 			setErrorsForValidatedInputs,
 			studentCaseExplanation,
@@ -77,19 +75,7 @@ const StudentCaseComments: FC<StudentCaseCommentsProps> = ({
 					)}
 				</div>
 			</div>
-			<div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
-				<Button btnStyle="outline" size="lg" centralize onClick={goBack}>
-					Back to Case Presentation
-				</Button>
-				<Button
-					btnStyle="basic"
-					size="lg"
-					centralize
-					onClick={handleSubmitStudentResponse}
-				>
-					Submit
-				</Button>
-			</div>
+			<ActionButtons goNext={handleSubmitStudentResponse} goBack={goBack} />
 		</>
 	);
 };

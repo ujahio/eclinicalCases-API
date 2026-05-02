@@ -3,6 +3,7 @@ import Button from "@/components/ui/Button";
 import { useAppSelector } from "@/services/hooks/hooks";
 import { TeacherCMEQuestionsProps } from "@/services/types/teacher/createCaseStudy";
 import { FC } from "react";
+import ActionButtons from "@/components/ActionButtons";
 
 const TeacherCMEQuestions: FC<TeacherCMEQuestionsProps> = ({
 	goNext,
@@ -94,163 +95,162 @@ const TeacherCMEQuestions: FC<TeacherCMEQuestionsProps> = ({
 
 	return (
 		<>
-			<ul className="mb-5 sm:mb-6 divide-y divide-grey-border divide-opacity-50">
-				{caseStudy.caseQuestions.map((question: any, index: number) => (
-					<li className="py-6 first:pt-0 last:pb-0" key={index}>
-						<div className="flex items-center justify-between">
-							<div className="text-blue text-1sm sm:text-base capitalize font-bold">
-								Question {index + 1}
-							</div>
-							<Button
-								size="sm"
-								btnStyle="outline"
-								className="mb-1.25 hover:text-red"
-								aria-label="delete question"
-								onClick={() => deleteQuestion(index)}
-							>
-								<svg width="11.5" viewBox="0 0 12.833 16.5">
-									<path
-										d="M10.917,20.667A1.833,1.833,0,0,0,12.75,22.5h7.333a1.833,1.833,0,0,0,1.833-1.833v-11h-11ZM22.833,6.917H19.625L18.708,6H14.125l-.917.917H10V8.75H22.833Z"
-										transform="translate(-10 -6)"
-										fill="currentColor"
-									/>
-								</svg>
-							</Button>
-						</div>
+			{/* Card wrapper to match design */}
+			<div className="border border-grey-border rounded-md bg-white p-6">
+				<ul className="mb-0 sm:mb-0 divide-y divide-grey-border divide-opacity-50">
+					{caseStudy.caseQuestions.map((question: any, index: number) => (
+						<li className="py-6 first:pt-0 last:pb-0" key={index}>
+							<div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+								<div className="text-blue text-1sm sm:text-base capitalize font-bold">
+									{`Question ${index + 1}`}
+								</div>
+								<div className="flex flex-wrap justify-end gap-2">
+									<Button
+										size="sm"
+										btnStyle="outline"
+										onClick={() => addEmptyOption(index)}
+										className="text-xs px-2"
+									>
+										ADD A NEW OPTION
+									</Button>
 
-						<InputField
-							label=""
-							placeholder={`Enter question ${index + 1}`}
-							name={`question-${index}`}
-							value={question.question}
-							onChange={(e) => updateQuestionText(e, index)}
-						/>
-
-						<div className="mt-8">
-							<div className="flex items-center justify-between mb-1.25">
-								<label className="text-grey-300 text-1sm capitalize font-medium">
-									Options
-								</label>
-								<Button
-									size="sm"
-									btnStyle="outline"
-									onClick={() => addEmptyOption(index)}
-								>
-									+ Add Option
-								</Button>
-							</div>
-							<ul>
-								{question.options.map((option: any, optionIndex: number) => (
-									<li className="flex items-stretch mt-2.5" key={optionIndex}>
-										<label
-											htmlFor={`question-${index}-option-${optionIndex}`}
-											className="h-12 sm:h-12 px-3 border border-grey-border flex items-center justify-center rounded-xs mr-2.5 cursor-pointer"
-										>
-											<input
-												type="radio"
-												name={`question-${index}-option`}
-												id={`question-${index}-option-${optionIndex}`}
-												className="hidden"
-												onChange={() => updateAnswer(index, optionIndex)}
+									<Button
+										size="sm"
+										btnStyle="outline"
+										aria-label="delete question"
+										onClick={() => deleteQuestion(index)}
+										className="hover:text-red"
+									>
+										<svg width="11.5" viewBox="0 0 12.833 16.5">
+											<path
+												d="M10.917,20.667A1.833,1.833,0,0,0,12.75,22.5h7.333a1.833,1.833,0,0,0,1.833-1.833v-11h-11ZM22.833,6.917H19.625L18.708,6H14.125l-.917.917H10V8.75H22.833Z"
+												transform="translate(-10 -6)"
+												fill="currentColor"
 											/>
-											<div
-												className={`h-5 w-5 rounded-full border inline-flex items-center justify-center transition-colors ${
-													isCorrectAnswer(index, optionIndex)
-														? "bg-dark"
-														: "border-grey-400"
-												}`}
+										</svg>
+									</Button>
+								</div>
+							</div>
+
+							<InputField
+								label=""
+								placeholder="Question"
+								name={`question-${index}`}
+								value={question.question}
+								onChange={(e) => updateQuestionText(e, index)}
+							/>
+
+							<div className="mt-8">
+								<div className="mb-3">
+									<div className="text-grey-300 text-1sm font-medium">
+										Options for Question {index + 1}
+									</div>
+								</div>
+								<ul className="space-y-3">
+									{question.options.map((option: any, optionIndex: number) => (
+										<li className="flex items-start gap-3" key={optionIndex}>
+											<label
+												htmlFor={`question-${index}-option-${optionIndex}`}
+												className="h-12 w-12 border border-grey-border flex items-center justify-center rounded-xs mr-2.5 cursor-pointer"
 											>
-												<svg
-													width="8"
-													viewBox="0 0 18.006 12.373"
-													className={`text-white transition-opacity ${
+												<input
+													type="radio"
+													name={`question-${index}-option`}
+													id={`question-${index}-option-${optionIndex}`}
+													className="hidden"
+													onChange={() => updateAnswer(index, optionIndex)}
+												/>
+												<div
+													className={`h-6 w-6 rounded-full border inline-flex items-center justify-center transition-colors ${
 														isCorrectAnswer(index, optionIndex)
-															? "opacity-100"
-															: "opacity-0"
+															? "bg-dark"
+															: "border-grey-400"
 													}`}
 												>
-													<path
-														d="M-15890.717,19582.234l6.221,5.416,10.426-10.3"
-														transform="translate(15891.373 -19576.641)"
-														fill="none"
-														stroke="currentColor"
-														strokeWidth="2.5"
-													/>
-												</svg>
-											</div>
-										</label>
-										<div className="flex-1">
-											<InputField
-												name={`question-${index}-option-${optionIndex}-value`}
-												label=""
-												placeholder={`Enter option ${optionIndex + 1}`}
-												value={option}
-												onChange={(e) =>
-													updateOptionText(e, index, optionIndex)
-												}
-											>
-												<button
-													className="absolute no-outline p-2 right-2 transition-colors text-grey-300 hover:text-red"
-													onClick={() => deleteOption(index, optionIndex)}
-													type="button"
-												>
-													<svg width="18" viewBox="0 0 25 25">
-														<circle
-															cx="12.5"
-															cy="12.5"
-															r="11.5"
+													<svg
+														width="8"
+														viewBox="0 0 18.006 12.373"
+														className={`text-white transition-opacity ${
+															isCorrectAnswer(index, optionIndex)
+																? "opacity-100"
+																: "opacity-0"
+														}`}
+													>
+														<path
+															d="M-15890.717,19582.234l6.221,5.416,10.426-10.3"
+															transform="translate(15891.373 -19576.641)"
 															fill="none"
 															stroke="currentColor"
-															strokeWidth="2"
-														/>
-														<line
-															y2="10"
-															transform="translate(17.5 12.5) rotate(90)"
-															fill="none"
-															stroke="currentColor"
-															strokeWidth="2"
+															strokeWidth="2.5"
 														/>
 													</svg>
-												</button>
-											</InputField>
-										</div>
-									</li>
-								))}
-							</ul>
-						</div>
-					</li>
-				))}
-			</ul>
-			<div className="flex items-center justify-end mb-8 sm:mb-10">
-				<Button btnStyle="outline" size="md" onClick={addEmptyQuestion}>
-					Add Question
-				</Button>
+												</div>
+											</label>
+											<div className="flex-1">
+												<InputField
+													name={`question-${index}-option-${optionIndex}-value`}
+													label=""
+													placeholder="Option"
+													value={option}
+													onChange={(e) =>
+														updateOptionText(e, index, optionIndex)
+													}
+												>
+													<button
+														className="absolute no-outline p-2 right-2 transition-colors text-grey-300 hover:text-red"
+														onClick={() => deleteOption(index, optionIndex)}
+														type="button"
+													>
+														<svg width="18" viewBox="0 0 25 25">
+															<circle
+																cx="12.5"
+																cy="12.5"
+																r="11.5"
+																fill="none"
+																stroke="currentColor"
+																strokeWidth="2"
+															/>
+															<line
+																y2="10"
+																transform="translate(17.5 12.5) rotate(90)"
+																fill="none"
+																stroke="currentColor"
+																strokeWidth="2"
+															/>
+														</svg>
+													</button>
+												</InputField>
+											</div>
+										</li>
+									))}
+								</ul>
+							</div>
+						</li>
+					))}
+				</ul>
+			</div>
+			{/* Full width Add Question button (design) - use native button so we can enforce a light-gray background */}
+			<div className="mb-6 mt-6">
+				<button
+					type="button"
+					onClick={addEmptyQuestion}
+					className={
+						"sm:text-sm cursor-pointer rounded-md border border-grey-border outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-all duration-100 flex items-center uppercase relative font-medium w-full justify-between px-4 py-3 bg-grey-100 text-dark gap-2"
+					}
+				>
+					<span className="pl-2">ADD QUESTION</span>
+					<span className="text-2xl leading-none">+</span>
+				</button>
 			</div>
 			<Button
 				btnStyle="outline"
-				size="lg"
 				centralize
 				onClick={handleUpdateDraftCase}
-				className="w-full mb-3"
+				className="w-full mb-3 sm:text-sm cursor-pointer"
 			>
-				{addingDraftCaseStatus === "loading"
-					? "Loading..."
-					: "Save As a Draft..."}
+				{addingDraftCaseStatus === "loading" ? "Loading..." : "SAVE DRAFT"}
 			</Button>
-			<div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
-				<Button
-					btnStyle="outline"
-					size="lg"
-					centralize
-					className="text-xs"
-					onClick={goBack}
-				>
-					GO BACK TO MATERIALS AND DEADLINE
-				</Button>
-				<Button btnStyle="basic" size="lg" centralize onClick={goNext}>
-					PROCEED TO FINAL REVIEW
-				</Button>
-			</div>
+			<ActionButtons goNext={goNext} goBack={goBack} />
 		</>
 	);
 };

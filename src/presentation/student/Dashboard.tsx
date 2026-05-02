@@ -4,14 +4,13 @@ import Button from "@/components/ui/Button";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
 import { formatDate } from "@/utils/formatDate";
 import ResponseCaseCard from "@/components/cases/ResponseCaseCard";
-import { useAuthRedirect } from "@/services/hooks/useAuthRedirect";
 import { resetCaseDetailsState } from "@/store/slices/case/caseDetailsSlice";
 import { resetSubmitCaseResponseState } from "@/store/slices/student/SubmitCaseResponseSlice";
 import { resetAddFeedbackState } from "@/store/slices/student/addFeedbackSlice";
 import { resetCaseMaterialState } from "@/store/slices/case/getCaseMaterialsSlice";
+import { resetGetStudentsResponsesToCasesStatus } from "@/store/slices/student/getStudentsResponsesToCasesSlice";
 
 const StudentDashboard = () => {
-	const { session } = useAuthRedirect();
 	const dispatch = useAppDispatch();
 
 	const publishedCaseInfo = useAppSelector((state) => state.activeCase.data);
@@ -25,6 +24,7 @@ const StudentDashboard = () => {
 		dispatch(resetSubmitCaseResponseState());
 		dispatch(resetAddFeedbackState());
 		dispatch(resetCaseMaterialState());
+		dispatch(resetGetStudentsResponsesToCasesStatus());
 	}, [dispatch]);
 
 	const studentsResponses: {
@@ -41,18 +41,6 @@ const StudentDashboard = () => {
 	return (
 		<DashboardLayout>
 			<div className="grid gap-y-10 sm:gap-y-12-5">
-				<div className="flex items-center justify-between">
-					<div className="inline-flex items-center">
-						{/* <figure className="h-8 md:h-11.25 w-8 md:w-11.25 rounded-full overflow-hidden">
-							<img src={UserImg} alt="User image" className="h-full w-full" />
-						</figure> */}
-						{session?.user && (
-							<h4 className="text-dark font-medium text-1sm sm:text-base inline-block ml-2.5">
-								{`Hello, ${session.user.firstName} ${session.user.lastName} 👋`}
-							</h4>
-						)}
-					</div>
-				</div>
 				<div>
 					{publishedCaseInfo ? (
 						<h5 className="text-1sm sm:text-base text-dark mb-3 sm:mb-5">
@@ -81,7 +69,7 @@ const StudentDashboard = () => {
 										/>
 									</g>
 								</svg>
-								<h5 className="font-bold text-base mt-3.75 mb-2.5">1 CME</h5>
+								<h5 className="font-bold text-base mt-3-75 mb-2.5">1 CME</h5>
 								{/* Ideally this should be saved and retrieved from user details in cognito */}
 								<h5>
 									Faculty: Dr. Emmanuel Abu (MBBS, MSc, PhD, PGCert(Mgt),
@@ -108,7 +96,7 @@ const StudentDashboard = () => {
 							<div className="min-w-min inline-block">
 								<Button
 									type="button"
-									size="md"
+									className="mr-1 text-1xs sm:text-sm"
 									btnStyle="white"
 									href={`/student/case-studies/${publishedCaseInfo?.id}`}
 								>
@@ -119,12 +107,12 @@ const StudentDashboard = () => {
 					</div>
 				</div>
 				<div className="">
-					<div className="flex justify-between items-center mb-3.75">
+					<div className="flex justify-between items-center mb-3-75">
 						<h5 className="text-1sm sm:text-base text-dark uppercase">
 							RECENT CASE STUDIES
 						</h5>
 					</div>
-					<ul className="grid grid-cols-items gap-5 md:gap-6.25">
+					<ul className="grid grid-cols-items gap-5 md:gap-6-25">
 						{studentsResponses?.length === 0
 							? "You have no recent case studies."
 							: studentsResponses.map(

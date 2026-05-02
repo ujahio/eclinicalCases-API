@@ -36,8 +36,10 @@ export const updateDraftCaseApi = (caseData: any) => {
 	);
 };
 
-export const getArchiveCasesApi = (isRecent?: string) => {
-	const url = isRecent ? `/archived/?caseFilter=${isRecent}` : "/archived/";
+export const getArchiveCasesApi = (filterParam?: string) => {
+	const url = filterParam
+		? `/archived/?caseFilter=${filterParam}`
+		: "/archived/";
 	return caseApi.get(url, configureRequestHeaders());
 };
 

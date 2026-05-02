@@ -10,6 +10,7 @@ import {
 	deletePdfFromCaseMaterialsApi,
 } from "@/services/apis/case";
 import CaseEditor from "@/lib/Editor";
+import ActionButtons from "@/components/ActionButtons";
 
 const TeacherCaseTeaching: FC<TeacherCaseTeachingProps> = ({
 	goNext,
@@ -155,7 +156,7 @@ const TeacherCaseTeaching: FC<TeacherCaseTeachingProps> = ({
 	return (
 		<>
 			<div className="mb-5 sm:mb-6">
-				<h6 className="text-1xs sm:text-sm font-bold text-blue uppercase mb-4">
+				<h6 className="text-1xs sm:text-sm font-bold text-blue uppercase mb-4 create-case-heading">
 					CASE TEACHING
 				</h6>
 				<InputField
@@ -167,6 +168,7 @@ const TeacherCaseTeaching: FC<TeacherCaseTeachingProps> = ({
 						e.preventDefault();
 						setCaseStudy({ ...caseStudy, caseTopic: e.target.value });
 					}}
+					className="sm:mb-6 cursor-pointer"
 				/>
 				{isEditorMounted && (
 					<CaseEditor
@@ -175,9 +177,8 @@ const TeacherCaseTeaching: FC<TeacherCaseTeachingProps> = ({
 					/>
 				)}
 			</div>
-
 			<div className="mb-5 sm:mb-6">
-				<label className="text-grey-300 text-1sm font-normal">
+				<label className="text-grey-300 text-1sm font-normal create-case-subheading">
 					Teaching Materials
 				</label>
 				<input
@@ -192,7 +193,7 @@ const TeacherCaseTeaching: FC<TeacherCaseTeachingProps> = ({
 						isRemoving === file.documentKey ? (
 							<li
 								key={file.documentKey}
-								className="flex items-center justify-between px-5 py-2 border-grey-border bg-white border text-1xs sm:text-sm"
+								className="flex items-center justify-between px-5 py-2 border-grey-border bg-white border text-1xs sm:text-sm create-case-material-item"
 							>
 								<div className="inline-flex items-center">
 									<span className="text-dark">Removing {file.fileName}...</span>
@@ -201,7 +202,7 @@ const TeacherCaseTeaching: FC<TeacherCaseTeachingProps> = ({
 						) : (
 							<li
 								key={file.documentKey}
-								className="flex items-center justify-between px-5 py-2 border-grey-border bg-white border text-1xs sm:text-sm"
+								className="flex items-center justify-between px-5 py-2 border-grey-border bg-white border text-1xs sm:text-sm create-case-material-item"
 							>
 								<div className="inline-flex items-center">
 									<svg
@@ -254,32 +255,15 @@ const TeacherCaseTeaching: FC<TeacherCaseTeachingProps> = ({
 					</Button>
 				)}
 			</div>
-
 			<Button
 				btnStyle="outline"
-				size="lg"
 				centralize
 				onClick={handleUpdateDraftCase}
-				className="w-full mb-3"
+				className="w-full mb-3 sm:text-sm cursor-pointer"
 			>
-				{addingDraftCaseStatus === "loading"
-					? "Loading..."
-					: "Save As a Draft..."}{" "}
+				{addingDraftCaseStatus === "loading" ? "Loading..." : "SAVE DRAFT"}{" "}
 			</Button>
-			<div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
-				<Button
-					btnStyle="outline"
-					size="lg"
-					centralize
-					className="text-xs"
-					onClick={goBack}
-				>
-					GO BACK TO CASE MODEL ANSWER
-				</Button>
-				<Button btnStyle="basic" size="lg" centralize onClick={goNext}>
-					PROCEED TO CME QUESTIONS
-				</Button>
-			</div>
+			<ActionButtons goNext={goNext} goBack={goBack} />
 		</>
 	);
 };

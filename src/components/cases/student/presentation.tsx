@@ -39,8 +39,14 @@ const StudentCasePresentation: FC<StudentCasePresentationProps> = ({
 				</div>
 			)}
 			<div className="grid grid-cols-1 gap-4">
-				<Button btnStyle="basic" size="lg" centralize onClick={goNext}>
-					PROCEED TO COMMENT ON THE CASE
+				<Button
+					btnStyle="basic"
+					className="w-full flex items-center justify-center gap-2 sm:text-sm cursor-pointer"
+					size="lg"
+					centralize
+					onClick={goNext}
+				>
+					<span>PROCEED</span>
 				</Button>
 			</div>
 		</>

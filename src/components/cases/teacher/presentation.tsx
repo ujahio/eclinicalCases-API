@@ -30,39 +30,47 @@ const TeacherCasePresentation: FC<TeacherCaseQuestionProps> = ({
 	return (
 		<>
 			<div className="mb-5 sm:mb-6">
-				<div className="">
-					<h6 className="text-blue font-bold text-1xs sm:text-sm capitalize mb-3">
-						CASE MODEL PRESENTATION
-					</h6>
-
-					{isEditorMounted && (
-						<CaseEditor
-							content={caseStudy.caseDescription}
-							onContentChange={handleEditorChange}
-						/>
-					)}
-				</div>
+				<h6 className="text-blue font-bold text-1xs sm:text-sm capitalize mb-3 create-case-heading">
+					CASE MODEL PRESENTATION
+				</h6>
+				{isEditorMounted && (
+					<CaseEditor
+						content={caseStudy.caseDescription}
+						onContentChange={handleEditorChange}
+					/>
+				)}
 			</div>
-			<div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
+			<div className="create-case-actions grid md:grid-cols-2 gap-4 items-center">
 				<Button
 					btnStyle="outline"
-					size="lg"
 					centralize
 					onClick={handleUpdateDraftCase}
-					className="w-full mb-3"
+					className="w-full flex items-center justify-center gap-2 sm:text-sm cursor-pointer"
 				>
-					{addingDraftCaseStatus === "loading"
-						? "Loading..."
-						: "Save As a Draft..."}
+					{addingDraftCaseStatus === "loading" ? "Loading..." : "SAVE DRAFT"}
 				</Button>
 				<Button
 					btnStyle="basic"
-					size="lg"
-					className="text-xs"
+					className="w-full flex items-center justify-center gap-2 sm:text-sm cursor-pointer"
 					centralize
 					onClick={goNext}
 				>
-					PROCEED TO CASE MODEL ANSWER
+					<span>PROCEED</span>
+					<svg
+						width="14"
+						height="14"
+						viewBox="0 0 24 24"
+						fill="none"
+						xmlns="http://www.w3.org/2000/svg"
+					>
+						<path
+							d="M9 6l6 6-6 6"
+							stroke="currentColor"
+							strokeWidth="2"
+							strokeLinecap="round"
+							strokeLinejoin="round"
+						/>
+					</svg>
 				</Button>
 			</div>
 		</>

@@ -70,13 +70,13 @@ const Nav: FC<NavProps> = ({
 				</ul>
 
 				<div className="flex items-center cursor-pointer" role="button">
-					<figure className=" h-6-2525 w-6-2525 sm:h-8.-75 sm:w-8-75 rounded-full mr-3">
+					<figure className="h-6 w-6 sm:h-8 sm:w-8 rounded-full mr-3 overflow-hidden">
 						<Image
 							src="/images/user.png"
 							alt="user image"
-							className="h-full w-full"
-							width={130}
-							height={130}
+							className="h-full w-full object-cover rounded-full"
+							width={40}
+							height={40}
 						/>
 					</figure>
 					<svg

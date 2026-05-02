@@ -28,7 +28,7 @@ const StudentCertificate: FC = () => {
 			<div className="mb-5 sm:mb-6">
 				<figure className="w-full" id="pdfCertificate">
 					{submitResponseState?.response?.certificateFile ? (
-						<canvas ref={canvasRef} className="w-full h-42" />
+						<canvas ref={canvasRef} className="w-full h-auto" />
 					) : (
 						<p className="text-grey-300 text-1sm text-sm">
 							Loading certificate...
@@ -36,8 +36,12 @@ const StudentCertificate: FC = () => {
 					)}
 				</figure>
 			</div>
-			<div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
-				<Button btnStyle="outline" size="lg" centralize>
+			<div className="create-case-actions grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+				<Button
+					btnStyle="outline"
+					className="w-full flex items-center justify-center gap-2 sm:text-sm cursor-pointer"
+					centralize
+				>
 					<a
 						href={submitResponseState?.response?.certificateUrl}
 						target="_blank"
@@ -48,11 +52,11 @@ const StudentCertificate: FC = () => {
 				</Button>
 				<Button
 					btnStyle="basic"
-					size="lg"
+					className="w-full flex items-center justify-center gap-2 sm:text-sm cursor-pointer"
 					centralize
 					onClick={handleEndSession}
 				>
-					End Session
+					<span>end</span>
 				</Button>
 			</div>
 		</>
