@@ -7,8 +7,8 @@ const useGetArchiveCases = ({
 	session,
 	filterParam,
 }: {
-	session: Session | null;
-	filterParam: string;
+	session?: Session | null;
+	filterParam?: string;
 }) => {
 	const dispatch = useAppDispatch();
 	const hasFetchedRef = useRef(false);

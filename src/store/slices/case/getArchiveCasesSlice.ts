@@ -3,7 +3,7 @@ import { getArchiveCasesApi } from "@/services/apis/case";
 
 export const getArchiveCases = createAsyncThunk(
 	"case/getArchiveCases",
-	async (filterParam: string, thunkAPI) => {
+	async ({ filterParam }: { filterParam?: string }, thunkAPI) => {
 		try {
 			const { data } = await getArchiveCasesApi(filterParam);
 			return data;

@@ -27,7 +27,7 @@ const TeacherCaseStudiesContent = () => {
 	const dispatch = useAppDispatch();
 
 	useGetDraftCases();
-	useGetArchiveCases();
+	useGetArchiveCases({});
 
 	const handleDeleteCase = (caseId: string) => {
 		dispatch(deleteCase(caseId));

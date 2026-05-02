@@ -27,6 +27,6 @@ export interface StudentCaseStudyProps {
 	progress: number;
 	isActive: (key: string) => boolean;
 	goNext: () => void;
-	goBack: () => void | undefined;
+	goBack: () => void;
 	hasPassedCME?: boolean;
 }
