@@ -104,7 +104,7 @@ const FinalReview: FC<FinalReviewProps> = ({
 			</div>
 
 			<div
-				className={`create-case-actions grid ${publishedCaseInfo ? "grid-cols-1 md:grid-cols-2" : "grid-cols-1"} gap-4 items-center`}
+				className={`create-case-actions grid ${!publishedCaseInfo ? "grid-cols-1 md:grid-cols-2" : "grid-cols-1"} gap-4 items-center`}
 			>
 				<Button
 					btnStyle="outline"
@@ -114,7 +114,7 @@ const FinalReview: FC<FinalReviewProps> = ({
 				>
 					{addingDraftCaseStatus === "loading" ? "Loading..." : "SAVE DRAFT"}
 				</Button>
-				{publishedCaseInfo && (
+				{!publishedCaseInfo && (
 					<Button
 						btnStyle="basic"
 						onClick={handlePublishCase}
