@@ -11,19 +11,15 @@ const TeacherDashboard = dynamic(
 	},
 );
 
-const TeacherDashboardContent = () => {
-	useGetActiveCase();
-	useGetArchiveCases("recent");
-
-	return <TeacherDashboard />;
-};
-
 const Page = () => {
 	const { session } = useAuthRedirect();
 	if (!session) {
 		return null;
 	}
-	return <TeacherDashboardContent />;
+	useGetActiveCase();
+	useGetArchiveCases("recent");
+
+	return <TeacherDashboard />;
 };
 
 export default Page;
