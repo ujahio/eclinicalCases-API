@@ -1,10 +1,9 @@
 import { useEffect, useRef } from "react";
 import { useAppDispatch } from "./hooks";
 import { getPublishedCase } from "@/store/slices/case/getPublishedCaseSlice";
-import { useAuthRedirect } from "@/services/hooks/useAuthRedirect";
+import { Session } from "next-auth";
 
-const useGetActiveCase = () => {
-	const { session } = useAuthRedirect();
+const useGetActiveCase = ({ session }: { session: Session | null }) => {
 	const dispatch = useAppDispatch();
 	const hasFetchedRef = useRef(false);
 	useEffect(() => {

@@ -4,14 +4,15 @@ export const addFeedbackApi = (feedbackData: any) => {
 	return studentApi.post(
 		`/case/add/feedback`,
 		feedbackData,
-		configureRequestHeaders()
+		configureRequestHeaders(),
 	);
 };
 
-export const getStudentsResponsesApi = (isRecent: any) => {
-	const url = isRecent
-		? `/student/responses/?caseFilter=${isRecent}`
-		: "/student/responses/";
+export const getStudentsResponsesApi = (filterParam: string) => {
+	const url =
+		filterParam === "recent"
+			? `/student/responses/?caseFilter=${filterParam}`
+			: "/student/responses/";
 	return studentApi.get(url, configureRequestHeaders());
 };
 
@@ -19,7 +20,7 @@ export const submitCaseResponseApi = (responsePayload: any) => {
 	return studentApi.post(
 		"student/response",
 		responsePayload,
-		configureRequestHeaders()
+		configureRequestHeaders(),
 	);
 };
 

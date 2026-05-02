@@ -2,14 +2,14 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { getStudentsResponsesApi } from "@/services/apis/student";
 export const getStudentsResponsesToCases = createAsyncThunk(
 	"student/getStudentsResponsesToCases",
-	async (isRecent: any, thunkAPI) => {
+	async (filterParam: string, thunkAPI) => {
 		try {
-			const { data } = await getStudentsResponsesApi(isRecent);
+			const { data } = await getStudentsResponsesApi(filterParam);
 			return data;
 		} catch (error: any) {
 			return thunkAPI.rejectWithValue(error.response.data);
 		}
-	}
+	},
 );
 
 export interface studentsResponsesToCasesState {
