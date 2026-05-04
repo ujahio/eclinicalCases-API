@@ -1,4 +1,3 @@
-import React from "react";
 import DashboardLayout from "../../components/layouts/dashboard";
 import useProcessTabs from "@/services/hooks/useProcessTabs";
 import Image from "next/image";

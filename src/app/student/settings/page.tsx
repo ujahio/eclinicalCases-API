@@ -2,7 +2,6 @@
 
 import AccountSettings from "@/presentation/student/Settings";
 import { useAuthRedirect } from "@/services/hooks/useAuthRedirect";
-import React from "react";
 
 const Page = () => {
 	const { session } = useAuthRedirect();

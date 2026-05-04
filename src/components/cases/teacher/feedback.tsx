@@ -1,5 +1,3 @@
-import React from "react";
-
 const FeedbackModal = ({ feedback }: any) => {
 	return (
 		<div className="pb-24">
@@ -9,7 +7,7 @@ const FeedbackModal = ({ feedback }: any) => {
 			{feedback.map(
 				(
 					questionInfo: { question: string; response: string },
-					index: number
+					index: number,
 				) => {
 					return (
 						<div key={index}>
@@ -21,7 +19,7 @@ const FeedbackModal = ({ feedback }: any) => {
 							</p>
 						</div>
 					);
-				}
+				},
 			)}
 		</div>
 	);

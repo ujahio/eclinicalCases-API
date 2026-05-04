@@ -127,7 +127,7 @@ const StudentCaseStudiesContent = ({ params }: { params: any }) => {
 				progress={progress}
 				isActive={isActive}
 				goNext={goNext}
-				goBack={hasPassedCME && activeTab >= 5 ? undefined : goBack}
+				goBack={hasPassedCME && activeTab >= 5 ? () => {} : goBack}
 				hasPassedCME={hasPassedCME}
 			/>
 		</div>
