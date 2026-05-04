@@ -1,18 +1,8 @@
-import NextAuth, {
-	DefaultSession,
-	NextAuthConfig,
-	NextAuthRequest,
-	Session,
-} from "next-auth";
+import NextAuth, { DefaultSession, NextAuthConfig, Session } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { authApi } from "./services/config/axiosConfig";
 import "next-auth/jwt";
 import { JWT } from "next-auth/jwt";
-import {
-	GetServerSidePropsContext,
-	NextApiRequest,
-	NextApiResponse,
-} from "next/types";
 
 declare module "next-auth/jwt" {
 	interface JWT {

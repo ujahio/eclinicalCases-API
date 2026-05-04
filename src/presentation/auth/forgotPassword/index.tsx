@@ -1,4 +1,3 @@
-import React from "react";
 import Step1 from "@/components/forgot-password/Step1";
 import Step2 from "@/components/forgot-password/Step2";
 import AuthLayout from "@/components/layouts/AuthLayout";

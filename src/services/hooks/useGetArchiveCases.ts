@@ -15,7 +15,7 @@ const useGetArchiveCases = ({
 	useEffect(() => {
 		if (session?.accessToken && !hasFetchedRef.current) {
 			hasFetchedRef.current = true;
-			dispatch(getArchiveCases(filterParam));
+			dispatch(getArchiveCases({ filterParam }));
 		}
 	}, [dispatch, session?.accessToken]);
 	useEffect(() => {

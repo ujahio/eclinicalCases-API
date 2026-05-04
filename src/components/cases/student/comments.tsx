@@ -1,5 +1,4 @@
 import { FC, useEffect, useState } from "react";
-import Button from "@/components/ui/Button";
 import CaseEditor from "@/lib/Editor";
 import {
 	validateEditorInputs,

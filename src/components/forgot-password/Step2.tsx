@@ -1,4 +1,3 @@
-import React from "react";
 import Image from "next/image";
 import Button from "@/components/ui/Button";
 import { ErrorMessage, Field, Form, Formik } from "formik";
