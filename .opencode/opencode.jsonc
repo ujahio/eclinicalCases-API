@@ -1,0 +1,58 @@
+{
+	"$schema": "https://opencode.ai/config.json",
+	"mcp": {
+		"awslabs.aws-documentation-mcp-server": {
+			"type": "local",
+			"command": ["uvx", "awslabs.aws-documentation-mcp-server@latest"],
+			"environment": {
+				"FASTMCP_LOG_LEVEL": "ERROR",
+			},
+			"enabled": true,
+		},
+		"well-architected-security-mcp-server": {
+			"type": "local",
+			"command": ["uvx", "awslabs.well-architected-security-mcp-server@latest"],
+			"environment": {
+				"FASTMCP_LOG_LEVEL": "ERROR",
+			},
+			"enabled": true,
+		},
+		"awslabs.billing-cost-management-mcp-server": {
+			"type": "local",
+			"command": ["uvx", "awslabs.billing-cost-management-mcp-server@latest"],
+			"environment": {
+				"FASTMCP_LOG_LEVEL": "ERROR",
+			},
+		},
+		"awslabs.aws-pricing-mcp-server": {
+			"type": "local",
+			"command": ["uvx", "awslabs.aws-pricing-mcp-server@latest"],
+			"environment": {
+				"FASTMCP_LOG_LEVEL": "ERROR",
+				"AWS_PROFILE": "default",
+			},
+			"enabled": true,
+		},
+		"drawio": {
+			"type": "remote",
+			"url": "https://mcp.draw.io/mcp",
+			"enabled": true,
+		},
+		"mermaid-mcp": {
+			"type": "remote",
+			"url": "https://mcp.mermaid.ai/mcp",
+		},
+		"awsknowledge": {
+			"type": "remote",
+			"url": "https://knowledge-mcp.global.api.aws",
+		},
+		"context7": {
+			"type": "remote",
+			"url": "https://mcp.context7.com/mcp",
+		},
+		"cloudflare-api": {
+			"type": "remote",
+			"url": "https://mcp.cloudflare.com/mcp",
+		},
+	},
+}
