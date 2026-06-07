@@ -1,12 +1,13 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { InputField } from "@/components/form-elements";
 import Button from "@/components/ui/Button";
 import { useAppSelector } from "@/services/hooks/hooks";
 import { TeacherCaseAnswerProps } from "@/services/types/teacher/createCaseStudy";
 import CaseEditor from "@/lib/Editor";
 import { formatDateToYYYYMMDD } from "@/utils/formatDate";
+import ActionButtons from "@/components/ActionButtons";
 
-const TeacherCaseAnswer: FunctionComponent<TeacherCaseAnswerProps> = ({
+const TeacherCaseAnswer: FC<TeacherCaseAnswerProps> = ({
 	goNext,
 	goBack,
 	caseStudy,
@@ -31,13 +32,13 @@ const TeacherCaseAnswer: FunctionComponent<TeacherCaseAnswerProps> = ({
 		: "";
 
 	const addingDraftCaseStatus = useAppSelector(
-		(state) => state.getDraftCases.status
+		(state) => state.getDraftCases.status,
 	);
 
 	return (
 		<>
 			<div className="mb-5 sm:mb-6">
-				<h6 className="text-1xs sm:text-sm font-bold text-blue uppercase mb-2.5">
+				<h6 className="text-1xs sm:text-sm font-bold text-blue uppercase mb-2.5 create-case-heading">
 					Case Model Answer
 				</h6>
 
@@ -63,24 +64,14 @@ const TeacherCaseAnswer: FunctionComponent<TeacherCaseAnswerProps> = ({
 			</div>
 			<Button
 				btnStyle="outline"
-				size="lg"
 				centralize
 				onClick={handleUpdateDraftCase}
-				className="w-full mb-3"
+				className="w-full mb-3 sm:text-sm cursor-pointer"
 			>
-				{addingDraftCaseStatus === "loading"
-					? "Loading..."
-					: "Save As a Draft..."}
+				{addingDraftCaseStatus === "loading" ? "Loading..." : "SAVE DRAFT"}
 			</Button>
 
-			<div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
-				<Button btnStyle="outline" size="lg" centralize onClick={goBack}>
-					GO BACK TO CASE MODEL
-				</Button>
-				<Button btnStyle="basic" size="lg" centralize onClick={goNext}>
-					PROCEED TO CASE TEACHING
-				</Button>
-			</div>
+			<ActionButtons goNext={goNext} goBack={goBack} />
 		</>
 	);
 };

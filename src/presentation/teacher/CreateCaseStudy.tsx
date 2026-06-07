@@ -1,5 +1,5 @@
 "use client";
-import React, { FunctionComponent } from "react";
+import { FC } from "react";
 import {
 	TeacherCMEQuestions,
 	TeacherCaseAnswer,
@@ -13,7 +13,7 @@ import { createCaseStudyTabs } from "@/services/constants";
 import { APP_CONTAINER, APP_SPACING } from "@/services/constants/styles";
 import { CreateCaseStudyProps } from "@/services/types/teacher/createCaseStudy";
 
-const CreateCaseStudy: FunctionComponent<CreateCaseStudyProps> = ({
+const CreateCaseStudy: FC<CreateCaseStudyProps> = ({
 	activeTab,
 	switchTab,
 	goNext,
@@ -29,7 +29,7 @@ const CreateCaseStudy: FunctionComponent<CreateCaseStudyProps> = ({
 		<AdminLayout
 			extraNav={
 				<nav
-					className={`bg-white h-17.5 flex items-center w-full border-t text-xxs border-grey-400 border-opacity-40 ${APP_SPACING} ${APP_CONTAINER}`}
+					className={`bg-white h-17-5 flex items-center w-full border-t text-xxs border-grey-400 border-opacity-40 ${APP_SPACING} ${APP_CONTAINER}`}
 				>
 					<ProcessTabs
 						active={activeTab}
@@ -42,7 +42,7 @@ const CreateCaseStudy: FunctionComponent<CreateCaseStudyProps> = ({
 				</nav>
 			}
 		>
-			<div className="mx-auto w-full max-w-3xl bg-white py-10 px-6 sm:p-8.75 md:p-10 border border-grey-border rounded-sm">
+			<div className="mx-auto w-full max-w-3xl bg-white py-10 px-6 sm:p-8-75 md:p-10 border border-grey-border rounded-sm">
 				{isActive("case_model_presentation") && (
 					<TeacherCasePresentation
 						goNext={goNext}

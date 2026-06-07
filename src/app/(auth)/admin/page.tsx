@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import { useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import SignupComp from "@/presentation/auth/signup";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
@@ -13,11 +13,11 @@ const SignupTeacher = () => {
 	const dispatch = useAppDispatch();
 	const signUpState = useAppSelector((state) => state.signup);
 
-	const handleSubmitSignupUser = React.useCallback(
+	const handleSubmitSignupUser = useCallback(
 		(val: SignupValues) => {
 			dispatch(signupUser({ ...val, user_role: "teacher" }));
 		},
-		[dispatch]
+		[dispatch],
 	);
 
 	useEffect(() => {

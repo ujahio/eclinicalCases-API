@@ -1,4 +1,4 @@
-import React, { FunctionComponent, ReactNode } from "react";
+import { FC, ReactNode } from "react";
 import DashboardLayout from ".";
 
 interface AdminLayoutProps {
@@ -6,10 +6,7 @@ interface AdminLayoutProps {
 	children?: any;
 }
 
-const AdminLayout: FunctionComponent<AdminLayoutProps> = ({
-	children,
-	extraNav,
-}) => {
+const AdminLayout: FC<AdminLayoutProps> = ({ children, extraNav }) => {
 	return (
 		<DashboardLayout
 			extraNav={extraNav}

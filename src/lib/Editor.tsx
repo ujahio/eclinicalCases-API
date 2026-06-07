@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import {
 	EditorState,
 	convertFromRaw,
@@ -14,7 +14,7 @@ interface EditorConvertToJSONProps {
 	validationMessage?: string; // Validation message for the editor content
 }
 
-const CaseEditor: FunctionComponent<EditorConvertToJSONProps> = ({
+const CaseEditor: FC<EditorConvertToJSONProps> = ({
 	content,
 	onContentChange,
 	status = "valid",
@@ -35,7 +35,7 @@ const CaseEditor: FunctionComponent<EditorConvertToJSONProps> = ({
 
 	// State for the editor and tracking the last emitted content
 	const [editorState, setEditorState] = useState(() =>
-		initializeEditorState(content)
+		initializeEditorState(content),
 	);
 	const [currentContent, setCurrentContent] = useState(content);
 

@@ -1,5 +1,4 @@
 import { convertFromRaw, Editor, EditorState } from "draft-js";
-import React from "react";
 
 const ResponseModal = ({ caseExplanation }: any) => {
 	const rawContent = caseExplanation
@@ -7,11 +6,11 @@ const ResponseModal = ({ caseExplanation }: any) => {
 		: { blocks: [], entityMap: {} };
 
 	const studentCaseDescription = EditorState.createWithContent(
-		convertFromRaw(rawContent)
+		convertFromRaw(rawContent),
 	);
 	return (
 		<>
-			<h6 className="text-1xs sm:text-sm font-bold text-blue uppercase mb-2.5">
+			<h6 className="text-1xs sm:text-sm font-bold text-blue uppercase mb-2.5 create-case-heading">
 				STUDENT&apos;S RESPONSE
 			</h6>
 			<div className="text-dark sm:text-base text-1sm">

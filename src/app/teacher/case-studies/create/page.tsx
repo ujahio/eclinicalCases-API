@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, FunctionComponent } from "react";
+import { useEffect, useState, FC } from "react";
 import dynamic from "next/dynamic";
 import { toast } from "react-toastify";
 import useProcessTabs from "@/services/hooks/useProcessTabs";
@@ -15,7 +15,7 @@ const CreateCaseStudy = dynamic(
 	() => import("@/presentation/teacher/CreateCaseStudy"),
 	{
 		ssr: false,
-	}
+	},
 );
 
 const initialCaseStudy: CaseStudy = {
@@ -35,7 +35,7 @@ const initialCaseStudy: CaseStudy = {
 	caseMaterials: [],
 };
 
-const CreateCaseStudyContent: FunctionComponent = () => {
+const CreateCaseStudyContent: FC = () => {
 	const navigate = useRouter();
 	const dispatch = useAppDispatch();
 	const addCaseState = useAppSelector((state) => state.addCase);
@@ -118,7 +118,7 @@ const CreateCaseStudyContent: FunctionComponent = () => {
 	);
 };
 
-const Page: FunctionComponent = () => {
+const Page: FC = () => {
 	const { session } = useAuthRedirect();
 
 	if (!session) {

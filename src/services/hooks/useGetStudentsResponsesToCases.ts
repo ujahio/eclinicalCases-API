@@ -1,13 +1,19 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
 import { getStudentsResponsesToCases } from "@/store/slices/student/getStudentsResponsesToCasesSlice";
-import { useAuthRedirect } from "@/services/hooks/useAuthRedirect";
+import { Session } from "next-auth";
 
-const useGetStudentsResponsesToCases = (filterParam?: string) => {
-	const { session } = useAuthRedirect();
+const useGetStudentsResponsesToCases = ({
+	session,
+	filterParam,
+}: {
+	session: Session | null;
+	filterParam: string;
+}) => {
 	const dispatch = useAppDispatch();
+
 	const studentsResponsesToCasesState = useAppSelector(
-		(state) => state.studentsResponsesToCases
+		(state) => state.studentsResponsesToCases,
 	);
 
 	useEffect(() => {
@@ -17,7 +23,12 @@ const useGetStudentsResponsesToCases = (filterParam?: string) => {
 		) {
 			dispatch(getStudentsResponsesToCases(filterParam));
 		}
-	}, [session, studentsResponsesToCasesState.status, dispatch, filterParam]);
+	}, [
+		session?.accessToken,
+		studentsResponsesToCasesState.status,
+		dispatch,
+		filterParam,
+	]);
 };
 
 export default useGetStudentsResponsesToCases;

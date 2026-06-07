@@ -8,5 +8,5 @@ export const ECCSEmail =
 				domain: DOMAIN,
 				sender: DOMAIN,
 				mailFromDomain: `no-reply@${DOMAIN}`,
-		  })
-		: sst.aws.Email.get(DOMAIN, DOMAIN);
+			})
+		: sst.aws.Email.get("ECCSEMAIL", DOMAIN);

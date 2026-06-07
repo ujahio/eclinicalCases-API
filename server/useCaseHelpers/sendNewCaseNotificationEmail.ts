@@ -26,7 +26,7 @@ export const sendEmails = async (studentDetails: StudentDetails[]) => {
 					body: emailBody,
 					sender: `new-case-alert@${Resource.ECCSEMAIL.sender}`,
 				});
-			})
+			}),
 		);
 	} catch (error) {
 		console.error("Error sending emails:", error);

@@ -1,14 +1,13 @@
 import CaseCard from "@/components/cases/CaseCard";
 import { SearchBar } from "@/components/form-elements";
 import DashboardLayout from "@/components/layouts/dashboard";
-import React from "react";
 
 const StudentCaseStudies = () => {
 	return (
 		<DashboardLayout>
 			<SearchBar placeholder="Search for case studies..." />
-			<div className="mt-7.5">
-				<ul className="grid grid-cols-items gap-5 md:gap-6.25">
+			<div className="mt-7-5">
+				<ul className="grid grid-cols-items gap-5 md:gap-6-25">
 					{caseStudies.map((caseS, index) => (
 						<CaseCard case={caseS} key={index} />
 					))}

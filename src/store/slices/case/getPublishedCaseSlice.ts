@@ -10,13 +10,13 @@ export const getPublishedCase = createAsyncThunk(
 		} catch (error: any) {
 			return thunkAPI.rejectWithValue(error.response.data);
 		}
-	}
+	},
 );
 
 export interface PublishedCaseState {
 	status: "idle" | "loading" | "succeeded" | "failed";
 	error: any;
-	data: any;
+	data?: any;
 }
 
 const initialState: PublishedCaseState = {

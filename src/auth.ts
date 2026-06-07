@@ -1,4 +1,4 @@
-import NextAuth, { DefaultSession, NextAuthConfig } from "next-auth";
+import NextAuth, { DefaultSession, NextAuthConfig, Session } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { authApi } from "./services/config/axiosConfig";
 import "next-auth/jwt";
@@ -172,4 +172,8 @@ const authOptions: NextAuthConfig = {
 	},
 };
 
-export const { handlers, signIn, signOut, auth } = NextAuth(authOptions);
+const nextAuthInstance = NextAuth(authOptions);
+export const handlers = nextAuthInstance.handlers;
+export const signIn = nextAuthInstance.signIn;
+export const signOut = nextAuthInstance.signOut;
+export const auth: () => Promise<Session | null> = nextAuthInstance.auth;

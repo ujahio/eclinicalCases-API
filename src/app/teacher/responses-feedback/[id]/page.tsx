@@ -1,6 +1,6 @@
 "use client";
 
-import React, { use, useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import {
 	fetchCaseData,
@@ -13,7 +13,7 @@ const ResponsesAndFeedbackPage = dynamic(
 	() => import("@/presentation/teacher/ResponsesAndFeedback"),
 	{
 		ssr: false,
-	}
+	},
 );
 
 const ResponsesAndFeedbackContent = ({ params }: { params: any }) => {

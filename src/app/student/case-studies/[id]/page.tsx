@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState, use } from "react";
+import { useEffect, useState, use } from "react";
 import StudentCaseStudy from "@/presentation/student/CaseStudy";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
 import {
@@ -35,11 +35,11 @@ const StudentCaseStudiesContent = ({ params }: { params: any }) => {
 
 	const caseDetailsState = useAppSelector((state) => state.caseDetails);
 	const [caseDetails, setCaseDetails] = useState<CaseDetail>(
-		caseDetailsState.data
+		caseDetailsState.data,
 	);
 
 	const submitResponseState = useAppSelector(
-		(state) => state.submitCaseResponse
+		(state) => state.submitCaseResponse,
 	);
 
 	const [hasPassedCME, setHasPassedCME] = useState(false);
@@ -127,7 +127,7 @@ const StudentCaseStudiesContent = ({ params }: { params: any }) => {
 				progress={progress}
 				isActive={isActive}
 				goNext={goNext}
-				goBack={hasPassedCME && activeTab >= 5 ? undefined : goBack}
+				goBack={hasPassedCME && activeTab >= 5 ? () => {} : goBack}
 				hasPassedCME={hasPassedCME}
 			/>
 		</div>

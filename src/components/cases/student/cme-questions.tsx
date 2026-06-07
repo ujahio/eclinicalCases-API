@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from "react";
+import { FC, useState } from "react";
 import Button from "@/components/ui/Button";
 import CmeModal from "@/components/ui/cme-modal";
 import { useAppSelector } from "@/services/hooks/hooks";
@@ -10,7 +10,7 @@ type Answer = {
 };
 
 interface StudentCMEQuestionsProps {
-	goBack: (() => void) | undefined;
+	goBack: () => void | undefined;
 	caseDetails: {
 		answers: Answer[];
 	};
@@ -18,7 +18,7 @@ interface StudentCMEQuestionsProps {
 	handleSubmitResponse: any;
 }
 
-const StudentCMEQuestions: FunctionComponent<StudentCMEQuestionsProps> = ({
+const StudentCMEQuestions: FC<StudentCMEQuestionsProps> = ({
 	goBack,
 	caseDetails,
 	setCaseDetails,
@@ -26,7 +26,7 @@ const StudentCMEQuestions: FunctionComponent<StudentCMEQuestionsProps> = ({
 }) => {
 	const [showCmeModal, setShowCmeModal] = useState(false);
 	const submitResponseState = useAppSelector(
-		(state) => state.submitCaseResponse.status
+		(state) => state.submitCaseResponse.status,
 	);
 
 	const setAnswer = (index: number, value: number | null) => {
@@ -67,14 +67,14 @@ const StudentCMEQuestions: FunctionComponent<StudentCMEQuestionsProps> = ({
 											onChange={() => setAnswer(index, optionIndex)}
 											checked={isChecked(
 												caseDetails.answers[index].studentAnswer,
-												optionIndex
+												optionIndex,
 											)}
 										/>
 										<div
 											className={`h-4 w-4 rounded-full border inline-flex items-center justify-center transition-colors ${
 												isChecked(
 													caseDetails.answers[index].studentAnswer,
-													optionIndex
+													optionIndex,
 												)
 													? "bg-dark"
 													: "border-grey-400"
@@ -82,7 +82,7 @@ const StudentCMEQuestions: FunctionComponent<StudentCMEQuestionsProps> = ({
 										>
 											{isChecked(
 												caseDetails.answers[index].studentAnswer,
-												optionIndex
+												optionIndex,
 											) && (
 												<svg
 													width="8"
@@ -109,20 +109,46 @@ const StudentCMEQuestions: FunctionComponent<StudentCMEQuestionsProps> = ({
 					);
 				})}
 			</ul>
-			<div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
-				<Button btnStyle="outline" size="lg" centralize onClick={goBack}>
-					View Model Answer
+			<div className="create-case-actions grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+				<Button
+					btnStyle="outline"
+					className="w-full flex items-center justify-center gap-2 sm:text-sm cursor-pointer"
+					centralize
+					onClick={goBack}
+				>
+					<svg
+						width="14"
+						height="14"
+						viewBox="0 0 24 24"
+						fill="none"
+						xmlns="http://www.w3.org/2000/svg"
+					>
+						<path
+							d="M15 18l-6-6 6-6"
+							stroke="currentColor"
+							strokeWidth="2"
+							strokeLinecap="round"
+							strokeLinejoin="round"
+						/>
+					</svg>
+					<span>GO BACK</span>
 				</Button>
 				<Button
 					btnStyle="basic"
-					size="lg"
+					className="w-full flex items-center justify-center gap-2 sm:text-sm cursor-pointer"
 					centralize
 					onClick={() => {
 						handleSubmitResponse();
 						// setShowCmeModal(true);
 					}}
 				>
-					{submitResponseState === "loading" ? "Loading..." : "Submit"}
+					{submitResponseState === "loading" ? (
+						<span>{"Loading..."}</span>
+					) : (
+						<>
+							<span>submit</span>
+						</>
+					)}
 				</Button>
 			</div>
 			<CmeModal show={showCmeModal} toggle={setShowCmeModal} />

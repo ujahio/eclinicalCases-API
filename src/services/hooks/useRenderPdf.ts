@@ -5,7 +5,7 @@ const useRenderPdf = () => {
 	const renderPdf = async (
 		pdfBase64: string,
 		canvasRef: React.RefObject<HTMLCanvasElement>,
-		scale = 1.0
+		scale = 1.0,
 	) => {
 		if (!pdfBase64 || !canvasRef.current) return;
 
@@ -40,6 +40,7 @@ const useRenderPdf = () => {
 			const renderContext = {
 				canvasContext: context,
 				viewport: viewport,
+				canvas,
 			};
 
 			await page.render(renderContext).promise;

@@ -1,4 +1,3 @@
-import React from "react";
 import {
 	StudentCaseAnswer,
 	StudentCasePresentation,
@@ -33,14 +32,14 @@ const StudentCaseStudy = ({
 	hasPassedCME,
 }: StudentCaseStudyProps) => {
 	const caseDescription = EditorState.createWithContent(
-		convertFromRaw(JSON.parse(caseDetails?.caseDescription || fallbackContent))
+		convertFromRaw(JSON.parse(caseDetails?.caseDescription || fallbackContent)),
 	);
 
 	return (
 		<DashboardLayout
 			extraNav={
 				<nav
-					className={`bg-white h-17.5 flex items-center w-full border-t border-grey-400 border-opacity-40 ${APP_SPACING} ${APP_CONTAINER}`}
+					className={`bg-white h-17-5 flex items-center w-full border-t border-grey-400 border-opacity-40 ${APP_SPACING} ${APP_CONTAINER}`}
 				>
 					<ProcessTabs
 						active={activeTab}
@@ -54,7 +53,7 @@ const StudentCaseStudy = ({
 				</nav>
 			}
 		>
-			<div className="mx-auto w-full max-w-3xl bg-white py-10 px-6 sm:p-8.75 md:p-10 border border-grey-border rounded-sm">
+			<div className="mx-auto w-full max-w-3xl bg-white py-10 px-6 sm:p-8-75 md:p-10 border border-grey-border rounded-sm">
 				{isActive("case_presentation") && (
 					<StudentCasePresentation
 						goNext={goNext}

@@ -1,5 +1,5 @@
 // import useProcessTabs from "@/services/hooks/useProcessTabs";
-import React from "react";
+
 import { SignUpForm } from "./components/form";
 import Image from "next/image";
 // import ProcessTabs from "@/components/ui/process-tabs";

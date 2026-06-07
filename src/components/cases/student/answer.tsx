@@ -1,10 +1,11 @@
-import React, { FC, useState } from "react";
+import { FC, useState } from "react";
 import Button from "@/components/ui/Button";
 import { convertFromRaw, Editor, EditorState } from "draft-js";
+import ActionButtons from "@/components/ActionButtons";
 
 interface StudentCaseAnswerProps {
 	goNext: () => void;
-	goBack: (() => void) | undefined;
+	goBack: () => void | undefined;
 	caseExplanation: any;
 	studentCaseExplanation: string;
 }
@@ -25,10 +26,10 @@ const StudentCaseAnswer: FC<StudentCaseAnswerProps> = ({
 		: { blocks: [], entityMap: {} };
 
 	const teacherCaseDescription = EditorState.createWithContent(
-		convertFromRaw(teacherCaseStudyExplanationRawContent)
+		convertFromRaw(teacherCaseStudyExplanationRawContent),
 	);
 	const studentCaseExplanationContent = EditorState.createWithContent(
-		convertFromRaw(studentCaseResponseRawContent)
+		convertFromRaw(studentCaseResponseRawContent),
 	);
 
 	return (
@@ -47,7 +48,7 @@ const StudentCaseAnswer: FC<StudentCaseAnswerProps> = ({
 
 			{!compareMode && (
 				<div className="mb-5 sm:mb-6">
-					<h6 className="text-1xs sm:text-sm font-bold text-blue uppercase mr-3.75 mb-2.5">
+					<h6 className="text-1xs sm:text-sm font-bold text-blue uppercase mr-3-75 mb-2.5">
 						CASE MODEL ANSWER
 					</h6>
 					<div className="text-dark sm:text-base text-1sm">
@@ -63,52 +64,48 @@ const StudentCaseAnswer: FC<StudentCaseAnswerProps> = ({
 			)}
 
 			{compareMode && (
-				<div className="flex flex-col md:justify-between md:flex-row">
-					<div className="md:w-45%">
+				<div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+					{/* Student's response */}
+					<div>
 						<h6 className="text-1xs sm:text-sm font-bold text-blue uppercase mb-2.5">
 							YOUR RESPONSE
 						</h6>
 						<div className="mb-5 sm:mb-6">
-							<div className="text-dark sm:text-base text-1sm">
-								<div className="mb-9 bg-gray-200 p-2.5">
-									<Editor
-										editorState={studentCaseExplanationContent}
-										readOnly={true}
-										onChange={() => {}}
-									/>
+							<div className="max-h-87.5 overflow-y-auto rounded-md border border-grey-200 p-3">
+								<div className="text-dark sm:text-base text-1sm">
+									<div className="bg-gray-200 p-2.5">
+										<Editor
+											editorState={studentCaseExplanationContent}
+											readOnly={true}
+											onChange={() => {}}
+										/>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-
 					{/* Teacher's model answer */}
-					<div className="md:w-45%">
+					<div>
 						<h6 className="text-1xs sm:text-sm font-bold text-blue uppercase mb-2.5">
 							CASE MODEL ANSWER
 						</h6>
 						<div className="mb-5 sm:mb-6">
-							<div className="text-dark sm:text-base text-1sm">
-								<div className="mb-9 bg-gray-200 p-2.5">
-									<Editor
-										editorState={teacherCaseDescription}
-										readOnly={true}
-										onChange={() => {}}
-									/>
+							<div className="max-h-87.5 overflow-y-auto rounded-md border border-grey-200 p-3">
+								<div className="text-dark sm:text-base text-1sm">
+									<div className="bg-gray-200 p-2.5">
+										<Editor
+											editorState={teacherCaseDescription}
+											readOnly={true}
+											onChange={() => {}}
+										/>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			)}
-
-			<div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
-				<Button btnStyle="outline" size="lg" centralize onClick={goBack}>
-					BACK TO COMMENTS
-				</Button>
-				<Button btnStyle="basic" size="lg" centralize onClick={goNext}>
-					PROCEED TO CASE TEACHING
-				</Button>
-			</div>
+			<ActionButtons goNext={goNext} goBack={goBack} />
 		</>
 	);
 };

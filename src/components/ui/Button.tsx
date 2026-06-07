@@ -1,11 +1,10 @@
 import Link from "next/link";
 import React from "react";
 
-interface ButtonInterface
-	extends React.DetailedHTMLProps<
-		React.ButtonHTMLAttributes<HTMLButtonElement>,
-		HTMLButtonElement
-	> {
+interface ButtonInterface extends React.DetailedHTMLProps<
+	React.ButtonHTMLAttributes<HTMLButtonElement>,
+	HTMLButtonElement
+> {
 	href?: string;
 	btnStyle?: "basic" | "outline-white" | "outline" | "white";
 	size?: "sm" | "md" | "lg";
@@ -23,7 +22,7 @@ const Button: React.FC<ButtonInterface> = ({
 	className,
 	...props
 }) => {
-	let classes = `rounded-sm outline-none focus:outline-none transition-all duration-100 flex items-center uppercase relative font-medium group ${
+	let classes = `rounded-md outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-all duration-100 flex items-center uppercase relative font-medium group ${
 		centralize ? "justify-center" : "justify-between"
 	} ${block ? "w-full" : ""} ${className} ${
 		props.disabled ? "opacity-50 cursor-not-allowed" : ""
@@ -31,7 +30,7 @@ const Button: React.FC<ButtonInterface> = ({
 
 	switch (btnStyle) {
 		case "outline-white":
-			classes += ``;
+			classes += ` bg-white text-dark border border-grey-200 hover:bg-grey-100`;
 			break;
 		case "outline":
 			classes += ` text-dark border-0.375 border-grey-200 bg-grey-200 bg-opacity-0 hover:bg-opacity-10`;

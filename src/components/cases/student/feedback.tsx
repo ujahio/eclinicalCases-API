@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useParams } from "next/navigation";
 import { TextArea } from "@/components/form-elements";
@@ -13,9 +13,7 @@ interface StudentFeedbackProps {
 	goNext: () => void;
 }
 
-const StudentFeedback: FunctionComponent<StudentFeedbackProps> = ({
-	goNext,
-}) => {
+const StudentFeedback: FC<StudentFeedbackProps> = ({ goNext }) => {
 	const params = useParams<{ id: string }>();
 	const feedbackState = useAppSelector((state) => state.addFeedback);
 	const dispatch = useAppDispatch();
@@ -23,7 +21,7 @@ const StudentFeedback: FunctionComponent<StudentFeedbackProps> = ({
 
 	const updateFeedback = (option: string, value: string) => {
 		const feedbackCopy = feedback.map((item) =>
-			item.key === option ? { ...item, response: value } : item
+			item.key === option ? { ...item, response: value } : item,
 		);
 
 		setFeedback(feedbackCopy);
@@ -70,7 +68,7 @@ const StudentFeedback: FunctionComponent<StudentFeedbackProps> = ({
 									<label
 										key={responseIndex}
 										htmlFor={`feedback-${id}-${responseIndex}`}
-										className={`mr-3 my-1.25 inline-flex items-center p-1.25 sm:p-1.5 transition-all border cursor-pointer ${
+										className={`mr-3 my-1-25 inline-flex items-center p-1-25 sm:p-1.5 transition-all border cursor-pointer ${
 											isChecked(id, response)
 												? "bg-primary-50 border-primary-300"
 												: "bg-neutral-200"
@@ -102,20 +100,27 @@ const StudentFeedback: FunctionComponent<StudentFeedbackProps> = ({
 					</li>
 				))}
 			</ul>
-			<div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
+			<div className="create-case-actions grid md:grid-cols-2 gap-4 items-center">
 				<Button
-					btnStyle="basic"
-					size="lg"
+					btnStyle="outline"
 					centralize
 					onClick={handleAddFeedback}
+					className="w-full flex items-center justify-center gap-2 sm:text-sm cursor-pointer"
 					disabled={!!(feedbackState && feedbackState.hasSubmittedFeedback)}
 				>
-					{feedbackState.status === "loading"
-						? "Loading..."
-						: "Submit feedback"}
+					<span>
+						{feedbackState.status === "loading"
+							? "Loading..."
+							: "Submit feedback"}
+					</span>
 				</Button>
-				<Button btnStyle="outline" size="lg" centralize onClick={goNext}>
-					Certificate
+				<Button
+					btnStyle="basic"
+					className="w-full flex items-center justify-center gap-2 sm:text-sm cursor-pointer"
+					centralize
+					onClick={goNext}
+				>
+					<span>Certificate</span>
 				</Button>
 			</div>
 		</>

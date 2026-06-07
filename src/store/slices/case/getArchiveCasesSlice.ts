@@ -3,9 +3,9 @@ import { getArchiveCasesApi } from "@/services/apis/case";
 
 export const getArchiveCases = createAsyncThunk(
 	"case/getArchiveCases",
-	async (isRecent: any, thunkAPI) => {
+	async ({ filterParam }: { filterParam?: string }, thunkAPI) => {
 		try {
-			const { data } = await getArchiveCasesApi(isRecent);
+			const { data } = await getArchiveCasesApi(filterParam);
 			return data;
 		} catch (error: any) {
 			return thunkAPI.rejectWithValue({
@@ -13,7 +13,7 @@ export const getArchiveCases = createAsyncThunk(
 				message: error.response?.data || error.message, // temp fix to set status manually
 			});
 		}
-	}
+	},
 );
 
 export interface GetArchiveCasesState {

@@ -1,17 +1,13 @@
-import React from "react";
 import { CaseCard } from "@/components/cases";
 import AdminLayout from "@/components/layouts/dashboard/admin";
 import Link from "next/link";
 import Button from "@/components/ui/Button";
 import { useAppSelector } from "@/services/hooks/hooks";
 import { formatDate } from "@/utils/formatDate";
-import { useAuthRedirect } from "@/services/hooks/useAuthRedirect";
 
 const TeacherDashboard = () => {
-	const { session } = useAuthRedirect();
-
 	const archivedCasesState = useAppSelector(
-		(state) => state.getArchiveCases.cases
+		(state) => state.getArchiveCases.cases,
 	);
 	const publishedCaseInfo = useAppSelector((state) => state.activeCase.data);
 
@@ -24,36 +20,43 @@ const TeacherDashboard = () => {
 
 	return (
 		<AdminLayout>
-			<div className="flex items-center justify-between">
-				<div className="inline-flex items-center">
-					{session?.user && (
-						<h4 className="text-dark font-medium text-1sm sm:text-base inline-block ml-2.5">
-							{`Hello, ${session?.user.firstName} ${session?.user.lastName} 👋`}
-						</h4>
-					)}
-				</div>
-			</div>
 			<div className="mt-14">
-				<div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 sm:mb-5">
-					{publishedCaseInfo ? (
+				<div className="mb-3 sm:mb-6">
+					{/* Mobile-only: Create button above heading */}
+					<div className="mb-7 block sm:hidden">
+						<Button
+							href="/teacher/case-studies/create"
+							btnStyle="basic"
+							type="button"
+							size="md"
+							className="mr-1 text-1xs sm:text-sm"
+							centralize
+						>
+							<span>
+								{publishedCaseInfo ? "Draft New Case" : "Create New Case"}
+							</span>
+						</Button>
+					</div>
+
+					<div className="flex items-center justify-between">
 						<h5 className="text-1sm sm:text-base text-dark uppercase">
 							ONGOING CASE STUDY
 						</h5>
-					) : (
-						<div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 sm:mb-5" />
-					)}
-					<div className="min-w-min inline-block">
-						<div className="flex">
-							<Link href="/teacher/case-studies/create">
-								<Button
-									btnStyle="basic"
-									type="button"
-									size="md"
-									className="mr-1 bg-primary-300"
-								>
-									Create New Case
-								</Button>
-							</Link>
+
+						{/* Desktop-only: Create button on the right */}
+						<div className="hidden sm:block">
+							<Button
+								href="/teacher/case-studies/create"
+								btnStyle="basic"
+								type="button"
+								size="md"
+								className="mr-1 text-1xs sm:text-sm"
+								centralize
+							>
+								<span>
+									{publishedCaseInfo ? "Draft a Case" : "Create New Case"}
+								</span>
+							</Button>
 						</div>
 					</div>
 				</div>
@@ -62,7 +65,7 @@ const TeacherDashboard = () => {
 					{publishedCaseInfo ? (
 						<div className="flex flex-col md:mr-4 mb-4">
 							<svg
-								className="w-6.25 sm:w-8 md:w-10"
+								className="w-6-25 sm:w-8 md:w-10"
 								viewBox="0 0 44.604 51.855"
 							>
 								<g transform="translate(16661.051 -9005.123)">
@@ -78,22 +81,43 @@ const TeacherDashboard = () => {
 									/>
 								</g>
 							</svg>
-							<h5 className="font-bold text-base mt-3.75 mb-3.5">
+							<h5 className="font-bold text-base mt-3-75 mb-3.5">
 								{publishedCaseInfo?.caseTopic}
 							</h5>
 							<div>
-								<span className="inline-block text-1xs">
-									<b>Created:</b> {formatDate(publishedCaseInfo?.createdAt)}
+								<span className="inline-block text-sm text-white/90">
+									<b className="font-semibold text-white mr-1">Created:</b>
+									<span className="font-normal">
+										{formatDate(publishedCaseInfo?.createdAt)}
+									</span>
 								</span>
-								<span className="block sm:inline-block text-1xs sm:ml-8">
-									<b>Deadline:</b> {formatDate(publishedCaseInfo?.caseDeadline)}
+								<span className="block sm:inline-block text-sm text-white/90 sm:ml-8">
+									<b className="font-semibold text-white mr-1">Deadline:</b>
+									<span className="font-normal">
+										{formatDate(publishedCaseInfo?.caseDeadline)}
+									</span>
 								</span>
 							</div>
+							{/* Mobile-only INFO button placed above badges and left-aligned */}
+							<div className="block sm:hidden mt-4 mb-2">
+								<Link
+									href={`/teacher/responses-feedback/${publishedCaseInfo.id}`}
+								>
+									<Button
+										type="button"
+										btnStyle="white"
+										className="mr-1 text-1xs sm:text-sm"
+									>
+										INFO
+									</Button>
+								</Link>
+							</div>
+
 							<div className="flex mt-6">
-								<div className=" bg-neutral-200 bg-opacity-20 rounded-sm w-24 text-center py-2 text-xs">
+								<div className="bg-dark bg-opacity-20 text-white rounded-sm px-3 py-2 text-xs inline-flex items-center justify-center mr-3">
 									{publishedCaseInfo?.feedbackCount} Feedback
 								</div>
-								<div className=" bg-neutral-200 bg-opacity-20 rounded-sm w-24 text-center py-2 ml-3 text-xs">
+								<div className="bg-dark bg-opacity-20 text-white rounded-sm px-3 py-2 text-xs inline-flex items-center justify-center">
 									{publishedCaseInfo?.totalResponses} Responses
 								</div>
 							</div>
@@ -102,7 +126,7 @@ const TeacherDashboard = () => {
 						<p className="text-white">There is no active case at the moment.</p>
 					)}
 					{publishedCaseInfo && (
-						<div className="min-w-min inline-block">
+						<div className="hidden sm:flex w-auto mb-0 sm:mb-0">
 							<div className="flex">
 								<Link
 									href={`/teacher/responses-feedback/${publishedCaseInfo.id}`}
@@ -111,7 +135,7 @@ const TeacherDashboard = () => {
 										type="button"
 										size="md"
 										btnStyle="white"
-										className="mr-1"
+										className="mr-3"
 									>
 										INFO
 									</Button>
@@ -122,7 +146,7 @@ const TeacherDashboard = () => {
 				</div>
 			</div>
 			<div className="mt-14">
-				<div className="flex justify-between items-center mb-3.75">
+				<div className="flex justify-between items-center mb-3-75">
 					<h5 className="text-1sm sm:text-base text-dark uppercase">
 						RECENT CASE STUDIES
 					</h5>
@@ -135,7 +159,7 @@ const TeacherDashboard = () => {
 						</Link>
 					) : null}
 				</div>
-				<ul className="grid grid-cols-items gap-5 md:gap-6.25">
+				<ul className="grid grid-cols-items gap-5 md:gap-6-25">
 					{archivedCases?.length === 0
 						? "You have no recent case studies."
 						: archivedCases?.map((caseM: any, index: number) => (
@@ -145,7 +169,7 @@ const TeacherDashboard = () => {
 								>
 									<CaseCard case={caseM} key={caseM._id} />
 								</Link>
-						  ))}
+							))}
 				</ul>
 			</div>
 		</AdminLayout>

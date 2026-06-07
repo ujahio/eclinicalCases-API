@@ -6,12 +6,6 @@ export default $config({
 			name: "eccs-labs",
 			removal: input?.stage === "production" ? "retain" : "remove",
 			home: "aws",
-			providers: {
-				aws: {
-					region: "me-south-1",
-					version: "6.83.0",
-				},
-			},
 		};
 	},
 	async run() {

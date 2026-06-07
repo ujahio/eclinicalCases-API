@@ -13,7 +13,7 @@ const useGetDraftCases = (caseId?: string) => {
 		if (session?.accessToken && getDraftCasesState.status === "idle") {
 			dispatch(getDraftCases());
 		}
-	}, [session, caseId, getDraftCasesState.status, dispatch]);
+	}, [session?.accessToken, caseId, getDraftCasesState.status, dispatch]);
 
 	return null;
 };

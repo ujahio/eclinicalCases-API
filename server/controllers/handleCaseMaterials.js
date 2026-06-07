@@ -64,16 +64,17 @@ export const getSignedUrlsToFetchForCaseMaterials = async (event) => {
 	}
 };
 
-export const getSignedUrlToUploadForCaseMaterials = async () => {
+export const getSignedUrlToUploadForCaseMaterials = async (event) => {
 	try {
-		const { pdfUrl, documentKey } = await getSignedUrlToUploadToS3();
+		const contentType = event.queryStringParameters?.contentType || "application/octet-stream";
+		const { pdfUrl, documentKey } = await getSignedUrlToUploadToS3(contentType);
 
 		return {
 			statusCode: 200,
 			body: JSON.stringify({
 				pdfUrl,
 				documentKey,
-				message: "PDF uploaded successfully!",
+				message: "Presigned URL generated successfully!",
 			}),
 		};
 	} catch (error) {

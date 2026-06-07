@@ -1,7 +1,7 @@
 import Button from "@/components/ui/Button";
 import { formatDate } from "@/utils/formatDate";
 import { Editor } from "draft-js";
-import React, { FunctionComponent } from "react";
+import { FC } from "react";
 
 interface StudentCasePresentationProps {
 	goNext: () => void;
@@ -9,9 +9,11 @@ interface StudentCasePresentationProps {
 	caseDeadline: string;
 }
 
-const StudentCasePresentation: FunctionComponent<
-	StudentCasePresentationProps
-> = ({ goNext, caseDescription, caseDeadline }) => {
+const StudentCasePresentation: FC<StudentCasePresentationProps> = ({
+	goNext,
+	caseDescription,
+	caseDeadline,
+}) => {
 	return (
 		<>
 			<div className="mb-5 sm:mb-6">
@@ -37,8 +39,14 @@ const StudentCasePresentation: FunctionComponent<
 				</div>
 			)}
 			<div className="grid grid-cols-1 gap-4">
-				<Button btnStyle="basic" size="lg" centralize onClick={goNext}>
-					PROCEED TO COMMENT ON THE CASE
+				<Button
+					btnStyle="basic"
+					className="w-full flex items-center justify-center gap-2 sm:text-sm cursor-pointer"
+					size="lg"
+					centralize
+					onClick={goNext}
+				>
+					<span>PROCEED</span>
 				</Button>
 			</div>
 		</>

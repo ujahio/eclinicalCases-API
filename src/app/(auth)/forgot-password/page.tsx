@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ForgotPasswordComp from "@/presentation/auth/forgotPassword";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
 import { resetSendOtpStatus, sendOtp } from "@/store/slices/auth/sendOtpSlice";

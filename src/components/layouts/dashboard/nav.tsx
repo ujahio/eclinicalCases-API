@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import { FC } from "react";
 import AppDropdown, { AppDropdownItem } from "../../ui/Dropdown";
 import Link from "next/link";
 import Image from "next/image";
@@ -14,7 +14,7 @@ interface NavProps {
 	children?: any;
 }
 
-const Nav: FunctionComponent<NavProps> = ({
+const Nav: FC<NavProps> = ({
 	children,
 	navLinks = [
 		{
@@ -51,7 +51,7 @@ const Nav: FunctionComponent<NavProps> = ({
 					height={35}
 				/>
 
-				<ul className="h-full hidden sm:flex items-center space-x-6.25 md:space-x-8">
+				<ul className="h-full hidden sm:flex items-center space-x-6-25 md:space-x-8">
 					{navLinks.map(({ label, path }, index) => (
 						<li
 							className="h-full relative items-center inline-flex"
@@ -70,13 +70,13 @@ const Nav: FunctionComponent<NavProps> = ({
 				</ul>
 
 				<div className="flex items-center cursor-pointer" role="button">
-					<figure className=" h-6.25 w-6.25 sm:h-8.75 sm:w-8.75 rounded-full mr-3">
+					<figure className="h-6 w-6 sm:h-8 sm:w-8 rounded-full mr-3 overflow-hidden">
 						<Image
 							src="/images/user.png"
 							alt="user image"
-							className="h-full w-full"
-							width={130}
-							height={130}
+							className="h-full w-full object-cover rounded-full"
+							width={40}
+							height={40}
 						/>
 					</figure>
 					<svg
