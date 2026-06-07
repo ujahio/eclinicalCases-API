@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "pluginName": "deploy-on-aws",
+  "groups": {
+    "agents": [],
+    "commands": [],
+    "plugins": [
+      "converted-hooks.ts"
+    ],
+    "skills": [
+      "deploy",
+      "aws-architecture-diagram"
+    ]
+  }
+}
