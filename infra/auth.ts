@@ -6,7 +6,7 @@ const STAGE = $app.stage;
 const DOMAIN = process.env.NEXT_PUBLIC_DOMAIN;
 const domainName = STAGE === "production" ? DOMAIN : `${STAGE}.${DOMAIN}`;
 
-export const userPool = new sst.aws.CognitoUserPool(
+export const userPool: sst.aws.CognitoUserPool = new sst.aws.CognitoUserPool(
 	"eccslabs",
 	{
 		transform: {
@@ -131,7 +131,7 @@ export const userPool = new sst.aws.CognitoUserPool(
 			},
 		},
 	},
-	{ dependsOn: client }
+	{ dependsOn: client },
 );
 
 const userPoolDomain = new aws.cognito.UserPoolDomain(
@@ -140,14 +140,14 @@ const userPoolDomain = new aws.cognito.UserPoolDomain(
 		domain: `${$app.name.toLowerCase()}-${$app.stage.toLowerCase()}`, // Amazon Cognito domain
 		userPoolId: userPool.id,
 	},
-	{ dependsOn: [userPool] }
+	{ dependsOn: [userPool] },
 );
 
 export const authUrl = $concat(
 	userPoolDomain.domain,
 	".auth.",
 	aws.getRegionOutput().name,
-	".amazoncognito.com"
+	".amazoncognito.com",
 );
 
 const stagePrefix =
