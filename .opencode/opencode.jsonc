@@ -50,9 +50,5 @@
 			"type": "remote",
 			"url": "https://mcp.context7.com/mcp",
 		},
-		"cloudflare-api": {
-			"type": "remote",
-			"url": "https://mcp.cloudflare.com/mcp",
-		},
 	},
 }
