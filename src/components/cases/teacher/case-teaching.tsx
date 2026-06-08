@@ -1,7 +1,7 @@
 import { FC, useState, ChangeEvent, useRef, useEffect } from "react";
 import { toast } from "react-toastify";
 import { InputField } from "@/components/form-elements";
-import Button from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
 import { TeacherCaseTeachingProps } from "@/services/types/teacher/createCaseStudy";
 import { getCaseMaterials } from "@/store/slices/case/getCaseMaterialsSlice";

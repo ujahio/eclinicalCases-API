@@ -1,5 +1,5 @@
 import { FC, FormEvent, useState, ChangeEvent } from "react";
-import Button from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button";
 import { InputField, PasswordField } from "@/components/form-elements";
 import { saltAndHashPassword } from "@/utils/password";
 import { toast } from "react-toastify";

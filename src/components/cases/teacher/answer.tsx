@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from "react";
 import { InputField } from "@/components/form-elements";
-import Button from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button";
 import { useAppSelector } from "@/services/hooks/hooks";
 import { TeacherCaseAnswerProps } from "@/services/types/teacher/createCaseStudy";
 import CaseEditor from "@/lib/Editor";

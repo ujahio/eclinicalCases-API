@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { APP_CONTAINER, LANDING_X_PADDING } from "@/services/constants/styles";
-import Button from "./ui/Button";
+import { Button } from "./ui/Button";
 import AppDropdown, { AppDropdownItem } from "./ui/Dropdown";
 
 // const Navbar = ({ setShowWelcomeModal }) => {
