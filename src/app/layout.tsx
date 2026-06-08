@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import "./global.css";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import StoreProvider from "./StoreProvider";
 import { SessionProvider } from "next-auth/react";
-import { Nunito_Sans } from "next/font/google";
+import { Nunito_Sans, Geist } from "next/font/google";
+import { cn } from "@/lib/utils";
+
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 const nunitoFont = Nunito_Sans({
 	fallback: ["nunito", "Roboto", "Gideon Roman", "sans-serif"],
@@ -22,7 +24,7 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en" className={nunitoFont.className}>
+		<html lang="en" className={cn(nunitoFont.className, "font-sans", geist.variable)}>
 			<body>
 				<main className="bg-grey-bg">
 					<SessionProvider>
