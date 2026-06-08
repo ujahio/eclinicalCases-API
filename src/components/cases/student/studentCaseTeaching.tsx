@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from "react";
-import { Editor, convertFromRaw, EditorState } from "draft-js";
+import PlateViewer from "@/lib/PlateViewer";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
 import { getCaseMaterials } from "@/store/slices/case/getCaseMaterialsSlice";
 import ActionButtons from "@/components/ActionButtons";
@@ -15,11 +15,6 @@ interface StudentCaseTeachingProps {
 	}[];
 }
 
-const fallbackContent = JSON.stringify({
-	blocks: [],
-	entityMap: {},
-});
-
 const StudentCaseTeaching: FC<StudentCaseTeachingProps> = ({
 	caseMaterialsMetaData,
 	caseTeaching,
@@ -27,15 +22,11 @@ const StudentCaseTeaching: FC<StudentCaseTeachingProps> = ({
 	goNext,
 	goBack,
 }) => {
-	const caseTeachingContent = EditorState.createWithContent(
-		convertFromRaw(JSON.parse(caseTeaching || fallbackContent)),
-	);
 	const dispatch = useAppDispatch();
 
 	const [loading, setLoading] = useState<boolean>(false);
-	const [materials, setMaterials] = useState<any[]>([]); // State for combined materials
+	const [materials, setMaterials] = useState<any[]>([]);
 
-	// Fetching the materials
 	useEffect(() => {
 		const documentKeys = caseMaterialsMetaData?.map(
 			(material: any) => material.documentKey,
@@ -63,7 +54,6 @@ const StudentCaseTeaching: FC<StudentCaseTeachingProps> = ({
 		}
 	}, [caseMaterialsMetaData, dispatch]);
 
-	// Select cached materials from Redux store
 	const cachedMaterials = useAppSelector(
 		(state) => state.caseMaterials.pdfMaterials,
 	);
@@ -88,11 +78,7 @@ const StudentCaseTeaching: FC<StudentCaseTeachingProps> = ({
 				<h5 className="font-bold text-base mt-3-75 mb-2.5">{caseTopic}</h5>
 
 				<div className="mb-9 bg-gray-200 p-2.5">
-					<Editor
-						editorState={caseTeachingContent}
-						readOnly={true}
-						onChange={() => {}}
-					/>
+					<PlateViewer jsonString={caseTeaching} />
 				</div>
 				{loading && <p>Loading...</p>}
 
@@ -108,8 +94,8 @@ const StudentCaseTeaching: FC<StudentCaseTeachingProps> = ({
 									className="flex items-center p-2 border-grey-400 border rounded-sm"
 								>
 									<a
-										href={material.pdfUrl} // Use the signed URL for downloading
-										download={material.fileName} // Use the fileName for download
+										href={material.pdfUrl}
+										download={material.fileName}
 										className="flex items-center"
 										target="_blank"
 										rel="noopener noreferrer"
