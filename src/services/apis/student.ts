@@ -1,4 +1,4 @@
-import { configureRequestHeaders, studentApi } from "../config/axiosConfig";
+import { configureRequestHeaders, studentApi } from "../config/fetchClient";
 
 export const addFeedbackApi = (feedbackData: any) => {
 	return studentApi.post(
