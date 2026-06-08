@@ -50,10 +50,10 @@ const Navbar = ({
 					</li>
 				</ul>
 				<div className="hidden md:flex">
-					<Button href="/login" className="mr-3 " size="lg" variant="outline">
+					<Button href="/login" className="mr-3 " size="md" variant="outline">
 						LOG IN
 					</Button>
-					<Button href="/signup" size="lg" variant="basic">
+					<Button href="/signup" size="md" variant="basic">
 						GET STARTED
 					</Button>
 				</div>

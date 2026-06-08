@@ -82,7 +82,8 @@ const FinalReview: FC<FinalReviewProps> = ({
 				className={`create-case-actions grid ${!publishedCaseInfo ? "grid-cols-1 md:grid-cols-2" : "grid-cols-1"} gap-4 items-center`}
 			>
 				<Button
-					variant="outline"
+					variant="secondary"
+					size="md"
 					centralize
 					onClick={handleUpdateDraftCase}
 					className="w-full sm:text-sm cursor-pointer"
@@ -92,6 +93,7 @@ const FinalReview: FC<FinalReviewProps> = ({
 				{!publishedCaseInfo && (
 					<Button
 						variant="basic"
+						size="md"
 						onClick={handlePublishCase}
 						disabled={activeCaseStatus === "loading"}
 						className="w-full flex items-center justify-center gap-2 sm:text-sm cursor-pointer"

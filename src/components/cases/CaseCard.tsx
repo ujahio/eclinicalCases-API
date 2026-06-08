@@ -81,8 +81,10 @@ const CaseCard: FC<CaseCardProps> = ({
 			{caseStatus === "draft" && (
 				<div className="grid sm:grid-cols-2 grid-cols-1 gap-4 mt-3">
 					<Button
-						variant="outline"
+						variant="basic"
 						size="md"
+						className="text-sm"
+						uppercase
 						centralize
 						onClick={(e) => {
 							e.stopPropagation();
@@ -92,10 +94,11 @@ const CaseCard: FC<CaseCardProps> = ({
 						Update
 					</Button>
 					<Button
-						variant="basic"
+						variant="destructive"
 						size="md"
-						className="text-xs bg-rose-500 text-white"
+						className="text-sm"
 						centralize
+						uppercase
 						onClick={() => {
 							handleDeleteCase(_id);
 						}}
@@ -109,7 +112,7 @@ const CaseCard: FC<CaseCardProps> = ({
       {caseStatus === "archived" && (
 				<div className="grid sm:grid-cols-2 grid-cols-1 gap-4 mt-3">
 					<Button
-						variant="outline"
+						variant="secondary"
 						size="md"
 						centralize
 						onClick={(e) => {

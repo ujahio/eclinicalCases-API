@@ -51,7 +51,7 @@ const TeacherDashboard = () => {
 								type="button"
 								size="md"
 								className="mr-1 text-1xs sm:text-sm"
-								centralize
+								uppercase
 							>
 								<span>
 									{publishedCaseInfo ? "Draft a Case" : "Create New Case"}

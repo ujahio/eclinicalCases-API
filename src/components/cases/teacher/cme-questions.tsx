@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { useAppSelector } from "@/services/hooks/hooks";
 import { TeacherCMEQuestionsProps } from "@/services/types/teacher/createCaseStudy";
 import { FC } from "react";
-import ActionButtons from "@/components/ActionButtons";
+import ProgressButtons from "@/components/progressButtons";
 
 const TeacherCMEQuestions: FC<TeacherCMEQuestionsProps> = ({
 	goNext,
@@ -107,7 +107,7 @@ const TeacherCMEQuestions: FC<TeacherCMEQuestionsProps> = ({
 								<div className="flex flex-wrap justify-end gap-2">
 									<Button
 										size="sm"
-										variant="outline"
+										variant="secondary"
 										onClick={() => addEmptyOption(index)}
 										className="text-xs px-2"
 									>
@@ -116,10 +116,9 @@ const TeacherCMEQuestions: FC<TeacherCMEQuestionsProps> = ({
 
 									<Button
 										size="sm"
-										variant="outline"
+										variant="destructive"
 										aria-label="delete question"
 										onClick={() => deleteQuestion(index)}
-										className="hover:text-red"
 									>
 										<svg width="11.5" viewBox="0 0 12.833 16.5">
 											<path
@@ -243,14 +242,15 @@ const TeacherCMEQuestions: FC<TeacherCMEQuestionsProps> = ({
 				</button>
 			</div>
 			<Button
-				variant="outline"
+				variant="secondary"
+				size="md"
 				centralize
 				onClick={handleUpdateDraftCase}
 				className="w-full mb-3 sm:text-sm cursor-pointer"
 			>
 				{addingDraftCaseStatus === "loading" ? "Loading..." : "SAVE DRAFT"}
 			</Button>
-			<ActionButtons goNext={goNext} goBack={goBack} />
+			<ProgressButtons goNext={goNext} goBack={goBack} />
 		</>
 	);
 };

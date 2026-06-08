@@ -186,11 +186,7 @@ const WalkthroughModal: FC<ModalProps> = ({ show, toggle }) => {
 					))}
 				</ul>
 				{progress < totalSteps && (
-					<Button
-						variant="basic"
-						size="md"
-						onClick={() => changeSlide("next")}
-					>
+					<Button variant="basic" size="md" onClick={() => changeSlide("next")}>
 						Next
 					</Button>
 				)}
