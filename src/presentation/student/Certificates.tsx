@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import useRenderPdf from "@/services/hooks/useRenderPdf";
 import Modal from "@/components/ui/Modal";
 import DashboardLayout from "@/components/layouts/dashboard";
-import { Button } from "../../components/ui/Button";
+import { Button } from "@/components/ui/button";
 
 const Certificates = ({
 	studentsCertificatesInfo,
@@ -61,7 +61,7 @@ const Certificates = ({
 												/>
 											</figure>
 										</button>
-										<Button size="sm" centralize btnStyle="outline">
+										<Button size="sm" centralize variant="outline">
 											<a
 												href={certificate.signedUrl}
 												target="_blank"

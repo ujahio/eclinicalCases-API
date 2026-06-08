@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import PlateViewer from "@/lib/PlateViewer";
 import ActionButtons from "@/components/ActionButtons";
 
@@ -22,7 +22,7 @@ const StudentCaseAnswer: FC<StudentCaseAnswerProps> = ({
 		<>
 			<div className="flex items-center justify-end mb-4">
 				<Button
-					btnStyle="outline"
+					variant="outline"
 					size="sm"
 					centralize
 					className="mb-2.5"

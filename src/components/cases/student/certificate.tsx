@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import { FC } from "react";
 import { useAppSelector } from "@/services/hooks/hooks";
 import useRenderPdf from "@/services/hooks/useRenderPdf";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 
 const StudentCertificate: FC = () => {
@@ -38,7 +38,7 @@ const StudentCertificate: FC = () => {
 			</div>
 			<div className="create-case-actions grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
 				<Button
-					btnStyle="outline"
+					variant="outline"
 					className="w-full flex items-center justify-center gap-2 sm:text-sm cursor-pointer"
 					centralize
 				>
@@ -51,7 +51,7 @@ const StudentCertificate: FC = () => {
 					</a>
 				</Button>
 				<Button
-					btnStyle="basic"
+					variant="basic"
 					className="w-full flex items-center justify-center gap-2 sm:text-sm cursor-pointer"
 					centralize
 					onClick={handleEndSession}

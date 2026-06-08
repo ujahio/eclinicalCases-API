@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useParams } from "next/navigation";
 import { TextArea } from "@/components/form-elements";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
 import {
 	addFeedback,
@@ -102,7 +102,7 @@ const StudentFeedback: FC<StudentFeedbackProps> = ({ goNext }) => {
 			</ul>
 			<div className="create-case-actions grid md:grid-cols-2 gap-4 items-center">
 				<Button
-					btnStyle="outline"
+					variant="outline"
 					centralize
 					onClick={handleAddFeedback}
 					className="w-full flex items-center justify-center gap-2 sm:text-sm cursor-pointer"
@@ -115,7 +115,7 @@ const StudentFeedback: FC<StudentFeedbackProps> = ({ goNext }) => {
 					</span>
 				</Button>
 				<Button
-					btnStyle="basic"
+					variant="basic"
 					className="w-full flex items-center justify-center gap-2 sm:text-sm cursor-pointer"
 					centralize
 					onClick={goNext}

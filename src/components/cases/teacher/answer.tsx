@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from "react";
 import { InputField } from "@/components/form-elements";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import { useAppSelector } from "@/services/hooks/hooks";
 import { TeacherCaseAnswerProps } from "@/services/types/teacher/createCaseStudy";
 import CaseEditor from "@/lib/Editor";
@@ -63,7 +63,7 @@ const TeacherCaseAnswer: FC<TeacherCaseAnswerProps> = ({
 				/>
 			</div>
 			<Button
-				btnStyle="outline"
+				variant="outline"
 				centralize
 				onClick={handleUpdateDraftCase}
 				className="w-full mb-3 sm:text-sm cursor-pointer"

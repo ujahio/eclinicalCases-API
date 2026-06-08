@@ -2,7 +2,7 @@ import { FC, useState } from "react";
 import Image from "next/image";
 
 import Modal, { ModalProps } from "../ui/Modal";
-import { Button } from "../ui/Button";
+import { Button } from "@/components/ui/button";
 
 interface Step {
 	step: number;
@@ -164,7 +164,7 @@ const WalkthroughModal: FC<ModalProps> = ({ show, toggle }) => {
 			<div className="flex items-center justify-between mt-4">
 				{progress > 0 && (
 					<Button
-						btnStyle="outline"
+						variant="outline"
 						size="md"
 						onClick={() => changeSlide("previous")}
 					>
@@ -187,7 +187,7 @@ const WalkthroughModal: FC<ModalProps> = ({ show, toggle }) => {
 				</ul>
 				{progress < totalSteps && (
 					<Button
-						btnStyle="basic"
+						variant="basic"
 						size="md"
 						onClick={() => changeSlide("next")}
 					>

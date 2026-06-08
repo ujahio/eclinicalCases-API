@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import DashboardLayout from "@/components/layouts/dashboard";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
 import { formatDate } from "@/utils/formatDate";
 import ResponseCaseCard from "@/components/cases/ResponseCaseCard";
@@ -97,7 +97,7 @@ const StudentDashboard = () => {
 								<Button
 									type="button"
 									className="mr-1 text-1xs sm:text-sm"
-									btnStyle="white"
+									variant="white"
 									href={`/student/case-studies/${publishedCaseInfo?.id}`}
 								>
 									View Case

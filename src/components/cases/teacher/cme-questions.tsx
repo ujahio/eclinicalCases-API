@@ -1,5 +1,5 @@
 import { InputField } from "@/components/form-elements";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import { useAppSelector } from "@/services/hooks/hooks";
 import { TeacherCMEQuestionsProps } from "@/services/types/teacher/createCaseStudy";
 import { FC } from "react";
@@ -107,7 +107,7 @@ const TeacherCMEQuestions: FC<TeacherCMEQuestionsProps> = ({
 								<div className="flex flex-wrap justify-end gap-2">
 									<Button
 										size="sm"
-										btnStyle="outline"
+										variant="outline"
 										onClick={() => addEmptyOption(index)}
 										className="text-xs px-2"
 									>
@@ -116,7 +116,7 @@ const TeacherCMEQuestions: FC<TeacherCMEQuestionsProps> = ({
 
 									<Button
 										size="sm"
-										btnStyle="outline"
+										variant="outline"
 										aria-label="delete question"
 										onClick={() => deleteQuestion(index)}
 										className="hover:text-red"
@@ -243,7 +243,7 @@ const TeacherCMEQuestions: FC<TeacherCMEQuestionsProps> = ({
 				</button>
 			</div>
 			<Button
-				btnStyle="outline"
+				variant="outline"
 				centralize
 				onClick={handleUpdateDraftCase}
 				className="w-full mb-3 sm:text-sm cursor-pointer"

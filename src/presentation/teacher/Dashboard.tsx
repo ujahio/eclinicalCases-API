@@ -1,7 +1,7 @@
 import { CaseCard } from "@/components/cases";
 import AdminLayout from "@/components/layouts/dashboard/admin";
 import Link from "next/link";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import { useAppSelector } from "@/services/hooks/hooks";
 import { formatDate } from "@/utils/formatDate";
 
@@ -26,7 +26,7 @@ const TeacherDashboard = () => {
 					<div className="mb-7 block sm:hidden">
 						<Button
 							href="/teacher/case-studies/create"
-							btnStyle="basic"
+							variant="basic"
 							type="button"
 							size="md"
 							className="mr-1 text-1xs sm:text-sm"
@@ -47,7 +47,7 @@ const TeacherDashboard = () => {
 						<div className="hidden sm:block">
 							<Button
 								href="/teacher/case-studies/create"
-								btnStyle="basic"
+								variant="basic"
 								type="button"
 								size="md"
 								className="mr-1 text-1xs sm:text-sm"
@@ -105,7 +105,7 @@ const TeacherDashboard = () => {
 								>
 									<Button
 										type="button"
-										btnStyle="white"
+										variant="white"
 										className="mr-1 text-1xs sm:text-sm"
 									>
 										INFO
@@ -134,7 +134,7 @@ const TeacherDashboard = () => {
 									<Button
 										type="button"
 										size="md"
-										btnStyle="white"
+										variant="white"
 										className="mr-3"
 									>
 										INFO

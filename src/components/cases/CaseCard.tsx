@@ -1,6 +1,6 @@
 import { useRouter } from "next/navigation";
 import { FC } from "react";
-import { Button } from "../ui/Button";
+import { Button } from "@/components/ui/button";
 import { useAppSelector } from "@/services/hooks/hooks";
 
 export interface CaseCardProps {
@@ -81,7 +81,7 @@ const CaseCard: FC<CaseCardProps> = ({
 			{caseStatus === "draft" && (
 				<div className="grid sm:grid-cols-2 grid-cols-1 gap-4 mt-3">
 					<Button
-						btnStyle="outline"
+						variant="outline"
 						size="md"
 						centralize
 						onClick={(e) => {
@@ -92,7 +92,7 @@ const CaseCard: FC<CaseCardProps> = ({
 						Update
 					</Button>
 					<Button
-						btnStyle="basic"
+						variant="basic"
 						size="md"
 						className="text-xs bg-rose-500 text-white"
 						centralize
@@ -109,7 +109,7 @@ const CaseCard: FC<CaseCardProps> = ({
       {caseStatus === "archived" && (
 				<div className="grid sm:grid-cols-2 grid-cols-1 gap-4 mt-3">
 					<Button
-						btnStyle="outline"
+						variant="outline"
 						size="md"
 						centralize
 						onClick={(e) => {

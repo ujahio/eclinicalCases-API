@@ -1,6 +1,6 @@
 import { useState, FC } from "react";
 import { InputField } from "@/components/form-elements";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 
 export interface ProfessionalDetailsProps {
 	profession: string;

@@ -1,7 +1,7 @@
 import { FC, useState, ChangeEvent, useRef, useEffect } from "react";
 import { toast } from "react-toastify";
 import { InputField } from "@/components/form-elements";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
 import { TeacherCaseTeachingProps } from "@/services/types/teacher/createCaseStudy";
 import { getCaseMaterials } from "@/store/slices/case/getCaseMaterialsSlice";
@@ -238,7 +238,7 @@ const TeacherCaseTeaching: FC<TeacherCaseTeachingProps> = ({
 				)}
 				{!isUploading && (
 					<Button
-						btnStyle="outline"
+						variant="outline"
 						size="md"
 						block
 						className="mt-2.5 text-xs"
@@ -256,7 +256,7 @@ const TeacherCaseTeaching: FC<TeacherCaseTeachingProps> = ({
 				)}
 			</div>
 			<Button
-				btnStyle="outline"
+				variant="outline"
 				centralize
 				onClick={handleUpdateDraftCase}
 				className="w-full mb-3 sm:text-sm cursor-pointer"

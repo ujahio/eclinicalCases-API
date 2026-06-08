@@ -1,10 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { APP_CONTAINER, LANDING_X_PADDING } from "@/services/constants/styles";
-import { Button } from "./ui/Button";
+import { Button } from "@/components/ui/button";
 import AppDropdown, { AppDropdownItem } from "./ui/Dropdown";
 
-// const Navbar = ({ setShowWelcomeModal }) => {
 const Navbar = ({
 	activeTab,
 	setShowWelcomeModal,
@@ -51,11 +50,11 @@ const Navbar = ({
 					</li>
 				</ul>
 				<div className="hidden md:flex">
-					<Button href="/login" className="mr-3 " btnStyle="outline" size="md">
-						Log in
+					<Button href="/login" className="mr-3 " size="lg" variant="outline">
+						LOG IN
 					</Button>
-					<Button href="/signup" size="md">
-						get started
+					<Button href="/signup" size="lg" variant="basic">
+						GET STARTED
 					</Button>
 				</div>
 				<div className="md:hidden">

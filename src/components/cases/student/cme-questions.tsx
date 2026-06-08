@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import CmeModal from "@/components/ui/cme-modal";
 import { useAppSelector } from "@/services/hooks/hooks";
 
@@ -111,7 +111,7 @@ const StudentCMEQuestions: FC<StudentCMEQuestionsProps> = ({
 			</ul>
 			<div className="create-case-actions grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
 				<Button
-					btnStyle="outline"
+					variant="outline"
 					className="w-full flex items-center justify-center gap-2 sm:text-sm cursor-pointer"
 					centralize
 					onClick={goBack}
@@ -134,7 +134,7 @@ const StudentCMEQuestions: FC<StudentCMEQuestionsProps> = ({
 					<span>GO BACK</span>
 				</Button>
 				<Button
-					btnStyle="basic"
+					variant="basic"
 					className="w-full flex items-center justify-center gap-2 sm:text-sm cursor-pointer"
 					centralize
 					onClick={() => {

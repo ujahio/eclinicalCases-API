@@ -1,6 +1,6 @@
 import { FC } from "react";
 import Cme from "./cme";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import PlateViewer from "@/lib/PlateViewer";
 import { useAppSelector } from "@/services/hooks/hooks";
 import { FinalReviewProps } from "@/services/types/teacher/createCaseStudy";
@@ -82,7 +82,7 @@ const FinalReview: FC<FinalReviewProps> = ({
 				className={`create-case-actions grid ${!publishedCaseInfo ? "grid-cols-1 md:grid-cols-2" : "grid-cols-1"} gap-4 items-center`}
 			>
 				<Button
-					btnStyle="outline"
+					variant="outline"
 					centralize
 					onClick={handleUpdateDraftCase}
 					className="w-full sm:text-sm cursor-pointer"
@@ -91,7 +91,7 @@ const FinalReview: FC<FinalReviewProps> = ({
 				</Button>
 				{!publishedCaseInfo && (
 					<Button
-						btnStyle="basic"
+						variant="basic"
 						onClick={handlePublishCase}
 						disabled={activeCaseStatus === "loading"}
 						className="w-full flex items-center justify-center gap-2 sm:text-sm cursor-pointer"

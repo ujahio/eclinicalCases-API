@@ -8,7 +8,7 @@ import { signIn, useSession } from "next-auth/react";
 import { LoginFormValues } from "@/services/types/auth/login";
 import { saltAndHashPassword } from "@/utils/password";
 import AuthLayout from "@/components/layouts/AuthLayout";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { loginSchema } from "@/lib/schema";
@@ -126,8 +126,8 @@ const Login = () => {
 						</Link> */}
 
 						<div className="mt-8">
-							<Button block disabled={isSubmitting}>
-								{"Sign in"}
+							<Button block disabled={isSubmitting} variant="basic" size="lg">
+								{"SIGN IN"}
 								<svg
 									width="12"
 									height="12"

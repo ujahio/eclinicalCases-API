@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 
 const ActionButtons = ({
 	goNext,
@@ -10,7 +10,7 @@ const ActionButtons = ({
 	return (
 		<div className="create-case-actions grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
 			<Button
-				btnStyle="outline"
+				variant="outline"
 				className="w-full flex items-center justify-center gap-2 sm:text-sm cursor-pointer"
 				centralize
 				onClick={goBack}
@@ -33,7 +33,7 @@ const ActionButtons = ({
 				<span>GO BACK</span>
 			</Button>
 			<Button
-				btnStyle="basic"
+				variant="basic"
 				className="w-full flex items-center justify-center gap-2 sm:text-sm cursor-pointer"
 				centralize
 				onClick={goNext}

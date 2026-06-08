@@ -28,7 +28,7 @@ import {
   usePluginOption,
 } from 'platejs/react';
 
-import { buttonVariants } from '@/components/ui/Button';
+import { buttonVariants } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 
 const popoverVariants = cva(

@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from "react";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import { useAppSelector } from "@/services/hooks/hooks";
 import { TeacherCaseQuestionProps } from "@/services/types/teacher/createCaseStudy";
 import CaseEditor from "@/lib/Editor";
@@ -42,7 +42,7 @@ const TeacherCasePresentation: FC<TeacherCaseQuestionProps> = ({
 			</div>
 			<div className="create-case-actions grid md:grid-cols-2 gap-4 items-center">
 				<Button
-					btnStyle="outline"
+					variant="outline"
 					centralize
 					onClick={handleUpdateDraftCase}
 					className="w-full flex items-center justify-center gap-2 sm:text-sm cursor-pointer"
@@ -50,7 +50,7 @@ const TeacherCasePresentation: FC<TeacherCaseQuestionProps> = ({
 					{addingDraftCaseStatus === "loading" ? "Loading..." : "SAVE DRAFT"}
 				</Button>
 				<Button
-					btnStyle="basic"
+					variant="basic"
 					className="w-full flex items-center justify-center gap-2 sm:text-sm cursor-pointer"
 					centralize
 					onClick={goNext}

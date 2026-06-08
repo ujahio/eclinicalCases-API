@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import { formatDate } from "@/utils/formatDate";
 import PlateViewer from "@/lib/PlateViewer";
 import { FC } from "react";
@@ -36,7 +36,7 @@ const StudentCasePresentation: FC<StudentCasePresentationProps> = ({
 			)}
 			<div className="grid grid-cols-1 gap-4">
 				<Button
-					btnStyle="basic"
+					variant="basic"
 					className="w-full flex items-center justify-center gap-2 sm:text-sm cursor-pointer"
 					size="lg"
 					centralize

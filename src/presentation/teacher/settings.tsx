@@ -4,7 +4,7 @@ import {
 	PersonalDetailsSettings,
 } from "@/components/account-settings";
 import AdminLayout from "@/components/layouts/dashboard/admin";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import Tabs from "@/components/ui/Tabs";
 import useProcessTabs from "@/services/hooks/useProcessTabs";
 
@@ -24,7 +24,7 @@ const AdminAccountSettings = () => {
 						height={260}
 					/>
 				</figure>
-				<Button btnStyle="outline" size="sm" className="ml-3.75">
+				<Button variant="outline" size="sm" className="ml-3-75">
 					Change Picture
 				</Button>
 			</div>
