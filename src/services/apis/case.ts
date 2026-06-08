@@ -1,5 +1,4 @@
-import axios from "axios";
-import { caseApi, configureRequestHeaders } from "../config/axiosConfig";
+import { caseApi, configureRequestHeaders } from "../config/fetchClient";
 
 const convertToFormData = (caseStudy: any) => {
 	const formData = new FormData();
@@ -96,10 +95,12 @@ export const addPdfToCaseMaterialsApi = async ({
 	selectedFile: File;
 }) => {
 	try {
-		await axios.put(pdfUrl, selectedFile, {
+		await fetch(pdfUrl, {
+			method: "PUT",
 			headers: {
 				"Content-Type": selectedFile.type || "application/octet-stream",
 			},
+			body: selectedFile,
 		});
 	} catch (error) {
 		console.error("Error uploading PDF to presigned url:", error);

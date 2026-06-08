@@ -1,4 +1,4 @@
-import { authApi, configureRequestHeaders } from "../config/axiosConfig";
+import { authApi, configureRequestHeaders } from "../config/fetchClient";
 
 export const signup = (formData: any) => authApi.post("/signup", formData);
 
@@ -19,6 +19,6 @@ export const changePasswordApi = (passwordData: any) => {
 	return authApi.post(
 		`/update-password`,
 		passwordData,
-		configureRequestHeaders()
+		configureRequestHeaders(),
 	);
 };
