@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 import { Button } from "@/components/ui/button";
 import { useAppSelector } from "@/services/hooks/hooks";
 import { TeacherCaseQuestionProps } from "@/services/types/teacher/createCaseStudy";
@@ -10,12 +10,6 @@ const TeacherCasePresentation: FC<TeacherCaseQuestionProps> = ({
 	setCaseStudy,
 	handleUpdateDraftCase,
 }) => {
-	const [isEditorMounted, setIsEditorMounted] = useState(false);
-
-	useEffect(() => {
-		setIsEditorMounted(true);
-	}, []);
-
 	const addingDraftCaseStatus = useAppSelector(
 		(state) => state.getDraftCases.status,
 	);
@@ -33,16 +27,15 @@ const TeacherCasePresentation: FC<TeacherCaseQuestionProps> = ({
 				<h6 className="text-blue font-bold text-1xs sm:text-sm capitalize mb-3 create-case-heading">
 					CASE MODEL PRESENTATION
 				</h6>
-				{isEditorMounted && (
-					<CaseEditor
-						content={caseStudy.caseDescription}
-						onContentChange={handleEditorChange}
-					/>
-				)}
+				<CaseEditor
+					content={caseStudy.caseDescription}
+					onContentChange={handleEditorChange}
+				/>
 			</div>
 			<div className="create-case-actions grid md:grid-cols-2 gap-4 items-center">
 				<Button
-					variant="outline"
+					variant="secondary"
+					size="md"
 					centralize
 					onClick={handleUpdateDraftCase}
 					className="w-full flex items-center justify-center gap-2 sm:text-sm cursor-pointer"
@@ -51,6 +44,7 @@ const TeacherCasePresentation: FC<TeacherCaseQuestionProps> = ({
 				</Button>
 				<Button
 					variant="basic"
+					size="md"
 					className="w-full flex items-center justify-center gap-2 sm:text-sm cursor-pointer"
 					centralize
 					onClick={goNext}

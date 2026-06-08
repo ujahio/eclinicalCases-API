@@ -1,10 +1,10 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import CaseEditor from "@/lib/Editor";
 import {
 	validateEditorInputs,
 	ValidationErrorProps,
 } from "@/services/helper/validateEditorInputs";
-import ActionButtons from "@/components/ActionButtons";
+import ProgressButtons from "@/components/progressButtons";
 
 interface StudentCaseCommentsProps {
 	goNext: () => void;
@@ -19,8 +19,6 @@ const StudentCaseComments: FC<StudentCaseCommentsProps> = ({
 	setCaseDetails,
 	studentCaseExplanation,
 }) => {
-	const [isEditorMounted, setIsEditorMounted] = useState(false);
-
 	const [inputsForValidation, setErrorsForValidatedInputs] =
 		useState<ValidationErrorProps>({
 			explanation: {
@@ -28,10 +26,6 @@ const StudentCaseComments: FC<StudentCaseCommentsProps> = ({
 				validationMessage: "",
 			},
 		});
-
-	useEffect(() => {
-		setIsEditorMounted(true);
-	}, []);
 
 	const handleSubmitStudentResponse = () => {
 		const isValid = validateEditorInputs(
@@ -62,19 +56,17 @@ const StudentCaseComments: FC<StudentCaseCommentsProps> = ({
 						{"Note: Comments must be between 150 and 700 characters."}
 					</p>
 
-					{isEditorMounted && (
-						<CaseEditor
-							content={studentCaseExplanation}
-							onContentChange={handleEditorChange}
-							status={inputsForValidation.explanation.status}
-							validationMessage={
-								inputsForValidation.explanation.validationMessage
-							}
-						/>
-					)}
+					<CaseEditor
+						content={studentCaseExplanation}
+						onContentChange={handleEditorChange}
+						status={inputsForValidation.explanation.status}
+						validationMessage={
+							inputsForValidation.explanation.validationMessage
+						}
+					/>
 				</div>
 			</div>
-			<ActionButtons goNext={handleSubmitStudentResponse} goBack={goBack} />
+			<ProgressButtons goNext={handleSubmitStudentResponse} goBack={goBack} />
 		</>
 	);
 };

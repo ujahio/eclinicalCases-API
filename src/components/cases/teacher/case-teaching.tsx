@@ -10,7 +10,7 @@ import {
 	deletePdfFromCaseMaterialsApi,
 } from "@/services/apis/case";
 import CaseEditor from "@/lib/Editor";
-import ActionButtons from "@/components/ActionButtons";
+import ProgressButtons from "@/components/progressButtons";
 
 const TeacherCaseTeaching: FC<TeacherCaseTeachingProps> = ({
 	goNext,
@@ -19,8 +19,6 @@ const TeacherCaseTeaching: FC<TeacherCaseTeachingProps> = ({
 	setCaseStudy,
 	handleUpdateDraftCase,
 }) => {
-	const [isEditorMounted, setIsEditorMounted] = useState(false);
-
 	const dispatch = useAppDispatch();
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	const addingDraftCaseStatus = useAppSelector(
@@ -138,10 +136,6 @@ const TeacherCaseTeaching: FC<TeacherCaseTeachingProps> = ({
 		}
 	};
 
-	useEffect(() => {
-		setIsEditorMounted(true);
-	}, []);
-
 	const materials = Array.isArray(caseStudy?.caseMaterials)
 		? caseStudy.caseMaterials
 		: [];
@@ -170,12 +164,10 @@ const TeacherCaseTeaching: FC<TeacherCaseTeachingProps> = ({
 					}}
 					className="sm:mb-6 cursor-pointer"
 				/>
-				{isEditorMounted && (
-					<CaseEditor
-						content={caseStudy.caseTeaching}
-						onContentChange={handleEditorChange}
-					/>
-				)}
+				<CaseEditor
+					content={caseStudy.caseTeaching}
+					onContentChange={handleEditorChange}
+				/>
 			</div>
 			<div className="mb-5 sm:mb-6">
 				<label className="text-grey-300 text-1sm font-normal create-case-subheading">
@@ -238,7 +230,7 @@ const TeacherCaseTeaching: FC<TeacherCaseTeachingProps> = ({
 				)}
 				{!isUploading && (
 					<Button
-						variant="outline"
+						variant="secondary"
 						size="md"
 						block
 						className="mt-2.5 text-xs"
@@ -256,14 +248,15 @@ const TeacherCaseTeaching: FC<TeacherCaseTeachingProps> = ({
 				)}
 			</div>
 			<Button
-				variant="outline"
+				variant="secondary"
+				size="md"
 				centralize
 				onClick={handleUpdateDraftCase}
 				className="w-full mb-3 sm:text-sm cursor-pointer"
 			>
 				{addingDraftCaseStatus === "loading" ? "Loading..." : "SAVE DRAFT"}{" "}
 			</Button>
-			<ActionButtons goNext={goNext} goBack={goBack} />
+			<ProgressButtons goNext={goNext} goBack={goBack} />
 		</>
 	);
 };
