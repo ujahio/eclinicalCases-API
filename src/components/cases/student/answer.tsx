@@ -1,7 +1,7 @@
 import { FC, useState } from "react";
 import { Button } from "@/components/ui/button";
 import PlateViewer from "@/lib/PlateViewer";
-import ActionButtons from "@/components/ActionButtons";
+import ProgressButtons from "@/components/progressButtons";
 
 interface StudentCaseAnswerProps {
 	goNext: () => void;
@@ -79,7 +79,7 @@ const StudentCaseAnswer: FC<StudentCaseAnswerProps> = ({
 					</div>
 				</div>
 			)}
-			<ActionButtons goNext={goNext} goBack={goBack} />
+			<ProgressButtons goNext={goNext} goBack={goBack} />
 		</>
 	);
 };

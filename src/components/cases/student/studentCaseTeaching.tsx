@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from "react";
 import PlateViewer from "@/lib/PlateViewer";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
 import { getCaseMaterials } from "@/store/slices/case/getCaseMaterialsSlice";
-import ActionButtons from "@/components/ActionButtons";
+import ProgressButtons from "@/components/progressButtons";
 
 interface StudentCaseTeachingProps {
 	goNext: () => void;
@@ -114,7 +114,7 @@ const StudentCaseTeaching: FC<StudentCaseTeachingProps> = ({
 					</div>
 				)}
 
-				<ActionButtons goNext={goNext} goBack={goBack} />
+				<ProgressButtons goNext={goNext} goBack={goBack} />
 			</div>
 		</>
 	);

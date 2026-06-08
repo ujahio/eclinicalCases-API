@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 
-const ActionButtons = ({
+const ProgressButtons = ({
 	goNext,
 	goBack,
 }: {
@@ -10,8 +10,9 @@ const ActionButtons = ({
 	return (
 		<div className="create-case-actions grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
 			<Button
-				variant="outline"
-				className="w-full flex items-center justify-center gap-2 sm:text-sm cursor-pointer"
+				variant="secondary"
+				size="md"
+				className="flex items-center justify-center gap-2 sm:text-sm cursor-pointer"
 				centralize
 				onClick={goBack}
 			>
@@ -34,7 +35,8 @@ const ActionButtons = ({
 			</Button>
 			<Button
 				variant="basic"
-				className="w-full flex items-center justify-center gap-2 sm:text-sm cursor-pointer"
+				size="md"
+				className="flex items-center justify-center gap-2 sm:text-sm cursor-pointer"
 				centralize
 				onClick={goNext}
 			>
@@ -59,4 +61,4 @@ const ActionButtons = ({
 	);
 };
 
-export default ActionButtons;
+export default ProgressButtons;
