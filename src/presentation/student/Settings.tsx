@@ -1,7 +1,7 @@
 import DashboardLayout from "../../components/layouts/dashboard";
 import useProcessTabs from "@/services/hooks/useProcessTabs";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/main-button";
 import {
 	PasswordSettings,
 	PersonalDetailsSettings,

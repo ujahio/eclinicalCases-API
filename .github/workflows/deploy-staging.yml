@@ -24,9 +24,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Clean Next.js build cache
-        run: rm -rf .next .open-next
-
       - name: Set up Bun
         uses: oven-sh/setup-bun@v2
 

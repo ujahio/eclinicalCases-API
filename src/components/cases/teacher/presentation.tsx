@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/main-button";
 import { useAppSelector } from "@/services/hooks/hooks";
 import { TeacherCaseQuestionProps } from "@/services/types/teacher/createCaseStudy";
 import CaseEditor from "@/lib/Editor";
