@@ -27,7 +27,6 @@ const TeacherDashboard = () => {
 						<Button
 							href="/teacher/case-studies/create"
 							variant="basic"
-							type="button"
 							size="md"
 							className="mr-1 text-1xs sm:text-sm"
 							centralize
@@ -48,7 +47,6 @@ const TeacherDashboard = () => {
 							<Button
 								href="/teacher/case-studies/create"
 								variant="basic"
-								type="button"
 								size="md"
 								className="mr-1 text-1xs sm:text-sm"
 								uppercase
@@ -103,11 +101,7 @@ const TeacherDashboard = () => {
 								<Link
 									href={`/teacher/responses-feedback/${publishedCaseInfo.id}`}
 								>
-									<Button
-										type="button"
-										variant="white"
-										className="mr-1 text-1xs sm:text-sm"
-									>
+									<Button variant="white" className="mr-1 text-1xs sm:text-sm">
 										INFO
 									</Button>
 								</Link>
@@ -131,12 +125,7 @@ const TeacherDashboard = () => {
 								<Link
 									href={`/teacher/responses-feedback/${publishedCaseInfo.id}`}
 								>
-									<Button
-										type="button"
-										size="md"
-										variant="white"
-										className="mr-3"
-									>
+									<Button size="md" variant="white" className="mr-3">
 										INFO
 									</Button>
 								</Link>

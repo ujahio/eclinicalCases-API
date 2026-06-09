@@ -22,7 +22,7 @@ const buttonVariants = cva(
 					"text-dark border-0.375 border-grey-200 bg-grey-200 bg-opacity-0 hover:bg-opacity-10",
 				"outline-white":
 					"bg-white text-dark border border-grey-200 hover:bg-grey-100",
-				white: "bg-white text-dark bg-opacity-100 hover:bg-opacity-90",
+				white: "bg-white text-dark",
 			},
 			size: {
 				default:

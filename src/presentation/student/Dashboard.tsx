@@ -95,10 +95,11 @@ const StudentDashboard = () => {
 						{publishedCaseInfo && (
 							<div className="min-w-min inline-block">
 								<Button
-									type="button"
 									className="mr-1 text-1xs sm:text-sm"
 									variant="white"
+									size="md"
 									href={`/student/case-studies/${publishedCaseInfo?.id}`}
+									uppercase
 								>
 									View Case
 								</Button>
