@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import useRenderPdf from "@/services/hooks/useRenderPdf";
 import Modal from "@/components/ui/Modal";
 import DashboardLayout from "@/components/layouts/dashboard";
-import Button from "../../components/ui/Button";
+import { Button } from "@/components/ui/main-button";
 
 const Certificates = ({
 	studentsCertificatesInfo,
@@ -34,7 +34,7 @@ const Certificates = ({
 		<DashboardLayout>
 			{studentsCertificatesInfo.length > 0 && (
 				<>
-					<div className="mt-7.5">
+					<div className="mt-7-5">
 						<ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6.25">
 							{studentsCertificatesInfo?.map((certificate) => {
 								return (
@@ -61,7 +61,7 @@ const Certificates = ({
 												/>
 											</figure>
 										</button>
-										<Button size="sm" centralize btnStyle="outline">
+										<Button size="sm" centralize variant="outline">
 											<a
 												href={certificate.signedUrl}
 												target="_blank"

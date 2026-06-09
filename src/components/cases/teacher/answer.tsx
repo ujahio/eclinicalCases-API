@@ -1,11 +1,11 @@
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 import { InputField } from "@/components/form-elements";
-import Button from "@/components/ui/Button";
+import { Button } from "@/components/ui/main-button";
 import { useAppSelector } from "@/services/hooks/hooks";
 import { TeacherCaseAnswerProps } from "@/services/types/teacher/createCaseStudy";
 import CaseEditor from "@/lib/Editor";
 import { formatDateToYYYYMMDD } from "@/utils/formatDate";
-import ActionButtons from "@/components/ActionButtons";
+import ProgressButtons from "@/components/progressButtons";
 
 const TeacherCaseAnswer: FC<TeacherCaseAnswerProps> = ({
 	goNext,
@@ -14,12 +14,6 @@ const TeacherCaseAnswer: FC<TeacherCaseAnswerProps> = ({
 	setCaseStudy,
 	handleUpdateDraftCase,
 }) => {
-	const [isEditorMounted, setIsEditorMounted] = useState(false);
-
-	useEffect(() => {
-		setIsEditorMounted(true);
-	}, []);
-
 	const handleEditorChange = (updatedContent: string) => {
 		setCaseStudy({
 			...caseStudy,
@@ -41,13 +35,10 @@ const TeacherCaseAnswer: FC<TeacherCaseAnswerProps> = ({
 				<h6 className="text-1xs sm:text-sm font-bold text-blue uppercase mb-2.5 create-case-heading">
 					Case Model Answer
 				</h6>
-
-				{isEditorMounted && (
-					<CaseEditor
-						content={caseStudy.caseExplanation}
-						onContentChange={handleEditorChange}
-					/>
-				)}
+				<CaseEditor
+					content={caseStudy.caseExplanation}
+					onContentChange={handleEditorChange}
+				/>
 			</div>
 			<div className="mb-5 sm:mb-6">
 				<InputField
@@ -63,7 +54,8 @@ const TeacherCaseAnswer: FC<TeacherCaseAnswerProps> = ({
 				/>
 			</div>
 			<Button
-				btnStyle="outline"
+				variant="secondary"
+				size="md"
 				centralize
 				onClick={handleUpdateDraftCase}
 				className="w-full mb-3 sm:text-sm cursor-pointer"
@@ -71,7 +63,7 @@ const TeacherCaseAnswer: FC<TeacherCaseAnswerProps> = ({
 				{addingDraftCaseStatus === "loading" ? "Loading..." : "SAVE DRAFT"}
 			</Button>
 
-			<ActionButtons goNext={goNext} goBack={goBack} />
+			<ProgressButtons goNext={goNext} goBack={goBack} />
 		</>
 	);
 };

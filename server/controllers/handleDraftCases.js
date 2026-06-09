@@ -40,22 +40,9 @@ export const addDraftCase = async (event) => {
 
 		const draftCaseData = await extrapolateRequestBody(event);
 
-		// TODO: evaluate required fields for draft cases
-		if (!userInfo.id) {
-			return {
-				statusCode: 400,
-				body: JSON.stringify({
-					error: "Invalid input: missing required fields",
-					message: "Error adding a draft case.",
-				}),
-			};
-		}
-
-		const teacherID = userInfo.id;
-
 		const caseItem = {
 			id: uuidv4(),
-			teacherId: teacherID,
+			teacherId: userInfo.id,
 			createdAt: Date.now(),
 			caseStatus: "draft",
 			caseDescription: draftCaseData.caseDescription || undefined,
@@ -113,15 +100,13 @@ export const getDraftCases = async (event) => {
 			};
 		}
 
-		const teacherID = userInfo.id;
-
 		const params = {
 			TableName: Resource.TeacherCaseStudies.name,
 			IndexName: "TeacherStatusIndex",
 			KeyConditionExpression:
 				"teacherId = :teacherId AND caseStatus = :caseStatus",
 			ExpressionAttributeValues: {
-				":teacherId": teacherID,
+				":teacherId": userInfo.id,
 				":caseStatus": "draft",
 			},
 		};
@@ -343,7 +328,7 @@ export const updateDraftCase = async (event) => {
 		const hasCaseMaterialsBeenUpdated = areArraysEqualRegardlessOfOrder(
 			caseMaterialsToProcess,
 			caseItem.caseMaterials,
-			"documentKey"
+			"documentKey",
 		);
 
 		// If case materials are provided, update them
@@ -351,7 +336,7 @@ export const updateDraftCase = async (event) => {
 			updateExpression += "#caseMaterials = :caseMaterials, ";
 			expressionAttributeNames["#caseMaterials"] = "caseMaterials";
 			expressionAttributeValues[":caseMaterials"] = JSON.stringify(
-				caseMaterialsToProcess
+				caseMaterialsToProcess,
 			);
 		}
 

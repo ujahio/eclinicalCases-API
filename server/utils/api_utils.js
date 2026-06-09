@@ -149,24 +149,36 @@ function parseLogToObject(log) {
 export const extrapolateRequestBody = async (event) => {
 	const contentType =
 		event.headers["content-type"] || event.headers["Content-Type"];
-	const formData = {};
 
-	if (event.body && contentType.startsWith("multipart/form-data")) {
+	if (!event.body) {
+		return {
+			statusCode: 400,
+			body: JSON.stringify({ error: "Empty request body" }),
+		};
+	}
+
+	if (contentType && contentType.startsWith("application/json")) {
+		const rawBody = event.isBase64Encoded
+			? Buffer.from(event.body, "base64").toString("utf-8")
+			: event.body;
+		return JSON.parse(rawBody);
+	}
+
+	if (contentType && contentType.startsWith("multipart/form-data")) {
+		const formData = {};
 		const bb = busboy({
 			headers: event.headers,
 		});
 
 		return new Promise((resolve, reject) => {
-			// Initialize arrays to hold document keys and file names
 			formData.documentKeys = [];
 			formData.fileNames = [];
 
 			bb.on("field", (fieldname, value) => {
-				// Check if the fieldname starts with 'documentKey' to gather all document keys
 				if (fieldname.startsWith("documentKey")) {
-					formData.documentKeys.push(value); // Accumulate document keys
+					formData.documentKeys.push(value);
 				} else {
-					formData[fieldname] = value; // Regular field processing for other fields
+					formData[fieldname] = value;
 				}
 			});
 
@@ -184,15 +196,14 @@ export const extrapolateRequestBody = async (event) => {
 				});
 			});
 
-			// Pass the decoded body to busboy
 			bb.end(Buffer.from(event.body, "base64").toString("binary"));
 		});
-	} else {
-		return {
-			statusCode: 400,
-			body: JSON.stringify({ error: "Invalid content type" }),
-		};
 	}
+
+	return {
+		statusCode: 400,
+		body: JSON.stringify({ error: "Invalid content type" }),
+	};
 };
 
 export const getDetailsOfStudentsFeedbackAndResponses = async (

@@ -10,13 +10,7 @@ import {
 import DashboardLayout from "@/components/layouts/dashboard";
 import ProcessTabs from "@/components/ui/process-tabs";
 import { APP_CONTAINER, APP_SPACING } from "@/services/constants/styles";
-import { convertFromRaw, EditorState } from "draft-js";
 import { StudentCaseStudyProps } from "@/services/types/student";
-
-const fallbackContent = JSON.stringify({
-	blocks: [],
-	entityMap: {},
-});
 
 const StudentCaseStudy = ({
 	caseDetails,
@@ -31,10 +25,6 @@ const StudentCaseStudy = ({
 	goBack,
 	hasPassedCME,
 }: StudentCaseStudyProps) => {
-	const caseDescription = EditorState.createWithContent(
-		convertFromRaw(JSON.parse(caseDetails?.caseDescription || fallbackContent)),
-	);
-
 	return (
 		<DashboardLayout
 			extraNav={
@@ -57,7 +47,7 @@ const StudentCaseStudy = ({
 				{isActive("case_presentation") && (
 					<StudentCasePresentation
 						goNext={goNext}
-						caseDescription={caseDescription}
+						caseDescription={caseDetails?.caseDescription}
 						caseDeadline={caseDetails?.caseDeadline}
 					/>
 				)}
