@@ -36,7 +36,7 @@ jobs:
           path: |
             ~/.bun/install/cache
             ${{ github.workspace }}/.next/cache
-          key: ${{ runner.os }}-bun-nextjs-${{ hashFiles('**/bun.lockb') }}-${{ hashFiles('**/*.{js,jsx,ts,tsx}') }}
+          key: ${{ runner.os }}-bun-nextjs-${{ hashFiles('**/bun.lockb') }}-${{ hashFiles('**/*.{js,jsx,ts,tsx}') }}-v1
           restore-keys: |
             ${{ runner.os }}-bun-nextjs-
 
@@ -58,4 +58,4 @@ jobs:
           path: |
             ~/.bun/install/cache
             ${{ github.workspace }}/.next/cache
-          key: ${{ runner.os }}-bun-nextjs-${{ hashFiles('**/bun.lockb') }}-${{ hashFiles('**/*.{js,jsx,ts,tsx}') }}
+          key: ${{ runner.os }}-bun-nextjs-${{ hashFiles('**/bun.lockb') }}-${{ hashFiles('**/*.{js,jsx,ts,tsx}') }}-v1
