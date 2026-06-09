@@ -1,7 +1,7 @@
 # Graph Report - eccs-API  (2026-06-09)
 
 ## Corpus Check
-- 552 files · ~23,191,611 words
+- 552 files · ~23,191,602 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `e3ed4f09`
+- Built from commit: `3b519f5c`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -434,7 +434,7 @@ Cohesion: 0.50
 Nodes (3): DEPLOYMENT TODOS, POST DEPLOYMENT TODOS 1, POST DEPLOYMENT TODOS 2
 
 ## Knowledge Gaps
-- **379 isolated node(s):** `RESPONSES`, `PLANNING MODE`, `CHANGE / EDIT MODE`, `Context7`, `Runtime` (+374 more)
+- **379 isolated node(s):** `DEPLOYMENT TODOS`, `POST DEPLOYMENT TODOS 1`, `POST DEPLOYMENT TODOS 2`, `RESPONSES`, `PLANNING MODE` (+374 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **53 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -447,7 +447,7 @@ _Questions this graph is uniquely positioned to answer:_
   _High betweenness centrality (0.052) - this node is a cross-community bridge._
 - **Why does `Auth Controller` connect `Backend Infrastructure` to `Community 39`?**
   _High betweenness centrality (0.041) - this node is a cross-community bridge._
-- **What connects `RESPONSES`, `PLANNING MODE`, `CHANGE / EDIT MODE` to the rest of the system?**
+- **What connects `DEPLOYMENT TODOS`, `POST DEPLOYMENT TODOS 1`, `POST DEPLOYMENT TODOS 2` to the rest of the system?**
   _379 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Case Data Management` be split into smaller, more focused modules?**
   _Cohesion score 0.06734006734006734 - nodes in this community are weakly interconnected._

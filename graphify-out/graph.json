@@ -203,78 +203,6 @@
   },
   "nodes": [
     {
-      "label": "AGENTS.md",
-      "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L1",
-      "id": "agents",
-      "community": 57,
-      "norm_label": "agents.md"
-    },
-    {
-      "label": "CRITICAL RULES - MUST FOLLOW",
-      "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L1",
-      "id": "agents_critical_rules_must_follow",
-      "community": 57,
-      "norm_label": "critical rules - must follow"
-    },
-    {
-      "label": "RESPONSES",
-      "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L3",
-      "id": "agents_responses",
-      "community": 57,
-      "norm_label": "responses"
-    },
-    {
-      "label": "PLANNING MODE",
-      "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L7",
-      "id": "agents_planning_mode",
-      "community": 57,
-      "norm_label": "planning mode"
-    },
-    {
-      "label": "CHANGE / EDIT MODE",
-      "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L14",
-      "id": "agents_change_edit_mode",
-      "community": 57,
-      "norm_label": "change / edit mode"
-    },
-    {
-      "label": "Context7",
-      "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L22",
-      "id": "agents_context7",
-      "community": 57,
-      "norm_label": "context7"
-    },
-    {
-      "label": "Runtime",
-      "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L26",
-      "id": "agents_runtime",
-      "community": 57,
-      "norm_label": "runtime"
-    },
-    {
-      "label": "graphify",
-      "file_type": "document",
-      "source_file": "AGENTS.md",
-      "source_location": "L30",
-      "id": "agents_graphify",
-      "community": 57,
-      "norm_label": "graphify"
-    },
-    {
       "label": "README.md",
       "file_type": "document",
       "source_file": "README.md",
@@ -305,10 +233,82 @@
       "label": "POST DEPLOYMENT TODOS 2",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L15",
+      "source_location": "L14",
       "id": "readme_post_deployment_todos_2",
       "community": 117,
       "norm_label": "post deployment todos 2"
+    },
+    {
+      "label": "AGENTS.md",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L1",
+      "community": 57,
+      "norm_label": "agents.md",
+      "id": "agents"
+    },
+    {
+      "label": "CRITICAL RULES - MUST FOLLOW",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L1",
+      "community": 57,
+      "norm_label": "critical rules - must follow",
+      "id": "agents_critical_rules_must_follow"
+    },
+    {
+      "label": "RESPONSES",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L3",
+      "community": 57,
+      "norm_label": "responses",
+      "id": "agents_responses"
+    },
+    {
+      "label": "PLANNING MODE",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L7",
+      "community": 57,
+      "norm_label": "planning mode",
+      "id": "agents_planning_mode"
+    },
+    {
+      "label": "CHANGE / EDIT MODE",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L14",
+      "community": 57,
+      "norm_label": "change / edit mode",
+      "id": "agents_change_edit_mode"
+    },
+    {
+      "label": "Context7",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L22",
+      "community": 57,
+      "norm_label": "context7",
+      "id": "agents_context7"
+    },
+    {
+      "label": "Runtime",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L26",
+      "community": 57,
+      "norm_label": "runtime",
+      "id": "agents_runtime"
+    },
+    {
+      "label": "graphify",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": "L30",
+      "community": 57,
+      "norm_label": "graphify",
+      "id": "agents_graphify"
     },
     {
       "label": ".eslintrc.json",
@@ -10530,82 +10530,12 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L1",
-      "weight": 1.0,
-      "source": "agents",
-      "target": "agents_critical_rules_must_follow",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L14",
-      "weight": 1.0,
-      "source": "agents_critical_rules_must_follow",
-      "target": "agents_change_edit_mode",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L22",
-      "weight": 1.0,
-      "source": "agents_critical_rules_must_follow",
-      "target": "agents_context7",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L30",
-      "weight": 1.0,
-      "source": "agents_critical_rules_must_follow",
-      "target": "agents_graphify",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L7",
-      "weight": 1.0,
-      "source": "agents_critical_rules_must_follow",
-      "target": "agents_planning_mode",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L3",
-      "weight": 1.0,
-      "source": "agents_critical_rules_must_follow",
-      "target": "agents_responses",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L26",
-      "weight": 1.0,
-      "source": "agents_critical_rules_must_follow",
-      "target": "agents_runtime",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
       "source_file": "README.md",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "readme",
-      "target": "readme_deployment_todos",
-      "confidence_score": 1.0
+      "target": "readme_deployment_todos"
     },
     {
       "relation": "contains",
@@ -10613,9 +10543,9 @@
       "source_file": "README.md",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "readme",
-      "target": "readme_post_deployment_todos_1",
-      "confidence_score": 1.0
+      "target": "readme_post_deployment_todos_1"
     },
     {
       "relation": "contains",
@@ -10623,9 +10553,79 @@
       "source_file": "README.md",
       "source_location": "L15",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "readme",
-      "target": "readme_post_deployment_todos_2",
-      "confidence_score": 1.0
+      "target": "readme_post_deployment_todos_2"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "agents",
+      "target": "agents_critical_rules_must_follow"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L14",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "agents_critical_rules_must_follow",
+      "target": "agents_change_edit_mode"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L22",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "agents_critical_rules_must_follow",
+      "target": "agents_context7"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L30",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "agents_critical_rules_must_follow",
+      "target": "agents_graphify"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "agents_critical_rules_must_follow",
+      "target": "agents_planning_mode"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "agents_critical_rules_must_follow",
+      "target": "agents_responses"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L26",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "agents_critical_rules_must_follow",
+      "target": "agents_runtime"
     },
     {
       "relation": "contains",
@@ -29391,5 +29391,5 @@
       "source_file": "questions-to-ask.md"
     }
   ],
-  "built_at_commit": "e3ed4f09046f023d164ea8a88aa6eaf609a79af7"
+  "built_at_commit": "3b519f5c9d34ed5a40e6ccd145089431cb0395a2"
 }

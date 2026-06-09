@@ -1,12 +1,18 @@
-# Graph Report - .  (2026-06-09)
+# Graph Report - eccs-API  (2026-06-09)
 
 ## Corpus Check
-- Large corpus: 283 files · ~1,515,273 words. Semantic extraction will be expensive (many Claude tokens). Consider running on a subfolder.
+- 552 files · ~23,191,611 words
+- Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1035 nodes · 1769 edges · 116 communities (67 shown, 49 thin omitted)
+- 1047 nodes · 1779 edges · 120 communities (67 shown, 53 thin omitted)
 - Extraction: 96% EXTRACTED · 4% INFERRED · 0% AMBIGUOUS · INFERRED: 75 edges (avg confidence: 0.82)
-- Token cost: 4,895 input · 2,692 output
+- Token cost: 0 input · 0 output
+
+## Graph Freshness
+- Built from commit: `e3ed4f09`
+- Run `git rev-parse HEAD` and compare to check if the graph is stale.
+- Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
 - [[_COMMUNITY_Case Data Management|Case Data Management]]
@@ -121,6 +127,10 @@
 - [[_COMMUNITY_Community 113|Community 113]]
 - [[_COMMUNITY_Community 114|Community 114]]
 - [[_COMMUNITY_Community 115|Community 115]]
+- [[_COMMUNITY_Community 116|Community 116]]
+- [[_COMMUNITY_Community 117|Community 117]]
+- [[_COMMUNITY_Community 118|Community 118]]
+- [[_COMMUNITY_Community 119|Community 119]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `useAppSelector` - 55 edges
@@ -169,19 +179,19 @@
 - **Cost Estimation Scope** — questions-to-ask_cost_estimation, questions-to-ask_lambda_functions, questions-to-ask_dynamodb, questions-to-ask_s3, questions-to-ask_api_gateway, questions-to-ask_route_53, questions-to-ask_aws_waf, questions-to-ask_cloudwatch, questions-to-ask_cloudtrail [EXTRACTED 1.00]
 - **Security & Monitoring Stack** — questions-to-ask_iam, questions-to-ask_kms, questions-to-ask_aws_waf, questions-to-ask_cloudwatch, questions-to-ask_cloudtrail [INFERRED 0.85]
 
-## Communities (116 total, 49 thin omitted)
+## Communities (120 total, 53 thin omitted)
 
 ### Community 0 - "Case Data Management"
-Cohesion: 0.06
-Nodes (47): addCase, fetchCaseDetails, deleteCase, getArchiveCases, fetchCaseData, getDraftCases, getPublishedCase, getStudentsCertificates (+39 more)
+Cohesion: 0.07
+Nodes (40): addCase, deleteCase, getArchiveCases, getArchiveCasesSlice, GetArchiveCasesState, initialState, fetchCaseData, getDraftCases (+32 more)
 
 ### Community 1 - "Backend Infrastructure"
 Cohesion: 0.06
 Nodes (49): ApplicationContext, GatewayMethods, PersistenceMethods, UseCaseHelpers, Application Context Dependency Injection, Case Study Lifecycle, CME Quiz Grading System, RBAC Authorization Pattern (+41 more)
 
 ### Community 2 - "State Management & Admin UI"
-Cohesion: 0.06
-Nodes (26): GetDraftCasesState, createCaseStudyTabs, AdminLayoutProps, navLinks, DashboardLayoutProps, NavProps, useClickOutside(), Answer (+18 more)
+Cohesion: 0.25
+Nodes (4): createCaseStudyTabs, CreateCaseStudyProps, UpdateCaseStudyProps, ProcessTabsProps
 
 ### Community 3 - "AWS SDK Dependencies"
 Cohesion: 0.04
@@ -200,16 +210,16 @@ Cohesion: 0.08
 Nodes (35): Step1, Step2, AuthLayout, AdminLayout, DashboardLayout, Nav, CaseEditor, PlateViewer (+27 more)
 
 ### Community 7 - "Auth State & Password Flow"
-Cohesion: 0.07
-Nodes (24): changePasswordApi(), resetPasswordApi(), sendOtpApi(), changePassword, changePasswordSlice, ChangePasswordState, initialState, initialState (+16 more)
+Cohesion: 0.12
+Nodes (15): resetPasswordApi(), sendOtpApi(), signup(), initialState, resetPassword, resetPasswordSlice, ResetPasswordState, initialState (+7 more)
 
 ### Community 8 - "Case Materials & Progress"
-Cohesion: 0.12
-Nodes (17): getCaseMaterials, CaseCard(), CaseCardProps, ReviewAndConfirm(), useAppSelector, useAppStore, StudentCaseAnswerProps, Answer (+9 more)
+Cohesion: 0.18
+Nodes (6): CaseCard(), CaseCardProps, ProfessionalDetailsFormProps, ProfessionalDetailsProps, StudentCaseAnswerProps, Button()
 
 ### Community 9 - "Settings & Navigation"
-Cohesion: 0.10
-Nodes (6): PersonalDetailsSettingsProps, Step, stepsData, Button(), ModalProps, objectives
+Cohesion: 0.18
+Nodes (6): Step, stepsData, Answer, StudentCMEQuestions(), StudentCMEQuestionsProps, ModalProps
 
 ### Community 10 - "TypeScript Configuration"
 Cohesion: 0.07
@@ -224,16 +234,16 @@ Cohesion: 0.09
 Nodes (22): aliases, components, hooks, lib, ui, utils, iconLibrary, menuAccent (+14 more)
 
 ### Community 13 - "Signup Flow"
-Cohesion: 0.16
-Nodes (13): SignupTeacher(), signup(), SignupCompProps, SignupValues, initialState, signupSlice, signupState, signupUser (+5 more)
+Cohesion: 0.29
+Nodes (5): SignupCompProps, passwordRequirements, PersonalDetailsProps, SignUpForm(), SignUpFormProps
 
 ### Community 14 - "Login & Password Recovery"
 Cohesion: 0.14
 Nodes (8): LoginCompProps, LoginFormValues, Step1(), Step2(), forgetPassStep1Schema, forgetPassStep2Schema, loginSchema, signUpSchema
 
 ### Community 15 - "Student Case Views"
-Cohesion: 0.16
-Nodes (8): ResponseCaseCardProps, ResponseFeedbackModal(), tabs, StudentDashboard(), StudentCasePresentation(), StudentCasePresentationProps, TeacherDashboard(), formatDate()
+Cohesion: 0.14
+Nodes (10): ResponseCaseCardProps, ResponseFeedbackModal(), tabs, StudentDashboard(), StudentCasePresentation(), StudentCasePresentationProps, IProps, TeacherCaseStudies() (+2 more)
 
 ### Community 16 - "Rich Text Viewer"
 Cohesion: 0.13
@@ -244,12 +254,12 @@ Cohesion: 0.16
 Nodes (9): CaseEditorProps, plugins, H1Element(), H2Element(), H3Element(), HeadingElement(), headingVariants, MarkToolbarButton() (+1 more)
 
 ### Community 18 - "Case API Functions"
-Cohesion: 0.25
-Nodes (15): addDraftCaseApi(), addPdfToCaseMaterialsApi(), convertToFormData(), deleteCaseApi(), deletePdfFromCaseMaterialsApi(), fetchCaseDataApi(), fetchCaseDetailsApi(), fetchPublishedCaseApi() (+7 more)
+Cohesion: 0.17
+Nodes (18): addDraftCaseApi(), addPdfToCaseMaterialsApi(), convertToFormData(), deletePdfFromCaseMaterialsApi(), getArchiveCasesApi(), getDraftCasesApi(), getPresignedUrlForDocumentUploadApi(), getPresignedUrlForFetchingDocumentsApi() (+10 more)
 
 ### Community 19 - "Student API & Redux"
-Cohesion: 0.15
-Nodes (12): getStudentsCertificatesApi(), getStudentsResponsesApi(), submitCaseResponseApi(), initialState, studentsCertificatesSlice, StudentsCertificatesState, getStudentsResponsesToCasesSlice, initialState (+4 more)
+Cohesion: 0.11
+Nodes (17): addFeedbackApi(), getStudentsCertificatesApi(), getStudentsResponsesApi(), submitCaseResponseApi(), initialState, studentsCertificatesSlice, StudentsCertificatesState, addFeedback (+9 more)
 
 ### Community 20 - "Server Case Processing"
 Cohesion: 0.23
@@ -264,8 +274,8 @@ Cohesion: 0.19
 Nodes (8): addFeedback(), dbClient, getCaseData(), dbClient, cognitoClient, dbClient, getDetailsOfStudentsFeedbackAndResponses(), parseLogToObject()
 
 ### Community 23 - "Signup Form Elements"
-Cohesion: 0.14
-Nodes (5): ProfessionalDetailsFormProps, ProfessionalDetailsProps, CheckBoxProps, TextAreaInterface, caseStudies
+Cohesion: 0.20
+Nodes (4): AdminLayoutProps, navLinks, DashboardLayoutProps, caseStudies
 
 ### Community 24 - "UI Screenshots & Assets"
 Cohesion: 0.15
@@ -280,20 +290,20 @@ Cohesion: 0.22
 Nodes (8): geist, metadata, nunitoFont, RootLayout(), Tooltip(), TooltipContent(), TooltipProvider(), TooltipTrigger()
 
 ### Community 27 - "Community 27"
-Cohesion: 0.20
-Nodes (7): caseDetailsSlice, CaseDetailsState, initialState, getDraftCasesSlice, initialState, rootReducer, RootState
+Cohesion: 0.40
+Nodes (4): fetchCaseDetailsApi(), caseDetailsSlice, CaseDetailsState, initialState
 
 ### Community 28 - "Community 28"
-Cohesion: 0.20
-Nodes (9): description, license, name, overrides, minimatch, postcss, react-router, type (+1 more)
+Cohesion: 0.08
+Nodes (24): description, devDependencies, eslint, eslint-config-next, jwks-rsa, lodash, postcss, tailwindcss (+16 more)
 
 ### Community 29 - "Community 29"
 Cohesion: 0.42
 Nodes (7): deleteCaseMaterial(), getSignedUrlsToFetchForCaseMaterials(), getSignedUrlToUploadForCaseMaterials(), deleteCaseMaterialFromS3(), getSignedUrlForFetchingFromS3(), getSignedUrlToUploadToS3(), extrapolateRequestBody()
 
 ### Community 30 - "Community 30"
-Cohesion: 0.22
-Nodes (9): devDependencies, eslint, eslint-config-next, jwks-rsa, lodash, postcss, tailwindcss, @types/node (+1 more)
+Cohesion: 0.10
+Nodes (15): PersonalDetailsSettingsProps, fetchCaseDetails, useProcessTabs(), StudentCaseStudiesContent(), tabs, Page(), Answer, CaseDetail (+7 more)
 
 ### Community 32 - "Community 32"
 Cohesion: 0.43
@@ -316,16 +326,16 @@ Cohesion: 0.43
 Nodes (6): Editor(), EditorContainer(), editorContainerVariants, EditorProps, editorVariants, EditorView()
 
 ### Community 37 - "Community 37"
-Cohesion: 0.33
-Nodes (5): addFeedbackApi(), addFeedback, addFeedbackSlice, AddFeedbackState, initialState
+Cohesion: 0.18
+Nodes (17): SignupTeacher(), SignupValues, signupUser, ReviewAndConfirm(), CreateCaseStudyContent(), ForgotPassword(), useAppDispatch, useAppSelector (+9 more)
 
 ### Community 38 - "Community 38"
 Cohesion: 0.40
 Nodes (4): gatewayMethods, EmailHtmlProps, EmailProps, sendEmail()
 
 ### Community 39 - "Community 39"
-Cohesion: 0.33
-Nodes (3): caseApi, HeadersObj, studentApi
+Cohesion: 0.12
+Nodes (10): caseApi, HeadersObj, studentApi, Login Page, authOptions, JWT, nextAuthInstance, Session (+2 more)
 
 ### Community 40 - "Community 40"
 Cohesion: 0.47
@@ -338,10 +348,6 @@ Nodes (3): validateEditorInputs(), ValidationErrorProps, StudentCaseCommentsProp
 ### Community 43 - "Community 43"
 Cohesion: 0.47
 Nodes (3): useRenderPdf(), StudentCertificate(), Certificates()
-
-### Community 44 - "Community 44"
-Cohesion: 0.33
-Nodes (6): scripts, build, dev, lint, start, start:dev
 
 ### Community 45 - "Community 45"
 Cohesion: 0.73
@@ -360,8 +366,8 @@ Cohesion: 0.60
 Nodes (5): inputVariants, LinkFloatingToolbar(), LinkOpenButton(), popoverVariants, buttonVariants
 
 ### Community 49 - "Community 49"
-Cohesion: 0.40
-Nodes (4): initialState, updateCaseSlice, UpdateCaseState, updateDraftCase
+Cohesion: 0.17
+Nodes (9): fetchPublishedCaseApi(), initialState, publishedCaseSlice, PublishedCaseState, initialState, updateCaseSlice, UpdateCaseState, rootReducer (+1 more)
 
 ### Community 50 - "Community 50"
 Cohesion: 0.60
@@ -376,32 +382,28 @@ Cohesion: 0.40
 Nodes (5): Add icon (plus symbol, 14px), Add icon (rotated plus, 20px), Paperclip attachment icon, Briefcase/suitcase with plus icon, Checkmark confirmation icon
 
 ### Community 54 - "Community 54"
-Cohesion: 0.60
+Cohesion: 0.67
 Nodes (3): TeacherCaseAnswer(), FinalReview(), formatDateToYYYYMMDD()
 
-### Community 55 - "Community 55"
-Cohesion: 0.50
-Nodes (3): addCaseSlice, AddCaseState, initialState
-
 ### Community 56 - "Community 56"
-Cohesion: 0.50
-Nodes (3): deleteCaseSlice, DeleteCaseState, initialState
+Cohesion: 0.40
+Nodes (4): deleteCaseApi(), deleteCaseSlice, DeleteCaseState, initialState
 
 ### Community 57 - "Community 57"
-Cohesion: 0.50
-Nodes (3): getArchiveCasesSlice, GetArchiveCasesState, initialState
+Cohesion: 0.25
+Nodes (7): CHANGE / EDIT MODE, Context7, CRITICAL RULES - MUST FOLLOW, graphify, PLANNING MODE, RESPONSES, Runtime
 
 ### Community 58 - "Community 58"
-Cohesion: 0.50
-Nodes (3): getCaseDataSlice, GetCaseDataState, initialState
+Cohesion: 0.40
+Nodes (4): fetchCaseDataApi(), getCaseDataSlice, GetCaseDataState, initialState
 
 ### Community 59 - "Community 59"
-Cohesion: 0.50
-Nodes (3): caseMaterialsSlice, CaseMaterialsState, initialState
+Cohesion: 0.36
+Nodes (7): CaseQuestion, FinalReviewProps, handleUpdateDraftCase, TeacherCaseAnswerProps, TeacherCaseQuestionProps, TeacherCaseTeachingProps, TeacherCMEQuestionsProps
 
 ### Community 60 - "Community 60"
-Cohesion: 0.50
-Nodes (3): initialState, publishedCaseSlice, PublishedCaseState
+Cohesion: 0.33
+Nodes (5): useClickOutside(), AppDropdown(), AppDropdownItemProps, AppDropdownProps, DropdownPosition
 
 ### Community 61 - "Community 61"
 Cohesion: 0.67
@@ -423,25 +425,33 @@ Nodes (3): Arrow right navigation icon, Downward caret/chevron icon, Downward ca
 Cohesion: 0.67
 Nodes (3): DropdownMenu, MarkToolbarButton, Toolbar
 
+### Community 116 - "Community 116"
+Cohesion: 0.33
+Nodes (5): changePasswordApi(), changePassword, changePasswordSlice, ChangePasswordState, initialState
+
+### Community 117 - "Community 117"
+Cohesion: 0.50
+Nodes (3): DEPLOYMENT TODOS, POST DEPLOYMENT TODOS 1, POST DEPLOYMENT TODOS 2
+
 ## Knowledge Gaps
-- **370 isolated node(s):** `extends`, `version`, `pluginName`, `agents`, `commands` (+365 more)
+- **379 isolated node(s):** `RESPONSES`, `PLANNING MODE`, `CHANGE / EDIT MODE`, `Context7`, `Runtime` (+374 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **49 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **53 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Auth Controller` connect `Backend Infrastructure` to `Auth State & Password Flow`?**
-  _High betweenness centrality (0.070) - this node is a cross-community bridge._
-- **Why does `Button()` connect `Settings & Navigation` to `Case Data Management`, `UI Component Library`, `Case Materials & Progress`, `Community 43`, `Signup Flow`, `Login & Password Recovery`, `Student Case Views`, `Community 47`, `Community 48`, `Community 54`, `Signup Form Elements`?**
-  _High betweenness centrality (0.046) - this node is a cross-community bridge._
-- **Why does `cn()` connect `UI Component Library` to `Community 34`, `Community 36`, `Settings & Navigation`, `Rich Text Viewer`, `Community 25`, `Community 26`?**
-  _High betweenness centrality (0.042) - this node is a cross-community bridge._
-- **What connects `extends`, `version`, `pluginName` to the rest of the system?**
-  _370 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **Why does `cn()` connect `UI Component Library` to `Community 34`, `Community 36`, `Case Materials & Progress`, `Rich Text Viewer`, `Community 25`, `Community 26`?**
+  _High betweenness centrality (0.067) - this node is a cross-community bridge._
+- **Why does `Button()` connect `Case Materials & Progress` to `Community 37`, `UI Component Library`, `Settings & Navigation`, `Community 43`, `Community 44`, `Signup Flow`, `Login & Password Recovery`, `Student Case Views`, `Community 47`, `Community 48`, `Community 54`, `Community 55`, `Community 30`?**
+  _High betweenness centrality (0.052) - this node is a cross-community bridge._
+- **Why does `Auth Controller` connect `Backend Infrastructure` to `Community 39`?**
+  _High betweenness centrality (0.041) - this node is a cross-community bridge._
+- **What connects `RESPONSES`, `PLANNING MODE`, `CHANGE / EDIT MODE` to the rest of the system?**
+  _379 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Case Data Management` be split into smaller, more focused modules?**
-  _Cohesion score 0.062004662004662 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.06734006734006734 - nodes in this community are weakly interconnected._
 - **Should `Backend Infrastructure` be split into smaller, more focused modules?**
   _Cohesion score 0.06291591046581972 - nodes in this community are weakly interconnected._
-- **Should `State Management & Admin UI` be split into smaller, more focused modules?**
-  _Cohesion score 0.06105457909343201 - nodes in this community are weakly interconnected._
+- **Should `AWS SDK Dependencies` be split into smaller, more focused modules?**
+  _Cohesion score 0.043478260869565216 - nodes in this community are weakly interconnected._
