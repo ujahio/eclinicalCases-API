@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 
 import type { Value } from 'platejs';
+import { serializeHtml } from 'platejs/static';
 
 import {
 	BlockquotePlugin,
@@ -66,14 +67,13 @@ const plugins = [
 	}),
 ];
 
-function parseContent(content: string | undefined): Value {
-	if (content) {
-		try {
-			const parsed = JSON.parse(content);
-			if (Array.isArray(parsed)) return parsed;
-		} catch {
-			// fall through
-		}
+function parseContent(content: string | undefined, editor: ReturnType<typeof usePlateEditor>): Value {
+	if (!content || !editor) return [{ children: [{ text: '' }], type: 'p' }];
+	try {
+		const parsed = editor.api.html.deserialize({ element: content });
+		if (Array.isArray(parsed)) return parsed;
+	} catch {
+		// fall through
 	}
 	return [{ children: [{ text: '' }], type: 'p' }];
 }
@@ -84,17 +84,16 @@ const CaseEditor: React.FC<CaseEditorProps> = ({
 	status = 'valid',
 	validationMessage = '',
 }) => {
-	const [initialValue] = useState<Value>(() => parseContent(content));
 	const [currentContent, setCurrentContent] = useState(content);
 
 	const editor = usePlateEditor({
 		plugins,
-		value: initialValue,
+		value: [{ children: [{ text: '' }], type: 'p' }],
 	});
 
 	useEffect(() => {
 		if (content !== currentContent) {
-			const newValue = parseContent(content);
+			const newValue = parseContent(content, editor);
 			editor.tf.setValue(newValue);
 			setCurrentContent(content);
 		}
@@ -104,11 +103,11 @@ const CaseEditor: React.FC<CaseEditorProps> = ({
 		<>
 			<Plate
 				editor={editor}
-				onChange={({ value: newValue }) => {
-					const serialized = JSON.stringify(newValue);
-					if (serialized !== currentContent) {
-						setCurrentContent(serialized);
-						onContentChange(serialized);
+				onChange={async () => {
+					const html = await serializeHtml(editor);
+					if (html !== currentContent) {
+						setCurrentContent(html);
+						onContentChange(html);
 					}
 				}}
 			>

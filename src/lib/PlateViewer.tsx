@@ -57,33 +57,35 @@ const plugins = [
 ];
 
 interface PlateViewerProps {
-	value?: Value;
-	jsonString?: string;
-	className?: string;
+  value?: Value;
+  htmlString?: string;
+  className?: string;
 }
 
 const PlateViewer: React.FC<PlateViewerProps> = ({
-	value,
-	jsonString,
-	className,
+  value,
+  htmlString,
+  className,
 }) => {
-	const initialValue: Value = React.useMemo(() => {
-		if (jsonString) {
-			try {
-				const parsed = JSON.parse(jsonString);
-				if (Array.isArray(parsed)) return parsed;
-			} catch {
-				// fall through
-			}
-		}
-		if (value && Array.isArray(value)) return value;
-		return [{ children: [{ text: '' }], type: 'p' }];
-	}, [value, jsonString]);
+  const editor = usePlateEditor({
+    plugins,
+    value: [{ children: [{ text: '' }], type: 'p' }],
+  });
 
-	const editor = usePlateEditor({
-		plugins,
-		value: initialValue,
-	});
+  React.useEffect(() => {
+    if (htmlString) {
+      try {
+        const deserialized = editor.api.html.deserialize({ element: htmlString });
+        if (Array.isArray(deserialized)) {
+          editor.tf.setValue(deserialized as Value);
+        }
+      } catch {
+        // fall through
+      }
+    } else if (value && Array.isArray(value)) {
+      editor.tf.setValue(value);
+    }
+  }, [htmlString, value, editor]);
 
 	return (
 		<Plate editor={editor}>

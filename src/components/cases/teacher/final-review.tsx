@@ -29,7 +29,7 @@ const FinalReview: FC<FinalReviewProps> = ({
 					Case Model Topic Description
 				</h3>
 				<div className="mb-9 bg-gray-200 p-2.5">
-					<PlateViewer jsonString={caseStudy.caseDescription} />
+					<PlateViewer htmlString={caseStudy.caseDescription} />
 				</div>
 			</div>
 			<div className=" border-b-0.375">
@@ -37,7 +37,7 @@ const FinalReview: FC<FinalReviewProps> = ({
 					CASE MODEL ANSWER
 				</h3>
 				<div className="mb-9 bg-gray-200 p-2.5">
-					<PlateViewer jsonString={caseStudy.caseExplanation} />
+					<PlateViewer htmlString={caseStudy.caseExplanation} />
 				</div>
 				<h3 className="uppercase font-bold text-sm text-blue mb-2 create-case-subheading">
 					DEADLINE
@@ -53,7 +53,7 @@ const FinalReview: FC<FinalReviewProps> = ({
 					Case Teaching
 				</h3>
 				<div className="mb-9 bg-gray-200 p-2.5">
-					<PlateViewer jsonString={caseStudy.caseTeaching} />
+					<PlateViewer htmlString={caseStudy.caseTeaching} />
 				</div>
 				<h3 className="uppercase font-bold text-sm text-blue mb-4 create-case-heading">
 					TEACHING MATERIALS

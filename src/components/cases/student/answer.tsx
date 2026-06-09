@@ -39,7 +39,7 @@ const StudentCaseAnswer: FC<StudentCaseAnswerProps> = ({
 					</h6>
 					<div className="text-dark sm:text-base text-1sm">
 						<div className="mb-9 bg-gray-200 p-2.5">
-							<PlateViewer jsonString={caseExplanation} />
+							<PlateViewer htmlString={caseExplanation} />
 						</div>
 					</div>
 				</div>
@@ -56,7 +56,7 @@ const StudentCaseAnswer: FC<StudentCaseAnswerProps> = ({
 							<div className="max-h-87.5 overflow-y-auto rounded-md border border-grey-200 p-3">
 								<div className="text-dark sm:text-base text-1sm">
 									<div className="bg-gray-200 p-2.5">
-										<PlateViewer jsonString={studentCaseExplanation} />
+										<PlateViewer htmlString={studentCaseExplanation} />
 									</div>
 								</div>
 							</div>
@@ -71,7 +71,7 @@ const StudentCaseAnswer: FC<StudentCaseAnswerProps> = ({
 							<div className="max-h-87.5 overflow-y-auto rounded-md border border-grey-200 p-3">
 								<div className="text-dark sm:text-base text-1sm">
 									<div className="bg-gray-200 p-2.5">
-										<PlateViewer jsonString={caseExplanation} />
+<PlateViewer htmlString={caseExplanation} />
 									</div>
 								</div>
 							</div>

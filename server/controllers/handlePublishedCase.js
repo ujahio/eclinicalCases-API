@@ -9,6 +9,13 @@ import applicationContext from "../../appContext/applicationContext.js";
 
 const dbClient = applicationContext.getDBClient();
 
+const hasContent = (htmlString) => {
+	if (!htmlString || htmlString === "undefined") return false;
+	// Strip HTML tags and check if there's any text content
+	const textContent = htmlString.replace(/<[^>]*>/g, "").trim();
+	return textContent.length > 0;
+};
+
 const validateInputs = ({
 	caseDescription,
 	caseTopic,
@@ -37,85 +44,24 @@ const validateInputs = ({
 		}
 	});
 
-	// Validate case study explanation
-	// check for caseDescription is a hack check for when editor is empty due to user deleting the items
-	// structure needs to be fixed!!
-	if (!caseDescription || caseDescription === "undefined") {
+	if (!hasContent(caseDescription)) {
 		throw { message: "Missing case study description." };
-	} else {
-		// Parse the caseExplanation to check for text in the blocks
-		let descriptionParsed;
-		try {
-			descriptionParsed = JSON.parse(caseDescription);
-		} catch (error) {
-			throw { message: "Missing case study description." };
-		}
-
-		const hasTextInBlocks = descriptionParsed.blocks.some(
-			(block) => block.text.trim().length > 0
-		);
-
-		if (!hasTextInBlocks) {
-			throw { message: "Missing case study description." };
-		}
 	}
 
 	if (!caseTopic) {
 		throw { message: "Missing case topic" };
 	}
 
-	// Validate case study explanation
-	// check for caseExplanation is a hack check for when editor is empty due to user deleting the items
-	// structure needs to be fixed!!
-	if (!caseExplanation || caseExplanation === "undefined") {
+	if (!hasContent(caseExplanation)) {
 		throw {
 			message: "Missing case study explanations.",
 		};
-	} else {
-		// Parse the caseExplanation to check for text in the blocks
-		let explanationParsed;
-		try {
-			explanationParsed = JSON.parse(caseExplanation);
-		} catch (error) {
-			throw { message: "Missing case study explanations." };
-		}
-
-		// Adjusted logic to ensure accurate validation of non-empty text in blocks
-		const hasTextInExplanationBlocks = explanationParsed.blocks.some(
-			(block) => {
-				return block.text.trim().length > 0;
-			}
-		);
-
-		if (!hasTextInExplanationBlocks) {
-			throw { message: "Missing case study explanation" };
-		}
 	}
 
-	// Validate case study teaching
-	// check for caseTeaching is a hack check for when editor is empty due to user deleting the items
-	// structure needs to be fixed!!
-	if (!caseTeaching || caseTeaching === "undefined") {
+	if (!hasContent(caseTeaching)) {
 		throw {
 			message: "Missing case teaching.",
 		};
-	} else {
-		// Parse the caseExplanation to check for text in the blocks
-		let teachingParsed;
-		try {
-			teachingParsed = JSON.parse(caseExplanation);
-		} catch (error) {
-			throw { message: "Missing case study teaching." };
-		}
-
-		// Adjusted logic to ensure accurate validation of non-empty text in blocks
-		const hasTextInTeachingBlocks = teachingParsed.blocks.some((block) => {
-			return block.text.trim().length > 0;
-		});
-
-		if (!hasTextInTeachingBlocks) {
-			throw { message: "Missing case teaching" };
-		}
 	}
 
 	if (!caseDeadline) {
@@ -182,7 +128,7 @@ export const publishCase = async (event) => {
 					":teacherId": teacherId,
 					":caseStatus": "published",
 				},
-			})
+			}),
 		);
 
 		// If there is already a published case, block the action
@@ -253,11 +199,13 @@ export const publishCase = async (event) => {
 
 		const updatedCase = await dbClient.send(updateParams);
 		console.log(
-			`Case ${newCaseId} successfully published for teacher ${teacherId}`
+			`Case ${newCaseId} successfully published for teacher ${teacherId}`,
 		);
-		await applicationContext
-			.getUseCaseHelpers()
-			.sendNewCaseNotificationEmailToRegisteredStudents();
+
+		// TODO: EMAIL NOTIFICATIONS - decide on the flow for if the email fails to send (retry mechanism? log and send to admin?)
+		// await applicationContext
+		// 	.getUseCaseHelpers()
+		// 	.sendNewCaseNotificationEmailToRegisteredStudents();
 		return {
 			statusCode: 200,
 			body: JSON.stringify({

@@ -78,7 +78,7 @@ const StudentCaseTeaching: FC<StudentCaseTeachingProps> = ({
 				<h5 className="font-bold text-base mt-3-75 mb-2.5">{caseTopic}</h5>
 
 				<div className="mb-9 bg-gray-200 p-2.5">
-					<PlateViewer jsonString={caseTeaching} />
+					<PlateViewer htmlString={caseTeaching} />
 				</div>
 				{loading && <p>Loading...</p>}
 

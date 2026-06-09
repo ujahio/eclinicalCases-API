@@ -8,7 +8,7 @@ const ResponseModal = ({ caseExplanation }: any) => {
 			</h6>
 			<div className="text-dark sm:text-base text-1sm">
 				<div className="mb-9 bg-gray-200 p-2.5">
-					<PlateViewer jsonString={caseExplanation} />
+					<PlateViewer htmlString={caseExplanation} />
 				</div>
 			</div>
 		</>

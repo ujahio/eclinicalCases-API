@@ -21,7 +21,7 @@ const StudentCasePresentation: FC<StudentCasePresentationProps> = ({
 					Case Description
 				</h6>
 				<div className="mb-9 bg-gray-200 p-2.5">
-					<PlateViewer jsonString={caseDescription} />
+					<PlateViewer htmlString={caseDescription} />
 				</div>
 			</div>
 			{caseDeadline && (
