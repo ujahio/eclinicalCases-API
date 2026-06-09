@@ -124,9 +124,7 @@ export const studentApi = createApiClient(
 
 export const configureRequestHeaders = (formData?: any) => {
 	const headers = {
-		...(formData && formData.getHeaders
-			? formData.getHeaders()
-			: { "Content-Type": "multipart/form-data" }),
+		...(formData && formData.getHeaders ? formData.getHeaders() : {}),
 	};
 	return {
 		headers,
