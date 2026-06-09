@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useMemo, useState } from "react";
 import CaseEditor from "@/lib/Editor";
 import {
 	validateEditorInputs,
@@ -45,6 +45,13 @@ const StudentCaseComments: FC<StudentCaseCommentsProps> = ({
 		}));
 	};
 
+	const charCount = useMemo(() => {
+		const plainText = studentCaseExplanation
+			? studentCaseExplanation.replace(/<[^>]*>/g, "").trim()
+			: "";
+		return plainText.length;
+	}, [studentCaseExplanation]);
+
 	return (
 		<>
 			<div className="mb-5 sm:mb-6">
@@ -52,9 +59,6 @@ const StudentCaseComments: FC<StudentCaseCommentsProps> = ({
 					<h6 className="text-1sm sm:text-sm capitalize sm:mb-2 text-blue font-bold">
 						COMMENT ON THE CASE
 					</h6>
-					<p className="text-1xs">
-						{"Note: Comments must be between 150 and 700 characters."}
-					</p>
 
 					<CaseEditor
 						content={studentCaseExplanation}
@@ -64,6 +68,16 @@ const StudentCaseComments: FC<StudentCaseCommentsProps> = ({
 							inputsForValidation.explanation.validationMessage
 						}
 					/>
+					<p
+						className={`text-xs mt-1 text-right ${charCount < 150 || charCount > 700 ? "text-red" : "text-grey-300"}`}
+					>
+						{charCount} / 700 characters
+						{inputsForValidation.explanation.status === "error" && (
+							<span className="ml-2 text-red">
+								· {inputsForValidation.explanation.validationMessage}
+							</span>
+						)}
+					</p>
 				</div>
 			</div>
 			<ProgressButtons goNext={handleSubmitStudentResponse} goBack={goBack} />

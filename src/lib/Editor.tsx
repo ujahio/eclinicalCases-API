@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 
-import type { Value } from 'platejs';
-import { serializeHtml } from 'platejs/static';
+import type { Value } from "platejs";
+import { serializeHtml } from "platejs/static";
 
 import {
 	BlockquotePlugin,
@@ -15,33 +15,33 @@ import {
 	ItalicPlugin,
 	StrikethroughPlugin,
 	UnderlinePlugin,
-} from '@platejs/basic-nodes/react';
-import { LinkPlugin } from '@platejs/link/react';
+} from "@platejs/basic-nodes/react";
+import { LinkPlugin } from "@platejs/link/react";
 import {
 	BulletedListPlugin,
 	ListItemPlugin,
 	ListPlugin,
 	NumberedListPlugin,
-} from '@platejs/list-classic/react';
-import { Plate, usePlateEditor } from 'platejs/react';
+} from "@platejs/list-classic/react";
+import { Plate, usePlateEditor } from "platejs/react";
 
-import { BlockquoteElement } from '@/components/ui/blockquote-node';
-import { Editor, EditorContainer } from '@/components/ui/editor';
-import { FixedToolbar } from '@/components/ui/fixed-toolbar';
-import { H1Element, H2Element, H3Element } from '@/components/ui/heading-node';
-import { LinkElement } from '@/components/ui/link-node';
-import { LinkFloatingToolbar } from '@/components/ui/link-toolbar';
+import { BlockquoteElement } from "@/components/ui/blockquote-node";
+import { Editor, EditorContainer } from "@/components/ui/editor";
+import { FixedToolbar } from "@/components/ui/fixed-toolbar";
+import { H1Element, H2Element, H3Element } from "@/components/ui/heading-node";
+import { LinkElement } from "@/components/ui/link-node";
+import { LinkFloatingToolbar } from "@/components/ui/link-toolbar";
 import {
 	BulletedListElement,
 	NumberedListElement,
-} from '@/components/ui/list-classic-node';
-import { MarkToolbarButton } from '@/components/ui/mark-toolbar-button';
-import { ToolbarButton } from '@/components/ui/toolbar';
+} from "@/components/ui/list-classic-node";
+import { MarkToolbarButton } from "@/components/ui/mark-toolbar-button";
+import { ToolbarButton } from "@/components/ui/toolbar";
 
 interface CaseEditorProps {
 	content: string | undefined;
 	onContentChange: (updatedContent: string) => void;
-	status?: 'valid' | 'error';
+	status?: "valid" | "error";
 	validationMessage?: string;
 }
 
@@ -67,28 +67,31 @@ const plugins = [
 	}),
 ];
 
-function parseContent(content: string | undefined, editor: ReturnType<typeof usePlateEditor>): Value {
-	if (!content || !editor) return [{ children: [{ text: '' }], type: 'p' }];
+function parseContent(
+	content: string | undefined,
+	editor: ReturnType<typeof usePlateEditor>,
+): Value {
+	if (!content || !editor) return [{ children: [{ text: "" }], type: "p" }];
 	try {
 		const parsed = editor.api.html.deserialize({ element: content });
 		if (Array.isArray(parsed)) return parsed;
 	} catch {
 		// fall through
 	}
-	return [{ children: [{ text: '' }], type: 'p' }];
+	return [{ children: [{ text: "" }], type: "p" }];
 }
 
 const CaseEditor: React.FC<CaseEditorProps> = ({
 	content,
 	onContentChange,
-	status = 'valid',
-	validationMessage = '',
+	status = "valid",
+	validationMessage = "",
 }) => {
 	const [currentContent, setCurrentContent] = useState(content);
 
 	const editor = usePlateEditor({
 		plugins,
-		value: [{ children: [{ text: '' }], type: 'p' }],
+		value: [{ children: [{ text: "" }], type: "p" }],
 	});
 
 	useEffect(() => {
@@ -125,7 +128,7 @@ const CaseEditor: React.FC<CaseEditorProps> = ({
 						S
 					</MarkToolbarButton>
 					<MarkToolbarButton nodeType="code" tooltip="Code">
-						{'</>'}
+						{"</>"}
 					</MarkToolbarButton>
 
 					<ToolbarButton onClick={() => editor.tf.h1.toggle()}>
@@ -142,29 +145,37 @@ const CaseEditor: React.FC<CaseEditorProps> = ({
 					</ToolbarButton>
 
 					<ToolbarButton
-						onClick={() => editor.tf.insertNodes({ children: [{ text: '' }], type: 'ul', isExpanded: true })}
+						onClick={() =>
+							editor.tf.insertNodes({
+								children: [{ text: "" }],
+								type: "ul",
+								isExpanded: true,
+							})
+						}
 					>
 						• List
 					</ToolbarButton>
 					<ToolbarButton
-						onClick={() => editor.tf.insertNodes({ children: [{ text: '' }], type: 'ol', isExpanded: true })}
+						onClick={() =>
+							editor.tf.insertNodes({
+								children: [{ text: "" }],
+								type: "ol",
+								isExpanded: true,
+							})
+						}
 					>
 						1. List
 					</ToolbarButton>
 
-					<ToolbarButton onClick={() => editor.tf.undo()}>
-						Undo
-					</ToolbarButton>
-					<ToolbarButton onClick={() => editor.tf.redo()}>
-						Redo
-					</ToolbarButton>
+					<ToolbarButton onClick={() => editor.tf.undo()}>Undo</ToolbarButton>
+					<ToolbarButton onClick={() => editor.tf.redo()}>Redo</ToolbarButton>
 
 					<ToolbarButton
 						onClick={() => {
 							editor.tf.insertNodes({
-								children: [{ text: '' }],
-								type: 'a',
-								url: '',
+								children: [{ text: "" }],
+								type: "a",
+								url: "",
 							});
 						}}
 					>
@@ -175,19 +186,14 @@ const CaseEditor: React.FC<CaseEditorProps> = ({
 				<EditorContainer>
 					<Editor
 						style={{
-							minHeight: '400px',
+							minHeight: "400px",
 							border:
-								status === 'error'
-									? '1px solid red'
-									: 'solid 1px #E7EBEF',
-							padding: '0px 15px',
+								status === "error" ? "1px solid red" : "solid 1px #E7EBEF",
+							padding: "0px 15px",
 						}}
 					/>
 				</EditorContainer>
 			</Plate>
-			{status === 'error' && (
-				<p className="mt-0.625 font-light text-red">{validationMessage}</p>
-			)}
 		</>
 	);
 };
