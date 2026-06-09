@@ -1,0 +1,1417 @@
+{
+  "/Users/otktechnologies/personal_projects/eccs-API/.eslintrc.json": {
+    "mtime": 1732974866.1010973,
+    "ast_hash": "9b8be5ef96ddd69ecd1ddc1554c61a88",
+    "semantic_hash": "9b8be5ef96ddd69ecd1ddc1554c61a88"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/.opencode/deploy-on-aws/install-manifest.json": {
+    "mtime": 1780775453.7625904,
+    "ast_hash": "0fb6586bc4e7434f43ce39837a1fee99",
+    "semantic_hash": "0fb6586bc4e7434f43ce39837a1fee99"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/.opencode/opencode.json": {
+    "mtime": 1780775456.1350267,
+    "ast_hash": "0f16fc860c0e044be4b0b3f5b3b9a104",
+    "semantic_hash": "0f16fc860c0e044be4b0b3f5b3b9a104"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/.opencode/package.json": {
+    "mtime": 1780775456.1367524,
+    "ast_hash": "970ee6b31d6094f6c41df4e55bb52b4b",
+    "semantic_hash": "970ee6b31d6094f6c41df4e55bb52b4b"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/.opencode/plugins/graphify.js": {
+    "mtime": 1781046863.596319,
+    "ast_hash": "64ccd3c03dbfe0980b6095766f5c4e52",
+    "semantic_hash": "64ccd3c03dbfe0980b6095766f5c4e52"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/appContext/applicationContext.ts": {
+    "mtime": 1777607857.941632,
+    "ast_hash": "a305f1165e9b75dfec741fdeb167f1ff",
+    "semantic_hash": "a305f1165e9b75dfec741fdeb167f1ff"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/appContext/gatewayMethods.ts": {
+    "mtime": 1772684065.1671083,
+    "ast_hash": "2aece909f024f4138914fbfdf5a1d6ca",
+    "semantic_hash": "2aece909f024f4138914fbfdf5a1d6ca"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/appContext/persistenceMethods.ts": {
+    "mtime": 1772684065.1674945,
+    "ast_hash": "dee784dd7b6a719cceb85598e21062f8",
+    "semantic_hash": "dee784dd7b6a719cceb85598e21062f8"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/appContext/useCaseHelpers.ts": {
+    "mtime": 1772684065.1683326,
+    "ast_hash": "98bca8c25736a1646422b883ac470f4c",
+    "semantic_hash": "98bca8c25736a1646422b883ac470f4c"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/components.json": {
+    "mtime": 1781043886.1907678,
+    "ast_hash": "fb250fc0a12bc14e904769493590b6c3",
+    "semantic_hash": "fb250fc0a12bc14e904769493590b6c3"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/infra/api.ts": {
+    "mtime": 1780874766.2434835,
+    "ast_hash": "31ea594322006b0fe5b9d144f66f29be",
+    "semantic_hash": "31ea594322006b0fe5b9d144f66f29be"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/infra/archive-case-status.ts": {
+    "mtime": 1780874766.244858,
+    "ast_hash": "1cdeb97093494471d151cd2d2c5a7f4b",
+    "semantic_hash": "1cdeb97093494471d151cd2d2c5a7f4b"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/infra/auth.ts": {
+    "mtime": 1780874766.2456713,
+    "ast_hash": "7218d3705a9da8bd3bb924b871234b39",
+    "semantic_hash": "7218d3705a9da8bd3bb924b871234b39"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/infra/client.ts": {
+    "mtime": 1780874766.2463784,
+    "ast_hash": "4e260f130ebd1b580b07a46708152874",
+    "semantic_hash": "4e260f130ebd1b580b07a46708152874"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/infra/dynamo.ts": {
+    "mtime": 1780874766.2466645,
+    "ast_hash": "e46e6872dc39e030a8fcfbd5b573f05b",
+    "semantic_hash": "e46e6872dc39e030a8fcfbd5b573f05b"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/infra/email.ts": {
+    "mtime": 1780874766.2472055,
+    "ast_hash": "8353c8d22cf7b44614e112f9271c05a6",
+    "semantic_hash": "8353c8d22cf7b44614e112f9271c05a6"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/infra/storage.ts": {
+    "mtime": 1780874766.2477143,
+    "ast_hash": "4dc6242ad6beeef8ac5b2e7bd92665ee",
+    "semantic_hash": "4dc6242ad6beeef8ac5b2e7bd92665ee"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/next.config.mjs": {
+    "mtime": 1780871386.0229523,
+    "ast_hash": "21958f5752add43cc47ab0ff5172cd46",
+    "semantic_hash": "21958f5752add43cc47ab0ff5172cd46"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/package.json": {
+    "mtime": 1781043886.1917188,
+    "ast_hash": "2a83ac0269b52d022df5c37b8951af7c",
+    "semantic_hash": "2a83ac0269b52d022df5c37b8951af7c"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/postcss.config.mjs": {
+    "mtime": 1777607857.9556096,
+    "ast_hash": "ca6ca348a60732403967262c9883e55a",
+    "semantic_hash": "ca6ca348a60732403967262c9883e55a"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/scripts/destroy-resources.sh": {
+    "mtime": 1727681573.5758436,
+    "ast_hash": "b0fda28ad2d2a25fd956ad80f5590221",
+    "semantic_hash": "b0fda28ad2d2a25fd956ad80f5590221"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/scripts/start-sst.sh": {
+    "mtime": 1743598079.0168974,
+    "ast_hash": "b331d3ab61a55300addcfea4b01eb455",
+    "semantic_hash": "b331d3ab61a55300addcfea4b01eb455"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/server/controllers/auth.js": {
+    "mtime": 1777607857.9560976,
+    "ast_hash": "b4444d8ac250a80df3763c8ef83eda09",
+    "semantic_hash": "b4444d8ac250a80df3763c8ef83eda09"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/server/controllers/case.js": {
+    "mtime": 1781036761.9125853,
+    "ast_hash": "6c82f4da91b6643acbb15f5b751d84fd",
+    "semantic_hash": "6c82f4da91b6643acbb15f5b751d84fd"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/server/controllers/handleArchivedCases.js": {
+    "mtime": 1772684065.1849005,
+    "ast_hash": "60fc439ab920e024055cd0e2891cb1bd",
+    "semantic_hash": "60fc439ab920e024055cd0e2891cb1bd"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/server/controllers/handleCaseMaterials.js": {
+    "mtime": 1777608121.0820034,
+    "ast_hash": "bae78e942f826a002f7bcded0b10e951",
+    "semantic_hash": "bae78e942f826a002f7bcded0b10e951"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/server/controllers/handleDraftCases.js": {
+    "mtime": 1781043886.1929233,
+    "ast_hash": "24b082f71097d79473ddd72a6f96fb3c",
+    "semantic_hash": "24b082f71097d79473ddd72a6f96fb3c"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/server/controllers/handlePublishedCase.js": {
+    "mtime": 1781043886.19382,
+    "ast_hash": "915536780c86fa43bba6ed49da2ddb14",
+    "semantic_hash": "915536780c86fa43bba6ed49da2ddb14"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/server/controllers/handleStudentsCertificates.js": {
+    "mtime": 1772684065.1876397,
+    "ast_hash": "c7db3a002ad337f0c70080ef8c650d11",
+    "semantic_hash": "c7db3a002ad337f0c70080ef8c650d11"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/server/controllers/handleStudentsResponse.js": {
+    "mtime": 1781043886.1949275,
+    "ast_hash": "dc6eee9c2f6b57f625451069f3eb302e",
+    "semantic_hash": "dc6eee9c2f6b57f625451069f3eb302e"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/server/email/emailSender.ts": {
+    "mtime": 1772684065.188612,
+    "ast_hash": "2ec28a41adf49e3fe002c63cf15edeb3",
+    "semantic_hash": "2ec28a41adf49e3fe002c63cf15edeb3"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/server/lambdas/archiveCaseStatusCron.ts": {
+    "mtime": 1772684065.1892183,
+    "ast_hash": "1ce28cc4bdfe732724468e31d5854c31",
+    "semantic_hash": "1ce28cc4bdfe732724468e31d5854c31"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/server/persistence/getRegisteredStudents.ts": {
+    "mtime": 1772684065.1900108,
+    "ast_hash": "ae8cbf3eeffab7b941d6a177342f2ba8",
+    "semantic_hash": "ae8cbf3eeffab7b941d6a177342f2ba8"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/server/persistence/getUserInfo.js": {
+    "mtime": 1772684065.190486,
+    "ast_hash": "06f587ac6ef26e4d75b85ac74c23ca5f",
+    "semantic_hash": "06f587ac6ef26e4d75b85ac74c23ca5f"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/server/services/bucket.js": {
+    "mtime": 1777608121.0826614,
+    "ast_hash": "cd72d0df19b9faabb5e5ae94c35bfd28",
+    "semantic_hash": "cd72d0df19b9faabb5e5ae94c35bfd28"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/server/services/s3Client.js": {
+    "mtime": 1777608121.083193,
+    "ast_hash": "f43a301d2a4c846bc180cba8ae103389",
+    "semantic_hash": "f43a301d2a4c846bc180cba8ae103389"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/server/useCaseHelpers/sendNewCaseNotificationEmail.ts": {
+    "mtime": 1777608121.0839026,
+    "ast_hash": "9201291145c1e794c19e7d965cf63fe3",
+    "semantic_hash": "9201291145c1e794c19e7d965cf63fe3"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/server/utils/api_utils.js": {
+    "mtime": 1781043886.1966233,
+    "ast_hash": "873cb4a1a53ae665e2073d3680a4c776",
+    "semantic_hash": "873cb4a1a53ae665e2073d3680a4c776"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/server/utils/certificate.js": {
+    "mtime": 1772684065.194826,
+    "ast_hash": "1105bef9c1d1eb4227e8e513345f43fb",
+    "semantic_hash": "1105bef9c1d1eb4227e8e513345f43fb"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/server/utils/decodeToken.js": {
+    "mtime": 1777607857.9614587,
+    "ast_hash": "e19825bde610a57bb566a8753601c59f",
+    "semantic_hash": "e19825bde610a57bb566a8753601c59f"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/app/(auth)/admin/page.tsx": {
+    "mtime": 1777607857.963128,
+    "ast_hash": "8288438bdc082951f3601953fb6d6eed",
+    "semantic_hash": "8288438bdc082951f3601953fb6d6eed"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/app/(auth)/forgot-password/page.tsx": {
+    "mtime": 1777607857.9656894,
+    "ast_hash": "fa4d5ecb03684675a1fb69a752e6d667",
+    "semantic_hash": "fa4d5ecb03684675a1fb69a752e6d667"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/app/(auth)/login/page.tsx": {
+    "mtime": 1781044260.1847765,
+    "ast_hash": "045bfa2aae1094fb1a7aaf590ce12455",
+    "semantic_hash": "045bfa2aae1094fb1a7aaf590ce12455"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/app/(auth)/signup/page.tsx": {
+    "mtime": 1777607857.9673202,
+    "ast_hash": "b7e6990924d2002f40c97e2c7de752f9",
+    "semantic_hash": "b7e6990924d2002f40c97e2c7de752f9"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/app/StoreProvider.tsx": {
+    "mtime": 1738692366.612434,
+    "ast_hash": "fd9c6d544704492b705592d84dc2d241",
+    "semantic_hash": "fd9c6d544704492b705592d84dc2d241"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/app/api/auth/[...nextauth]/route.ts": {
+    "mtime": 1772602788.2875965,
+    "ast_hash": "3524a598fbad3a98f4f78435c11d63ac",
+    "semantic_hash": "3524a598fbad3a98f4f78435c11d63ac"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/app/faculty/page.tsx": {
+    "mtime": 1777607857.9682767,
+    "ast_hash": "e12242297cdb7ef28aa75f0598b0c04e",
+    "semantic_hash": "e12242297cdb7ef28aa75f0598b0c04e"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/app/layout.tsx": {
+    "mtime": 1781043886.2000263,
+    "ast_hash": "5762605c2f77698dc5add4c4e521c17d",
+    "semantic_hash": "5762605c2f77698dc5add4c4e521c17d"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/app/page.tsx": {
+    "mtime": 1777607857.9711185,
+    "ast_hash": "43e895d288f07edd401bcc8b38cdbb40",
+    "semantic_hash": "43e895d288f07edd401bcc8b38cdbb40"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/app/student/case-studies/[id]/page.tsx": {
+    "mtime": 1778021399.383664,
+    "ast_hash": "863bc673e036ecd851c7008f3c4a90f9",
+    "semantic_hash": "863bc673e036ecd851c7008f3c4a90f9"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/app/student/certificates/page.tsx": {
+    "mtime": 1777607857.9726567,
+    "ast_hash": "a20486db1915eb7e335e01f5551c632c",
+    "semantic_hash": "a20486db1915eb7e335e01f5551c632c"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/app/student/dashboard/page.tsx": {
+    "mtime": 1778021399.3869514,
+    "ast_hash": "1819295228c0309ec444edcfe046413e",
+    "semantic_hash": "1819295228c0309ec444edcfe046413e"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/app/student/settings/page.tsx": {
+    "mtime": 1778021399.3879983,
+    "ast_hash": "89e3c4a4971c79ad86758bc65ba09ce8",
+    "semantic_hash": "89e3c4a4971c79ad86758bc65ba09ce8"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/app/teacher/case-studies/create/page.tsx": {
+    "mtime": 1777686271.0739083,
+    "ast_hash": "6d909652b5bdf4cf9743c2bec84f86bf",
+    "semantic_hash": "6d909652b5bdf4cf9743c2bec84f86bf"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/app/teacher/case-studies/update/[id]/page.tsx": {
+    "mtime": 1777607857.9748664,
+    "ast_hash": "a7c221fdd14802a538a966ce64af1297",
+    "semantic_hash": "a7c221fdd14802a538a966ce64af1297"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/app/teacher/cases/page.tsx": {
+    "mtime": 1778021399.3890846,
+    "ast_hash": "737c7bd9894f499d2c67626eefd3f07b",
+    "semantic_hash": "737c7bd9894f499d2c67626eefd3f07b"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/app/teacher/dashboard/page.tsx": {
+    "mtime": 1778021399.3899343,
+    "ast_hash": "a82591e1315fa7f2a71801411e420f04",
+    "semantic_hash": "a82591e1315fa7f2a71801411e420f04"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/app/teacher/responses-feedback/[id]/page.tsx": {
+    "mtime": 1777607857.9762497,
+    "ast_hash": "ad143cde371178caf3c31f9f4e047987",
+    "semantic_hash": "ad143cde371178caf3c31f9f4e047987"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/app/teacher/settings/page.tsx": {
+    "mtime": 1778021399.3913245,
+    "ast_hash": "889a696bcfb915a24d8d55d7bdb76542",
+    "semantic_hash": "889a696bcfb915a24d8d55d7bdb76542"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/auth.ts": {
+    "mtime": 1780886967.9547365,
+    "ast_hash": "cd62282096efaf50cc2406aeb1688f63",
+    "semantic_hash": "cd62282096efaf50cc2406aeb1688f63"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/Footer.tsx": {
+    "mtime": 1777607857.9770174,
+    "ast_hash": "1c6f50e49ef8828b39e1f6dd8d123229",
+    "semantic_hash": "1c6f50e49ef8828b39e1f6dd8d123229"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/Navbar.tsx": {
+    "mtime": 1781044252.6977289,
+    "ast_hash": "b56efcfe40d136114bd9c38abefb33ff",
+    "semantic_hash": "b56efcfe40d136114bd9c38abefb33ff"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/Toast.tsx": {
+    "mtime": 1765919092.584471,
+    "ast_hash": "37e60e04e6a148461af295105bea9b67",
+    "semantic_hash": "37e60e04e6a148461af295105bea9b67"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/account-settings/index.ts": {
+    "mtime": 1738692366.6119852,
+    "ast_hash": "f8882eb8fb2b36c6018cc2e3040f80d5",
+    "semantic_hash": "f8882eb8fb2b36c6018cc2e3040f80d5"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/account-settings/personal-details.tsx": {
+    "mtime": 1781044256.6323686,
+    "ast_hash": "8c23a3dce44a92bc7cc3df15cefda3db",
+    "semantic_hash": "8c23a3dce44a92bc7cc3df15cefda3db"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/cases/CaseCard.tsx": {
+    "mtime": 1781044252.697922,
+    "ast_hash": "6833dce05e72f7b9399bd25bc7f177d1",
+    "semantic_hash": "6833dce05e72f7b9399bd25bc7f177d1"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/cases/ResponseCaseCard.tsx": {
+    "mtime": 1777607857.9802773,
+    "ast_hash": "42d55075c8a0616c4a6c661d6c6bfd3d",
+    "semantic_hash": "42d55075c8a0616c4a6c661d6c6bfd3d"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/cases/index.tsx": {
+    "mtime": 1738692366.6125813,
+    "ast_hash": "9538f38b14a973183f6efce27f172d59",
+    "semantic_hash": "9538f38b14a973183f6efce27f172d59"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/cases/student/answer.tsx": {
+    "mtime": 1781044253.8648765,
+    "ast_hash": "77b5b3187c3438ca1500b8eb69a2db42",
+    "semantic_hash": "77b5b3187c3438ca1500b8eb69a2db42"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/cases/student/certificate.tsx": {
+    "mtime": 1781044256.0204072,
+    "ast_hash": "2904371e9a0e7b21b968a062ac8d4c81",
+    "semantic_hash": "2904371e9a0e7b21b968a062ac8d4c81"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/cases/student/cme-questions.tsx": {
+    "mtime": 1781044252.526907,
+    "ast_hash": "a788cf82c3fde9c8799e11437b4404ea",
+    "semantic_hash": "a788cf82c3fde9c8799e11437b4404ea"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/cases/student/comments.tsx": {
+    "mtime": 1781043886.208778,
+    "ast_hash": "458c181ad9974bc56669ac0def036d68",
+    "semantic_hash": "458c181ad9974bc56669ac0def036d68"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/cases/student/feedback.tsx": {
+    "mtime": 1781044254.4912646,
+    "ast_hash": "06cefb5d86fd57c1d3c43716bbc2186d",
+    "semantic_hash": "06cefb5d86fd57c1d3c43716bbc2186d"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/cases/student/presentation.tsx": {
+    "mtime": 1781044254.968211,
+    "ast_hash": "131d7ad2984b99f75a62f1dfb09fd891",
+    "semantic_hash": "131d7ad2984b99f75a62f1dfb09fd891"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/cases/student/studentCaseTeaching.tsx": {
+    "mtime": 1781043886.2120507,
+    "ast_hash": "03c913f3a15349c7ea3ebbd50b1c5aa9",
+    "semantic_hash": "03c913f3a15349c7ea3ebbd50b1c5aa9"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/cases/teacher/answer.tsx": {
+    "mtime": 1781044252.7191136,
+    "ast_hash": "9a7f19907037b338883a6f8de1f1c9a9",
+    "semantic_hash": "9a7f19907037b338883a6f8de1f1c9a9"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/cases/teacher/case-teaching.tsx": {
+    "mtime": 1781044252.5268934,
+    "ast_hash": "c1880b6db9eb52ed0ebea84ad9b22a43",
+    "semantic_hash": "c1880b6db9eb52ed0ebea84ad9b22a43"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/cases/teacher/cme-questions.tsx": {
+    "mtime": 1781044253.0401573,
+    "ast_hash": "b505774b9410d005e8ae2f77f1c43781",
+    "semantic_hash": "b505774b9410d005e8ae2f77f1c43781"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/cases/teacher/cme.tsx": {
+    "mtime": 1777586507.667698,
+    "ast_hash": "cc8d6c2d2dba8e3a6c7472084fd06ba4",
+    "semantic_hash": "cc8d6c2d2dba8e3a6c7472084fd06ba4"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/cases/teacher/feedback.tsx": {
+    "mtime": 1778021399.4068108,
+    "ast_hash": "40d58ae5fded3a0414b8819ac8a1c6cc",
+    "semantic_hash": "40d58ae5fded3a0414b8819ac8a1c6cc"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/cases/teacher/final-review.tsx": {
+    "mtime": 1781044253.038602,
+    "ast_hash": "d519cae25ccfc424b65d9bf8fbfe664a",
+    "semantic_hash": "d519cae25ccfc424b65d9bf8fbfe664a"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/cases/teacher/presentation.tsx": {
+    "mtime": 1781044253.4347985,
+    "ast_hash": "5e28a75f246ed3aaa74599bc7cb37228",
+    "semantic_hash": "5e28a75f246ed3aaa74599bc7cb37228"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/cases/teacher/response.tsx": {
+    "mtime": 1781043886.218889,
+    "ast_hash": "6ec78a8aec01de7d455d922fdcc8cd51",
+    "semantic_hash": "6ec78a8aec01de7d455d922fdcc8cd51"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/email-templates/newCaseEmailTemplate.tsx": {
+    "mtime": 1778021399.4129846,
+    "ast_hash": "0598f0af2b5e6279560505ef6ccc2063",
+    "semantic_hash": "0598f0af2b5e6279560505ef6ccc2063"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/forgot-password/Step1.tsx": {
+    "mtime": 1781044255.9792657,
+    "ast_hash": "7ab6a439c007a0824fa0090ebc9fe60a",
+    "semantic_hash": "7ab6a439c007a0824fa0090ebc9fe60a"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/forgot-password/Step2.tsx": {
+    "mtime": 1781044256.4176981,
+    "ast_hash": "0c843e1c75c1fcf2590bc01d47c10578",
+    "semantic_hash": "0c843e1c75c1fcf2590bc01d47c10578"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/form-elements/checkbox.tsx": {
+    "mtime": 1777607857.9894862,
+    "ast_hash": "c4ef29b54e7545daa5d3aeb90bf9396e",
+    "semantic_hash": "c4ef29b54e7545daa5d3aeb90bf9396e"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/form-elements/index.tsx": {
+    "mtime": 1738692366.6122224,
+    "ast_hash": "c7e5f6bf6d7aedb5db20a2a8d6d0d7dc",
+    "semantic_hash": "c7e5f6bf6d7aedb5db20a2a8d6d0d7dc"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/form-elements/input-field.tsx": {
+    "mtime": 1778021399.4170785,
+    "ast_hash": "5834ab83d0fee2001978cfce97be1df1",
+    "semantic_hash": "5834ab83d0fee2001978cfce97be1df1"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/form-elements/search-bar.tsx": {
+    "mtime": 1777607857.991328,
+    "ast_hash": "b00fccf0cd6196e490ecc557cc7cbf65",
+    "semantic_hash": "b00fccf0cd6196e490ecc557cc7cbf65"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/form-elements/text-area.tsx": {
+    "mtime": 1778021399.4178867,
+    "ast_hash": "05d03ed15dde26e018c8e208a552ce6e",
+    "semantic_hash": "05d03ed15dde26e018c8e208a552ce6e"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/layouts/AuthLayout.tsx": {
+    "mtime": 1777607857.9926274,
+    "ast_hash": "2003bbe588ee87337a8949c3896881da",
+    "semantic_hash": "2003bbe588ee87337a8949c3896881da"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/layouts/dashboard/admin.tsx": {
+    "mtime": 1777607857.993494,
+    "ast_hash": "0e00055be7adb4886ada03dcb1ce2f19",
+    "semantic_hash": "0e00055be7adb4886ada03dcb1ce2f19"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/layouts/dashboard/index.tsx": {
+    "mtime": 1777607857.994161,
+    "ast_hash": "a5c6b7a61b7e0de8bc3c46e143cd4de4",
+    "semantic_hash": "a5c6b7a61b7e0de8bc3c46e143cd4de4"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/layouts/dashboard/nav.tsx": {
+    "mtime": 1778021399.4186718,
+    "ast_hash": "9250f6eb2a18e3f06b4110c55c6f9bc1",
+    "semantic_hash": "9250f6eb2a18e3f06b4110c55c6f9bc1"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/modals/Walkthrough.tsx": {
+    "mtime": 1781044257.6724005,
+    "ast_hash": "bb1a64073b8be2402a3ec29da1277c9f",
+    "semantic_hash": "bb1a64073b8be2402a3ec29da1277c9f"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/modals/response-feedback-modal.tsx": {
+    "mtime": 1777607857.9965763,
+    "ast_hash": "12898ea763014468c88e36dab8a7776c",
+    "semantic_hash": "12898ea763014468c88e36dab8a7776c"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/progressButtons.tsx": {
+    "mtime": 1781044252.6759255,
+    "ast_hash": "c7bc66ac95612c39a9da8d4c747edb2e",
+    "semantic_hash": "c7bc66ac95612c39a9da8d4c747edb2e"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/spinners/SpinnerGrow.tsx": {
+    "mtime": 1777607857.9977963,
+    "ast_hash": "43474e95aba1675168baaf4d7cbab5de",
+    "semantic_hash": "43474e95aba1675168baaf4d7cbab5de"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/ui/Dropdown.tsx": {
+    "mtime": 1777607857.9990873,
+    "ast_hash": "4a6e1cbcb5c89efe83ddef34a3884220",
+    "semantic_hash": "4a6e1cbcb5c89efe83ddef34a3884220"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/ui/Modal.tsx": {
+    "mtime": 1777607857.9997845,
+    "ast_hash": "08cf5ca59d92253c6d7a16e8cffc55e2",
+    "semantic_hash": "08cf5ca59d92253c6d7a16e8cffc55e2"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/ui/Tabs.tsx": {
+    "mtime": 1777607858.000638,
+    "ast_hash": "64913496f05eaaaf1a95790f46f62dc2",
+    "semantic_hash": "64913496f05eaaaf1a95790f46f62dc2"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/ui/blockquote-node-static.tsx": {
+    "mtime": 1781043886.2250712,
+    "ast_hash": "8c18ba96b8ec497120801da9a1e980d0",
+    "semantic_hash": "8c18ba96b8ec497120801da9a1e980d0"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/ui/blockquote-node.tsx": {
+    "mtime": 1781043886.2263505,
+    "ast_hash": "6a9cd8cc4a4242819e6a094e2aea5411",
+    "semantic_hash": "6a9cd8cc4a4242819e6a094e2aea5411"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/ui/checkbox.tsx": {
+    "mtime": 1781043886.2272298,
+    "ast_hash": "1a2a03a1ccddb59856e8809d0beebfa1",
+    "semantic_hash": "1a2a03a1ccddb59856e8809d0beebfa1"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/ui/cme-modal.tsx": {
+    "mtime": 1781044022.108068,
+    "ast_hash": "465f15ebd022928f0ee51f0c7e44702f",
+    "semantic_hash": "465f15ebd022928f0ee51f0c7e44702f"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/ui/dropdown-menu.tsx": {
+    "mtime": 1781043886.228934,
+    "ast_hash": "63fc04368c0f92980d3ab4ae34f01a18",
+    "semantic_hash": "63fc04368c0f92980d3ab4ae34f01a18"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/ui/editor-static.tsx": {
+    "mtime": 1781043886.2300239,
+    "ast_hash": "d8df4a6f532e17f243b59eef42497cd0",
+    "semantic_hash": "d8df4a6f532e17f243b59eef42497cd0"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/ui/editor.tsx": {
+    "mtime": 1781043886.230899,
+    "ast_hash": "f28e83078f4d76908c68c7976e0778f7",
+    "semantic_hash": "f28e83078f4d76908c68c7976e0778f7"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/ui/fixed-toolbar.tsx": {
+    "mtime": 1781043886.231691,
+    "ast_hash": "653cafba02a017587ab164372dd41656",
+    "semantic_hash": "653cafba02a017587ab164372dd41656"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/ui/heading-node-static.tsx": {
+    "mtime": 1781043886.2323847,
+    "ast_hash": "bf0fdad50070ac2c90526567f4f180d0",
+    "semantic_hash": "bf0fdad50070ac2c90526567f4f180d0"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/ui/heading-node.tsx": {
+    "mtime": 1781043886.2332332,
+    "ast_hash": "f8c2a8d226af611ef8eb749e2ec4b5b8",
+    "semantic_hash": "f8c2a8d226af611ef8eb749e2ec4b5b8"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/ui/input.tsx": {
+    "mtime": 1781043886.2339823,
+    "ast_hash": "2b0e9e810580f227dd255d9b78a83835",
+    "semantic_hash": "2b0e9e810580f227dd255d9b78a83835"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/ui/link-node-static.tsx": {
+    "mtime": 1781043886.2349715,
+    "ast_hash": "c22948a2a319e63995491e18c68ecd32",
+    "semantic_hash": "c22948a2a319e63995491e18c68ecd32"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/ui/link-node.tsx": {
+    "mtime": 1781043886.23575,
+    "ast_hash": "26d4d45e21bf3d56d05c1ac0d12d3752",
+    "semantic_hash": "26d4d45e21bf3d56d05c1ac0d12d3752"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/ui/link-toolbar.tsx": {
+    "mtime": 1781044258.463766,
+    "ast_hash": "d7b3fba06d52bb9b00d1dcc98e400ecf",
+    "semantic_hash": "d7b3fba06d52bb9b00d1dcc98e400ecf"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/ui/list-classic-node.tsx": {
+    "mtime": 1781043886.2377658,
+    "ast_hash": "51df2d49ef3806544e1508d893830464",
+    "semantic_hash": "51df2d49ef3806544e1508d893830464"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/ui/main-button.tsx": {
+    "mtime": 1781043886.238677,
+    "ast_hash": "d6da07c56d2921afd3a2f17fd2b4a82f",
+    "semantic_hash": "d6da07c56d2921afd3a2f17fd2b4a82f"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/ui/mark-toolbar-button.tsx": {
+    "mtime": 1781043886.2397726,
+    "ast_hash": "b3d9ada73975b4ee03ca926271be582e",
+    "semantic_hash": "b3d9ada73975b4ee03ca926271be582e"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/ui/popover.tsx": {
+    "mtime": 1781043886.2406096,
+    "ast_hash": "32bf79a82d9ed7f3256592f7c0ca4a62",
+    "semantic_hash": "32bf79a82d9ed7f3256592f7c0ca4a62"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/ui/process-tabs.tsx": {
+    "mtime": 1777607858.0029032,
+    "ast_hash": "4f96fac9e5c41f4fbe83cebfe9d367c6",
+    "semantic_hash": "4f96fac9e5c41f4fbe83cebfe9d367c6"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/ui/separator.tsx": {
+    "mtime": 1781043886.2423363,
+    "ast_hash": "f57449eae78fbd87d99e4edc45ab3c1e",
+    "semantic_hash": "f57449eae78fbd87d99e4edc45ab3c1e"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/ui/toolbar.tsx": {
+    "mtime": 1781043886.2430015,
+    "ast_hash": "f2674417249a9cc1b9d58e88bbe7d9ff",
+    "semantic_hash": "f2674417249a9cc1b9d58e88bbe7d9ff"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/components/ui/tooltip.tsx": {
+    "mtime": 1781043886.2438066,
+    "ast_hash": "cb68f66a69918d592cf3a0d959ab8dca",
+    "semantic_hash": "cb68f66a69918d592cf3a0d959ab8dca"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/lib/Editor.tsx": {
+    "mtime": 1781043886.2449307,
+    "ast_hash": "25aacd22eb5aeaa04482bd18b801e2f5",
+    "semantic_hash": "25aacd22eb5aeaa04482bd18b801e2f5"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/lib/PlateViewer.tsx": {
+    "mtime": 1781043886.245791,
+    "ast_hash": "283183eb2c4940bf29dd665180907cd7",
+    "semantic_hash": "283183eb2c4940bf29dd665180907cd7"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/lib/routes.ts": {
+    "mtime": 1738692366.6122067,
+    "ast_hash": "1e245fee7ce5e089a6be8916dcb0fcab",
+    "semantic_hash": "1e245fee7ce5e089a6be8916dcb0fcab"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/lib/schema.ts": {
+    "mtime": 1738692366.613369,
+    "ast_hash": "6e3374b3f47bebb2dd56b2a053c523dd",
+    "semantic_hash": "6e3374b3f47bebb2dd56b2a053c523dd"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/lib/suggestion.ts": {
+    "mtime": 1781043886.246543,
+    "ast_hash": "581f3979e25b861e4ac3d3745a8785eb",
+    "semantic_hash": "581f3979e25b861e4ac3d3745a8785eb"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/lib/utils.ts": {
+    "mtime": 1781043886.2474542,
+    "ast_hash": "5a6fd53fdcf2be529e9cc0b718fde352",
+    "semantic_hash": "5a6fd53fdcf2be529e9cc0b718fde352"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/presentation/auth/forgotPassword/index.tsx": {
+    "mtime": 1778021399.4208255,
+    "ast_hash": "428cde87588b150de322f0c83b9ee637",
+    "semantic_hash": "428cde87588b150de322f0c83b9ee637"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/presentation/auth/signup/components/ReviewAndConfirm.tsx": {
+    "mtime": 1781044259.237521,
+    "ast_hash": "27bad1ceb614d32775242ce41191f9c8",
+    "semantic_hash": "27bad1ceb614d32775242ce41191f9c8"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/presentation/auth/signup/components/form.tsx": {
+    "mtime": 1781044258.9517465,
+    "ast_hash": "ce9dc19d58c0430b913854f2874e2e4f",
+    "semantic_hash": "ce9dc19d58c0430b913854f2874e2e4f"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/presentation/auth/signup/components/professional-details-form.tsx": {
+    "mtime": 1781044258.9903104,
+    "ast_hash": "74c0d2883557e5df4abf252e36caccd9",
+    "semantic_hash": "74c0d2883557e5df4abf252e36caccd9"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/presentation/auth/signup/index.tsx": {
+    "mtime": 1778021399.4234216,
+    "ast_hash": "dfd27c07d8dc7c01629c8422dcd3c87f",
+    "semantic_hash": "dfd27c07d8dc7c01629c8422dcd3c87f"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/presentation/home/index.tsx": {
+    "mtime": 1778021399.4252605,
+    "ast_hash": "71fd309ba74abe49be7f0cbc3c1bc09c",
+    "semantic_hash": "71fd309ba74abe49be7f0cbc3c1bc09c"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/presentation/home/ui/Hero.tsx": {
+    "mtime": 1781044259.8531454,
+    "ast_hash": "3bd4ff500492ec59f9bc72e23bad4e59",
+    "semantic_hash": "3bd4ff500492ec59f9bc72e23bad4e59"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/presentation/home/ui/Objective.tsx": {
+    "mtime": 1781044259.5319717,
+    "ast_hash": "756b80ec3d16218e76b003f07282d336",
+    "semantic_hash": "756b80ec3d16218e76b003f07282d336"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/presentation/student/CaseStudies.tsx": {
+    "mtime": 1778021399.4272652,
+    "ast_hash": "9e4685c66b797dc7d2d7c1c85ae0cfb1",
+    "semantic_hash": "9e4685c66b797dc7d2d7c1c85ae0cfb1"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/presentation/student/CaseStudy.tsx": {
+    "mtime": 1781043886.2532425,
+    "ast_hash": "2b4d12490e07715905fcc013cc066051",
+    "semantic_hash": "2b4d12490e07715905fcc013cc066051"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/presentation/student/Certificates.tsx": {
+    "mtime": 1781044267.8690307,
+    "ast_hash": "9ab7962dddab28c3108b6a7ca3dcd7a1",
+    "semantic_hash": "9ab7962dddab28c3108b6a7ca3dcd7a1"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/presentation/student/Dashboard.tsx": {
+    "mtime": 1781044071.2501054,
+    "ast_hash": "2410aa47d89228fa4435f2f7377c5d0d",
+    "semantic_hash": "2410aa47d89228fa4435f2f7377c5d0d"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/presentation/student/Settings.tsx": {
+    "mtime": 1781044258.620393,
+    "ast_hash": "1b738beb56e0d21135d143bbf74af2b2",
+    "semantic_hash": "1b738beb56e0d21135d143bbf74af2b2"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/presentation/teacher/CaseStudies.tsx": {
+    "mtime": 1777607858.0085702,
+    "ast_hash": "ed7703c5b553c242676154c28b901011",
+    "semantic_hash": "ed7703c5b553c242676154c28b901011"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/presentation/teacher/CreateCaseStudy.tsx": {
+    "mtime": 1778021399.4313202,
+    "ast_hash": "e31f9ebae8b89dbdb7598ee265b04281",
+    "semantic_hash": "e31f9ebae8b89dbdb7598ee265b04281"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/presentation/teacher/Dashboard.tsx": {
+    "mtime": 1781044220.2474074,
+    "ast_hash": "4c08cda26fc7fe8245b626478080c93b",
+    "semantic_hash": "4c08cda26fc7fe8245b626478080c93b"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/presentation/teacher/ResponsesAndFeedback.tsx": {
+    "mtime": 1777607858.010041,
+    "ast_hash": "40f876c6c34279e8d93b3c180957a11f",
+    "semantic_hash": "40f876c6c34279e8d93b3c180957a11f"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/presentation/teacher/UpdateCaseStudy.tsx": {
+    "mtime": 1777607858.0106924,
+    "ast_hash": "0f17fc704e3e9b145992e319f717653b",
+    "semantic_hash": "0f17fc704e3e9b145992e319f717653b"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/presentation/teacher/settings.tsx": {
+    "mtime": 1781044000.0172744,
+    "ast_hash": "e77ce0999b8e0f0b0a941460609e769c",
+    "semantic_hash": "e77ce0999b8e0f0b0a941460609e769c"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/proxy.ts": {
+    "mtime": 1777850500.5794084,
+    "ast_hash": "3728ff8e924ae758bd70a3e5cc195d02",
+    "semantic_hash": "3728ff8e924ae758bd70a3e5cc195d02"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/services/apis/auth.ts": {
+    "mtime": 1780886967.956142,
+    "ast_hash": "6dd1c397dac2cbf2d117513bfc09bbc1",
+    "semantic_hash": "6dd1c397dac2cbf2d117513bfc09bbc1"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/services/apis/case.ts": {
+    "mtime": 1780886967.957222,
+    "ast_hash": "b26dd470a0159ddc0bd87faf2301e856",
+    "semantic_hash": "b26dd470a0159ddc0bd87faf2301e856"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/services/apis/student.ts": {
+    "mtime": 1781043886.258486,
+    "ast_hash": "434363f11a47de2cdf29df6cbe0053fa",
+    "semantic_hash": "434363f11a47de2cdf29df6cbe0053fa"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/services/config/fetchClient.ts": {
+    "mtime": 1781043886.2595172,
+    "ast_hash": "3641b241b70d8893fff802851aa3901c",
+    "semantic_hash": "3641b241b70d8893fff802851aa3901c"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/services/constants/index.ts": {
+    "mtime": 1754361227.3929017,
+    "ast_hash": "00c02bca613d46d6c12f23d94f042df0",
+    "semantic_hash": "00c02bca613d46d6c12f23d94f042df0"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/services/constants/styles.ts": {
+    "mtime": 1738692366.6122928,
+    "ast_hash": "e1e862b51fa3a74c581a4ebdf79e4021",
+    "semantic_hash": "e1e862b51fa3a74c581a4ebdf79e4021"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/services/helper/validateEditorInputs.ts": {
+    "mtime": 1781043886.2604518,
+    "ast_hash": "54f3deab56f39cf5db596ababc720f8f",
+    "semantic_hash": "54f3deab56f39cf5db596ababc720f8f"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/services/helper/validations.ts": {
+    "mtime": 1738692366.6128857,
+    "ast_hash": "eb16f57e079f664955432848a0b909e2",
+    "semantic_hash": "eb16f57e079f664955432848a0b909e2"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/services/hooks/hooks.ts": {
+    "mtime": 1738692366.6121871,
+    "ast_hash": "237d00660b217dbe137dab5c8fbac393",
+    "semantic_hash": "237d00660b217dbe137dab5c8fbac393"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/services/hooks/useAuthRedirect.ts": {
+    "mtime": 1772602788.2929008,
+    "ast_hash": "f02b0b98cb91f9dac6a107b27d301dee",
+    "semantic_hash": "f02b0b98cb91f9dac6a107b27d301dee"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/services/hooks/useClickOutside.ts": {
+    "mtime": 1738692366.6125193,
+    "ast_hash": "9a4bb4efeb028aa0215b29d065e66760",
+    "semantic_hash": "9a4bb4efeb028aa0215b29d065e66760"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/services/hooks/useGetActiveCase.ts": {
+    "mtime": 1778021399.435276,
+    "ast_hash": "42692c61b71cdbf6659b7b95aadf9231",
+    "semantic_hash": "42692c61b71cdbf6659b7b95aadf9231"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/services/hooks/useGetArchiveCases.ts": {
+    "mtime": 1778021399.4362185,
+    "ast_hash": "b12d9d248d3bf760517364069223d62d",
+    "semantic_hash": "b12d9d248d3bf760517364069223d62d"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/services/hooks/useGetDraftCase.ts": {
+    "mtime": 1778021399.4371173,
+    "ast_hash": "0b939d9c24523319c30e28611afcdfe7",
+    "semantic_hash": "0b939d9c24523319c30e28611afcdfe7"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/services/hooks/useGetStudentsResponsesToCases.ts": {
+    "mtime": 1778021399.437875,
+    "ast_hash": "258b11cb68b1e92d0ef812ca1e6b1271",
+    "semantic_hash": "258b11cb68b1e92d0ef812ca1e6b1271"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/services/hooks/useProcessTabs.ts": {
+    "mtime": 1739383651.6588788,
+    "ast_hash": "23d8aeda0276d6e5306283f42b4908fa",
+    "semantic_hash": "23d8aeda0276d6e5306283f42b4908fa"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/services/hooks/useRenderPdf.ts": {
+    "mtime": 1778021399.4386687,
+    "ast_hash": "0ff4e56efe14a8d2a972ade4f1fed154",
+    "semantic_hash": "0ff4e56efe14a8d2a972ade4f1fed154"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/services/types/auth/login.ts": {
+    "mtime": 1738692366.612084,
+    "ast_hash": "e4b67c9758ecd20ea61b6617457414eb",
+    "semantic_hash": "e4b67c9758ecd20ea61b6617457414eb"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/services/types/auth/signup.ts": {
+    "mtime": 1738692366.614284,
+    "ast_hash": "749afa0fefa662b738e141a6039a12ec",
+    "semantic_hash": "749afa0fefa662b738e141a6039a12ec"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/services/types/student/index.ts": {
+    "mtime": 1778021399.4394615,
+    "ast_hash": "9bce997aad21f0fdf76e69b53a7eef88",
+    "semantic_hash": "9bce997aad21f0fdf76e69b53a7eef88"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/services/types/teacher/createCaseStudy.ts": {
+    "mtime": 1781043886.2618618,
+    "ast_hash": "befda120819407cb94404737989c89ff",
+    "semantic_hash": "befda120819407cb94404737989c89ff"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/store/rootReducer/rootReducer.ts": {
+    "mtime": 1738692366.6127913,
+    "ast_hash": "29a19b37d6c2d75b9618fd2809fd5482",
+    "semantic_hash": "29a19b37d6c2d75b9618fd2809fd5482"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/store/slices/auth/changePasswordSlice.ts": {
+    "mtime": 1740368799.3770936,
+    "ast_hash": "3ad8d3bf03b81e30e27c526be80659ac",
+    "semantic_hash": "3ad8d3bf03b81e30e27c526be80659ac"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/store/slices/auth/resetPasswordSlice.ts": {
+    "mtime": 1738692366.6133397,
+    "ast_hash": "f26ea2d9afa97974c143a3ace5a1d78d",
+    "semantic_hash": "f26ea2d9afa97974c143a3ace5a1d78d"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/store/slices/auth/sendOtpSlice.ts": {
+    "mtime": 1738692366.6133249,
+    "ast_hash": "3b0561ee76abc171d2a9f086b30aa935",
+    "semantic_hash": "3b0561ee76abc171d2a9f086b30aa935"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/store/slices/auth/signupSlice.ts": {
+    "mtime": 1766199846.3168902,
+    "ast_hash": "3c301c90d50f12b90ba73081a2811241",
+    "semantic_hash": "3c301c90d50f12b90ba73081a2811241"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/store/slices/case/addCaseSlice.ts": {
+    "mtime": 1781033484.3042805,
+    "ast_hash": "23f22758f0d29d9af4f0a6d313f03b85",
+    "semantic_hash": "23f22758f0d29d9af4f0a6d313f03b85"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/store/slices/case/caseDetailsSlice.ts": {
+    "mtime": 1740368799.3790476,
+    "ast_hash": "ff718d820924395a8c0456e4cc7e41f4",
+    "semantic_hash": "ff718d820924395a8c0456e4cc7e41f4"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/store/slices/case/deleteCaseSlice.ts": {
+    "mtime": 1740368799.3798964,
+    "ast_hash": "91fbee56be296c076e2e3c6c36135b35",
+    "semantic_hash": "91fbee56be296c076e2e3c6c36135b35"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/store/slices/case/getArchiveCasesSlice.ts": {
+    "mtime": 1778021399.4411361,
+    "ast_hash": "98e8f7cd41b37727d385b510b58373fe",
+    "semantic_hash": "98e8f7cd41b37727d385b510b58373fe"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/store/slices/case/getCaseDataSlice.ts": {
+    "mtime": 1740368799.3817408,
+    "ast_hash": "912d85d40e142dcab430d0a66d46c363",
+    "semantic_hash": "912d85d40e142dcab430d0a66d46c363"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/store/slices/case/getCaseMaterialsSlice.ts": {
+    "mtime": 1777608121.0867083,
+    "ast_hash": "78d58e559c6f07361462927367de0538",
+    "semantic_hash": "78d58e559c6f07361462927367de0538"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/store/slices/case/getDraftCasesSlice.ts": {
+    "mtime": 1741974600.2676268,
+    "ast_hash": "f3b4b04b1f65456265604f589638a60a",
+    "semantic_hash": "f3b4b04b1f65456265604f589638a60a"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/store/slices/case/getPublishedCaseSlice.ts": {
+    "mtime": 1778021399.4418013,
+    "ast_hash": "236ab4bc4e3702481b091bcadb6a6b08",
+    "semantic_hash": "236ab4bc4e3702481b091bcadb6a6b08"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/store/slices/case/getStudentsCertificatesSlice.ts": {
+    "mtime": 1740368799.3851888,
+    "ast_hash": "e2b30b9d81e47a617086cf58bd1472ef",
+    "semantic_hash": "e2b30b9d81e47a617086cf58bd1472ef"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/store/slices/case/updateDraftCaseSlice.ts": {
+    "mtime": 1741974600.2684157,
+    "ast_hash": "45d664ef2d4f7c7868af300fb40c21cb",
+    "semantic_hash": "45d664ef2d4f7c7868af300fb40c21cb"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/store/slices/student/SubmitCaseResponseSlice.ts": {
+    "mtime": 1740368799.387004,
+    "ast_hash": "3407518c83b6e889e7a76e83d383a85f",
+    "semantic_hash": "3407518c83b6e889e7a76e83d383a85f"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/store/slices/student/addFeedbackSlice.ts": {
+    "mtime": 1740368799.3880327,
+    "ast_hash": "6413d4087ddccf5e3a2a98f758efa453",
+    "semantic_hash": "6413d4087ddccf5e3a2a98f758efa453"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/store/slices/student/getStudentsResponsesToCasesSlice.ts": {
+    "mtime": 1778021399.4424443,
+    "ast_hash": "0d3631ff80b35dfc9ad4203d3d22fd78",
+    "semantic_hash": "0d3631ff80b35dfc9ad4203d3d22fd78"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/store/store.ts": {
+    "mtime": 1738692366.6124492,
+    "ast_hash": "3a00645151c696f5267bd101eb27ee43",
+    "semantic_hash": "3a00645151c696f5267bd101eb27ee43"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/types.d.ts": {
+    "mtime": 1738692366.611946,
+    "ast_hash": "ad2f8eb3e682357715622217a3846413",
+    "semantic_hash": "ad2f8eb3e682357715622217a3846413"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/utils/convertToFormData.ts": {
+    "mtime": 1738692366.612278,
+    "ast_hash": "201bab747bb9b44d3aa9b3cc63534cb4",
+    "semantic_hash": "201bab747bb9b44d3aa9b3cc63534cb4"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/utils/errorHandler.ts": {
+    "mtime": 1741754912.8590353,
+    "ast_hash": "780b599ad4e21fde35eb824ba795e000",
+    "semantic_hash": "780b599ad4e21fde35eb824ba795e000"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/utils/formatDate.ts": {
+    "mtime": 1741974600.2692182,
+    "ast_hash": "b604a15da4938da80918ec29ab7a1ff6",
+    "semantic_hash": "b604a15da4938da80918ec29ab7a1ff6"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/sst.config.ts": {
+    "mtime": 1777607858.0139523,
+    "ast_hash": "3c42afebde8e1ea8947930d0f2c3ee58",
+    "semantic_hash": "3c42afebde8e1ea8947930d0f2c3ee58"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/tsconfig.json": {
+    "mtime": 1781039321.73428,
+    "ast_hash": "65ea16de5c5513e207b67a7f5d0a02dd",
+    "semantic_hash": "65ea16de5c5513e207b67a7f5d0a02dd"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/.github/workflows/deploy-production.yml": {
+    "mtime": 1781044398.4432766,
+    "ast_hash": "1fb73ce4aac5efc3099ee8d1535fce7a",
+    "semantic_hash": "1fb73ce4aac5efc3099ee8d1535fce7a"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/.github/workflows/deploy-staging.yml": {
+    "mtime": 1781044398.4440553,
+    "ast_hash": "dc8b33af0d5727ef9e8281de18fcb19e",
+    "semantic_hash": "dc8b33af0d5727ef9e8281de18fcb19e"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/.opencode/skills/aws-architecture-diagram/SKILL.md": {
+    "mtime": 1780775456.138876,
+    "ast_hash": "63680a48e0c5ee34aee33bbdaa577546",
+    "semantic_hash": "63680a48e0c5ee34aee33bbdaa577546"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/.opencode/skills/aws-architecture-diagram/references/aws4-shapes-resources.md": {
+    "mtime": 1780775456.139931,
+    "ast_hash": "beabdd0821f377da9329c7af594152ca",
+    "semantic_hash": "beabdd0821f377da9329c7af594152ca"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/.opencode/skills/aws-architecture-diagram/references/aws4-shapes-services.md": {
+    "mtime": 1780775456.1407053,
+    "ast_hash": "18773575cab743c427e2ebddabd99a11",
+    "semantic_hash": "18773575cab743c427e2ebddabd99a11"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/.opencode/skills/aws-architecture-diagram/references/cli-export.md": {
+    "mtime": 1780775456.141401,
+    "ast_hash": "32fd3cd11372c8bf43358b3e727b3e42",
+    "semantic_hash": "32fd3cd11372c8bf43358b3e727b3e42"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/.opencode/skills/aws-architecture-diagram/references/diagram-templates-advanced.md": {
+    "mtime": 1780775456.1419063,
+    "ast_hash": "674add458b7fc10d919ba5e7cb77d25c",
+    "semantic_hash": "674add458b7fc10d919ba5e7cb77d25c"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/.opencode/skills/aws-architecture-diagram/references/diagram-templates-basic.md": {
+    "mtime": 1780775456.1423497,
+    "ast_hash": "b9e5de26cf7d5968e61c59c7fbb6dc3e",
+    "semantic_hash": "b9e5de26cf7d5968e61c59c7fbb6dc3e"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/.opencode/skills/aws-architecture-diagram/references/general-icons.md": {
+    "mtime": 1780775456.1497507,
+    "ast_hash": "767854a754782af2f08468f76103f3ca",
+    "semantic_hash": "767854a754782af2f08468f76103f3ca"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/.opencode/skills/aws-architecture-diagram/references/group-styles.md": {
+    "mtime": 1780775456.1503766,
+    "ast_hash": "3af89fae294b87143c6d7c9cd4db0b36",
+    "semantic_hash": "3af89fae294b87143c6d7c9cd4db0b36"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/.opencode/skills/aws-architecture-diagram/references/layout-guidelines.md": {
+    "mtime": 1780775456.1509767,
+    "ast_hash": "16fa49f5e7fa95c35acac85f9a6b7879",
+    "semantic_hash": "16fa49f5e7fa95c35acac85f9a6b7879"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/.opencode/skills/aws-architecture-diagram/references/post-processing.md": {
+    "mtime": 1780775456.15157,
+    "ast_hash": "6a21d0d2161092513f482e3f88f80b77",
+    "semantic_hash": "6a21d0d2161092513f482e3f88f80b77"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/.opencode/skills/aws-architecture-diagram/references/style-guide.md": {
+    "mtime": 1780775456.1522496,
+    "ast_hash": "8dfe76a1f4a5e330f9a0414c4b3a343e",
+    "semantic_hash": "8dfe76a1f4a5e330f9a0414c4b3a343e"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/.opencode/skills/aws-architecture-diagram/references/xml-rules.md": {
+    "mtime": 1780775456.1528108,
+    "ast_hash": "a29895cf989f20438ba66331f75fdd2e",
+    "semantic_hash": "a29895cf989f20438ba66331f75fdd2e"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/.opencode/skills/aws-architecture-diagram/references/xml-templates-examples.md": {
+    "mtime": 1780775456.1531959,
+    "ast_hash": "fa304dc02ea5c445827efbb16a67d4b2",
+    "semantic_hash": "fa304dc02ea5c445827efbb16a67d4b2"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/.opencode/skills/aws-architecture-diagram/references/xml-templates-structure.md": {
+    "mtime": 1780775456.1536257,
+    "ast_hash": "468f20e6985b00dcdb0944e6a62ca3ce",
+    "semantic_hash": "468f20e6985b00dcdb0944e6a62ca3ce"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/.opencode/skills/graphify/SKILL.md": {
+    "mtime": 1780800153.610716,
+    "ast_hash": "3284a79b13f213cbc5d06109f7a25c4e",
+    "semantic_hash": "3284a79b13f213cbc5d06109f7a25c4e"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/.opencode/skills/graphify/references/add-watch.md": {
+    "mtime": 1780800153.6125164,
+    "ast_hash": "0df0589623217ca38a12bdcabfb42f4c",
+    "semantic_hash": "0df0589623217ca38a12bdcabfb42f4c"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/.opencode/skills/graphify/references/exports.md": {
+    "mtime": 1780800153.6134837,
+    "ast_hash": "7fb1a81aca17a462db70684a324fcfb0",
+    "semantic_hash": "7fb1a81aca17a462db70684a324fcfb0"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/.opencode/skills/graphify/references/extraction-spec.md": {
+    "mtime": 1780800153.6144629,
+    "ast_hash": "24808b03abfeaf5f6435bb69c0125b2c",
+    "semantic_hash": "24808b03abfeaf5f6435bb69c0125b2c"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/.opencode/skills/graphify/references/github-and-merge.md": {
+    "mtime": 1780800153.6152909,
+    "ast_hash": "cde13df085e4c492aeb7ba298a996d0d",
+    "semantic_hash": "cde13df085e4c492aeb7ba298a996d0d"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/.opencode/skills/graphify/references/hooks.md": {
+    "mtime": 1780800153.6160362,
+    "ast_hash": "3f545db6ce646650bb9de588f5512a27",
+    "semantic_hash": "3f545db6ce646650bb9de588f5512a27"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/.opencode/skills/graphify/references/query.md": {
+    "mtime": 1780800153.6171281,
+    "ast_hash": "c2a8e798674a81b02aa9975f43023819",
+    "semantic_hash": "c2a8e798674a81b02aa9975f43023819"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/.opencode/skills/graphify/references/transcribe.md": {
+    "mtime": 1780800153.617944,
+    "ast_hash": "70f6aa30d6211f3a2c7e9fc45479f50c",
+    "semantic_hash": "70f6aa30d6211f3a2c7e9fc45479f50c"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/.opencode/skills/graphify/references/update.md": {
+    "mtime": 1780800153.618705,
+    "ast_hash": "735932eaa4f0c8fef9566c538ae3e5f8",
+    "semantic_hash": "735932eaa4f0c8fef9566c538ae3e5f8"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/AGENTS.md": {
+    "mtime": 1781043886.1816251,
+    "ast_hash": "b2a9ee27387b14b1479e06637ae53b07",
+    "semantic_hash": "b2a9ee27387b14b1479e06637ae53b07"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/README.md": {
+    "mtime": 1781046605.486198,
+    "ast_hash": "7a196a434b99e43affd081326058fbf1",
+    "semantic_hash": "7a196a434b99e43affd081326058fbf1"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/lib-maintenance.md": {
+    "mtime": 1780874820.1572723,
+    "ast_hash": "6606dcf3aa9087e577b4aff59e999ab7",
+    "semantic_hash": "6606dcf3aa9087e577b4aff59e999ab7"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/plans.md": {
+    "mtime": 1742752748.445314,
+    "ast_hash": "514184e3fc32d493b905e3fd3e33c5cb",
+    "semantic_hash": "514184e3fc32d493b905e3fd3e33c5cb"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/questions-to-ask.md": {
+    "mtime": 1742752748.445965,
+    "ast_hash": "d9d2aa446e55823214f143132843cb58",
+    "semantic_hash": "d9d2aa446e55823214f143132843cb58"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/public/icons/add-1.svg": {
+    "mtime": 1743598078.7951624,
+    "ast_hash": "bdc750a8cf40b7d9f98f5f465333b6f8",
+    "semantic_hash": "bdc750a8cf40b7d9f98f5f465333b6f8"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/public/icons/add-24px.svg": {
+    "mtime": 1743598078.7952929,
+    "ast_hash": "bf5e985562850efff1d1aa087ca705ea",
+    "semantic_hash": "bf5e985562850efff1d1aa087ca705ea"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/public/icons/arrow-right.svg": {
+    "mtime": 1743598078.795412,
+    "ast_hash": "b983dad0beb82069e74bec4c90899ae9",
+    "semantic_hash": "b983dad0beb82069e74bec4c90899ae9"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/public/icons/attach.svg": {
+    "mtime": 1743598078.7955337,
+    "ast_hash": "7e87d1ab109eb365d0ab813d6084fc3a",
+    "semantic_hash": "7e87d1ab109eb365d0ab813d6084fc3a"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/public/icons/caret-down.svg": {
+    "mtime": 1743598078.79565,
+    "ast_hash": "e4a338ab1fa2adc974dd6e6b3a1d0642",
+    "semantic_hash": "e4a338ab1fa2adc974dd6e6b3a1d0642"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/public/icons/carret-down.svg": {
+    "mtime": 1743598078.79577,
+    "ast_hash": "045c0816c6989cc5f6060d4093cd922f",
+    "semantic_hash": "045c0816c6989cc5f6060d4093cd922f"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/public/icons/case.svg": {
+    "mtime": 1743598078.7959182,
+    "ast_hash": "3584d805786d0f5ddf994bb5b82055f6",
+    "semantic_hash": "3584d805786d0f5ddf994bb5b82055f6"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/public/icons/check-mark.svg": {
+    "mtime": 1743598078.7960994,
+    "ast_hash": "084794cf9b9bdb391b71156b5159b17f",
+    "semantic_hash": "084794cf9b9bdb391b71156b5159b17f"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/public/icons/checkmark.svg": {
+    "mtime": 1743598078.7962132,
+    "ast_hash": "a81171223bfae489585a65e81c23e4ef",
+    "semantic_hash": "a81171223bfae489585a65e81c23e4ef"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/public/icons/close-x.svg": {
+    "mtime": 1743598078.7963214,
+    "ast_hash": "27e895860e739ccb19fa0d435dacd808",
+    "semantic_hash": "27e895860e739ccb19fa0d435dacd808"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/public/icons/exclamationMark.png": {
+    "mtime": 1743598078.7964282,
+    "ast_hash": "738a222bea33da7ed28db59c39420fb6",
+    "semantic_hash": "738a222bea33da7ed28db59c39420fb6"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/public/icons/remove.svg": {
+    "mtime": 1743598078.7965457,
+    "ast_hash": "513d19aed3302eb143a139f3b8769b61",
+    "semantic_hash": "513d19aed3302eb143a139f3b8769b61"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/public/icons/search.png": {
+    "mtime": 1743598078.7966592,
+    "ast_hash": "99d5e14691c72b23649ea63c86bcd6d0",
+    "semantic_hash": "99d5e14691c72b23649ea63c86bcd6d0"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/public/icons/search.svg": {
+    "mtime": 1743598078.7967649,
+    "ast_hash": "4841eda0835c57a12d456ccc579572cf",
+    "semantic_hash": "4841eda0835c57a12d456ccc579572cf"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/public/icons/socials/facebook-f.svg": {
+    "mtime": 1743598078.7969801,
+    "ast_hash": "012e9047067413ca0a1c9734fbb63ca1",
+    "semantic_hash": "012e9047067413ca0a1c9734fbb63ca1"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/public/icons/socials/instagram.svg": {
+    "mtime": 1743598078.7971013,
+    "ast_hash": "5997095c5236c5167fc13f1107f9509e",
+    "semantic_hash": "5997095c5236c5167fc13f1107f9509e"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/public/icons/socials/twitter.svg": {
+    "mtime": 1743598078.7972224,
+    "ast_hash": "4f2056e7bd3cc82d7f2760e3e100aab1",
+    "semantic_hash": "4f2056e7bd3cc82d7f2760e3e100aab1"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/public/icons/trash.svg": {
+    "mtime": 1743598078.7973535,
+    "ast_hash": "b98bb554441f8d7ddb885a9c19ecc076",
+    "semantic_hash": "b98bb554441f8d7ddb885a9c19ecc076"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/public/icons/white-checkmark.svg": {
+    "mtime": 1743598078.7974808,
+    "ast_hash": "327d651ea4bd98aecb1bdbac069751e8",
+    "semantic_hash": "327d651ea4bd98aecb1bdbac069751e8"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/public/icons/youtube.svg": {
+    "mtime": 1743598078.7975988,
+    "ast_hash": "58eeb7097f2ea899a5a591120e43c5b7",
+    "semantic_hash": "58eeb7097f2ea899a5a591120e43c5b7"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/public/images/admin.png": {
+    "mtime": 1743598078.7979372,
+    "ast_hash": "c8e2bf448c3558e44aef2be2313d07c5",
+    "semantic_hash": "c8e2bf448c3558e44aef2be2313d07c5"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/public/images/casecomments.png": {
+    "mtime": 1743598078.79856,
+    "ast_hash": "f128cff7bae198f73424117f9c6acc99",
+    "semantic_hash": "f128cff7bae198f73424117f9c6acc99"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/public/images/casemodelanswer.png": {
+    "mtime": 1743598078.7993155,
+    "ast_hash": "563f38c95cadb8254fbe5ef1f2168f40",
+    "semantic_hash": "563f38c95cadb8254fbe5ef1f2168f40"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/public/images/casepresentation.png": {
+    "mtime": 1743598078.799905,
+    "ast_hash": "02adbdc351dc3abd9e57478a5af1746e",
+    "semantic_hash": "02adbdc351dc3abd9e57478a5af1746e"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/public/images/caseteaching.png": {
+    "mtime": 1743598078.8006794,
+    "ast_hash": "d5386570963e17d16309a01e5fa37edd",
+    "semantic_hash": "d5386570963e17d16309a01e5fa37edd"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/public/images/certicate.png": {
+    "mtime": 1743598078.801338,
+    "ast_hash": "dc2b80486dd09452e2d8c3f7322ff90d",
+    "semantic_hash": "dc2b80486dd09452e2d8c3f7322ff90d"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/public/images/certificate.png": {
+    "mtime": 1743598078.8019156,
+    "ast_hash": "22cb4d35be4dea0208ebed09607af1ec",
+    "semantic_hash": "22cb4d35be4dea0208ebed09607af1ec"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/public/images/certificate@2x.png": {
+    "mtime": 1743598078.8034956,
+    "ast_hash": "f5ff7999ae93a05f7967647560761299",
+    "semantic_hash": "f5ff7999ae93a05f7967647560761299"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/public/images/cmequestionspage.png": {
+    "mtime": 1743598078.804411,
+    "ast_hash": "c2cf2c2e5fa4d6b92d571ed2d6285d82",
+    "semantic_hash": "c2cf2c2e5fa4d6b92d571ed2d6285d82"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/public/images/dashboard.png": {
+    "mtime": 1743598078.8065677,
+    "ast_hash": "9c68c726fc76c95cae70f9a3b3a813b4",
+    "semantic_hash": "9c68c726fc76c95cae70f9a3b3a813b4"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/public/images/doctors.jpg": {
+    "mtime": 1743598078.806835,
+    "ast_hash": "72894521bbbcba368a56bcc3692b558d",
+    "semantic_hash": "72894521bbbcba368a56bcc3692b558d"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/public/images/feedback.png": {
+    "mtime": 1743598078.8078332,
+    "ast_hash": "0d1278c7ea7407eaed3d5635155ce37d",
+    "semantic_hash": "0d1278c7ea7407eaed3d5635155ce37d"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/public/images/femaleassistant.png": {
+    "mtime": 1743598078.80824,
+    "ast_hash": "a0c7bb0b34fbaa87274dc5b8aab3c7bd",
+    "semantic_hash": "a0c7bb0b34fbaa87274dc5b8aab3c7bd"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/public/images/femaledoctor.png": {
+    "mtime": 1743598078.808732,
+    "ast_hash": "7282ffac58686add41d1e7e58cf787ac",
+    "semantic_hash": "7282ffac58686add41d1e7e58cf787ac"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/public/images/logo.png": {
+    "mtime": 1743598078.8090525,
+    "ast_hash": "4fdad178a7a688477e52c34ff0ee6727",
+    "semantic_hash": "4fdad178a7a688477e52c34ff0ee6727"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/public/images/logo.svg": {
+    "mtime": 1743598078.8094003,
+    "ast_hash": "ce2a4d4ae93917dbb5501d8d4cfd0959",
+    "semantic_hash": "ce2a4d4ae93917dbb5501d8d4cfd0959"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/public/images/maledoctor.png": {
+    "mtime": 1743598078.8096888,
+    "ast_hash": "4a30a199c2c2f2b4e683dc0fd2b81c12",
+    "semantic_hash": "4a30a199c2c2f2b4e683dc0fd2b81c12"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/public/images/maledoctor2.jpg": {
+    "mtime": 1743598078.888668,
+    "ast_hash": "7ded887eb3d2db67b24e726d9491929e",
+    "semantic_hash": "7ded887eb3d2db67b24e726d9491929e"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/public/images/maledoctor3.png": {
+    "mtime": 1743598078.9715297,
+    "ast_hash": "d1a43d1484489b27b4ee029398cf824a",
+    "semantic_hash": "d1a43d1484489b27b4ee029398cf824a"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/public/images/maledoctor4.jpg": {
+    "mtime": 1743598078.9751856,
+    "ast_hash": "08b1f2d42c6553bcbe9f78a614a5a5e5",
+    "semantic_hash": "08b1f2d42c6553bcbe9f78a614a5a5e5"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/public/images/masked-doctor.png": {
+    "mtime": 1743598078.9763722,
+    "ast_hash": "5b2191f534b7570dac86f3c6fa123200",
+    "semantic_hash": "5b2191f534b7570dac86f3c6fa123200"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/public/images/medstaff.jpg": {
+    "mtime": 1743598078.978058,
+    "ast_hash": "518bd6240e68b1dadd22c12b0e50a270",
+    "semantic_hash": "518bd6240e68b1dadd22c12b0e50a270"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/public/images/ongoing-case-bg.png": {
+    "mtime": 1743598078.9791386,
+    "ast_hash": "a5d37ad2ce519b4dccb5496e750821de",
+    "semantic_hash": "a5d37ad2ce519b4dccb5496e750821de"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/public/images/register.png": {
+    "mtime": 1743598078.9798825,
+    "ast_hash": "6db642c1f774acbfd690f958bf1a2f63",
+    "semantic_hash": "6db642c1f774acbfd690f958bf1a2f63"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/public/images/screen-1.svg": {
+    "mtime": 1743598079.012384,
+    "ast_hash": "be33b5383d06acd858496ee6033bcdcf",
+    "semantic_hash": "be33b5383d06acd858496ee6033bcdcf"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/public/images/signin.png": {
+    "mtime": 1743598079.0134964,
+    "ast_hash": "16bb8018a4140d98877281a51168a72e",
+    "semantic_hash": "16bb8018a4140d98877281a51168a72e"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/public/images/signin2.png": {
+    "mtime": 1743598079.0139537,
+    "ast_hash": "56bac9b7eac25dda0c7633e5f1d3cfbd",
+    "semantic_hash": "56bac9b7eac25dda0c7633e5f1d3cfbd"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/public/images/student1.png": {
+    "mtime": 1743598079.0142062,
+    "ast_hash": "9bf0231821e01d9defb0aa8649d61b00",
+    "semantic_hash": "9bf0231821e01d9defb0aa8649d61b00"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/public/images/student2.png": {
+    "mtime": 1743598079.0144355,
+    "ast_hash": "3e55bfb1c99d8192bddde408d0bf0035",
+    "semantic_hash": "3e55bfb1c99d8192bddde408d0bf0035"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/public/images/student3.png": {
+    "mtime": 1743598079.014648,
+    "ast_hash": "3a98279ac92f4a1c1c38d89eb46ba2c1",
+    "semantic_hash": "3a98279ac92f4a1c1c38d89eb46ba2c1"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/public/images/student4.png": {
+    "mtime": 1743598079.0148582,
+    "ast_hash": "6940946fdf12592d9082aec687099e03",
+    "semantic_hash": "6940946fdf12592d9082aec687099e03"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/public/images/user.png": {
+    "mtime": 1743598079.0150785,
+    "ast_hash": "7c090594357399b4f9539f3c1aa29425",
+    "semantic_hash": "7c090594357399b4f9539f3c1aa29425"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/public/next.svg": {
+    "mtime": 1724714878.5215354,
+    "ast_hash": "8e061864f388b47f33a1c3780831193e",
+    "semantic_hash": "8e061864f388b47f33a1c3780831193e"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/public/vercel.svg": {
+    "mtime": 1724714878.521686,
+    "ast_hash": "61c6b19abff40ea7acd577be818f3976",
+    "semantic_hash": "61c6b19abff40ea7acd577be818f3976"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/server/assets/images/logo.png": {
+    "mtime": 1772684065.1823235,
+    "ast_hash": "4fdad178a7a688477e52c34ff0ee6727",
+    "semantic_hash": "4fdad178a7a688477e52c34ff0ee6727"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/assets/images/logo.png": {
+    "mtime": 1742747407.8935633,
+    "ast_hash": "4fdad178a7a688477e52c34ff0ee6727",
+    "semantic_hash": "4fdad178a7a688477e52c34ff0ee6727"
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/src/assets/images/logo.svg": {
+    "mtime": 1742747407.8944597,
+    "ast_hash": "ce2a4d4ae93917dbb5501d8d4cfd0959",
+    "semantic_hash": "ce2a4d4ae93917dbb5501d8d4cfd0959"
+  }
+}
