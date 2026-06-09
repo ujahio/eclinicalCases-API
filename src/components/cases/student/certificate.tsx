@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import { FC } from "react";
 import { useAppSelector } from "@/services/hooks/hooks";
 import useRenderPdf from "@/services/hooks/useRenderPdf";
-import { Button } from "@/components/uibutton";
+import { Button } from "@/components/ui/main-button";
 import { useRouter } from "next/navigation";
 
 const StudentCertificate: FC = () => {

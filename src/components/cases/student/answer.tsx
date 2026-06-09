@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { Button } from "@/components/uibutton";
+import { Button } from "@/components/ui/main-button";
 import PlateViewer from "@/lib/PlateViewer";
 import ProgressButtons from "@/components/progressButtons";
 

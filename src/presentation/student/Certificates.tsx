@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import useRenderPdf from "@/services/hooks/useRenderPdf";
 import Modal from "@/components/ui/Modal";
 import DashboardLayout from "@/components/layouts/dashboard";
-import { Button } from "@/components/uibutton";
+import { Button } from "@/components/ui/main-button";
 
 const Certificates = ({
 	studentsCertificatesInfo,

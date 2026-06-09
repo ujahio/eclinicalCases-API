@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Button } from "@/components/uibutton";
+import { Button } from "@/components/ui/main-button";
 
 const Header = () => {
 	return (

@@ -1,4 +1,4 @@
-import { Button } from "@/components/uibutton";
+import { Button } from "@/components/ui/main-button";
 import { formatDate } from "@/utils/formatDate";
 import PlateViewer from "@/lib/PlateViewer";
 import { FC } from "react";

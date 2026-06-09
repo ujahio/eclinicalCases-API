@@ -2,7 +2,7 @@ import { FC, useState } from "react";
 import Image from "next/image";
 
 import Modal, { ModalProps } from "../ui/Modal";
-import { Button } from "@/components/uibutton";
+import { Button } from "@/components/ui/main-button";
 
 interface Step {
 	step: number;
