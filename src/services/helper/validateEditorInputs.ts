@@ -8,38 +8,40 @@ export type ValidationErrorProps = {
 };
 /**
  * Validates the editor content for the case explanation.
- * Ensures the character count does not exceed the maximum allowed value.
+ * Ensures the word count does not exceed the maximum allowed value.
  *
  * @param setError - Function to update the validation error state.
  * @param content - The HTML string of the case explanation.
- * @param minChars - Minimum allowed character count.
- * @param maxChars - Maximum allowed character count.
+ * @param minWordCount - Minimum allowed word count.
+ * @param maxWordCount - Maximum allowed word count.
  * @returns boolean - True if the validation passes, false otherwise.
  */
 export const validateEditorInputs = (
 	setError: Dispatch<SetStateAction<ValidationErrorProps>>,
 	content: string | undefined,
-	minChars = 150,
-	maxChars = 700
+	minWordCount = 150,
+	maxWordCount = 700
 ): boolean => {
 	const plainText = content ? content.replace(/<[^>]*>/g, "").trim() : "";
-	const charCount = plainText.length;
+	const wordCount = plainText
+		.split(/\s+/)
+		.filter((word: string) => word.length > 0).length;
 
-	if (charCount < minChars) {
+	if (wordCount < minWordCount) {
 		setError((prevState) => ({
 			...prevState,
 			explanation: {
 				status: "error",
-				validationMessage: `Contents cannot be less than ${minChars} characters!`,
+				validationMessage: `Contents cannot be less than ${minWordCount} words!`,
 			},
 		}));
 		return false;
-	} else if (charCount > maxChars) {
+	} else if (wordCount > maxWordCount) {
 		setError((prevState) => ({
 			...prevState,
 			explanation: {
 				status: "error",
-				validationMessage: `Contents cannot be more than ${maxChars} characters!`,
+				validationMessage: `Contents cannot be more than ${maxWordCount} words!`,
 			},
 		}));
 		return false;

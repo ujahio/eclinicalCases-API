@@ -45,11 +45,11 @@ const StudentCaseComments: FC<StudentCaseCommentsProps> = ({
 		}));
 	};
 
-	const charCount = useMemo(() => {
+	const wordCount = useMemo(() => {
 		const plainText = studentCaseExplanation
 			? studentCaseExplanation.replace(/<[^>]*>/g, "").trim()
 			: "";
-		return plainText.length;
+		return plainText.split(/\s+/).filter((word) => word.length > 0).length;
 	}, [studentCaseExplanation]);
 
 	return (
@@ -69,9 +69,9 @@ const StudentCaseComments: FC<StudentCaseCommentsProps> = ({
 						}
 					/>
 					<p
-						className={`text-xs mt-1 text-right ${charCount < 150 || charCount > 700 ? "text-red" : "text-grey-300"}`}
+						className={`text-xs mt-1 text-right ${wordCount < 150 || wordCount > 700 ? "text-red" : "text-grey-300"}`}
 					>
-						{charCount} / 700 characters
+						{wordCount} / 700 words
 						{inputsForValidation.explanation.status === "error" && (
 							<span className="ml-2 text-red">
 								· {inputsForValidation.explanation.validationMessage}
