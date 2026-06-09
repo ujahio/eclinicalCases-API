@@ -38,9 +38,11 @@ const StudentCertificate: FC = () => {
 			</div>
 			<div className="create-case-actions grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
 				<Button
-					variant="outline"
-					className="w-full flex items-center justify-center gap-2 sm:text-sm cursor-pointer"
+					size="md"
+					variant="secondary"
+					className="sm:text-sm cursor-pointer"
 					centralize
+					uppercase
 				>
 					<a
 						href={submitResponseState?.response?.certificateUrl}
@@ -52,8 +54,10 @@ const StudentCertificate: FC = () => {
 				</Button>
 				<Button
 					variant="basic"
-					className="w-full flex items-center justify-center gap-2 sm:text-sm cursor-pointer"
+					size="md"
+					className="sm:text-sm cursor-pointer"
 					centralize
+					uppercase
 					onClick={handleEndSession}
 				>
 					<span>end</span>

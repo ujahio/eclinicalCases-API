@@ -22,7 +22,7 @@ const StudentCaseAnswer: FC<StudentCaseAnswerProps> = ({
 		<>
 			<div className="flex items-center justify-end mb-4">
 				<Button
-					variant="outline"
+					variant="secondary"
 					size="sm"
 					centralize
 					className="mb-2.5"
@@ -71,7 +71,7 @@ const StudentCaseAnswer: FC<StudentCaseAnswerProps> = ({
 							<div className="max-h-87.5 overflow-y-auto rounded-md border border-grey-200 p-3">
 								<div className="text-dark sm:text-base text-1sm">
 									<div className="bg-gray-200 p-2.5">
-<PlateViewer htmlString={caseExplanation} />
+										<PlateViewer htmlString={caseExplanation} />
 									</div>
 								</div>
 							</div>

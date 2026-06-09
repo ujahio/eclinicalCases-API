@@ -102,10 +102,12 @@ const StudentFeedback: FC<StudentFeedbackProps> = ({ goNext }) => {
 			</ul>
 			<div className="create-case-actions grid md:grid-cols-2 gap-4 items-center">
 				<Button
-					variant="outline"
+					size="md"
+					variant="secondary"
 					centralize
+					uppercase
 					onClick={handleAddFeedback}
-					className="w-full flex items-center justify-center gap-2 sm:text-sm cursor-pointer"
+					className="sm:text-sm cursor-pointer"
 					disabled={!!(feedbackState && feedbackState.hasSubmittedFeedback)}
 				>
 					<span>
@@ -116,11 +118,13 @@ const StudentFeedback: FC<StudentFeedbackProps> = ({ goNext }) => {
 				</Button>
 				<Button
 					variant="basic"
-					className="w-full flex items-center justify-center gap-2 sm:text-sm cursor-pointer"
+					size="md"
+					uppercase
+					className="sm:text-sm cursor-pointer"
 					centralize
 					onClick={goNext}
 				>
-					<span>Certificate</span>
+					<span>Print Certificate</span>
 				</Button>
 			</div>
 		</>

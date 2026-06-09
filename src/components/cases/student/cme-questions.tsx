@@ -111,7 +111,8 @@ const StudentCMEQuestions: FC<StudentCMEQuestionsProps> = ({
 			</ul>
 			<div className="create-case-actions grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
 				<Button
-					variant="outline"
+					variant="secondary"
+					size="md"
 					className="w-full flex items-center justify-center gap-2 sm:text-sm cursor-pointer"
 					centralize
 					onClick={goBack}
@@ -134,9 +135,11 @@ const StudentCMEQuestions: FC<StudentCMEQuestionsProps> = ({
 					<span>GO BACK</span>
 				</Button>
 				<Button
+					size="md"
 					variant="basic"
 					className="w-full flex items-center justify-center gap-2 sm:text-sm cursor-pointer"
 					centralize
+					uppercase
 					onClick={() => {
 						handleSubmitResponse();
 						// setShowCmeModal(true);
