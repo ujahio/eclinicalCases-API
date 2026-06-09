@@ -1,4 +1,4 @@
-import { FC, useState, ChangeEvent, useRef, useEffect } from "react";
+import { FC, useState, ChangeEvent, useRef } from "react";
 import { toast } from "react-toastify";
 import { InputField } from "@/components/form-elements";
 import { Button } from "@/components/ui/button";
