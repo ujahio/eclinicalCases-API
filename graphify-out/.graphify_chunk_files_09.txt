@@ -1,0 +1,8 @@
+/Users/otktechnologies/personal_projects/eccs-API/public/images/masked-doctor.png
+/Users/otktechnologies/personal_projects/eccs-API/public/images/medstaff.jpg
+/Users/otktechnologies/personal_projects/eccs-API/public/images/ongoing-case-bg.png
+/Users/otktechnologies/personal_projects/eccs-API/public/images/register.png
+/Users/otktechnologies/personal_projects/eccs-API/public/images/screen-1.svg
+/Users/otktechnologies/personal_projects/eccs-API/public/images/signin.png
+/Users/otktechnologies/personal_projects/eccs-API/public/images/signin2.png
+/Users/otktechnologies/personal_projects/eccs-API/public/images/student1.png

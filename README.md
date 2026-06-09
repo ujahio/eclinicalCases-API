@@ -6,11 +6,9 @@ things to work on:
 
 #### POST DEPLOYMENT TODOS 1
 
+- [ ] Integrate graphify for efficient file search
 - [ ] Create script to create github action role
-- [ ] Migrate from react-draft-wysiwyg + draft-js
-  - [ ] Take into account mobile friendliness when looking for an editor
 - [ ] ADD VALIDATION TO FINAL REVIEW PAGE TO NOT ADD POST BUTTON UNTIL ALL THE FIELDS ARE PASSING VALIDATION
-- [ ] Migrage from axios to native fetch API
 - [ ] REMOVE REDUX AND USE REACT QUERY
 - [ ] clean up links usage in api gateway infra
 

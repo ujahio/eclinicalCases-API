@@ -1,0 +1,8 @@
+/Users/otktechnologies/personal_projects/eccs-API/public/images/caseteaching.png
+/Users/otktechnologies/personal_projects/eccs-API/public/images/certicate.png
+/Users/otktechnologies/personal_projects/eccs-API/public/images/certificate.png
+/Users/otktechnologies/personal_projects/eccs-API/public/images/certificate@2x.png
+/Users/otktechnologies/personal_projects/eccs-API/public/images/cmequestionspage.png
+/Users/otktechnologies/personal_projects/eccs-API/public/images/dashboard.png
+/Users/otktechnologies/personal_projects/eccs-API/public/images/doctors.jpg
+/Users/otktechnologies/personal_projects/eccs-API/public/images/feedback.png

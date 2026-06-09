@@ -1,0 +1,8 @@
+/Users/otktechnologies/personal_projects/eccs-API/public/images/femaleassistant.png
+/Users/otktechnologies/personal_projects/eccs-API/public/images/femaledoctor.png
+/Users/otktechnologies/personal_projects/eccs-API/public/images/logo.png
+/Users/otktechnologies/personal_projects/eccs-API/public/images/logo.svg
+/Users/otktechnologies/personal_projects/eccs-API/public/images/maledoctor.png
+/Users/otktechnologies/personal_projects/eccs-API/public/images/maledoctor2.jpg
+/Users/otktechnologies/personal_projects/eccs-API/public/images/maledoctor3.png
+/Users/otktechnologies/personal_projects/eccs-API/public/images/maledoctor4.jpg

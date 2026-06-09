@@ -1,0 +1,8 @@
+/Users/otktechnologies/personal_projects/eccs-API/public/icons/add-1.svg
+/Users/otktechnologies/personal_projects/eccs-API/public/icons/add-24px.svg
+/Users/otktechnologies/personal_projects/eccs-API/public/icons/arrow-right.svg
+/Users/otktechnologies/personal_projects/eccs-API/public/icons/attach.svg
+/Users/otktechnologies/personal_projects/eccs-API/public/icons/caret-down.svg
+/Users/otktechnologies/personal_projects/eccs-API/public/icons/carret-down.svg
+/Users/otktechnologies/personal_projects/eccs-API/public/icons/case.svg
+/Users/otktechnologies/personal_projects/eccs-API/public/icons/check-mark.svg
