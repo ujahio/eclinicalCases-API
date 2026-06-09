@@ -21,4 +21,8 @@
 
 ## Context7
 
-When you need to search docs, use `context7` tools.
+When you need to search for up to date documentation, use `context7` tools.
+
+## Runtime
+
+Use `bun` and `bunx` for all runtime commands.

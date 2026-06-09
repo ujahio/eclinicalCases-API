@@ -1,4 +1,4 @@
-import Button from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { APP_CONTAINER, LANDING_X_PADDING } from "@/services/constants/styles";
 import Link from "next/link";
@@ -49,8 +49,8 @@ const Objective = () => {
 					</ul>
 
 					<Link href="/signup">
-						<Button className="mt-12" size="lg">
-							Get started
+						<Button className="mt-12" size="lg" variant="basic">
+							GET STARTED
 						</Button>
 					</Link>
 				</div>

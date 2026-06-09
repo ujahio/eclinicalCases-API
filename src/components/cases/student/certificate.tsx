@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import { FC } from "react";
 import { useAppSelector } from "@/services/hooks/hooks";
 import useRenderPdf from "@/services/hooks/useRenderPdf";
-import Button from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 
 const StudentCertificate: FC = () => {
@@ -38,9 +38,11 @@ const StudentCertificate: FC = () => {
 			</div>
 			<div className="create-case-actions grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
 				<Button
-					btnStyle="outline"
-					className="w-full flex items-center justify-center gap-2 sm:text-sm cursor-pointer"
+					size="md"
+					variant="secondary"
+					className="sm:text-sm cursor-pointer"
 					centralize
+					uppercase
 				>
 					<a
 						href={submitResponseState?.response?.certificateUrl}
@@ -51,9 +53,11 @@ const StudentCertificate: FC = () => {
 					</a>
 				</Button>
 				<Button
-					btnStyle="basic"
-					className="w-full flex items-center justify-center gap-2 sm:text-sm cursor-pointer"
+					variant="basic"
+					size="md"
+					className="sm:text-sm cursor-pointer"
 					centralize
+					uppercase
 					onClick={handleEndSession}
 				>
 					<span>end</span>

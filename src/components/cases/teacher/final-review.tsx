@@ -1,7 +1,7 @@
 import { FC } from "react";
 import Cme from "./cme";
-import Button from "@/components/ui/Button";
-import { convertFromRaw, Editor, EditorState } from "draft-js";
+import { Button } from "@/components/ui/button";
+import PlateViewer from "@/lib/PlateViewer";
 import { useAppSelector } from "@/services/hooks/hooks";
 import { FinalReviewProps } from "@/services/types/teacher/createCaseStudy";
 import { formatDateToYYYYMMDD } from "@/utils/formatDate";
@@ -11,19 +11,6 @@ const FinalReview: FC<FinalReviewProps> = ({
 	handleUpdateDraftCase,
 	handlePublishCase,
 }) => {
-	const parseEditorState = (data: string) => {
-		try {
-			return EditorState.createWithContent(convertFromRaw(JSON.parse(data)));
-		} catch (error) {
-			console.error("Error parsing editor state:", error);
-			return EditorState.createEmpty();
-		}
-	};
-
-	const caseDescription = parseEditorState(caseStudy.caseDescription || "{}");
-	const caseExplanation = parseEditorState(caseStudy.caseExplanation || "{}");
-	const caseTeaching = parseEditorState(caseStudy.caseTeaching || "{}");
-
 	const addingDraftCaseStatus = useAppSelector(
 		(state) => state.getDraftCases.status,
 	);
@@ -42,11 +29,7 @@ const FinalReview: FC<FinalReviewProps> = ({
 					Case Model Topic Description
 				</h3>
 				<div className="mb-9 bg-gray-200 p-2.5">
-					<Editor
-						editorState={caseDescription}
-						readOnly={true}
-						onChange={() => {}}
-					/>
+					<PlateViewer htmlString={caseStudy.caseDescription} />
 				</div>
 			</div>
 			<div className=" border-b-0.375">
@@ -54,11 +37,7 @@ const FinalReview: FC<FinalReviewProps> = ({
 					CASE MODEL ANSWER
 				</h3>
 				<div className="mb-9 bg-gray-200 p-2.5">
-					<Editor
-						editorState={caseExplanation}
-						readOnly={true}
-						onChange={() => {}}
-					/>
+					<PlateViewer htmlString={caseStudy.caseExplanation} />
 				</div>
 				<h3 className="uppercase font-bold text-sm text-blue mb-2 create-case-subheading">
 					DEADLINE
@@ -74,11 +53,7 @@ const FinalReview: FC<FinalReviewProps> = ({
 					Case Teaching
 				</h3>
 				<div className="mb-9 bg-gray-200 p-2.5">
-					<Editor
-						editorState={caseTeaching}
-						readOnly={true}
-						onChange={() => {}}
-					/>
+					<PlateViewer htmlString={caseStudy.caseTeaching} />
 				</div>
 				<h3 className="uppercase font-bold text-sm text-blue mb-4 create-case-heading">
 					TEACHING MATERIALS
@@ -107,7 +82,8 @@ const FinalReview: FC<FinalReviewProps> = ({
 				className={`create-case-actions grid ${!publishedCaseInfo ? "grid-cols-1 md:grid-cols-2" : "grid-cols-1"} gap-4 items-center`}
 			>
 				<Button
-					btnStyle="outline"
+					variant="secondary"
+					size="md"
 					centralize
 					onClick={handleUpdateDraftCase}
 					className="w-full sm:text-sm cursor-pointer"
@@ -116,7 +92,8 @@ const FinalReview: FC<FinalReviewProps> = ({
 				</Button>
 				{!publishedCaseInfo && (
 					<Button
-						btnStyle="basic"
+						variant="basic"
+						size="md"
 						onClick={handlePublishCase}
 						disabled={activeCaseStatus === "loading"}
 						className="w-full flex items-center justify-center gap-2 sm:text-sm cursor-pointer"

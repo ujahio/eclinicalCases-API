@@ -18,7 +18,7 @@ export const getStudentsResponsesApi = (filterParam: string) => {
 
 export const submitCaseResponseApi = (responsePayload: any) => {
 	return studentApi.post(
-		"student/response",
+		"/student/response",
 		responsePayload,
 		configureRequestHeaders(),
 	);

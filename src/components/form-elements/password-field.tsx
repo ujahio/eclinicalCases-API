@@ -15,7 +15,7 @@ const PasswordField: FC<InputFieldInterface> = ({ ...props }) => {
 	return (
 		<InputField {...props} type={type}>
 			<button
-				className="no-outline text-dark uppercase font-medium text-xs absolute right-3.75 sm:right-4"
+				className="no-outline text-dark uppercase font-medium text-xs absolute right-3-75 sm:right-4"
 				onClick={() => changeType()}
 				type="button"
 			>

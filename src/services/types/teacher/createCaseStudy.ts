@@ -7,10 +7,10 @@ export interface CaseQuestion {
 
 export type CaseStudy = {
 	id?: string;
-	caseDescription: string;
+	caseDescription: string;   // HTML string
 	caseTopic: string;
-	caseExplanation?: string;
-	caseTeaching: string;
+	caseExplanation?: string;  // HTML string
+	caseTeaching: string;      // HTML string
 	caseDeadline: string;
 	caseQuestions: CaseQuestion[];
 	caseStatus: string;

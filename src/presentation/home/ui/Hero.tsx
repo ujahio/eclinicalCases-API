@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import Button from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 
 const Header = () => {
 	return (
@@ -36,7 +36,7 @@ const Header = () => {
 						designated for 1 CME/CPD credit per case.
 					</p>
 					<Link href="/signup">
-						<Button className="sm:mt-16 mt-8" size="lg">
+						<Button className="sm:mt-16 mt-8" size="lg" variant="basic">
 							GET STARTED
 						</Button>
 					</Link>

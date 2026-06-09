@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useParams } from "next/navigation";
 import { TextArea } from "@/components/form-elements";
-import Button from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
 import {
 	addFeedback,
@@ -102,10 +102,12 @@ const StudentFeedback: FC<StudentFeedbackProps> = ({ goNext }) => {
 			</ul>
 			<div className="create-case-actions grid md:grid-cols-2 gap-4 items-center">
 				<Button
-					btnStyle="outline"
+					size="md"
+					variant="secondary"
 					centralize
+					uppercase
 					onClick={handleAddFeedback}
-					className="w-full flex items-center justify-center gap-2 sm:text-sm cursor-pointer"
+					className="sm:text-sm cursor-pointer"
 					disabled={!!(feedbackState && feedbackState.hasSubmittedFeedback)}
 				>
 					<span>
@@ -115,12 +117,14 @@ const StudentFeedback: FC<StudentFeedbackProps> = ({ goNext }) => {
 					</span>
 				</Button>
 				<Button
-					btnStyle="basic"
-					className="w-full flex items-center justify-center gap-2 sm:text-sm cursor-pointer"
+					variant="basic"
+					size="md"
+					uppercase
+					className="sm:text-sm cursor-pointer"
 					centralize
 					onClick={goNext}
 				>
-					<span>Certificate</span>
+					<span>Print Certificate</span>
 				</Button>
 			</div>
 		</>

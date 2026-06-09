@@ -1,11 +1,11 @@
-import Button from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import { formatDate } from "@/utils/formatDate";
-import { Editor } from "draft-js";
+import PlateViewer from "@/lib/PlateViewer";
 import { FC } from "react";
 
 interface StudentCasePresentationProps {
 	goNext: () => void;
-	caseDescription: any;
+	caseDescription: string;
 	caseDeadline: string;
 }
 
@@ -21,11 +21,7 @@ const StudentCasePresentation: FC<StudentCasePresentationProps> = ({
 					Case Description
 				</h6>
 				<div className="mb-9 bg-gray-200 p-2.5">
-					<Editor
-						editorState={caseDescription}
-						readOnly={true}
-						onChange={() => {}}
-					/>
+					<PlateViewer htmlString={caseDescription} />
 				</div>
 			</div>
 			{caseDeadline && (
@@ -40,7 +36,7 @@ const StudentCasePresentation: FC<StudentCasePresentationProps> = ({
 			)}
 			<div className="grid grid-cols-1 gap-4">
 				<Button
-					btnStyle="basic"
+					variant="basic"
 					className="w-full flex items-center justify-center gap-2 sm:text-sm cursor-pointer"
 					size="lg"
 					centralize

@@ -11,7 +11,9 @@ export type ValidationErrorProps = {
  * Ensures the word count does not exceed the maximum allowed value.
  *
  * @param setError - Function to update the validation error state.
- * @param content - The serialized JSON string of the case explanation.
+ * @param content - The HTML string of the case explanation.
+ * @param minWordCount - Minimum allowed word count.
+ * @param maxWordCount - Maximum allowed word count.
  * @returns boolean - True if the validation passes, false otherwise.
  */
 export const validateEditorInputs = (
@@ -20,21 +22,17 @@ export const validateEditorInputs = (
 	minWordCount = 150,
 	maxWordCount = 700
 ): boolean => {
-	// Parse the content and count words
-	const contentState = content ? JSON.parse(content) : { blocks: [] };
-	const plainText = contentState.blocks
-		.map((block: { text: string }) => block.text)
-		.join(" ");
+	const plainText = content ? content.replace(/<[^>]*>/g, "").trim() : "";
 	const wordCount = plainText
 		.split(/\s+/)
-		.filter((word: string[]) => word.length > 0).length;
+		.filter((word: string) => word.length > 0).length;
 
 	if (wordCount < minWordCount) {
 		setError((prevState) => ({
 			...prevState,
 			explanation: {
 				status: "error",
-				validationMessage: `Contents cannot be less than ${minWordCount} characters!`,
+				validationMessage: `Contents cannot be less than ${minWordCount} words!`,
 			},
 		}));
 		return false;
@@ -43,7 +41,7 @@ export const validateEditorInputs = (
 			...prevState,
 			explanation: {
 				status: "error",
-				validationMessage: `Contents cannot be more than ${maxWordCount} characters!`,
+				validationMessage: `Contents cannot be more than ${maxWordCount} words!`,
 			},
 		}));
 		return false;

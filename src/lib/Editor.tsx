@@ -1,81 +1,199 @@
-import { FC, useEffect, useState } from "react";
-import {
-	EditorState,
-	convertFromRaw,
-	convertToRaw,
-	ContentState,
-} from "draft-js";
-import { Editor } from "react-draft-wysiwyg";
+"use client";
 
-interface EditorConvertToJSONProps {
-	content: string | undefined; // JSON string representing editor content
-	onContentChange: (updatedContent: string) => void; // Callback for content updates
-	status?: "valid" | "error"; // Validation status of the editor content
-	validationMessage?: string; // Validation message for the editor content
+import React, { useEffect, useState } from "react";
+
+import type { Value } from "platejs";
+import { serializeHtml } from "platejs/static";
+
+import {
+	BlockquotePlugin,
+	BoldPlugin,
+	CodePlugin,
+	H1Plugin,
+	H2Plugin,
+	H3Plugin,
+	ItalicPlugin,
+	StrikethroughPlugin,
+	UnderlinePlugin,
+} from "@platejs/basic-nodes/react";
+import { LinkPlugin } from "@platejs/link/react";
+import {
+	BulletedListPlugin,
+	ListItemPlugin,
+	ListPlugin,
+	NumberedListPlugin,
+} from "@platejs/list-classic/react";
+import { Plate, usePlateEditor } from "platejs/react";
+
+import { BlockquoteElement } from "@/components/ui/blockquote-node";
+import { Editor, EditorContainer } from "@/components/ui/editor";
+import { FixedToolbar } from "@/components/ui/fixed-toolbar";
+import { H1Element, H2Element, H3Element } from "@/components/ui/heading-node";
+import { LinkElement } from "@/components/ui/link-node";
+import { LinkFloatingToolbar } from "@/components/ui/link-toolbar";
+import {
+	BulletedListElement,
+	NumberedListElement,
+} from "@/components/ui/list-classic-node";
+import { MarkToolbarButton } from "@/components/ui/mark-toolbar-button";
+import { ToolbarButton } from "@/components/ui/toolbar";
+
+interface CaseEditorProps {
+	content: string | undefined;
+	onContentChange: (updatedContent: string) => void;
+	status?: "valid" | "error";
+	validationMessage?: string;
 }
 
-const CaseEditor: FC<EditorConvertToJSONProps> = ({
+const plugins = [
+	BoldPlugin,
+	ItalicPlugin,
+	UnderlinePlugin,
+	StrikethroughPlugin,
+	CodePlugin,
+	H1Plugin.withComponent(H1Element),
+	H2Plugin.withComponent(H2Element),
+	H3Plugin.withComponent(H3Element),
+	BlockquotePlugin.withComponent(BlockquoteElement),
+	ListPlugin,
+	ListItemPlugin,
+	BulletedListPlugin.withComponent(BulletedListElement),
+	NumberedListPlugin.withComponent(NumberedListElement),
+	LinkPlugin.configure({
+		render: {
+			node: LinkElement,
+			afterEditable: () => <LinkFloatingToolbar />,
+		},
+	}),
+];
+
+function parseContent(
+	content: string | undefined,
+	editor: ReturnType<typeof usePlateEditor>,
+): Value {
+	if (!content || !editor) return [{ children: [{ text: "" }], type: "p" }];
+	try {
+		const parsed = editor.api.html.deserialize({ element: content });
+		if (Array.isArray(parsed)) return parsed;
+	} catch {
+		// fall through
+	}
+	return [{ children: [{ text: "" }], type: "p" }];
+}
+
+const CaseEditor: React.FC<CaseEditorProps> = ({
 	content,
 	onContentChange,
 	status = "valid",
 	validationMessage = "",
 }) => {
-	// Function to initialize the editor state from content or default to an empty string
-	const initializeEditorState = (content: string | undefined): EditorState => {
-		if (content) {
-			try {
-				const parsedContent = JSON.parse(content);
-				return EditorState.createWithContent(convertFromRaw(parsedContent));
-			} catch (error) {
-				return EditorState.createWithContent(ContentState.createFromText(""));
-			}
-		}
-		return EditorState.createWithContent(ContentState.createFromText(""));
-	};
-
-	// State for the editor and tracking the last emitted content
-	const [editorState, setEditorState] = useState(() =>
-		initializeEditorState(content),
-	);
 	const [currentContent, setCurrentContent] = useState(content);
 
-	// Reinitialize editor state when content prop changes
+	const editor = usePlateEditor({
+		plugins,
+		value: [{ children: [{ text: "" }], type: "p" }],
+	});
+
 	useEffect(() => {
 		if (content !== currentContent) {
-			setEditorState(initializeEditorState(content));
+			const newValue = parseContent(content, editor);
+			editor.tf.setValue(newValue);
 			setCurrentContent(content);
 		}
-	}, [content, currentContent]);
-
-	// Handle editor state changes
-	const onEditorStateChange = (newEditorState: EditorState) => {
-		setEditorState(newEditorState);
-
-		// Emit updated content back to parent
-		const contentState = newEditorState.getCurrentContent();
-		const contentStateJSON = JSON.stringify(convertToRaw(contentState));
-
-		// Update only if content has changed
-		if (contentStateJSON !== currentContent) {
-			setCurrentContent(contentStateJSON);
-			onContentChange(contentStateJSON);
-		}
-	};
+	}, [content, currentContent, editor]);
 
 	return (
 		<>
-			<Editor
-				editorState={editorState}
-				onEditorStateChange={onEditorStateChange}
-				editorStyle={{
-					height: "400px",
-					border: status === "error" ? "1px solid red" : "solid 1px #E7EBEF",
-					padding: "0px 15px",
+			<Plate
+				editor={editor}
+				onChange={async () => {
+					const html = await serializeHtml(editor);
+					if (html !== currentContent) {
+						setCurrentContent(html);
+						onContentChange(html);
+					}
 				}}
-			/>
-			{status === "error" && (
-				<p className="mt-0.625 font-light text-red">{validationMessage}</p>
-			)}
+			>
+				<FixedToolbar className="justify-start rounded-t-lg">
+					<MarkToolbarButton nodeType="bold" tooltip="Bold">
+						B
+					</MarkToolbarButton>
+					<MarkToolbarButton nodeType="italic" tooltip="Italic">
+						I
+					</MarkToolbarButton>
+					<MarkToolbarButton nodeType="underline" tooltip="Underline">
+						U
+					</MarkToolbarButton>
+					<MarkToolbarButton nodeType="strikethrough" tooltip="Strikethrough">
+						S
+					</MarkToolbarButton>
+					<MarkToolbarButton nodeType="code" tooltip="Code">
+						{"</>"}
+					</MarkToolbarButton>
+
+					<ToolbarButton onClick={() => editor.tf.h1.toggle()}>
+						H1
+					</ToolbarButton>
+					<ToolbarButton onClick={() => editor.tf.h2.toggle()}>
+						H2
+					</ToolbarButton>
+					<ToolbarButton onClick={() => editor.tf.h3.toggle()}>
+						H3
+					</ToolbarButton>
+					<ToolbarButton onClick={() => editor.tf.blockquote.toggle()}>
+						Quote
+					</ToolbarButton>
+
+					<ToolbarButton
+						onClick={() =>
+							editor.tf.insertNodes({
+								children: [{ text: "" }],
+								type: "ul",
+								isExpanded: true,
+							})
+						}
+					>
+						• List
+					</ToolbarButton>
+					<ToolbarButton
+						onClick={() =>
+							editor.tf.insertNodes({
+								children: [{ text: "" }],
+								type: "ol",
+								isExpanded: true,
+							})
+						}
+					>
+						1. List
+					</ToolbarButton>
+
+					<ToolbarButton onClick={() => editor.tf.undo()}>Undo</ToolbarButton>
+					<ToolbarButton onClick={() => editor.tf.redo()}>Redo</ToolbarButton>
+
+					<ToolbarButton
+						onClick={() => {
+							editor.tf.insertNodes({
+								children: [{ text: "" }],
+								type: "a",
+								url: "",
+							});
+						}}
+					>
+						Link
+					</ToolbarButton>
+				</FixedToolbar>
+
+				<EditorContainer>
+					<Editor
+						style={{
+							minHeight: "400px",
+							border:
+								status === "error" ? "1px solid red" : "solid 1px #E7EBEF",
+							padding: "0px 15px",
+						}}
+					/>
+				</EditorContainer>
+			</Plate>
 		</>
 	);
 };

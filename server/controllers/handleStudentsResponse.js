@@ -146,6 +146,10 @@ export const submitStudentResponse = async (event) => {
 };
 
 const extractAnswers = (caseInfo) => {
+	if (Array.isArray(caseInfo.answers)) {
+		return caseInfo.answers;
+	}
+
 	return Object.keys(caseInfo).reduce((acc, key) => {
 		const match = key.match(/^answers\[(\d+)\]\[(\w+)\](?:\[(\d+)\])?$/);
 		if (match) {
@@ -215,7 +219,7 @@ const gradeAnswers = ({ studentAnswers, teachersQuestions }) => {
 	// Generate the messageToDisplay for score and incorrect questions
 	if (result.failedQuestions.length > 0) {
 		result.messageToDisplay = `You scored ${scorePercentage}%. You got question(s) ${result.failedQuestions.join(
-			" and "
+			" and ",
 		)} incorrect.`;
 	} else {
 		result.messageToDisplay = `Congrats, You scored ${scorePercentage}%.`;
