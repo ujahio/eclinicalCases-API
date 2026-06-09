@@ -1,6 +1,6 @@
 import { FC } from "react";
 import Cme from "./cme";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/main-button";
 import PlateViewer from "@/lib/PlateViewer";
 import { useAppSelector } from "@/services/hooks/hooks";
 import { FinalReviewProps } from "@/services/types/teacher/createCaseStudy";

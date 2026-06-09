@@ -1,7 +1,7 @@
 import { CaseCard } from "@/components/cases";
 import AdminLayout from "@/components/layouts/dashboard/admin";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/main-button";
 import { useAppSelector } from "@/services/hooks/hooks";
 import { formatDate } from "@/utils/formatDate";
 

@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/main-button";
 import { useAppSelector } from "@/services/hooks/hooks";
 import SpinnerGrow from "@/components/spinners/SpinnerGrow";
 
