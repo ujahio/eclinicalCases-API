@@ -85,7 +85,6 @@ const CaseEditor: React.FC<CaseEditorProps> = ({
 	content,
 	onContentChange,
 	status = "valid",
-	validationMessage = "",
 }) => {
 	const [currentContent, setCurrentContent] = useState(content);
 

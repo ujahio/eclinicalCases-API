@@ -23,6 +23,8 @@ const buttonVariants = cva(
 				"outline-white":
 					"bg-white text-dark border border-grey-200 hover:bg-grey-100",
 				white: "bg-white text-dark",
+				ghost:
+					"bg-transparent text-foreground hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground",
 			},
 			size: {
 				default:
