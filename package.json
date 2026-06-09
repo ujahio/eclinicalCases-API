@@ -69,22 +69,8 @@
 		"typescript": "6.0.3"
 	},
 	"overrides": {
-		"dompurify": "3.4.0",
-		"picomatch": "2.3.2",
-		"jspdf": "4.2.1",
-		"immutable": "3.8.3",
-		"glob": "10.5.0",
-		"flatted": "3.4.2",
 		"minimatch": "3.1.4",
-		"vite": "7.3.2",
-		"esbuild": "0.25.0",
-		"yaml": "2.8.3",
-		"mdast-util-to-hast": "13.2.1",
 		"postcss": "8.5.15",
-		"follow-redirects": "1.16.0",
-		"brace-expansion": "1.1.13",
-		"fast-xml-builder": "1.1.7",
-		"react-router": "7.15.0",
-		"js-cookie": "3.0.7"
+		"react-router": "7.15.0"
 	}
 }
