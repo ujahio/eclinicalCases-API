@@ -1,6 +1,6 @@
 import { useRouter } from "next/navigation";
 import { FC } from "react";
-import { Button } from "@/components/ui/main-button";
+import { Button } from "@/components/uibutton";
 import { useAppSelector } from "@/services/hooks/hooks";
 
 export interface CaseCardProps {

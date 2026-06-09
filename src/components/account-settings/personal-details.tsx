@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { InputField } from "../form-elements";
-import { Button } from "@/components/ui/main-button";
+import { Button } from "@/components/uibutton";
 
 interface PersonalDetailsSettingsProps {
 	isAdmin?: boolean;

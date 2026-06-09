@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Button } from "@/components/ui/main-button";
+import { Button } from "@/components/uibutton";
 import { forgetPassStep1Schema } from "@/lib/schema";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useAppSelector } from "@/services/hooks/hooks";

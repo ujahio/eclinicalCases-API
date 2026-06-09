@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import DashboardLayout from "@/components/layouts/dashboard";
-import { Button } from "@/components/ui/main-button";
+import { Button } from "@/components/uibutton";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
 import { formatDate } from "@/utils/formatDate";
 import ResponseCaseCard from "@/components/cases/ResponseCaseCard";

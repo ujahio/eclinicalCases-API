@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/main-button";
+import { Button } from "@/components/uibutton";
 
 const ProgressButtons = ({
 	goNext,

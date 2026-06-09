@@ -1,6 +1,6 @@
 import { FC } from "react";
 import Modal, { ModalProps } from "./Modal";
-import { Button } from "./main-button";
+import { Button } from ".button";
 
 const CmeModal: FC<ModalProps> = ({ show, toggle }) => (
 	<Modal {...{ show, toggle, size: "md" }}>

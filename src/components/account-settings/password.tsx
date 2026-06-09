@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { PasswordField } from "../form-elements";
-import { Button } from "@/components/ui/main-button";
+import { Button } from "@/components/uibutton";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
 import {
 	changePassword,
