@@ -1,10 +1,6 @@
 import { ECCSEmail } from "./email";
 import { CaseMaterials, ECCSUsersCertificates } from "./storage";
-import {
-	NEXT_PUBLIC_PASS_SECRET_KEY,
-	NEXT_PUBLIC_BASE_URL,
-	NEXT_PUBLIC_NODE_ENV,
-} from "./secrets";
+import { NEXT_PUBLIC_BASE_URL, NEXT_PUBLIC_NODE_ENV } from "./secrets";
 import { userPool, eccsWebClient } from "./auth";
 import { Feedback, StudentsResponses, TeacherCaseStudies } from "./dynamo";
 
@@ -14,7 +10,6 @@ const links = [
 	TeacherCaseStudies,
 	CaseMaterials,
 	ECCSUsersCertificates,
-	NEXT_PUBLIC_PASS_SECRET_KEY,
 	NEXT_PUBLIC_BASE_URL,
 	NEXT_PUBLIC_NODE_ENV,
 	ECCSEmail,
