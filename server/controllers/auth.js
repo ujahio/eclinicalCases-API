@@ -1,5 +1,4 @@
 import { Resource } from "sst";
-import bcrypt from "bcryptjs";
 import {
 	SignUpCommand,
 	AdminGetUserCommand,
