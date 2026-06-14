@@ -4,7 +4,7 @@ import StudentDashboard from "@/presentation/student/Dashboard";
 import useGetStudentsResponsesToCases from "@/services/hooks/useGetStudentsResponsesToCases";
 import useGetActiveCase from "@/services/hooks/useGetActiveCase";
 import { useAuthRedirect } from "@/services/hooks/useAuthRedirect";
-import { Session } from "next-auth";
+import { Session } from "@/types/auth";
 
 const StudentDashboardWithAuth = ({ session }: { session: Session }) => {
 	useGetActiveCase({ session });

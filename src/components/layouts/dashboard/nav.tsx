@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { APP_CONTAINER, APP_SPACING } from "@/services/constants/styles";
-import { signOut } from "next-auth/react";
+import { signOut } from "@/services/apis/auth";
 // import { useAuthRedirect } from "@/services/hooks/useAuthRedirect";
 
 interface NavProps {
@@ -35,7 +35,7 @@ const Nav: FC<NavProps> = ({
 	};
 
 	const logoutUser = async () => {
-		await signOut({ callbackUrl: "/login" });
+		await signOut();
 	};
 
 	return (
