@@ -7,7 +7,6 @@ import {
 	resetChangePasswordStatus,
 } from "@/store/slices/auth/changePasswordSlice";
 import SpinnerGrow from "../spinners/SpinnerGrow";
-import { saltAndHashPassword } from "@/utils/password";
 
 const PasswordSettings = () => {
 	const dispatch = useAppDispatch();
