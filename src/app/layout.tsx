@@ -3,7 +3,6 @@ import "./global.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import StoreProvider from "./StoreProvider";
-import { SessionProvider } from "next-auth/react";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Nunito_Sans, Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
@@ -31,11 +30,9 @@ export default function RootLayout({
 		>
 			<body>
 				<main className="bg-grey-bg">
-					<SessionProvider>
-						<TooltipProvider>
-							<StoreProvider>{children}</StoreProvider>
-						</TooltipProvider>
-					</SessionProvider>
+					<TooltipProvider>
+						<StoreProvider>{children}</StoreProvider>
+					</TooltipProvider>
 					<ToastContainer
 						position="top-right"
 						autoClose={5000}

@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useAppDispatch } from "@/services/hooks/hooks";
 import { getArchiveCases } from "@/store/slices/case/getArchiveCasesSlice";
-import { Session } from "next-auth";
+import { Session } from "@/types/auth";
 
 const useGetArchiveCases = ({
 	session,

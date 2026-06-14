@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/services/hooks/hooks";
 import { getStudentsResponsesToCases } from "@/store/slices/student/getStudentsResponsesToCasesSlice";
-import { Session } from "next-auth";
+import { Session } from "@/types/auth";
 
 const useGetStudentsResponsesToCases = ({
 	session,

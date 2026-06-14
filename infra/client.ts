@@ -1,5 +1,5 @@
 import {
-	NEXT_PUBLIC_PASS_SECRET_KEY,
+	HASH_SECRET_KEY,
 	NEXT_PUBLIC_BASE_URL,
 	NEXT_PUBLIC_NODE_ENV,
 } from "./secrets";
@@ -14,7 +14,7 @@ export const client = new sst.aws.Nextjs("eccslabsClient", {
 	link: [
 		NEXT_PUBLIC_BASE_URL,
 		NEXT_PUBLIC_NODE_ENV,
-		NEXT_PUBLIC_PASS_SECRET_KEY,
+		HASH_SECRET_KEY,
 		userPool,
 		eccsWebClient,
 	],

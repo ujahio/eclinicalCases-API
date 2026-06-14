@@ -1,12 +1,11 @@
 "use client";
 
-import { useEffect, useCallback } from "react";
+import { useCallback } from "react";
 import Image from "next/image";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "@/services/apis/auth";
 import { LoginFormValues } from "@/services/types/auth/login";
-import { saltAndHashPassword } from "@/utils/password";
 import AuthLayout from "@/components/layouts/AuthLayout";
 import { Button } from "@/components/ui/main-button";
 import Link from "next/link";
@@ -14,33 +13,23 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import { loginSchema } from "@/lib/schema";
 
 const Login = () => {
-	const { data: session, status } = useSession();
 	const navigate = useRouter();
 
-	const handleSubmitLoginUser = useCallback(async (val: LoginFormValues) => {
-		const hashedPassword = saltAndHashPassword(val.password);
-
-		const result = await signIn("credentials", {
-			redirect: false,
-			email: val.email,
-			password: hashedPassword,
-		});
-
-		if (result?.error) {
-			toast.error("Error signing in. Please try again.");
-		}
-	}, []);
-
-	useEffect(() => {
-		if (status === "authenticated" && session?.user) {
-			// Use the user's role to handle navigation
-			if (session.user.user_role === "teacher") {
-				navigate.push("/teacher/dashboard");
-			} else if (session.user.user_role === "student") {
-				navigate.push("/student/dashboard");
+	const handleSubmitLoginUser = useCallback(
+		async (val: LoginFormValues) => {
+			try {
+				const data = await signIn(val.email, val.password);
+				if (data?.user_role === "teacher") {
+					navigate.push("/teacher/dashboard");
+				} else if (data?.user_role === "student") {
+					navigate.push("/student/dashboard");
+				}
+			} catch (error) {
+				toast.error("Error signing in. Please try again.");
 			}
-		}
-	}, [status, session?.user, navigate]);
+		},
+		[navigate],
+	);
 
 	return (
 		<AuthLayout title="Sign in to Your Account">

@@ -1,0 +1,1334 @@
+{
+  "communities": {
+    "0": [
+      "package_dependencies",
+      "package_dependencies_aws_sdk_client_cognito_identity_provider",
+      "package_dependencies_aws_sdk_client_dynamodb",
+      "package_dependencies_aws_sdk_client_s3",
+      "package_dependencies_aws_sdk_lib_dynamodb",
+      "package_dependencies_aws_sdk_lib_storage",
+      "package_dependencies_aws_sdk_s3_request_presigner",
+      "package_dependencies_bcryptjs",
+      "package_dependencies_busboy",
+      "package_dependencies_class_variance_authority",
+      "package_dependencies_clsx",
+      "package_dependencies_cors",
+      "package_dependencies_formik",
+      "package_dependencies_html2pdf_js",
+      "package_dependencies_jsonwebtoken",
+      "package_dependencies_jsx_email",
+      "package_dependencies_lucide_react",
+      "package_dependencies_next",
+      "package_dependencies_next_auth",
+      "package_dependencies_pdf_lib",
+      "package_dependencies_pdfjs_dist",
+      "package_dependencies_platejs",
+      "package_dependencies_platejs_basic_nodes",
+      "package_dependencies_platejs_floating",
+      "package_dependencies_platejs_link",
+      "package_dependencies_platejs_list_classic",
+      "package_dependencies_radix_ui",
+      "package_dependencies_radix_ui_react_dropdown_menu",
+      "package_dependencies_radix_ui_react_separator",
+      "package_dependencies_radix_ui_react_toolbar",
+      "package_dependencies_react_hot_toast",
+      "package_dependencies_react_redux",
+      "package_dependencies_react_toastify",
+      "package_dependencies_reduxjs_toolkit",
+      "package_dependencies_sass",
+      "package_dependencies_shadcn",
+      "package_dependencies_sharp",
+      "package_dependencies_sst",
+      "package_dependencies_tailwind_merge",
+      "package_dependencies_tailwind_scrollbar_hide",
+      "package_dependencies_tailwindcss_postcss",
+      "package_dependencies_tw_animate_css",
+      "package_dependencies_uuid",
+      "package_dependencies_yup"
+    ],
+    "1": [
+      "concept_auth_flow",
+      "concept_case_lifecycle",
+      "concept_student_response_flow",
+      "services_apis_auth",
+      "services_apis_case",
+      "services_apis_student",
+      "services_config_fetchclient",
+      "services_constants_index",
+      "services_hooks_hooks",
+      "services_hooks_useauthredirect",
+      "services_hooks_usegetactivecase",
+      "services_hooks_usegetarchivecases",
+      "services_hooks_usegetdraftcase",
+      "services_hooks_usegetstudentsresponses",
+      "services_types_student",
+      "services_types_teacher_createcasestudy",
+      "store_rootreducer",
+      "store_slices_auth_changepassword",
+      "store_slices_auth_resetpassword",
+      "store_slices_auth_sendotp",
+      "store_slices_auth_signup",
+      "store_slices_case_addcase",
+      "store_slices_case_casedetails",
+      "store_slices_case_deletecase",
+      "store_slices_case_getarchivecases",
+      "store_slices_case_getcasedata",
+      "store_slices_case_getcasematerials",
+      "store_slices_case_getdraftcases",
+      "store_slices_case_getpublishedcase",
+      "store_slices_case_getstudentscertificates",
+      "store_slices_case_updatedraftcase",
+      "store_slices_student_addfeedback",
+      "store_slices_student_getstudentsresponsestocases",
+      "store_slices_student_submitcaseresponse",
+      "utils_errorhandler",
+      "utils_errorhandler_handleapierror"
+    ],
+    "2": [
+      "lib_utils_cn",
+      "ui_dropdown_menu",
+      "ui_dropdown_menu_dropdownmenucheckboxitem",
+      "ui_dropdown_menu_dropdownmenucontent",
+      "ui_dropdown_menu_dropdownmenugroup",
+      "ui_dropdown_menu_dropdownmenuportal",
+      "ui_dropdown_menu_dropdownmenuradiogroup",
+      "ui_dropdown_menu_dropdownmenuradioitem",
+      "ui_dropdown_menu_dropdownmenuseparator",
+      "ui_dropdown_menu_dropdownmenushortcut",
+      "ui_dropdown_menu_dropdownmenusub",
+      "ui_dropdown_menu_dropdownmenusubcontent",
+      "ui_dropdown_menu_dropdownmenusubtrigger",
+      "ui_dropdown_menu_dropdownmenutrigger",
+      "ui_mark_toolbar_button",
+      "ui_separator",
+      "ui_separator_separator",
+      "ui_toolbar",
+      "ui_toolbar_dropdownarrowvariants",
+      "ui_toolbar_toolbarbutton",
+      "ui_toolbar_toolbarbuttonvariants",
+      "ui_toolbar_toolbargroup",
+      "ui_toolbar_toolbarlink",
+      "ui_toolbar_toolbarmenugroup",
+      "ui_toolbar_toolbarseparator",
+      "ui_toolbar_toolbarsplitbutton",
+      "ui_toolbar_toolbarsplitbuttonprimary",
+      "ui_toolbar_toolbarsplitbuttonsecondary",
+      "ui_toolbar_toolbartogglegroup",
+      "ui_toolbar_toolbartoggleitem",
+      "ui_toolbar_tooltipcontent",
+      "ui_toolbar_tooltipprops",
+      "ui_toolbar_tsx",
+      "ui_toolbar_withtooltip"
+    ],
+    "3": [
+      "tsconfig",
+      "tsconfig_compileroptions",
+      "tsconfig_compileroptions_allowjs",
+      "tsconfig_compileroptions_declaration",
+      "tsconfig_compileroptions_esmoduleinterop",
+      "tsconfig_compileroptions_incremental",
+      "tsconfig_compileroptions_isolatedmodules",
+      "tsconfig_compileroptions_jsx",
+      "tsconfig_compileroptions_lib",
+      "tsconfig_compileroptions_module",
+      "tsconfig_compileroptions_moduleresolution",
+      "tsconfig_compileroptions_noemit",
+      "tsconfig_compileroptions_noemitonerror",
+      "tsconfig_compileroptions_nounusedlocals",
+      "tsconfig_compileroptions_nounusedparameters",
+      "tsconfig_compileroptions_paths",
+      "tsconfig_compileroptions_plugins",
+      "tsconfig_compileroptions_preservesymlinks",
+      "tsconfig_compileroptions_preservewatchoutput",
+      "tsconfig_compileroptions_resolvejsonmodule",
+      "tsconfig_compileroptions_skiplibcheck",
+      "tsconfig_compileroptions_strict",
+      "tsconfig_compileroptions_strictnullchecks",
+      "tsconfig_compileroptions_target",
+      "tsconfig_exclude",
+      "tsconfig_include",
+      "tsconfig_paths",
+      "tsconfig_schema"
+    ],
+    "4": [
+      "lib_editor",
+      "lib_editor_caseeditorprops",
+      "lib_editor_parsecontent",
+      "lib_editor_plugins",
+      "lib_plateviewer",
+      "lib_plateviewer_plateviewerprops",
+      "lib_plateviewer_plugins",
+      "ui_blockquote_node",
+      "ui_blockquote_node_tsx",
+      "ui_editor",
+      "ui_editor_editorcontainer",
+      "ui_editor_editorcontainervariants",
+      "ui_editor_editorprops",
+      "ui_editor_editorvariants",
+      "ui_editor_editorview",
+      "ui_editor_tsx",
+      "ui_fixed_toolbar",
+      "ui_fixed_toolbar_tsx",
+      "ui_heading_node",
+      "ui_heading_node_h1element",
+      "ui_heading_node_h2element",
+      "ui_heading_node_h3element",
+      "ui_heading_node_h4element",
+      "ui_heading_node_h5element",
+      "ui_heading_node_h6element"
+    ],
+    "5": [
+      "package",
+      "package_description",
+      "package_devdependencies",
+      "package_devdependencies_eslint",
+      "package_devdependencies_eslint_config_next",
+      "package_devdependencies_jwks_rsa",
+      "package_devdependencies_lodash",
+      "package_devdependencies_tailwindcss",
+      "package_devdependencies_types_node",
+      "package_devdependencies_typescript",
+      "package_license",
+      "package_name",
+      "package_overrides",
+      "package_overrides_minimatch",
+      "package_overrides_postcss",
+      "package_overrides_react_router",
+      "package_scripts",
+      "package_scripts_build",
+      "package_scripts_dev",
+      "package_scripts_lint",
+      "package_scripts_start",
+      "package_scripts_start_dev",
+      "package_type",
+      "package_version"
+    ],
+    "6": [
+      "components",
+      "components_aliases",
+      "components_aliases_components",
+      "components_aliases_hooks",
+      "components_aliases_lib",
+      "components_aliases_ui",
+      "components_aliases_utils",
+      "components_iconlibrary",
+      "components_menuaccent",
+      "components_menucolor",
+      "components_registries",
+      "components_registries_plate",
+      "components_rsc",
+      "components_rtl",
+      "components_schema",
+      "components_style",
+      "components_tailwind",
+      "components_tailwind_basecolor",
+      "components_tailwind_config",
+      "components_tailwind_css",
+      "components_tailwind_cssvariables",
+      "components_tailwind_prefix",
+      "components_tsx"
+    ],
+    "7": [
+      "apis_case_getarchivecasesapi",
+      "appcontext_applicationcontext",
+      "appcontext_applicationcontext_client",
+      "appcontext_applicationcontext_createapplicationcontext",
+      "appcontext_applicationcontext_dbclient",
+      "concept_application_context_di",
+      "controllers_auth",
+      "controllers_auth_cognitoclient",
+      "controllers_auth_refreshtoken",
+      "controllers_auth_signin",
+      "controllers_auth_signup",
+      "controllers_handlearchivedcases",
+      "controllers_handlearchivedcases_dbclient",
+      "lambdas_archivecasestatuscron",
+      "lambdas_archivecasestatuscron_handler",
+      "server_lambdas_archive_case_status_cron",
+      "utils_api_utils",
+      "utils_api_utils_cognitoclient",
+      "utils_api_utils_dbclient",
+      "utils_api_utils_encryptpassword",
+      "utils_api_utils_generateotp",
+      "utils_api_utils_getdetailsofstudentsfeedbackandresponses"
+    ],
+    "8": [
+      "infra_api",
+      "infra_api_api",
+      "infra_api_cognitoauthorizer",
+      "infra_api_links",
+      "infra_api_routeargs",
+      "infra_archive_case_status",
+      "infra_auth",
+      "infra_auth_authurl",
+      "infra_auth_eccswebclient",
+      "infra_auth_userpool",
+      "infra_auth_userpooldomain",
+      "infra_client",
+      "infra_client_client",
+      "infra_dynamo",
+      "infra_dynamo_feedback",
+      "infra_dynamo_studentsresponses",
+      "infra_dynamo_teachercasestudies",
+      "infra_email",
+      "infra_storage",
+      "infra_storage_casematerials",
+      "infra_storage_eccsuserscertificates",
+      "sst_config_run"
+    ],
+    "9": [
+      "apis_auth_signin",
+      "auth_login",
+      "auth_login_logincompprops",
+      "auth_login_loginformvalues",
+      "forgot_password_step1",
+      "forgot_password_step1_tsx",
+      "forgot_password_step2",
+      "forgot_password_step2_tsx",
+      "forgotpassword_index",
+      "forgotpassword_index_forgotpassword",
+      "layouts_auth_layout_tsx",
+      "layouts_authlayout",
+      "lib_schema",
+      "lib_schema_forgetpassstep1schema",
+      "lib_schema_forgetpassstep2schema",
+      "lib_schema_loginschema",
+      "lib_schema_signupschema",
+      "lib_schema_ts",
+      "login_page",
+      "login_page_login",
+      "spinners_spinnergrow"
+    ],
+    "10": [
+      "appcontext_gatewaymethods",
+      "appcontext_persistencemethods",
+      "appcontext_usecasehelpers",
+      "email_emailsender",
+      "email_emailsender_emailhtmlprops",
+      "email_emailsender_emailprops",
+      "email_emailsender_sendemail",
+      "email_templates_newcaseemailtemplate",
+      "email_templates_newcaseemailtemplate_box",
+      "email_templates_newcaseemailtemplate_button",
+      "email_templates_newcaseemailtemplate_container",
+      "email_templates_newcaseemailtemplate_footer",
+      "email_templates_newcaseemailtemplate_main",
+      "email_templates_newcaseemailtemplate_paragraph",
+      "persistence_getregisteredstudents",
+      "persistence_getregisteredstudents_getstudentdetails",
+      "server_usecase_helpers_send_new_case_notification_email",
+      "usecasehelpers_sendnewcasenotificationemail",
+      "usecasehelpers_sendnewcasenotificationemail_sendemails",
+      "usecasehelpers_sendnewcasenotificationemail_sendnewcasenotificationemailtoregisteredstudents",
+      "usecasehelpers_sendnewcasenotificationemail_studentdetails"
+    ],
+    "11": [
+      "apis_case_getdraftcasesapi",
+      "apis_student_addfeedbackapi",
+      "apis_student_getstudentscertificatesapi",
+      "controllers_case",
+      "controllers_case_dbclient",
+      "controllers_case_duplicatecase",
+      "controllers_case_getcaseforstudentsresponse",
+      "controllers_handledraftcases",
+      "controllers_handledraftcases_arearraysequalregardlessoforder",
+      "controllers_handledraftcases_dbclient",
+      "controllers_handledraftcases_deletedraftcase",
+      "controllers_handledraftcases_updatedraftcase",
+      "controllers_handlestudentscertificates",
+      "controllers_handlestudentscertificates_dbclient",
+      "controllers_handlestudentscertificates_streamtobase64",
+      "persistence_getuserinfo",
+      "persistence_getuserinfo_cognitoclient",
+      "utils_api_utils_parselogtoobject",
+      "utils_decodetoken"
+    ],
+    "12": [
+      "apis_case",
+      "apis_case_adddraftcaseapi",
+      "apis_case_deletecaseapi",
+      "apis_case_deletepdffromcasematerialsapi",
+      "apis_case_fetchcasedataapi",
+      "apis_case_fetchpublishedcaseapi",
+      "apis_case_getpresignedurlfordocumentuploadapi",
+      "apis_case_getpresignedurlforfetchingdocumentsapi",
+      "apis_case_publishcaseapi",
+      "apis_case_updatedraftcaseapi",
+      "case_addcaseslice",
+      "case_addcaseslice_addcasestate",
+      "case_addcaseslice_initialstate",
+      "case_getcasedataslice",
+      "case_getcasedataslice_initialstate",
+      "config_fetchclient_configurerequestheaders",
+      "utils_converttoformdata",
+      "utils_converttoformdata_converttoformdata"
+    ],
+    "13": [
+      "constants_index",
+      "create_page_createcasestudy",
+      "lib_editor_tsx",
+      "teacher_answer_tsx",
+      "teacher_case_teaching_tsx",
+      "teacher_cme_questions_tsx",
+      "teacher_createcasestudy_casequestion",
+      "teacher_createcasestudy_createcasestudy",
+      "teacher_createcasestudy_handleupdatedraftcase",
+      "teacher_createcasestudy_teachercaseanswerprops",
+      "teacher_createcasestudy_teachercasequestionprops",
+      "teacher_presentation",
+      "teacher_presentation_tsx",
+      "teacher_updatecasestudy",
+      "ui_process_tabs",
+      "ui_process_tabs_processtabsprops",
+      "ui_process_tabs_tsx",
+      "utils_formatdate_formatdatetoyyyymmdd"
+    ],
+    "14": [
+      "concept_case_study_lifecycle",
+      "concept_cme_grading",
+      "concept_rbac_authorization",
+      "concept_s3_presigned_urls",
+      "server_controllers_auth",
+      "server_controllers_case",
+      "server_controllers_handle_archived_cases",
+      "server_controllers_handle_case_materials",
+      "server_controllers_handle_draft_cases",
+      "server_controllers_handle_published_case",
+      "server_controllers_handle_students_certificates",
+      "server_controllers_handle_students_response",
+      "server_services_bucket",
+      "server_services_s3_client",
+      "server_utils_api_utils",
+      "server_utils_certificate",
+      "src_app_auth_signup"
+    ],
+    "15": [
+      "admin_page",
+      "admin_page_signupteacher",
+      "apis_auth_signup",
+      "auth_signup",
+      "auth_signup_signupcompprops",
+      "auth_signup_signupvalues",
+      "auth_signupslice",
+      "auth_signupslice_initialstate",
+      "auth_signupslice_signupstate",
+      "auth_signupslice_signupuser",
+      "components_form_signupform",
+      "lib_utils_ts",
+      "signup_index",
+      "signup_index_signup",
+      "signup_page",
+      "signup_page_signup"
+    ],
+    "16": [
+      "apis_auth",
+      "apis_auth_login",
+      "apis_auth_resetpasswordapi",
+      "apis_auth_sendotpapi",
+      "auth_changepasswordslice",
+      "auth_changepasswordslice_initialstate",
+      "auth_resetpasswordslice",
+      "auth_resetpasswordslice_initialstate",
+      "auth_resetpasswordslice_resetpasswordstate",
+      "auth_sendotpslice",
+      "auth_sendotpslice_initialstate",
+      "auth_sendotpslice_sendotp",
+      "auth_sendotpslice_sendotpstate",
+      "config_fetchclient_authapi",
+      "utils_cookies_clearauthcookie",
+      "utils_cookies_getauthcookie"
+    ],
+    "17": [
+      "questions-to-ask_amazon_aps",
+      "questions-to-ask_api_gateway",
+      "questions-to-ask_aws_solutions_architect",
+      "questions-to-ask_aws_waf",
+      "questions-to-ask_cloudtrail",
+      "questions-to-ask_cloudwatch",
+      "questions-to-ask_cost_estimation",
+      "questions-to-ask_dynamodb",
+      "questions-to-ask_iam",
+      "questions-to-ask_kms",
+      "questions-to-ask_lambda_functions",
+      "questions-to-ask_lms_application",
+      "questions-to-ask_route_53",
+      "questions-to-ask_s3",
+      "questions-to-ask_scalability",
+      "questions-to-ask_sst"
+    ],
+    "18": [
+      "apis_auth_signout",
+      "components_navbar",
+      "components_navbar_navbar",
+      "constants_styles",
+      "dashboard_nav",
+      "dashboard_nav_navprops",
+      "faculty_page",
+      "faculty_page_page",
+      "hooks_useclickoutside",
+      "ui_dropdown",
+      "ui_dropdown_appdropdownitem",
+      "ui_dropdown_appdropdownitemprops",
+      "ui_dropdown_appdropdownprops",
+      "ui_dropdown_dropdownposition",
+      "ui_dropdown_tsx"
+    ],
+    "19": [
+      "components_form",
+      "components_form_passwordrequirements",
+      "components_form_personaldetailsprops",
+      "components_professional_details_form",
+      "components_professional_details_form_professionaldetailsformprops",
+      "components_professional_details_form_professionaldetailsprops",
+      "form_elements_index",
+      "form_elements_input_field",
+      "form_elements_input_field_inputfieldinterface",
+      "form_elements_input_field_tsx",
+      "form_elements_search_bar",
+      "form_elements_search_bar_tsx",
+      "form_elements_text_area",
+      "form_elements_text_area_textareainterface",
+      "form_elements_text_area_tsx"
+    ],
+    "20": [
+      "modals_response_feedback_modal",
+      "modals_response_feedback_modal_tabs",
+      "modals_walkthrough",
+      "modals_walkthrough_step",
+      "modals_walkthrough_stepsdata",
+      "modals_walkthrough_tsx",
+      "teacher_feedback",
+      "teacher_feedback_tsx",
+      "teacher_response",
+      "teacher_response_tsx",
+      "ui_cme_modal",
+      "ui_cme_modal_tsx",
+      "ui_modal",
+      "ui_modal_modalprops",
+      "ui_modal_tsx"
+    ],
+    "21": [
+      "apis_case_fetchcasedetailsapi",
+      "case_casedetailsslice",
+      "case_casedetailsslice_casedetailsstate",
+      "case_casedetailsslice_initialstate",
+      "id_page_tabs",
+      "src_app_student_case_studies_id",
+      "src_app_student_case_studies_id_page_tsx_id_page",
+      "src_components_cases_index",
+      "student_casestudy",
+      "student_index",
+      "student_index_answer",
+      "student_index_casedetail",
+      "student_submitcaseresponseslice",
+      "student_submitcaseresponseslice_initialstate"
+    ],
+    "22": [
+      "case_getstudentscertificatesslice",
+      "case_getstudentscertificatesslice_initialstate",
+      "case_getstudentscertificatesslice_studentscertificatesslice",
+      "case_getstudentscertificatesslice_studentscertificatesstate",
+      "cases_page_page",
+      "certificates_page",
+      "certificates_page_certificatescontent",
+      "certificates_page_page",
+      "hooks_useauthredirect",
+      "settings_page_page",
+      "settings_page_settings",
+      "src_app_student_case_studies_id_page_tsx_id_page_page",
+      "src_app_student_settings_page_tsx_settings_page",
+      "src_app_teacher_settings_page_tsx_settings_page"
+    ],
+    "23": [
+      "account_settings_index",
+      "account_settings_personal_details",
+      "account_settings_personal_details_personaldetailssettings",
+      "hooks_useprocesstabs",
+      "student_settings",
+      "student_settings_accountsettings",
+      "student_settings_tabs",
+      "teacher_settings",
+      "teacher_settings_adminaccountsettings",
+      "teacher_settings_tabs",
+      "ui_tabs",
+      "ui_tabs_tabsprops",
+      "ui_tabs_tsx"
+    ],
+    "24": [
+      "components_progressbuttons",
+      "components_reviewandconfirm",
+      "home_index",
+      "home_index_home",
+      "student_answer",
+      "student_answer_studentcaseanswer",
+      "teacher_answer",
+      "teacher_cme_questions",
+      "ui_hero",
+      "ui_hero_header",
+      "ui_main_button",
+      "ui_main_button_tsx",
+      "ui_objective"
+    ],
+    "25": [
+      "dashboard_admin",
+      "dashboard_admin_adminlayout",
+      "dashboard_admin_navlinks",
+      "dashboard_index",
+      "dashboard_index_dashboardlayoutprops",
+      "dashboard_nav_nav",
+      "hooks_userenderpdf",
+      "layouts_dashboard_index_tsx",
+      "student_certificate",
+      "student_certificate_studentcertificate",
+      "student_certificates_certificates",
+      "teacher_responsesandfeedback",
+      "utils_certificate"
+    ],
+    "26": [
+      "forgot_password_page",
+      "forgot_password_page_forgotpassword",
+      "hooks_hooks_useappdispatch",
+      "hooks_hooks_useappselector",
+      "id_page_responsesandfeedbackcontent",
+      "presentation_teacher_case_studies_tsx",
+      "src_app_teacher_responses_feedback_id_page_tsx_id_page",
+      "src_app_teacher_responses_feedback_id_page_tsx_id_page_page",
+      "student_cme_questions",
+      "student_cme_questions_answer",
+      "student_cme_questions_studentcmequestions",
+      "teacher_casestudies",
+      "teacher_casestudies_iprops"
+    ],
+    "27": [
+      "apis_case_addpdftocasematerialsapi",
+      "case_getcasematerialsslice",
+      "case_getcasematerialsslice_casematerialsslice",
+      "case_getcasematerialsslice_getcasematerials",
+      "case_getcasematerialsslice_initialstate",
+      "cases_casecard",
+      "cases_casecard_casecard",
+      "cases_casecard_casecardprops",
+      "cases_index",
+      "student_casestudies",
+      "student_studentcaseteaching",
+      "teacher_case_teaching"
+    ],
+    "28": [
+      "form_elements_checkbox_checkboxprops",
+      "ui_checkbox",
+      "ui_checkbox_tsx",
+      "ui_list_classic_node",
+      "ui_list_classic_node_baselistitemelement",
+      "ui_list_classic_node_bulletedlistelement",
+      "ui_list_classic_node_listitemelement",
+      "ui_list_classic_node_listvariants",
+      "ui_list_classic_node_numberedlistelement",
+      "ui_list_classic_node_tasklistelement",
+      "ui_list_classic_node_tasklistitemelement",
+      "ui_list_classic_node_tsx"
+    ],
+    "29": [
+      "case_addcaseslice_addcase",
+      "case_updatedraftcaseslice",
+      "case_updatedraftcaseslice_initialstate",
+      "case_updatedraftcaseslice_updatedraftcase",
+      "create_page",
+      "create_page_createcasestudycontent",
+      "create_page_initialcasestudy",
+      "create_page_page",
+      "id_page_updatecasestudycontent",
+      "src_app_teacher_case_studies_update_id_page_tsx_id_page",
+      "src_app_teacher_case_studies_update_id_page_tsx_id_page_page"
+    ],
+    "30": [
+      "case_getarchivecasesslice",
+      "case_getarchivecasesslice_initialstate",
+      "case_getdraftcasesslice",
+      "case_getdraftcasesslice_getdraftcases",
+      "case_getdraftcasesslice_getdraftcasesstate",
+      "case_getdraftcasesslice_initialstate",
+      "cases_page",
+      "cases_page_teachercasestudies",
+      "cases_page_teachercasestudiescontent",
+      "hooks_usegetdraftcase",
+      "teacher_createcasestudy_casestudy"
+    ],
+    "31": [
+      "cases_responsecasecard",
+      "public_images_casemodel_opat",
+      "public_images_caseteaching_platform",
+      "public_images_dashboard_ui",
+      "public_images_doctors_illustration",
+      "student_dashboard",
+      "student_presentation",
+      "student_presentation_studentcasepresentation",
+      "teacher_dashboard",
+      "teacher_dashboard_teacherdashboard",
+      "utils_formatdate"
+    ],
+    "32": [
+      "controllers_handlecasematerials",
+      "controllers_handlecasematerials_deletecasematerial",
+      "controllers_handlecasematerials_getsignedurlstofetchforcasematerials",
+      "controllers_handlecasematerials_getsignedurltouploadforcasematerials",
+      "services_bucket",
+      "services_bucket_deletecasematerialfroms3",
+      "services_bucket_getsignedurlforfetchingfroms3",
+      "services_bucket_getsignedurltouploadtos3",
+      "services_s3client",
+      "services_s3client_s3client",
+      "utils_api_utils_extrapolaterequestbody"
+    ],
+    "33": [
+      "dashboard_page_studentdashboardwithauth",
+      "dashboard_page_teacherdashboard",
+      "dashboard_page_teacherdashboardwithauth",
+      "hooks_usegetactivecase",
+      "hooks_usegetarchivecases",
+      "hooks_usegetstudentsresponsestocases",
+      "src_app_student_dashboard_page_tsx_dashboard_page",
+      "src_app_student_dashboard_page_tsx_dashboard_page_page",
+      "src_app_teacher_dashboard_page_tsx_dashboard_page",
+      "src_app_teacher_dashboard_page_tsx_dashboard_page_page",
+      "types_auth_session"
+    ],
+    "34": [
+      "lib_suggestion",
+      "lib_suggestion_ts",
+      "lib_utils",
+      "ui_editor_static",
+      "ui_editor_static_editorvariants",
+      "ui_input",
+      "ui_input_input",
+      "ui_link_node",
+      "ui_link_node_static",
+      "ui_link_node_static_linkelementstatic",
+      "ui_link_node_tsx"
+    ],
+    "35": [
+      "apis_student",
+      "config_fetchclient",
+      "config_fetchclient_caseapi",
+      "config_fetchclient_createapiclient",
+      "config_fetchclient_headersobj",
+      "config_fetchclient_isformdata",
+      "config_fetchclient_studentapi",
+      "student_getstudentsresponsestocasesslice",
+      "student_getstudentsresponsestocasesslice_initialstate",
+      "student_getstudentsresponsestocasesslice_studentsresponsestocasesstate"
+    ],
+    "36": [
+      "app_layout",
+      "app_layout_geist",
+      "app_layout_metadata",
+      "app_layout_nunitofont",
+      "app_layout_rootlayout",
+      "ui_tooltip",
+      "ui_tooltip_tooltip",
+      "ui_tooltip_tooltipcontent",
+      "ui_tooltip_tooltipprovider",
+      "ui_tooltip_tooltiptrigger"
+    ],
+    "37": [
+      "case_getpublishedcaseslice",
+      "case_getpublishedcaseslice_getpublishedcase",
+      "case_getpublishedcaseslice_initialstate",
+      "case_getpublishedcaseslice_publishedcaseslice",
+      "case_getpublishedcaseslice_publishedcasestate",
+      "controllers_handlepublishedcase",
+      "controllers_handlepublishedcase_dbclient",
+      "controllers_handlepublishedcase_hascontent",
+      "controllers_handlepublishedcase_publishcase",
+      "controllers_handlepublishedcase_validateinputs"
+    ],
+    "38": [
+      "nextauth_route",
+      "src_app_auth_login",
+      "src_auth",
+      "src_auth_authoptions",
+      "src_auth_jwt",
+      "src_auth_nextauthinstance",
+      "src_auth_session",
+      "src_auth_user",
+      "src_proxy",
+      "src_proxy_config"
+    ],
+    "39": [
+      "public_images_caseteaching_ui",
+      "public_images_caseteaching_workflow",
+      "public_images_certicate_malaria",
+      "public_images_certicate_ui",
+      "public_images_certificate_2x_ui",
+      "public_images_certificate_ui",
+      "public_images_cmequestions_covid",
+      "public_images_cmequestionspage_ui",
+      "public_images_feedback_questions",
+      "public_images_feedback_ui"
+    ],
+    "40": [
+      "app_storeprovider",
+      "hooks_hooks",
+      "hooks_hooks_useappstore",
+      "rootreducer_rootreducer",
+      "rootreducer_rootreducer_rootstate",
+      "store_store",
+      "store_store_appdispatch",
+      "store_store_appstore",
+      "store_store_makestore"
+    ],
+    "41": [
+      "agents",
+      "agents_change_edit_mode",
+      "agents_context7",
+      "agents_critical_rules_must_follow",
+      "agents_graphify",
+      "agents_planning_mode",
+      "agents_responses",
+      "agents_runtime"
+    ],
+    "42": [
+      "apis_student_getstudentsresponsesapi",
+      "controllers_handlestudentsresponse",
+      "controllers_handlestudentsresponse_dbclient",
+      "controllers_handlestudentsresponse_extractanswers",
+      "controllers_handlestudentsresponse_gradeanswers",
+      "controllers_handlestudentsresponse_gradequiz",
+      "controllers_handlestudentsresponse_submitstudentresponse",
+      "utils_certificate_generatecertificate"
+    ],
+    "43": [
+      "deploy_on_aws_install_manifest",
+      "deploy_on_aws_install_manifest_groups",
+      "deploy_on_aws_install_manifest_groups_agents",
+      "deploy_on_aws_install_manifest_groups_commands",
+      "deploy_on_aws_install_manifest_groups_plugins",
+      "deploy_on_aws_install_manifest_groups_skills",
+      "deploy_on_aws_install_manifest_pluginname",
+      "deploy_on_aws_install_manifest_version"
+    ],
+    "44": [
+      "student_addfeedbackslice",
+      "student_addfeedbackslice_addfeedback",
+      "student_addfeedbackslice_initialstate",
+      "student_feedback",
+      "student_feedback_getfeedbackinfo",
+      "student_feedback_questions",
+      "student_feedback_responses",
+      "student_feedback_studentfeedback"
+    ],
+    "45": [
+      "ui_popover",
+      "ui_popover_popover",
+      "ui_popover_popoveranchor",
+      "ui_popover_popovercontent",
+      "ui_popover_popoverdescription",
+      "ui_popover_popoverheader",
+      "ui_popover_popovertitle",
+      "ui_popover_popovertrigger"
+    ],
+    "46": [
+      "public_images_femaleassistant_png",
+      "public_images_femaledoctor_png",
+      "public_images_maledoctor2_jpg",
+      "public_images_maledoctor3_png",
+      "public_images_maledoctor4_jpg",
+      "public_images_maledoctor_png"
+    ],
+    "47": [
+      "public_images_student2_png",
+      "public_images_student3_png",
+      "public_images_student4_png",
+      "public_images_user_png",
+      "server_assets_images_logo_png",
+      "src_assets_images_logo_png"
+    ],
+    "48": [
+      "teacher_cme",
+      "teacher_cme_cme",
+      "teacher_cme_cmeprops",
+      "teacher_cme_question",
+      "teacher_createcasestudy_finalreviewprops",
+      "teacher_final_review"
+    ],
+    "49": [
+      "ui_heading_node_headingvariants",
+      "ui_heading_node_static",
+      "ui_heading_node_static_h1elementstatic",
+      "ui_heading_node_static_h2elementstatic",
+      "ui_heading_node_static_headingvariants",
+      "ui_heading_node_tsx"
+    ],
+    "50": [
+      "ui_link_toolbar",
+      "ui_link_toolbar_inputvariants",
+      "ui_link_toolbar_linkopenbutton",
+      "ui_link_toolbar_popovervariants",
+      "ui_link_toolbar_tsx",
+      "ui_main_button_buttonvariants"
+    ],
+    "51": [
+      "images_ongoing_case_bg_background",
+      "images_register_signup_form",
+      "images_screen1_svg_wireframe",
+      "images_signin2_login_form_alt",
+      "images_signin_login_form"
+    ],
+    "52": [
+      "public_icons_add-1_icon",
+      "public_icons_add-24px_icon",
+      "public_icons_attach_icon",
+      "public_icons_case_icon",
+      "public_icons_check-mark_icon"
+    ],
+    "53": [
+      "app_page",
+      "app_page_home",
+      "components_footer",
+      "components_footer_footer"
+    ],
+    "54": [
+      "helper_validateeditorinputs",
+      "helper_validateeditorinputs_validationerrorprops",
+      "student_comments",
+      "student_comments_studentcasecomments"
+    ],
+    "55": [
+      "public_icons_checkmark_icon",
+      "public_icons_close-x_icon",
+      "public_icons_exclamationMark_icon",
+      "public_icons_remove_icon"
+    ],
+    "56": [
+      "public_images_admin_png",
+      "public_images_casecomments_png",
+      "public_images_casemodelanswer_png",
+      "public_images_casepresentation_png"
+    ],
+    "57": [
+      "sst_config",
+      "sst_config_app",
+      "workflows_deployproduction",
+      "workflows_deploystaging"
+    ],
+    "58": [
+      "case_deletecaseslice",
+      "case_deletecaseslice_deletecasestate",
+      "case_deletecaseslice_initialstate"
+    ],
+    "59": [
+      "components_toast",
+      "components_toast_toast",
+      "components_toast_toastprops"
+    ],
+    "60": [
+      "images_masked_doctor_doctor",
+      "images_medstaff_medical_staff",
+      "images_student1_doctor_portrait"
+    ],
+    "61": [
+      "opencode_opencode",
+      "opencode_opencode_plugin",
+      "opencode_opencode_schema"
+    ],
+    "62": [
+      "opencode_package",
+      "opencode_package_dependencies",
+      "opencode_package_dependencies_opencode_ai_plugin"
+    ],
+    "63": [
+      "public_icons_arrow-right_icon",
+      "public_icons_caret-down_icon",
+      "public_icons_carret-down_icon"
+    ],
+    "64": [
+      "readme",
+      "readme_deployment_todos",
+      "readme_post_deployment_todos_1"
+    ],
+    "65": [
+      "eslintrc",
+      "eslintrc_extends"
+    ],
+    "66": [
+      "helper_validations",
+      "helper_validations_studentcasequestionvalidation"
+    ],
+    "67": [
+      "lib_routes",
+      "lib_routes_public_routes"
+    ],
+    "68": [
+      "plugins_graphify",
+      "plugins_graphify_graphifyplugin"
+    ],
+    "69": [
+      "postcss_config",
+      "postcss_config_config"
+    ],
+    "70": [
+      "public_icons_socials_facebook-f_icon",
+      "public_icons_socials_instagram_icon"
+    ],
+    "71": [
+      "public_icons_trash_svg",
+      "public_icons_whitecheckmark_svg"
+    ],
+    "72": [
+      "public_icons_twitter_svg",
+      "public_icons_youtube_svg"
+    ],
+    "73": [
+      "public_images_logo_png",
+      "public_images_logo_svg"
+    ],
+    "74": [
+      "public_next_svg",
+      "public_vercel_svg"
+    ],
+    "75": [
+      "scripts_start_sst",
+      "users_otktechnologies_personal_projects_eccs_api_scripts_start_sst_sh__entry"
+    ],
+    "76": [
+      "ui_blockquote_node_static",
+      "ui_blockquote_node_static_blockquoteelementstatic"
+    ],
+    "77": [
+      "apis_auth_refreshtoken"
+    ],
+    "78": [
+      "case_creation_wizard_concept"
+    ],
+    "79": [
+      "dashboard_layout_composition_concept"
+    ],
+    "80": [
+      "form_element_family_concept"
+    ],
+    "81": [
+      "modal_composition_concept"
+    ],
+    "82": [
+      "next_config"
+    ],
+    "83": [
+      "nextauth_route_get_post"
+    ],
+    "84": [
+      "password_hashing_flow_concept"
+    ],
+    "85": [
+      "platejs_editor_viewer_system_concept"
+    ],
+    "86": [
+      "proxy_ts"
+    ],
+    "87": [
+      "public_icons_search_icon"
+    ],
+    "88": [
+      "scripts_destroy_resources"
+    ],
+    "89": [
+      "services_constants_styles"
+    ],
+    "90": [
+      "services_helper_validateeditorinputs"
+    ],
+    "91": [
+      "services_helper_validations"
+    ],
+    "92": [
+      "services_hooks_useclickoutside"
+    ],
+    "93": [
+      "services_hooks_useprocesstabs"
+    ],
+    "94": [
+      "services_hooks_userenderpdf"
+    ],
+    "95": [
+      "services_types_auth_login"
+    ],
+    "96": [
+      "services_types_auth_signup"
+    ],
+    "97": [
+      "src_app_layout"
+    ],
+    "98": [
+      "src_app_store_provider"
+    ],
+    "99": [
+      "src_assets_images_logo_svg"
+    ],
+    "100": [
+      "src_proxy_proxy"
+    ],
+    "101": [
+      "src_types_d"
+    ],
+    "102": [
+      "student_case_study_wizard_concept"
+    ],
+    "103": [
+      "types_auth_authcookiedata"
+    ],
+    "104": [
+      "types_d"
+    ]
+  },
+  "cohesion": {
+    "0": 0.045454545454545456,
+    "1": 0.09841269841269841,
+    "2": 0.11229946524064172,
+    "3": 0.07142857142857142,
+    "4": 0.14333333333333334,
+    "5": 0.08695652173913043,
+    "6": 0.08695652173913043,
+    "7": 0.11688311688311688,
+    "8": 0.1645021645021645,
+    "9": 0.14761904761904762,
+    "10": 0.11428571428571428,
+    "11": 0.19883040935672514,
+    "12": 0.20915032679738563,
+    "13": 0.22875816993464052,
+    "14": 0.14705882352941177,
+    "15": 0.21666666666666667,
+    "16": 0.14166666666666666,
+    "17": 0.225,
+    "18": 0.18095238095238095,
+    "19": 0.1523809523809524,
+    "20": 0.20952380952380953,
+    "21": 0.21978021978021978,
+    "22": 0.17582417582417584,
+    "23": 0.20512820512820512,
+    "24": 0.2948717948717949,
+    "25": 0.21794871794871795,
+    "26": 0.24358974358974358,
+    "27": 0.21212121212121213,
+    "28": 0.21212121212121213,
+    "29": 0.2545454545454545,
+    "30": 0.2909090909090909,
+    "31": 0.2545454545454545,
+    "32": 0.3090909090909091,
+    "33": 0.2909090909090909,
+    "34": 0.2727272727272727,
+    "35": 0.2222222222222222,
+    "36": 0.2222222222222222,
+    "37": 0.24444444444444444,
+    "38": 0.2,
+    "39": 0.2222222222222222,
+    "40": 0.3888888888888889,
+    "41": 0.25,
+    "42": 0.39285714285714285,
+    "43": 0.25,
+    "44": 0.32142857142857145,
+    "45": 0.25,
+    "46": 0.7333333333333333,
+    "47": 0.4666666666666667,
+    "48": 0.4,
+    "49": 0.4,
+    "50": 0.6,
+    "51": 0.6,
+    "52": 0.4,
+    "53": 0.5,
+    "54": 0.6666666666666666,
+    "55": 0.6666666666666666,
+    "56": 1.0,
+    "57": 0.5,
+    "58": 0.6666666666666666,
+    "59": 0.6666666666666666,
+    "60": 1.0,
+    "61": 0.6666666666666666,
+    "62": 0.6666666666666666,
+    "63": 0.6666666666666666,
+    "64": 0.6666666666666666,
+    "65": 1.0,
+    "66": 1.0,
+    "67": 1.0,
+    "68": 1.0,
+    "69": 1.0,
+    "70": 1.0,
+    "71": 1.0,
+    "72": 1.0,
+    "73": 1.0,
+    "74": 1.0,
+    "75": 1.0,
+    "76": 1.0,
+    "77": 1.0,
+    "78": 1.0,
+    "79": 1.0,
+    "80": 1.0,
+    "81": 1.0,
+    "82": 1.0,
+    "83": 1.0,
+    "84": 1.0,
+    "85": 1.0,
+    "86": 1.0,
+    "87": 1.0,
+    "88": 1.0,
+    "89": 1.0,
+    "90": 1.0,
+    "91": 1.0,
+    "92": 1.0,
+    "93": 1.0,
+    "94": 1.0,
+    "95": 1.0,
+    "96": 1.0,
+    "97": 1.0,
+    "98": 1.0,
+    "99": 1.0,
+    "100": 1.0,
+    "101": 1.0,
+    "102": 1.0,
+    "103": 1.0,
+    "104": 1.0
+  },
+  "gods": [
+    {
+      "id": "lib_utils_cn",
+      "label": "cn()",
+      "degree": 51
+    },
+    {
+      "id": "hooks_hooks_useappselector",
+      "label": "useAppSelector",
+      "degree": 50
+    },
+    {
+      "id": "ui_main_button_tsx",
+      "label": "Button",
+      "degree": 33
+    },
+    {
+      "id": "hooks_hooks_useappdispatch",
+      "label": "useAppDispatch",
+      "degree": 30
+    },
+    {
+      "id": "tsconfig_compileroptions",
+      "label": "compilerOptions",
+      "degree": 23
+    },
+    {
+      "id": "config_fetchclient_configurerequestheaders",
+      "label": "configureRequestHeaders()",
+      "degree": 21
+    },
+    {
+      "id": "create_page_createcasestudy",
+      "label": "CreateCaseStudy",
+      "degree": 19
+    },
+    {
+      "id": "store_rootreducer",
+      "label": "rootReducer.ts - Combined Redux reducer",
+      "degree": 19
+    },
+    {
+      "id": "utils_api_utils_extrapolaterequestbody",
+      "label": "extrapolateRequestBody()",
+      "degree": 13
+    },
+    {
+      "id": "src_app_student_case_studies_id",
+      "label": "Student Case Study Page",
+      "degree": 12
+    }
+  ],
+  "surprises": [
+    {
+      "source": "TeacherDashboard()",
+      "target": "Student Dashboard UI",
+      "source_files": [
+        "src/presentation/teacher/Dashboard.tsx",
+        "public/images/dashboard.png"
+      ],
+      "confidence": "INFERRED",
+      "relation": "semantically_similar_to",
+      "why": "inferred connection - not explicitly stated in source; crosses file types (code ↔ image); connects across different repos/directories; semantically similar concepts with no structural link"
+    },
+    {
+      "source": "Student Dashboard UI",
+      "target": "useAppDispatch",
+      "source_files": [
+        "public/images/dashboard.png",
+        "src/services/hooks/hooks.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "crosses file types (code ↔ image); connects across different repos/directories; bridges separate communities"
+    },
+    {
+      "source": "Student Dashboard UI",
+      "target": "useAppSelector",
+      "source_files": [
+        "public/images/dashboard.png",
+        "src/services/hooks/hooks.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "crosses file types (code ↔ image); connects across different repos/directories; bridges separate communities"
+    },
+    {
+      "source": "Student Dashboard UI",
+      "target": "DashboardLayout",
+      "source_files": [
+        "public/images/dashboard.png",
+        "src/components/layouts/dashboard/index.tsx"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "implements",
+      "why": "crosses file types (code ↔ image); connects across different repos/directories; bridges separate communities"
+    },
+    {
+      "source": "Signup Page",
+      "target": "Auth Controller",
+      "source_files": [
+        "src/app/(auth)/signup/page.tsx",
+        "server/controllers/auth.js"
+      ],
+      "confidence": "INFERRED",
+      "relation": "references",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories; peripheral node `Signup Page` unexpectedly reaches hub `Auth Controller`"
+    }
+  ],
+  "questions": [
+    {
+      "type": "bridge_node",
+      "question": "Why does `cn()` connect `Community 2` to `Community 34`, `Community 4`, `Community 36`, `Community 45`, `Community 24`, `Community 28`?",
+      "why": "High betweenness centrality (0.076) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `Button` connect `Community 24` to `Community 2`, `Community 9`, `Community 44`, `Community 13`, `Community 48`, `Community 18`, `Community 19`, `Community 20`, `Community 50`, `Community 23`, `Community 25`, `Community 26`, `Community 27`, `Community 31`?",
+      "why": "High betweenness centrality (0.071) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `useAppSelector` connect `Community 26` to `Community 33`, `Community 40`, `Community 9`, `Community 44`, `Community 13`, `Community 15`, `Community 48`, `Community 21`, `Community 22`, `Community 24`, `Community 25`, `Community 27`, `Community 29`, `Community 30`, `Community 31`?",
+      "why": "High betweenness centrality (0.045) - this node is a cross-community bridge."
+    },
+    {
+      "type": "isolated_nodes",
+      "question": "What connects `DEPLOYMENT TODOS`, `POST DEPLOYMENT TODOS 1`, `RESPONSES` to the rest of the system?",
+      "why": "305 weakly-connected nodes found - possible documentation gaps or missing edges."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `Community 0` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.045454545454545456 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `Community 1` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.09841269841269841 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `Community 2` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.11229946524064172 - nodes in this community are weakly interconnected."
+    }
+  ]
+}

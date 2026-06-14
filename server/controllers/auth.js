@@ -1,5 +1,4 @@
 import { Resource } from "sst";
-import bcrypt from "bcryptjs";
 import {
 	SignUpCommand,
 	AdminGetUserCommand,
@@ -7,14 +6,12 @@ import {
 	AdminInitiateAuthCommand,
 	InitiateAuthCommand,
 } from "@aws-sdk/client-cognito-identity-provider";
-import {
-	// updateUserPassword,
-	// generateOtp,
-	// storeOtpInDb,
-	// getOtpFromDb,
-	decryptPassword,
-	// getUserByEmail,
-} from "../utils/api_utils.js";
+// import {
+// generateOtp,
+// storeOtpInDb,
+// getOtpFromDb,
+// getUserByEmail,
+// } from "../utils/api_utils.js";
 import applicationContext from "../../appContext/applicationContext.js";
 
 const cognitoClient = applicationContext.getUserManagementClient();
@@ -29,7 +26,7 @@ const cognitoWebClient = `${stagePrefix}eccswebclient`;
 
 export const signup = async (event) => {
 	const { firstName, lastName, email, password, user_role } = JSON.parse(
-		event.body
+		event.body,
 	);
 
 	try {
@@ -100,7 +97,8 @@ export const signup = async (event) => {
 			// Should only be one teacher
 			const teachersList = listOfUsers.Users.filter((user) => {
 				return user.Attributes.some(
-					(attr) => attr.Name === "custom:user_role" && attr.Value === "teacher"
+					(attr) =>
+						attr.Name === "custom:user_role" && attr.Value === "teacher",
 				);
 			});
 
@@ -129,15 +127,10 @@ export const signup = async (event) => {
 			userAttributes.push({ Name: "custom:teacherId", Value: teacherId });
 		}
 
-		const originalPassword = decryptPassword(
-			password,
-			Resource.NEXT_PUBLIC_PASS_SECRET_KEY.value
-		);
-
 		const signupParams = {
 			ClientId: Resource[cognitoWebClient].id,
 			Username: email,
-			Password: originalPassword,
+			Password: password,
 			UserAttributes: userAttributes,
 		};
 
@@ -188,18 +181,13 @@ export const signin = async (event) => {
 			};
 		}
 
-		const originalPassword = decryptPassword(
-			password,
-			Resource.NEXT_PUBLIC_PASS_SECRET_KEY.value
-		);
-
 		const authCommand = new AdminInitiateAuthCommand({
 			UserPoolId: Resource.eccslabs.id,
 			ClientId: Resource[cognitoWebClient].id,
 			AuthFlow: "ADMIN_NO_SRP_AUTH",
 			AuthParameters: {
 				USERNAME: email,
-				PASSWORD: originalPassword,
+				PASSWORD: password,
 			},
 		});
 
@@ -215,13 +203,13 @@ export const signin = async (event) => {
 
 		// Extract user attributes
 		const firstName = userResponse.UserAttributes.find(
-			(attr) => attr.Name === "custom:firstName"
+			(attr) => attr.Name === "custom:firstName",
 		)?.Value;
 		const lastName = userResponse.UserAttributes.find(
-			(attr) => attr.Name === "custom:lastName"
+			(attr) => attr.Name === "custom:lastName",
 		)?.Value;
 		const user_role = userResponse.UserAttributes.find(
-			(attr) => attr.Name === "custom:user_role"
+			(attr) => attr.Name === "custom:user_role",
 		)?.Value;
 
 		// Return authentication tokens along with additional user details
@@ -311,16 +299,11 @@ export const refreshToken = async (event) => {
 // 	try {
 // 		const body = JSON.parse(event.body);
 // 		const email = body.validatedUser.email;
-// 		const { currentPassword, newPassword } = body;
-
-// 		let originalCurrentPassword = decryptPassword(
-// 			currentPassword,
-// 			Resource.NEXT_PUBLIC_PASS_SECRET_KEY.value
-// 		);
+// 		const { currentPassword } = body;
 
 // 		const user = await getUserByEmail(email);
 // 		const isPasswordCorrect = bcrypt.compareSync(
-// 			originalCurrentPassword,
+// 			currentPassword,
 // 			user.password
 // 		);
 // 		if (!isPasswordCorrect) {
@@ -329,13 +312,7 @@ export const refreshToken = async (event) => {
 // 				body: JSON.stringify({ message: "Password is incorrect" }),
 // 			};
 // 		}
-
-// 		// Hash and update new password
-// 		let originalNewPassword = decryptPassword(
-// 			newPassword,
-// 			Resource.NEXT_PUBLIC_PASS_SECRET_KEY.value
-// 		);
-// 		const hashedPassword = bcrypt.hashSync(originalNewPassword, 4);
+// 		const hashedPassword = bcrypt.hashSync(body.newPassword, 4);
 
 // 		const updatedUser = await updateUserPassword(email, hashedPassword);
 
@@ -395,12 +372,8 @@ export const refreshToken = async (event) => {
 // export const verifyOtpAndResetPassword = async (event) => {
 // 	try {
 // 		const { email, otp, newPassword } = JSON.parse(event.body);
-// 		const originalPassword = decryptPassword(
-// 			newPassword,
-// 			Resource.NEXT_PUBLIC_PASS_SECRET_KEY.value
-// 		);
 // 		const storedOtp = await getOtpFromDb(email);
-// 		const hashedPassword = bcrypt.hashSync(originalPassword, 4);
+// 		const hashedPassword = bcrypt.hashSync(newPassword, 4);
 
 // 		if (otp !== storedOtp) {
 // 			return {

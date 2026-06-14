@@ -5,7 +5,6 @@ import {
 	QueryCommand,
 } from "@aws-sdk/lib-dynamodb";
 import { Resource } from "sst";
-import crypto from "crypto";
 import busboy from "busboy";
 import { AdminGetUserCommand } from "@aws-sdk/client-cognito-identity-provider";
 import applicationContext from "../../appContext/applicationContext.js";
@@ -13,9 +12,9 @@ const cognitoClient = applicationContext.getUserManagementClient();
 
 const dbClient = applicationContext.getDBClient();
 
-function generateOtp() {
-	return Math.floor(100000 + Math.random() * 900000);
-}
+// function generateOtp() {
+// 	return Math.floor(100000 + Math.random() * 900000);
+// }
 
 // async function storeOtpInDb(email, otp) {
 // 	const params = {
@@ -81,32 +80,6 @@ function generateOtp() {
 // 		throw error;
 // 	}
 // }
-
-function encryptPassword(password, NEXT_PUBLIC_PASS_SECRET_KEY) {
-	const iv = crypto.randomBytes(16);
-	const cipher = crypto.createCipheriv(
-		"aes-256-cbc",
-		Buffer.from(NEXT_PUBLIC_PASS_SECRET_KEY, "hex"),
-		iv
-	);
-	let encrypted = cipher.update(password, "utf8", "hex");
-	encrypted += cipher.final("hex");
-	return iv.toString("hex") + ":" + encrypted;
-}
-
-function decryptPassword(encryptedPassword, NEXT_PUBLIC_PASS_SECRET_KEY) {
-	const textParts = encryptedPassword.split(":");
-	const iv = Buffer.from(textParts.shift(), "hex");
-	const encryptedText = Buffer.from(textParts.join(":"), "hex");
-	const decipher = crypto.createDecipheriv(
-		"aes-256-cbc",
-		Buffer.from(NEXT_PUBLIC_PASS_SECRET_KEY, "hex"),
-		iv
-	);
-	let decrypted = decipher.update(encryptedText, "hex", "utf8");
-	decrypted += decipher.final("utf8");
-	return decrypted;
-}
 
 function parseLogToObject(log) {
 	const caseData = {}; // Initialize the final object
@@ -208,7 +181,7 @@ export const extrapolateRequestBody = async (event) => {
 
 export const getDetailsOfStudentsFeedbackAndResponses = async (
 	caseID,
-	details = false
+	details = false,
 ) => {
 	const selectOption = details ? "ALL_ATTRIBUTES" : "COUNT";
 
@@ -248,7 +221,7 @@ export const getDetailsOfStudentsFeedbackAndResponses = async (
 	// If details are required, fetch user information from Cognito
 	if (details) {
 		const studentIDs = Array.from(
-			new Set(responseItems.map((response) => response.studentID))
+			new Set(responseItems.map((response) => response.studentID)),
 		);
 
 		// Fetch user details from Cognito for each student
@@ -262,12 +235,12 @@ export const getDetailsOfStudentsFeedbackAndResponses = async (
 
 				// Extract required attributes from Cognito response
 				const firstName =
-					userResponse.UserAttributes.find(
-						(attr) => attr.Name === "custom:firstName"
+					userResponse.UserAttributes?.find(
+						(attr) => attr.Name === "custom:firstName",
 					)?.Value || "Unknown";
 				const lastName =
-					userResponse.UserAttributes.find(
-						(attr) => attr.Name === "custom:lastName"
+					userResponse.UserAttributes?.find(
+						(attr) => attr.Name === "custom:lastName",
 					)?.Value || "Unknown";
 
 				return {
@@ -332,8 +305,6 @@ export {
 	// generateOtp,
 	// storeOtpInDb,
 	// getOtpFromDb,
-	encryptPassword,
-	decryptPassword,
 	// getUserByEmail,
 	parseLogToObject,
 };

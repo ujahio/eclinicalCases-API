@@ -27,6 +27,10 @@ declare module "sst" {
       "name": string
       "type": "sst.aws.Dynamo"
     }
+    "HASH_SECRET_KEY": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
     "NEXT_PUBLIC_BASE_URL": {
       "type": "sst.sst.Secret"
       "value": string
@@ -36,10 +40,6 @@ declare module "sst" {
       "value": string
     }
     "NEXT_PUBLIC_NODE_ENV": {
-      "type": "sst.sst.Secret"
-      "value": string
-    }
-    "NEXT_PUBLIC_PASS_SECRET_KEY": {
       "type": "sst.sst.Secret"
       "value": string
     }

@@ -1,31 +1,41 @@
 import { useEffect } from "react";
-import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { getAuthCookie } from "@/utils/cookies";
+import { signOut } from "@/services/apis/auth";
 
 export const useAuthRedirect = () => {
-	const { data: session, status } = useSession();
 	const router = useRouter();
+	const cookieData = getAuthCookie();
 
 	useEffect(() => {
-		if (status === "loading") return;
-		// If there's no session (user not authenticated) then redirect to /login.
-		if (status === "unauthenticated" || !session) {
+		if (!cookieData) {
 			router.replace("/login");
 			return;
 		}
-		// If a session exists but there's an error indicating a refresh token issue,
-		// trigger a sign out to clear any stale tokens.
-		if (
-			session &&
-			!session.accessToken &&
-			session.error === "RefreshAccessTokenError"
-		) {
+
+		if (!cookieData.accessToken) {
 			const timeoutId = setTimeout(() => {
-				signOut({ callbackUrl: "/login" });
+				signOut();
 			}, 100);
 			return () => clearTimeout(timeoutId);
 		}
-	}, [session, status, router]);
+	}, [cookieData, router]);
 
-	return { session, status };
+	const compatSession = cookieData
+		? {
+				accessToken: cookieData.accessToken,
+				user: {
+					id: cookieData.id,
+					firstName: cookieData.firstName,
+					lastName: cookieData.lastName,
+					user_role: cookieData.user_role,
+					email: cookieData.email,
+				},
+			}
+		: null;
+
+	return {
+		session: compatSession,
+		status: cookieData ? "authenticated" : "unauthenticated",
+	};
 };

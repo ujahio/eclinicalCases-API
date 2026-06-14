@@ -1,0 +1,235 @@
+{
+  "nodes": [
+    {
+      "id": "components_form_personaldetailsprops",
+      "label": "PersonalDetailsProps",
+      "file_type": "code",
+      "source_file": "src/presentation/auth/signup/components/form.tsx",
+      "source_location": "L8"
+    },
+    {
+      "id": "src_proxy_proxy",
+      "label": "proxy",
+      "file_type": "code",
+      "source_file": "src/proxy.ts",
+      "source_location": "L3"
+    },
+    {
+      "id": "apis_auth_signin",
+      "label": "signIn",
+      "file_type": "code",
+      "source_file": "src/services/apis/auth.ts",
+      "source_location": "L13"
+    },
+    {
+      "id": "apis_auth_signout",
+      "label": "signOut",
+      "file_type": "code",
+      "source_file": "src/services/apis/auth.ts",
+      "source_location": "L45"
+    },
+    {
+      "id": "apis_auth_refreshtoken",
+      "label": "refreshToken",
+      "file_type": "code",
+      "source_file": "src/services/apis/auth.ts",
+      "source_location": "L50"
+    },
+    {
+      "id": "config_fetchclient_createapiclient",
+      "label": "createApiClient",
+      "file_type": "code",
+      "source_file": "src/services/config/fetchClient.ts",
+      "source_location": "L11"
+    },
+    {
+      "id": "types_auth_session",
+      "label": "Session",
+      "file_type": "code",
+      "source_file": "src/types/auth.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "types_auth_authcookiedata",
+      "label": "AuthCookieData",
+      "file_type": "code",
+      "source_file": "src/types/auth.ts",
+      "source_location": "L13"
+    },
+    {
+      "id": "utils_cookies_getauthcookie",
+      "label": "getAuthCookie",
+      "file_type": "code",
+      "source_file": "src/utils/cookies.ts",
+      "source_location": "L5"
+    },
+    {
+      "id": "utils_cookies_setauthcookie",
+      "label": "setAuthCookie",
+      "file_type": "code",
+      "source_file": "src/utils/cookies.ts",
+      "source_location": "L18"
+    },
+    {
+      "id": "utils_cookies_clearauthcookie",
+      "label": "clearAuthCookie",
+      "file_type": "code",
+      "source_file": "src/utils/cookies.ts",
+      "source_location": "L24"
+    }
+  ],
+  "edges": [
+    {
+      "source": "login_page",
+      "target": "apis_auth_signin",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/(auth)/login/page.tsx",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "dashboard_page",
+      "target": "types_auth_session",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/student/dashboard/page.tsx",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "dashboard_page",
+      "target": "types_auth_session",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/teacher/dashboard/page.tsx",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "dashboard_nav",
+      "target": "apis_auth_signout",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/layouts/dashboard/nav.tsx",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "apis_auth",
+      "target": "utils_cookies_setauthcookie",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/services/apis/auth.ts",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "apis_auth",
+      "target": "utils_cookies_clearauthcookie",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/services/apis/auth.ts",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "apis_auth",
+      "target": "utils_cookies_getauthcookie",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/services/apis/auth.ts",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "config_fetchclient",
+      "target": "utils_cookies_getauthcookie",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/services/config/fetchClient.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "hooks_useauthredirect",
+      "target": "utils_cookies_getauthcookie",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/services/hooks/useAuthRedirect.ts",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "hooks_useauthredirect",
+      "target": "apis_auth_signout",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/services/hooks/useAuthRedirect.ts",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "hooks_usegetactivecase",
+      "target": "types_auth_session",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/services/hooks/useGetActiveCase.ts",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "hooks_usegetarchivecases",
+      "target": "types_auth_session",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/services/hooks/useGetArchiveCases.ts",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "hooks_usegetstudentsresponsestocases",
+      "target": "types_auth_session",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/services/hooks/useGetStudentsResponsesToCases.ts",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "utils_cookies",
+      "target": "types_auth_authcookiedata",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/cookies.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "dashboard_nav_logoutuser",
+      "target": "apis_auth_signout",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/layouts/dashboard/nav.tsx",
+      "source_location": "L38",
+      "weight": 1.0
+    }
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0
+}
