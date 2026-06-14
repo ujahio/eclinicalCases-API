@@ -4,7 +4,6 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useAppSelector } from "@/services/hooks/hooks";
 import SpinnerGrow from "../spinners/SpinnerGrow";
 import { forgetPassStep2Schema } from "@/lib/schema";
-import { saltAndHashPassword } from "@/utils/password";
 import { Step2Props } from "@/services/types/auth/forget-password";
 
 const Step2 = ({ handleSubmit }: Step2Props) => {
@@ -17,8 +16,7 @@ const Step2 = ({ handleSubmit }: Step2Props) => {
 				initialValues={{ email: "teacher@gmail.com", otp: "", newPassword: "" }}
 				validationSchema={forgetPassStep2Schema}
 				onSubmit={(values, { setSubmitting }) => {
-					const hashedPassword = saltAndHashPassword(values.newPassword);
-					handleSubmit({ ...values, newPassword: hashedPassword });
+					handleSubmit({ ...values, newPassword: values.newPassword });
 					setSubmitting(false);
 				}}
 				validateOnChange

@@ -30,20 +30,11 @@ const PasswordSettings = () => {
 	const handleSubmit = (e: any) => {
 		e.preventDefault();
 
-		// Hash the passwords
-		const hashedCurrentPassword = saltAndHashPassword(
-			passwordData.currentPassword,
-		);
-		const hashedNewPassword = saltAndHashPassword(passwordData.newPassword);
-		const hashedConfirmNewPassword = saltAndHashPassword(
-			passwordData.confirmNewPassword,
-		);
-
 		// Update password data with hashed passwords
 		const hashedPasswordData = {
-			currentPassword: hashedCurrentPassword,
-			newPassword: hashedNewPassword,
-			confirmNewPassword: hashedConfirmNewPassword,
+			currentPassword: passwordData.currentPassword,
+			newPassword: passwordData.newPassword,
+			confirmNewPassword: passwordData.confirmNewPassword,
 		};
 
 		// Dispatch action with hashed passwords

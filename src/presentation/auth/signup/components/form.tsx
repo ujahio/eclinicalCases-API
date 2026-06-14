@@ -1,7 +1,6 @@
 import { FC, FormEvent, useState, ChangeEvent } from "react";
 import { Button } from "@/components/ui/main-button";
 import { InputField, PasswordField } from "@/components/form-elements";
-import { saltAndHashPassword } from "@/utils/password";
 import { toast } from "react-toastify";
 
 // TODO: ADD EMAIL VALIDATION USING ZOD!!!!!
@@ -64,11 +63,10 @@ export const SignUpForm: FC<SignUpFormProps> = ({
 		e.preventDefault();
 
 		if (personalDetails.password === personalDetails.confirmPassword) {
-			const hashedPassword = saltAndHashPassword(personalDetails.password);
 			const updatedDetails = {
 				...personalDetails,
-				password: hashedPassword,
-				confirmPassword: hashedPassword,
+				password: personalDetails.password,
+				confirmPassword: personalDetails.password,
 			};
 			handleSignUp(updatedDetails);
 			// capturePersonalDetails(updatedDetails);
@@ -179,7 +177,7 @@ export const SignUpForm: FC<SignUpFormProps> = ({
 				required
 			/>
 			<div className="mt-8">
-				<Button block disabled={!isFormValid}>
+				<Button variant="basic" size="lg" block disabled={!isFormValid}>
 					SIGN UP
 					<svg
 						width="12"
