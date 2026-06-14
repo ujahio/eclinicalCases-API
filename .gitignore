@@ -54,3 +54,7 @@ sst-env.d.ts
 
 # open-next
 .open-next
+
+graphify-out/cost.json
+graphify-out/cache/
+

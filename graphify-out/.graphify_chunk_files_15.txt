@@ -1,0 +1,1 @@
+/Users/otktechnologies/personal_projects/eccs-API/public/icons/caret-down.svg

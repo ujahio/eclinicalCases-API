@@ -1,0 +1,8 @@
+/Users/otktechnologies/personal_projects/eccs-API/public/icons/checkmark.svg
+/Users/otktechnologies/personal_projects/eccs-API/public/icons/close-x.svg
+/Users/otktechnologies/personal_projects/eccs-API/public/icons/exclamationMark.png
+/Users/otktechnologies/personal_projects/eccs-API/public/icons/remove.svg
+/Users/otktechnologies/personal_projects/eccs-API/public/icons/search.png
+/Users/otktechnologies/personal_projects/eccs-API/public/icons/search.svg
+/Users/otktechnologies/personal_projects/eccs-API/public/icons/socials/facebook-f.svg
+/Users/otktechnologies/personal_projects/eccs-API/public/icons/socials/instagram.svg
