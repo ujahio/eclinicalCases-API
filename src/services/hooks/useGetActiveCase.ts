@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useAppDispatch } from "./hooks";
 import { getPublishedCase } from "@/store/slices/case/getPublishedCaseSlice";
-import { Session } from "next-auth";
+import { Session } from "@/types/auth";
 
 const useGetActiveCase = ({ session }: { session: Session | null }) => {
 	const dispatch = useAppDispatch();

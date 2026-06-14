@@ -87,7 +87,7 @@ function encryptPassword(password, NEXT_PUBLIC_PASS_SECRET_KEY) {
 	const cipher = crypto.createCipheriv(
 		"aes-256-cbc",
 		Buffer.from(NEXT_PUBLIC_PASS_SECRET_KEY, "hex"),
-		iv
+		iv,
 	);
 	let encrypted = cipher.update(password, "utf8", "hex");
 	encrypted += cipher.final("hex");
@@ -101,7 +101,7 @@ function decryptPassword(encryptedPassword, NEXT_PUBLIC_PASS_SECRET_KEY) {
 	const decipher = crypto.createDecipheriv(
 		"aes-256-cbc",
 		Buffer.from(NEXT_PUBLIC_PASS_SECRET_KEY, "hex"),
-		iv
+		iv,
 	);
 	let decrypted = decipher.update(encryptedText, "hex", "utf8");
 	decrypted += decipher.final("utf8");
@@ -208,7 +208,7 @@ export const extrapolateRequestBody = async (event) => {
 
 export const getDetailsOfStudentsFeedbackAndResponses = async (
 	caseID,
-	details = false
+	details = false,
 ) => {
 	const selectOption = details ? "ALL_ATTRIBUTES" : "COUNT";
 
@@ -248,7 +248,7 @@ export const getDetailsOfStudentsFeedbackAndResponses = async (
 	// If details are required, fetch user information from Cognito
 	if (details) {
 		const studentIDs = Array.from(
-			new Set(responseItems.map((response) => response.studentID))
+			new Set(responseItems.map((response) => response.studentID)),
 		);
 
 		// Fetch user details from Cognito for each student
@@ -263,11 +263,11 @@ export const getDetailsOfStudentsFeedbackAndResponses = async (
 				// Extract required attributes from Cognito response
 				const firstName =
 					userResponse.UserAttributes.find(
-						(attr) => attr.Name === "custom:firstName"
+						(attr) => attr.Name === "custom:firstName",
 					)?.Value || "Unknown";
 				const lastName =
 					userResponse.UserAttributes.find(
-						(attr) => attr.Name === "custom:lastName"
+						(attr) => attr.Name === "custom:lastName",
 					)?.Value || "Unknown";
 
 				return {

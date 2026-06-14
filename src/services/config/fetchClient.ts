@@ -1,4 +1,4 @@
-import { getSession } from "next-auth/react";
+import { getAuthCookie } from "@/utils/cookies";
 import { handleApiError } from "../../utils/errorHandler";
 
 type HeadersObj = Record<string, string> | Headers;
@@ -20,16 +20,16 @@ export function createApiClient(baseURL: string, withAuth = false) {
 				...(config?.headers || {}),
 			};
 
-			if (withAuth) {
-				try {
-					const session = await getSession();
-					if (session && (session as any).accessToken) {
-						headers["Authorization"] = `Bearer ${(session as any).accessToken}`;
-					}
-				} catch (_) {
-					// ignore session errors
+		if (withAuth) {
+			try {
+				const cookieData = getAuthCookie();
+				if (cookieData?.accessToken) {
+					headers["Authorization"] = `Bearer ${cookieData.accessToken}`;
 				}
+			} catch (_) {
+				// ignore session errors
 			}
+		}
 
 			const fullUrl = `${baseURL}${url}`;
 
