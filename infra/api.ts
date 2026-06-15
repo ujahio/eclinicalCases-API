@@ -82,7 +82,7 @@ api.route(
 	"POST /api/auth/destroy-session",
 	{
 		link: [...links, userPool, eccsWebClient],
-		handler: "server/controllers/auth-session.destroySession",
+		handler: "server/controllers/auth.destroySession",
 	},
 	routeArgs,
 );
