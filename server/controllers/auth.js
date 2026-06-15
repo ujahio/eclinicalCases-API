@@ -5,6 +5,7 @@ import {
 	ListUsersCommand,
 	AdminInitiateAuthCommand,
 	InitiateAuthCommand,
+	AdminUserGlobalSignOutCommand,
 } from "@aws-sdk/client-cognito-identity-provider";
 // import {
 // generateOtp,
@@ -13,6 +14,7 @@ import {
 // getUserByEmail,
 // } from "../utils/api_utils.js";
 import applicationContext from "../../appContext/applicationContext.js";
+import decodeToken from "../utils/decodeToken.js";
 
 const cognitoClient = applicationContext.getUserManagementClient();
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -215,13 +217,6 @@ export const signin = async (event) => {
 		// Return authentication tokens along with additional user details
 		return {
 			statusCode: 200,
-			headers: {
-				"Content-Type": "application/json",
-				"Cache-Control":
-					"no-store, no-cache, must-revalidate, proxy-revalidate",
-				Pragma: "no-cache",
-				Expires: "0",
-			},
 			body: JSON.stringify({
 				message: "Login successful!",
 				accessToken: authResponse.AuthenticationResult.AccessToken,
@@ -291,6 +286,39 @@ export const refreshToken = async (event) => {
 		return {
 			statusCode: 500,
 			body: JSON.stringify({ error: "Failed to refresh token" }),
+		};
+	}
+};
+
+export const destroySession = async (event) => {
+	try {
+		const decodedToken = decodeToken(event);
+
+		if (decodedToken.statusCode) {
+			return decodedToken;
+		}
+
+		const command = new AdminUserGlobalSignOutCommand({
+			UserPoolId: Resource.eccslabs.id,
+			Username: decodedToken.username,
+		});
+
+		await cognitoClient.send(command);
+
+		return {
+			statusCode: 200,
+			body: JSON.stringify({
+				message: "Session destroyed successfully",
+			}),
+		};
+	} catch (error) {
+		console.error("Error destroying session:", error);
+		return {
+			statusCode: 500,
+			body: JSON.stringify({
+				error: `Error destroying session: ${error.message}`,
+				message: "Failed to destroy session.",
+			}),
 		};
 	}
 };

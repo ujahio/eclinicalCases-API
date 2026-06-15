@@ -78,10 +78,14 @@ api.route("POST /api/auth/signup", {
 // 	handler: "server/controllers/auth.updatePassword",
 // 	link: links,
 // });
-api.route("POST /api/auth/destroy-session", {
-	link: [...links, userPool, eccsWebClient],
-	handler: "server/controllers/auth-session.destroySession",
-});
+api.route(
+	"POST /api/auth/destroy-session",
+	{
+		link: [...links, userPool, eccsWebClient],
+		handler: "server/controllers/auth.destroySession",
+	},
+	routeArgs,
+);
 
 //Case;
 api.route(
