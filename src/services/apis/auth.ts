@@ -42,15 +42,16 @@ export async function signIn(email: string, password: string) {
 	return data;
 }
 
-export async function signOut() {
+export function signOut() {
 	const cookieData = getAuthCookie();
 	try {
 		if (cookieData?.accessToken) {
-			await fetch(`${BASE_URL}/api/auth/destroy-session`, {
+			fetch(`${BASE_URL}/api/auth/destroy-session`, {
 				method: "POST",
 				headers: {
 					Authorization: `Bearer ${cookieData.accessToken}`,
 				},
+				keepalive: true,
 			});
 		}
 	} catch {

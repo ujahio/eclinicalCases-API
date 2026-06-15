@@ -34,9 +34,7 @@ const Nav: FC<NavProps> = ({
 		return currentPath === path;
 	};
 
-	const logoutUser = async () => {
-		await signOut();
-	};
+	const logoutUser = () => signOut();
 
 	return (
 		<nav className=" w-full bg-white border-b sticky top-0 border-grey-400 border-opacity-40 z-50">
