@@ -18,7 +18,6 @@ export function getAuthCookie(): AuthCookieData | null {
 export function setAuthCookie(data: AuthCookieData): void {
 	const encoded = encodeURIComponent(JSON.stringify(data));
 	document.cookie = `${COOKIE_NAME}=${encoded}; path=/; SameSite=Strict`;
-	console.log("Auth cookie set:", { COOKIE: document.cookie });
 }
 
 export function clearAuthCookie(): void {

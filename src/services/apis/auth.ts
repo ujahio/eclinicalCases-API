@@ -43,6 +43,19 @@ export async function signIn(email: string, password: string) {
 }
 
 export async function signOut() {
+	const cookieData = getAuthCookie();
+	try {
+		if (cookieData?.accessToken) {
+			await fetch(`${BASE_URL}/api/auth/destroy-session`, {
+				method: "POST",
+				headers: {
+					Authorization: `Bearer ${cookieData.accessToken}`,
+				},
+			});
+		}
+	} catch {
+		// Best-effort revocation — proceed with client cleanup regardless
+	}
 	clearAuthCookie();
 	window.location.href = "/login";
 }
