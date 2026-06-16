@@ -77,6 +77,21 @@ From `src/utils/cookies.ts` — stored as `eccs_auth_data`:
 
 ---
 
+### Testability Requirements
+
+The following `data-testid` attributes must be added to the login page before implementing tests:
+
+| data-testid | Element | Notes |
+|---|---|---|
+| `login-email` | Email input field | `input[name="email"]` |
+| `login-password` | Password input field | `input[name="password"]` |
+| `login-submit` | "SIGN IN" submit button | `button` with text "SIGN IN" |
+| `login-error-message` | Toast/alert for auth errors | `react-toastify` container |
+| `login-forgot-password` | Forgot password link | Currently commented out — add when re-enabled |
+| `login-create-account` | "Create Account" link | Link to `/signup` |
+
+---
+
 ## 2. Test Environment Setup
 
 ### 2.1 Recommended Stage: `test-e2e`

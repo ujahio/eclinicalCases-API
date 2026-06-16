@@ -70,6 +70,26 @@ Browser (/student/case-studies/{id})
 - If score >= threshold → certificate generated
 - Certificate stored in S3, record in DynamoDB
 
+### Testability Requirements
+
+The following `data-testid` attributes must be added before implementing tests:
+
+| data-testid | Element | Notes |
+|---|---|---|
+| `case-study-title` | Case study title/heading | — |
+| `case-study-description` | Case description content area | Plate.js rich text rendered |
+| `case-study-materials-list` | List of case material PDFs | — |
+| `case-study-material-link-*` | Individual material download link | — |
+| `case-study-question-*` | Quiz question text | Numbered, e.g. `case-study-question-1` |
+| `case-study-option-*` | Quiz answer option | e.g. `case-study-option-1-a` |
+| `case-study-submit` | Submit quiz answers button | — |
+| `case-study-result-pass` | Passing result message | Shown after auto-grading |
+| `case-study-result-fail` | Failing result message | Shown after auto-grading |
+| `case-study-result-score` | Score display (e.g. "8/10") | — |
+| `case-study-result-certificate` | View certificate link | Shown on pass |
+| `case-study-loading` | Loading state | — |
+| `case-study-error` | Error state | — |
+
 ---
 
 ## 2. Test Environment Setup

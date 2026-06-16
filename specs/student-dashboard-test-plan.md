@@ -57,6 +57,20 @@ From `src/presentation/student/Dashboard.tsx`:
 | `activeCase` | `state.activeCase.data` | Published case info |
 | `studentsResponsesToCases` | `state.studentsResponsesToCases.responses` | Array of student responses |
 
+### Testability Requirements
+
+The following `data-testid` attributes must be added to the student dashboard page before implementing tests:
+
+| data-testid | Element | Notes |
+|---|---|---|
+| `student-dashboard-title` | Page heading / title | — |
+| `student-dashboard-active-case` | Active case study card | Shows current published case |
+| `student-dashboard-no-case` | Empty state when no active case | — |
+| `student-dashboard-recent-response` | Recent responses summary | — |
+| `student-dashboard-nav-cases` | "Case Studies" navigation link | — |
+| `student-dashboard-nav-certificates` | "Certificates" navigation link | — |
+| `student-dashboard-nav-settings` | Settings navigation link | — |
+
 ---
 
 ## 2. Test Environment Setup

@@ -65,6 +65,19 @@ From `src/presentation/student/Certificates.tsx`:
 |---|---|---|
 | `/api/student/certificates` | GET | Get list of student's certificates |
 
+### Testability Requirements
+
+The following `data-testid` attributes must be added before implementing tests:
+
+| data-testid | Element | Notes |
+|---|---|---|
+| `certificates-title` | Page heading | — |
+| `certificates-list` | Certificate list container | — |
+| `certificates-item-*` | Individual certificate row | — |
+| `certificates-empty` | Empty state (no certificates) | — |
+| `certificates-view-*` | View/download certificate button | — |
+| `certificates-modal` | Certificate preview modal | If applicable |
+
 ---
 
 ## 2. Test Environment Setup

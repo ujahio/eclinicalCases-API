@@ -79,6 +79,19 @@ export function signOut() {
 
 ---
 
+### Testability Requirements
+
+The following `data-testid` attributes must be added before implementing tests:
+
+| data-testid | Element | Notes |
+|---|---|---|
+| `logout-button` | Sign out / logout button | In navbar or settings |
+| `logout-confirm-modal` | Confirmation dialog (if any) | Modal container |
+| `logout-confirm-yes` | Confirm logout button | — |
+| `logout-confirm-cancel` | Cancel logout button | — |
+
+---
+
 ## 2. Test Environment Setup
 
 ### 2.1 Prerequisites

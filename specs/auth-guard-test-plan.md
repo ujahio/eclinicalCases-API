@@ -109,6 +109,14 @@ export const useAuthRedirect = () => {
 
 ---
 
+### Testability Requirements
+
+No page-specific `data-testid` attributes are needed for middleware tests — they test URL redirect behavior.
+
+For tests that verify redirect after login, use the login page attributes from the `login-test-plan.md` specification.
+
+---
+
 ## 2. Test Environment Setup
 
 ### 2.1 Prerequisites

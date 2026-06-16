@@ -88,6 +88,20 @@ export const forgetPassStep2Schema = Yup.object({
 
 ---
 
+### Testability Requirements
+
+The following `data-testid` attributes must be added to the forgot password page before implementing tests:
+
+| data-testid | Element | Notes |
+|---|---|---|
+| `forgot-password-email` | Email input field | — |
+| `forgot-password-submit` | Submit / "Send OTP" button | — |
+| `forgot-password-error` | Error message display | — |
+| `forgot-password-success` | Success message / confirmation | — |
+| `forgot-password-link` | "Forgot your password?" link on login page | Currently commented out — add when re-enabled |
+
+---
+
 ## 2. Test Environment Setup
 
 ### 2.1 Prerequisites

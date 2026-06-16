@@ -63,6 +63,25 @@ Browser (/signup)                    Next.js API Route                   AWS Cog
 
 ---
 
+### Testability Requirements
+
+The following `data-testid` attributes must be added to the signup page before implementing tests:
+
+| data-testid | Element | Notes |
+|---|---|---|
+| `signup-firstname` | First name input | `input[name="firstName"]` |
+| `signup-lastname` | Last name input | `input[name="lastName"]` |
+| `signup-email` | Email input | `input[name="email"]` |
+| `signup-password` | Password input | `input[name="password"]` |
+| `signup-confirm-password` | Confirm password input | `input[name="confirmPassword"]` |
+| `signup-submit` | "SIGN UP" submit button | `button` with text "SIGN UP" |
+| `signup-password-hint-*` | Individual password requirement hint | e.g. `signup-password-hint-length`, `signup-password-hint-uppercase` |
+| `signup-error-message` | Field-level validation error | Per-field error message |
+| `signup-api-error` | Server error toast/message | e.g. "A user with this email already exists" |
+| `signup-success-toast` | Success toast after registration | "Please check your email to finish registration." |
+
+---
+
 ## 2. Test Environment Setup
 
 ### 2.1 Recommended Stage: `test-e2e`

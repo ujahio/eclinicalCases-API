@@ -61,6 +61,27 @@ From `src/presentation/student/Settings.tsx`:
 | Password | `password` | `PasswordSettings` |
 | Payment | `payment` | Static text |
 
+### Testability Requirements
+
+The following `data-testid` attributes must be added before implementing tests:
+
+| data-testid | Element | Notes |
+|---|---|---|
+| `settings-nav-personal` | "Personal Details" tab | — |
+| `settings-nav-password` | "Password" tab | — |
+| `settings-nav-payment` | "Payment" tab | Shows placeholder text |
+| `settings-personal-firstname` | First name input | — |
+| `settings-personal-lastname` | Last name input | — |
+| `settings-personal-email` | Email input (likely read-only) | — |
+| `settings-personal-save` | Save personal details button | — |
+| `settings-password-current` | Current password input | — |
+| `settings-password-new` | New password input | — |
+| `settings-password-confirm` | Confirm new password input | — |
+| `settings-password-save` | Save password button | — |
+| `settings-payment-placeholder` | Payment placeholder text | "Nothing to see here yet" |
+| `settings-success-toast` | Success toast/notification | — |
+| `settings-error-message` | Error message display | — |
+
 ---
 
 ## 2. Test Environment Setup

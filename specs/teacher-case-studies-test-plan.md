@@ -83,6 +83,32 @@ From `src/services/constants` — `createCaseStudyTabs`:
 
 A teacher can only have **1 active published case** at a time. Publishing a new case while one is already published will replace the active case (the old one becomes archived).
 
+### Testability Requirements
+
+The following `data-testid` attributes must be added to the teacher case studies pages before implementing tests:
+
+| data-testid | Element | Notes |
+|---|---|---|
+| `case-create-title` | Case title input | create and update pages |
+| `case-create-topic` | Case topic / specialty dropdown | — |
+| `case-create-description` | Rich text description editor | Plate.js editor |
+| `case-create-material-upload` | PDF material upload button / dropzone | — |
+| `case-create-material-list` | List of uploaded materials | — |
+| `case-create-question-*` | Quiz question inputs | Number per question, e.g. `case-create-question-1` |
+| `case-create-answer-*` | Quiz answer inputs | Per question, e.g. `case-create-answer-1-a` |
+| `case-create-correct-*` | Correct answer selector | Per question |
+| `case-create-save-draft` | Save as draft button | — |
+| `case-create-publish` | Publish case button | — |
+| `case-drafts-list` | List of draft cases | On cases list page |
+| `case-draft-item-*` | Individual draft case row | e.g. `case-draft-item-{caseID}` |
+| `case-draft-edit-*` | Edit button for a draft | — |
+| `case-draft-delete-*` | Delete button for a draft | — |
+| `case-published-info` | Published case details panel | — |
+| `case-archived-list` | Archived cases list | — |
+| `case-delete-confirm-modal` | Delete confirmation dialog | — |
+| `case-delete-confirm-yes` | Confirm delete button | — |
+| `case-delete-confirm-cancel` | Cancel delete button | — |
+
 ---
 
 ## 2. Test Environment Setup

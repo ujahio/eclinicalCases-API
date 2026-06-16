@@ -64,6 +64,22 @@ From `src/presentation/teacher/ResponsesAndFeedback.tsx`:
 |---|---|---|
 | `getCaseData` | `state.getCaseData` | Case info + responses + feedback |
 
+### Testability Requirements
+
+The following `data-testid` attributes must be added before implementing tests:
+
+| data-testid | Element | Notes |
+|---|---|---|
+| `responses-case-select` | Case dropdown/selector to view responses | — |
+| `responses-student-list` | List of students who responded | — |
+| `responses-student-item-*` | Individual student response row | e.g. `responses-student-item-{studentId}` |
+| `responses-score-*` | Student score display | Per student |
+| `responses-feedback-button-*` | "Add Feedback" button per student | — |
+| `responses-feedback-modal` | Feedback modal/dialog | — |
+| `responses-feedback-textarea` | Feedback text input | — |
+| `responses-feedback-submit` | Submit feedback button | — |
+| `responses-feedback-cancel` | Cancel feedback button | — |
+
 ---
 
 ## 2. Test Environment Setup

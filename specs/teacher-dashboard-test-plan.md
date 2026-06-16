@@ -57,6 +57,21 @@ From `src/presentation/teacher/Dashboard.tsx`:
 | `activeCase` | `state.activeCase.data` | Published case info |
 | `getArchiveCases` | `state.getArchiveCases.cases` | Array of archived cases |
 
+### Testability Requirements
+
+The following `data-testid` attributes must be added to the teacher dashboard page before implementing tests:
+
+| data-testid | Element | Notes |
+|---|---|---|
+| `teacher-dashboard-title` | Page heading / title | — |
+| `teacher-dashboard-published-case` | Published case card/panel | Shows active published case info |
+| `teacher-dashboard-published-empty` | Empty state when no case published | — |
+| `teacher-dashboard-draft-count` | Draft cases count / summary | — |
+| `teacher-dashboard-nav-create` | "Create New Case" navigation link | — |
+| `teacher-dashboard-nav-cases` | "My Cases" navigation link | — |
+| `teacher-dashboard-nav-responses` | "Responses & Feedback" navigation link | — |
+| `teacher-dashboard-nav-settings` | Settings navigation link | — |
+
 ---
 
 ## 2. Test Environment Setup
