@@ -36,11 +36,11 @@ export const sendEmails = async (studentDetails: StudentDetails[]) => {
 
 const sendNewCaseNotificationEmailToRegisteredStudents = async () => {
 	try {
-		const studentDetails = await applicationContext
+		const registeredStudents = await applicationContext
 			.getPersistenceGateway()
 			.getRegisteredStudents();
 
-		await sendEmails(studentDetails);
+		await sendEmails(registeredStudents);
 	} catch (error) {
 		console.error(error);
 		throw error;
