@@ -20,26 +20,31 @@ type SignUpFormProps = {
 };
 
 const passwordRequirements = [
-	{
-		label: "At least 8 characters",
-		validator: (password: string) => password.length >= 8,
-	},
-	{
-		label: "At least one uppercase letter",
-		validator: (password: string) => /[A-Z]/.test(password),
-	},
-	{
-		label: "At least one lowercase letter",
-		validator: (password: string) => /[a-z]/.test(password),
-	},
-	{
-		label: "At least one number",
-		validator: (password: string) => /\d/.test(password),
-	},
-	{
-		label: "At least one special character (!@#$%^&*)",
-		validator: (password: string) => /[!@#$%^&*]/.test(password),
-	},
+    {
+        label: "At least 8 characters",
+        validator: (password: string) => password.length >= 8,
+        testId: "signup-password-hint-length",
+    },
+    {
+        label: "At least one uppercase letter",
+        validator: (password: string) => /[A-Z]/.test(password),
+        testId: "signup-password-hint-uppercase",
+    },
+    {
+        label: "At least one lowercase letter",
+        validator: (password: string) => /[a-z]/.test(password),
+        testId: "signup-password-hint-lowercase",
+    },
+    {
+        label: "At least one number",
+        validator: (password: string) => /\d/.test(password),
+        testId: "signup-password-hint-number",
+    },
+    {
+        label: "At least one special character (!@#$%^&*)",
+        validator: (password: string) => /[!@#$%^&*]/.test(password),
+        testId: "signup-password-hint-special",
+    },
 ];
 
 export const SignUpForm: FC<SignUpFormProps> = ({
@@ -110,75 +115,81 @@ export const SignUpForm: FC<SignUpFormProps> = ({
 	return (
 		<form onSubmit={submitForm} className="mt-5">
 			<div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
-				<InputField
-					label="First Name"
-					name="firstName"
-					placeholder="Enter first name"
-					onChange={(e) =>
-						setPersonalDetails({
-							...personalDetails,
-							firstName: e.target.value,
-						})
-					}
-					required
-				/>
+                <InputField
+                    label="First Name"
+                    name="firstName"
+                    data-testid="signup-firstname"
+                    placeholder="Enter first name"
+                    onChange={(e) =>
+                        setPersonalDetails({
+                            ...personalDetails,
+                            firstName: e.target.value,
+                        })
+                    }
+                    required
+                />
 				<div>
-					<InputField
-						label="Last Name"
-						name="lastName"
-						placeholder="Enter last name"
-						onChange={(e) =>
-							setPersonalDetails({
-								...personalDetails,
-								lastName: e.target.value,
-							})
-						}
-						required
-					/>
+                    <InputField
+                        label="Last Name"
+                        name="lastName"
+                        data-testid="signup-lastname"
+                        placeholder="Enter last name"
+                        onChange={(e) =>
+                            setPersonalDetails({
+                                ...personalDetails,
+                                lastName: e.target.value,
+                            })
+                        }
+                        required
+                    />
 				</div>
 			</div>
-			<InputField
-				label="Email Address"
-				placeholder="Enter your email"
-				name="email"
-				type="email"
-				onChange={(e) =>
-					setPersonalDetails({ ...personalDetails, email: e.target.value })
-				}
-				required
-			/>
-			<PasswordField
-				label="Password"
-				placeholder="Enter your password"
-				name="password"
-				onChange={handlePasswordChange}
-				required
-			/>
-			{/* Password Validation Guide */}
-			{isPasswordTyping && (
-				<ul className="mb-4">
-					{passwordRequirements.map((requirement, index) => (
-						<li
-							key={index}
-							className={`text-sm ${
-								validationResults[index] ? "text-green-600" : "text-red-600"
-							}`}
-						>
-							{requirement.label}
-						</li>
-					))}
-				</ul>
-			)}
-			<PasswordField
-				label="Confirm Password"
-				placeholder="Enter your password again"
-				name="confirmPassword"
-				onChange={handleConfirmPasswordChange}
-				required
-			/>
-			<div className="mt-8">
-				<Button variant="basic" size="lg" block disabled={!isFormValid}>
-					SIGN UP
+            <InputField
+                label="Email Address"
+                placeholder="Enter your email"
+                name="email"
+                data-testid="signup-email"
+                type="email"
+                onChange={(e) =>
+                    setPersonalDetails({ ...personalDetails, email: e.target.value })
+                }
+                required
+            />
+            <PasswordField
+                label="Password"
+                placeholder="Enter your password"
+                name="password"
+                data-testid="signup-password"
+                onChange={handlePasswordChange}
+                required
+            />
+            {/* Password Validation Guide */}
+            {isPasswordTyping && (
+                <ul className="mb-4">
+                    {passwordRequirements.map((requirement, index) => (
+                        <li
+                            key={index}
+                            data-testid={requirement.testId}
+                            className={`text-sm ${
+                                validationResults[index] ? "text-green-600" : "text-red-600"
+                            }`}
+                        >
+                            {requirement.label}
+                        </li>
+                    ))}
+                </ul>
+            )}
+            <PasswordField
+                label="Confirm Password"
+                placeholder="Enter your password again"
+                name="confirmPassword"
+                data-testid="signup-confirm-password"
+                onChange={handleConfirmPasswordChange}
+                required
+            />
+            <div className="mt-8">
+                <Button variant="basic" size="lg" block data-testid="signup-submit" disabled={!isFormValid}>
+                    SIGN UP
 					<svg
 						width="12"
 						height="12"

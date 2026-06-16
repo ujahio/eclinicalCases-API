@@ -1002,13 +1002,8 @@ export default defineConfig({
 
   projects: [
     {
-      name: "api-tests",
-      testMatch: "**/api/**/*.spec.ts",
-    },
-    {
       name: "registration",
       testMatch: "**/registration/**/*.spec.ts",
-      dependencies: ["api-tests"],
     },
   ],
 });
