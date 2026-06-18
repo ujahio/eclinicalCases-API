@@ -26,8 +26,8 @@ export default defineConfig({
 		video: "retain-on-failure",
 	},
 
-	globalSetup: require.resolve("./tests/setup/global.setup.ts"),
-	globalTeardown: require.resolve("./tests/setup/global.teardown.ts"),
+	globalSetup: new URL("./tests/setup/global.setup.ts", import.meta.url).pathname,
+	globalTeardown: new URL("./tests/setup/global.teardown.ts", import.meta.url).pathname,
 
 	projects: [
 		{
