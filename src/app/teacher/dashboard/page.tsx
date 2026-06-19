@@ -3,7 +3,7 @@ import dynamic from "next/dynamic";
 import useGetArchiveCases from "@/services/hooks/useGetArchiveCases";
 import useGetActiveCase from "@/services/hooks/useGetActiveCase";
 import { useAuthRedirect } from "@/services/hooks/useAuthRedirect";
-import { Session } from "next-auth";
+import { Session } from "@/types/auth";
 
 const TeacherDashboard = dynamic(
 	() => import("@/presentation/teacher/Dashboard"),

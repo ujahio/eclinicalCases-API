@@ -36,6 +36,8 @@ const ReviewAndConfirm = ({ personalDetailsInfo, handleSignUp }: any) => {
 				</p>
 			</div>
 			<Button
+				variant="basic"
+				size="lg"
 				block
 				className="mt-5"
 				onClick={() => handleSignUp(personalDetailsInfo)}

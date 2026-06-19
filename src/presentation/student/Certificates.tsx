@@ -35,7 +35,7 @@ const Certificates = ({
 			{studentsCertificatesInfo.length > 0 && (
 				<>
 					<div className="mt-7-5">
-						<ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6.25">
+						<ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6-25">
 							{studentsCertificatesInfo?.map((certificate) => {
 								return (
 									<li
@@ -61,7 +61,7 @@ const Certificates = ({
 												/>
 											</figure>
 										</button>
-										<Button size="sm" centralize variant="outline">
+										<Button centralize variant="secondary">
 											<a
 												href={certificate.signedUrl}
 												target="_blank"
