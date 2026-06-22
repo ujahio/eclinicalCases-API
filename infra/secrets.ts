@@ -43,3 +43,8 @@ export const SUBSCRIPTION_FEE_AED = new sst.Secret(
 	"SUBSCRIPTION_FEE_AED",
 	process.env.SUBSCRIPTION_FEE_AED,
 );
+
+export const SUBSCRIPTION_DURATION_DAYS = new sst.Secret(
+	"SUBSCRIPTION_DURATION_DAYS",
+	process.env.SUBSCRIPTION_DURATION_DAYS,
+);

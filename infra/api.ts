@@ -8,6 +8,7 @@ import {
 	APS_SHA_REQUEST_PHRASE,
 	APS_SHA_RESPONSE_PHRASE,
 	SUBSCRIPTION_FEE_AED,
+	SUBSCRIPTION_DURATION_DAYS,
 } from "./secrets";
 import { userPool, eccsWebClient } from "./auth";
 import { Feedback, StudentsResponses, TeacherCaseStudies } from "./dynamo";
@@ -259,6 +260,7 @@ api.route("POST /api/payment/checkout", {
 		APS_MERCHANT_IDENTIFIER,
 		APS_SHA_REQUEST_PHRASE,
 		SUBSCRIPTION_FEE_AED,
+		SUBSCRIPTION_DURATION_DAYS,
 	],
 });
 
@@ -271,6 +273,7 @@ api.route("POST /api/payment/return", {
 		APS_SHA_RESPONSE_PHRASE,
 		APS_SHA_REQUEST_PHRASE,
 		SUBSCRIPTION_FEE_AED,
+		SUBSCRIPTION_DURATION_DAYS,
 	],
 });
 
@@ -283,6 +286,7 @@ api.route("GET /api/payment/return", {
 		APS_SHA_RESPONSE_PHRASE,
 		APS_SHA_REQUEST_PHRASE,
 		SUBSCRIPTION_FEE_AED,
+		SUBSCRIPTION_DURATION_DAYS,
 	],
 });
 

@@ -62,6 +62,9 @@ export const createCheckout = async (event) => {
 			});
 		}
 
+		const body = event.body ? JSON.parse(event.body) : {};
+		const paymentType = body.paymentType === "one-time" ? "one-time" : "subscription";
+
 		const merchantReference = `ECCS-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 		const subscriptionFee = Resource.SUBSCRIPTION_FEE_AED?.value || "100";
 		const amountInFils = aedToFils(subscriptionFee);
@@ -82,6 +85,7 @@ export const createCheckout = async (event) => {
 			paymentId: merchantReference,
 			userId: username,
 			merchantReference,
+			paymentType,
 			status: "pending",
 			amount: parseInt(amountInFils, 10),
 			currency: "AED",
@@ -160,8 +164,30 @@ export const handleReturn = async (event) => {
 		if (params.fort_id) {
 			if (params.status === "14" || params.status === "01") {
 				const now = new Date().toISOString();
-				const oneYearLater = new Date();
-				oneYearLater.setFullYear(oneYearLater.getFullYear() + 1);
+				const durationDays = parseInt(Resource.SUBSCRIPTION_DURATION_DAYS?.value || "365", 10);
+				const subscriptionEnd = new Date();
+				subscriptionEnd.setDate(subscriptionEnd.getDate() + durationDays);
+
+				const isSubscription = payment.paymentType === "subscription";
+
+				const updateFields = {
+					"#status": "status",
+				};
+				const updateValues = {
+					":status": isSubscription ? "captured" : "completed",
+					":fortId": params.fort_id,
+					":start": now,
+					":end": subscriptionEnd.toISOString(),
+					":now": now,
+				};
+
+				let updateExpr = "SET #status = :status, fort_id = :fortId, subscriptionStart = :start, subscriptionEnd = :end, updatedAt = :now";
+
+				if (isSubscription) {
+					updateExpr += ", agreementId = :agreementId, tokenName = :tokenName";
+					updateValues[":agreementId"] = params.agreement_id || "";
+					updateValues[":tokenName"] = params.token_name || "";
+				}
 
 				await dbClient.send(
 					new UpdateCommand({
@@ -170,19 +196,9 @@ export const handleReturn = async (event) => {
 							paymentId: payment.paymentId,
 							userId: payment.userId,
 						},
-						UpdateExpression:
-							"SET #status = :status, fort_id = :fortId, agreementId = :agreementId, subscriptionStart = :start, subscriptionEnd = :end, updatedAt = :now",
-						ExpressionAttributeNames: {
-							"#status": "status",
-						},
-						ExpressionAttributeValues: {
-							":status": "captured",
-							":fortId": params.fort_id,
-							":agreementId": params.agreement_id || "",
-							":start": now,
-							":end": oneYearLater.toISOString(),
-							":now": now,
-						},
+						UpdateExpression: updateExpr,
+						ExpressionAttributeNames: updateFields,
+						ExpressionAttributeValues: updateValues,
 					})
 				);
 
@@ -333,8 +349,27 @@ export const handleReturn = async (event) => {
 
 		if (purchaseData.status === "14") {
 			const now = new Date().toISOString();
-			const oneYearLater = new Date();
-			oneYearLater.setFullYear(oneYearLater.getFullYear() + 1);
+			const durationDays = parseInt(Resource.SUBSCRIPTION_DURATION_DAYS?.value || "365", 10);
+			const subscriptionEnd = new Date();
+			subscriptionEnd.setDate(subscriptionEnd.getDate() + durationDays);
+
+			const isSubscription = payment.paymentType === "subscription";
+
+			const updateValues = {
+				":status": isSubscription ? "captured" : "completed",
+				":fortId": purchaseData.fort_id,
+				":start": now,
+				":end": subscriptionEnd.toISOString(),
+				":now": now,
+			};
+
+			let updateExpr = "SET #status = :status, fort_id = :fortId, subscriptionStart = :start, subscriptionEnd = :end, updatedAt = :now";
+
+			if (isSubscription) {
+				updateExpr += ", agreementId = :agreementId, tokenName = :tokenName";
+				updateValues[":agreementId"] = purchaseData.agreement_id || "";
+				updateValues[":tokenName"] = purchaseData.token_name || "";
+			}
 
 			await dbClient.send(
 				new UpdateCommand({
@@ -343,19 +378,11 @@ export const handleReturn = async (event) => {
 						paymentId: payment.paymentId,
 						userId: payment.userId,
 					},
-					UpdateExpression:
-						"SET #status = :status, fort_id = :fortId, agreementId = :agreementId, subscriptionStart = :start, subscriptionEnd = :end, updatedAt = :now",
+					UpdateExpression: updateExpr,
 					ExpressionAttributeNames: {
 						"#status": "status",
 					},
-					ExpressionAttributeValues: {
-						":status": "captured",
-						":fortId": purchaseData.fort_id,
-						":agreementId": purchaseData.agreement_id || "",
-						":start": now,
-						":end": oneYearLater.toISOString(),
-						":now": now,
-					},
+					ExpressionAttributeValues: updateValues,
 				})
 			);
 
@@ -516,10 +543,10 @@ export const checkSubscription = async (event) => {
 		}
 
 		const capturedPayment = queryResult.Items.find(
-			(item) => item.status === "captured"
+			(item) => (item.status === "captured" || item.status === "completed") && item.subscriptionEnd
 		);
 
-		if (!capturedPayment) {
+		if (!capturedPayment || !capturedPayment.subscriptionEnd) {
 			return response(200, {
 				hasActiveSubscription: false,
 				subscriptionEnd: null,

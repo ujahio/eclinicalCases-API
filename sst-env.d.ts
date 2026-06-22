@@ -63,6 +63,10 @@ declare module "sst" {
       "name": string
       "type": "sst.aws.Dynamo"
     }
+    "SUBSCRIPTION_DURATION_DAYS": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
     "SUBSCRIPTION_FEE_AED": {
       "type": "sst.sst.Secret"
       "value": string

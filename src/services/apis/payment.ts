@@ -1,7 +1,7 @@
 import { studentApi, configureRequestHeaders } from "../config/fetchClient";
 
-export const createPaymentCheckout = async () => {
-  return studentApi.post("/payment/checkout", {}, configureRequestHeaders());
+export const createPaymentCheckout = async (paymentType: string) => {
+  return studentApi.post("/payment/checkout", { paymentType }, configureRequestHeaders());
 };
 
 export const checkSubscriptionStatus = async () => {
