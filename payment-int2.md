@@ -8,7 +8,7 @@
 
 | Item | Value |
 |------|-------|
-| **Integration type** | APS Hosted Checkout (PCI-compliant, no card data touches our servers) |
+| **Integration type** | APS Non-PCI Custom Integration (card form on our domain, tokenization POST to APS, no PCI scope) |
 | **Payment timing** | After registration, email verification, and login (separate flow from signup) |
 | **Payers** | Students only (teachers bypass payment entirely) |
 | **Billing model** | Annual subscription, single tier |
@@ -59,30 +59,59 @@ PHASE 2: PRICING PAGE
      - If ALREADY logged in → redirect to /order
 
 
-PHASE 3: ORDER & PAYMENT
-════════════════════════
+PHASE 3: ORDER & PAYMENT (Custom Non-PCI)
+══════════════════════════════════════
 
   9. /order page (student must be logged in)
      - Calls POST /api/payment/checkout (JWT auth)
-     - Backend creates APS PURCHASE session, returns form data
+     - Backend generates TOKENIZATION request params + signature
+       (excluding card data — card_number, expiry_date, card_security_code
+        are NOT in signature params)
+     - Returns: formAction (APS paymentPage URL), tokenization fields
 
-  10. Frontend auto-submits hidden <form> to APS Hosted Checkout
-      (https://checkout.payfort.com/FortAPI/paymentPage)
+  10. Student fills card form on /order:
+      ┌──────────────────────────────────────┐
+      │  Card Number   [________________]    │
+      │  Expiry (MM/YY) [______]  CVV [___]  │
+      │  Cardholder Name [________________]  │
+      │                                      │
+      │  [Pay 100 AED — Subscribe]           │
+      └──────────────────────────────────────┘
 
-  11. Student enters card details on APS-hosted page
-      - APS tokenizes card (no card data touches our servers)
-      - APS processes payment / 3DS if needed
+  11. On submit, frontend builds hidden form merging:
+      - Backend-provided fields (merchant_identifier, access_code,
+        service_command=TOKENIZATION, language, return_url,
+        merchant_reference, signature)
+      - Card data from user input (card_number, expiry_date,
+        card_security_code, card_holder_name)
+      Form auto-submits to APS https://checkout.payfort.com/FortAPI/paymentPage
+      → Browser POSTs to APS (brief navigation)
 
-  12. APS redirects to POST /api/payment/return
-      With: fort_id, response_code, status, token_name, agreement_id
+  12. APS tokenizes card, redirects browser to POST /api/payment/return
+      With: token_name, fort_id (placeholder), response_code, status,
+             merchant_reference, signature
+      Status 18 = tokenization success, 11 = failure
 
-  13. Backend validates signature, stores payment record,
-      sets subscriptionEnd = now + 1 year → redirects to /dashboard
+  13. Backend validates signature, checks status:
+      - If `status = 18` (tokenization success):
+        a. Call server-to-server PURCHASE to paymentApi with token_name
+           (POST https://paymentservices.payfort.com/FortAPI/paymentApi)
+        b. If PURCHASE response includes `3ds_url`:
+           → Return 302 redirect to 3DS URL
+           → User authenticates with bank
+           → APS redirects back to /api/payment/return with final result
+        c. If PURCHASE success (status 14):
+           Store payment record, update Cognito with paymentId,
+           set subscriptionEnd = now + 1 year
+        d. Return redirect to /dashboard
+      - If `status = 11` (tokenization failure):
+        → Return redirect to /payment-failed
 
-  14. APS sends async webhook → POST /api/payment/webhook
-      - Backend confirms capture status
+  14. Dashboard now shows full access (no payment warning)
 
-  15. Dashboard now shows full access (no payment warning)
+  Note: Card data is submitted directly from browser to APS via form POST.
+        It never touches our backend servers. The server-side PURCHASE uses
+        the token_name (not card data), keeping us out of PCI scope.
 
 
 TEACHER FLOW (unchanged)
@@ -96,17 +125,20 @@ TEACHER FLOW (unchanged)
 DIAGRAM
 ═══════
 
-  Signup → Verify → Login → Dashboard ──→ Pricing → Order → APS Pay → Dashboard
-                              │                  ↑         ↑
-                              │           (login if needed)  │
-                              └── no payment ────────────────┘
+  Signup → Verify → Login → Dashboard ──→ Pricing → Order ─→ APS Tokenize ─→ return
+                              │                  ↑            (POST form,      │
+                              │           (login if needed)   brief nav)      │
+                              └── no payment ────────────────────────────────┘
+                                                                              │
+                                                              ← 3DS (if needed)│
+                                                              → /dashboard ◄──┘
 ```
 
 ---
 
 ## APS API Reference
 
-| Environment | Hosted Checkout (redirect) | Server API |
+| Environment | Tokenization endpoint (form POST) | Payment API |
 |-------------|---------------------------|------------|
 | **Sandbox** | `https://sbcheckout.payfort.com/FortAPI/paymentPage` | `https://sbpaymentservices.payfort.com/FortAPI/paymentApi` |
 | **Production** | `https://checkout.payfort.com/FortAPI/paymentPage` | `https://paymentservices.payfort.com/FortAPI/paymentApi` |
@@ -115,14 +147,16 @@ DIAGRAM
 
 | Command | Purpose |
 |---------|---------|
-| `PURCHASE` | One-time charge with auto-capture (used for subscriptions) |
+| `TOKENIZATION` | Tokenize card from client side (browser POST to paymentPage) |
+| `PURCHASE` | One-time charge with auto-capture (server-to-server to paymentApi) |
 | `AUTHORIZATION` | Hold funds (manual capture later) |
 | `CAPTURE` | Capture previously authorized funds |
 | `VOID` | Cancel authorization |
 | `REFUND` | Refund captured payment |
-| `TOKENIZATION` | Tokenize card from client side |
 
-We use **PURCHASE** with `return_url` set to our `/api/payment/return` endpoint.
+We use:
+- **TOKENIZATION** — browser POST to paymentPage (client-side, card data straight to APS)
+- **PURCHASE** with `token_name` — server-to-server POST to paymentApi (after successful tokenization)
 
 ### APS Authentication
 
@@ -133,6 +167,8 @@ APS uses custom HMAC-SHA256 signature (not bearer tokens):
 3. Concatenate as `param_name=param_value` pairs (no separators)
 4. Wrap with SHA phrase: `{SHA_REQUEST_PHRASE}concatenated_string{SHA_REQUEST_PHRASE}`
 5. Hash with SHA-256
+
+**Important for Non-PCI**: Backend computes the signature for TOKENIZATION without card data (since those fields are excluded from signing). Frontend adds card data to the form after receiving the signature — card data never touches the backend.
 
 ---
 
@@ -178,7 +214,8 @@ export const Payments = new sst.aws.Dynamo("Payments", {
   },
 });
 
-// JWT-protected route — creates APS checkout for authenticated user
+// JWT-protected route — generates TOKENIZATION params for authenticated user
+// Returns APS paymentPage URL + form fields (excluding card data)
 api.route("POST /api/payment/checkout", {
   handler: "server/controllers/payment.createCheckout",
   link: [
@@ -190,7 +227,11 @@ api.route("POST /api/payment/checkout", {
   ],
 });
 
-// Unauthenticated — APS redirect; validates response signature, stores payment
+// Unauthenticated — APS redirect (tokenization result + eventual 3DS/purchase result)
+// 1. Receives tokenization redirect from APS (status 18)
+// 2. Calls server-to-server PURCHASE with token_name
+// 3. If 3DS needed → redirects to 3ds_url → APS comes back here
+// 4. If success → redirects to /dashboard
 api.route("POST /api/payment/return", {
   handler: "server/controllers/payment.handleReturn",
   link: [
@@ -319,9 +360,11 @@ Input:  JWT token (userId, email extracted from token)
 Output: {
   formAction: "https://checkout.payfort.com/FortAPI/paymentPage",
   fields: {
-    command, access_code, merchant_identifier,
-    merchant_reference, amount, currency, language,
-    customer_email, return_url, signature
+    service_command: "TOKENIZATION",
+    access_code, merchant_identifier, language,
+    merchant_reference, return_url, signature
+    // NOTE: card_number, expiry_date, card_security_code, card_holder_name
+    // are NOT returned — frontend adds them from user input
   }
 }
 
@@ -330,31 +373,69 @@ Steps:
 2. Verify user exists in Cognito (AdminGetUserCommand)
 3. Check user_role — reject if "teacher" (teachers don't pay)
 4. Generate unique merchantReference: ECCS-{ts}-{random6}
-5. Read SUBSCRIPTION_FEE_AED secret, convert to fils
-6. Build APS PURCHASE request params
-7. Calculate signature with SHA request phrase
-8. Store pending Payment record in DynamoDB (status: "pending")
-9. Return { formAction, fields }
+5. Build APS TOKENIZATION request params (no card data, no amount)
+6. Calculate signature with SHA request phrase
+   (card fields excluded from signature calc — correct for APS)
+7. Store pending Payment record in DynamoDB (status: "pending")
+8. Return { formAction, fields }
 ```
 
 #### `handleReturn` (no auth — APS redirect)
 
-```
-Input: APS POST body (fort_id, merchant_reference, response_code, status, token_name, agreement_id, signature)
-Output: { redirectUrl: "/dashboard" } or { redirectUrl: "/payment-failed" }
+This endpoint is reached in two scenarios:
+1. **After tokenization** — browser lands here after APS tokenization form POST
+2. **After 3DS** — browser lands here after user completes 3DS challenge
 
+The handler differentiates by checking which parameters are present.
+
+```
+Scenario A: Tokenization result (has token_name, status 18, no fort_id)
+
+Input: APS POST body (token_name, merchant_reference, response_code, status, signature)
 Steps:
 1. Collect APS response parameters
-2. Remove signature param, calculate expected signature with SHA response phrase
-3. Compare signatures — reject mismatch
-4. Find Payment record by merchant_reference
-5. If status is "14" (captured) or "01" (authorized):
-   a. Update Payment: status → captured, tokenName, agreementId, subscriptionStart, subscriptionEnd
+2. Validate signature with SHA response phrase
+3. Find Payment record by merchant_reference
+4. If status is NOT 18 (tokenization failed):
+   → Update Payment: status → failed
+   → Return 302 redirect to /payment-failed
+5. If status is 18 (tokenization success):
+   a. Store token_name on Payment record
+   b. Call server-to-server PURCHASE to paymentApi:
+      POST https://paymentservices.payfort.com/FortAPI/paymentApi
+      Params: command=PURCHASE, access_code, merchant_identifier,
+              merchant_reference, amount (in fils), currency=AED,
+              customer_email, token_name, language=en,
+              return_url={BASE_URL}/api/payment/return,
+              signature (calculated with SHA request phrase)
+   c. Check PURCHASE response:
+      - If response has 3ds_url → Return 302 redirect to 3ds_url
+        (user will complete 3DS, APS redirects back to this same endpoint)
+      - If status = 14 (captured):
+        → Update Payment: status=captured, fort_id, agreementId,
+          subscriptionStart, subscriptionEnd
+        → Update Cognito user: add custom:paymentId attribute
+        → Return 302 redirect to /dashboard
+      - If status != 14 (failed):
+        → Update Payment: status=failed
+        → Return 302 redirect to /payment-failed
+
+
+Scenario B: Post-3DS purchase result (has fort_id, response_code, status, token_name)
+
+Input: APS POST body (fort_id, merchant_reference, response_code, status, token_name, agreement_id, signature)
+Steps:
+1. Collect APS response parameters
+2. Validate signature with SHA response phrase
+3. Find Payment record by merchant_reference
+4. If status is "14" (captured) or "01" (authorized):
+   a. Update Payment: status=captured, fort_id, tokenName, agreementId,
+      subscriptionStart, subscriptionEnd
    b. Update Cognito user: add custom:paymentId attribute
-   c. Return { redirectUrl: "/dashboard" }
-6. If failed:
+   c. Return 302 redirect to /dashboard
+5. If failed:
    a. Update Payment: status → failed
-   b. Return { redirectUrl: "/payment-failed?reason=..." }
+   b. Return 302 redirect to /payment-failed
 ```
 
 #### `handleWebhook` (no auth — APS server notification)
@@ -432,25 +513,170 @@ On "Subscribe" click:
 
 ```
 Route:  /order (auth required — redirects to /login if not authenticated)
-Purpose: Initiate APS Hosted Checkout
+Purpose: Show card form, initiate APS tokenization
 
 Behavior on mount:
 1. Call GET /api/payment/status to check for existing subscription
 2. If already subscribed → redirect to /dashboard
-3. If not subscribed:
-   - Show order summary
-   - Call POST /api/payment/checkout (JWT auth header)
-   - On success, create hidden form and auto-submit to APS
-   - Student redirected to APS hosted checkout page
+3. If not subscribed → show card form
 
-Layout (brief flash before redirect):
-┌──────────────────────────────────────────────────────────────┐
-│  Order Summary                                               │
-│                                                              │
-│  Annual Subscription — 100 AED                               │
-│                                                              │
-│  Redirecting to payment...                                   │
-└──────────────────────────────────────────────────────────────┘
+Card form follows the APS "Create Payment Form" structure (visible + hidden form pattern),
+styled with the same `InputField` and `Button` components as the signup form:
+
+```tsx
+import { FC, FormEvent, useState } from "react";
+import { InputField } from "@/components/form-elements";
+import { Button } from "@/components/ui/main-button";
+
+interface CardData {
+  card_number: string;
+  expiry_date: string;
+  card_security_code: string;
+  card_holder_name: string;
+}
+
+interface TokenizationFields {
+  service_command: string;
+  access_code: string;
+  merchant_identifier: string;
+  language: string;
+  merchant_reference: string;
+  return_url: string;
+  signature: string;
+}
+
+export const OrderForm: FC = () => {
+  const [cardData, setCardData] = useState<CardData>({
+    card_number: "",
+    expiry_date: "",
+    card_security_code: "",
+    card_holder_name: "",
+  });
+  const [errors, setErrors] = useState<Partial<CardData>>({});
+  const [tokenFields, setTokenFields] = useState<TokenizationFields | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  const isFormValid = Object.values(cardData).every(Boolean);
+
+  // Fields excluded from APS signature — backend computes sig without them,
+  // frontend merges them into the hidden tokenization form at submit time
+  const handlePay = async (e: FormEvent) => {
+    e.preventDefault();
+    if (!isFormValid) return;
+
+    setLoading(true);
+
+    // Step 1: Get tokenization params from backend (no card data sent)
+    const res = await fetch("/api/payment/checkout", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${getAuthCookie()}` },
+    });
+    const { formAction, fields } = await res.json();
+    // fields: service_command, access_code, merchant_identifier,
+    //        language, merchant_reference, return_url, signature
+
+    // Step 2: Build hidden form with backend params + card data
+    const hiddenForm = document.createElement("form");
+    hiddenForm.method = "POST";
+    hiddenForm.action = formAction;
+
+    const allParams = {
+      ...fields,
+      card_number: cardData.card_number,
+      expiry_date: cardData.expiry_date,
+      card_security_code: cardData.card_security_code,
+      card_holder_name: cardData.card_holder_name,
+    };
+
+    Object.entries(allParams).forEach(([name, value]) => {
+      const input = document.createElement("input");
+      input.type = "hidden";
+      input.name = name;
+      input.value = value as string;
+      hiddenForm.appendChild(input);
+    });
+
+    // Step 3: Submit — browser POSTs to APS, redirects to return_url
+    document.body.appendChild(hiddenForm);
+    hiddenForm.submit();
+  };
+
+  return (
+    <>
+      {/* Visible card form (Create Payment Form pattern) */}
+      <form id="paymentForm" onSubmit={handlePay} className="mt-5">
+        <InputField
+          label="Card Number"
+          name="card_number"
+          placeholder="1234 5678 9012 3456"
+          maxLength={19}
+          value={cardData.card_number}
+          onChange={(e) =>
+            setCardData({ ...cardData, card_number: e.target.value })
+          }
+          required
+        />
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <InputField
+            label="Expiry Date"
+            name="expiry_date"
+            placeholder="MM/YY"
+            maxLength={5}
+            value={cardData.expiry_date}
+            onChange={(e) =>
+              setCardData({ ...cardData, expiry_date: e.target.value })
+            }
+            required
+          />
+          <InputField
+            label="CVV"
+            name="card_security_code"
+            placeholder="123"
+            maxLength={4}
+            value={cardData.card_security_code}
+            onChange={(e) =>
+              setCardData({ ...cardData, card_security_code: e.target.value })
+            }
+            required
+          />
+        </div>
+        <InputField
+          label="Cardholder Name"
+          name="card_holder_name"
+          placeholder="John Doe"
+          value={cardData.card_holder_name}
+          onChange={(e) =>
+            setCardData({ ...cardData, card_holder_name: e.target.value })
+          }
+          required
+        />
+        <p className="mt-4 text-xs text-grey-300">
+          Your card data is sent directly to Amazon Payment Services.
+          We never see or store your card details.
+        </p>
+        <div className="mt-8">
+          <Button
+            variant="basic"
+            size="lg"
+            block
+            disabled={!isFormValid || loading}
+          >
+            {loading ? "Processing..." : "Pay 100 AED — Subscribe"}
+          </Button>
+        </div>
+      </form>
+
+      {/* Hidden tokenization form — populated and auto-submitted on pay */}
+      <form
+        action="https://checkout.payfort.com/FortAPI/paymentPage"
+        method="POST"
+        id="tokenizationForm"
+        style={{ display: "none" }}
+      />
+    </>
+  );
+};
+```
 ```
 
 ### New Page: `/src/app/(auth)/payment-success/page.tsx`
@@ -540,15 +766,19 @@ export const checkSubscriptionStatus = async () => {
 
 ## Security Considerations
 
-1. **No card data stored** — APS handles all card input, tokenization, and storage
+1. **No card data stored** — Card data POSTs directly from browser to APS; never touches our servers
 2. **APS credentials in SST Secrets** — never in code, never committed
 3. **Signature validation** on all APS responses and webhooks (SHA response phrase)
 4. **HTTPS required** for return_url and notification_url (APS enforces this)
 5. **No temporary password storage** — user already exists in Cognito before payment
 6. **Idempotent transactions** — `merchantReference` is unique per attempt; prevents duplicate charges
 7. **Webhook verification** — validate HMAC signature before processing any status update
-8. **No PCI scope** — Hosted Checkout keeps us fully out of PCI compliance requirements
+8. **No PCI scope** — Card data flows directly from browser to APS via form POST.
+   Our backend only handles `token_name` (opaque token), not raw card data.
 9. **JWT auth on checkout** — only authenticated users can initiate a payment session
+10. **Card fields excluded from signature** — `card_number`, `expiry_date`,
+    `card_security_code`, `card_holder_name` are not part of APS signature calculation.
+    Backend computes the signature without ever receiving card data.
 
 ---
 
@@ -583,10 +813,10 @@ Register at [https://sandbox.payfort.com](https://sandbox.payfort.com) to obtain
 | 1 | Student signs up, verifies email, signs in | Dashboard shows payment warning |
 | 2 | Student clicks "Go to Pricing" | /pricing page displays one plan |
 | 3 | Not logged in → clicks "Subscribe" | Redirected to /login |
-| 4 | Logged in → clicks "Subscribe" | Redirected to /order |
-| 5 | /order → Visa success | Payment stored, redirected to dashboard with full access |
-| 6 | /order → 3DS challenge | User passes 3DS, payment captured |
-| 7 | /order → card declined | Redirected to /payment-failed |
+| 4 | Logged in → clicks "Subscribe" | Redirected to /order (card form shown) |
+| 5 | /order → fill card → Visa success | Card form POSTs to APS, token returned, PURCHASE succeeds, redirected to dashboard |
+| 6 | /order → fill card → 3DS challenge | Token + PURCHASE returns 3ds_url, user authenticates, payment captured |
+| 7 | /order → fill card → declined | APS returns tokenization fail, redirected to /payment-failed |
 | 8 | Already subscribed → visits /order | Redirected to /dashboard |
 | 9 | Teacher signs in | Dashboard shows full access (no payment check) |
 | 10 | Duplicate payment attempt | Idempotency prevents double charge |
@@ -617,7 +847,7 @@ Register at [https://sandbox.payfort.com](https://sandbox.payfort.com) to obtain
 | 2 | `/server/utils/aps-signature.js` | APS HMAC-SHA256 signature calculator |
 | 3 | `/server/controllers/payment.js` | createCheckout, handleReturn, handleWebhook, checkSubscription |
 | 4 | `/src/app/(main)/pricing/page.tsx` | Pricing page with "Subscribe" button |
-| 5 | `/src/app/(main)/order/page.tsx` | Order page that initiates APS Hosted Checkout |
+| 5 | `/src/app/(main)/order/page.tsx` | Card form page that performs APS tokenization POST |
 | 6 | `/src/app/(auth)/payment-success/page.tsx` | Post-payment success landing page |
 | 7 | `/src/app/(auth)/payment-failed/page.tsx` | Post-payment failure landing page |
 | 8 | `/src/services/apis/payment.ts` | Payment API functions |
@@ -646,30 +876,67 @@ Register at [https://sandbox.payfort.com](https://sandbox.payfort.com) to obtain
 
 ## APS Parameters Reference
 
-### PURCHASE Request (sent to checkout page)
+### TOKENIZATION Request (browser POST to paymentPage)
+
+| Parameter | Value | Notes |
+|-----------|-------|-------|
+| `service_command` | `TOKENIZATION` | Tokenize card (no charge) |
+| `access_code` | From secret | APS merchant access code |
+| `merchant_identifier` | From secret | APS merchant ID |
+| `merchant_reference` | `ECCS-{ts}-{rand}` | Unique per tokenization attempt |
+| `language` | `en` | English |
+| `return_url` | `{BASE_URL}/api/payment/return` | Our return endpoint |
+| `card_number` | From user input | Full PAN — NOT in signature |
+| `expiry_date` | From user input | YYMM format — NOT in signature |
+| `card_security_code` | From user input | CVV/CVC — NOT in signature |
+| `card_holder_name` | From user input | NOT in signature |
+| `signature` | Calculated (backend) | HMAC-SHA256 — excludes card fields |
+
+### TOKENIZATION Response (redirect to return_url)
+
+| Parameter | Description |
+|-----------|-------------|
+| `merchant_reference` | Echoed back from request |
+| `token_name` | Card token for subsequent PURCHASE |
+| `response_code` | APS response code (e.g., `18000` = success) |
+| `response_message` | Human-readable message |
+| `status` | `18` = success, `11` = failed |
+| `card_bin` | First 6 digits of card |
+| `card_number` | Masked PAN (`455701******8902`) |
+| `expiry_date` | Echoed back |
+| `card_holder_name` | Echoed back |
+| `signature` | APS-calculated (validate with SHA response phrase) |
+
+### PURCHASE Request (server-to-server to paymentApi)
 
 | Parameter | Value | Notes |
 |-----------|-------|-------|
 | `command` | `PURCHASE` | One-time charge + auto-capture |
 | `access_code` | From secret | APS merchant access code |
 | `merchant_identifier` | From secret | APS merchant ID |
-| `merchant_reference` | `ECCS-{ts}-{rand}` | Unique per transaction |
+| `merchant_reference` | Same as tokenization | Must match (idempotency) |
 | `amount` | `10000` | 100 AED in fils (from SUBSCRIPTION_FEE_AED × 100) |
-| `currency` | `AED` | Only AED for now — configurable later |
+| `currency` | `AED` | Only AED for now |
 | `language` | `en` | English |
-| `customer_email` | Student email | From Cognito (extracted from JWT) |
-| `return_url` | `{BASE_URL}/api/payment/return` | Our backend endpoint |
-| `signature` | Calculated | HMAC-SHA256 |
+| `customer_email` | Student email | From Cognito |
+| `token_name` | From tokenization | APS card token |
+| `return_url` | `{BASE_URL}/api/payment/return` | For 3DS redirect |
+| `signature` | Calculated (backend) | HMAC-SHA256 |
 
-### PURCHASE Response (redirect back to return_url)
+### PURCHASE Response (server-to-server JSON)
 
 | Parameter | Description |
 |-----------|-------------|
 | `fort_id` | APS transaction ID |
-| `merchant_reference` | Our order ID (echoed back) |
-| `response_code` | APS response code (e.g., `14000` = success) |
-| `response_message` | Human-readable message |
-| `status` | `14` = captured/success, `01` = authorized, `11` = declined |
-| `token_name` | Card token for recurring charges |
-| `agreement_id` | Agreement ID for recurring |
-| `signature` | APS-calculated signature (validate with SHA response phrase) |
+| `merchant_reference` | Echoed back |
+| `response_code` | `14000` = success, `20064` = 3DS needed, etc. |
+| `status` | `14` = captured, `01` = authorized, `11` = declined |
+| `token_name` | Card token (for recurring) |
+| `agreement_id` | Agreement ID (for recurring) |
+| `3ds_url` | Present if 3DS authentication needed |
+| `signature` | APS-calculated (validate with SHA response phrase) |
+
+### PURCHASE 3DS Redirect (after 3DS → return_url)
+
+Same parameters as PURCHASE response above, passed as POST body to
+the return_url. Backend validates signature and checks status.
