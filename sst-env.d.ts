@@ -6,6 +6,22 @@
 
 declare module "sst" {
   export interface Resource {
+    "APS_ACCESS_CODE": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
+    "APS_MERCHANT_IDENTIFIER": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
+    "APS_SHA_REQUEST_PHRASE": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
+    "APS_SHA_RESPONSE_PHRASE": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
     "AUTH_SECRET": {
       "type": "sst.sst.Secret"
       "value": string
@@ -40,6 +56,14 @@ declare module "sst" {
       "value": string
     }
     "NEXT_PUBLIC_NODE_ENV": {
+      "type": "sst.sst.Secret"
+      "value": string
+    }
+    "Payments": {
+      "name": string
+      "type": "sst.aws.Dynamo"
+    }
+    "SUBSCRIPTION_FEE_AED": {
       "type": "sst.sst.Secret"
       "value": string
     }

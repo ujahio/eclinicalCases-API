@@ -56,6 +56,13 @@ export const userPool: sst.aws.CognitoUserPool = new sst.aws.CognitoUserPool(
 						mutable: true,
 						required: false,
 					},
+					{
+						name: "paymentId",
+						attributeDataType: "String",
+						developerOnlyAttribute: false,
+						mutable: true,
+						required: false,
+					},
 				],
 				verificationMessageTemplate: {
 					defaultEmailOption: "CONFIRM_WITH_LINK",

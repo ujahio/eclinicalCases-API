@@ -1,8 +1,17 @@
 import { ECCSEmail } from "./email";
 import { CaseMaterials, ECCSUsersCertificates } from "./storage";
-import { NEXT_PUBLIC_BASE_URL, NEXT_PUBLIC_NODE_ENV } from "./secrets";
+import {
+	NEXT_PUBLIC_BASE_URL,
+	NEXT_PUBLIC_NODE_ENV,
+	APS_ACCESS_CODE,
+	APS_MERCHANT_IDENTIFIER,
+	APS_SHA_REQUEST_PHRASE,
+	APS_SHA_RESPONSE_PHRASE,
+	SUBSCRIPTION_FEE_AED,
+} from "./secrets";
 import { userPool, eccsWebClient } from "./auth";
 import { Feedback, StudentsResponses, TeacherCaseStudies } from "./dynamo";
+import { Payments } from "./payment";
 
 const links = [
 	Feedback,
@@ -34,7 +43,7 @@ export const api = new sst.aws.ApiGatewayV2("eccs", {
 	},
 });
 
-const cognitoAuthorizer = api.addAuthorizer({
+export const cognitoAuthorizer = api.addAuthorizer({
 	name: "Cognito",
 	jwt: {
 		audiences: [eccsWebClient.id],
@@ -236,6 +245,57 @@ api.route(
 			},
 		],
 		link: [...links, userPool],
+	},
+	routeArgs,
+);
+
+// Payment
+
+api.route("POST /api/payment/checkout", {
+	handler: "server/controllers/payment.createCheckout",
+	link: [
+		Payments,
+		APS_ACCESS_CODE,
+		APS_MERCHANT_IDENTIFIER,
+		APS_SHA_REQUEST_PHRASE,
+		SUBSCRIPTION_FEE_AED,
+	],
+});
+
+api.route("POST /api/payment/return", {
+	handler: "server/controllers/payment.handleReturn",
+	link: [
+		Payments,
+		userPool,
+		eccsWebClient,
+		APS_SHA_RESPONSE_PHRASE,
+		APS_SHA_REQUEST_PHRASE,
+		SUBSCRIPTION_FEE_AED,
+	],
+});
+
+api.route("GET /api/payment/return", {
+	handler: "server/controllers/payment.handleReturn",
+	link: [
+		Payments,
+		userPool,
+		eccsWebClient,
+		APS_SHA_RESPONSE_PHRASE,
+		APS_SHA_REQUEST_PHRASE,
+		SUBSCRIPTION_FEE_AED,
+	],
+});
+
+api.route("POST /api/payment/webhook", {
+	handler: "server/controllers/payment.handleWebhook",
+	link: [Payments, APS_SHA_RESPONSE_PHRASE],
+});
+
+api.route(
+	"GET /api/payment/status",
+	{
+		handler: "server/controllers/payment.checkSubscription",
+		link: [Payments],
 	},
 	routeArgs,
 );
