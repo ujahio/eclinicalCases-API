@@ -10,7 +10,11 @@ import { resetAddFeedbackState } from "@/store/slices/student/addFeedbackSlice";
 import { resetCaseMaterialState } from "@/store/slices/case/getCaseMaterialsSlice";
 import { resetGetStudentsResponsesToCasesStatus } from "@/store/slices/student/getStudentsResponsesToCasesSlice";
 
-const StudentDashboard = () => {
+interface StudentDashboardProps {
+  hasSubscription?: boolean | null;
+}
+
+const StudentDashboard = ({ hasSubscription }: StudentDashboardProps) => {
 	const dispatch = useAppDispatch();
 
 	const publishedCaseInfo = useAppSelector((state) => state.activeCase.data);
@@ -41,6 +45,21 @@ const StudentDashboard = () => {
 	return (
 		<DashboardLayout>
 			<div className="grid gap-y-10 sm:gap-y-12-5">
+				{hasSubscription === false && (
+					<div className="bg-yellow-50 border border-yellow-200 rounded-sm p-4 mb-6">
+						<p className="text-sm text-yellow-800">
+							You haven&apos;t subscribed yet. Subscribe to access case studies and earn certificates.
+						</p>
+						<Button
+							variant="basic"
+							size="sm"
+							className="mt-3"
+							href="/pricing"
+						>
+							Go to Pricing &rarr;
+						</Button>
+					</div>
+				)}
 				<div>
 					{publishedCaseInfo ? (
 						<h5 className="text-1sm sm:text-base text-dark mb-3 sm:mb-5">
