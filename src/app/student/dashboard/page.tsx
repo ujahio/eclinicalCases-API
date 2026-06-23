@@ -6,21 +6,21 @@ import useGetStudentsResponsesToCases from "@/services/hooks/useGetStudentsRespo
 import useGetActiveCase from "@/services/hooks/useGetActiveCase";
 import { useAuthRedirect } from "@/services/hooks/useAuthRedirect";
 import { Session } from "@/types/auth";
-import { checkSubscriptionStatus } from "@/services/apis/payment";
+import { checkPaymentStatus } from "@/services/apis/payment";
 
 const StudentDashboardWithAuth = ({ session }: { session: Session }) => {
-	const [hasSubscription, setHasSubscription] = useState<boolean | null>(null);
+	const [hasPaid, setHasPaid] = useState<boolean | null>(null);
 
 	useGetActiveCase({ session });
 	useGetStudentsResponsesToCases({ session, filterParam: "recent" });
 
 	useEffect(() => {
-		checkSubscriptionStatus()
-			.then((res) => setHasSubscription(res.data?.hasActiveSubscription ?? false))
-			.catch(() => setHasSubscription(false));
+		checkPaymentStatus()
+			.then((res) => setHasPaid(res.data?.hasActiveSubscription ?? false))
+			.catch(() => setHasPaid(false));
 	}, []);
 
-	return <StudentDashboard hasSubscription={hasSubscription} />;
+	return <StudentDashboard hasPaid={hasPaid} />;
 };
 
 const Page = () => {
