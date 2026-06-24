@@ -1,26 +1,17 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import StudentDashboard from "@/presentation/student/Dashboard";
 import useGetStudentsResponsesToCases from "@/services/hooks/useGetStudentsResponsesToCases";
-import useGetActiveCase from "@/services/hooks/useGetActiveCase";
 import { useAuthRedirect } from "@/services/hooks/useAuthRedirect";
-import { Session } from "@/types/auth";
-import { checkPaymentStatus } from "@/services/apis/payment";
+import useGetActiveCase from "@/services/hooks/useGetActiveCase";
 
-const StudentDashboardWithAuth = ({ session }: { session: Session }) => {
-	const [hasPaid, setHasPaid] = useState<boolean | null>(null);
+const StudentDashboardWithAuth = () => {
+	const { session } = useAuthRedirect();
+	const { hasStudentPaid } = useGetActiveCase();
 
-	useGetActiveCase({ session });
 	useGetStudentsResponsesToCases({ session, filterParam: "recent" });
 
-	useEffect(() => {
-		checkPaymentStatus()
-			.then((res) => setHasPaid(res.data?.hasActiveSubscription ?? false))
-			.catch(() => setHasPaid(false));
-	}, []);
-
-	return <StudentDashboard hasPaid={hasPaid} />;
+	return <StudentDashboard hasStudentPaid={hasStudentPaid} />;
 };
 
 const Page = () => {
@@ -30,7 +21,7 @@ const Page = () => {
 		return null;
 	}
 
-	return <StudentDashboardWithAuth session={session} />;
+	return <StudentDashboardWithAuth />;
 };
 
 export default Page;

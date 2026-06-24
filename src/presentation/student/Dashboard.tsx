@@ -12,10 +12,10 @@ import { resetCaseMaterialState } from "@/store/slices/case/getCaseMaterialsSlic
 import { resetGetStudentsResponsesToCasesStatus } from "@/store/slices/student/getStudentsResponsesToCasesSlice";
 
 interface StudentDashboardProps {
-	hasPaid?: boolean | null;
+	hasStudentPaid?: boolean | null;
 }
 
-const StudentDashboard = ({ hasPaid }: StudentDashboardProps) => {
+const StudentDashboard = ({ hasStudentPaid = true }: StudentDashboardProps) => {
 	const dispatch = useAppDispatch();
 
 	const publishedCaseInfo = useAppSelector((state) => state.activeCase.data);
@@ -46,20 +46,24 @@ const StudentDashboard = ({ hasPaid }: StudentDashboardProps) => {
 	return (
 		<DashboardLayout>
 			<div className="grid gap-y-10 sm:gap-y-12-5">
-				{hasPaid === false && (
-					<div className="bg-gray-50 border border-gray-200 rounded-sm p-3 mb-6">
-						<p className="text-xs text-gray-600">
-							Subscribe to access case studies and earn certificates.
-						</p>
-						<Link
-							href="/pricing"
-							className="text-xs underline text-gray-600 hover:text-gray-800 mt-2 inline-block"
-						>
-							View pricing →
-						</Link>
+				{hasStudentPaid === false && (
+					<div>
+						<div className="h-5 sm:h-6 mb-3 sm:mb-5" />
+						<div className="bg-gray-50 border border-gray-200 rounded-sm px-6 py-8 sm:px-8 sm:py-10 md:px-10 md:py-12">
+							<p className="text-base text-gray-600">
+								Subscribe to access active case study and earn new CME
+								certificates.
+							</p>
+							<Link
+								href="/pricing"
+								className="text-base underline text-gray-600 hover:text-gray-800 mt-2 inline-block"
+							>
+								View pricing →
+							</Link>
+						</div>
 					</div>
 				)}
-				{hasPaid === true && (
+				{hasStudentPaid === true && (
 					<div>
 						{publishedCaseInfo ? (
 							<h5 className="text-1sm sm:text-base text-dark mb-3 sm:mb-5">
