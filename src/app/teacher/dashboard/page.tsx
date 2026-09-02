@@ -13,7 +13,7 @@ const TeacherDashboard = dynamic(
 );
 
 const TeacherDashboardWithAuth = ({ session }: { session: Session }) => {
-	useGetActiveCase({ session });
+	useGetActiveCase();
 	useGetArchiveCases({ session, filterParam: "recent" });
 	return <TeacherDashboard />;
 };

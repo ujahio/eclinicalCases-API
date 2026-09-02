@@ -2,15 +2,16 @@
 
 import StudentDashboard from "@/presentation/student/Dashboard";
 import useGetStudentsResponsesToCases from "@/services/hooks/useGetStudentsResponsesToCases";
-import useGetActiveCase from "@/services/hooks/useGetActiveCase";
 import { useAuthRedirect } from "@/services/hooks/useAuthRedirect";
-import { Session } from "@/types/auth";
+import useGetActiveCase from "@/services/hooks/useGetActiveCase";
 
-const StudentDashboardWithAuth = ({ session }: { session: Session }) => {
-	useGetActiveCase({ session });
+const StudentDashboardWithAuth = () => {
+	const { session } = useAuthRedirect();
+	const { hasStudentPaid } = useGetActiveCase();
+
 	useGetStudentsResponsesToCases({ session, filterParam: "recent" });
 
-	return <StudentDashboard />;
+	return <StudentDashboard hasStudentPaid={hasStudentPaid} />;
 };
 
 const Page = () => {
@@ -20,7 +21,7 @@ const Page = () => {
 		return null;
 	}
 
-	return <StudentDashboardWithAuth session={session} />;
+	return <StudentDashboardWithAuth />;
 };
 
 export default Page;
