@@ -1,9 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import rootReducer from "./rootReducer/rootReducer";
 
-const isDevelopment =
-	process.env.NEXT_PUBLIC_NODE_ENV !== "production" &&
-	process.env.NEXT_PUBLIC_NODE_ENV !== "preproduction";
+const isDevelopment = process.env.NEXT_PUBLIC_NODE_ENV === "development";
 
 export const makeStore = () => {
 	let store = configureStore({

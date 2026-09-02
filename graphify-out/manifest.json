@@ -50,9 +50,9 @@
     "semantic_hash": "fb250fc0a12bc14e904769493590b6c3"
   },
   "/Users/otktechnologies/personal_projects/eccs-API/infra/api.ts": {
-    "mtime": 1781478713.0712986,
-    "ast_hash": "4b4efb189780beba3101969fffe8e082",
-    "semantic_hash": "4b4efb189780beba3101969fffe8e082"
+    "mtime": 1781549999.966724,
+    "ast_hash": "2988ce54191588a1d08635e4e38b4b03",
+    "semantic_hash": ""
   },
   "/Users/otktechnologies/personal_projects/eccs-API/infra/archive-case-status.ts": {
     "mtime": 1780874766.244858,
@@ -65,7 +65,7 @@
     "semantic_hash": "7218d3705a9da8bd3bb924b871234b39"
   },
   "/Users/otktechnologies/personal_projects/eccs-API/infra/client.ts": {
-    "mtime": 1781477811.3748395,
+    "mtime": 1781549999.967491,
     "ast_hash": "686ef02e1eb5524b5d0bccdda3aa8767",
     "semantic_hash": "686ef02e1eb5524b5d0bccdda3aa8767"
   },
@@ -90,9 +90,9 @@
     "semantic_hash": "21958f5752add43cc47ab0ff5172cd46"
   },
   "/Users/otktechnologies/personal_projects/eccs-API/package.json": {
-    "mtime": 1781475758.1369038,
-    "ast_hash": "5d02f2701ed7df6eaf10de4e6dcc04a9",
-    "semantic_hash": "5d02f2701ed7df6eaf10de4e6dcc04a9"
+    "mtime": 1781653373.9016793,
+    "ast_hash": "ec2d43b2dfaa600df0961d5b500309f4",
+    "semantic_hash": ""
   },
   "/Users/otktechnologies/personal_projects/eccs-API/postcss.config.mjs": {
     "mtime": 1777607857.9556096,
@@ -110,9 +110,9 @@
     "semantic_hash": "b331d3ab61a55300addcfea4b01eb455"
   },
   "/Users/otktechnologies/personal_projects/eccs-API/server/controllers/auth.js": {
-    "mtime": 1781474278.9459922,
-    "ast_hash": "35df990d81e219c7c5837519a69596a6",
-    "semantic_hash": "35df990d81e219c7c5837519a69596a6"
+    "mtime": 1781549999.970943,
+    "ast_hash": "bcaa83cf32192e582e55206031f2e4ac",
+    "semantic_hash": ""
   },
   "/Users/otktechnologies/personal_projects/eccs-API/server/controllers/case.js": {
     "mtime": 1781036761.9125853,
@@ -180,12 +180,12 @@
     "semantic_hash": "f43a301d2a4c846bc180cba8ae103389"
   },
   "/Users/otktechnologies/personal_projects/eccs-API/server/useCaseHelpers/sendNewCaseNotificationEmail.ts": {
-    "mtime": 1777608121.0839026,
-    "ast_hash": "9201291145c1e794c19e7d965cf63fe3",
-    "semantic_hash": "9201291145c1e794c19e7d965cf63fe3"
+    "mtime": 1781646402.8093238,
+    "ast_hash": "0273043c5bd18705248e1a6ed7dfe431",
+    "semantic_hash": ""
   },
   "/Users/otktechnologies/personal_projects/eccs-API/server/utils/api_utils.js": {
-    "mtime": 1781472442.2100458,
+    "mtime": 1781549999.972718,
     "ast_hash": "34158b998858c46027dab3416571ba5f",
     "semantic_hash": "34158b998858c46027dab3416571ba5f"
   },
@@ -210,7 +210,7 @@
     "semantic_hash": "fa4d5ecb03684675a1fb69a752e6d667"
   },
   "/Users/otktechnologies/personal_projects/eccs-API/src/app/(auth)/login/page.tsx": {
-    "mtime": 1781130485.3045013,
+    "mtime": 1781549999.9741256,
     "ast_hash": "b0db4add9499b2cabdb2810a2da988e6",
     "semantic_hash": "b0db4add9499b2cabdb2810a2da988e6"
   },
@@ -230,7 +230,7 @@
     "semantic_hash": "e12242297cdb7ef28aa75f0598b0c04e"
   },
   "/Users/otktechnologies/personal_projects/eccs-API/src/app/layout.tsx": {
-    "mtime": 1781124432.7011278,
+    "mtime": 1781549999.9767122,
     "ast_hash": "1cbacde58f4d17e62358c12f18b09997",
     "semantic_hash": "1cbacde58f4d17e62358c12f18b09997"
   },
@@ -250,7 +250,7 @@
     "semantic_hash": "a20486db1915eb7e335e01f5551c632c"
   },
   "/Users/otktechnologies/personal_projects/eccs-API/src/app/student/dashboard/page.tsx": {
-    "mtime": 1781124294.322604,
+    "mtime": 1781549999.9780738,
     "ast_hash": "665a5d2835c1a9b2158cc955c4402db9",
     "semantic_hash": "665a5d2835c1a9b2158cc955c4402db9"
   },
@@ -275,7 +275,7 @@
     "semantic_hash": "737c7bd9894f499d2c67626eefd3f07b"
   },
   "/Users/otktechnologies/personal_projects/eccs-API/src/app/teacher/dashboard/page.tsx": {
-    "mtime": 1781124294.6260545,
+    "mtime": 1781549999.9789531,
     "ast_hash": "0b3383c3b5a0d5d4ad66ef67260277e9",
     "semantic_hash": "0b3383c3b5a0d5d4ad66ef67260277e9"
   },
@@ -320,7 +320,7 @@
     "semantic_hash": "6833dce05e72f7b9399bd25bc7f177d1"
   },
   "/Users/otktechnologies/personal_projects/eccs-API/src/components/cases/ResponseCaseCard.tsx": {
-    "mtime": 1777607857.9802773,
+    "mtime": 1781651450.1007972,
     "ast_hash": "42d55075c8a0616c4a6c661d6c6bfd3d",
     "semantic_hash": "42d55075c8a0616c4a6c661d6c6bfd3d"
   },
@@ -415,7 +415,7 @@
     "semantic_hash": "7ab6a439c007a0824fa0090ebc9fe60a"
   },
   "/Users/otktechnologies/personal_projects/eccs-API/src/components/forgot-password/Step2.tsx": {
-    "mtime": 1781478094.7534761,
+    "mtime": 1781549999.9819536,
     "ast_hash": "cc9af4b68491058065e8d31385cafed5",
     "semantic_hash": "cc9af4b68491058065e8d31385cafed5"
   },
@@ -460,9 +460,9 @@
     "semantic_hash": "a5c6b7a61b7e0de8bc3c46e143cd4de4"
   },
   "/Users/otktechnologies/personal_projects/eccs-API/src/components/layouts/dashboard/nav.tsx": {
-    "mtime": 1781124278.780074,
-    "ast_hash": "963138ffb2d142c1314b0d1f1e33dea4",
-    "semantic_hash": "963138ffb2d142c1314b0d1f1e33dea4"
+    "mtime": 1781651450.1014657,
+    "ast_hash": "a37cf3034bd320a5a4ee728dae0e8aac",
+    "semantic_hash": ""
   },
   "/Users/otktechnologies/personal_projects/eccs-API/src/components/modals/Walkthrough.tsx": {
     "mtime": 1781044257.6724005,
@@ -645,14 +645,14 @@
     "semantic_hash": "428cde87588b150de322f0c83b9ee637"
   },
   "/Users/otktechnologies/personal_projects/eccs-API/src/presentation/auth/signup/components/ReviewAndConfirm.tsx": {
-    "mtime": 1781044259.237521,
-    "ast_hash": "27bad1ceb614d32775242ce41191f9c8",
-    "semantic_hash": "27bad1ceb614d32775242ce41191f9c8"
+    "mtime": 1781549999.9858496,
+    "ast_hash": "a4a6cdfa2aa4e4030a10ff74add43b1a",
+    "semantic_hash": ""
   },
   "/Users/otktechnologies/personal_projects/eccs-API/src/presentation/auth/signup/components/form.tsx": {
-    "mtime": 1781478098.9311736,
-    "ast_hash": "87583461d34059ccc465f7e634b600a4",
-    "semantic_hash": "87583461d34059ccc465f7e634b600a4"
+    "mtime": 1781652424.1740553,
+    "ast_hash": "77833c4aa14ba64779d7d72a402505a7",
+    "semantic_hash": ""
   },
   "/Users/otktechnologies/personal_projects/eccs-API/src/presentation/auth/signup/components/professional-details-form.tsx": {
     "mtime": 1781044258.9903104,
@@ -690,12 +690,12 @@
     "semantic_hash": "2b4d12490e07715905fcc013cc066051"
   },
   "/Users/otktechnologies/personal_projects/eccs-API/src/presentation/student/Certificates.tsx": {
-    "mtime": 1781470527.6664176,
+    "mtime": 1781549999.9884481,
     "ast_hash": "bfa3bd7dd06c95242ec131b712058425",
     "semantic_hash": "bfa3bd7dd06c95242ec131b712058425"
   },
   "/Users/otktechnologies/personal_projects/eccs-API/src/presentation/student/Dashboard.tsx": {
-    "mtime": 1781044071.2501054,
+    "mtime": 1781651450.1023605,
     "ast_hash": "2410aa47d89228fa4435f2f7377c5d0d",
     "semantic_hash": "2410aa47d89228fa4435f2f7377c5d0d"
   },
@@ -735,14 +735,14 @@
     "semantic_hash": "e77ce0999b8e0f0b0a941460609e769c"
   },
   "/Users/otktechnologies/personal_projects/eccs-API/src/proxy.ts": {
-    "mtime": 1781130422.975367,
+    "mtime": 1781549999.9894605,
     "ast_hash": "6851712e46468e164044ccf8b118fa8f",
     "semantic_hash": "6851712e46468e164044ccf8b118fa8f"
   },
   "/Users/otktechnologies/personal_projects/eccs-API/src/services/apis/auth.ts": {
-    "mtime": 1781471193.2966015,
-    "ast_hash": "30366d1d24fbeecbb19efb1bcfe799f9",
-    "semantic_hash": "30366d1d24fbeecbb19efb1bcfe799f9"
+    "mtime": 1781549999.990471,
+    "ast_hash": "58c5de3494103809904bd6f67e0896ec",
+    "semantic_hash": ""
   },
   "/Users/otktechnologies/personal_projects/eccs-API/src/services/apis/case.ts": {
     "mtime": 1780886967.957222,
@@ -755,7 +755,7 @@
     "semantic_hash": "434363f11a47de2cdf29df6cbe0053fa"
   },
   "/Users/otktechnologies/personal_projects/eccs-API/src/services/config/fetchClient.ts": {
-    "mtime": 1781124269.685267,
+    "mtime": 1781549999.9913092,
     "ast_hash": "8eec35b12d65cae9a13d01be1b0850a8",
     "semantic_hash": "8eec35b12d65cae9a13d01be1b0850a8"
   },
@@ -785,7 +785,7 @@
     "semantic_hash": "237d00660b217dbe137dab5c8fbac393"
   },
   "/Users/otktechnologies/personal_projects/eccs-API/src/services/hooks/useAuthRedirect.ts": {
-    "mtime": 1781130458.19141,
+    "mtime": 1781549999.9922743,
     "ast_hash": "d9cb34672c4236a109eb16a101282555",
     "semantic_hash": "d9cb34672c4236a109eb16a101282555"
   },
@@ -795,12 +795,12 @@
     "semantic_hash": "9a4bb4efeb028aa0215b29d065e66760"
   },
   "/Users/otktechnologies/personal_projects/eccs-API/src/services/hooks/useGetActiveCase.ts": {
-    "mtime": 1781124291.780428,
+    "mtime": 1781549999.9936411,
     "ast_hash": "64f463cfcd2319d93d61c0c23be63504",
     "semantic_hash": "64f463cfcd2319d93d61c0c23be63504"
   },
   "/Users/otktechnologies/personal_projects/eccs-API/src/services/hooks/useGetArchiveCases.ts": {
-    "mtime": 1781124292.0904937,
+    "mtime": 1781549999.994535,
     "ast_hash": "8e7c74e16057dd10c707fbc3e9c7b482",
     "semantic_hash": "8e7c74e16057dd10c707fbc3e9c7b482"
   },
@@ -810,7 +810,7 @@
     "semantic_hash": "0b939d9c24523319c30e28611afcdfe7"
   },
   "/Users/otktechnologies/personal_projects/eccs-API/src/services/hooks/useGetStudentsResponsesToCases.ts": {
-    "mtime": 1781124292.903153,
+    "mtime": 1781549999.9953864,
     "ast_hash": "a5205e2ac1e717ae0f04d5de3cf74e5b",
     "semantic_hash": "a5205e2ac1e717ae0f04d5de3cf74e5b"
   },
@@ -965,17 +965,17 @@
     "semantic_hash": "3c42afebde8e1ea8947930d0f2c3ee58"
   },
   "/Users/otktechnologies/personal_projects/eccs-API/tsconfig.json": {
-    "mtime": 1781039321.73428,
+    "mtime": 1781648732.3673077,
     "ast_hash": "65ea16de5c5513e207b67a7f5d0a02dd",
     "semantic_hash": "65ea16de5c5513e207b67a7f5d0a02dd"
   },
   "/Users/otktechnologies/personal_projects/eccs-API/.github/workflows/deploy-production.yml": {
-    "mtime": 1781477795.7537699,
+    "mtime": 1781549999.8557804,
     "ast_hash": "0a36c06df91e1477ca54e4814e03d565",
     "semantic_hash": "0a36c06df91e1477ca54e4814e03d565"
   },
   "/Users/otktechnologies/personal_projects/eccs-API/.github/workflows/deploy-staging.yml": {
-    "mtime": 1781477800.271246,
+    "mtime": 1781549999.8568816,
     "ast_hash": "18efea69ddaa06df55d6e54dcf9b202d",
     "semantic_hash": "18efea69ddaa06df55d6e54dcf9b202d"
   },
@@ -1095,19 +1095,19 @@
     "semantic_hash": "735932eaa4f0c8fef9566c538ae3e5f8"
   },
   "/Users/otktechnologies/personal_projects/eccs-API/AGENTS.md": {
-    "mtime": 1781470622.60978,
-    "ast_hash": "45a2a648922a691db1304a7358ef4b0b",
-    "semantic_hash": "45a2a648922a691db1304a7358ef4b0b"
+    "mtime": 1781561096.3545182,
+    "ast_hash": "01e0ed7cd30ecd8f65f86878af62b5bf",
+    "semantic_hash": ""
   },
   "/Users/otktechnologies/personal_projects/eccs-API/README.md": {
-    "mtime": 1781476090.9816496,
-    "ast_hash": "b5b8c1280eb35bef67036eb17b47768b",
-    "semantic_hash": "b5b8c1280eb35bef67036eb17b47768b"
+    "mtime": 1781651450.0937796,
+    "ast_hash": "af028b43e5247cecc6dbe291b3b5d081",
+    "semantic_hash": ""
   },
   "/Users/otktechnologies/personal_projects/eccs-API/lib-maintenance.md": {
-    "mtime": 1780874820.1572723,
-    "ast_hash": "6606dcf3aa9087e577b4aff59e999ab7",
-    "semantic_hash": "6606dcf3aa9087e577b4aff59e999ab7"
+    "mtime": 1781561377.1624725,
+    "ast_hash": "14ed5249f6b91afec3626667b3075743",
+    "semantic_hash": ""
   },
   "/Users/otktechnologies/personal_projects/eccs-API/plans.md": {
     "mtime": 1742752748.445314,
@@ -1720,7 +1720,7 @@
     "semantic_hash": "bd8263e8e2db310c71461634ae5206a0"
   },
   "/Users/otktechnologies/personal_projects/eccs-API/.sst/artifacts/ArchiveCaseStatusCronHandler-dev/bundle.mjs": {
-    "mtime": 1781049625.970031,
+    "mtime": 1781481622.8296354,
     "ast_hash": "a4c88255b2d67d5d39169f8a70cb1609",
     "semantic_hash": "a4c88255b2d67d5d39169f8a70cb1609"
   },
@@ -1740,7 +1740,7 @@
     "semantic_hash": "e82917e2972b95124af56c616c1cf572"
   },
   "/Users/otktechnologies/personal_projects/eccs-API/.sst/artifacts/eccsRouteBbkezoHandler-dev/bundle.mjs": {
-    "mtime": 1781473953.721538,
+    "mtime": 1781483122.1584394,
     "ast_hash": "80b855f4dd843691e55631282b38e4e6",
     "semantic_hash": "80b855f4dd843691e55631282b38e4e6"
   },
@@ -1750,8 +1750,8 @@
     "semantic_hash": "acafe3ec344af77a2ab6bd1dbc648179"
   },
   "/Users/otktechnologies/personal_projects/eccs-API/.sst/artifacts/eccsRouteBcdurvHandler-dev/bundle.mjs": {
-    "mtime": 1781046263.4582639,
-    "ast_hash": "dc96f595745c0a6e7c874e0863df8d6e",
+    "mtime": 1781560307.1570158,
+    "ast_hash": "5024f5268e35ffafdca439c1c6616dfc",
     "semantic_hash": ""
   },
   "/Users/otktechnologies/personal_projects/eccs-API/.sst/artifacts/eccsRouteBcdurvHandler-src/bundle.mjs": {
@@ -1790,9 +1790,9 @@
     "semantic_hash": "8aa437c9dc60a997ee1b2bfc5470f55a"
   },
   "/Users/otktechnologies/personal_projects/eccs-API/.sst/artifacts/eccsRouteKxvhvnHandler-dev/bundle.mjs": {
-    "mtime": 1780952972.5330307,
-    "ast_hash": "59601835505b968f72740bee8837c81a",
-    "semantic_hash": "59601835505b968f72740bee8837c81a"
+    "mtime": 1781482447.076354,
+    "ast_hash": "29162f591865942ec0f2bee2494ab22f",
+    "semantic_hash": ""
   },
   "/Users/otktechnologies/personal_projects/eccs-API/.sst/artifacts/eccsRouteKxvhvnHandler-src/bundle.mjs": {
     "mtime": 1780802722.9278328,
@@ -1830,9 +1830,9 @@
     "semantic_hash": "18b539d54b1886c6f65a63662a36adef"
   },
   "/Users/otktechnologies/personal_projects/eccs-API/.sst/artifacts/eccsRouteOwubzzHandler-dev/bundle.mjs": {
-    "mtime": 1781478790.5267498,
-    "ast_hash": "4b12760c697126e92718cb8fdce58447",
-    "semantic_hash": "4b12760c697126e92718cb8fdce58447"
+    "mtime": 1781560302.3841162,
+    "ast_hash": "e773d9deb59ddaa00bd5c7ccb9a6b410",
+    "semantic_hash": ""
   },
   "/Users/otktechnologies/personal_projects/eccs-API/.sst/artifacts/eccsRouteOwubzzHandler-src/bundle.mjs": {
     "mtime": 1780802730.5234306,
@@ -1850,9 +1850,9 @@
     "semantic_hash": "7ce368729510e31e6b373187ab32161a"
   },
   "/Users/otktechnologies/personal_projects/eccs-API/.sst/artifacts/eccsRouteTebrdaHandler-dev/bundle.mjs": {
-    "mtime": 1781043890.5978527,
-    "ast_hash": "66544e26663945a82bc7f41774d8c188",
-    "semantic_hash": "66544e26663945a82bc7f41774d8c188"
+    "mtime": 1781560970.7886605,
+    "ast_hash": "f310fb9335a719fe0b9e16ed37a9a003",
+    "semantic_hash": ""
   },
   "/Users/otktechnologies/personal_projects/eccs-API/.sst/artifacts/eccsRouteTebrdaHandler-src/bundle.mjs": {
     "mtime": 1780802723.043366,
@@ -1890,9 +1890,9 @@
     "semantic_hash": "145e04472ea15201ab3334aeabc686f9"
   },
   "/Users/otktechnologies/personal_projects/eccs-API/.sst/artifacts/eccsRouteVrwzzaHandler-dev/bundle.mjs": {
-    "mtime": 1781478794.49792,
-    "ast_hash": "b3a749f4454ac3086773b695827c1e13",
-    "semantic_hash": "b3a749f4454ac3086773b695827c1e13"
+    "mtime": 1781560308.375186,
+    "ast_hash": "1941219027a128c6f22b5ccf8f8a6159",
+    "semantic_hash": ""
   },
   "/Users/otktechnologies/personal_projects/eccs-API/.sst/artifacts/eccsRouteVrwzzaHandler-src/bundle.mjs": {
     "mtime": 1780802722.8579254,
@@ -1900,9 +1900,9 @@
     "semantic_hash": "8aa437c9dc60a997ee1b2bfc5470f55a"
   },
   "/Users/otktechnologies/personal_projects/eccs-API/.sst/artifacts/eccsRouteWarkhwHandler-dev/bundle.mjs": {
-    "mtime": 1777686701.6969793,
-    "ast_hash": "b0ef428c42e8d228f3ae0d5a09d65ec4",
-    "semantic_hash": "b0ef428c42e8d228f3ae0d5a09d65ec4"
+    "mtime": 1781478998.4954646,
+    "ast_hash": "4b12760c697126e92718cb8fdce58447",
+    "semantic_hash": ""
   },
   "/Users/otktechnologies/personal_projects/eccs-API/.sst/artifacts/eccsRouteWarkhwHandler-src/bundle.mjs": {
     "mtime": 1780802730.0950537,
@@ -1910,7 +1910,7 @@
     "semantic_hash": "533566297c21a7b409d4ead2dab49e6a"
   },
   "/Users/otktechnologies/personal_projects/eccs-API/.sst/artifacts/eccsRouteXruutuHandler-dev/bundle.mjs": {
-    "mtime": 1781470311.5356567,
+    "mtime": 1781479703.6985977,
     "ast_hash": "c5fd13ebf66071b798c1e6e2bd8826e8",
     "semantic_hash": "c5fd13ebf66071b798c1e6e2bd8826e8"
   },
@@ -1920,12 +1920,12 @@
     "semantic_hash": "c018ad058ea61930a101e4df2d75a9ff"
   },
   "/Users/otktechnologies/personal_projects/eccs-API/.sst/esbuild.json": {
-    "mtime": 1781478722.9323366,
-    "ast_hash": "dec464b5747432378ee0a08adb1cf282",
-    "semantic_hash": "dec464b5747432378ee0a08adb1cf282"
+    "mtime": 1781645873.7097633,
+    "ast_hash": "4bcdecb180b47ed1029f0340bc5d71d8",
+    "semantic_hash": ""
   },
   "/Users/otktechnologies/personal_projects/eccs-API/.sst/outputs.json": {
-    "mtime": 1781478770.8988185,
+    "mtime": 1781645919.3706186,
     "ast_hash": "8a80554c91d9fca8acb82f023de02f11",
     "semantic_hash": "8a80554c91d9fca8acb82f023de02f11"
   },
@@ -3035,12 +3035,12 @@
     "semantic_hash": "b72bb315b552e0d8abd759288e8df971"
   },
   "/Users/otktechnologies/personal_projects/eccs-API/next-env.d.ts": {
-    "mtime": 1781119288.3479002,
+    "mtime": 1781648877.7487226,
     "ast_hash": "d0f8375ae1199dc7acd3977fc33b78b8",
     "semantic_hash": "d0f8375ae1199dc7acd3977fc33b78b8"
   },
   "/Users/otktechnologies/personal_projects/eccs-API/sst-env.d.ts": {
-    "mtime": 1781478752.174281,
+    "mtime": 1781645896.0018432,
     "ast_hash": "a4e94d75820c48472136ae1807ffc5f5",
     "semantic_hash": "a4e94d75820c48472136ae1807ffc5f5"
   },
@@ -3325,9 +3325,9 @@
     "semantic_hash": "4fdad178a7a688477e52c34ff0ee6727"
   },
   "/Users/otktechnologies/personal_projects/eccs-API/.sst/artifacts/eccsRouteBandwrHandler-dev/bundle.mjs": {
-    "mtime": 1781129366.8254278,
-    "ast_hash": "cc39b5074f5e3b8634621b46d4ccd939",
-    "semantic_hash": "cc39b5074f5e3b8634621b46d4ccd939"
+    "mtime": 1781560802.0117476,
+    "ast_hash": "e773d9deb59ddaa00bd5c7ccb9a6b410",
+    "semantic_hash": ""
   },
   "/Users/otktechnologies/personal_projects/eccs-API/.sst/artifacts/eccsRouteFvettnHandler-dev/bundle.mjs": {
     "mtime": 1781128493.211158,
@@ -3335,33 +3335,198 @@
     "semantic_hash": "cc39b5074f5e3b8634621b46d4ccd939"
   },
   "/Users/otktechnologies/personal_projects/eccs-API/opencode.json": {
-    "mtime": 1781051861.0043583,
-    "ast_hash": "1e039b1d55360e84dc39e6b346376923",
-    "semantic_hash": "1e039b1d55360e84dc39e6b346376923"
+    "mtime": 1781561096.4705398,
+    "ast_hash": "b1a41b83c49b79be0da2254dd0f1b7a5",
+    "semantic_hash": ""
   },
   "/Users/otktechnologies/personal_projects/eccs-API/src/app/api/auth/[...all]/route.ts": {
-    "mtime": 1781124445.4727178,
+    "mtime": 1781549999.9756854,
     "ast_hash": "1904de94f5362beedc269759cad175f0",
     "semantic_hash": "1904de94f5362beedc269759cad175f0"
   },
   "/Users/otktechnologies/personal_projects/eccs-API/src/lib/auth-client.ts": {
-    "mtime": 1781124562.5720956,
+    "mtime": 1781549999.9837148,
     "ast_hash": "ca55ef49d4d2197632465721e56b26aa",
     "semantic_hash": "ca55ef49d4d2197632465721e56b26aa"
   },
   "/Users/otktechnologies/personal_projects/eccs-API/src/lib/auth.ts": {
-    "mtime": 1781124241.7076693,
+    "mtime": 1781549999.9847944,
     "ast_hash": "3c45ec07327278174b72a73896c22b33",
     "semantic_hash": "3c45ec07327278174b72a73896c22b33"
   },
   "/Users/otktechnologies/personal_projects/eccs-API/src/types/auth.ts": {
-    "mtime": 1781124237.331023,
+    "mtime": 1781549999.9965253,
     "ast_hash": "831d84bba300a173829a2922272ff193",
     "semantic_hash": "831d84bba300a173829a2922272ff193"
   },
   "/Users/otktechnologies/personal_projects/eccs-API/src/utils/cookies.ts": {
-    "mtime": 1781128939.7883475,
-    "ast_hash": "9d7e5581133c82edc3d7cf16d03b6c84",
-    "semantic_hash": "9d7e5581133c82edc3d7cf16d03b6c84"
+    "mtime": 1781549999.9972887,
+    "ast_hash": "f9923f09e3a11f55479eae77551f4ae5",
+    "semantic_hash": ""
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/playwright.config.ts": {
+    "mtime": 1781653132.5288815,
+    "ast_hash": "5b21255c2c743a2eff5723cb29cf9e84",
+    "semantic_hash": ""
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/scripts/run-e2e-project.sh": {
+    "mtime": 1781652510.800841,
+    "ast_hash": "5a23ad29bd55aac097bb79f5e81eea41",
+    "semantic_hash": ""
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/seed.spec.ts": {
+    "mtime": 1781561096.4824317,
+    "ast_hash": "819c41defd193d063215432590d53223",
+    "semantic_hash": ""
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/tests/fixtures/testUsers.ts": {
+    "mtime": 1781651650.7574766,
+    "ast_hash": "efad7df780305f4710e063a32a94192d",
+    "semantic_hash": ""
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/tests/helpers/cleanup.ts": {
+    "mtime": 1781651660.141492,
+    "ast_hash": "154f9783a6d0e75ea201e71ddb7a495b",
+    "semantic_hash": ""
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/tests/helpers/cognito.ts": {
+    "mtime": 1781651656.3340988,
+    "ast_hash": "e9fcede06d7724c00c6c920df892cc59",
+    "semantic_hash": ""
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/tests/helpers/confirmUser.ts": {
+    "mtime": 1781651668.138938,
+    "ast_hash": "a5958c1d85b18a090613bda3d83c8098",
+    "semantic_hash": ""
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/tests/registration/duplicate-email.spec.ts": {
+    "mtime": 1781652434.4065027,
+    "ast_hash": "a4209ad002506db617d2c6fb41d0c919",
+    "semantic_hash": ""
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/tests/registration/happy-path.spec.ts": {
+    "mtime": 1781652428.8749766,
+    "ast_hash": "3e71e5b7f95382885b2ed52a5477027c",
+    "semantic_hash": ""
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/tests/registration/invalid-email.spec.ts": {
+    "mtime": 1781652443.0037582,
+    "ast_hash": "b4b54912a8b32a51675e114735ff0fd3",
+    "semantic_hash": ""
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/tests/registration/missing-fields.spec.ts": {
+    "mtime": 1781652438.8605614,
+    "ast_hash": "4b2655cfaba031811d7f9f79fda88cc2",
+    "semantic_hash": ""
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/tests/registration/no-teacher.spec.ts": {
+    "mtime": 1781652456.5371468,
+    "ast_hash": "66439463d87b0165ab09091a233385ff",
+    "semantic_hash": ""
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/tests/registration/rapid-signups.spec.ts": {
+    "mtime": 1781652459.9263554,
+    "ast_hash": "c600c6e7dc1f5d0b74d4955bcbb500c7",
+    "semantic_hash": ""
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/tests/registration/xss-injection.spec.ts": {
+    "mtime": 1781652463.5041742,
+    "ast_hash": "e09a1085c4cc784515d732e7df7ec2bd",
+    "semantic_hash": ""
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/tests/setup/global.setup.ts": {
+    "mtime": 1781651662.7090108,
+    "ast_hash": "10463721a909c5fd91673c55918cff22",
+    "semantic_hash": ""
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/tests/setup/global.teardown.ts": {
+    "mtime": 1781651665.4070969,
+    "ast_hash": "983f9733d5a18d3927c1b63ab988dac8",
+    "semantic_hash": ""
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/.opencode/prompts/playwright-test-generator.md": {
+    "mtime": 1781561096.3382862,
+    "ast_hash": "9d4feaa9d4436285f3586ffc8424c018",
+    "semantic_hash": ""
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/.opencode/prompts/playwright-test-healer.md": {
+    "mtime": 1781561096.3433833,
+    "ast_hash": "16d49bda254e6cf6606053d83f35df4e",
+    "semantic_hash": ""
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/.opencode/prompts/playwright-test-planner.md": {
+    "mtime": 1781561096.3456795,
+    "ast_hash": "b9d27d593cbbc3c0ad45b79b2a089f32",
+    "semantic_hash": ""
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/README_TESTS.md": {
+    "mtime": 1781653140.5436454,
+    "ast_hash": "aaa1230d5ae8994d50d00b6ddeaffc97",
+    "semantic_hash": ""
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/specs/README.md": {
+    "mtime": 1781646965.7893562,
+    "ast_hash": "4838a3c32149616651f9fb8262643238",
+    "semantic_hash": ""
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/specs/auth-guard-test-plan.md": {
+    "mtime": 1781646995.4843457,
+    "ast_hash": "0f82ca1cd04a925548df5e61bdf67077",
+    "semantic_hash": ""
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/specs/login-test-plan.md": {
+    "mtime": 1781646992.1865022,
+    "ast_hash": "7f166f5b0afc66e3a8b2c554808f87d9",
+    "semantic_hash": ""
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/specs/logout-test-plan.md": {
+    "mtime": 1781646994.6496482,
+    "ast_hash": "4f3fdfdf536db79c3a37e50b1df4357d",
+    "semantic_hash": ""
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/specs/student-case-studies-test-plan.md": {
+    "mtime": 1781647018.531285,
+    "ast_hash": "68de2ae41a3faec8900d6dc7a14abe69",
+    "semantic_hash": ""
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/specs/student-certificates-test-plan.md": {
+    "mtime": 1781647019.8525426,
+    "ast_hash": "7c793f3c915774b64f80492edc18a594",
+    "semantic_hash": ""
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/specs/student-dashboard-test-plan.md": {
+    "mtime": 1781647016.3656797,
+    "ast_hash": "9a103adf9b904c8667262c146f5540c3",
+    "semantic_hash": ""
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/specs/student-registration-test-plan.md": {
+    "mtime": 1781653445.7529933,
+    "ast_hash": "78c2884eb8c51f60158d9dcb6afbf8be",
+    "semantic_hash": ""
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/specs/student-settings-test-plan.md": {
+    "mtime": 1781647021.662607,
+    "ast_hash": "49b67c74da85209539018039bb9ff796",
+    "semantic_hash": ""
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/specs/teacher-case-studies-test-plan.md": {
+    "mtime": 1781647004.098014,
+    "ast_hash": "fd2dccbe28dad0bb12d0b40a3ecfe77f",
+    "semantic_hash": ""
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/specs/teacher-dashboard-test-plan.md": {
+    "mtime": 1781647000.976801,
+    "ast_hash": "9bdfa930c2597bfa382a92431e3fddb2",
+    "semantic_hash": ""
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/specs/teacher-responses-feedback-test-plan.md": {
+    "mtime": 1781647006.0462909,
+    "ast_hash": "e760bc276a1ee84d118630a61c18a86d",
+    "semantic_hash": ""
+  },
+  "/Users/otktechnologies/personal_projects/eccs-API/specs/teacher-settings-test-plan.md": {
+    "mtime": 1781647008.267493,
+    "ast_hash": "776773de3b679409ae69bc33b8943f66",
+    "semantic_hash": ""
   }
 }

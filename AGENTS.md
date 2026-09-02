@@ -45,3 +45,18 @@ Rules:
 ## Github Authentication
 
 - For any task that requires Github authentication or reading of .github or related files, ask the user before performing the task. Explain if necessary why authentication is needed.
+
+## Test Plans
+
+E2E test plans live in `specs/<flow>-test-plan.md`. Regenerate them when code changes affect the flows they cover.
+
+**When to regenerate:**
+- Route changes, new/removed API endpoints
+- UI restructuring (new/modified form fields, buttons, page layouts)
+- Auth flow changes (login, signup, middleware, roles)
+- Feature additions or behavior modifications
+
+**How to regenerate:**
+- Single flow: `@playwright-test-planner regenerate tests for [flow] using context from graphify and specs/<flow>-test-plan.md`
+- All flows: `@playwright-test-planner generate test plans` (uses full project context)
+- Always run `graphify update .` first so the planner sees current code
